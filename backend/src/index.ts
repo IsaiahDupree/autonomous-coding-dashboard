@@ -21,6 +21,10 @@ import { getHarnessManager, HarnessConfig } from './services/harness-manager';
 import { getFileWatcher } from './services/file-watcher';
 import { getApprovalGates } from './services/approval-gates';
 import { getGitService } from './services/git-service';
+import { getVisualVerification } from './services/visual-verification';
+import { getWebhookNotifications } from './services/webhook-notifications';
+import { getSessionReplay } from './services/session-replay';
+import { getCostTracking } from './services/cost-tracking';
 
 dotenv.config();
 
@@ -29,6 +33,10 @@ const harnessManager = getHarnessManager();
 const fileWatcher = getFileWatcher();
 const approvalGates = getApprovalGates();
 const gitService = getGitService();
+const visualVerification = getVisualVerification();
+const webhookNotifications = getWebhookNotifications();
+const sessionReplay = getSessionReplay();
+const costTracking = getCostTracking();
 
 const app = express();
 const httpServer = createServer(app);
@@ -644,6 +652,305 @@ app.get('/api/git/stats', async (req, res) => {
         res.json({ data: stats });
     } catch (error: any) {
         res.status(500).json({ error: { message: error.message || 'Failed to get stats' } });
+    }
+});
+
+// ============================================
+// VISUAL VERIFICATION API
+// ============================================
+
+app.get('/api/projects/:id/screenshots', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 50;
+        const screenshots = visualVerification.getScreenshots(req.params.id, limit);
+        res.json({ data: screenshots });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get screenshots' } });
+    }
+});
+
+app.get('/api/screenshots/:id', async (req, res) => {
+    try {
+        const screenshot = visualVerification.getScreenshot(req.params.id);
+        if (!screenshot) {
+            return res.status(404).json({ error: { message: 'Screenshot not found' } });
+        }
+        res.json({ data: screenshot });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get screenshot' } });
+    }
+});
+
+app.get('/api/screenshots/:id/data', async (req, res) => {
+    try {
+        const data = visualVerification.getScreenshotData(req.params.id);
+        if (!data) {
+            return res.status(404).json({ error: { message: 'Screenshot not found' } });
+        }
+        res.json({ data: { base64: data } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get screenshot data' } });
+    }
+});
+
+app.post('/api/projects/:id/screenshots', async (req, res) => {
+    try {
+        const screenshot = visualVerification.recordScreenshot(req.params.id, req.body);
+        res.json({ data: screenshot });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to record screenshot' } });
+    }
+});
+
+app.get('/api/projects/:id/visual/summary', async (req, res) => {
+    try {
+        const summary = visualVerification.getSummary(req.params.id);
+        res.json({ data: summary });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get summary' } });
+    }
+});
+
+// ============================================
+// WEBHOOK NOTIFICATIONS API
+// ============================================
+
+app.get('/api/projects/:id/webhooks', async (req, res) => {
+    try {
+        const webhooks = webhookNotifications.getWebhooks(req.params.id);
+        res.json({ data: webhooks });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get webhooks' } });
+    }
+});
+
+app.post('/api/projects/:id/webhooks', async (req, res) => {
+    try {
+        const webhook = webhookNotifications.registerWebhook({
+            projectId: req.params.id,
+            ...req.body,
+        });
+        res.json({ data: webhook });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to create webhook' } });
+    }
+});
+
+app.put('/api/webhooks/:id', async (req, res) => {
+    try {
+        const webhook = webhookNotifications.updateWebhook(req.params.id, req.body);
+        if (!webhook) {
+            return res.status(404).json({ error: { message: 'Webhook not found' } });
+        }
+        res.json({ data: webhook });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to update webhook' } });
+    }
+});
+
+app.delete('/api/webhooks/:id', async (req, res) => {
+    try {
+        const deleted = webhookNotifications.deleteWebhook(req.params.id);
+        res.json({ data: { deleted } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to delete webhook' } });
+    }
+});
+
+app.post('/api/webhooks/:id/test', async (req, res) => {
+    try {
+        const delivery = await webhookNotifications.testWebhook(req.params.id);
+        if (!delivery) {
+            return res.status(404).json({ error: { message: 'Webhook not found' } });
+        }
+        res.json({ data: delivery });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to test webhook' } });
+    }
+});
+
+app.get('/api/projects/:id/webhooks/deliveries', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 50;
+        const deliveries = webhookNotifications.getDeliveries(req.params.id, limit);
+        res.json({ data: deliveries });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get deliveries' } });
+    }
+});
+
+// ============================================
+// SESSION REPLAY API
+// ============================================
+
+app.get('/api/projects/:id/recordings', async (req, res) => {
+    try {
+        const recordings = sessionReplay.getRecordings(req.params.id);
+        res.json({ data: recordings });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get recordings' } });
+    }
+});
+
+app.get('/api/recordings/:id', async (req, res) => {
+    try {
+        const recording = sessionReplay.getRecording(req.params.id);
+        if (!recording) {
+            return res.status(404).json({ error: { message: 'Recording not found' } });
+        }
+        res.json({ data: recording });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get recording' } });
+    }
+});
+
+app.get('/api/recordings/:id/export', async (req, res) => {
+    try {
+        const format = (req.query.format as string) || 'json';
+        const data = sessionReplay.exportRecording(req.params.id, format as 'json' | 'markdown');
+        if (!data) {
+            return res.status(404).json({ error: { message: 'Recording not found' } });
+        }
+        
+        if (format === 'markdown') {
+            res.setHeader('Content-Type', 'text/markdown');
+            res.send(data);
+        } else {
+            res.json(JSON.parse(data));
+        }
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to export recording' } });
+    }
+});
+
+app.post('/api/recordings/:id/replay/start', async (req, res) => {
+    try {
+        const state = sessionReplay.startReplay(req.params.id);
+        if (!state) {
+            return res.status(404).json({ error: { message: 'Recording not found' } });
+        }
+        res.json({ data: state });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to start replay' } });
+    }
+});
+
+app.post('/api/recordings/:id/replay/step', async (req, res) => {
+    try {
+        const direction = req.body.direction || 'forward';
+        const event = sessionReplay.stepReplay(req.params.id, direction);
+        const state = sessionReplay.getReplayState(req.params.id);
+        res.json({ data: { event, state } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to step replay' } });
+    }
+});
+
+app.post('/api/recordings/:id/replay/jump', async (req, res) => {
+    try {
+        const index = req.body.index || 0;
+        const event = sessionReplay.jumpToEvent(req.params.id, index);
+        const state = sessionReplay.getReplayState(req.params.id);
+        res.json({ data: { event, state } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to jump' } });
+    }
+});
+
+// ============================================
+// COST TRACKING API
+// ============================================
+
+app.get('/api/projects/:id/costs', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 100;
+        const since = req.query.since ? new Date(req.query.since as string) : undefined;
+        const entries = costTracking.getEntries(req.params.id, { limit, since });
+        res.json({ data: entries });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get costs' } });
+    }
+});
+
+app.get('/api/projects/:id/costs/summary', async (req, res) => {
+    try {
+        const start = req.query.start ? new Date(req.query.start as string) : undefined;
+        const end = req.query.end ? new Date(req.query.end as string) : undefined;
+        const period = start && end ? { start, end } : undefined;
+        const summary = costTracking.getSummary(req.params.id, period);
+        res.json({ data: summary });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get summary' } });
+    }
+});
+
+app.get('/api/projects/:id/costs/session/:session', async (req, res) => {
+    try {
+        const sessionNumber = parseInt(req.params.session);
+        const sessionCost = costTracking.getSessionCost(req.params.id, sessionNumber);
+        res.json({ data: sessionCost });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get session cost' } });
+    }
+});
+
+app.post('/api/projects/:id/costs/record', async (req, res) => {
+    try {
+        const { sessionNumber, model, usage, metadata } = req.body;
+        const entry = costTracking.recordUsage(req.params.id, sessionNumber, model, usage, metadata);
+        res.json({ data: entry });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to record cost' } });
+    }
+});
+
+app.get('/api/projects/:id/budget', async (req, res) => {
+    try {
+        const budget = costTracking.getBudget(req.params.id);
+        res.json({ data: budget || null });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get budget' } });
+    }
+});
+
+app.put('/api/projects/:id/budget', async (req, res) => {
+    try {
+        const budget = costTracking.setBudget({
+            projectId: req.params.id,
+            ...req.body,
+        });
+        res.json({ data: budget });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to set budget' } });
+    }
+});
+
+app.get('/api/projects/:id/costs/alerts', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 20;
+        const alerts = costTracking.getAlerts(req.params.id, limit);
+        res.json({ data: alerts });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get alerts' } });
+    }
+});
+
+app.post('/api/costs/estimate', async (req, res) => {
+    try {
+        const { model, sessions, avgTokens } = req.body;
+        const estimate = costTracking.estimateRunCost(model, sessions, avgTokens);
+        res.json({ data: estimate });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to estimate' } });
+    }
+});
+
+app.get('/api/costs/pricing', async (req, res) => {
+    try {
+        const pricing = costTracking.getModelPricing();
+        res.json({ data: pricing });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get pricing' } });
     }
 });
 
