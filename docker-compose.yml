@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: autonomous_coding
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis for job queue and pub/sub
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Node.js API Server
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.node
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/autonomous_coding
+      REDIS_URL: redis://redis:6379
+      AGENT_SERVICE_URL: http://agent:8000
+      PORT: 3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./generations:/app/generations
+
+  # Python Agent Orchestrator
+  agent:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.python
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_URL: redis://redis:6379
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      GENERATIONS_DIR: /app/generations
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./generations:/app/generations
+
+  # Agent Worker (can scale horizontally)
+  agent-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.python
+    command: python services/agent_orchestrator.py worker
+    environment:
+      REDIS_URL: redis://redis:6379
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      GENERATIONS_DIR: /app/generations
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./generations:/app/generations
+    deploy:
+      replicas: 2
+
+volumes:
+  postgres_data:
+  redis_data:

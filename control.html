@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Autonomous Coding Agent Control Panel - Manage agents, terminals, and view test results">
+    <title>Agent Control Panel - Autonomous Coding Dashboard</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="agent-control.css">
+    <link rel="stylesheet" href="sidebar.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <span class="sidebar-logo-icon">🤖</span>
+                    <span>Autonomous Agent</span>
+                </a>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <!-- Views Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Views</div>
+                    <a href="#overview" class="nav-item" onclick="showView('overview')">
+                        <span class="nav-icon">📊</span>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#tests" class="nav-item active" onclick="showView('tests')">
+                        <span class="nav-icon">✓</span>
+                        <span>Test Results</span>
+                        <span class="nav-badge">142/200</span>
+                    </a>
+                    <a href="#terminals" class="nav-item" onclick="showView('terminals')">
+                        <span class="nav-icon">💻</span>
+                        <span>Terminals</span>
+                    </a>
+                    <a href="#agents" class="nav-item" onclick="showView('agents')">
+                        <span class="nav-icon">🤖</span>
+                        <span>Agents</span>
+                    </a>
+                    <a href="#config" class="nav-item" onclick="showView('config')">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Configuration</span>
+                    </a>
+                </div>
+
+                <!-- Sessions Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Sessions</div>
+                    <div class="session-selector">
+                        <div class="session-item" onclick="selectSession(1)">
+                            <div class="session-info">
+                                <div class="session-name">Session 1</div>
+                                <div class="session-meta">Initializer • 4m 32s</div>
+                            </div>
+                            <span class="badge badge-success session-badge-small">✓</span>
+                        </div>
+                        <div class="session-item" onclick="selectSession(2)">
+                            <div class="session-info">
+                                <div class="session-name">Session 2</div>
+                                <div class="session-meta">45 features • 6h 15m</div>
+                            </div>
+                            <span class="badge badge-success session-badge-small">✓</span>
+                        </div>
+                        <div class="session-item" onclick="selectSession(3)">
+                            <div class="session-info">
+                                <div class="session-name">Session 3</div>
+                                <div class="session-meta">38 features • 5h 42m</div>
+                            </div>
+                            <span class="badge badge-success session-badge-small">✓</span>
+                        </div>
+                        <div class="session-item" onclick="selectSession(4)">
+                            <div class="session-info">
+                                <div class="session-name">Session 4</div>
+                                <div class="session-meta">47 features • 7h 8m</div>
+                            </div>
+                            <span class="badge badge-success session-badge-small">✓</span>
+                        </div>
+                        <div class="session-item active-session" onclick="selectSession(5)">
+                            <div class="session-info">
+                                <div class="session-name">Session 5</div>
+                                <div class="session-meta">12 features • 2h 14m</div>
+                            </div>
+                            <span class="badge badge-warning session-badge-small">⏳</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Quick Actions</div>
+                    <a href="#" class="nav-item" onclick="quickTest()">
+                        <span class="nav-icon">⚡</span>
+                        <span>Quick Test</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="resumeAgent()">
+                        <span class="nav-icon">↩️</span>
+                        <span>Resume Session</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="exportLogs()">
+                        <span class="nav-icon">💾</span>
+                        <span>Export Logs</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Sidebar Stats -->
+            <div class="sidebar-stats">
+                <div class="stat-mini">
+                    <span class="stat-mini-label">Success Rate</span>
+                    <span class="stat-mini-value" style="color: var(--color-success);">71%</span>
+                </div>
+                <div class="stat-mini">
+                    <span class="stat-mini-label">Avg Time/Feature</span>
+                    <span class="stat-mini-value">8.5 min</span>
+                </div>
+                <div class="stat-mini">
+                    <span class="stat-mini-label">API Tokens</span>
+                    <span class="stat-mini-value">2.4M</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="container">
+                    <div class="header-content">
+                        <button class="sidebar-toggle" onclick="toggleSidebar()">
+                            ☰
+                        </button>
+                        <div style="display: flex; gap: 1rem; margin-left: auto;">
+                            <a href="index.html" class="btn btn-secondary">📊 Dashboard</a>
+                            <div class="status-badge" id="agent-status">
+                                <span class="status-dot active"></span>
+                                <span id="status-text">Active - Session 5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container">
+                <!-- Test Results View -->
+                <div id="tests-view" class="view-content">
+                    <h1 style="margin-bottom: 2rem;">Test Results - 200 Features</h1>
+
+                    <!-- Test Panel -->
+                    <div class="test-panel">
+                        <!-- Progress Section -->
+                        <div class="test-progress-container">
+                            <div class="progress-stats">
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" style="color: var(--color-success);">142</div>
+                                    <div class="progress-stat-label">Passing</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" style="color: var(--color-warning);">1</div>
+                                    <div class="progress-stat-label">Running</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" style="color: var(--color-text-muted);">57</div>
+                                    <div class="progress-stat-label">Pending</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value">71%</div>
+                                    <div class="progress-stat-label">Complete</div>
+                                </div>
+                            </div>
+                            <div class="test-progress-bar">
+                                <div class="test-progress-fill-passing" style="width: 71%;"></div>
+                                <div class="test-progress-fill-running" style="width: 71.5%; opacity: 0.7;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Filter Header -->
+                        <div class="test-panel-header">
+                            <h3 style="margin: 0; font-size: 1.125rem;">All Tests</h3>
+                            <div class="test-filters">
+                                <button class="filter-chip active" onclick="filterTests('all')">
+                                    All <span style="opacity: 0.7;">200</span>
+                                </button>
+                                <button class="filter-chip passing" onclick="filterTests('passing')">
+                                    ✓ Passing <span style="opacity: 0.7;">142</span>
+                                </button>
+                                <button class="filter-chip pending" onclick="filterTests('pending')">
+                                    ⏳ Pending <span style="opacity: 0.7;">57</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Test List -->
+                        <div class="test-list" id="test-list">
+                            <!-- Tests will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other views would go here (hidden by default) -->
+                <div id="overview-view" class="view-content" style="display: none;">
+                    <!-- Overview content from original control.html -->
+                </div>
+
+                <div id="terminals-view" class="view-content" style="display: none;">
+                    <!-- Terminal grids from original control.html -->
+                </div>
+
+                <div id="agents-view" class="view-content" style="display: none;">
+                    <!-- Agent controls from original control.html -->
+                </div>
+
+                <div id="config-view" class="view-content" style="display: none;">
+                    <!-- Configuration panel from original control.html -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Test Details Modal -->
+    <div class="test-modal" id="test-modal" onclick="if(event.target === this) closeTestModal()">
+        <div class="test-modal-content">
+            <div class="test-modal-header">
+                <div>
+                    <h3 id="modal-test-name" style="margin: 0;">Feature #1</h3>
+                    <p id="modal-test-meta"
+                        style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: 0.875rem;">
+                        Session 2 • 5m 23s
+                    </p>
+                </div>
+                <button class="test-modal-close" onclick="closeTestModal()">×</button>
+            </div>
+            <div class="test-modal-body">
+                <h4>Test Output</h4>
+                <div class="test-output-block" id="modal-test-output">
+                    Loading...
+                </div>
+
+                <h4>Git Commit</h4>
+                <div class="test-output-block" id="modal-git-commit">
+                    Loading...
+                </div>
+
+                <h4>Files Changed</h4>
+                <div class="test-output-block" id="modal-files-changed">
+                    Loading...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="mock-data.js"></script>
+    <script src="agent-control.js"></script>
+    <script src="sidebar.js"></script>
+</body>
+
+</html>

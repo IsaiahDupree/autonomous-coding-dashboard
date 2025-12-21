@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    background: #0f172a;
+    min-height: 100vh;
+}
+
+/* Glass-morphism from Project Radar */
+.glass-card {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Pulsing animation for running projects */
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px currentColor;
+    }
+
+    50% {
+        box-shadow: 0 0 20px currentColor;
+    }
+}
+
+.status-running {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Sidebar transitions */
+aside {
+    transition: width 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

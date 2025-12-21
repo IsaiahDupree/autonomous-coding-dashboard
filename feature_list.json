@@ -1,0 +1,333 @@
+{
+  "project": "Autonomous Coding Dashboard",
+  "created": "2024-12-20T00:00:00Z",
+  "description": "A comprehensive dashboard for monitoring and controlling autonomous coding agents",
+  "total_features": 25,
+  "features": [
+    {
+      "id": "feat-001",
+      "category": "core",
+      "priority": 1,
+      "description": "Dashboard displays real-time feature completion progress",
+      "acceptance_criteria": [
+        "Progress bar shows current completion percentage",
+        "Numbers update when feature_list.json changes",
+        "Visual indicator distinguishes passing vs pending"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-002",
+      "category": "core",
+      "priority": 1,
+      "description": "Dashboard shows harness session status (running/idle/error)",
+      "acceptance_criteria": [
+        "Status indicator shows current harness state",
+        "Timestamp of last update is displayed",
+        "Session type (initializer/coding) is shown when running"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-003",
+      "category": "core",
+      "priority": 2,
+      "description": "Feature list displays all features with their status",
+      "acceptance_criteria": [
+        "All features from feature_list.json are shown",
+        "Each feature shows pass/fail status",
+        "Features are grouped by category"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-004",
+      "category": "core",
+      "priority": 2,
+      "description": "Progress timeline shows session history",
+      "acceptance_criteria": [
+        "Recent sessions from claude-progress.txt are displayed",
+        "Each session shows timestamp and actions taken",
+        "Sessions are in reverse chronological order"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-005",
+      "category": "control",
+      "priority": 3,
+      "description": "Start/Stop harness buttons work",
+      "acceptance_criteria": [
+        "Start button launches harness in background",
+        "Stop button terminates running harness",
+        "Buttons are disabled appropriately based on state"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-006",
+      "category": "control",
+      "priority": 3,
+      "description": "Mode toggle switches between single and continuous mode",
+      "acceptance_criteria": [
+        "Toggle switch changes harness run mode",
+        "Current mode is persisted",
+        "Mode is passed to harness on start"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-007",
+      "category": "ui",
+      "priority": 4,
+      "description": "Dashboard has responsive layout",
+      "acceptance_criteria": [
+        "Layout adjusts for mobile screens",
+        "All content is accessible on small screens",
+        "No horizontal scrolling on mobile"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-008",
+      "category": "ui",
+      "priority": 4,
+      "description": "Dark/Light theme toggle works",
+      "acceptance_criteria": [
+        "Theme toggle button is visible",
+        "Clicking toggles between dark and light themes",
+        "Theme preference is saved to localStorage"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-009",
+      "category": "integration",
+      "priority": 5,
+      "description": "WebSocket connection for real-time updates",
+      "acceptance_criteria": [
+        "Dashboard connects to backend WebSocket",
+        "Updates are pushed when files change",
+        "Reconnection happens on disconnect"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-010",
+      "category": "integration",
+      "priority": 5,
+      "description": "API endpoint returns harness status",
+      "acceptance_criteria": [
+        "GET /api/status returns current harness state",
+        "Response includes feature stats",
+        "Response includes session info"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-011",
+      "category": "integration",
+      "priority": 5,
+      "description": "API endpoint to start/stop harness",
+      "acceptance_criteria": [
+        "POST /api/harness/start launches harness",
+        "POST /api/harness/stop terminates harness",
+        "Returns success/error status"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-012",
+      "category": "visualization",
+      "priority": 6,
+      "description": "Progress chart shows completion over time",
+      "acceptance_criteria": [
+        "Line chart displays feature completion history",
+        "X-axis shows session timestamps",
+        "Y-axis shows cumulative features completed"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-013",
+      "category": "visualization",
+      "priority": 6,
+      "description": "Category breakdown chart",
+      "acceptance_criteria": [
+        "Pie or bar chart shows features by category",
+        "Each category shows pass/fail ratio",
+        "Chart updates with data changes"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-014",
+      "category": "logs",
+      "priority": 7,
+      "description": "Live log viewer shows harness output",
+      "acceptance_criteria": [
+        "Log panel displays real-time harness output",
+        "Auto-scrolls to new content",
+        "Can pause/resume auto-scroll"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-015",
+      "category": "logs",
+      "priority": 7,
+      "description": "Git commit history display",
+      "acceptance_criteria": [
+        "Shows recent git commits",
+        "Displays commit message and timestamp",
+        "Links to diff view if possible"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-016",
+      "category": "notifications",
+      "priority": 8,
+      "description": "Browser notifications on key events",
+      "acceptance_criteria": [
+        "Notification when feature is completed",
+        "Notification when session ends",
+        "Notification on error"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-017",
+      "category": "notifications",
+      "priority": 8,
+      "description": "Audio alert option",
+      "acceptance_criteria": [
+        "Toggle to enable/disable audio alerts",
+        "Sound plays on feature completion",
+        "Different sound for errors"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-018",
+      "category": "projects",
+      "priority": 9,
+      "description": "Multi-project support",
+      "acceptance_criteria": [
+        "Sidebar lists all configured projects",
+        "Clicking project switches dashboard view",
+        "Each project has independent status"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-019",
+      "category": "projects",
+      "priority": 9,
+      "description": "Add new project wizard",
+      "acceptance_criteria": [
+        "Button to add new project",
+        "Form to configure project path and settings",
+        "Validates project path exists"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-020",
+      "category": "config",
+      "priority": 10,
+      "description": "Settings panel for harness configuration",
+      "acceptance_criteria": [
+        "Settings button opens config panel",
+        "Can set max sessions",
+        "Can set delay between sessions"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-021",
+      "category": "config",
+      "priority": 10,
+      "description": "Custom prompt editor",
+      "acceptance_criteria": [
+        "Can view current prompts",
+        "Can edit initializer and coding prompts",
+        "Changes are saved to prompt files"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-022",
+      "category": "polish",
+      "priority": 11,
+      "description": "Loading states for all async operations",
+      "acceptance_criteria": [
+        "Skeleton loaders while data fetches",
+        "Buttons show loading spinners",
+        "No layout shift during loading"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-023",
+      "category": "polish",
+      "priority": 11,
+      "description": "Error states with recovery options",
+      "acceptance_criteria": [
+        "Errors display user-friendly messages",
+        "Retry button available where applicable",
+        "Errors don't crash the dashboard"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-024",
+      "category": "polish",
+      "priority": 12,
+      "description": "Keyboard shortcuts for common actions",
+      "acceptance_criteria": [
+        "Cmd/Ctrl+S to start harness",
+        "Cmd/Ctrl+X to stop harness",
+        "Shortcuts shown in tooltip or help"
+      ],
+      "passes": false,
+      "implemented_at": null
+    },
+    {
+      "id": "feat-025",
+      "category": "polish",
+      "priority": 12,
+      "description": "Help documentation modal",
+      "acceptance_criteria": [
+        "Help button opens documentation",
+        "Explains how the harness works",
+        "Shows keyboard shortcuts"
+      ],
+      "passes": false,
+      "implemented_at": null
+    }
+  ]
+}

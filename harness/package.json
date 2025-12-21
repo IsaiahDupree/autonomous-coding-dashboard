@@ -1,0 +1,27 @@
+{
+  "name": "agent-harness",
+  "version": "1.0.0",
+  "description": "Agent harness for autonomous coding with Claude",
+  "type": "module",
+  "main": "run-harness.js",
+  "scripts": {
+    "start": "node run-harness.js",
+    "continuous": "node run-harness.js --continuous",
+    "status": "node -e \"import('./dashboard-integration.js').then(m => console.log(JSON.stringify(m.getDashboardData(), null, 2)))\""
+  },
+  "bin": {
+    "agent-harness": "./run-harness.js"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "agent",
+    "autonomous-coding",
+    "harness"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
