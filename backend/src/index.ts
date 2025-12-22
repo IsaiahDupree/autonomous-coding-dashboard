@@ -25,6 +25,8 @@ import { getVisualVerification } from './services/visual-verification';
 import { getWebhookNotifications } from './services/webhook-notifications';
 import { getSessionReplay } from './services/session-replay';
 import { getCostTracking } from './services/cost-tracking';
+import { getProjectManager } from './services/project-manager';
+import { getAnalytics } from './services/analytics';
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ const visualVerification = getVisualVerification();
 const webhookNotifications = getWebhookNotifications();
 const sessionReplay = getSessionReplay();
 const costTracking = getCostTracking();
+const projectManager = getProjectManager();
+const analytics = getAnalytics();
 
 const app = express();
 const httpServer = createServer(app);
@@ -951,6 +955,238 @@ app.get('/api/costs/pricing', async (req, res) => {
         res.json({ data: pricing });
     } catch (error: any) {
         res.status(500).json({ error: { message: error.message || 'Failed to get pricing' } });
+    }
+});
+
+// ============================================
+// PROJECT MANAGER API
+// ============================================
+
+// Get dashboard stats
+app.get('/api/dashboard/stats', async (req, res) => {
+    try {
+        const stats = projectManager.getDashboardStats();
+        res.json({ data: stats });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get stats' } });
+    }
+});
+
+// Get all managed projects
+app.get('/api/managed-projects', async (req, res) => {
+    try {
+        const status = req.query.status ? (req.query.status as string).split(',') : undefined;
+        const tags = req.query.tags ? (req.query.tags as string).split(',') : undefined;
+        const search = req.query.search as string;
+        
+        const projects = projectManager.getProjects({ status: status as any, tags, search });
+        res.json({ data: projects });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get projects' } });
+    }
+});
+
+// Create a managed project
+app.post('/api/managed-projects', async (req, res) => {
+    try {
+        const project = projectManager.createProject(req.body);
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to create project' } });
+    }
+});
+
+// Import project from path
+app.post('/api/managed-projects/import', async (req, res) => {
+    try {
+        const { path } = req.body;
+        const project = projectManager.importFromPath(path);
+        if (!project) {
+            return res.status(400).json({ error: { message: 'Invalid project path' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to import project' } });
+    }
+});
+
+// Scan directory for projects
+app.post('/api/managed-projects/scan', async (req, res) => {
+    try {
+        const { path, depth = 2 } = req.body;
+        const paths = projectManager.scanDirectory(path, depth);
+        res.json({ data: paths });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to scan directory' } });
+    }
+});
+
+// Get all tags
+app.get('/api/managed-projects/tags', async (req, res) => {
+    try {
+        const tags = projectManager.getAllTags();
+        res.json({ data: tags });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get tags' } });
+    }
+});
+
+// Get a managed project
+app.get('/api/managed-projects/:id', async (req, res) => {
+    try {
+        const project = projectManager.getProject(req.params.id);
+        if (!project) {
+            return res.status(404).json({ error: { message: 'Project not found' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get project' } });
+    }
+});
+
+// Update a managed project
+app.put('/api/managed-projects/:id', async (req, res) => {
+    try {
+        const project = projectManager.updateProject(req.params.id, req.body);
+        if (!project) {
+            return res.status(404).json({ error: { message: 'Project not found' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to update project' } });
+    }
+});
+
+// Update project settings
+app.put('/api/managed-projects/:id/settings', async (req, res) => {
+    try {
+        const project = projectManager.updateSettings(req.params.id, req.body);
+        if (!project) {
+            return res.status(404).json({ error: { message: 'Project not found' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to update settings' } });
+    }
+});
+
+// Delete a managed project
+app.delete('/api/managed-projects/:id', async (req, res) => {
+    try {
+        const deleted = projectManager.deleteProject(req.params.id);
+        res.json({ data: { deleted } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to delete project' } });
+    }
+});
+
+// Archive a managed project
+app.post('/api/managed-projects/:id/archive', async (req, res) => {
+    try {
+        const project = projectManager.archiveProject(req.params.id);
+        if (!project) {
+            return res.status(404).json({ error: { message: 'Project not found' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to archive project' } });
+    }
+});
+
+// Add team member
+app.post('/api/managed-projects/:id/team', async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const project = projectManager.addTeamMember(req.params.id, userId);
+        if (!project) {
+            return res.status(404).json({ error: { message: 'Project not found' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to add team member' } });
+    }
+});
+
+// Remove team member
+app.delete('/api/managed-projects/:id/team/:userId', async (req, res) => {
+    try {
+        const project = projectManager.removeTeamMember(req.params.id, req.params.userId);
+        if (!project) {
+            return res.status(404).json({ error: { message: 'Project not found' } });
+        }
+        res.json({ data: project });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to remove team member' } });
+    }
+});
+
+// ============================================
+// ANALYTICS API
+// ============================================
+
+// Get project analytics
+app.get('/api/projects/:id/analytics', async (req, res) => {
+    try {
+        const start = req.query.start ? new Date(req.query.start as string) : undefined;
+        const end = req.query.end ? new Date(req.query.end as string) : undefined;
+        const timeRange = start && end ? { start, end } : undefined;
+        
+        const data = analytics.getProjectAnalytics(req.params.id, timeRange);
+        res.json({ data });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get analytics' } });
+    }
+});
+
+// Get real-time metrics
+app.get('/api/projects/:id/metrics/realtime', async (req, res) => {
+    try {
+        const metrics = analytics.getRealTimeMetrics(req.params.id);
+        res.json({ data: metrics });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get metrics' } });
+    }
+});
+
+// Generate dashboard report
+app.post('/api/analytics/report', async (req, res) => {
+    try {
+        const { projectIds, start, end } = req.body;
+        const timeRange = start && end ? { start: new Date(start), end: new Date(end) } : undefined;
+        
+        const report = analytics.generateDashboardReport(projectIds || [], timeRange);
+        res.json({ data: report });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to generate report' } });
+    }
+});
+
+// Record analytics event
+app.post('/api/projects/:id/analytics/event', async (req, res) => {
+    try {
+        const { type, data } = req.body;
+        const event = analytics.recordEvent(req.params.id, type, data);
+        res.json({ data: event });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to record event' } });
+    }
+});
+
+// Export analytics data
+app.get('/api/projects/:id/analytics/export', async (req, res) => {
+    try {
+        const format = (req.query.format as string) || 'json';
+        const data = analytics.exportData(req.params.id, format as 'json' | 'csv');
+        
+        if (format === 'csv') {
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="${req.params.id}-analytics.csv"`);
+            res.send(data);
+        } else {
+            res.json(JSON.parse(data));
+        }
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to export data' } });
     }
 });
 
