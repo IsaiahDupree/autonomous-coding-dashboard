@@ -9,12 +9,21 @@ let commandsChart = null;
 // Real feature data
 let featureData = null;
 
+// Harness status tracking
+let harnessStatus = {
+    state: 'idle',
+    sessionType: null,
+    sessionNumber: null,
+    lastUpdate: null
+};
+
 // Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', function () {
     loadFeatureData().then(() => {
         initializeDashboard();
         setupCharts();
         startRealTimeUpdates();
+        initializeHarnessStatusMonitoring();
     });
 });
 
@@ -500,6 +509,125 @@ function viewSession(sessionId) {
     if (session) {
         alert(`Session ${session.id} Details:\n\nType: ${session.type}\nFeatures: ${session.features}\nDuration: ${session.duration}\nStatus: ${session.status}\nCommits: ${session.commits}\nTokens: ${session.tokens.toLocaleString()}`);
     }
+}
+
+// Initialize harness status monitoring
+function initializeHarnessStatusMonitoring() {
+    // Listen to harness client events if available
+    if (typeof harnessClient !== 'undefined') {
+        harnessClient.on('harness:started', (data) => {
+            updateHarnessStatus('running', data.sessionType, data.sessionNumber);
+        });
+
+        harnessClient.on('harness:stopped', () => {
+            updateHarnessStatus('idle');
+        });
+
+        harnessClient.on('harness:error', () => {
+            updateHarnessStatus('error');
+        });
+    }
+
+    // Poll harness status periodically
+    pollHarnessStatus();
+    setInterval(pollHarnessStatus, 5000);
+}
+
+// Poll harness status from API or local files
+async function pollHarnessStatus() {
+    try {
+        // Try to get status from API if harness client is available
+        if (typeof harnessClient !== 'undefined' && window.currentProjectId) {
+            const status = await harnessClient.getStatus(window.currentProjectId);
+            updateHarnessStatus(status.status, status.sessionType, status.sessionNumber);
+        } else {
+            // Fall back to checking local harness-status.json file
+            const response = await fetch('harness-status.json?' + Date.now());
+            if (response.ok) {
+                const status = await response.json();
+                // Handle the actual harness-status.json format
+                updateHarnessStatus(
+                    status.status || 'idle',
+                    status.sessionType,
+                    status.sessionNumber || null
+                );
+            }
+        }
+    } catch (error) {
+        // Silently fail - harness might not be running
+        console.debug('Could not poll harness status:', error.message);
+    }
+}
+
+// Update harness status in the UI
+function updateHarnessStatus(state, sessionType = null, sessionNumber = null) {
+    harnessStatus.state = state;
+    harnessStatus.sessionType = sessionType;
+    harnessStatus.sessionNumber = sessionNumber;
+    harnessStatus.lastUpdate = new Date();
+
+    const statusBadge = document.getElementById('agent-status');
+    const statusText = document.getElementById('status-text');
+    const statusDot = statusBadge?.querySelector('.status-dot');
+
+    if (!statusBadge || !statusText || !statusDot) return;
+
+    // Update status dot class
+    statusDot.className = 'status-dot';
+    if (state === 'running') {
+        statusDot.classList.add('active');
+    } else if (state === 'error') {
+        statusDot.classList.add('error');
+    } else {
+        statusDot.classList.add('idle');
+    }
+
+    // Build status text
+    let text = '';
+    const stateLabels = {
+        'idle': 'Idle',
+        'running': 'Running',
+        'error': 'Error',
+        'stopping': 'Stopping',
+        'starting': 'Starting'
+    };
+
+    text = stateLabels[state] || state;
+
+    // Add session info when running
+    if (state === 'running' && (sessionNumber || sessionType)) {
+        if (sessionNumber) {
+            text += ` - Session ${sessionNumber}`;
+        }
+        if (sessionType) {
+            text += ` (${sessionType})`;
+        }
+    }
+
+    // Add last update timestamp
+    if (harnessStatus.lastUpdate) {
+        const timeAgo = getTimeAgo(harnessStatus.lastUpdate);
+        text += ` • ${timeAgo}`;
+    }
+
+    statusText.textContent = text;
+}
+
+// Helper function to get time ago string
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    if (seconds < 10) return 'just now';
+    if (seconds < 60) return `${seconds}s ago`;
+
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
 }
 
 // Export functions to global scope

@@ -27,8 +27,8 @@
         "Timestamp of last update is displayed",
         "Session type (initializer/coding) is shown when running"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T00:30:00Z"
     },
     {
       "id": "feat-003",
