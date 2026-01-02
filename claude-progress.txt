@@ -379,3 +379,25 @@ NEXT: feat-019 (Add new project wizard)
 
 NEXT: feat-020 (Settings panel for harness configuration)
 
+=== Session 2026-01-02T16:00:00Z - CODING ===
+- Started dev environment (Backend on :3434, Frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-020: Settings panel for harness configuration
+  * Added settings button (⚙️) in header next to audio toggle
+  * Created modal dialog with form for harness configuration
+  * Implemented max sessions input field (range: 1-1000)
+  * Implemented session delay input field (range: 0-300 seconds)
+  * Added input validation with user-friendly error messages
+  * Settings persist to localStorage for user preferences
+  * Form uses existing modal pattern from add-project modal
+  * Settings can be accessed via getHarnessSettings() function
+  * Added CSS styling for number inputs and form-help text
+  * Tests passed: All 3 acceptance criteria verified
+- Created test file: test-feat-020.js with comprehensive Puppeteer tests
+- Committed: "feat: Implement settings panel for harness configuration (feat-020)"
+
+- Feature status: 20/25 passing (80% complete)
+
+NEXT: feat-021 (Custom prompt editor)
+
