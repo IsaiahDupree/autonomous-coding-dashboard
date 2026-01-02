@@ -157,3 +157,42 @@ NEXT: feat-009 (WebSocket connection for real-time updates)
 - Feature status: 9/25 passing (36% complete)
 
 NEXT: feat-010 (API endpoint returns harness status)
+
+=== Session 2026-01-02T07:00:00Z - CODING ===
+- Started dev environment (Backend on :3434)
+- Verified core dashboard functionality working
+
+- Implemented feat-010: API endpoint returns harness status
+  * Added GET /api/status endpoint to backend/src/index.ts
+  * Endpoint reads harness-status.json from project root
+  * Endpoint reads feature_list.json from project root for stats
+  * Returns current harness state (status, sessionType, pid, lastUpdate)
+  * Returns feature statistics (total, passing, pending, percentComplete)
+  * Gracefully handles missing files with sensible defaults
+  * Tests passed: All 3 acceptance criteria verified
+- Created test file: test-feat-010-simple.js
+- Committed: "feat: Implement API endpoint for harness status (feat-010)"
+
+- Feature status: 10/25 passing (40% complete)
+
+NEXT: feat-011 (API endpoint to start/stop harness)
+
+=== Session 2026-01-02T07:03:00Z - CODING ===
+- Started dev environment (Backend on :3434)
+- Verified core dashboard functionality working
+
+- Implemented feat-011: API endpoint to start/stop harness
+  * Added POST /api/harness/start endpoint to backend/src/index.ts
+  * Added POST /api/harness/stop endpoint to backend/src/index.ts
+  * Endpoints work for single-project dashboard without project ID parameter
+  * Start endpoint launches harness with configurable options (continuous, maxSessions, etc.)
+  * Stop endpoint terminates running harness (with optional force flag)
+  * Proper error handling (returns error if harness already running)
+  * Returns success/error status in standardized JSON format
+  * Tests passed: All 3 acceptance criteria verified via curl and test script
+- Created test file: test-feat-011-simple.js
+- Committed: "feat: Implement API endpoints to start/stop harness (feat-011)"
+
+- Feature status: 11/25 passing (44% complete)
+
+NEXT: feat-012 (Progress chart shows completion over time)
