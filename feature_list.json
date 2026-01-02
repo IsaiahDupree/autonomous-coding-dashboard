@@ -92,8 +92,8 @@
         "All content is accessible on small screens",
         "No horizontal scrolling on mobile"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T02:36:00Z"
     },
     {
       "id": "feat-008",
