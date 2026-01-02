@@ -14,8 +14,8 @@
         "Numbers update when feature_list.json changes",
         "Visual indicator distinguishes passing vs pending"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T00:00:00Z"
     },
     {
       "id": "feat-002",

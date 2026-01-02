@@ -6,12 +6,54 @@ let progressChart = null;
 let tokenChart = null;
 let commandsChart = null;
 
+// Real feature data
+let featureData = null;
+
 // Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', function () {
-    initializeDashboard();
-    setupCharts();
-    startRealTimeUpdates();
+    loadFeatureData().then(() => {
+        initializeDashboard();
+        setupCharts();
+        startRealTimeUpdates();
+    });
 });
+
+// Load real feature data from feature_list.json
+async function loadFeatureData() {
+    try {
+        const response = await fetch('feature_list.json');
+        featureData = await response.json();
+        updateProgressMetrics();
+    } catch (error) {
+        console.error('Failed to load feature data:', error);
+        // Fall back to mock data if feature_list.json isn't available
+        featureData = null;
+    }
+}
+
+// Update progress metrics from real feature data
+function updateProgressMetrics() {
+    if (!featureData) return;
+
+    const totalFeatures = featureData.total_features;
+    const passingFeatures = featureData.features.filter(f => f.passes === true).length;
+    const pendingFeatures = totalFeatures - passingFeatures;
+    const completionPercentage = Math.round((passingFeatures / totalFeatures) * 100);
+
+    // Update metrics
+    document.getElementById('features-completed').textContent = passingFeatures;
+    document.getElementById('main-progress').style.width = completionPercentage + '%';
+
+    // Update the progress text
+    const progressContainer = document.querySelector('.flex.justify-between.mb-1');
+    if (progressContainer) {
+        progressContainer.querySelector('span:first-child').textContent = `Features: ${passingFeatures}/${totalFeatures}`;
+        progressContainer.querySelector('span:last-child').textContent = completionPercentage + '%';
+    }
+
+    // Update success rate (same as completion for now)
+    document.getElementById('success-rate').textContent = completionPercentage + '%';
+}
 
 // Initialize all dashboard components
 function initializeDashboard() {
@@ -45,11 +87,28 @@ function populateFeaturesTable(filter = 'all') {
     const tbody = document.getElementById('features-tbody');
     tbody.innerHTML = '';
 
-    let filteredFeatures = mockData.features;
-    if (filter === 'passing') {
-        filteredFeatures = mockData.features.filter(f => f.status === 'passing');
-    } else if (filter === 'pending') {
-        filteredFeatures = mockData.features.filter(f => f.status === 'pending');
+    // Use real feature data if available, otherwise fall back to mock data
+    const sourceFeatures = featureData ? featureData.features : mockData.features;
+
+    let filteredFeatures;
+    if (featureData) {
+        // Filter real features
+        if (filter === 'passing') {
+            filteredFeatures = sourceFeatures.filter(f => f.passes === true);
+        } else if (filter === 'pending') {
+            filteredFeatures = sourceFeatures.filter(f => f.passes === false);
+        } else {
+            filteredFeatures = sourceFeatures;
+        }
+    } else {
+        // Filter mock features
+        if (filter === 'passing') {
+            filteredFeatures = sourceFeatures.filter(f => f.status === 'passing');
+        } else if (filter === 'pending') {
+            filteredFeatures = sourceFeatures.filter(f => f.status === 'pending');
+        } else {
+            filteredFeatures = sourceFeatures;
+        }
     }
 
     // Show only first 20 features to avoid overwhelming the table
@@ -57,15 +116,34 @@ function populateFeaturesTable(filter = 'all') {
 
     displayFeatures.forEach(feature => {
         const row = document.createElement('tr');
-        const statusBadge = feature.status === 'passing'
-            ? '<span class="badge badge-success">✓ Passing</span>'
-            : '<span class="badge badge-warning">⏳ Pending</span>';
+
+        let statusBadge, featureName, featureId, timeSpent;
+
+        if (featureData) {
+            // Use real feature data format
+            statusBadge = feature.passes
+                ? '<span class="badge badge-success">✓ Passing</span>'
+                : '<span class="badge badge-warning">⏳ Pending</span>';
+            featureName = feature.description;
+            featureId = feature.id;
+            timeSpent = feature.implemented_at
+                ? new Date(feature.implemented_at).toLocaleDateString()
+                : '-';
+        } else {
+            // Use mock data format
+            statusBadge = feature.status === 'passing'
+                ? '<span class="badge badge-success">✓ Passing</span>'
+                : '<span class="badge badge-warning">⏳ Pending</span>';
+            featureName = feature.name;
+            featureId = feature.id;
+            timeSpent = feature.timeSpent;
+        }
 
         row.innerHTML = `
-      <td style="font-family: var(--font-family-mono);">#${feature.id}</td>
-      <td>${feature.name}</td>
+      <td style="font-family: var(--font-family-mono);">${featureId}</td>
+      <td>${featureName}</td>
       <td>${statusBadge}</td>
-      <td>${feature.timeSpent}</td>
+      <td>${timeSpent}</td>
     `;
         tbody.appendChild(row);
     });
@@ -363,18 +441,27 @@ function setupCommandsChart() {
     });
 }
 
-// Simulate real-time updates
+// Real-time updates - poll for feature_list.json changes
 function startRealTimeUpdates() {
-    // Update progress every 5 seconds
-    setInterval(() => {
-        const current = parseInt(document.getElementById('features-completed').textContent);
-        if (current < 200) {
-            // Simulate slow progress
-            if (Math.random() > 0.7) { // 30% chance of update
-                updateProgress(current + 1);
+    // Poll for feature_list.json changes every 3 seconds
+    setInterval(async () => {
+        try {
+            const response = await fetch('feature_list.json?' + Date.now()); // Cache bust
+            const newData = await response.json();
+
+            // Check if data has changed
+            const oldPassingCount = featureData ? featureData.features.filter(f => f.passes === true).length : 0;
+            const newPassingCount = newData.features.filter(f => f.passes === true).length;
+
+            if (oldPassingCount !== newPassingCount || !featureData) {
+                featureData = newData;
+                updateProgressMetrics();
+                populateFeaturesTable();
             }
+        } catch (error) {
+            console.error('Failed to poll feature data:', error);
         }
-    }, 5000);
+    }, 3000);
 
     // Pulse the status dot
     const statusDot = document.querySelector('.status-dot');
