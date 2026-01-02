@@ -196,8 +196,8 @@
         "Displays commit message and timestamp",
         "Links to diff view if possible"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T10:30:00Z"
     },
     {
       "id": "feat-016",

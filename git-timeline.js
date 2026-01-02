@@ -11,7 +11,7 @@ class GitTimeline {
     this.container = document.getElementById(containerId);
     this.commits = [];
     this.repoPath = '/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard';
-    this.baseUrl = 'http://localhost:3001';
+    this.baseUrl = 'http://localhost:3434';
     this.autoRefresh = true;
     this.refreshInterval = null;
     
@@ -146,7 +146,7 @@ class GitTimeline {
 class GitStatsWidget {
   constructor(containerId = 'git-stats') {
     this.container = document.getElementById(containerId);
-    this.baseUrl = 'http://localhost:3001';
+    this.baseUrl = 'http://localhost:3434';
     this.repoPath = '/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard';
     
     if (this.container) {
