@@ -1924,6 +1924,58 @@ async function subscribeToAgentEvents() {
 }
 
 // ============================================
+// SIMPLE PROJECTS FILE API (for feat-019)
+// ============================================
+
+// Validate project path exists
+app.post('/api/projects/validate-path', async (req, res) => {
+    try {
+        const { path: projectPath } = req.body;
+
+        if (!projectPath) {
+            return res.status(400).json({ error: 'Path is required' });
+        }
+
+        // Check if path exists
+        const exists = fs.existsSync(projectPath);
+
+        res.json({
+            exists,
+            path: projectPath
+        });
+    } catch (error) {
+        console.error('Error validating path:', error);
+        res.status(500).json({ error: 'Failed to validate path' });
+    }
+});
+
+// Add project to projects.json file
+app.post('/api/projects/add', async (req, res) => {
+    try {
+        const projectsFile = path.join(process.cwd(), '..', 'projects.json');
+
+        // Read current projects
+        let projectsConfig: any = { projects: [], defaultProject: null };
+        if (fs.existsSync(projectsFile)) {
+            const content = fs.readFileSync(projectsFile, 'utf-8');
+            projectsConfig = JSON.parse(content);
+        }
+
+        // Add new project
+        const newProject = req.body;
+        projectsConfig.projects.push(newProject);
+
+        // Write back to file
+        fs.writeFileSync(projectsFile, JSON.stringify(projectsConfig, null, 2));
+
+        res.json({ success: true, project: newProject });
+    } catch (error) {
+        console.error('Error adding project:', error);
+        res.status(500).json({ error: 'Failed to add project' });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

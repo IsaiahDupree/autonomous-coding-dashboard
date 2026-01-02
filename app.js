@@ -1753,9 +1753,113 @@ function updateSidebarState() {
     }
 }
 
-// Add new project (placeholder - would open a modal in full implementation)
+// Add new project - opens modal wizard
 function addNewProject() {
-    alert('Add new project functionality would open a wizard here.\n\nIn the full implementation, this would:\n1. Let you select a project directory\n2. Scan for feature_list.json and claude-progress.txt\n3. Configure project settings\n4. Add to projects.json');
+    const modal = document.getElementById('add-project-modal');
+    modal.style.display = 'flex';
+
+    // Reset form
+    document.getElementById('add-project-form').reset();
+    document.getElementById('validation-message').style.display = 'none';
+}
+
+// Close add project modal
+function closeAddProjectModal() {
+    const modal = document.getElementById('add-project-modal');
+    modal.style.display = 'none';
+}
+
+// Submit new project form
+async function submitNewProject(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const submitBtn = document.getElementById('submit-project-btn');
+    const validationMsg = document.getElementById('validation-message');
+
+    // Get form values
+    const name = form.name.value.trim();
+    const path = form.path.value.trim();
+    const description = form.description.value.trim();
+    const icon = form.icon.value.trim() || '📁';
+    const color = form.color.value;
+
+    // Basic validation
+    if (!name || !path) {
+        showValidationMessage('Please fill in all required fields', 'error');
+        return;
+    }
+
+    // Disable submit button
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Validating...';
+
+    try {
+        // Validate path exists via backend API
+        const validationResponse = await fetch('http://localhost:3434/api/projects/validate-path', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path })
+        });
+
+        const validation = await validationResponse.json();
+
+        if (!validation.exists) {
+            showValidationMessage('Project path does not exist. Please enter a valid directory path.', 'error');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Add Project';
+            return;
+        }
+
+        // Create project ID from name
+        const projectId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        // Create new project object
+        const newProject = {
+            id: projectId,
+            name,
+            path,
+            description,
+            icon,
+            color,
+            active: false
+        };
+
+        // Add to projects via backend API
+        submitBtn.textContent = 'Adding...';
+        const addResponse = await fetch('http://localhost:3434/api/projects/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newProject)
+        });
+
+        if (!addResponse.ok) {
+            throw new Error('Failed to add project');
+        }
+
+        // Success - reload projects
+        showValidationMessage('Project added successfully!', 'success');
+
+        setTimeout(() => {
+            closeAddProjectModal();
+            // Reload projects list
+            loadProjects();
+        }, 1000);
+
+    } catch (error) {
+        console.error('Error adding project:', error);
+        showValidationMessage('Failed to add project. Please try again.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Add Project';
+    }
+}
+
+// Show validation message
+function showValidationMessage(message, type) {
+    const validationMsg = document.getElementById('validation-message');
+    validationMsg.textContent = message;
+    validationMsg.className = `validation-message ${type}`;
+    validationMsg.style.display = 'block';
 }
 
 // Export functions to global scope
@@ -1770,3 +1874,5 @@ window.toggleAudio = toggleAudio;
 window.toggleProjectSidebar = toggleProjectSidebar;
 window.switchProject = switchProject;
 window.addNewProject = addNewProject;
+window.closeAddProjectModal = closeAddProjectModal;
+window.submitNewProject = submitNewProject;

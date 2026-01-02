@@ -397,6 +397,54 @@
   <script src="harness-client.js"></script>
   <script src="harness-control.js"></script>
   <script src="approval-ui.js"></script>
+  <!-- Add Project Modal -->
+  <div class="modal-overlay" id="add-project-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add New Project</h2>
+        <button class="modal-close" onclick="closeAddProjectModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-project-form" onsubmit="submitNewProject(event)">
+          <div class="form-group">
+            <label for="project-name">Project Name *</label>
+            <input type="text" id="project-name" name="name" required placeholder="My Awesome Project">
+          </div>
+
+          <div class="form-group">
+            <label for="project-path">Project Path *</label>
+            <input type="text" id="project-path" name="path" required placeholder="/path/to/project">
+            <small>Absolute path to the project directory</small>
+          </div>
+
+          <div class="form-group">
+            <label for="project-description">Description</label>
+            <textarea id="project-description" name="description" rows="3" placeholder="Brief description of the project"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="project-icon">Icon (emoji)</label>
+            <input type="text" id="project-icon" name="icon" placeholder="🚀" maxlength="2">
+            <small>Choose an emoji to represent this project</small>
+          </div>
+
+          <div class="form-group">
+            <label for="project-color">Color</label>
+            <input type="color" id="project-color" name="color" value="#6366f1">
+            <small>Accent color for this project</small>
+          </div>
+
+          <div id="validation-message" class="validation-message" style="display: none;"></div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeAddProjectModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="submit-project-btn">Add Project</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script src="git-timeline.js"></script>
   <script src="cost-tracker.js"></script>
   <script src="project-manager-ui.js"></script>

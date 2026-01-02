@@ -354,3 +354,28 @@ NEXT: feat-018 (Multi-project support)
 
 NEXT: feat-019 (Add new project wizard)
 
+
+=== Session 2026-01-02T15:00:00Z - CODING ===
+- Started dev environment (Backend on :3434, Frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-019: Add new project wizard
+  * Added modal UI with form for new project creation (HTML)
+  * Created comprehensive modal CSS styles with animations
+  * Implemented addNewProject() to open modal wizard
+  * Implemented submitNewProject() with form handling and validation
+  * Added closeAddProjectModal() and showValidationMessage() functions
+  * Backend API: POST /api/projects/validate-path - validates project path exists
+  * Backend API: POST /api/projects/add - adds project to projects.json file
+  * Form includes fields: name, path, description, icon, color
+  * Path validation via backend API call before adding project
+  * Success/error messages displayed in modal
+  * Reloads projects list after successful addition
+  * Tests passed: All 3 acceptance criteria verified
+- Created test file: test-feat-019.js with comprehensive Puppeteer tests
+- Committed: "feat: Implement add new project wizard (feat-019)"
+
+- Feature status: 19/25 passing (76% complete)
+
+NEXT: feat-020 (Settings panel for harness configuration)
+

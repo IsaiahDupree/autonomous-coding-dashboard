@@ -248,8 +248,8 @@
         "Form to configure project path and settings",
         "Validates project path exists"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T15:00:00Z"
     },
     {
       "id": "feat-020",
