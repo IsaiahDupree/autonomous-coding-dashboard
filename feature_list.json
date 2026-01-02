@@ -261,8 +261,8 @@
         "Can set max sessions",
         "Can set delay between sessions"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T16:00:00Z"
     },
     {
       "id": "feat-021",

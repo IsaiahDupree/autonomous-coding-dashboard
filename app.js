@@ -1862,6 +1862,109 @@ function showValidationMessage(message, type) {
     validationMsg.style.display = 'block';
 }
 
+// ===== HARNESS SETTINGS MANAGEMENT =====
+
+// Harness settings with defaults
+let harnessSettings = {
+    maxSessions: 100,
+    sessionDelay: 5
+};
+
+// Load settings from localStorage
+function loadHarnessSettings() {
+    try {
+        const saved = localStorage.getItem('harnessSettings');
+        if (saved) {
+            harnessSettings = JSON.parse(saved);
+        }
+    } catch (error) {
+        console.error('Failed to load harness settings:', error);
+    }
+}
+
+// Save settings to localStorage
+function saveHarnessSettings() {
+    try {
+        localStorage.setItem('harnessSettings', JSON.stringify(harnessSettings));
+    } catch (error) {
+        console.error('Failed to save harness settings:', error);
+    }
+}
+
+// Open settings modal
+function openSettingsModal() {
+    const modal = document.getElementById('settings-modal');
+    modal.style.display = 'flex';
+
+    // Load current settings into form
+    document.getElementById('max-sessions').value = harnessSettings.maxSessions;
+    document.getElementById('session-delay').value = harnessSettings.sessionDelay;
+
+    // Hide validation message
+    document.getElementById('settings-validation-message').style.display = 'none';
+}
+
+// Close settings modal
+function closeSettingsModal() {
+    const modal = document.getElementById('settings-modal');
+    modal.style.display = 'none';
+}
+
+// Save settings
+async function saveSettings(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const saveBtn = document.getElementById('save-settings-btn');
+    const validationMsg = document.getElementById('settings-validation-message');
+
+    // Get form values
+    const maxSessions = parseInt(form.maxSessions.value);
+    const sessionDelay = parseInt(form.sessionDelay.value);
+
+    // Validation
+    if (maxSessions < 1 || maxSessions > 1000) {
+        showSettingsValidationMessage('Max sessions must be between 1 and 1000', 'error');
+        return;
+    }
+
+    if (sessionDelay < 0 || sessionDelay > 300) {
+        showSettingsValidationMessage('Session delay must be between 0 and 300 seconds', 'error');
+        return;
+    }
+
+    // Update settings
+    harnessSettings.maxSessions = maxSessions;
+    harnessSettings.sessionDelay = sessionDelay;
+
+    // Save to localStorage
+    saveHarnessSettings();
+
+    // Show success message
+    showSettingsValidationMessage('Settings saved successfully!', 'success');
+
+    // Close modal after a delay
+    setTimeout(() => {
+        closeSettingsModal();
+    }, 1000);
+}
+
+// Show settings validation message
+function showSettingsValidationMessage(message, type) {
+    const validationMsg = document.getElementById('settings-validation-message');
+    validationMsg.textContent = message;
+    validationMsg.className = `validation-message ${type}`;
+    validationMsg.style.display = 'block';
+}
+
+// Get current harness settings (for use by harness control)
+function getHarnessSettings() {
+    return harnessSettings;
+}
+
+// Initialize settings on page load
+loadHarnessSettings();
+
 // Export functions to global scope
 window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
@@ -1876,3 +1979,7 @@ window.switchProject = switchProject;
 window.addNewProject = addNewProject;
 window.closeAddProjectModal = closeAddProjectModal;
 window.submitNewProject = submitNewProject;
+window.openSettingsModal = openSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+window.saveSettings = saveSettings;
+window.getHarnessSettings = getHarnessSettings;

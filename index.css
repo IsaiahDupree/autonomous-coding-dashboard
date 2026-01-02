@@ -1184,6 +1184,7 @@ body:has(.project-sidebar.collapsed) {
 }
 
 .form-group input[type="text"],
+.form-group input[type="number"],
 .form-group input[type="color"],
 .form-group textarea {
   width: 100%;
@@ -1198,6 +1199,7 @@ body:has(.project-sidebar.collapsed) {
 }
 
 .form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-primary);
@@ -1214,7 +1216,8 @@ body:has(.project-sidebar.collapsed) {
   min-height: 80px;
 }
 
-.form-group small {
+.form-group small,
+.form-help {
   display: block;
   margin-top: 0.375rem;
   font-size: 0.75rem;
