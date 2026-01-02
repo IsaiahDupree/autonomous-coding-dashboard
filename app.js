@@ -8,6 +8,8 @@ let commandsChart = null;
 
 // Real feature data
 let featureData = null;
+let sessionData = null;
+let progressTimelineData = null;
 
 // Harness status tracking
 let harnessStatus = {
@@ -107,6 +109,11 @@ async function populateActivityTimeline() {
       `;
             timeline.appendChild(item);
         });
+
+        // Update progress chart with real data
+        if (progressTimelineData) {
+            setupProgressChart();
+        }
     } else {
         // Fall back to mock data if session history not available
         mockData.activities.forEach(activity => {
@@ -132,6 +139,13 @@ async function loadSessionHistory() {
 
         const text = await response.text();
         const sessions = parseProgressFile(text);
+
+        // Store session data globally
+        sessionData = sessions;
+
+        // Extract progress timeline data
+        progressTimelineData = extractProgressTimeline(sessions);
+
         return sessions;
     } catch (error) {
         console.error('Failed to load session history:', error);
@@ -160,12 +174,20 @@ function parseProgressFile(text) {
             currentSession = {
                 timestamp: sessionMatch[1],
                 type: sessionMatch[2],
-                actions: []
+                actions: [],
+                featuresCompleted: 0
             };
             inSessionBlock = true;
         } else if (inSessionBlock && line.trim().startsWith('-')) {
             // Parse action line (starts with -)
             const action = line.trim().substring(1).trim();
+
+            // Extract feature count from "Feature status: X/Y passing"
+            const featureMatch = action.match(/Feature status: (\d+)\/\d+ passing/);
+            if (featureMatch) {
+                currentSession.featuresCompleted = parseInt(featureMatch[1], 10);
+            }
+
             if (action && !action.startsWith('Feature status:') && !action.startsWith('NEXT:')) {
                 currentSession.actions.push(action);
             }
@@ -185,6 +207,32 @@ function parseProgressFile(text) {
     }
 
     return sessions;
+}
+
+// Extract progress timeline data from sessions
+function extractProgressTimeline(sessions) {
+    if (!sessions || sessions.length === 0) {
+        return null;
+    }
+
+    const labels = [];
+    const data = [];
+
+    sessions.forEach((session, index) => {
+        // Format timestamp as readable label
+        const date = new Date(session.timestamp);
+        const timeLabel = date.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        labels.push(`Session ${index + 1}\n${timeLabel}`);
+        data.push(session.featuresCompleted);
+    });
+
+    return { labels, data };
 }
 
 // Populate features table
@@ -385,9 +433,15 @@ function setupProgressChart(view = 'all') {
         progressChart.destroy();
     }
 
-    const data = view === 'all'
-        ? mockData.progressTimelineAll
-        : mockData.progressTimeline;
+    // Use real data if available, otherwise fall back to mock data
+    let data;
+    if (progressTimelineData && progressTimelineData.labels.length > 0) {
+        data = progressTimelineData;
+    } else {
+        data = view === 'all'
+            ? mockData.progressTimelineAll
+            : mockData.progressTimeline;
+    }
 
     progressChart = new Chart(ctx, {
         type: 'line',
@@ -436,7 +490,8 @@ function setupProgressChart(view = 'all') {
                     },
                     ticks: {
                         color: '#94a3b8',
-                        font: { family: 'Inter' }
+                        font: { family: 'Inter' },
+                        stepSize: 1
                     }
                 },
                 x: {
