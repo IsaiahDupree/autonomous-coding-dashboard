@@ -598,10 +598,180 @@ function setupCommandsChart() {
     });
 }
 
-// Real-time updates - poll for feature_list.json changes
+// WebSocket connection for real-time updates
+let socket = null;
+let reconnectAttempts = 0;
+const MAX_RECONNECT_ATTEMPTS = 5;
+const RECONNECT_DELAY = 3000;
+let fallbackPolling = null;
+
+// Real-time updates - WebSocket with fallback to polling
 function startRealTimeUpdates() {
+    // Try to connect via WebSocket
+    connectWebSocket();
+
+    // Pulse the status dot
+    const statusDot = document.querySelector('.status-dot');
+    setInterval(() => {
+        statusDot.style.opacity = statusDot.style.opacity === '0.5' ? '1' : '0.5';
+    }, 1000);
+}
+
+// Connect to WebSocket server
+function connectWebSocket() {
+    try {
+        const BACKEND_URL = 'http://localhost:3434';
+
+        // Initialize Socket.IO client
+        socket = io(BACKEND_URL, {
+            transports: ['websocket', 'polling'],
+            reconnection: true,
+            reconnectionAttempts: MAX_RECONNECT_ATTEMPTS,
+            reconnectionDelay: RECONNECT_DELAY,
+            timeout: 10000
+        });
+
+        // Connection successful
+        socket.on('connect', () => {
+            console.log('WebSocket connected:', socket.id);
+            reconnectAttempts = 0;
+
+            // Clear any fallback polling
+            if (fallbackPolling) {
+                clearInterval(fallbackPolling);
+                fallbackPolling = null;
+            }
+
+            // Subscribe to updates for the current project
+            const projectId = window.currentProjectId || 'default';
+            socket.emit('subscribe', projectId);
+
+            // Update status indicator
+            updateConnectionStatus('connected');
+        });
+
+        // Listen for feature updates
+        socket.on('agent_event', (event) => {
+            console.log('Received agent event:', event);
+
+            if (event.event === 'features:updated') {
+                handleFeaturesUpdate(event.data);
+            } else if (event.event === 'progress:updated') {
+                handleProgressUpdate(event.data);
+            }
+        });
+
+        // Handle disconnection
+        socket.on('disconnect', (reason) => {
+            console.log('WebSocket disconnected:', reason);
+            updateConnectionStatus('disconnected');
+        });
+
+        // Handle connection errors
+        socket.on('connect_error', (error) => {
+            console.error('WebSocket connection error:', error);
+            reconnectAttempts++;
+
+            // Fall back to polling after max reconnect attempts
+            if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+                console.warn('Max reconnect attempts reached, falling back to polling');
+                fallbackToPolling();
+            }
+
+            updateConnectionStatus('error');
+        });
+
+        // Handle reconnection attempts
+        socket.on('reconnect_attempt', (attemptNumber) => {
+            console.log('Reconnection attempt:', attemptNumber);
+            updateConnectionStatus('reconnecting');
+        });
+
+        // Handle successful reconnection
+        socket.on('reconnect', (attemptNumber) => {
+            console.log('WebSocket reconnected after', attemptNumber, 'attempts');
+            reconnectAttempts = 0;
+            updateConnectionStatus('connected');
+        });
+
+    } catch (error) {
+        console.error('Failed to initialize WebSocket:', error);
+        fallbackToPolling();
+    }
+}
+
+// Handle feature updates from WebSocket
+function handleFeaturesUpdate(data) {
+    if (!data || !data.features) return;
+
+    // Update feature data
+    const oldPassingCount = featureData ? featureData.features.filter(f => f.passes === true).length : 0;
+    const newPassingCount = data.passing || 0;
+
+    // Update our local feature data
+    if (featureData) {
+        featureData.features = data.features;
+    }
+
+    // Only update UI if data actually changed
+    if (oldPassingCount !== newPassingCount || !featureData) {
+        updateProgressMetrics();
+        populateFeaturesTable();
+    }
+}
+
+// Handle progress updates from WebSocket
+function handleProgressUpdate(data) {
+    if (!data || !data.sessions) return;
+
+    // Refresh the activity timeline
+    populateActivityTimeline();
+}
+
+// Update connection status indicator
+function updateConnectionStatus(status) {
+    const statusText = document.getElementById('status-text');
+    const statusDot = document.querySelector('.status-dot');
+
+    if (!statusText || !statusDot) return;
+
+    switch (status) {
+        case 'connected':
+            statusDot.classList.add('active');
+            statusDot.classList.remove('error');
+            if (harnessStatus.state === 'running') {
+                statusText.textContent = `Active - Session ${harnessStatus.sessionNumber || ''}`;
+            } else {
+                statusText.textContent = 'Connected';
+            }
+            break;
+        case 'disconnected':
+        case 'reconnecting':
+            statusDot.classList.remove('active', 'error');
+            statusText.textContent = 'Reconnecting...';
+            break;
+        case 'error':
+            statusDot.classList.remove('active');
+            statusDot.classList.add('error');
+            statusText.textContent = 'Connection Error';
+            break;
+    }
+}
+
+// Fallback to polling if WebSocket fails
+function fallbackToPolling() {
+    if (fallbackPolling) return; // Already polling
+
+    console.log('Starting fallback polling mode');
+
+    // Close WebSocket if it exists
+    if (socket) {
+        socket.close();
+        socket = null;
+    }
+
     // Poll for feature_list.json changes every 3 seconds
-    setInterval(async () => {
+    fallbackPolling = setInterval(async () => {
         try {
             const response = await fetch('feature_list.json?' + Date.now()); // Cache bust
             const newData = await response.json();
@@ -620,11 +790,7 @@ function startRealTimeUpdates() {
         }
     }, 3000);
 
-    // Pulse the status dot
-    const statusDot = document.querySelector('.status-dot');
-    setInterval(() => {
-        statusDot.style.opacity = statusDot.style.opacity === '0.5' ? '1' : '0.5';
-    }, 1000);
+    updateConnectionStatus('error');
 }
 
 // Update progress
