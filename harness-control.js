@@ -23,6 +23,7 @@ class HarnessControlPanel {
     this.render();
     this.bindEvents();
     this.setupClient();
+    this.loadSettings();
   }
 
   setupClient() {
@@ -623,6 +624,16 @@ class HarnessControlPanel {
     document.getElementById('auto-scroll')?.addEventListener('change', (e) => {
       this.autoScroll = e.target.checked;
     });
+
+    // Continuous mode toggle - persist to localStorage
+    document.getElementById('continuous-mode')?.addEventListener('change', (e) => {
+      localStorage.setItem('harness-continuous-mode', e.target.checked);
+    });
+
+    // Max sessions - persist to localStorage
+    document.getElementById('max-sessions')?.addEventListener('change', (e) => {
+      localStorage.setItem('harness-max-sessions', e.target.value);
+    });
   }
 
   async startHarness() {
@@ -659,6 +670,26 @@ class HarnessControlPanel {
       await harnessClient.stopHarness(this.currentProjectId);
     } catch (error) {
       this.showNotification(`Failed to stop: ${error.message}`, 'error');
+    }
+  }
+
+  loadSettings() {
+    // Load continuous mode preference from localStorage
+    const continuousMode = localStorage.getItem('harness-continuous-mode');
+    if (continuousMode !== null) {
+      const checkbox = document.getElementById('continuous-mode');
+      if (checkbox) {
+        checkbox.checked = continuousMode === 'true';
+      }
+    }
+
+    // Load max sessions preference from localStorage
+    const maxSessions = localStorage.getItem('harness-max-sessions');
+    if (maxSessions !== null) {
+      const input = document.getElementById('max-sessions');
+      if (input) {
+        input.value = maxSessions;
+      }
     }
   }
 
