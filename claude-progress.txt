@@ -258,3 +258,24 @@ NEXT: feat-014 (Live log viewer shows harness output)
 - Feature status: 14/25 passing (56% complete)
 
 NEXT: feat-015 (Git commit history display)
+=== Session 2026-01-02T10:30:00Z - CODING ===
+- Started dev environment (Backend on :3434, Frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-015: Git commit history display
+  * Git timeline component already existed in git-timeline.js
+  * Updated backend API URL from :4545 to :3434 in GitTimeline class
+  * Updated backend API URL from :4545 to :3434 in GitStatsWidget class
+  * Component displays 20 most recent commits with full details
+  * Shows commit SHA, message, author, and relative timestamp (e.g., "3m ago")
+  * Distinguishes between agent commits (🤖) and user commits (👤)
+  * Auto-refreshes every 30 seconds for real-time updates
+  * Backend endpoint /api/git/commits provides commit data
+  * Tests passed: All 3 acceptance criteria verified
+- Created test file: test-feat-015.js with comprehensive Puppeteer tests
+- Committed: "feat: Update git timeline to use correct backend port (feat-015)"
+
+- Feature status: 15/25 passing (60% complete)
+
+NEXT: feat-016 (Browser notifications on key events)
+
