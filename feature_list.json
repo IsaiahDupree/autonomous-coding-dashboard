@@ -105,8 +105,8 @@
         "Clicking toggles between dark and light themes",
         "Theme preference is saved to localStorage"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T03:00:00Z"
     },
     {
       "id": "feat-009",

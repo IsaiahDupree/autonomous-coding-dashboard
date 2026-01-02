@@ -778,7 +778,54 @@ function getTimeAgo(date) {
     return `${days}d ago`;
 }
 
+// ==========================================
+// Theme Toggle Functionality (feat-008)
+// ==========================================
+
+// Initialize theme from localStorage
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+}
+
+// Apply theme to the document
+function applyTheme(theme) {
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (theme === 'light') {
+        root.setAttribute('data-theme', 'light');
+        if (themeToggle) themeToggle.textContent = '☀️';
+    } else {
+        root.removeAttribute('data-theme');
+        if (themeToggle) themeToggle.textContent = '🌙';
+    }
+
+    localStorage.setItem('theme', theme);
+}
+
+// Toggle between light and dark themes
+function toggleTheme() {
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+}
+
+// Set up theme toggle button
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+
+    // Add click event to theme toggle button
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+});
+
 // Export functions to global scope
 window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
 window.viewSession = viewSession;
+window.toggleTheme = toggleTheme;
