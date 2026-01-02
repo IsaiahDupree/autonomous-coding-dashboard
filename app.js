@@ -25,6 +25,10 @@ let notificationsEnabled = false;
 let lastNotifiedFeatureCount = 0;
 let notificationPermission = 'default';
 
+// Audio alert settings
+let audioEnabled = false;
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
 // Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', function () {
     loadFeatureData().then(() => {
@@ -33,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         startRealTimeUpdates();
         initializeHarnessStatusMonitoring();
         initializeNotifications();
+        initializeAudio();
     });
 });
 
@@ -1474,6 +1479,7 @@ function notifyFeatureCompletion(featureId, featureDescription) {
         body: `${featureId}: ${featureDescription}`,
         icon: '✅'
     });
+    playSuccessSound();
 }
 
 // Notify on session end
@@ -1482,6 +1488,7 @@ function notifySessionEnd(sessionType, sessionNumber) {
         body: `${sessionType} session ${sessionNumber || ''} has completed`,
         icon: '🏁'
     });
+    playSuccessSound();
 }
 
 // Notify on error
@@ -1491,6 +1498,95 @@ function notifyError(errorMessage) {
         icon: '❌',
         requireInteraction: true
     });
+    playErrorSound();
+}
+
+// ============================================================================
+// AUDIO ALERTS
+// ============================================================================
+
+// Initialize audio alerts
+function initializeAudio() {
+    // Load audio preference from localStorage
+    const savedPref = localStorage.getItem('audioEnabled');
+    audioEnabled = savedPref === 'true';
+
+    // Update toggle UI
+    const toggle = document.getElementById('audio-toggle');
+    if (toggle) {
+        toggle.checked = audioEnabled;
+    }
+}
+
+// Toggle audio alerts
+function toggleAudio() {
+    audioEnabled = !audioEnabled;
+    localStorage.setItem('audioEnabled', audioEnabled.toString());
+
+    // Update toggle UI
+    const toggle = document.getElementById('audio-toggle');
+    if (toggle) {
+        toggle.checked = audioEnabled;
+    }
+
+    // Play test sound
+    if (audioEnabled) {
+        playSuccessSound();
+    }
+}
+
+// Play success sound (for feature completion)
+function playSuccessSound() {
+    if (!audioEnabled) return;
+
+    try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Pleasant ascending chime
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (error) {
+        console.error('Error playing success sound:', error);
+    }
+}
+
+// Play error sound (for errors)
+function playErrorSound() {
+    if (!audioEnabled) return;
+
+    try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Descending warning tone
+        oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
+        oscillator.frequency.setValueAtTime(392, audioContext.currentTime + 0.15); // G4
+        oscillator.frequency.setValueAtTime(349.23, audioContext.currentTime + 0.3); // F4
+
+        oscillator.type = 'square';
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (error) {
+        console.error('Error playing error sound:', error);
+    }
 }
 
 // Export functions to global scope
@@ -1501,3 +1597,4 @@ window.toggleTheme = toggleTheme;
 window.toggleAutoScroll = toggleAutoScroll;
 window.clearLogs = clearLogs;
 window.toggleNotifications = toggleNotifications;
+window.toggleAudio = toggleAudio;
