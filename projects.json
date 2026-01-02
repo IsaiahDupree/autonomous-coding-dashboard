@@ -1,0 +1,32 @@
+{
+  "projects": [
+    {
+      "id": "autonomous-coding-dashboard",
+      "name": "Autonomous Coding Dashboard",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "description": "Main dashboard for monitoring autonomous coding agents",
+      "icon": "🤖",
+      "color": "#6366f1",
+      "active": true
+    },
+    {
+      "id": "example-project-1",
+      "name": "E-commerce Platform",
+      "path": "/Users/isaiahdupree/Documents/Software/ecommerce",
+      "description": "Building a full-stack e-commerce solution",
+      "icon": "🛒",
+      "color": "#10b981",
+      "active": false
+    },
+    {
+      "id": "example-project-2",
+      "name": "Task Management App",
+      "path": "/Users/isaiahdupree/Documents/Software/taskapp",
+      "description": "Productivity tool for team collaboration",
+      "icon": "✅",
+      "color": "#f59e0b",
+      "active": false
+    }
+  ],
+  "defaultProject": "autonomous-coding-dashboard"
+}

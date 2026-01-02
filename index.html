@@ -24,14 +24,39 @@
 </head>
 
 <body>
+  <!-- Project Sidebar -->
+  <aside class="project-sidebar" id="project-sidebar">
+    <div class="sidebar-header">
+      <h3>Projects</h3>
+      <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleProjectSidebar()">
+        <span>◀</span>
+      </button>
+    </div>
+    <div class="sidebar-content">
+      <div id="projects-list" class="projects-list">
+        <!-- Projects will be loaded here -->
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary" onclick="addNewProject()" style="width: 100%; font-size: 0.875rem;">
+        ➕ Add Project
+      </button>
+    </div>
+  </aside>
+
   <!-- Header -->
   <header class="header">
     <div class="container">
       <div class="header-content">
-        <a href="#" class="logo">
-          <div class="logo-icon">🤖</div>
-          <span>Autonomous Coding Agent</span>
-        </a>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="btn btn-secondary" id="sidebar-open-btn" onclick="toggleProjectSidebar()" title="Toggle Projects">
+            📁
+          </button>
+          <a href="#" class="logo">
+            <div class="logo-icon">🤖</div>
+            <span>Autonomous Coding Agent</span>
+          </a>
+        </div>
         <div style="display: flex; gap: 1rem; align-items: center;">
           <button id="theme-toggle" title="Toggle theme">🌙</button>
           <label class="notification-toggle-container" title="Toggle browser notifications">

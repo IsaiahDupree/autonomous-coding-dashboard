@@ -934,3 +934,161 @@ img, iframe, embed, object, video {
     height: 8px;
   }
 }
+
+/* ==========================================
+   PROJECT SIDEBAR
+   ========================================== */
+.project-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--color-bg-card);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform var(--transition-base);
+}
+
+.project-sidebar.collapsed {
+  transform: translateX(-240px);
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.sidebar-toggle {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border-color: var(--color-primary);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+}
+
+.sidebar-footer {
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.project-item:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.project-item.active {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+}
+
+.project-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.project-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.project-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-description {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Adjust main content when sidebar is visible */
+body {
+  padding-left: 280px;
+  transition: padding-left var(--transition-base);
+}
+
+body:has(.project-sidebar.collapsed) {
+  padding-left: 40px;
+}
+
+/* Mobile responsiveness for project sidebar */
+@media (max-width: 768px) {
+  .project-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .project-sidebar:not(.collapsed) {
+    transform: translateX(0);
+  }
+
+  body {
+    padding-left: 0;
+  }
+
+  body:has(.project-sidebar.collapsed) {
+    padding-left: 0;
+  }
+}

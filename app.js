@@ -1589,6 +1589,175 @@ function playErrorSound() {
     }
 }
 
+// ============================================================================
+// MULTI-PROJECT SUPPORT
+// ============================================================================
+
+// Project management state
+let projectsConfig = null;
+let currentProject = null;
+let sidebarExpanded = true;
+
+// Initialize projects on page load
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadProjects();
+    initializeProjectSidebar();
+});
+
+// Load projects configuration
+async function loadProjects() {
+    try {
+        const response = await fetch('projects.json');
+        projectsConfig = await response.json();
+
+        // Get active project from localStorage or use default
+        const savedProjectId = localStorage.getItem('currentProjectId');
+        const activeProject = projectsConfig.projects.find(p => p.id === savedProjectId) ||
+                             projectsConfig.projects.find(p => p.id === projectsConfig.defaultProject) ||
+                             projectsConfig.projects[0];
+
+        if (activeProject) {
+            await switchProject(activeProject.id);
+        }
+    } catch (error) {
+        console.error('Failed to load projects configuration:', error);
+        // Continue with single-project mode
+    }
+}
+
+// Initialize project sidebar
+function initializeProjectSidebar() {
+    if (!projectsConfig) return;
+
+    renderProjectsList();
+
+    // Load sidebar state from localStorage
+    const savedState = localStorage.getItem('projectSidebarExpanded');
+    sidebarExpanded = savedState === null ? true : savedState === 'true';
+    updateSidebarState();
+}
+
+// Render projects list in sidebar
+function renderProjectsList() {
+    if (!projectsConfig) return;
+
+    const projectsList = document.getElementById('projects-list');
+    if (!projectsList) return;
+
+    projectsList.innerHTML = '';
+
+    projectsConfig.projects.forEach(project => {
+        const projectItem = document.createElement('div');
+        projectItem.className = 'project-item' + (currentProject && currentProject.id === project.id ? ' active' : '');
+        projectItem.onclick = () => switchProject(project.id);
+
+        projectItem.innerHTML = `
+            <div class="project-icon" style="background-color: ${project.color}20; color: ${project.color};">
+                ${project.icon}
+            </div>
+            <div class="project-details">
+                <div class="project-name">${project.name}</div>
+                <div class="project-description">${project.description}</div>
+            </div>
+        `;
+
+        projectsList.appendChild(projectItem);
+    });
+}
+
+// Switch to a different project
+async function switchProject(projectId) {
+    if (!projectsConfig) return;
+
+    const project = projectsConfig.projects.find(p => p.id === projectId);
+    if (!project) return;
+
+    currentProject = project;
+    localStorage.setItem('currentProjectId', projectId);
+
+    // Update active state in sidebar
+    renderProjectsList();
+
+    // Update page title and header
+    updateProjectContext();
+
+    // Reload all dashboard data for the new project
+    await loadProjectData(project);
+
+    console.log('Switched to project:', project.name);
+}
+
+// Update project context in UI
+function updateProjectContext() {
+    if (!currentProject) return;
+
+    // Update logo with project icon
+    const logoIcon = document.querySelector('.logo-icon');
+    if (logoIcon) {
+        logoIcon.textContent = currentProject.icon;
+    }
+
+    // Update page title
+    document.title = `${currentProject.name} - Autonomous Coding Dashboard`;
+}
+
+// Load data for specific project
+async function loadProjectData(project) {
+    // In a real implementation, this would:
+    // 1. Update API base URL to point to project's backend
+    // 2. Load project-specific feature_list.json
+    // 3. Load project-specific claude-progress.txt
+    // 4. Reload all charts and data
+
+    // For now, we'll reload the current data
+    // (In a full implementation, each project would have its own data files)
+
+    console.log('Loading data for project:', project.name);
+
+    // Reload feature data
+    await loadFeatureData();
+
+    // Refresh all dashboard components
+    if (typeof initializeDashboard === 'function') {
+        initializeDashboard();
+    }
+    if (typeof setupCharts === 'function') {
+        setupCharts();
+    }
+}
+
+// Toggle project sidebar visibility
+function toggleProjectSidebar() {
+    sidebarExpanded = !sidebarExpanded;
+    localStorage.setItem('projectSidebarExpanded', sidebarExpanded.toString());
+    updateSidebarState();
+}
+
+// Update sidebar expand/collapse state
+function updateSidebarState() {
+    const sidebar = document.getElementById('project-sidebar');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+
+    if (!sidebar) return;
+
+    if (sidebarExpanded) {
+        sidebar.classList.remove('collapsed');
+        if (toggleBtn) {
+            toggleBtn.querySelector('span').textContent = '◀';
+        }
+    } else {
+        sidebar.classList.add('collapsed');
+        if (toggleBtn) {
+            toggleBtn.querySelector('span').textContent = '▶';
+        }
+    }
+}
+
+// Add new project (placeholder - would open a modal in full implementation)
+function addNewProject() {
+    alert('Add new project functionality would open a wizard here.\n\nIn the full implementation, this would:\n1. Let you select a project directory\n2. Scan for feature_list.json and claude-progress.txt\n3. Configure project settings\n4. Add to projects.json');
+}
+
 // Export functions to global scope
 window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
@@ -1598,3 +1767,6 @@ window.toggleAutoScroll = toggleAutoScroll;
 window.clearLogs = clearLogs;
 window.toggleNotifications = toggleNotifications;
 window.toggleAudio = toggleAudio;
+window.toggleProjectSidebar = toggleProjectSidebar;
+window.switchProject = switchProject;
+window.addNewProject = addNewProject;

@@ -235,8 +235,8 @@
         "Clicking project switches dashboard view",
         "Each project has independent status"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T14:00:00Z"
     },
     {
       "id": "feat-019",
