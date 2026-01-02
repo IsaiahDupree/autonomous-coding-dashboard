@@ -120,52 +120,104 @@ function populateFeaturesTable(filter = 'all') {
         }
     }
 
-    // Show only first 20 features to avoid overwhelming the table
-    const displayFeatures = filteredFeatures.slice(0, 20);
+    // Group features by category if using real data
+    if (featureData && filteredFeatures.length > 0) {
+        const groupedByCategory = {};
 
-    displayFeatures.forEach(feature => {
-        const row = document.createElement('tr');
+        // Group features
+        filteredFeatures.forEach(feature => {
+            const category = feature.category || 'other';
+            if (!groupedByCategory[category]) {
+                groupedByCategory[category] = [];
+            }
+            groupedByCategory[category].push(feature);
+        });
 
-        let statusBadge, featureName, featureId, timeSpent;
+        // Sort categories
+        const sortedCategories = Object.keys(groupedByCategory).sort();
 
-        if (featureData) {
-            // Use real feature data format
-            statusBadge = feature.passes
-                ? '<span class="badge badge-success">✓ Passing</span>'
-                : '<span class="badge badge-warning">⏳ Pending</span>';
-            featureName = feature.description;
-            featureId = feature.id;
-            timeSpent = feature.implemented_at
-                ? new Date(feature.implemented_at).toLocaleDateString()
-                : '-';
-        } else {
-            // Use mock data format
-            statusBadge = feature.status === 'passing'
-                ? '<span class="badge badge-success">✓ Passing</span>'
-                : '<span class="badge badge-warning">⏳ Pending</span>';
-            featureName = feature.name;
-            featureId = feature.id;
-            timeSpent = feature.timeSpent;
+        // Display each category
+        sortedCategories.forEach(category => {
+            // Add category header row
+            const headerRow = document.createElement('tr');
+            headerRow.className = 'category-header';
+            headerRow.innerHTML = `
+        <td colspan="4" style="background: var(--color-bg-secondary); font-weight: 600; padding: 0.75rem; text-transform: capitalize;">
+          📁 ${category} (${groupedByCategory[category].length} features)
+        </td>
+      `;
+            tbody.appendChild(headerRow);
+
+            // Add features in this category
+            groupedByCategory[category].forEach(feature => {
+                const row = document.createElement('tr');
+
+                const statusBadge = feature.passes
+                    ? '<span class="badge badge-success">✓ Passing</span>'
+                    : '<span class="badge badge-warning">⏳ Pending</span>';
+                const featureName = feature.description;
+                const featureId = feature.id;
+                const timeSpent = feature.implemented_at
+                    ? new Date(feature.implemented_at).toLocaleDateString()
+                    : '-';
+
+                row.innerHTML = `
+          <td style="font-family: var(--font-family-mono); padding-left: 2rem;">${featureId}</td>
+          <td>${featureName}</td>
+          <td>${statusBadge}</td>
+          <td>${timeSpent}</td>
+        `;
+                tbody.appendChild(row);
+            });
+        });
+    } else {
+        // Display without grouping (for mock data or when no real data)
+        const displayFeatures = filteredFeatures.slice(0, 20);
+
+        displayFeatures.forEach(feature => {
+            const row = document.createElement('tr');
+
+            let statusBadge, featureName, featureId, timeSpent;
+
+            if (featureData) {
+                // Use real feature data format
+                statusBadge = feature.passes
+                    ? '<span class="badge badge-success">✓ Passing</span>'
+                    : '<span class="badge badge-warning">⏳ Pending</span>';
+                featureName = feature.description;
+                featureId = feature.id;
+                timeSpent = feature.implemented_at
+                    ? new Date(feature.implemented_at).toLocaleDateString()
+                    : '-';
+            } else {
+                // Use mock data format
+                statusBadge = feature.status === 'passing'
+                    ? '<span class="badge badge-success">✓ Passing</span>'
+                    : '<span class="badge badge-warning">⏳ Pending</span>';
+                featureName = feature.name;
+                featureId = feature.id;
+                timeSpent = feature.timeSpent;
+            }
+
+            row.innerHTML = `
+        <td style="font-family: var(--font-family-mono);">${featureId}</td>
+        <td>${featureName}</td>
+        <td>${statusBadge}</td>
+        <td>${timeSpent}</td>
+      `;
+            tbody.appendChild(row);
+        });
+
+        // Add "show more" row if there are more features
+        if (filteredFeatures.length > 20) {
+            const moreRow = document.createElement('tr');
+            moreRow.innerHTML = `
+        <td colspan="4" style="text-align: center; color: var(--color-text-muted); font-style: italic;">
+          ... and ${filteredFeatures.length - 20} more features
+        </td>
+      `;
+            tbody.appendChild(moreRow);
         }
-
-        row.innerHTML = `
-      <td style="font-family: var(--font-family-mono);">${featureId}</td>
-      <td>${featureName}</td>
-      <td>${statusBadge}</td>
-      <td>${timeSpent}</td>
-    `;
-        tbody.appendChild(row);
-    });
-
-    // Add "show more" row if there are more features
-    if (filteredFeatures.length > 20) {
-        const moreRow = document.createElement('tr');
-        moreRow.innerHTML = `
-      <td colspan="4" style="text-align: center; color: var(--color-text-muted); font-style: italic;">
-        ... and ${filteredFeatures.length - 20} more features
-      </td>
-    `;
-        tbody.appendChild(moreRow);
     }
 }
 

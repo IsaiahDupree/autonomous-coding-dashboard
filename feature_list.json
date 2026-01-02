@@ -40,8 +40,8 @@
         "Each feature shows pass/fail status",
         "Features are grouped by category"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T01:00:00Z"
     },
     {
       "id": "feat-004",
