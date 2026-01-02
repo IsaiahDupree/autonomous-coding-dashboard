@@ -170,8 +170,8 @@
         "Each category shows pass/fail ratio",
         "Chart updates with data changes"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T10:30:00Z"
     },
     {
       "id": "feat-014",

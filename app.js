@@ -5,6 +5,7 @@
 let progressChart = null;
 let tokenChart = null;
 let commandsChart = null;
+let categoryChart = null;
 
 // Real feature data
 let featureData = null;
@@ -421,6 +422,7 @@ function populateGitTimeline() {
 // Setup all charts
 function setupCharts() {
     setupProgressChart();
+    setupCategoryChart();
     setupTokenChart();
     setupCommandsChart();
 }
@@ -511,6 +513,127 @@ function setupProgressChart(view = 'all') {
 // Update chart view
 function updateChartView(view) {
     setupProgressChart(view);
+}
+
+// Setup category breakdown chart
+function setupCategoryChart() {
+    const ctx = document.getElementById('category-chart').getContext('2d');
+
+    if (categoryChart) {
+        categoryChart.destroy();
+    }
+
+    // Extract category data from feature_list.json
+    let categoryData = extractCategoryData();
+
+    categoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: categoryData.labels,
+            datasets: [
+                {
+                    label: 'Passing',
+                    data: categoryData.passing,
+                    backgroundColor: 'rgba(34, 197, 94, 0.7)',
+                    borderColor: '#22c55e',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Pending',
+                    data: categoryData.pending,
+                    backgroundColor: 'rgba(251, 191, 36, 0.7)',
+                    borderColor: '#fbbf24',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#f1f5f9',
+                        font: { family: 'Inter', size: 12 }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(26, 34, 52, 0.9)',
+                    titleColor: '#f1f5f9',
+                    bodyColor: '#94a3b8',
+                    borderColor: 'rgba(148, 163, 184, 0.1)',
+                    borderWidth: 1,
+                    padding: 12,
+                    callbacks: {
+                        afterBody: function(context) {
+                            const categoryIndex = context[0].dataIndex;
+                            const total = categoryData.passing[categoryIndex] + categoryData.pending[categoryIndex];
+                            const passing = categoryData.passing[categoryIndex];
+                            const percentage = Math.round((passing / total) * 100);
+                            return `Total: ${total} | Pass Rate: ${percentage}%`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    grid: {
+                        color: 'rgba(148, 163, 184, 0.1)'
+                    },
+                    ticks: {
+                        color: '#94a3b8',
+                        font: { family: 'Inter' },
+                        stepSize: 1
+                    }
+                },
+                x: {
+                    stacked: true,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#94a3b8',
+                        font: { family: 'Inter' }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Extract category data from feature list
+function extractCategoryData() {
+    if (!featureData || !featureData.features) {
+        // Return mock data if no real data available
+        return {
+            labels: ['core', 'control', 'ui'],
+            passing: [2, 1, 2],
+            pending: [1, 1, 0]
+        };
+    }
+
+    // Group features by category
+    const categories = {};
+    featureData.features.forEach(feature => {
+        const category = feature.category || 'other';
+        if (!categories[category]) {
+            categories[category] = { passing: 0, pending: 0 };
+        }
+        if (feature.passes) {
+            categories[category].passing++;
+        } else {
+            categories[category].pending++;
+        }
+    });
+
+    // Convert to chart data format
+    const labels = Object.keys(categories).sort();
+    const passing = labels.map(cat => categories[cat].passing);
+    const pending = labels.map(cat => categories[cat].pending);
+
+    return { labels, passing, pending };
 }
 
 // Setup token usage chart
@@ -772,6 +895,7 @@ function handleFeaturesUpdate(data) {
     if (oldPassingCount !== newPassingCount || !featureData) {
         updateProgressMetrics();
         populateFeaturesTable();
+        setupCategoryChart();
     }
 }
 
