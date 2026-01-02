@@ -66,8 +66,8 @@
         "Stop button terminates running harness",
         "Buttons are disabled appropriately based on state"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T02:00:00Z"
     },
     {
       "id": "feat-006",
