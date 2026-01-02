@@ -236,3 +236,25 @@ NEXT: feat-013 (Category breakdown chart)
 - Feature status: 13/25 passing (52% complete)
 
 NEXT: feat-014 (Live log viewer shows harness output)
+
+=== Session 2026-01-02T10:30:00Z - CODING ===
+- Started dev environment (Backend on :3434, Frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-014: Live log viewer shows harness output
+  * Added log viewer card to index.html with pause/resume/clear controls
+  * Created comprehensive CSS styles for log viewer with color-coded levels
+  * Implemented log polling system (checks harness-output.log every 2s)
+  * Auto-scroll functionality with toggle button (Pause/Resume)
+  * Log lines display with timestamps and color coding (info/success/warning/error/debug)
+  * Clear logs button to reset the viewer
+  * WebSocket integration for real-time log streaming (when available)
+  * Limited to 1000 log lines to prevent memory issues
+  * Custom scrollbar styling for better UX
+  * Tests passed: All 3 acceptance criteria verified
+- Created test file: test-feat-014-logs.js with comprehensive Puppeteer tests
+- Committed: "feat: Implement live log viewer for harness output (feat-014)"
+
+- Feature status: 14/25 passing (56% complete)
+
+NEXT: feat-015 (Git commit history display)
