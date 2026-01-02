@@ -1169,8 +1169,170 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// ==========================================
+// Live Log Viewer (feat-014)
+// ==========================================
+
+let autoScroll = true;
+let logUpdateInterval = null;
+let lastLogPosition = 0;
+
+// Initialize log viewer
+function initializeLogViewer() {
+    // Start polling for new log content
+    startLogPolling();
+
+    // Set up WebSocket listener if available
+    if (window.harnessClient) {
+        window.harnessClient.on('log', handleLogMessage);
+    }
+}
+
+// Start polling for log updates
+function startLogPolling() {
+    if (logUpdateInterval) {
+        clearInterval(logUpdateInterval);
+    }
+
+    // Poll harness output log file every 2 seconds
+    logUpdateInterval = setInterval(async () => {
+        await fetchHarnessLogs();
+    }, 2000);
+}
+
+// Fetch harness logs from file
+async function fetchHarnessLogs() {
+    try {
+        // Try to fetch harness-output.log
+        const response = await fetch('harness-output.log');
+        if (response.ok) {
+            const text = await response.text();
+            const lines = text.split('\n').filter(line => line.trim());
+
+            // Only process new lines
+            if (lines.length > lastLogPosition) {
+                const newLines = lines.slice(lastLogPosition);
+                newLines.forEach(line => appendLogLine(line));
+                lastLogPosition = lines.length;
+            }
+
+            updateLogStatus('Live');
+        }
+    } catch (error) {
+        // Log file not available, that's okay
+        updateLogStatus('Idle');
+    }
+}
+
+// Handle log message from WebSocket
+function handleLogMessage(data) {
+    if (data.message) {
+        appendLogLine(data.message, data.level || 'info');
+    }
+}
+
+// Append a line to the log viewer
+function appendLogLine(message, level = 'info') {
+    const logContent = document.getElementById('log-content');
+    if (!logContent) return;
+
+    // Remove the "Waiting for harness output..." message if it exists
+    const waitingMessage = logContent.querySelector('.log-line.log-info');
+    if (waitingMessage && waitingMessage.textContent.includes('Waiting for')) {
+        logContent.innerHTML = '';
+    }
+
+    const logLine = document.createElement('div');
+    logLine.className = `log-line log-${detectLogLevel(message, level)}`;
+
+    // Add timestamp
+    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+    const timestampSpan = document.createElement('span');
+    timestampSpan.className = 'log-timestamp';
+    timestampSpan.textContent = timestamp;
+
+    // Add message
+    const messageSpan = document.createElement('span');
+    messageSpan.textContent = message;
+
+    logLine.appendChild(timestampSpan);
+    logLine.appendChild(messageSpan);
+    logContent.appendChild(logLine);
+
+    // Auto-scroll to bottom if enabled
+    if (autoScroll) {
+        logContent.scrollTop = logContent.scrollHeight;
+    }
+
+    // Limit log lines to 1000 to prevent memory issues
+    while (logContent.children.length > 1000) {
+        logContent.removeChild(logContent.firstChild);
+    }
+}
+
+// Detect log level from message content
+function detectLogLevel(message, defaultLevel = 'info') {
+    const lowerMessage = message.toLowerCase();
+
+    if (lowerMessage.includes('error') || lowerMessage.includes('failed') || lowerMessage.includes('✗')) {
+        return 'error';
+    } else if (lowerMessage.includes('warning') || lowerMessage.includes('warn')) {
+        return 'warning';
+    } else if (lowerMessage.includes('success') || lowerMessage.includes('✓') || lowerMessage.includes('completed')) {
+        return 'success';
+    } else if (lowerMessage.includes('debug') || lowerMessage.includes('trace')) {
+        return 'debug';
+    }
+
+    return defaultLevel;
+}
+
+// Toggle auto-scroll functionality
+function toggleAutoScroll() {
+    autoScroll = !autoScroll;
+
+    const button = document.getElementById('toggle-autoscroll');
+    const icon = document.getElementById('autoscroll-icon');
+
+    if (autoScroll) {
+        button.innerHTML = '<span id="autoscroll-icon">⏸️</span> Pause';
+        // Scroll to bottom when re-enabling
+        const logContent = document.getElementById('log-content');
+        if (logContent) {
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+    } else {
+        button.innerHTML = '<span id="autoscroll-icon">▶️</span> Resume';
+    }
+}
+
+// Clear all logs
+function clearLogs() {
+    const logContent = document.getElementById('log-content');
+    if (logContent) {
+        logContent.innerHTML = '<div class="log-line log-info">Logs cleared. Waiting for new output...</div>';
+        lastLogPosition = 0;
+    }
+}
+
+// Update log status badge
+function updateLogStatus(status) {
+    const statusBadge = document.getElementById('log-status');
+    if (statusBadge) {
+        statusBadge.textContent = status;
+        statusBadge.className = status === 'Live' ? 'badge badge-success' : 'badge badge-secondary';
+    }
+}
+
+// Initialize log viewer on page load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLogViewer();
+});
+
 // Export functions to global scope
 window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
 window.viewSession = viewSession;
 window.toggleTheme = toggleTheme;
+window.toggleAutoScroll = toggleAutoScroll;
+window.clearLogs = clearLogs;

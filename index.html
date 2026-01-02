@@ -173,6 +173,27 @@
       </div>
     </div>
 
+    <!-- Live Log Viewer -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Harness Output</h3>
+        <div class="flex gap-1" style="align-items: center;">
+          <span class="badge badge-success" id="log-status">Live</span>
+          <button class="btn btn-secondary" id="toggle-autoscroll" onclick="toggleAutoScroll()">
+            <span id="autoscroll-icon">⏸️</span> Pause
+          </button>
+          <button class="btn btn-secondary" onclick="clearLogs()">🗑️ Clear</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="log-viewer" class="log-viewer">
+          <div id="log-content" class="log-content">
+            <div class="log-line log-info">Waiting for harness output...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Two Column Layout -->
     <div class="grid grid-2 mt-2">
       <!-- Recent Activity Timeline -->
