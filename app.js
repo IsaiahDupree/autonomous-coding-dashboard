@@ -20,6 +20,11 @@ let harnessStatus = {
     lastUpdate: null
 };
 
+// Notification settings
+let notificationsEnabled = false;
+let lastNotifiedFeatureCount = 0;
+let notificationPermission = 'default';
+
 // Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', function () {
     loadFeatureData().then(() => {
@@ -27,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setupCharts();
         startRealTimeUpdates();
         initializeHarnessStatusMonitoring();
+        initializeNotifications();
     });
 });
 
@@ -886,6 +892,25 @@ function handleFeaturesUpdate(data) {
     const oldPassingCount = featureData ? featureData.features.filter(f => f.passes === true).length : 0;
     const newPassingCount = data.passing || 0;
 
+    // Check for newly completed features
+    if (featureData && data.features && newPassingCount > lastNotifiedFeatureCount) {
+        // Find the newly completed feature(s)
+        const oldFeatures = featureData.features;
+        const newFeatures = data.features;
+
+        newFeatures.forEach(newFeature => {
+            if (newFeature.passes) {
+                const oldFeature = oldFeatures.find(f => f.id === newFeature.id);
+                if (!oldFeature || !oldFeature.passes) {
+                    // This is a newly completed feature
+                    notifyFeatureCompletion(newFeature.id, newFeature.description);
+                }
+            }
+        });
+
+        lastNotifiedFeatureCount = newPassingCount;
+    }
+
     // Update our local feature data
     if (featureData) {
         featureData.features = data.features;
@@ -1054,10 +1079,22 @@ async function pollHarnessStatus() {
 
 // Update harness status in the UI
 function updateHarnessStatus(state, sessionType = null, sessionNumber = null) {
+    const previousState = harnessStatus.state;
+    const previousSessionNumber = harnessStatus.sessionNumber;
+
     harnessStatus.state = state;
     harnessStatus.sessionType = sessionType;
     harnessStatus.sessionNumber = sessionNumber;
     harnessStatus.lastUpdate = new Date();
+
+    // Send notifications on state changes
+    if (previousState === 'running' && state === 'idle') {
+        // Session ended
+        notifySessionEnd(harnessStatus.sessionType || 'Coding', previousSessionNumber);
+    } else if (state === 'error' && previousState !== 'error') {
+        // Error occurred
+        notifyError('The harness encountered an error. Check the logs for details.');
+    }
 
     const statusBadge = document.getElementById('agent-status');
     const statusText = document.getElementById('status-text');
@@ -1329,6 +1366,133 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeLogViewer();
 });
 
+// ============================================================================
+// BROWSER NOTIFICATIONS
+// ============================================================================
+
+// Initialize notifications system
+function initializeNotifications() {
+    // Check if browser supports notifications
+    if (!('Notification' in window)) {
+        console.warn('This browser does not support notifications');
+        return;
+    }
+
+    // Load saved preference
+    const savedPref = localStorage.getItem('notificationsEnabled');
+    notificationsEnabled = savedPref === 'true';
+    notificationPermission = Notification.permission;
+
+    // Update UI if toggle exists
+    const toggle = document.getElementById('notifications-toggle');
+    if (toggle) {
+        toggle.checked = notificationsEnabled;
+    }
+
+    // Initialize the last notified count
+    if (featureData) {
+        lastNotifiedFeatureCount = featureData.features.filter(f => f.passes === true).length;
+    }
+
+    console.log('Notifications initialized:', { enabled: notificationsEnabled, permission: notificationPermission });
+}
+
+// Toggle notifications on/off
+async function toggleNotifications() {
+    if (!('Notification' in window)) {
+        alert('Your browser does not support notifications');
+        return;
+    }
+
+    if (notificationsEnabled) {
+        // Disable notifications
+        notificationsEnabled = false;
+        localStorage.setItem('notificationsEnabled', 'false');
+        console.log('Notifications disabled');
+    } else {
+        // Request permission if not granted
+        if (Notification.permission === 'default') {
+            const permission = await Notification.requestPermission();
+            notificationPermission = permission;
+        }
+
+        if (Notification.permission === 'granted') {
+            notificationsEnabled = true;
+            localStorage.setItem('notificationsEnabled', 'true');
+            console.log('Notifications enabled');
+
+            // Send a test notification
+            sendNotification('Notifications Enabled', {
+                body: 'You will now receive notifications for feature completions and errors',
+                icon: '🔔'
+            });
+        } else {
+            alert('Please allow notifications in your browser settings');
+            notificationsEnabled = false;
+            localStorage.setItem('notificationsEnabled', 'false');
+        }
+    }
+
+    // Update toggle UI
+    const toggle = document.getElementById('notifications-toggle');
+    if (toggle) {
+        toggle.checked = notificationsEnabled;
+    }
+}
+
+// Send a browser notification
+function sendNotification(title, options = {}) {
+    if (!notificationsEnabled || Notification.permission !== 'granted') {
+        return;
+    }
+
+    const defaultOptions = {
+        icon: options.icon || '🤖',
+        badge: '🤖',
+        timestamp: Date.now(),
+        requireInteraction: false
+    };
+
+    const notification = new Notification(title, {
+        ...defaultOptions,
+        ...options
+    });
+
+    // Auto-close after 5 seconds
+    setTimeout(() => notification.close(), 5000);
+
+    // Click to focus window
+    notification.onclick = function() {
+        window.focus();
+        notification.close();
+    };
+}
+
+// Notify on feature completion
+function notifyFeatureCompletion(featureId, featureDescription) {
+    sendNotification('Feature Completed! 🎉', {
+        body: `${featureId}: ${featureDescription}`,
+        icon: '✅'
+    });
+}
+
+// Notify on session end
+function notifySessionEnd(sessionType, sessionNumber) {
+    sendNotification('Session Ended', {
+        body: `${sessionType} session ${sessionNumber || ''} has completed`,
+        icon: '🏁'
+    });
+}
+
+// Notify on error
+function notifyError(errorMessage) {
+    sendNotification('Error Occurred', {
+        body: errorMessage,
+        icon: '❌',
+        requireInteraction: true
+    });
+}
+
 // Export functions to global scope
 window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
@@ -1336,3 +1500,4 @@ window.viewSession = viewSession;
 window.toggleTheme = toggleTheme;
 window.toggleAutoScroll = toggleAutoScroll;
 window.clearLogs = clearLogs;
+window.toggleNotifications = toggleNotifications;

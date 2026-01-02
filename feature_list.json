@@ -209,8 +209,8 @@
         "Notification when session ends",
         "Notification on error"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T13:00:00Z"
     },
     {
       "id": "feat-017",
