@@ -53,8 +53,8 @@
         "Each session shows timestamp and actions taken",
         "Sessions are in reverse chronological order"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T01:30:00Z"
     },
     {
       "id": "feat-005",

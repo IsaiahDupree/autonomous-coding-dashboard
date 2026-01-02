@@ -73,22 +73,118 @@ function initializeDashboard() {
 }
 
 // Populate activity timeline
-function populateActivityTimeline() {
+async function populateActivityTimeline() {
     const timeline = document.getElementById('activity-timeline');
     timeline.innerHTML = '';
 
-    mockData.activities.forEach(activity => {
-        const item = document.createElement('div');
-        item.className = 'timeline-item';
-        item.innerHTML = `
-      <div class="timeline-content">
-        <div class="timeline-time">${activity.time}</div>
-        <div class="timeline-title">${activity.title}</div>
-        <div class="timeline-description">${activity.description}</div>
-      </div>
-    `;
-        timeline.appendChild(item);
+    // Try to load session history from claude-progress.txt
+    const sessions = await loadSessionHistory();
+
+    if (sessions && sessions.length > 0) {
+        // Display sessions in reverse chronological order (most recent first)
+        sessions.reverse().forEach(session => {
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+
+            // Format the session display
+            const actionsHtml = session.actions.slice(0, 3).map(action =>
+                `<div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-top: 0.25rem;">• ${action}</div>`
+            ).join('');
+
+            const moreActions = session.actions.length > 3
+                ? `<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem; font-style: italic;">... and ${session.actions.length - 3} more actions</div>`
+                : '';
+
+            item.innerHTML = `
+        <div class="timeline-content">
+          <div class="timeline-time">${session.timestamp}</div>
+          <div class="timeline-title">${session.type} Session</div>
+          <div class="timeline-description">
+            ${actionsHtml}
+            ${moreActions}
+          </div>
+        </div>
+      `;
+            timeline.appendChild(item);
+        });
+    } else {
+        // Fall back to mock data if session history not available
+        mockData.activities.forEach(activity => {
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.innerHTML = `
+        <div class="timeline-content">
+          <div class="timeline-time">${activity.time}</div>
+          <div class="timeline-title">${activity.title}</div>
+          <div class="timeline-description">${activity.description}</div>
+        </div>
+      `;
+            timeline.appendChild(item);
+        });
+    }
+}
+
+// Load session history from claude-progress.txt
+async function loadSessionHistory() {
+    try {
+        const response = await fetch('claude-progress.txt?' + Date.now());
+        if (!response.ok) return null;
+
+        const text = await response.text();
+        const sessions = parseProgressFile(text);
+        return sessions;
+    } catch (error) {
+        console.error('Failed to load session history:', error);
+        return null;
+    }
+}
+
+// Parse claude-progress.txt into session objects
+function parseProgressFile(text) {
+    const sessions = [];
+    const lines = text.split('\n');
+
+    let currentSession = null;
+    let inSessionBlock = false;
+
+    lines.forEach(line => {
+        // Match session headers like "=== Session 2026-01-02T00:00:00Z - CODING ==="
+        const sessionMatch = line.match(/^=== Session ([^ ]+) - ([A-Z]+) ===/);
+        if (sessionMatch) {
+            // Save previous session if exists
+            if (currentSession) {
+                sessions.push(currentSession);
+            }
+
+            // Start new session
+            currentSession = {
+                timestamp: sessionMatch[1],
+                type: sessionMatch[2],
+                actions: []
+            };
+            inSessionBlock = true;
+        } else if (inSessionBlock && line.trim().startsWith('-')) {
+            // Parse action line (starts with -)
+            const action = line.trim().substring(1).trim();
+            if (action && !action.startsWith('Feature status:') && !action.startsWith('NEXT:')) {
+                currentSession.actions.push(action);
+            }
+        } else if (inSessionBlock && line.match(/^===/)) {
+            // End of session block
+            if (currentSession) {
+                sessions.push(currentSession);
+                currentSession = null;
+            }
+            inSessionBlock = false;
+        }
     });
+
+    // Add last session if exists
+    if (currentSession) {
+        sessions.push(currentSession);
+    }
+
+    return sessions;
 }
 
 // Populate features table
