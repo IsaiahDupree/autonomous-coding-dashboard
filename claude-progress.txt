@@ -135,3 +135,25 @@ NEXT: feat-008 (Dark/Light theme toggle works)
 - Feature status: 8/25 passing (32% complete)
 
 NEXT: feat-009 (WebSocket connection for real-time updates)
+
+=== Session 2026-01-02T03:30:00Z - CODING ===
+- Started dev environment (Python HTTP server on :3000, Backend on :3434)
+- Verified core dashboard functionality working
+
+- Implemented feat-009: WebSocket connection for real-time updates
+  * Added Socket.IO client integration with backend WebSocket server
+  * Configured connection to http://localhost:3434 with auto-reconnection
+  * Implemented 'connect', 'disconnect', 'reconnect' event handlers
+  * Subscribe to project updates on connection (agent_event channel)
+  * Handle 'features:updated' events to refresh dashboard in real-time
+  * Handle 'progress:updated' events to refresh activity timeline
+  * Added fallback to polling mode if WebSocket fails after 5 retry attempts
+  * Enhanced connection status indicator (Connected/Reconnecting/Error states)
+  * WebSocket uses both 'websocket' and 'polling' transports for reliability
+  * Tests passed: All 3 acceptance criteria verified via Puppeteer test
+- Created test file: test-feat-009-websocket.js with comprehensive WebSocket testing
+- Committed: "feat: Implement WebSocket connection for real-time updates (feat-009)"
+
+- Feature status: 9/25 passing (36% complete)
+
+NEXT: feat-010 (API endpoint returns harness status)
