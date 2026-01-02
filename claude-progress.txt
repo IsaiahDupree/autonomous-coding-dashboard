@@ -196,3 +196,23 @@ NEXT: feat-011 (API endpoint to start/stop harness)
 - Feature status: 11/25 passing (44% complete)
 
 NEXT: feat-012 (Progress chart shows completion over time)
+
+=== Session 2026-01-02T07:15:00Z - CODING ===
+- Started dev environment (Backend on :3434, Frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-012: Progress chart shows completion over time
+  * Enhanced parseProgressFile to extract feature completion counts
+  * Added extractProgressTimeline function to generate chart data from sessions
+  * Modified setupProgressChart to use real data from claude-progress.txt
+  * Chart displays cumulative features completed per session
+  * X-axis shows session labels with formatted dates (e.g., "Session 1\nDec 20, 07:47 PM")
+  * Y-axis shows feature count progression (0, 4, 6, 7, 8, 9, 10, 11)
+  * Falls back to mock data if progress file unavailable
+  * Tests passed: All 3 acceptance criteria verified
+- Created test file: test-feat-012-simple.js
+- Committed: "feat: Implement progress chart showing completion over time (feat-012)"
+
+- Feature status: 12/25 passing (48% complete)
+
+NEXT: feat-013 (Category breakdown chart)
