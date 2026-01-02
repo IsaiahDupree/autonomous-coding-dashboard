@@ -131,8 +131,8 @@
         "Response includes feature stats",
         "Response includes session info"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T07:00:00Z"
     },
     {
       "id": "feat-011",
