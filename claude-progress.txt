@@ -279,3 +279,30 @@ NEXT: feat-015 (Git commit history display)
 
 NEXT: feat-016 (Browser notifications on key events)
 
+=== Session 2026-01-02T13:00:00Z - CODING ===
+- Started dev environment (Backend on :3434, Frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-016: Browser notifications on key events
+  * Added notification system with toggle button in header (bell icon 🔔)
+  * Implemented notifyFeatureCompletion() function for feature completions
+  * Implemented notifySessionEnd() function for session endings
+  * Implemented notifyError() function for harness errors
+  * Integrated notifications into handleFeaturesUpdate() for feature detection
+  * Integrated notifications into updateHarnessStatus() for session/error detection
+  * Added toggle button with checkbox in header next to theme toggle
+  * LocalStorage persistence for user notification preference
+  * Permission request on first enable with test notification
+  * Visual feedback: dim (opacity 0.5) when off, bright with blue ring when on
+  * Notifications auto-close after 5 seconds
+  * Click notification to focus window
+  * CSS styling for notification toggle with hover/active states
+  * Tracks lastNotifiedFeatureCount to avoid duplicate notifications
+  * Tests passed: All 3 acceptance criteria verified via Puppeteer
+- Created test file: test-feat-016.js with comprehensive notification testing
+- Committed: "feat: Implement browser notifications on key events (feat-016)"
+
+- Feature status: 16/25 passing (64% complete)
+
+NEXT: feat-017 (Audio alert option)
+
