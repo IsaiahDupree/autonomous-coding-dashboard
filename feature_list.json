@@ -144,8 +144,8 @@
         "POST /api/harness/stop terminates harness",
         "Returns success/error status"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-02T07:03:00Z"
     },
     {
       "id": "feat-012",

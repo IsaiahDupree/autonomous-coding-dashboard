@@ -177,6 +177,76 @@ app.get('/api/status', async (req, res) => {
     }
 });
 
+// General harness control endpoints (for feat-011)
+// These are simplified endpoints for single-project dashboard
+app.post('/api/harness/start', async (req, res) => {
+    try {
+        // For single-project dashboard, use the project root as the project path
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const projectPath = projectRoot;
+
+        const config: HarnessConfig = {
+            projectId: 'dashboard',
+            projectPath,
+            continuous: req.body.continuous || false,
+            maxSessions: req.body.maxSessions || 100,
+            sessionDelayMs: req.body.sessionDelayMs || 5000,
+        };
+
+        console.log(`Starting harness at path: ${projectPath}`);
+        console.log(`Config:`, config);
+
+        // Verify harness script exists
+        const harnessScriptPath = path.join(projectPath, 'harness', 'run-harness.js');
+        if (!fs.existsSync(harnessScriptPath)) {
+            return res.status(400).json({
+                error: {
+                    message: `Harness script not found: ${harnessScriptPath}`,
+                    suggestions: [
+                        'Ensure harness/run-harness.js exists in the project directory',
+                        'Check that the harness was set up correctly'
+                    ]
+                }
+            });
+        }
+
+        const status = await harnessManager.start(config);
+
+        // Start watching project files (non-blocking)
+        try {
+            fileWatcher.watchProject('dashboard', projectPath);
+        } catch (watchError: any) {
+            console.warn('File watcher error (non-critical):', watchError.message);
+        }
+
+        console.log(`Harness started successfully:`, status);
+        res.json({ data: status });
+    } catch (error: any) {
+        console.error('Harness start error:', error);
+        console.error('Error stack:', error.stack);
+        res.status(500).json({
+            error: {
+                message: error.message || 'Failed to start harness',
+                details: (getEnvValue('nodeEnv') || 'development') === 'development' ? error.stack : undefined
+            }
+        });
+    }
+});
+
+app.post('/api/harness/stop', async (req, res) => {
+    try {
+        const force = req.body.force || false;
+        const status = await harnessManager.stop('dashboard', force);
+
+        // Stop watching project files
+        fileWatcher.unwatchProject('dashboard');
+
+        res.json({ data: status });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to stop harness' } });
+    }
+});
+
 // Scheduler stats endpoint
 app.get('/api/scheduler/stats', (req, res) => {
     try {
