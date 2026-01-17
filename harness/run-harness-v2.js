@@ -25,6 +25,10 @@ let INITIALIZER_PROMPT_OVERRIDE = null;
 let FORCE_CODING = false;
 let DURATION_MS = null;
 let RATE_LIMIT_WAIT_MINUTES = 20;
+let SESSION_DELAY_MINUTES = 5; // Default 5 min delay between successful sessions
+let DEFAULT_CONTINUOUS = true; // Default to continuous mode
+let UNTIL_COMPLETE = false; // Run until all features pass
+let ADAPTIVE_DELAY = true; // Dynamically adjust delay based on rate limits
 
 function createConfig(projectRoot) {
   return {
@@ -46,11 +50,17 @@ function createConfig(projectRoot) {
     backoffMultiplier: 2,          // Double each failure
     jitterFactor: 0.2,             // 20% random jitter
     minSessionGapMs: 10000,        // Minimum 10s between sessions
+    sessionDelayMs: 0,             // Configurable delay between sessions
 
     // Error handling
     maxConsecutiveErrors: 5,       // Stop after 5 consecutive errors
     authErrorPauseMinutes: 60,     // Pause 1 hour on auth errors
     rateLimitPauseMinutes: 5,      // Pause 5 minutes on rate limits
+    adaptiveDelayMultiplier: 1.5,  // Multiply delay on rate limit warnings
+    maxAdaptiveDelayMinutes: 15,   // Cap adaptive delay at 15 min
+    minAdaptiveDelayMinutes: 10,   // Minimum cap for jitter range
+    progressiveDelayStart: 3,      // Start progressive delay at 3 min
+    progressiveDelayAfterSessions: 3, // Begin progressive delay after N sessions
   };
 }
 
@@ -482,7 +492,13 @@ async function runHarness(options = {}) {
   log('Agent Harness v2 Starting', 'start');
   log(`Project root: ${PROJECT_ROOT}`);
   log(`Max sessions: ${maxSessions}`);
-  log(`Mode: ${continuous ? 'Continuous' : 'Single session'}`);
+  log(`Mode: ${UNTIL_COMPLETE ? 'Until complete' : (continuous ? 'Continuous' : 'Single session')}`);
+  if (continuous && SESSION_DELAY_MINUTES > 0) {
+    log(`Session delay: ${SESSION_DELAY_MINUTES} minutes between sessions`, 'info');
+  }
+  if (ADAPTIVE_DELAY) {
+    log(`Adaptive delay: enabled (adjusts based on rate limits)`, 'info');
+  }
   log(`Backoff: ${CONFIG.initialBackoffMs}ms - ${CONFIG.maxBackoffMs}ms`);
   if (DURATION_MS) {
     log(`Duration limit: ${(DURATION_MS / 1000 / 60).toFixed(1)} minutes`, 'info');
@@ -494,9 +510,11 @@ async function runHarness(options = {}) {
   let metrics = loadMetrics();
   let sessionNumber = 1;
   let consecutiveErrors = 0;
+  let currentSessionDelay = SESSION_DELAY_MINUTES; // Adaptive delay tracking
   
   while (sessionNumber <= maxSessions) {
-    if (endTimeMs && Date.now() >= endTimeMs) {
+    // Skip time check if running until complete
+    if (!UNTIL_COMPLETE && endTimeMs && Date.now() >= endTimeMs) {
       const stats = getProgressStats();
       updateStatus('SYSTEM', 'duration_reached', stats, { message: 'Duration limit reached' });
       log('Duration limit reached - stopping harness', 'end');
@@ -592,14 +610,63 @@ async function runHarness(options = {}) {
       // Calculate delay before next session
       let delay;
       if (result.success) {
-        delay = CONFIG.minSessionGapMs;
+        // Check for rate limit warnings in successful output (near limit)
+        const hasWarning = result.output && (
+          result.output.toLowerCase().includes('approaching') ||
+          result.output.toLowerCase().includes('usage') ||
+          result.output.toLowerCase().includes('quota')
+        );
+        
+        // Progressive delay: start small after N sessions, build up to cap, then reset (sawtooth pattern)
+        if (ADAPTIVE_DELAY && sessionNumber >= CONFIG.progressiveDelayAfterSessions) {
+          // Initialize or reset progressive delay
+          if (currentSessionDelay < CONFIG.progressiveDelayStart) {
+            currentSessionDelay = CONFIG.progressiveDelayStart;
+            log(`Progressive delay started at ${currentSessionDelay} minutes`, 'info');
+          } else if (currentSessionDelay >= CONFIG.minAdaptiveDelayMinutes) {
+            // Hit the cap - apply jittered cap delay, then reset for next cycle
+            const jitteredDelay = CONFIG.minAdaptiveDelayMinutes + Math.random() * (CONFIG.maxAdaptiveDelayMinutes - CONFIG.minAdaptiveDelayMinutes);
+            delay = jitteredDelay * 60 * 1000;
+            // Reset to start for next session (sawtooth pattern)
+            currentSessionDelay = 0; // Will be set to progressiveDelayStart next iteration
+            log(`Progressive delay at cap (${jitteredDelay.toFixed(1)} min), resetting to ${CONFIG.progressiveDelayStart} min next session`, 'info');
+          } else {
+            // Increase delay progressively
+            currentSessionDelay = Math.min(
+              currentSessionDelay * CONFIG.adaptiveDelayMultiplier,
+              CONFIG.maxAdaptiveDelayMinutes
+            );
+            // Apply small jitter to current delay
+            const jitter = (Math.random() - 0.5) * 2 * CONFIG.jitterFactor * currentSessionDelay;
+            const jitteredDelay = Math.max(currentSessionDelay + jitter, CONFIG.progressiveDelayStart);
+            delay = jitteredDelay * 60 * 1000;
+            log(`Progressive delay: ${jitteredDelay.toFixed(1)} minutes`, 'info');
+          }
+        } else {
+          // First few sessions: minimal delay
+          delay = CONFIG.minSessionGapMs;
+        }
       } else {
+        // On errors, increase adaptive delay
+        if (ADAPTIVE_DELAY) {
+          currentSessionDelay = Math.min(
+            currentSessionDelay * CONFIG.adaptiveDelayMultiplier,
+            CONFIG.maxAdaptiveDelayMinutes
+          );
+          log(`Adaptive delay increased to ${Math.min(currentSessionDelay, CONFIG.maxAdaptiveDelayMinutes).toFixed(1)} minutes due to error (capped 15-20 with jitter)`, 'warning');
+        }
+        
         delay = calculateBackoff(consecutiveErrors, result.errorType);
 
         if (result.errorType === ErrorTypes.RATE_LIMIT) {
           const rateWaitMs = calculateRateLimitWaitMs(result.output);
           if (rateWaitMs) {
             delay = rateWaitMs;
+            // Also boost adaptive delay for next successful session
+            currentSessionDelay = Math.min(
+              currentSessionDelay * 2,
+              CONFIG.maxAdaptiveDelayMinutes
+            );
             updateStatus('SYSTEM', 'rate_limited', result.stats || getProgressStats(), {
               resumeAt: new Date(Date.now() + delay).toISOString(),
               waitMinutes: Math.round(delay / 1000 / 60),
@@ -693,8 +760,29 @@ if (rateWaitMinutes) {
   if (!Number.isNaN(m) && m >= 0) RATE_LIMIT_WAIT_MINUTES = m;
 }
 
+const sessionDelayMinutes = getArgValue(args, '--session-delay') || getArgValue(args, '--delay') || process.env.SESSION_DELAY_MINUTES;
+if (sessionDelayMinutes) {
+  const m = parseFloat(sessionDelayMinutes);
+  if (!Number.isNaN(m) && m >= 0) SESSION_DELAY_MINUTES = m;
+}
+
+// Duration presets (hours)
+const durationPreset = getArgValue(args, '--hours');
+if (durationPreset) {
+  const h = parseFloat(durationPreset);
+  if (!Number.isNaN(h) && h > 0) DURATION_MS = Math.floor(h * 60 * 60 * 1000);
+}
+
+// Until complete mode
+UNTIL_COMPLETE = args.includes('--until-complete') || args.includes('--complete') || process.env.UNTIL_COMPLETE === 'true';
+
+// Adaptive delay toggle
+if (args.includes('--no-adaptive')) {
+  ADAPTIVE_DELAY = false;
+}
+
 const options = {
-  continuous: args.includes('--continuous') || args.includes('-c'),
+  continuous: DEFAULT_CONTINUOUS || args.includes('--continuous') || args.includes('-c'),
   maxSessions:
     parseInt(
       getArgValue(args, '--max-sessions') ||
@@ -721,9 +809,15 @@ Options:
   --prompt FILE        Override coding prompt file
   --initializer-prompt FILE  Override initializer prompt file
   --force-coding       Skip initializer detection and always use the coding prompt
+  --hours N            Duration preset in hours (e.g., --hours=8, --hours=16, --hours=24)
+  --until-complete     Run until all features pass (no time limit)
+  --complete           Alias for --until-complete
+  --no-adaptive        Disable adaptive delay adjustment
   --duration-hours N   Stop after N hours (optional)
   --duration-minutes N Stop after N minutes (optional)
   --rate-limit-wait-minutes N  If output includes 'resets Xpm', wait N minutes after reset (default: 20)
+  --session-delay N    Minutes to wait between successful sessions (default: 0)
+  --delay N            Alias for --session-delay
   --help, -h          Show this help message
 
 Features:
@@ -737,6 +831,10 @@ Examples:
   node run-harness-v2.js                  # Run single session
   node run-harness-v2.js -c               # Run continuously
   node run-harness-v2.js -c --max=50      # Run up to 50 sessions
+  node run-harness-v2.js -c --delay=5     # Run continuously with 5 min delay between sessions
+  node run-harness-v2.js --hours=8         # Run for 8 hours (default continuous + 5 min delay)
+  node run-harness-v2.js --hours=24        # Run for 24 hours overnight
+  node run-harness-v2.js --until-complete  # Run until all features pass
 `);
   process.exit(0);
 }

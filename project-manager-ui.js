@@ -8,7 +8,7 @@
 
 class ProjectManagerUI {
   constructor() {
-    this.baseUrl = 'http://localhost:3001';
+    this.baseUrl = 'http://localhost:4545';
     this.projects = [];
     this.selectedProject = null;
     this.filters = { status: [], tags: [], search: '' };

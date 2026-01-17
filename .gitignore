@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.supabase
+
+# Logs
+*.log
+*.pid
+harness-output.log
+harness-metrics.json
+harness-status.json
+demandradar-output.log
+demandradar-status.json
+harness/queue-output.log
+harness/queue-status.json
+
+# Build outputs
+backend/dist/
+frontend/dist/
+dashboard/
+
+# Test artifacts
+test-*.png
+*.png
+test-projects/
+
+# Downloaded media
+scripts/downloads/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -9,7 +9,7 @@
 class CostTracker {
   constructor(containerId = 'cost-tracker') {
     this.container = document.getElementById(containerId);
-    this.baseUrl = 'http://localhost:3001';
+    this.baseUrl = 'http://localhost:4545';
     this.projectId = 'default';
     this.summary = null;
     this.pricing = null;

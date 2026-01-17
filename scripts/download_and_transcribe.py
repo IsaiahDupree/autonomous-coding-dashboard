@@ -27,8 +27,12 @@ VIDEOS = [
         "name": "agent_harnesses_vibe_coding"
     },
     {
-        "url": "https://www.youtube.com/watch?v=usQ2HBTTWxs",
-        "name": "claude_24_hours_coding"
+        "url": "https://www.youtube.com/watch?v=usQ2HBTTWxs&t=522s",
+        "name": "claude_autonomous_coding_1"
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=YW09hhnVqNM",
+        "name": "claude_autonomous_coding_2"
     }
 ]
 

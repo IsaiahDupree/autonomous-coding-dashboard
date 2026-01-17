@@ -254,7 +254,7 @@ class ApprovalUI {
     const status = (action === 'approve' || action === 'skip' || action === 'retry') ? 'approved' : 'rejected';
     
     try {
-      const response = await fetch(`http://localhost:3001/api/approvals/${gateId}/resolve`, {
+      const response = await fetch(`http://localhost:4545/api/approvals/${gateId}/resolve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, resolution: optionId }),
@@ -317,7 +317,7 @@ class ApprovalUI {
   // Fetch pending approvals from server
   async fetchPending(projectId) {
     try {
-      const response = await fetch(`http://localhost:3001/api/projects/${projectId}/approvals/pending`);
+      const response = await fetch(`http://localhost:4545/api/projects/${projectId}/approvals/pending`);
       const result = await response.json();
       
       if (result.data) {
@@ -339,7 +339,7 @@ class ApprovalUI {
   // Create a test approval (for demo purposes)
   async createTestApproval(projectId = 'test', type = 'milestone') {
     try {
-      const response = await fetch(`http://localhost:3001/api/projects/${projectId}/approvals/test`, {
+      const response = await fetch(`http://localhost:4545/api/projects/${projectId}/approvals/test`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type }),

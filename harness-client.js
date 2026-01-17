@@ -4,7 +4,7 @@
  */
 
 class HarnessClient {
-  constructor(baseUrl = 'http://localhost:3001') {
+  constructor(baseUrl = 'http://localhost:4545') {
     this.baseUrl = baseUrl;
     this.socket = null;
     this.projectId = null;

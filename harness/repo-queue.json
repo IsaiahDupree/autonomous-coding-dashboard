@@ -1,0 +1,54 @@
+{
+  "description": "Multi-repo work queue with priorities",
+  "version": "1.0",
+  "defaults": {
+    "sessionDelay": 5,
+    "adaptiveDelay": true,
+    "maxSessionsPerRepo": 50
+  },
+  "repos": [
+    {
+      "id": "gapradar",
+      "name": "GapRadar",
+      "path": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar",
+      "prompt": "prompts/gapradar.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/docs/PRD_GAPRADAR.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json",
+      "priority": 1,
+      "enabled": true,
+      "untilComplete": true
+    },
+    {
+      "id": "mediaposter",
+      "name": "MediaPoster",
+      "path": "/Users/isaiahdupree/Documents/Software/MediaPoster",
+      "prompt": "prompts/mediaposter.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/MediaPoster/docs/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/MediaPoster/feature_list.json",
+      "priority": 2,
+      "enabled": true,
+      "untilComplete": false,
+      "maxSessions": 20
+    },
+    {
+      "id": "blogcanvas",
+      "name": "BlogCanvas",
+      "path": "/Users/isaiahdupree/Documents/Software/BlogCanvas",
+      "prompt": "prompts/blogcanvas.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/BlogCanvas/docs/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/BlogCanvas/feature_list.json",
+      "priority": 3,
+      "enabled": false
+    },
+    {
+      "id": "portal28",
+      "name": "Portal28",
+      "path": "/Users/isaiahdupree/Documents/Software/Portal28",
+      "prompt": "prompts/portal28.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/Portal28/docs/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/Portal28/feature_list.json",
+      "priority": 4,
+      "enabled": false
+    }
+  ]
+}

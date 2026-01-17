@@ -7,6 +7,7 @@
  */
 
 import { EventEmitter } from 'events';
+import { getClaudeApiKey, isOAuthToken } from '../config/env-config';
 
 export interface TokenUsage {
   inputTokens: number;
@@ -32,6 +33,7 @@ export interface CostEntry {
 
 export interface CostSummary {
   projectId: string;
+  isOAuthToken?: boolean; // True if using Claude Code subscription (free)
   period: {
     start: Date;
     end: Date;
@@ -73,15 +75,23 @@ class CostTrackingService extends EventEmitter {
   private entries: Map<string, CostEntry[]> = new Map();
   private budgets: Map<string, BudgetConfig> = new Map();
   private alerts: Map<string, { type: string; message: string; timestamp: Date }[]> = new Map();
+  private isOAuthToken: boolean = false;
 
-  constructor() {
-    super();
-  }
+          constructor() {
+            super();
+            // Check if using Claude Code OAuth token (covered by subscription)
+            // Use configurable environment variable names
+            this.isOAuthToken = isOAuthToken();
+          }
 
   /**
    * Calculate cost from token usage
    */
   calculateCost(model: string, usage: TokenUsage): number {
+    // If using Claude Code OAuth token, costs are covered by subscription
+    if (this.isOAuthToken) {
+      return 0
+    }
     const pricing = MODEL_PRICING[model] || MODEL_PRICING['default'];
     
     let cost = 0;
@@ -212,6 +222,7 @@ class CostTrackingService extends EventEmitter {
     
     return {
       projectId,
+      isOAuthToken: this.isOAuthToken,
       period: { start, end },
       totalCost: Math.round(totalCost * 100) / 100,
       totalInputTokens,

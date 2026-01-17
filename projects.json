@@ -1,13 +1,60 @@
 {
   "projects": [
     {
+      "id": "demandradar",
+      "name": "DemandRadar",
+      "path": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar",
+      "description": "Market gap analysis tool - 95 features, 64% complete, targeting report generation & deployment",
+      "icon": "📊",
+      "color": "#ef4444",
+      "active": true,
+      "harness": {
+        "status": "pending",
+        "startTime": null,
+        "duration": 86400,
+        "features": 45
+      },
+      "taskFile": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/AGENT_TASKS.md",
+      "auditFile": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/COMPLETE_FEATURE_AUDIT.md"
+    },
+    {
+      "id": "portal28",
+      "name": "Portal28 Academy",
+      "path": "/Users/isaiahdupree/Documents/Software/Portal28",
+      "description": "Course platform with Meta CAPI, Stripe, Community - 24hr Max plan session",
+      "icon": "🎓",
+      "color": "#2828ff",
+      "active": false,
+      "harness": {
+        "status": "pending",
+        "startTime": null,
+        "duration": 86400,
+        "features": 55
+      }
+    },
+    {
+      "id": "blogcanvas",
+      "name": "BlogCanvas",
+      "path": "/Users/isaiahdupree/Documents/Software/BlogCanvas",
+      "description": "Client-vendor blog management suite - 16hr autonomous session",
+      "icon": "📝",
+      "color": "#8b5cf6",
+      "active": false,
+      "harness": {
+        "status": "stopped",
+        "startTime": "2026-01-10T21:57:00-05:00",
+        "duration": 57600,
+        "features": 25
+      }
+    },
+    {
       "id": "autonomous-coding-dashboard",
       "name": "Autonomous Coding Dashboard",
       "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
       "description": "Main dashboard for monitoring autonomous coding agents",
       "icon": "🤖",
       "color": "#6366f1",
-      "active": true
+      "active": false
     },
     {
       "id": "example-project-1",
@@ -28,5 +75,5 @@
       "active": false
     }
   ],
-  "defaultProject": "autonomous-coding-dashboard"
+  "defaultProject": "demandradar"
 }
