@@ -31,6 +31,9 @@ const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 // Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', function () {
+    // Show loading states
+    showInitialLoadingStates();
+
     loadFeatureData().then(() => {
         initializeDashboard();
         setupCharts();
@@ -38,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeHarnessStatusMonitoring();
         initializeNotifications();
         initializeAudio();
+
+        // Hide loading states after data is loaded
+        hideInitialLoadingStates();
     });
 });
 
@@ -1790,12 +1796,13 @@ async function submitNewProject(event) {
         return;
     }
 
-    // Disable submit button
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Validating...';
+    // Show loading state
+    setButtonLoading(submitBtn, true);
+    const originalText = submitBtn.textContent;
 
     try {
         // Validate path exists via backend API
+        submitBtn.textContent = 'Validating...';
         const validationResponse = await fetch('http://localhost:3434/api/projects/validate-path', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1806,8 +1813,8 @@ async function submitNewProject(event) {
 
         if (!validation.exists) {
             showValidationMessage('Project path does not exist. Please enter a valid directory path.', 'error');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Add Project';
+            setButtonLoading(submitBtn, false);
+            submitBtn.textContent = originalText;
             return;
         }
 
@@ -1849,8 +1856,8 @@ async function submitNewProject(event) {
     } catch (error) {
         console.error('Error adding project:', error);
         showValidationMessage('Failed to add project. Please try again.', 'error');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Add Project';
+        setButtonLoading(submitBtn, false);
+        submitBtn.textContent = originalText;
     }
 }
 
@@ -1933,6 +1940,9 @@ async function saveSettings(event) {
         return;
     }
 
+    // Show loading state
+    setButtonLoading(saveBtn, true);
+
     // Update settings
     harnessSettings.maxSessions = maxSessions;
     harnessSettings.sessionDelay = sessionDelay;
@@ -1942,6 +1952,7 @@ async function saveSettings(event) {
 
     // Show success message
     showSettingsValidationMessage('Settings saved successfully!', 'success');
+    setButtonLoading(saveBtn, false);
 
     // Close modal after a delay
     setTimeout(() => {
@@ -2034,6 +2045,9 @@ async function resetPrompts() {
         return;
     }
 
+    const resetBtn = document.getElementById('reset-prompts-btn');
+    setButtonLoading(resetBtn, true);
+
     try {
         const response = await fetch('http://localhost:3434/api/prompts/reset', {
             method: 'POST'
@@ -2050,14 +2064,15 @@ async function resetPrompts() {
     } catch (error) {
         console.error('Error resetting prompts:', error);
         showPromptsValidationMessage('Failed to reset prompts. Please try again.', 'error');
+    } finally {
+        setButtonLoading(resetBtn, false);
     }
 }
 
 // Save prompts to backend
 async function savePrompts() {
     const saveBtn = document.getElementById('save-prompts-btn');
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'Saving...';
+    setButtonLoading(saveBtn, true);
 
     try {
         // Get prompt values from textareas
@@ -2100,12 +2115,9 @@ async function savePrompts() {
     } catch (error) {
         console.error('Error saving prompts:', error);
         showPromptsValidationMessage('Failed to save prompts. Please try again.', 'error');
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Save Prompts';
+    } finally {
+        setButtonLoading(saveBtn, false);
     }
-
-    saveBtn.disabled = false;
-    saveBtn.textContent = 'Save Prompts';
 }
 
 // Show prompts validation message
@@ -2121,6 +2133,71 @@ window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
 window.viewSession = viewSession;
 window.toggleTheme = toggleTheme;
+// ==========================================
+// Loading States (feat-022)
+// ==========================================
+
+function showInitialLoadingStates() {
+    // Add skeleton loading to stats section
+    const statsGrid = document.querySelector('#metrics-section');
+    if (statsGrid) {
+        statsGrid.classList.add('shimmer');
+        const statCards = statsGrid.querySelectorAll('.stat-card');
+        statCards.forEach(card => {
+            card.style.opacity = '0.5';
+        });
+    }
+
+    // Add loading to charts
+    const charts = document.querySelectorAll('canvas');
+    charts.forEach(chart => {
+        const parent = chart.parentElement;
+        if (parent) {
+            parent.classList.add('card-loading');
+        }
+    });
+
+    // Add loading to tables
+    const tables = document.querySelectorAll('table');
+    tables.forEach(table => {
+        table.classList.add('table-loading');
+    });
+}
+
+function hideInitialLoadingStates() {
+    // Remove skeleton loading from stats
+    const statsGrid = document.querySelector('#metrics-section');
+    if (statsGrid) {
+        statsGrid.classList.remove('shimmer');
+        const statCards = statsGrid.querySelectorAll('.stat-card');
+        statCards.forEach(card => {
+            card.style.opacity = '1';
+        });
+    }
+
+    // Remove loading from charts
+    const chartContainers = document.querySelectorAll('.card-loading');
+    chartContainers.forEach(container => {
+        container.classList.remove('card-loading');
+    });
+
+    // Remove loading from tables
+    const tables = document.querySelectorAll('.table-loading');
+    tables.forEach(table => {
+        table.classList.remove('table-loading');
+    });
+}
+
+function setButtonLoading(button, loading) {
+    if (loading) {
+        button.classList.add('btn-loading');
+        button.disabled = true;
+    } else {
+        button.classList.remove('btn-loading');
+        button.disabled = false;
+    }
+}
+
 window.toggleAutoScroll = toggleAutoScroll;
 window.clearLogs = clearLogs;
 window.toggleNotifications = toggleNotifications;

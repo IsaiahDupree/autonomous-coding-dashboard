@@ -287,8 +287,8 @@
         "Buttons show loading spinners",
         "No layout shift during loading"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-17T20:00:00Z"
     },
     {
       "id": "feat-023",
