@@ -401,3 +401,32 @@ NEXT: feat-020 (Settings panel for harness configuration)
 
 NEXT: feat-021 (Custom prompt editor)
 
+
+=== Session 2026-01-17T19:30:00Z - CODING ===
+- Started dev environment (backend on :3434, frontend on :3000)
+- Verified core dashboard functionality working
+- Restored dashboard files (index.html, app.js, index.css) from git commit 2693f59
+
+- Implemented feat-021: Custom prompt editor
+  * Created harness/prompts/ directory with default initializer.md and coding.md
+  * Added prompt editor button (📝) in header next to settings button
+  * Created modal dialog with tabbed interface for prompts
+  * Implemented switchPromptTab() to toggle between initializer and coding prompts
+  * Added textarea editors with monospace font and validation
+  * Backend API: GET /api/prompts/initializer - read initializer prompt from file
+  * Backend API: GET /api/prompts/coding - read coding prompt from file
+  * Backend API: POST /api/prompts/initializer - save initializer prompt to file
+  * Backend API: POST /api/prompts/coding - save coding prompt to file
+  * Backend API: POST /api/prompts/reset - reset prompts to defaults
+  * All endpoints handle file I/O with proper error handling
+  * Added CSS styles for prompts modal with large modal variant
+  * Tab switching UI with active state indicators
+  * "Reset to Default" button with confirmation dialog
+  * Real-time save with success/error validation messages
+  * Tests passed: All 3 acceptance criteria verified via API testing
+- Created test file: test-feat-021.js
+- Committed: "feat: Implement custom prompt editor (feat-021)"
+
+- Feature status: 21/25 passing (84% complete)
+
+NEXT: feat-022 (Loading states for all async operations)
