@@ -313,8 +313,8 @@
         "Cmd/Ctrl+X to stop harness",
         "Shortcuts shown in tooltip or help"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-17T21:00:00Z"
     },
     {
       "id": "feat-025",
@@ -326,8 +326,8 @@
         "Explains how the harness works",
         "Shows keyboard shortcuts"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-17T21:00:00Z"
     }
   ]
 }

@@ -2473,3 +2473,95 @@ window.closePromptsModal = closePromptsModal;
 window.switchPromptTab = switchPromptTab;
 window.resetPrompts = resetPrompts;
 window.savePrompts = savePrompts;
+
+// ==========================================
+// KEYBOARD SHORTCUTS (feat-024)
+// ==========================================
+
+/**
+ * Initialize keyboard shortcuts
+ */
+function initializeKeyboardShortcuts() {
+    document.addEventListener('keydown', handleKeyboardShortcut);
+}
+
+/**
+ * Handle keyboard shortcuts
+ * @param {KeyboardEvent} event
+ */
+function handleKeyboardShortcut(event) {
+    // Check for Cmd (Mac) or Ctrl (Windows/Linux)
+    const isModKey = event.metaKey || event.ctrlKey;
+
+    if (!isModKey) return;
+
+    // Cmd/Ctrl+S - Start harness
+    if (event.key === 's' || event.key === 'S') {
+        event.preventDefault();
+        if (window.harnessPanel) {
+            window.harnessPanel.startHarness();
+            showInfo({
+                title: 'Harness Starting',
+                message: 'Starting harness session...'
+            });
+        } else {
+            showWarning({
+                title: 'Not Available',
+                message: 'Harness control panel not loaded'
+            });
+        }
+        return;
+    }
+
+    // Cmd/Ctrl+X - Stop harness
+    if (event.key === 'x' || event.key === 'X') {
+        event.preventDefault();
+        if (window.harnessPanel) {
+            window.harnessPanel.stopHarness();
+            showInfo({
+                title: 'Harness Stopping',
+                message: 'Stopping harness session...'
+            });
+        } else {
+            showWarning({
+                title: 'Not Available',
+                message: 'Harness control panel not loaded'
+            });
+        }
+        return;
+    }
+
+    // Cmd/Ctrl+/ - Show help
+    if (event.key === '/' || event.key === '?') {
+        event.preventDefault();
+        openHelpModal();
+        return;
+    }
+}
+
+/**
+ * Open help modal showing keyboard shortcuts
+ */
+function openHelpModal() {
+    const modal = document.getElementById('help-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+/**
+ * Close help modal
+ */
+function closeHelpModal() {
+    const modal = document.getElementById('help-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Export functions to window
+window.openHelpModal = openHelpModal;
+window.closeHelpModal = closeHelpModal;
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initializeKeyboardShortcuts);

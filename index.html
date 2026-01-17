@@ -69,6 +69,7 @@
           </label>
           <button id="settings-btn" class="btn btn-secondary" onclick="openSettingsModal()" title="Harness Settings">⚙️</button>
           <button id="prompts-btn" class="btn btn-secondary" onclick="openPromptsModal()" title="Edit Prompts">📝</button>
+          <button id="help-btn" class="btn btn-secondary" onclick="openHelpModal()" title="Help & Keyboard Shortcuts">❓</button>
           <a href="index.html" class="btn">📊 Dashboard</a>
           <a href="control.html" class="btn btn-secondary">🎮 Control Panel</a>
           <div class="status-badge" id="agent-status">
@@ -515,6 +516,69 @@
           <button type="button" class="btn btn-secondary" onclick="resetPrompts()">Reset to Default</button>
           <button type="button" class="btn btn-primary" onclick="savePrompts()" id="save-prompts-btn">Save Prompts</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal (feat-024) -->
+  <div class="modal-overlay" id="help-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Help & Keyboard Shortcuts</h2>
+        <button class="modal-close" onclick="closeHelpModal()" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <section class="help-section">
+          <h3>About the Autonomous Coding Dashboard</h3>
+          <p>
+            This dashboard monitors and controls autonomous coding agents powered by the Claude Agent SDK.
+            The harness system automatically implements features, commits code, and tracks progress across sessions.
+          </p>
+        </section>
+
+        <section class="help-section">
+          <h3>How the Harness Works</h3>
+          <ol>
+            <li><strong>Initializer Session:</strong> Reviews features and plans next steps</li>
+            <li><strong>Coding Session:</strong> Implements one feature at a time</li>
+            <li><strong>Testing & Verification:</strong> Tests the feature before marking as complete</li>
+            <li><strong>Progress Tracking:</strong> Updates feature_list.json and claude-progress.txt</li>
+            <li><strong>Continuous Mode:</strong> Repeats until all features are complete</li>
+          </ol>
+        </section>
+
+        <section class="help-section">
+          <h3>Keyboard Shortcuts</h3>
+          <div class="shortcuts-grid">
+            <div class="shortcut-item">
+              <kbd>Cmd</kbd> + <kbd>S</kbd> <span class="shortcut-label">or</span> <kbd>Ctrl</kbd> + <kbd>S</kbd>
+              <div class="shortcut-description">Start the harness</div>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Cmd</kbd> + <kbd>X</kbd> <span class="shortcut-label">or</span> <kbd>Ctrl</kbd> + <kbd>X</kbd>
+              <div class="shortcut-description">Stop the harness</div>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Cmd</kbd> + <kbd>/</kbd> <span class="shortcut-label">or</span> <kbd>Ctrl</kbd> + <kbd>/</kbd>
+              <div class="shortcut-description">Show this help dialog</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="help-section">
+          <h3>Quick Tips</h3>
+          <ul>
+            <li>Use <strong>Continuous Mode</strong> to run multiple sessions automatically</li>
+            <li>Enable <strong>Browser Notifications</strong> 🔔 to get alerts when features complete</li>
+            <li>Enable <strong>Audio Alerts</strong> 🔊 to hear success/error sounds</li>
+            <li>Switch between projects using the sidebar 📁</li>
+            <li>Configure harness settings with the gear icon ⚙️</li>
+            <li>Edit system prompts with the pencil icon 📝</li>
+          </ul>
+        </section>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" onclick="closeHelpModal()">Got it!</button>
       </div>
     </div>
   </div>
