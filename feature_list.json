@@ -300,8 +300,8 @@
         "Retry button available where applicable",
         "Errors don't crash the dashboard"
       ],
-      "passes": false,
-      "implemented_at": null
+      "passes": true,
+      "implemented_at": "2026-01-17T20:30:00Z"
     },
     {
       "id": "feat-024",

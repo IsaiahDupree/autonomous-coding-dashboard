@@ -29,8 +29,225 @@ let notificationPermission = 'default';
 let audioEnabled = false;
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
+// Error handling system
+const errorToastQueue = [];
+let toastIdCounter = 0;
+
+// ==========================================
+// ERROR HANDLING SYSTEM
+// ==========================================
+
+/**
+ * Show error toast notification
+ * @param {Object} options - Toast options
+ * @param {string} options.title - Toast title
+ * @param {string} options.message - Error message
+ * @param {string} options.type - Toast type: 'error', 'warning', 'info'
+ * @param {Function} options.onRetry - Retry callback function
+ * @param {number} options.duration - Auto-dismiss duration in ms (0 = no auto-dismiss)
+ */
+function showErrorToast({ title, message, type = 'error', onRetry = null, duration = 8000 }) {
+    const container = document.getElementById('error-toast-container');
+    if (!container) return;
+
+    const toastId = `toast-${++toastIdCounter}`;
+
+    // Icon mapping
+    const icons = {
+        error: '⚠️',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `error-toast ${type}`;
+    toast.id = toastId;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+
+    const icon = icons[type] || icons.error;
+
+    let actionsHTML = '';
+    if (onRetry) {
+        actionsHTML = `
+            <div class="error-toast-actions">
+                <button class="btn btn-primary btn-sm" onclick="retryFromToast('${toastId}')">
+                    🔄 Retry
+                </button>
+            </div>
+        `;
+    }
+
+    toast.innerHTML = `
+        <div class="error-toast-icon">${icon}</div>
+        <div class="error-toast-content">
+            <div class="error-toast-title">${title}</div>
+            <div class="error-toast-message">${message}</div>
+            ${actionsHTML}
+        </div>
+        <button class="error-toast-close" onclick="dismissToast('${toastId}')" aria-label="Close">
+            ✕
+        </button>
+    `;
+
+    // Store retry function if provided
+    if (onRetry) {
+        window[`retryCallback_${toastId}`] = onRetry;
+    }
+
+    container.appendChild(toast);
+
+    // Auto-dismiss after duration if specified
+    if (duration > 0) {
+        setTimeout(() => dismissToast(toastId), duration);
+    }
+
+    return toastId;
+}
+
+/**
+ * Dismiss a toast notification
+ */
+function dismissToast(toastId) {
+    const toast = document.getElementById(toastId);
+    if (!toast) return;
+
+    toast.classList.add('hiding');
+
+    // Remove from DOM after animation
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+        // Clean up retry callback
+        delete window[`retryCallback_${toastId}`];
+    }, 300);
+}
+
+/**
+ * Retry action from toast
+ */
+function retryFromToast(toastId) {
+    const retryCallback = window[`retryCallback_${toastId}`];
+    if (retryCallback && typeof retryCallback === 'function') {
+        dismissToast(toastId);
+        retryCallback();
+    }
+}
+
+/**
+ * Handle network errors with retry option
+ */
+function handleNetworkError(operation, retryFn) {
+    showErrorToast({
+        title: 'Network Error',
+        message: `Failed to ${operation}. Please check your connection and try again.`,
+        type: 'error',
+        onRetry: retryFn,
+        duration: 0 // Don't auto-dismiss network errors
+    });
+}
+
+/**
+ * Handle API errors with user-friendly messages
+ */
+function handleApiError(operation, error, retryFn = null) {
+    let message = `An error occurred while ${operation}.`;
+
+    // Extract meaningful error message
+    if (error.message) {
+        message = error.message;
+    } else if (error.response && error.response.data && error.response.data.error) {
+        message = error.response.data.error;
+    } else if (typeof error === 'string') {
+        message = error;
+    }
+
+    showErrorToast({
+        title: 'Operation Failed',
+        message: message,
+        type: 'error',
+        onRetry: retryFn,
+        duration: retryFn ? 0 : 8000 // Don't auto-dismiss if retry is available
+    });
+}
+
+/**
+ * Show warning message
+ */
+function showWarning(title, message) {
+    showErrorToast({
+        title: title,
+        message: message,
+        type: 'warning',
+        duration: 6000
+    });
+}
+
+/**
+ * Show info message
+ */
+function showInfo(title, message) {
+    showErrorToast({
+        title: title,
+        message: message,
+        type: 'info',
+        duration: 5000
+    });
+}
+
+/**
+ * Safely execute async function with error handling
+ */
+async function safeAsync(fn, operation, options = {}) {
+    const { showError = true, retryFn = null } = options;
+
+    try {
+        return await fn();
+    } catch (error) {
+        console.error(`Error in ${operation}:`, error);
+
+        if (showError) {
+            // Check if it's a network error
+            if (error.message && (error.message.includes('fetch') || error.message.includes('network'))) {
+                handleNetworkError(operation, retryFn);
+            } else {
+                handleApiError(operation, error, retryFn);
+            }
+        }
+
+        return null;
+    }
+}
+
 // Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', function () {
+    // Global error handler for uncaught errors
+    window.addEventListener('error', (event) => {
+        console.error('Uncaught error:', event.error);
+        showErrorToast({
+            title: 'Unexpected Error',
+            message: 'An unexpected error occurred. The dashboard may not function correctly.',
+            type: 'error',
+            onRetry: () => window.location.reload(),
+            duration: 0
+        });
+    });
+
+    // Global handler for unhandled promise rejections
+    window.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection:', event.reason);
+        showErrorToast({
+            title: 'Operation Failed',
+            message: event.reason?.message || 'An operation failed unexpectedly.',
+            type: 'error',
+            duration: 8000
+        });
+        // Prevent default error logging
+        event.preventDefault();
+    });
+
     // Show loading states
     showInitialLoadingStates();
 
@@ -44,19 +261,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Hide loading states after data is loaded
         hideInitialLoadingStates();
+    }).catch((error) => {
+        console.error('Failed to initialize dashboard:', error);
+        hideInitialLoadingStates();
+        showErrorToast({
+            title: 'Initialization Failed',
+            message: 'Failed to initialize the dashboard. Please refresh the page.',
+            type: 'error',
+            onRetry: () => window.location.reload(),
+            duration: 0
+        });
     });
 });
 
 // Load real feature data from feature_list.json
 async function loadFeatureData() {
-    try {
-        const response = await fetch('feature_list.json');
-        featureData = await response.json();
-        updateProgressMetrics();
-    } catch (error) {
-        console.error('Failed to load feature data:', error);
+    const result = await safeAsync(
+        async () => {
+            const response = await fetch('feature_list.json');
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            featureData = await response.json();
+            updateProgressMetrics();
+            return featureData;
+        },
+        'loading feature data',
+        {
+            showError: true,
+            retryFn: () => loadFeatureData()
+        }
+    );
+
+    if (!result) {
         // Fall back to mock data if feature_list.json isn't available
         featureData = null;
+        showWarning('Feature Data Unavailable', 'Using fallback data. Some features may not display correctly.');
     }
 }
 
@@ -151,24 +391,30 @@ async function populateActivityTimeline() {
 
 // Load session history from claude-progress.txt
 async function loadSessionHistory() {
-    try {
-        const response = await fetch('claude-progress.txt?' + Date.now());
-        if (!response.ok) return null;
+    return await safeAsync(
+        async () => {
+            const response = await fetch('claude-progress.txt?' + Date.now());
+            if (!response.ok) {
+                throw new Error(`Failed to load progress file: ${response.statusText}`);
+            }
 
-        const text = await response.text();
-        const sessions = parseProgressFile(text);
+            const text = await response.text();
+            const sessions = parseProgressFile(text);
 
-        // Store session data globally
-        sessionData = sessions;
+            // Store session data globally
+            sessionData = sessions;
 
-        // Extract progress timeline data
-        progressTimelineData = extractProgressTimeline(sessions);
+            // Extract progress timeline data
+            progressTimelineData = extractProgressTimeline(sessions);
 
-        return sessions;
-    } catch (error) {
-        console.error('Failed to load session history:', error);
-        return null;
-    }
+            return sessions;
+        },
+        'loading session history',
+        {
+            showError: false, // Silently fail and use fallback
+            retryFn: null
+        }
+    );
 }
 
 // Parse claude-progress.txt into session objects
@@ -870,6 +1116,10 @@ function connectWebSocket() {
             // Fall back to polling after max reconnect attempts
             if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
                 console.warn('Max reconnect attempts reached, falling back to polling');
+                showWarning(
+                    'Connection Issues',
+                    'Real-time updates unavailable. Using polling mode instead.'
+                );
                 fallbackToPolling();
             }
 
@@ -1856,6 +2106,13 @@ async function submitNewProject(event) {
     } catch (error) {
         console.error('Error adding project:', error);
         showValidationMessage('Failed to add project. Please try again.', 'error');
+
+        // Show error toast with retry option
+        handleApiError('adding project', error, () => {
+            // Retry by simulating form submission
+            submitNewProject(event);
+        });
+
         setButtonLoading(submitBtn, false);
         submitBtn.textContent = originalText;
     }
