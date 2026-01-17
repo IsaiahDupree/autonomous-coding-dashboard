@@ -1976,6 +1976,187 @@ app.post('/api/projects/add', async (req, res) => {
 });
 
 // ============================================
+// PROMPTS API (for feat-021)
+// ============================================
+
+// Get initializer prompt
+app.get('/api/prompts/initializer', async (req, res) => {
+    try {
+        const promptPath = path.join(process.cwd(), '..', 'harness', 'prompts', 'initializer.md');
+
+        if (!fs.existsSync(promptPath)) {
+            return res.status(404).json({ error: 'Initializer prompt not found' });
+        }
+
+        const content = fs.readFileSync(promptPath, 'utf-8');
+        res.type('text/plain').send(content);
+    } catch (error) {
+        console.error('Error reading initializer prompt:', error);
+        res.status(500).json({ error: 'Failed to read prompt' });
+    }
+});
+
+// Get coding prompt
+app.get('/api/prompts/coding', async (req, res) => {
+    try {
+        const promptPath = path.join(process.cwd(), '..', 'harness', 'prompts', 'coding.md');
+
+        if (!fs.existsSync(promptPath)) {
+            return res.status(404).json({ error: 'Coding prompt not found' });
+        }
+
+        const content = fs.readFileSync(promptPath, 'utf-8');
+        res.type('text/plain').send(content);
+    } catch (error) {
+        console.error('Error reading coding prompt:', error);
+        res.status(500).json({ error: 'Failed to read prompt' });
+    }
+});
+
+// Save initializer prompt
+app.post('/api/prompts/initializer', express.text({ limit: '1mb' }), async (req, res) => {
+    try {
+        const promptPath = path.join(process.cwd(), '..', 'harness', 'prompts', 'initializer.md');
+        const content = req.body;
+
+        if (!content || typeof content !== 'string') {
+            return res.status(400).json({ error: 'Prompt content is required' });
+        }
+
+        // Ensure directory exists
+        const promptDir = path.dirname(promptPath);
+        if (!fs.existsSync(promptDir)) {
+            fs.mkdirSync(promptDir, { recursive: true });
+        }
+
+        // Write prompt to file
+        fs.writeFileSync(promptPath, content, 'utf-8');
+
+        res.json({ success: true, message: 'Initializer prompt saved' });
+    } catch (error) {
+        console.error('Error saving initializer prompt:', error);
+        res.status(500).json({ error: 'Failed to save prompt' });
+    }
+});
+
+// Save coding prompt
+app.post('/api/prompts/coding', express.text({ limit: '1mb' }), async (req, res) => {
+    try {
+        const promptPath = path.join(process.cwd(), '..', 'harness', 'prompts', 'coding.md');
+        const content = req.body;
+
+        if (!content || typeof content !== 'string') {
+            return res.status(400).json({ error: 'Prompt content is required' });
+        }
+
+        // Ensure directory exists
+        const promptDir = path.dirname(promptPath);
+        if (!fs.existsSync(promptDir)) {
+            fs.mkdirSync(promptDir, { recursive: true });
+        }
+
+        // Write prompt to file
+        fs.writeFileSync(promptPath, content, 'utf-8');
+
+        res.json({ success: true, message: 'Coding prompt saved' });
+    } catch (error) {
+        console.error('Error saving coding prompt:', error);
+        res.status(500).json({ error: 'Failed to save prompt' });
+    }
+});
+
+// Reset prompts to default
+app.post('/api/prompts/reset', async (req, res) => {
+    try {
+        // Default prompts content (these could be read from template files instead)
+        const defaultInitializer = `# Initializer Agent System Prompt
+
+You are the INITIALIZER AGENT for an autonomous coding project. This is the FIRST session, and your job is to set up the environment for future coding agents.
+
+## Your Mission
+
+Transform a high-level project description into a structured, testable development environment that autonomous coding agents can work through incrementally.
+
+## Required Actions
+
+### 1. Analyze Requirements
+- Read the user's project description carefully
+- Identify all major features and functionality
+- Break down into 50-200 specific, testable requirements
+- Prioritize features (core functionality first, polish last)
+
+### 2. Create feature_list.json
+Create a comprehensive JSON file with ALL features marked as \`passes: false\`
+
+### 3. Create claude-progress.txt
+Initialize a session log
+
+### 4. Set Up Project Structure
+- Create necessary directories
+- Add any required configuration files
+- Set up build tools, package.json, etc. if needed
+
+### 5. Document the Project
+- Create README.md or update existing one
+- Document how to run the project
+- List dependencies and setup instructions`;
+
+        const defaultCoding = `# Coding Agent System Prompt
+
+You are a CODING AGENT continuing work on an autonomous coding project. Your job is to make incremental progress on features while leaving the codebase in a clean, working state.
+
+## Session Startup (ALWAYS DO THIS FIRST)
+
+### Step 1: Orient Yourself
+- Check working directory
+- Review recent progress
+- Check feature status
+- Review git log
+- Check for uncommitted changes
+
+### Step 2: Start Development Environment
+
+### Step 3: Verify Basic Functionality
+- Test that the application loads
+- Verify core features work
+- Fix any broken functionality first
+
+## Working on Features
+
+### Step 4: Choose Next Feature
+- Read feature_list.json
+- Find highest-priority feature where passes: false
+- Work on ONLY that one feature
+
+### Step 5: Implement the Feature
+
+### Step 6: Test the Feature
+
+### Step 7: Update Status
+
+### Step 8: Commit Your Work
+
+### Step 9: Update Progress File`;
+
+        const promptsDir = path.join(process.cwd(), '..', 'harness', 'prompts');
+
+        // Ensure directory exists
+        if (!fs.existsSync(promptsDir)) {
+            fs.mkdirSync(promptsDir, { recursive: true });
+        }
+
+        // Write default prompts
+        fs.writeFileSync(path.join(promptsDir, 'initializer.md'), defaultInitializer, 'utf-8');
+        fs.writeFileSync(path.join(promptsDir, 'coding.md'), defaultCoding, 'utf-8');
+
+        res.json({ success: true, message: 'Prompts reset to default' });
+    } catch (error) {
+        console.error('Error resetting prompts:', error);
+        res.status(500).json({ error: 'Failed to reset prompts' });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

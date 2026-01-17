@@ -68,6 +68,7 @@
             <span class="notification-toggle-label">🔊</span>
           </label>
           <button id="settings-btn" class="btn btn-secondary" onclick="openSettingsModal()" title="Harness Settings">⚙️</button>
+          <button id="prompts-btn" class="btn btn-secondary" onclick="openPromptsModal()" title="Edit Prompts">📝</button>
           <a href="index.html" class="btn">📊 Dashboard</a>
           <a href="control.html" class="btn btn-secondary">🎮 Control Panel</a>
           <div class="status-badge" id="agent-status">
@@ -474,6 +475,46 @@
             <button type="submit" class="btn btn-primary" id="save-settings-btn">Save Settings</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompts Editor Modal -->
+  <div class="modal-overlay" id="prompts-modal" style="display: none;">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2>Edit Agent Prompts</h2>
+        <button class="modal-close" onclick="closePromptsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="prompts-tabs">
+          <button class="prompt-tab active" onclick="switchPromptTab('initializer')">Initializer Agent</button>
+          <button class="prompt-tab" onclick="switchPromptTab('coding')">Coding Agent</button>
+        </div>
+
+        <div id="initializer-prompt-panel" class="prompt-panel active">
+          <div class="form-group">
+            <label for="initializer-prompt">Initializer Agent System Prompt</label>
+            <textarea id="initializer-prompt" rows="20" class="prompt-textarea"></textarea>
+            <small class="form-help">This prompt is used for the first session to set up the project structure</small>
+          </div>
+        </div>
+
+        <div id="coding-prompt-panel" class="prompt-panel" style="display: none;">
+          <div class="form-group">
+            <label for="coding-prompt">Coding Agent System Prompt</label>
+            <textarea id="coding-prompt" rows="20" class="prompt-textarea"></textarea>
+            <small class="form-help">This prompt is used for coding sessions to implement features</small>
+          </div>
+        </div>
+
+        <div id="prompts-validation-message" class="validation-message" style="display: none;"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closePromptsModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary" onclick="resetPrompts()">Reset to Default</button>
+          <button type="button" class="btn btn-primary" onclick="savePrompts()" id="save-prompts-btn">Save Prompts</button>
+        </div>
       </div>
     </div>
   </div>

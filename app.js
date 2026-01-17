@@ -1965,6 +1965,157 @@ function getHarnessSettings() {
 // Initialize settings on page load
 loadHarnessSettings();
 
+// ===== PROMPTS EDITOR MANAGEMENT =====
+
+let currentPromptTab = 'initializer';
+let loadedPrompts = {
+    initializer: '',
+    coding: ''
+};
+
+// Open prompts modal and load current prompts
+async function openPromptsModal() {
+    const modal = document.getElementById('prompts-modal');
+    modal.style.display = 'flex';
+
+    // Load prompts from backend
+    await loadPrompts();
+
+    // Hide validation message
+    document.getElementById('prompts-validation-message').style.display = 'none';
+}
+
+// Close prompts modal
+function closePromptsModal() {
+    const modal = document.getElementById('prompts-modal');
+    modal.style.display = 'none';
+}
+
+// Load prompts from backend
+async function loadPrompts() {
+    try {
+        // Load initializer prompt
+        const initResponse = await fetch('http://localhost:3434/api/prompts/initializer');
+        if (initResponse.ok) {
+            loadedPrompts.initializer = await initResponse.text();
+            document.getElementById('initializer-prompt').value = loadedPrompts.initializer;
+        }
+
+        // Load coding prompt
+        const codingResponse = await fetch('http://localhost:3434/api/prompts/coding');
+        if (codingResponse.ok) {
+            loadedPrompts.coding = await codingResponse.text();
+            document.getElementById('coding-prompt').value = loadedPrompts.coding;
+        }
+    } catch (error) {
+        console.error('Failed to load prompts:', error);
+        showPromptsValidationMessage('Failed to load prompts. Using defaults.', 'error');
+    }
+}
+
+// Switch between prompt tabs
+function switchPromptTab(tab) {
+    currentPromptTab = tab;
+
+    // Update tab buttons
+    const tabs = document.querySelectorAll('.prompt-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Update panels
+    const panels = document.querySelectorAll('.prompt-panel');
+    panels.forEach(p => p.classList.remove('active'));
+    document.getElementById(`${tab}-prompt-panel`).classList.add('active');
+}
+
+// Reset prompts to default
+async function resetPrompts() {
+    if (!confirm('Are you sure you want to reset prompts to default? This will overwrite any custom changes.')) {
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:3434/api/prompts/reset', {
+            method: 'POST'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to reset prompts');
+        }
+
+        // Reload prompts
+        await loadPrompts();
+
+        showPromptsValidationMessage('Prompts reset to default successfully!', 'success');
+    } catch (error) {
+        console.error('Error resetting prompts:', error);
+        showPromptsValidationMessage('Failed to reset prompts. Please try again.', 'error');
+    }
+}
+
+// Save prompts to backend
+async function savePrompts() {
+    const saveBtn = document.getElementById('save-prompts-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    try {
+        // Get prompt values from textareas
+        const initializerPrompt = document.getElementById('initializer-prompt').value;
+        const codingPrompt = document.getElementById('coding-prompt').value;
+
+        // Save initializer prompt
+        const initResponse = await fetch('http://localhost:3434/api/prompts/initializer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: initializerPrompt
+        });
+
+        if (!initResponse.ok) {
+            throw new Error('Failed to save initializer prompt');
+        }
+
+        // Save coding prompt
+        const codingResponse = await fetch('http://localhost:3434/api/prompts/coding', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: codingPrompt
+        });
+
+        if (!codingResponse.ok) {
+            throw new Error('Failed to save coding prompt');
+        }
+
+        // Update loaded prompts
+        loadedPrompts.initializer = initializerPrompt;
+        loadedPrompts.coding = codingPrompt;
+
+        showPromptsValidationMessage('Prompts saved successfully!', 'success');
+
+        // Close modal after a delay
+        setTimeout(() => {
+            closePromptsModal();
+        }, 1000);
+
+    } catch (error) {
+        console.error('Error saving prompts:', error);
+        showPromptsValidationMessage('Failed to save prompts. Please try again.', 'error');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Prompts';
+    }
+
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save Prompts';
+}
+
+// Show prompts validation message
+function showPromptsValidationMessage(message, type) {
+    const validationMsg = document.getElementById('prompts-validation-message');
+    validationMsg.textContent = message;
+    validationMsg.className = `validation-message ${type}`;
+    validationMsg.style.display = 'block';
+}
+
 // Export functions to global scope
 window.filterFeatures = filterFeatures;
 window.updateChartView = updateChartView;
@@ -1983,3 +2134,8 @@ window.openSettingsModal = openSettingsModal;
 window.closeSettingsModal = closeSettingsModal;
 window.saveSettings = saveSettings;
 window.getHarnessSettings = getHarnessSettings;
+window.openPromptsModal = openPromptsModal;
+window.closePromptsModal = closePromptsModal;
+window.switchPromptTab = switchPromptTab;
+window.resetPrompts = resetPrompts;
+window.savePrompts = savePrompts;
