@@ -83,6 +83,17 @@
       "priority": 7,
       "enabled": true,
       "untilComplete": true
+    },
+    {
+      "id": "vellopad",
+      "name": "VelloPad",
+      "path": "/Users/isaiahdupree/Documents/Software/VelloPad",
+      "prompt": "prompts/vellopad.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/VelloPad/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/VelloPad/feature_list.json",
+      "priority": 8,
+      "enabled": true,
+      "untilComplete": true
     }
   ]
 }
