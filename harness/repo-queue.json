@@ -27,8 +27,7 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/MediaPoster/feature_list.json",
       "priority": 2,
       "enabled": true,
-      "untilComplete": false,
-      "maxSessions": 20
+      "untilComplete": true
     },
     {
       "id": "blogcanvas",
@@ -38,7 +37,8 @@
       "prd": "/Users/isaiahdupree/Documents/Software/BlogCanvas/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/BlogCanvas/feature_list.json",
       "priority": 3,
-      "enabled": false
+      "enabled": true,
+      "untilComplete": true
     },
     {
       "id": "portal28",
@@ -48,7 +48,41 @@
       "prd": "/Users/isaiahdupree/Documents/Software/Portal28/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/Portal28/feature_list.json",
       "priority": 4,
-      "enabled": false
+      "enabled": true,
+      "untilComplete": true
+    },
+    {
+      "id": "canvascast",
+      "name": "CanvasCast",
+      "path": "/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target",
+      "prompt": "prompts/canvascast.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target/DEVELOPER_HANDOFF.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target/feature_list.json",
+      "priority": 5,
+      "enabled": true,
+      "untilComplete": true
+    },
+    {
+      "id": "everreach-appkit",
+      "name": "EverReach App Kit",
+      "path": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit",
+      "prompt": "prompts/everreach-appkit.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/DEVELOPER_HANDOFF.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/feature_list.json",
+      "priority": 6,
+      "enabled": true,
+      "untilComplete": true
+    },
+    {
+      "id": "steadyletters",
+      "name": "SteadyLetters",
+      "path": "/Users/isaiahdupree/Documents/Software/KindLetters",
+      "prompt": "prompts/steadyletters.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/KindLetters/PRD_STEADYLETTERS.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/KindLetters/feature_list.json",
+      "priority": 7,
+      "enabled": true,
+      "untilComplete": true
     }
   ]
 }

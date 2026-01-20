@@ -5,11 +5,24 @@ You are working on **GapRadar**, a market gap analysis tool that helps founders 
 ## Project Location
 `/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar`
 
-## PRD Reference
-`/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/docs/PRD_GAPRADAR.md`
+## PRD References
+- **Main**: `/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/docs/PRD_GAPRADAR.md`
 
-## Feature List
-`/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list_gapradar.json`
+### New PRDs (January 2026)
+| PRD | Description | Priority |
+|-----|-------------|----------|
+| `docs/PRD_UNIFIED_DEMAND_SCORE.md` | 5-signal scoring system (Google, YouTube, App Store) | P1 |
+| `docs/PRD_BUILD_RECOMMENDATIONS.md` | AI-powered "What to Build Next" engine | P1 |
+| `docs/PRD_COMPETITIVE_INTELLIGENCE.md` | Competitor tracking, alerts, change detection | P1 |
+| `docs/PRD_TESTING_QUALITY.md` | Vitest + Playwright testing strategy | P1 |
+| `docs/PRD_ADDITIONAL_FEATURES.md` | Feature backlog with 20+ opportunities | Backlog |
+
+All PRDs located in: `/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/docs/`
+
+## Feature List (IMPORTANT - update this exact file)
+`/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json`
+
+**CRITICAL**: When you complete a feature, update THIS file by setting `"passes": true` for that feature. Do NOT create or update any other feature list files.
 
 ## Current Phase: Landing Page + Data Collectors
 
@@ -121,12 +134,42 @@ npm run test:e2e  # Run Playwright tests
 ```
 
 ## Session Goal
-Build the GapRadar landing page with NLP search and live trending topics. Start with LAND-001 and proceed through the feature list. Each task should result in working, tested code.
+**ACTION REQUIRED**: Find the FIRST feature in `feature_list.json` where `"passes": false`, implement it using TDD, then mark it `"passes": true`.
+
+DO NOT just analyze or report status. Actually implement code for pending features.
+
+### Your TDD workflow each session:
+1. **READ**: Find the first feature with `"passes": false` in `feature_list.json`
+2. **RED**: Write a failing test for that feature first
+   - Create test in `__tests__/` for unit tests or `e2e/` for E2E tests
+   - Run `npm test` or `npm run test:e2e` to confirm it fails
+3. **GREEN**: Implement the minimum code to make the test pass
+   - Create/edit source files as needed
+   - Run tests again to confirm they pass
+4. **REFACTOR**: Clean up code if needed while keeping tests green
+5. **MARK COMPLETE**: Edit `feature_list.json` to set `"passes": true`
+6. **REPEAT**: Move to next pending feature
+
+### Test file locations:
+- Unit tests: `__tests__/<feature>.test.ts`
+- Integration tests: `__tests__/integration/<feature>.test.ts`
+- E2E tests: `e2e/<feature>.spec.ts`
 
 Remember to:
 1. Read existing code patterns before creating new files
 2. Create proper TypeScript types for all new features
 3. Add RLS policies to all new database tables
 4. Test each feature works before moving to the next
-5. Mark features as `passes: true` in `feature_list_gapradar.json` when complete
+5. **IMPORTANT**: Mark features as `"passes": true` in `/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json` when complete
 6. Follow the PRD acceptance criteria for each feature
+
+## How to Mark a Feature Complete
+After implementing a feature, edit `feature_list.json` and find the feature by its ID (e.g., "LAND-001"), then change `"passes": false` to `"passes": true`. Example:
+```json
+{
+  "id": "LAND-001",
+  "name": "Landing Page Hero Section",
+  "passes": true,  // <-- Change this from false to true
+  ...
+}
+```

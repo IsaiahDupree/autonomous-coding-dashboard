@@ -11,6 +11,20 @@ You are working on **MediaPoster**, an autonomous content ops controller with Sa
 - `Backend/docs/PRD_CONTENT_OPS_TESTS.md` - Test specification
 - `Backend/docs/PRD_TWITTER_FEEDBACK_LOOP_AGENT.md` - X/Twitter feedback loop
 - `Backend/docs/MEDIA_FACTORY_PRD.md` - Video production pipeline
+- `Backend/docs/PRD_VOICE_CLONING_SERVICE.md` - Voice cloning via Modal/IndexTTS-2
+
+### New Feature PRDs (January 2026)
+| PRD | Description | Effort |
+|-----|-------------|--------|
+| `docs/PRD_COMMUNITY_INBOX.md` | Unified comments/DMs with AI reply suggestions | 3 weeks |
+| `docs/PRD_CONTENT_REPURPOSING_ENGINE.md` | Long video → shorts (Opus-style) | 4-6 weeks |
+| `docs/PRD_MODAL_VOICE_CLONING.md` | AI voice cloning via Modal GPU | 1-2 weeks |
+| `docs/PRD_MEDIA_ASSET_DISCOVERY.md` | GIFs, videos, images search (Giphy, Pexels) | 2-3 weeks |
+| `docs/PRD_E2E_TESTING_DEBUG_FRAMEWORK.md` | Playwright E2E with console logging | 2 weeks |
+
+### Roadmap Documents
+- `docs/CODE_IMPROVEMENTS_ROADMAP.md` - Supabase fix, Redis caching, AI templates
+- `docs/PRD_GAP_ANALYSIS_2026.md` - Competitor analysis, Q1-Q4 roadmap
 
 ## Feature List (180 features across 10 phases)
 `/Users/isaiahdupree/Documents/Software/MediaPoster/feature_list.json`
