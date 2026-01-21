@@ -94,6 +94,17 @@
       "priority": 8,
       "enabled": true,
       "untilComplete": true
+    },
+    {
+      "id": "velvethold",
+      "name": "VelvetHold",
+      "path": "/Users/isaiahdupree/Documents/Software/VelvetHold",
+      "prompt": "prompts/velvethold.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/VelvetHold/PRD_DETAILED.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/VelvetHold/feature_list.json",
+      "priority": 9,
+      "enabled": true,
+      "untilComplete": true
     }
   ]
 }
