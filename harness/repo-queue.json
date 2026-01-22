@@ -105,6 +105,17 @@
       "priority": 9,
       "enabled": true,
       "untilComplete": true
+    },
+    {
+      "id": "ai-video-platform",
+      "name": "AI Video Platform",
+      "path": "/Users/isaiahdupree/Documents/Software/ai-video-platform",
+      "prompt": "prompts/ai-video-platform.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/ai-video-platform/docs/PRD-Video-Generation-Platform.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/ai-video-platform/feature_list.json",
+      "priority": 10,
+      "enabled": true,
+      "untilComplete": true
     }
   ]
 }
