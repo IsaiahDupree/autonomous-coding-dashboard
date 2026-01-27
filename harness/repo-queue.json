@@ -117,6 +117,18 @@
       "priority": 10,
       "enabled": true,
       "untilComplete": true
+    },
+    {
+      "id": "remotion",
+      "name": "Remotion VideoStudio",
+      "path": "/Users/isaiahdupree/Documents/Software/Remotion",
+      "prompt": "prompts/remotion.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/Remotion/docs/PRD-Video-Generation-Platform.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/Remotion/feature_list.json",
+      "priority": 11,
+      "enabled": true,
+      "untilComplete": true,
+      "focus": "Video Generation Platform with Voice Cloning, SFX, and Static Ads"
     }
   ]
 }
