@@ -8,23 +8,24 @@
   },
   "repos": [
     {
-      "id": "gapradar",
-      "name": "GapRadar",
-      "path": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar",
-      "prompt": "prompts/gapradar.md",
-      "prd": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/docs/PRD_GAPRADAR.md",
-      "featureList": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json",
-      "priority": 1,
-      "enabled": true,
-      "untilComplete": true
-    },
-    {
       "id": "mediaposter",
       "name": "MediaPoster",
       "path": "/Users/isaiahdupree/Documents/Software/MediaPoster",
       "prompt": "prompts/mediaposter.md",
       "prd": "/Users/isaiahdupree/Documents/Software/MediaPoster/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/MediaPoster/feature_list.json",
+      "priority": 1,
+      "enabled": true,
+      "untilComplete": true,
+      "focus": "System Architecture Integration (ARCH-001 to ARCH-008)"
+    },
+    {
+      "id": "gapradar",
+      "name": "GapRadar",
+      "path": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar",
+      "prompt": "prompts/gapradar.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/docs/PRD_GAPRADAR.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json",
       "priority": 2,
       "enabled": true,
       "untilComplete": true

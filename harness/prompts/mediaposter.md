@@ -29,57 +29,64 @@ You are working on **MediaPoster**, an autonomous content ops controller with Sa
 ## Feature List (180 features across 10 phases)
 `/Users/isaiahdupree/Documents/Software/MediaPoster/feature_list.json`
 
-## Current Phase Priority
+## Current Phase Priority (Updated Jan 26, 2026)
 
-**Phase 1: Sleep/Wake Mode (SLEEP-001 to SLEEP-012)** - CPU EFFICIENCY
-- Core sleep service, wake triggers, worker management
+### 🎯 PRIORITY 1: System Architecture Integration (ARCH-001 to ARCH-008)
+**PRD:** `docs/PRD_SYSTEM_ARCHITECTURE_INTEGRATION.md`
 
-**Phase 2: Content Ops (OPS-001 to OPS-020 + ENTITY-001 to ENTITY-007 + UI-001 to UI-007)**
-- FATE scoring, awareness classifier, QA gate, generation pipeline
-- Brand → Offer → ICP entities with full traceback
-- Dashboard UI for content management
+Target workflow to implement:
+```
+Sora (1-3 part) → Stitch → Analyze → Auto-fill → Post to 22 Blotato accounts
+                                                          ↓
+Tweet every 2h → Track Engagement → Optimize → Drive Offer Traffic
+```
 
-**Phase 3: 25 AI Templates (TPL-001 to TPL-008)**
-- Problem-Aware (8), Solution-Aware (7), Product-Aware (6), Most-Aware (4)
-- Template forking, CRUD API, variable system
+| Feature | Description | Effort |
+|---------|-------------|--------|
+| **ARCH-001** | Master Orchestrator Service | P0 - 4h |
+| **ARCH-002** | 3-Part Sora Batch Coordination | P0 - 2h |
+| **ARCH-003** | Content Analyzer → Publisher Integration | P0 - 1h |
+| **ARCH-004** | Tweet Scheduler 2-Hour Interval | P1 - 30min |
+| **ARCH-005** | Offer Traffic Tracking Service | P1 - 4h |
+| **ARCH-006** | Analytics → AI Feedback Loop | P1 - 3h |
+| **ARCH-007** | Unified Pipeline API Endpoint | P1 - 2h |
+| **ARCH-008** | Pipeline Dashboard Widget | P2 - 3h |
 
-**Phase 4: Platform Adapters (ADAPT-001 to ADAPT-013)**
-- X/Twitter, Instagram, TikTok, YouTube, Threads adapters
+### Existing Components to Wire Together
+| Component | Location | Status |
+|-----------|----------|--------|
+| Sora Safari Automation | `automation/sora_full_automation.py` | ✅ Working |
+| Video Stitching | `services/ai_video_pipeline/stitcher.py` | ✅ Working |
+| Content Analyzer | `services/content_analyzer.py` | ✅ Working |
+| Blotato Publishing | `services/blotato_service.py` | ✅ Working |
+| Twitter Campaign | `services/twitter_campaign_service.py` | ✅ Working |
+| Event Bus | `services/event_bus.py` | ✅ Working |
 
-**Phase 5: Media Factory (MF-001 to MF-008)**
-- Script → TTS → Music → Visuals → Remotion → Publish pipeline
+### Other Active PRDs
+| PRD | Features | Priority |
+|-----|----------|----------|
+| `PRD_GAP_ANALYSIS.md` | GAP-001 to GAP-010 | P0-P2 |
+| `PRD_Relationship_First_DM_System.md` | RF-001 to RF-008 | P0-P2 |
+| `PRD_GROWTH_DATA_PLANE.md` | GDP-001 to GDP-012 | P0-P1 |
+| `PRD_META_PIXEL_TRACKING.md` | META-001 to META-008 | P1 |
+| `PRD_EVENT_TRACKING.md` | TRACK-001 to TRACK-008 | P1 |
 
-**Phase 6: Trend Discovery (TREND-001 to TREND-005)**
-- Multi-source trends, scoring, trend → brief conversion
+### Your First Tasks (System Architecture):
 
-**Phase 7: Multi-Channel (MC-001 to MC-008)**
-- Comment loop, DM qualification flow, email sequences
+1. **ARCH-001: Master Orchestrator Service**
+   - Create unified orchestrator coordinating all subsystems via EventBus
+   - Wire: Sora → Stitch → Analyze → Publish → Tweet → Track
+   - Files: `Backend/services/master_orchestrator.py`
 
-**Phase 8: Autonomy (AUTO-001 to AUTO-008)**
-- n8n integration, bandit allocation, auto-fork, approval queue
+2. **ARCH-002: 3-Part Sora Batch Coordination**
+   - Add `generate_multi_part()` method to SoraPipeline
+   - Batch video generation with automatic stitching
+   - Files: `Backend/automation/sora/pipeline.py`
 
-**Phase 9: Testing (TEST-001 to TEST-022)**
-- Full test suite from PRD_CONTENT_OPS_TESTS.md
-
-**Phase 10: Modular Architecture (MOD-001 to MOD-008)**
-- Event bus, service registry, health checks
-
-### Your First Tasks (Sleep/Wake Mode):
-
-1. **SLEEP-001: Sleep Mode Core Service**
-   - Create service to manage app sleep/wake states
-   - Reduce CPU usage when idle (target: <5%)
-   - Files: `Backend/services/sleep_mode_service.py`
-
-2. **SLEEP-002: Wake Triggers Registry**
-   - Registry of events that wake the system
-   - Types: scheduled_post, safari_automation, checkback, user_access, post_creation
-   - Files: `Backend/services/wake_triggers.py`
-
-3. **SLEEP-003: Scheduled Post Wake Trigger**
-   - Wake system 5 minutes before scheduled post time
-   - Integration with scheduler service
-   - Files: `Backend/services/scheduler_service.py`
+3. **ARCH-003: Content Analyzer → Publisher Integration**
+   - Auto-inject AI-generated titles/descriptions into publish payload
+   - Wire ContentAnalyzer output to PublishWorker input
+   - Files: `Backend/services/workers/publish_worker.py`
 
 ## Tech Stack
 - **Backend:** Python FastAPI
@@ -88,6 +95,35 @@ You are working on **MediaPoster**, an autonomous content ops controller with Sa
 - **Automation:** Safari AppleScript
 - **AI:** OpenAI API (real calls, no mocks)
 - **Dashboard:** Next.js 16
+- **Analytics:** ACD User Tracking SDK
+
+## User Event Tracking (REQUIRED)
+
+**PRD Reference:** `autonomous-coding-dashboard/harness/prompts/PRD_USER_TRACKING_ALL_TARGETS.md`
+
+### Required Events for MediaPoster
+| Event | When |
+|-------|------|
+| `landing_view` | Dashboard landing viewed |
+| `login_success` | User logged in |
+| `activation_complete` | User connected first platform |
+| `post_created` | New post created |
+| `post_scheduled` | Post was scheduled |
+| `post_published` | Post published successfully |
+| `media_uploaded` | Media file uploaded |
+| `template_used` | Template applied to post |
+| `platform_connected` | Social platform connected |
+| `checkout_started` | Upgrade flow started |
+| `purchase_completed` | Subscription purchased |
+
+### Tracking Features (Add to feature_list.json)
+```json
+{ "id": "TRACK-001", "name": "Tracking SDK Integration", "passes": false },
+{ "id": "TRACK-002", "name": "Acquisition Event Tracking", "passes": false },
+{ "id": "TRACK-003", "name": "Activation Event Tracking", "passes": false },
+{ "id": "TRACK-004", "name": "Core Value Event Tracking", "passes": false },
+{ "id": "TRACK-005", "name": "Monetization Event Tracking", "passes": false }
+```
 
 ## Key Existing Files
 - **API Entry:** `Backend/main.py`
@@ -149,7 +185,12 @@ pytest tests/e2e/ -v  # Needs all services
 ```
 
 ## Session Goal
-Implement the sleep/wake mode feature first (SLEEP-001 to SLEEP-012), then move to content ops and testing. Each feature should result in working, tested code.
+Implement System Architecture Integration (ARCH-001 to ARCH-008) to wire together existing subsystems into unified orchestrator. Focus on:
+1. Master Orchestrator Service (ARCH-001) - coordinate all pipelines
+2. 3-Part Sora Batch (ARCH-002) - multi-video generation + stitch
+3. Analyzer → Publisher (ARCH-003) - auto-fill titles/descriptions
+
+Each feature should result in working, tested code that integrates with existing services.
 
 Remember to:
 1. Read existing code patterns in `Backend/services/` before creating new services
