@@ -79,7 +79,50 @@ Work through features by phase:
 - **Database:** Supabase (PostgreSQL + RLS)
 - **AI:** OpenAI GPT-4o-mini
 - **Payments:** Stripe
-- **Analytics:** PostHog (optional)
+- **Analytics:** ACD User Tracking SDK + PostHog
+
+## User Event Tracking (REQUIRED)
+
+**PRD Reference:** `autonomous-coding-dashboard/harness/prompts/PRD_USER_TRACKING_ALL_TARGETS.md`
+
+Copy the tracking SDK from ACD and implement these events:
+
+### Setup
+```typescript
+// src/lib/tracking/index.ts - Copy from ACD
+import { tracker } from './userEventTracker';
+
+tracker.init({
+  projectId: 'gapradar',
+  apiEndpoint: process.env.NEXT_PUBLIC_TRACKING_API,
+});
+```
+
+### Required Events
+| Event | When |
+|-------|------|
+| `landing_view` | Landing page viewed |
+| `cta_click` | Get Started / Sign Up clicked |
+| `pricing_view` | Pricing page viewed |
+| `signup_start` | Signup form opened |
+| `login_success` | User logged in |
+| `activation_complete` | User ready to create first run |
+| `run_created` | New analysis run started |
+| `run_completed` | Analysis run finished |
+| `report_viewed` | User viewed a report |
+| `report_downloaded` | PDF/export downloaded |
+| `trend_clicked` | Trending topic clicked |
+| `checkout_started` | Checkout flow started |
+| `purchase_completed` | Payment successful |
+
+### Tracking Features (Add to feature_list.json)
+```json
+{ "id": "TRACK-001", "name": "Tracking SDK Integration", "passes": false },
+{ "id": "TRACK-002", "name": "Acquisition Event Tracking", "passes": false },
+{ "id": "TRACK-003", "name": "Activation Event Tracking", "passes": false },
+{ "id": "TRACK-004", "name": "Core Value Event Tracking", "passes": false },
+{ "id": "TRACK-005", "name": "Monetization Event Tracking", "passes": false }
+```
 
 ## Key Existing Files
 - **App Routes:** `src/app/`

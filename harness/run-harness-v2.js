@@ -55,11 +55,11 @@ function createConfig(projectRoot) {
     // Error handling
     maxConsecutiveErrors: 5,       // Stop after 5 consecutive errors
     authErrorPauseMinutes: 60,     // Pause 1 hour on auth errors
-    rateLimitPauseMinutes: 5,      // Pause 5 minutes on rate limits
+    rateLimitPauseMinutes: 2,      // Pause 2 minutes on rate limits
     adaptiveDelayMultiplier: 1.5,  // Multiply delay on rate limit warnings
-    maxAdaptiveDelayMinutes: 15,   // Cap adaptive delay at 15 min
-    minAdaptiveDelayMinutes: 10,   // Minimum cap for jitter range
-    progressiveDelayStart: 3,      // Start progressive delay at 3 min
+    maxAdaptiveDelayMinutes: 5,    // Cap adaptive delay at 5 min
+    minAdaptiveDelayMinutes: 2,    // Minimum cap for jitter range
+    progressiveDelayStart: 1,      // Start progressive delay at 1 min
     progressiveDelayAfterSessions: 3, // Begin progressive delay after N sessions
   };
 }
@@ -262,6 +262,30 @@ function isFirstRun() {
   return false;
 }
 
+function validateFeatureList() {
+  if (!fs.existsSync(CONFIG.featureList)) {
+    return { valid: false, error: 'Feature list file not found' };
+  }
+  
+  try {
+    const data = JSON.parse(fs.readFileSync(CONFIG.featureList, 'utf-8'));
+    if (!data.features || !Array.isArray(data.features)) {
+      return { valid: false, error: 'Feature list missing "features" array' };
+    }
+    if (data.features.length === 0) {
+      return { valid: false, error: 'Feature list is empty' };
+    }
+    // Check for required fields in first feature
+    const sample = data.features[0];
+    if (!sample.id || !sample.name) {
+      return { valid: false, error: 'Features missing required fields (id, name)' };
+    }
+    return { valid: true, features: data.features.length };
+  } catch (e) {
+    return { valid: false, error: `Failed to parse feature list: ${e.message}` };
+  }
+}
+
 function getProgressStats() {
   if (!fs.existsSync(CONFIG.featureList)) {
     return { total: 0, passing: 0, pending: 0, percentComplete: 0 };
@@ -300,32 +324,29 @@ function updateStatus(sessionType, status, stats = null, extra = {}) {
 }
 
 function loadMetrics() {
+  const defaultMetrics = {
+    totalSessions: 0,
+    successfulSessions: 0,
+    failedSessions: 0,
+    totalTokens: 0,
+    totalCostUsd: 0,
+    rateLimitHits: 0,
+    authErrors: 0,
+    consecutiveErrors: 0,
+    lastSessionTime: null,
+    featuresCompletedThisRun: 0,
+    startingFeatures: 0,
+    avgSessionDuration: 0,
+  };
+  
   if (!fs.existsSync(CONFIG.metricsFile)) {
-    return {
-      totalSessions: 0,
-      successfulSessions: 0,
-      failedSessions: 0,
-      totalTokens: 0,
-      rateLimitHits: 0,
-      authErrors: 0,
-      consecutiveErrors: 0,
-      lastSessionTime: null,
-    };
+    return defaultMetrics;
   }
   
   try {
-    return JSON.parse(fs.readFileSync(CONFIG.metricsFile, 'utf-8'));
+    return { ...defaultMetrics, ...JSON.parse(fs.readFileSync(CONFIG.metricsFile, 'utf-8')) };
   } catch (e) {
-    return {
-      totalSessions: 0,
-      successfulSessions: 0,
-      failedSessions: 0,
-      totalTokens: 0,
-      rateLimitHits: 0,
-      authErrors: 0,
-      consecutiveErrors: 0,
-      lastSessionTime: null,
-    };
+    return defaultMetrics;
   }
 }
 
@@ -497,8 +518,18 @@ async function runHarness(options = {}) {
     log(`Session delay: ${SESSION_DELAY_MINUTES} minutes between sessions`, 'info');
   }
   if (ADAPTIVE_DELAY) {
-    log(`Adaptive delay: enabled (adjusts based on rate limits)`, 'info');
+    log(`Adaptive delay: enabled (sawtooth ${CONFIG.progressiveDelayStart}-${CONFIG.maxAdaptiveDelayMinutes} min)`, 'info');
   }
+  
+  // Validate feature list before starting
+  const validation = validateFeatureList();
+  if (!validation.valid) {
+    log(`Feature list validation failed: ${validation.error}`, 'error');
+    log(`Expected at: ${CONFIG.featureList}`, 'info');
+    process.exit(1);
+  }
+  log(`Feature list validated: ${validation.features} features`, 'success');
+  
   log(`Backoff: ${CONFIG.initialBackoffMs}ms - ${CONFIG.maxBackoffMs}ms`);
   if (DURATION_MS) {
     log(`Duration limit: ${(DURATION_MS / 1000 / 60).toFixed(1)} minutes`, 'info');

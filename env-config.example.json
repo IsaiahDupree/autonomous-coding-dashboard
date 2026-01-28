@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Example environment variable configuration file",
+  "type": "object",
+  "properties": {
+    "claudeOAuthToken": {
+      "envVarName": "MY_CUSTOM_CLAUDE_TOKEN",
+      "required": false,
+      "type": "string",
+      "fallbackVars": ["ANTHROPIC_API_KEY", "CLAUDE_API_KEY"],
+      "description": "Custom Claude OAuth token variable name"
+    },
+    "backendPort": {
+      "envVarName": "API_PORT",
+      "type": "number",
+      "defaultValue": 3434,
+      "min": 1024,
+      "max": 65535,
+      "envOverrides": {
+        "development": 3434,
+        "staging": 3435,
+        "production": 80
+      }
+    },
+    "databaseUrl": {
+      "envVarName": "POSTGRES_URL",
+      "type": "string",
+      "pattern": "^postgresql://",
+      "fallbackFile": ".secrets/db_url.txt",
+      "description": "Database connection string"
+    }
+  }
+}
+

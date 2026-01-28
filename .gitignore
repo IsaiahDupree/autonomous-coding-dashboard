@@ -43,3 +43,4 @@ scripts/downloads/
 # OS
 .DS_Store
 Thumbs.db
+harness-output.log

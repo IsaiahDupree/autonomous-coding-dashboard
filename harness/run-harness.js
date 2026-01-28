@@ -132,14 +132,25 @@ function runSession(sessionNumber) {
     const args = [
       '-p', prompt,
       '--allowedTools', 'Edit', 'Bash', 'Read', 'Write', 'mcp__puppeteer',
-      '--output-format', 'stream-json'
+      '--output-format', 'stream-json',
+      '--verbose'
     ];
     
     const startTime = Date.now();
     let output = '';
     
+    // Authentication: Always use Claude CLI's local auth (most reliable)
+    // Clear any API keys from environment to prevent overriding local auth
+    const env = { ...process.env };
+    delete env.CLAUDE_CODE_OAUTH_TOKEN;
+    delete env.ANTHROPIC_API_KEY;
+    delete env.CLAUDE_API_KEY;
+    
+    log(`Using Claude CLI local authentication`, 'info');
+    
     const claude = spawn('claude', args, {
       cwd: PROJECT_ROOT,
+      env,
       stdio: ['inherit', 'pipe', 'pipe']
     });
     

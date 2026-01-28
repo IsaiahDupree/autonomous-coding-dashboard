@@ -70,6 +70,36 @@ All subsystem PRDs are in: `/Users/isaiahdupree/Documents/Software/YoutubeNewb-C
 - **Auth:** Supabase Auth (Magic Links, OAuth)
 - **Payments:** Stripe
 - **AI:** OpenAI (GPT-4, TTS, Whisper), Google Gemini
+- **Analytics:** ACD User Tracking SDK
+
+## User Event Tracking (REQUIRED)
+
+**PRD Reference:** `autonomous-coding-dashboard/harness/prompts/PRD_USER_TRACKING_ALL_TARGETS.md`
+
+### Required Events for CanvasCast
+| Event | When |
+|-------|------|
+| `landing_view` | Landing page viewed |
+| `cta_click` | Get Started clicked |
+| `login_success` | User logged in |
+| `activation_complete` | User ready to create first video |
+| `project_created` | New video project started |
+| `prompt_submitted` | Video prompt submitted |
+| `video_generated` | Video generation completed |
+| `video_downloaded` | User downloaded video |
+| `script_edited` | User edited generated script |
+| `voice_selected` | User selected voice option |
+| `checkout_started` | Checkout flow started |
+| `purchase_completed` | Credits/subscription purchased |
+
+### Tracking Features (Add to feature_list.json)
+```json
+{ "id": "TRACK-001", "name": "Tracking SDK Integration", "passes": false },
+{ "id": "TRACK-002", "name": "Acquisition Event Tracking", "passes": false },
+{ "id": "TRACK-003", "name": "Activation Event Tracking", "passes": false },
+{ "id": "TRACK-004", "name": "Core Value Event Tracking", "passes": false },
+{ "id": "TRACK-005", "name": "Monetization Event Tracking", "passes": false }
+```
 
 ## Monorepo Structure
 ```

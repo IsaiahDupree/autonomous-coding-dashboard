@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Real-time dashboard for monitoring Claude autonomous coding agent - track sessions, features, usage, and progress">
+  <meta name="keywords" content="autonomous coding, Claude AI, coding agent, dashboard, monitoring">
+  <title>Autonomous Coding Agent Dashboard</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="index.css">
+
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+  <!-- Project Sidebar -->
+  <aside class="project-sidebar" id="project-sidebar">
+    <div class="sidebar-header">
+      <h3>Projects</h3>
+      <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleProjectSidebar()">
+        <span>◀</span>
+      </button>
+    </div>
+    <div class="sidebar-content">
+      <div id="projects-list" class="projects-list">
+        <!-- Projects will be loaded here -->
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary" onclick="addNewProject()" style="width: 100%; font-size: 0.875rem;">
+        ➕ Add Project
+      </button>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="btn btn-secondary" id="sidebar-open-btn" onclick="toggleProjectSidebar()" title="Toggle Projects">
+            📁
+          </button>
+          <a href="#" class="logo">
+            <div class="logo-icon">🤖</div>
+            <span>Autonomous Coding Agent</span>
+          </a>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <button id="theme-toggle" title="Toggle theme">🌙</button>
+          <label class="notification-toggle-container" title="Toggle browser notifications">
+            <input type="checkbox" id="notifications-toggle" onchange="toggleNotifications()">
+            <span class="notification-toggle-label">🔔</span>
+          </label>
+          <label class="notification-toggle-container" title="Toggle audio alerts">
+            <input type="checkbox" id="audio-toggle" onchange="toggleAudio()">
+            <span class="notification-toggle-label">🔊</span>
+          </label>
+          <button id="settings-btn" class="btn btn-secondary" onclick="openSettingsModal()" title="Harness Settings">⚙️</button>
+          <a href="index.html" class="btn">📊 Dashboard</a>
+          <a href="control.html" class="btn btn-secondary">🎮 Control Panel</a>
+          <div class="status-badge" id="agent-status">
+            <span class="status-dot active"></span>
+            <span id="status-text">Active - Session 5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Key Metrics Overview -->
+    <section id="metrics-section" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Features Completed</div>
+        <div class="stat-value" id="features-completed">142</div>
+        <div class="stat-change positive">
+          <span>↑ 12 today</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Total Sessions</div>
+        <div class="stat-value" id="total-sessions">5</div>
+        <div class="stat-change positive">
+          <span>↑ 1 active</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Success Rate</div>
+        <div class="stat-value" id="success-rate">71%</div>
+        <div class="stat-change positive">
+          <span>↑ 3.2%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">API Tokens Used</div>
+        <div class="stat-value" id="tokens-used">2.4M</div>
+        <div class="stat-change">
+          <span>~$36.50 cost</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-2">
+      <!-- Current Session Progress Card -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Current Session Progress</h3>
+            <p class="card-subtitle">Session 5 - Coding Agent</p>
+          </div>
+          <span class="badge badge-success">RUNNING</span>
+        </div>
+        <div class="card-body">
+          <div class="flex justify-between mb-1">
+            <span>Features: 142/200</span>
+            <span style="color: var(--color-primary); font-weight: 600;">71%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="main-progress" style="width: 71%"></div>
+          </div>
+
+          <div class="mt-2">
+            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--color-text-secondary);">
+              <span>⏱️ Session Duration: 2h 14m</span>
+              <span>📝 Last Feature: User Authentication</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Harness Control Panel -->
+      <div id="harness-control-panel">
+        <!-- Harness control UI will be injected here by harness-control.js -->
+      </div>
+    </div>
+
+    <!-- Session Statistics Row -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Session Statistics</h3>
+      </div>
+      <div class="card-body">
+        <div class="grid grid-4" style="gap: 2rem;">
+          <div class="flex flex-col">
+            <span style="color: var(--color-text-secondary); font-size: 0.85rem;">Avg. Time per Feature</span>
+            <span style="font-weight: 600; font-size: 1.25rem;">8.5 min</span>
+          </div>
+          <div class="flex flex-col">
+            <span style="color: var(--color-text-secondary); font-size: 0.85rem;">Tests Passing</span>
+            <span style="font-weight: 600; font-size: 1.25rem; color: var(--color-success);">142/142</span>
+          </div>
+          <div class="flex flex-col">
+            <span style="color: var(--color-text-secondary); font-size: 0.85rem;">Git Commits</span>
+            <span style="font-weight: 600; font-size: 1.25rem;">156</span>
+          </div>
+          <div class="flex flex-col">
+            <span style="color: var(--color-text-secondary); font-size: 0.85rem;">Commands Executed</span>
+            <span style="font-weight: 600; font-size: 1.25rem;">1,247</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Chart -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Feature Completion Timeline</h3>
+        <div class="flex gap-1">
+          <button class="btn btn-secondary" onclick="updateChartView('24h')">24h</button>
+          <button class="btn btn-secondary" onclick="updateChartView('7d')">7d</button>
+          <button class="btn btn-secondary" onclick="updateChartView('all')">All</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-container">
+          <canvas id="progress-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Breakdown Chart -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Category Breakdown</h3>
+        <span class="badge badge-info">By Category</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-container">
+          <canvas id="category-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Log Viewer -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Harness Output</h3>
+        <div class="flex gap-1" style="align-items: center;">
+          <span class="badge badge-success" id="log-status">Live</span>
+          <button class="btn btn-secondary" id="toggle-autoscroll" onclick="toggleAutoScroll()">
+            <span id="autoscroll-icon">⏸️</span> Pause
+          </button>
+          <button class="btn btn-secondary" onclick="clearLogs()">🗑️ Clear</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="log-viewer" class="log-viewer">
+          <div id="log-content" class="log-content">
+            <div class="log-line log-info">Waiting for harness output...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="grid grid-2 mt-2">
+      <!-- Recent Activity Timeline -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Recent Activity</h3>
+          <span class="badge badge-info">Live</span>
+        </div>
+        <div class="card-body">
+          <div class="timeline" id="activity-timeline">
+            <!-- Timeline items will be inserted here by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature List -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Feature Status</h3>
+          <div class="flex gap-1">
+            <button class="btn btn-secondary" onclick="filterFeatures('all')">All</button>
+            <button class="btn btn-secondary" onclick="filterFeatures('passing')">✓ Passing</button>
+            <button class="btn btn-secondary" onclick="filterFeatures('pending')">⏳ Pending</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-container">
+            <table id="features-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Feature</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="features-tbody">
+                <!-- Table rows will be inserted here by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Analytics -->
+    <div class="grid grid-2 mt-2">
+      <!-- Token Usage Chart -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">API Token Usage</h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="token-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command Execution Stats -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Command Execution</h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="commands-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security & Command Logs -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Command Execution Log</h3>
+        <span class="badge badge-success">Safe Mode Active</span>
+      </div>
+      <div class="card-body">
+        <div class="table-container">
+          <table id="commands-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Command</th>
+                <th>Status</th>
+                <th>Output</th>
+              </tr>
+            </thead>
+            <tbody id="commands-tbody">
+              <!-- Command rows will be inserted here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session History -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Session History</h3>
+      </div>
+      <div class="card-body">
+        <div class="grid grid-3">
+          <div class="stat-card" style="cursor: pointer;" onclick="viewSession(1)">
+            <div class="stat-label">Session 1 - Initializer</div>
+            <div class="stat-value" style="font-size: 1.25rem;">0 features</div>
+            <div class="stat-change">
+              <span>⏱️ 4m 32s</span>
+            </div>
+            <span class="badge badge-success mt-1">Completed</span>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="viewSession(2)">
+            <div class="stat-label">Session 2 - Coding</div>
+            <div class="stat-value" style="font-size: 1.25rem;">45 features</div>
+            <div class="stat-change">
+              <span>⏱️ 6h 15m</span>
+            </div>
+            <span class="badge badge-success mt-1">Completed</span>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="viewSession(3)">
+            <div class="stat-label">Session 3 - Coding</div>
+            <div class="stat-value" style="font-size: 1.25rem;">38 features</div>
+            <div class="stat-change">
+              <span>⏱️ 5h 42m</span>
+            </div>
+            <span class="badge badge-success mt-1">Completed</span>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="viewSession(4)">
+            <div class="stat-label">Session 4 - Coding</div>
+            <div class="stat-value" style="font-size: 1.25rem;">47 features</div>
+            <div class="stat-change">
+              <span>⏱️ 7h 8m</span>
+            </div>
+            <span class="badge badge-success mt-1">Completed</span>
+          </div>
+
+          <div class="stat-card" style="cursor: pointer;" onclick="viewSession(5)">
+            <div class="stat-label">Session 5 - Coding</div>
+            <div class="stat-value" style="font-size: 1.25rem;">12 features</div>
+            <div class="stat-change">
+              <span>⏱️ 2h 14m</span>
+            </div>
+            <span class="badge badge-warning mt-1">In Progress</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Git Activity -->
+    <div class="card mt-2">
+      <div class="card-header">
+        <h3 class="card-title">Git Commit History</h3>
+      </div>
+      <div class="card-body">
+        <div class="timeline" id="git-timeline">
+          <!-- Git commits will be inserted here by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="mock-data.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="harness-client.js"></script>
+  <script src="harness-control.js"></script>
+  <script src="approval-ui.js"></script>
+  <!-- Add Project Modal -->
+  <div class="modal-overlay" id="add-project-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add New Project</h2>
+        <button class="modal-close" onclick="closeAddProjectModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-project-form" onsubmit="submitNewProject(event)">
+          <div class="form-group">
+            <label for="project-name">Project Name *</label>
+            <input type="text" id="project-name" name="name" required placeholder="My Awesome Project">
+          </div>
+
+          <div class="form-group">
+            <label for="project-path">Project Path *</label>
+            <input type="text" id="project-path" name="path" required placeholder="/path/to/project">
+            <small>Absolute path to the project directory</small>
+          </div>
+
+          <div class="form-group">
+            <label for="project-description">Description</label>
+            <textarea id="project-description" name="description" rows="3" placeholder="Brief description of the project"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="project-icon">Icon (emoji)</label>
+            <input type="text" id="project-icon" name="icon" placeholder="🚀" maxlength="2">
+            <small>Choose an emoji to represent this project</small>
+          </div>
+
+          <div class="form-group">
+            <label for="project-color">Color</label>
+            <input type="color" id="project-color" name="color" value="#6366f1">
+            <small>Accent color for this project</small>
+          </div>
+
+          <div id="validation-message" class="validation-message" style="display: none;"></div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeAddProjectModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="submit-project-btn">Add Project</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Harness Settings</h2>
+        <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="settings-form" onsubmit="saveSettings(event)">
+          <div class="form-group">
+            <label for="max-sessions">Max Sessions</label>
+            <input type="number" id="max-sessions" name="maxSessions" min="1" max="1000" value="100" required>
+            <small class="form-help">Maximum number of coding sessions to run in continuous mode</small>
+          </div>
+
+          <div class="form-group">
+            <label for="session-delay">Session Delay (seconds)</label>
+            <input type="number" id="session-delay" name="sessionDelay" min="0" max="300" step="1" value="5" required>
+            <small class="form-help">Delay between sessions in seconds (0-300)</small>
+          </div>
+
+          <div id="settings-validation-message" class="validation-message" style="display: none;"></div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="save-settings-btn">Save Settings</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="git-timeline.js"></script>
+  <script src="cost-tracker.js"></script>
+  <script src="project-manager-ui.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -28,6 +28,7 @@ import { getCostTracking } from './services/cost-tracking';
 import { getProjectManager } from './services/project-manager';
 import { getAnalytics } from './services/analytics';
 import { getScheduler } from './services/scheduler';
+import { getUserEventTracking } from './services/userEventTracking';
 import { getClaudeApiKey, isOAuthToken, getEnv, getEnvValue, validateEnvConfig } from './config/env-config';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -1878,6 +1879,219 @@ app.get('/api/projects/:id/analytics/export', async (req, res) => {
         if (format === 'csv') {
             res.setHeader('Content-Type', 'text/csv');
             res.setHeader('Content-Disposition', `attachment; filename="${req.params.id}-analytics.csv"`);
+            res.send(data);
+        } else {
+            res.json(JSON.parse(data));
+        }
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to export data' } });
+    }
+});
+
+// ============================================
+// USER EVENT TRACKING API
+// ============================================
+
+const userTracking = getUserEventTracking({ projectId: 'acd-dashboard' });
+
+// Receive tracking events from client SDK
+app.post('/api/tracking/events', async (req, res) => {
+    try {
+        const { projectId, events } = req.body;
+        
+        if (!projectId || !events || !Array.isArray(events)) {
+            return res.status(400).json({ error: { message: 'projectId and events array required' } });
+        }
+
+        const recorded = events.map((event: any) => {
+            return userTracking.trackEvent(event, event.userId, event.sessionId);
+        });
+
+        res.json({ data: { recorded: recorded.length } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to record events' } });
+    }
+});
+
+// Track single event
+app.post('/api/tracking/track', async (req, res) => {
+    try {
+        const { projectId, eventName, properties, userId, sessionId } = req.body;
+        
+        const event = userTracking.track(eventName, properties, userId);
+        res.json({ data: event });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to track event' } });
+    }
+});
+
+// Identify user
+app.post('/api/tracking/identify', async (req, res) => {
+    try {
+        const { userId, traits } = req.body;
+        
+        if (!userId) {
+            return res.status(400).json({ error: { message: 'userId required' } });
+        }
+
+        userTracking.identify(userId, traits);
+        res.json({ data: { success: true, userId } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to identify user' } });
+    }
+});
+
+// Track page view
+app.post('/api/tracking/pageview', async (req, res) => {
+    try {
+        const { projectId, url, title, referrer, userId } = req.body;
+        
+        const event = userTracking.trackPageView(url, title, referrer, userId);
+        res.json({ data: event });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to track pageview' } });
+    }
+});
+
+// Track conversion
+app.post('/api/tracking/conversion', async (req, res) => {
+    try {
+        const { projectId, name, value, properties, userId } = req.body;
+        
+        const event = userTracking.trackConversion(name, value, properties, userId);
+        res.json({ data: event });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to track conversion' } });
+    }
+});
+
+// Get tracking events
+app.get('/api/tracking/:projectId/events', async (req, res) => {
+    try {
+        const { eventType, userId, sessionId, startDate, endDate, limit } = req.query;
+        
+        const events = userTracking.getEvents(req.params.projectId, {
+            eventType: eventType as any,
+            userId: userId as string,
+            sessionId: sessionId as string,
+            startDate: startDate ? new Date(startDate as string) : undefined,
+            endDate: endDate ? new Date(endDate as string) : undefined,
+            limit: limit ? parseInt(limit as string, 10) : undefined,
+        });
+
+        res.json({ data: events });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get events' } });
+    }
+});
+
+// Get event counts
+app.get('/api/tracking/:projectId/counts/:eventName', async (req, res) => {
+    try {
+        const { groupBy, startDate, endDate } = req.query;
+        
+        const timeRange = startDate && endDate ? {
+            start: new Date(startDate as string),
+            end: new Date(endDate as string),
+        } : undefined;
+
+        const counts = userTracking.getEventCounts(
+            req.params.projectId,
+            req.params.eventName,
+            (groupBy as 'day' | 'week' | 'month') || 'day',
+            timeRange
+        );
+
+        res.json({ data: counts });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get event counts' } });
+    }
+});
+
+// Get tracking statistics
+app.get('/api/tracking/:projectId/stats', async (req, res) => {
+    try {
+        const stats = userTracking.getStatistics(req.params.projectId);
+        res.json({ data: stats });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get stats' } });
+    }
+});
+
+// Define funnel
+app.post('/api/tracking/funnels', async (req, res) => {
+    try {
+        const funnel = req.body;
+        
+        if (!funnel.id || !funnel.name || !funnel.steps) {
+            return res.status(400).json({ error: { message: 'id, name, and steps required' } });
+        }
+
+        userTracking.defineFunnel(funnel);
+        res.json({ data: { success: true, funnelId: funnel.id } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to define funnel' } });
+    }
+});
+
+// Analyze funnel
+app.get('/api/tracking/funnels/:funnelId/analysis', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        
+        const timeRange = startDate && endDate ? {
+            start: new Date(startDate as string),
+            end: new Date(endDate as string),
+        } : undefined;
+
+        const analysis = userTracking.analyzeFunnel(req.params.funnelId, timeRange);
+        
+        if (!analysis) {
+            return res.status(404).json({ error: { message: 'Funnel not found' } });
+        }
+
+        res.json({ data: analysis });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to analyze funnel' } });
+    }
+});
+
+// Retention analysis
+app.get('/api/tracking/:projectId/retention', async (req, res) => {
+    try {
+        const { cohortEvent, returnEvent, startDate, endDate, granularity } = req.query;
+        
+        if (!cohortEvent || !returnEvent) {
+            return res.status(400).json({ error: { message: 'cohortEvent and returnEvent required' } });
+        }
+
+        const timeRange = {
+            start: startDate ? new Date(startDate as string) : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+            end: endDate ? new Date(endDate as string) : new Date(),
+        };
+
+        const retention = userTracking.analyzeRetention(
+            cohortEvent as string,
+            returnEvent as string,
+            timeRange,
+            (granularity as 'day' | 'week') || 'day'
+        );
+
+        res.json({ data: retention });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to analyze retention' } });
+    }
+});
+
+// Export tracking data
+app.get('/api/tracking/:projectId/export', async (req, res) => {
+    try {
+        const format = (req.query.format as string) || 'json';
+        const data = userTracking.exportEvents(req.params.projectId, format as 'json' | 'csv');
+        
+        if (format === 'csv') {
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="${req.params.projectId}-tracking.csv"`);
             res.send(data);
         } else {
             res.json(JSON.parse(data));

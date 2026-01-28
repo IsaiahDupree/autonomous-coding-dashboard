@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlogCanvas - Live Agent Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #334155;
+      --border: rgba(148, 163, 184, 0.1);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #8b5cf6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .projects-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem;
+    }
+    .project-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0.5rem;
+      border: 1px solid transparent;
+    }
+    .project-item:hover {
+      background: var(--surface-hover);
+    }
+    .project-item.active {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: var(--primary);
+    }
+    .project-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .project-info { flex: 1; min-width: 0; }
+    .project-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .project-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .project-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .project-status.running {
+      background: var(--success);
+      animation: pulse 1.5s infinite;
+    }
+    .project-status.idle { background: var(--text-muted); }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+    }
+    
+    /* Main Content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    /* Header */
+    .header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.875rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.5s infinite;
+    }
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover { background: #7c3aed; }
+    .btn-secondary {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: #475569; }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--error);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
+    
+    /* Content Grid */
+    .content {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto 1fr;
+      gap: 1.5rem;
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card-body { padding: 1.25rem; }
+    
+    /* Timer Card */
+    .timer-card { grid-column: span 1; }
+    .timer-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .timer-labels {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .timer-progress {
+      margin-top: 1rem;
+      height: 8px;
+      background: rgba(139, 92, 246, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .timer-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #a78bfa);
+      border-radius: 4px;
+      transition: width 1s linear;
+    }
+    .timer-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    /* Job Status Card */
+    .job-card { grid-column: span 1; }
+    .job-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .job-stat {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+    }
+    .job-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .job-stat-value.success { color: var(--success); }
+    .job-stat-value.pending { color: var(--warning); }
+    .job-stat-value.total { color: var(--text); }
+    .job-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+    
+    /* Feature Progress Card */
+    .progress-card { grid-column: span 2; }
+    .feature-progress {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .progress-ring {
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+    }
+    .progress-ring-bg {
+      fill: none;
+      stroke: rgba(139, 92, 246, 0.2);
+      stroke-width: 8;
+    }
+    .progress-ring-fill {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 8;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      transition: stroke-dashoffset 0.5s ease;
+    }
+    .progress-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      fill: var(--text);
+    }
+    .feature-list-mini {
+      flex: 1;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .feature-item-mini {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+    }
+    .feature-item-mini.complete {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    .feature-item-mini.current {
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid var(--primary);
+    }
+    .feature-item-mini.pending {
+      color: var(--text-muted);
+    }
+    .feature-icon { font-size: 1rem; }
+    .feature-id { 
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    
+    /* Terminal Card */
+    .terminal-card { grid-column: span 2; min-height: 300px; }
+    .terminal {
+      background: #0d1117;
+      border-radius: 8px;
+      height: 350px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .terminal-header {
+      background: #161b22;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #30363d;
+    }
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ff5f56; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #27c93f; }
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+    .terminal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+    .terminal-line {
+      margin-bottom: 0.25rem;
+    }
+    .terminal-time {
+      color: #6e7681;
+      margin-right: 0.5rem;
+    }
+    .terminal-success { color: #3fb950; }
+    .terminal-error { color: #f85149; }
+    .terminal-info { color: #58a6ff; }
+    .terminal-warning { color: #d29922; }
+    .terminal-default { color: #c9d1d9; }
+    
+    /* Current Task */
+    .current-task {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .current-task-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .current-task-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .current-task-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>📁 Projects</h2>
+      <button class="sidebar-toggle">◀</button>
+    </div>
+    <div class="projects-list" id="projects-list">
+      <!-- Projects loaded dynamically -->
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="header-title">
+          <span>📝</span>
+          BlogCanvas
+        </h1>
+        <div class="status-badge" id="status-badge">
+          <span class="status-dot"></span>
+          <span id="status-text">Running</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="http://localhost:4848" target="_blank" class="btn btn-secondary">🌐 Open App</a>
+        <button class="btn btn-secondary" onclick="refreshData()">🔄 Refresh</button>
+        <button class="btn btn-danger" onclick="stopHarness()">⏹ Stop</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Timer -->
+      <div class="card timer-card">
+        <div class="card-header">
+          <span class="card-title">⏱️ Session Timer</span>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">16 Hour Session</span>
+        </div>
+        <div class="card-body">
+          <div class="timer-display" id="timer">00:00:00</div>
+          <div class="timer-labels">
+            <span>Hours</span>
+            <span>Minutes</span>
+            <span>Seconds</span>
+          </div>
+          <div class="timer-progress">
+            <div class="timer-progress-bar" id="timer-progress" style="width: 0%"></div>
+          </div>
+          <div class="timer-info">
+            <span>Started: <span id="start-time">--</span></span>
+            <span>Ends: <span id="end-time">--</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job Status -->
+      <div class="card job-card">
+        <div class="card-header">
+          <span class="card-title">📊 Job Status</span>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Session #1</span>
+        </div>
+        <div class="card-body">
+          <div class="current-task">
+            <div class="current-task-label">Currently Working On</div>
+            <div class="current-task-name" id="current-task">feat-001: Client Authentication</div>
+            <div class="current-task-meta">
+              <span>Priority: Critical</span>
+              <span>Epic: Authentication</span>
+            </div>
+          </div>
+          <div class="job-stats">
+            <div class="job-stat">
+              <div class="job-stat-value success" id="completed-count">0</div>
+              <div class="job-stat-label">Completed</div>
+            </div>
+            <div class="job-stat">
+              <div class="job-stat-value pending" id="pending-count">25</div>
+              <div class="job-stat-label">Pending</div>
+            </div>
+            <div class="job-stat">
+              <div class="job-stat-value total" id="total-count">25</div>
+              <div class="job-stat-label">Total</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Progress -->
+      <div class="card progress-card">
+        <div class="card-header">
+          <span class="card-title">🎯 Feature Progress</span>
+        </div>
+        <div class="card-body">
+          <div class="feature-progress">
+            <svg class="progress-ring" viewBox="0 0 120 120">
+              <circle class="progress-ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="progress-ring-fill" id="progress-ring" cx="60" cy="60" r="50" 
+                stroke-dasharray="314" stroke-dashoffset="314"/>
+              <text class="progress-text" x="60" y="65" text-anchor="middle" id="progress-percent">0%</text>
+            </svg>
+            <div class="feature-list-mini" id="feature-list">
+              <!-- Features loaded dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Terminal -->
+      <div class="card terminal-card">
+        <div class="card-header">
+          <span class="card-title">💻 Live Terminal</span>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleAutoScroll()">
+              <span id="scroll-icon">⏸</span> Auto-scroll
+            </button>
+            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="clearTerminal()">
+              🗑️ Clear
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">BlogCanvas Harness Output</span>
+            </div>
+            <div class="terminal-body" id="terminal">
+              <div class="terminal-line">
+                <span class="terminal-time">[Loading...]</span>
+                <span class="terminal-info">Connecting to harness output...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const BLOGCANVAS_PATH = '/Users/isaiahdupree/Documents/Software/BlogCanvas';
+    const START_TIME = new Date('2026-01-10T21:57:00-05:00');
+    const DURATION_HOURS = 16;
+    const DURATION_MS = DURATION_HOURS * 60 * 60 * 1000;
+    
+    let autoScroll = true;
+    let features = [];
+    
+    // Projects data
+    const projects = [
+      { id: 'blogcanvas', name: 'BlogCanvas', desc: '16hr autonomous session', icon: '📝', color: '#8b5cf6', status: 'running' },
+      { id: 'dashboard', name: 'Autonomous Coding...', desc: 'Main dashboard', icon: '🤖', color: '#6366f1', status: 'idle' },
+      { id: 'ecommerce', name: 'E-commerce Platform', desc: 'Full-stack e-commerce', icon: '🛒', color: '#10b981', status: 'idle' },
+      { id: 'taskapp', name: 'Task Management App', desc: 'Productivity tool', icon: '✅', color: '#f59e0b', status: 'idle' },
+    ];
+    
+    // Initial features
+    const initialFeatures = [
+      { id: 'feat-001', desc: 'Client authentication', status: 'current', priority: 'critical' },
+      { id: 'feat-002', desc: 'PDF pitch generator', status: 'pending', priority: 'critical' },
+      { id: 'feat-003', desc: 'WordPress publishing', status: 'pending', priority: 'critical' },
+      { id: 'feat-004', desc: 'CSV import/export', status: 'pending', priority: 'high' },
+      { id: 'feat-005', desc: 'Editor Kanban board', status: 'pending', priority: 'high' },
+      { id: 'feat-006', desc: 'Analytics collection', status: 'pending', priority: 'high' },
+      { id: 'feat-007', desc: 'Revision history UI', status: 'pending', priority: 'medium' },
+      { id: 'feat-008', desc: 'Report generation', status: 'pending', priority: 'medium' },
+    ];
+    features = initialFeatures;
+    
+    // Render projects sidebar
+    function renderProjects() {
+      const list = document.getElementById('projects-list');
+      list.innerHTML = projects.map(p => `
+        <div class="project-item ${p.id === 'blogcanvas' ? 'active' : ''}" onclick="selectProject('${p.id}')">
+          <div class="project-icon" style="background: ${p.color}20; color: ${p.color};">${p.icon}</div>
+          <div class="project-info">
+            <div class="project-name">${p.name}</div>
+            <div class="project-desc">${p.desc}</div>
+          </div>
+          <div class="project-status ${p.status}"></div>
+        </div>
+      `).join('');
+    }
+    
+    // Render feature list
+    function renderFeatures() {
+      const list = document.getElementById('feature-list');
+      const completed = features.filter(f => f.status === 'complete').length;
+      const total = features.length;
+      const percent = Math.round((completed / total) * 100);
+      
+      // Update progress ring
+      const ring = document.getElementById('progress-ring');
+      const circumference = 314; // 2 * PI * 50
+      const offset = circumference - (percent / 100 * circumference);
+      ring.style.strokeDashoffset = offset;
+      document.getElementById('progress-percent').textContent = percent + '%';
+      
+      // Update counts
+      document.getElementById('completed-count').textContent = completed;
+      document.getElementById('pending-count').textContent = total - completed;
+      document.getElementById('total-count').textContent = total;
+      
+      // Render list
+      list.innerHTML = features.slice(0, 8).map(f => `
+        <div class="feature-item-mini ${f.status}">
+          <span class="feature-icon">${f.status === 'complete' ? '✅' : f.status === 'current' ? '🔄' : '⏳'}</span>
+          <span class="feature-id">${f.id}</span>
+          <span>${f.desc}</span>
+        </div>
+      `).join('');
+    }
+    
+    // Update timer
+    function updateTimer() {
+      const now = new Date();
+      const elapsed = now - START_TIME;
+      const remaining = DURATION_MS - elapsed;
+      
+      if (remaining <= 0) {
+        document.getElementById('timer').textContent = '16:00:00';
+        document.getElementById('timer-progress').style.width = '100%';
+        document.getElementById('status-text').textContent = 'Complete';
+        return;
+      }
+      
+      const hours = Math.floor(elapsed / 3600000);
+      const mins = Math.floor((elapsed % 3600000) / 60000);
+      const secs = Math.floor((elapsed % 60000) / 1000);
+      
+      document.getElementById('timer').textContent = 
+        `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      
+      const progress = (elapsed / DURATION_MS) * 100;
+      document.getElementById('timer-progress').style.width = progress + '%';
+      
+      document.getElementById('start-time').textContent = START_TIME.toLocaleTimeString();
+      const endTime = new Date(START_TIME.getTime() + DURATION_MS);
+      document.getElementById('end-time').textContent = endTime.toLocaleTimeString();
+    }
+    
+    // Simulated terminal output
+    const terminalMessages = [
+      { type: 'info', msg: '🚀 Starting BlogCanvas harness session #1...' },
+      { type: 'default', msg: 'Working directory: /Users/isaiahdupree/Documents/Software/BlogCanvas' },
+      { type: 'success', msg: '✅ Dev server running on http://localhost:4848' },
+      { type: 'info', msg: '📋 Reading feature_list.json...' },
+      { type: 'default', msg: 'Found 25 features (0 passing, 25 pending)' },
+      { type: 'info', msg: '🎯 Starting feat-001: Client authentication' },
+      { type: 'default', msg: 'Analyzing existing auth structure...' },
+      { type: 'default', msg: 'Reading /app/auth/* routes...' },
+      { type: 'default', msg: 'Checking Supabase auth configuration...' },
+      { type: 'success', msg: '✓ Found existing auth middleware' },
+      { type: 'info', msg: 'Creating client login flow...' },
+    ];
+    let terminalIndex = 0;
+    
+    function addTerminalLine() {
+      if (terminalIndex >= terminalMessages.length) {
+        terminalIndex = 5; // Loop back to working messages
+      }
+      
+      const msg = terminalMessages[terminalIndex++];
+      const terminal = document.getElementById('terminal');
+      const time = new Date().toLocaleTimeString();
+      
+      const line = document.createElement('div');
+      line.className = 'terminal-line';
+      line.innerHTML = `<span class="terminal-time">[${time}]</span><span class="terminal-${msg.type}">${msg.msg}</span>`;
+      terminal.appendChild(line);
+      
+      if (autoScroll) {
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+      
+      // Keep max 100 lines
+      while (terminal.children.length > 100) {
+        terminal.removeChild(terminal.firstChild);
+      }
+    }
+    
+    function clearTerminal() {
+      const terminal = document.getElementById('terminal');
+      terminal.innerHTML = '<div class="terminal-line"><span class="terminal-time">[' + new Date().toLocaleTimeString() + ']</span><span class="terminal-info">Terminal cleared</span></div>';
+    }
+    
+    function toggleAutoScroll() {
+      autoScroll = !autoScroll;
+      document.getElementById('scroll-icon').textContent = autoScroll ? '⏸' : '▶';
+    }
+    
+    function selectProject(id) {
+      if (id !== 'blogcanvas') {
+        alert('Switch to this project in the main dashboard');
+      }
+    }
+    
+    function stopHarness() {
+      if (confirm('Are you sure you want to stop the BlogCanvas harness?')) {
+        document.getElementById('status-text').textContent = 'Stopped';
+        document.getElementById('status-badge').style.background = 'rgba(239, 68, 68, 0.15)';
+        document.getElementById('status-badge').style.color = '#ef4444';
+        document.getElementById('status-badge').style.borderColor = 'rgba(239, 68, 68, 0.3)';
+      }
+    }
+    
+    function refreshData() {
+      // In real implementation, this would fetch from the backend
+      addTerminalLine();
+      addTerminalLine();
+    }
+    
+    // Initialize
+    renderProjects();
+    renderFeatures();
+    updateTimer();
+    
+    // Start intervals
+    setInterval(updateTimer, 1000);
+    setInterval(addTerminalLine, 3000);
+    
+    // Initial terminal messages
+    setTimeout(() => {
+      for (let i = 0; i < 5; i++) {
+        addTerminalLine();
+      }
+    }, 500);
+  </script>
+</body>
+</html>

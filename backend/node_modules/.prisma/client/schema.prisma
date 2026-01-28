@@ -57,7 +57,7 @@ model ApiToken {
 
 model Project {
   id               String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  orgId            String         @map("org_id") @db.Uuid
+  orgId            String?        @map("org_id") @db.Uuid
   name             String         @db.VarChar(255)
   description      String?
   status           ProjectStatus? @default(draft)

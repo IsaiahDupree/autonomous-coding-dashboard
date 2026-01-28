@@ -2,7 +2,7 @@
   "project": "Autonomous Coding Dashboard",
   "created": "2024-12-20T00:00:00Z",
   "description": "A comprehensive dashboard for monitoring and controlling autonomous coding agents",
-  "total_features": 25,
+  "total_features": 45,
   "features": [
     {
       "id": "feat-001",
@@ -328,6 +328,272 @@
       ],
       "passes": true,
       "implemented_at": "2026-01-17T21:00:00Z"
+    },
+    {
+      "id": "feat-026",
+      "category": "prd-management",
+      "priority": 13,
+      "description": "PRD Scanner - Automatically discover and index PRDs from target projects",
+      "acceptance_criteria": [
+        "Scans target project directories for PRD files (*.md in docs/)",
+        "Indexes PRD content with metadata (title, date, features)",
+        "Displays PRD list per project in dashboard",
+        "Highlights new/updated PRDs since last scan"
+      ],
+      "passes": true,
+      "implemented_at": "2026-01-25T21:40:00Z"
+    },
+    {
+      "id": "feat-027",
+      "category": "prd-management",
+      "priority": 13,
+      "description": "PRD Sync - Merge multiple PRDs into unified feature backlog",
+      "acceptance_criteria": [
+        "Combines features from multiple PRD files",
+        "Deduplicates similar features across PRDs",
+        "Tracks which PRD each feature originated from",
+        "Updates feature_list.json when PRDs change"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-028",
+      "category": "prd-management",
+      "priority": 13,
+      "description": "PRD Voice/Text Input - Add new requirements via voice or text",
+      "acceptance_criteria": [
+        "Text input field for new PRD requirements",
+        "Voice input option with transcription",
+        "Auto-generates acceptance criteria from requirements",
+        "Appends to existing PRD or creates new one"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-029",
+      "category": "user-tracking",
+      "priority": 14,
+      "description": "User Event Tracking Service - Backend event collection and storage",
+      "acceptance_criteria": [
+        "API endpoint to receive tracking events",
+        "Stores events with user, session, and context data",
+        "Supports all event types (pageview, click, conversion, error)",
+        "Provides query API for retrieving events"
+      ],
+      "passes": true,
+      "implemented_at": "2026-01-25T21:40:00Z"
+    },
+    {
+      "id": "feat-030",
+      "category": "user-tracking",
+      "priority": 14,
+      "description": "Client-Side Tracking SDK - Drop-in tracking for target web apps",
+      "acceptance_criteria": [
+        "Lightweight client-side JavaScript/TypeScript SDK",
+        "Auto-tracks page views, clicks, scroll depth",
+        "Captures Core Web Vitals (LCP, FID, CLS)",
+        "Session and user identification",
+        "Batched event sending with offline support"
+      ],
+      "passes": true,
+      "implemented_at": "2026-01-25T21:40:00Z"
+    },
+    {
+      "id": "feat-031",
+      "category": "user-tracking",
+      "priority": 14,
+      "description": "Funnel Analysis - Define and track conversion funnels",
+      "acceptance_criteria": [
+        "Define multi-step funnels with event names",
+        "Track user progress through funnel steps",
+        "Calculate conversion and drop-off rates per step",
+        "Visualize funnel in dashboard"
+      ],
+      "passes": true,
+      "implemented_at": "2026-01-25T21:40:00Z"
+    },
+    {
+      "id": "feat-032",
+      "category": "user-tracking",
+      "priority": 14,
+      "description": "Retention Analysis - Cohort-based retention tracking",
+      "acceptance_criteria": [
+        "Group users into cohorts by signup date or event",
+        "Calculate day-over-day/week-over-week retention",
+        "Display retention matrix/chart",
+        "Compare retention across cohorts"
+      ],
+      "passes": true,
+      "implemented_at": "2026-01-25T21:40:00Z"
+    },
+    {
+      "id": "feat-033",
+      "category": "target-management",
+      "priority": 15,
+      "description": "Target Project Queue Dashboard - View and manage project queue",
+      "acceptance_criteria": [
+        "Displays all projects in repo-queue.json",
+        "Shows priority, enabled status, and completion progress",
+        "Allows drag-and-drop priority reordering",
+        "Enable/disable projects inline"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-034",
+      "category": "target-management",
+      "priority": 15,
+      "description": "Target PRD Viewer - View and navigate PRDs inline",
+      "acceptance_criteria": [
+        "Renders PRD markdown with syntax highlighting",
+        "Table of contents navigation",
+        "Links to referenced files open in editor",
+        "Search within PRD content"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-035",
+      "category": "target-management",
+      "priority": 15,
+      "description": "Feature Extraction from PRD - Auto-generate feature list from PRD",
+      "acceptance_criteria": [
+        "Parses PRD for user stories and requirements",
+        "Generates feature entries with IDs and categories",
+        "Creates acceptance criteria from PRD content",
+        "Outputs to feature_list.json format"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-036",
+      "category": "automation",
+      "priority": 16,
+      "description": "Sleep/Wake Mode - CPU-efficient idle state for harness",
+      "acceptance_criteria": [
+        "Harness enters sleep mode when idle",
+        "CPU usage drops to <5% in sleep",
+        "Wake triggers: scheduled post, user access, checkback",
+        "Configurable sleep timeout"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-037",
+      "category": "automation",
+      "priority": 16,
+      "description": "Multi-Repo Queue Orchestrator - Process multiple repos in priority order",
+      "acceptance_criteria": [
+        "Reads repo-queue.json for project list",
+        "Works on highest priority enabled project",
+        "Switches to next project when current completes",
+        "Respects untilComplete flag per project"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-038",
+      "category": "automation",
+      "priority": 16,
+      "description": "Adaptive Session Delay - Smart delay based on activity",
+      "acceptance_criteria": [
+        "Increases delay after errors",
+        "Decreases delay during productive sessions",
+        "Configurable min/max delay bounds",
+        "Logs delay adjustments"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-039",
+      "category": "testing",
+      "priority": 17,
+      "description": "E2E Test Runner Integration - Run and display E2E test results",
+      "acceptance_criteria": [
+        "Trigger Playwright tests from dashboard",
+        "Display test results with pass/fail status",
+        "Show screenshots on failure",
+        "Link test results to features"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-040",
+      "category": "testing",
+      "priority": 17,
+      "description": "Test Coverage Dashboard - Visualize test coverage per feature",
+      "acceptance_criteria": [
+        "Shows which features have tests",
+        "Displays coverage percentage per category",
+        "Highlights features without tests",
+        "Links to test files"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-041",
+      "category": "analytics",
+      "priority": 18,
+      "description": "Cross-Project Analytics - Aggregate metrics across all targets",
+      "acceptance_criteria": [
+        "Total features completed across all projects",
+        "Cost breakdown by project",
+        "Velocity comparison chart",
+        "Project health scores"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-042",
+      "category": "analytics",
+      "priority": 18,
+      "description": "Cost Forecasting - Predict future API costs",
+      "acceptance_criteria": [
+        "Projects cost based on remaining features",
+        "Considers historical cost per feature",
+        "Provides confidence intervals",
+        "Alerts on budget thresholds"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-043",
+      "category": "integrations",
+      "priority": 19,
+      "description": "Supabase Project Connection - Connect to target Supabase projects",
+      "acceptance_criteria": [
+        "Store Supabase project credentials per target",
+        "Test connection on save",
+        "Display database table counts",
+        "Run migrations from dashboard"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-044",
+      "category": "integrations",
+      "priority": 19,
+      "description": "Deployment Status Tracker - Track Netlify/Vercel deployments",
+      "acceptance_criteria": [
+        "Shows deployment status per project",
+        "Links to live preview URLs",
+        "Displays build logs on failure",
+        "Triggers redeploy from dashboard"
+      ],
+      "passes": false
+    },
+    {
+      "id": "feat-045",
+      "category": "integrations",
+      "priority": 19,
+      "description": "PostHog/Analytics Integration - View analytics from target apps",
+      "acceptance_criteria": [
+        "Connects to PostHog project",
+        "Displays key metrics (users, sessions, conversions)",
+        "Shows event timeline",
+        "Embeds key charts in dashboard"
+      ],
+      "passes": false
     }
   ]
 }

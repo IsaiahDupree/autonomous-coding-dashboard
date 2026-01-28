@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlogCanvas Agent Status</title>
+  <meta http-equiv="refresh" content="10">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e4e4e7;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    h1 {
+      font-size: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    .status-running {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .card h2 {
+      font-size: 0.875rem;
+      color: #a1a1aa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+    .stat-label {
+      color: #71717a;
+      margin-top: 0.5rem;
+    }
+    
+    .progress-bar-container {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      height: 12px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+    
+    .feature-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      background: rgba(255,255,255,0.03);
+    }
+    .feature-item.passing {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid #10b981;
+    }
+    .feature-item.pending {
+      border-left: 3px solid #6366f1;
+    }
+    .feature-icon {
+      font-size: 1.25rem;
+    }
+    .feature-info { flex: 1; }
+    .feature-id {
+      font-size: 0.75rem;
+      color: #71717a;
+      font-family: monospace;
+    }
+    .feature-desc {
+      font-size: 0.875rem;
+      color: #e4e4e7;
+    }
+    .feature-priority {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+    }
+    
+    .log-container {
+      background: #0d0d0d;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-line {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .log-time { color: #6b7280; }
+    .log-success { color: #10b981; }
+    .log-info { color: #3b82f6; }
+    
+    .timer {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      font-family: monospace;
+    }
+    .timer-label {
+      color: #71717a;
+      font-size: 0.875rem;
+    }
+    
+    .refresh-notice {
+      text-align: center;
+      color: #71717a;
+      font-size: 0.75rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>
+        <span>🤖</span>
+        BlogCanvas Autonomous Agent
+      </h1>
+      <div class="status-badge status-running">
+        <span class="status-dot"></span>
+        Running
+      </div>
+    </header>
+    
+    <div class="grid">
+      <div class="card">
+        <h2>📊 Feature Progress</h2>
+        <div class="stat-value" id="progress-text">0/25</div>
+        <div class="stat-label">features completed</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>⏱️ Session Timer</h2>
+        <div class="timer" id="timer">00:00:00</div>
+        <div class="timer-label">elapsed / 16:00:00 total</div>
+        <div style="margin-top: 1rem; color: #71717a; font-size: 0.875rem;">
+          Started: <span id="start-time">--</span>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>🎯 Current Focus</h2>
+        <div id="current-feature" style="font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem;">
+          feat-001: Client Authentication
+        </div>
+        <div style="color: #71717a; font-size: 0.875rem;">
+          Priority: Critical | Epic: Authentication
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="card" style="grid-column: span 2;">
+        <h2>📋 Feature Queue</h2>
+        <div class="feature-list" id="feature-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>📝 Recent Activity</h2>
+      <div class="log-container" id="log-container">
+        <div class="log-line">
+          <span class="log-time">[Loading...]</span>
+          Fetching progress data...
+        </div>
+      </div>
+    </div>
+    
+    <div class="refresh-notice">
+      Auto-refreshes every 10 seconds | 
+      <a href="http://localhost:4848" target="_blank" style="color: #6366f1;">Open BlogCanvas App</a>
+    </div>
+  </div>
+  
+  <script>
+    // Feature data (will be loaded from JSON)
+    const features = [
+      { id: 'feat-001', desc: 'Client authentication - separate login flow', priority: 1, category: 'critical', passes: false },
+      { id: 'feat-002', desc: 'PDF pitch generator from SEO audit data', priority: 2, category: 'critical', passes: false },
+      { id: 'feat-003', desc: 'WordPress REST API integration', priority: 3, category: 'critical', passes: false },
+      { id: 'feat-004', desc: 'CSV import/export for batch topics', priority: 4, category: 'high', passes: false },
+      { id: 'feat-005', desc: 'Editor Kanban board', priority: 5, category: 'high', passes: false },
+      { id: 'feat-006', desc: 'Analytics data collection', priority: 6, category: 'high', passes: false },
+      { id: 'feat-007', desc: 'Revision history UI with diff', priority: 7, category: 'medium', passes: false },
+      { id: 'feat-008', desc: 'Report generation engine', priority: 8, category: 'medium', passes: false },
+      { id: 'feat-009', desc: 'Enhanced audit visualizations', priority: 9, category: 'medium', passes: false },
+      { id: 'feat-010', desc: 'Newsletter builder', priority: 10, category: 'medium', passes: false },
+    ];
+    
+    // Session start time (approximate)
+    const startTime = new Date();
+    startTime.setMinutes(startTime.getMinutes() - 5); // Assume started ~5 min ago
+    
+    function updateTimer() {
+      const now = new Date();
+      const elapsed = Math.floor((now - startTime) / 1000);
+      const hours = Math.floor(elapsed / 3600);
+      const mins = Math.floor((elapsed % 3600) / 60);
+      const secs = elapsed % 60;
+      document.getElementById('timer').textContent = 
+        `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    function renderFeatures() {
+      const list = document.getElementById('feature-list');
+      const passing = features.filter(f => f.passes).length;
+      const total = features.length;
+      
+      document.getElementById('progress-text').textContent = `${passing}/${total}`;
+      document.getElementById('progress-bar').style.width = `${(passing/total)*100}%`;
+      
+      list.innerHTML = features.map(f => `
+        <div class="feature-item ${f.passes ? 'passing' : 'pending'}">
+          <span class="feature-icon">${f.passes ? '✅' : '⏳'}</span>
+          <div class="feature-info">
+            <div class="feature-id">${f.id}</div>
+            <div class="feature-desc">${f.desc}</div>
+          </div>
+          <span class="feature-priority">${f.category}</span>
+        </div>
+      `).join('');
+    }
+    
+    document.getElementById('start-time').textContent = startTime.toLocaleTimeString();
+    renderFeatures();
+    setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>

@@ -123,9 +123,27 @@ def create_claude_client(
     if not CLAUDE_SDK_AVAILABLE:
         return None
     
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    # Try to get API key from environment or Claude Code
+    api_key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_CODE_OAUTH_TOKEN")
     if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+        # Try to source from Claude Code desktop app
+        import subprocess
+        try:
+            script_path = Path(__file__).parent.parent.parent / "scripts" / "get-claude-key.sh"
+            if script_path.exists():
+                result = subprocess.run(
+                    ["bash", str(script_path)],
+                    capture_output=True,
+                    text=True,
+                    timeout=5
+                )
+                if result.returncode == 0 and result.stdout.strip():
+                    api_key = result.stdout.strip()
+        except Exception:
+            pass
+    
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN environment variable not set, and could not source from Claude Code")
     
     # Security settings
     security_settings = {
