@@ -83,6 +83,30 @@ export async function getTarget(targetId) {
   }
 }
 
+export async function syncTargetProgress(targetId, passingFeatures, totalFeatures) {
+  const client = await getPool().connect();
+  try {
+    const percentComplete = totalFeatures > 0 ? (passingFeatures / totalFeatures) * 100 : 0;
+    const status = percentComplete >= 100 ? 'complete' : 'pending';
+    
+    const result = await client.query(
+      `UPDATE targets SET
+         passing_features = $2,
+         total_features = $3,
+         percent_complete = $4,
+         status = $5,
+         last_session_at = NOW(),
+         "updatedAt" = NOW()
+       WHERE repo_id = $1
+       RETURNING *`,
+      [targetId, passingFeatures, totalFeatures, percentComplete, status]
+    );
+    return result.rows[0];
+  } finally {
+    client.release();
+  }
+}
+
 // ============================================
 // Session Tracking
 // ============================================
@@ -112,42 +136,76 @@ export async function startSession(targetId, sessionNumber, sessionType = 'codin
   }
 }
 
-export async function endSession(sessionId, metrics) {
-  const {
-    status = 'completed',
-    inputTokens = 0,
-    outputTokens = 0,
-    costUsd = 0,
-    featuresBefore = 0,
-    featuresAfter = 0,
-    featuresCompleted = 0,
-    commitsMade = 0,
-    errorType = null,
-    errorMessage = null,
-  } = metrics;
-
+export async function endSession(sessionId, metrics = {}) {
   const client = await getPool().connect();
   try {
+    // Calculate cache hit rate
+    const totalInput = (metrics.inputTokens || 0) + (metrics.cacheReadTokens || 0);
+    const cacheHitRate = totalInput > 0 ? (metrics.cacheReadTokens || 0) / totalInput : 0;
+    
+    // Calculate context utilization (assuming 200K context window)
+    const totalTokens = (metrics.inputTokens || 0) + (metrics.outputTokens || 0) + 
+                        (metrics.cacheReadTokens || 0) + (metrics.cacheWriteTokens || 0);
+    const contextUtilization = totalTokens / 200000;
+    
+    // Calculate test pass rate
+    const testsRun = (metrics.testsPassed || 0) + (metrics.testsFailed || 0);
+    const testPassRate = testsRun > 0 ? (metrics.testsPassed || 0) / testsRun : null;
+    
     const result = await client.query(
       `UPDATE harness_sessions SET
+         status = $2,
          finished_at = NOW(),
          duration_ms = EXTRACT(EPOCH FROM (NOW() - started_at)) * 1000,
-         status = $2,
          input_tokens = $3,
          output_tokens = $4,
-         cost_usd = $5,
-         features_before = $6,
-         features_after = $7,
-         features_completed = $8,
-         commits_made = $9,
-         error_type = $10,
-         error_message = $11
+         cache_read_tokens = $5,
+         cache_write_tokens = $6,
+         cost_usd = $7,
+         features_before = $8,
+         features_after = $9,
+         features_completed = $10,
+         error_type = $11,
+         error_message = $12,
+         commits_made = $13,
+         api_latency_ms = $14,
+         wall_clock_ms = $15,
+         turn_count = $16,
+         retry_count = $17,
+         model_fallbacks = $18,
+         tests_run = $19,
+         tests_passed = $20,
+         tests_failed = $21,
+         test_pass_rate = $22,
+         context_utilization = $23,
+         cache_hit_rate = $24
        WHERE id = $1
        RETURNING *`,
       [
-        sessionId, status, inputTokens, outputTokens,
-        costUsd, featuresBefore, featuresAfter, featuresCompleted,
-        commitsMade, errorType, errorMessage
+        sessionId,
+        metrics.status || 'completed',
+        metrics.inputTokens || 0,
+        metrics.outputTokens || 0,
+        metrics.cacheReadTokens || 0,
+        metrics.cacheWriteTokens || 0,
+        metrics.costUsd || 0,
+        metrics.featuresBefore || 0,
+        metrics.featuresAfter || 0,
+        metrics.featuresCompleted || 0,
+        metrics.errorType || null,
+        metrics.errorMessage || null,
+        metrics.commitsMade || 0,
+        metrics.apiLatencyMs || 0,
+        metrics.wallClockMs || 0,
+        metrics.turnCount || 0,
+        metrics.retryCount || 0,
+        metrics.modelFallbacks || 0,
+        metrics.testsRun || 0,
+        metrics.testsPassed || 0,
+        metrics.testsFailed || 0,
+        testPassRate,
+        contextUtilization,
+        cacheHitRate
       ]
     );
     return result.rows[0];

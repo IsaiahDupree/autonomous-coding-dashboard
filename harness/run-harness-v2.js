@@ -353,10 +353,10 @@ function validateFeatureList() {
     if (data.features.length === 0) {
       return { valid: false, error: 'Feature list is empty' };
     }
-    // Check for required fields in first feature
+    // Check for required fields in first feature (name or description accepted)
     const sample = data.features[0];
-    if (!sample.id || !sample.name) {
-      return { valid: false, error: 'Features missing required fields (id, name)' };
+    if (!sample.id || (!sample.name && !sample.description)) {
+      return { valid: false, error: 'Features missing required fields (id, name or description)' };
     }
     return { valid: true, features: data.features.length };
   } catch (e) {
@@ -564,6 +564,11 @@ async function runSession(sessionNumber, modelOverride = null) {
       if (dbSession?.id) {
         try {
           const featuresCompleted = Math.max(0, newStats.passing - stats.passing);
+          
+          // Parse detailed metrics from output
+          const turnCount = (output.match(/"num_turns":\s*(\d+)/)?.[1]) || 0;
+          const apiLatency = sessionMetrics.apiLatencyMs || durationMs;
+          
           await metricsDb.endSession(dbSession.id, {
             status: code === 0 ? 'completed' : 'failed',
             inputTokens: sessionMetrics.inputTokens || 0,
@@ -576,8 +581,21 @@ async function runSession(sessionNumber, modelOverride = null) {
             featuresCompleted,
             errorType: code !== 0 ? classifyError(output, code) : null,
             errorMessage: code !== 0 ? output.slice(-500) : null,
+            wallClockMs: durationMs,
+            apiLatencyMs: apiLatency,
+            turnCount: parseInt(turnCount) || 0,
+            retryCount: sessionMetrics.retryCount || 0,
+            modelFallbacks: sessionMetrics.modelFallbacks || 0,
           });
-          log(`DB session ended: ${featuresCompleted} features completed`, 'info');
+          
+          const cacheHitRate = sessionMetrics.cacheReadTokens > 0 
+            ? ((sessionMetrics.cacheReadTokens / (sessionMetrics.inputTokens + sessionMetrics.cacheReadTokens)) * 100).toFixed(1)
+            : 0;
+          log(`DB session ended: ${featuresCompleted} features, ${turnCount} turns, ${cacheHitRate}% cache hit`, 'info');
+          
+          // Sync target progress to DB
+          await metricsDb.syncTargetProgress(PROJECT_ID, newStats.passing, newStats.total);
+          log(`DB target synced: ${newStats.passing}/${newStats.total} (${newStats.percentComplete}%)`, 'info');
           
           // Update daily stats
           await metricsDb.updateDailyStats(PROJECT_ID, newStats.total);

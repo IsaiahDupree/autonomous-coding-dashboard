@@ -484,6 +484,14 @@ model Target {
   sessions        HarnessSession[]
   snapshots       ProgressSnapshot[]
   features        TargetFeature[]
+  codebaseIndexes CodebaseIndex[]
+  fileAccessLogs  FileAccessLog[]
+
+  // Codebase metrics
+  lastIndexedAt   DateTime?        @map("last_indexed_at")
+  indexSizeTokens Int              @default(0) @map("index_size_tokens")
+  totalFiles      Int              @default(0) @map("total_files")
+  totalLoc        Int              @default(0) @map("total_loc")
 
   @@index([repoId], map: "idx_targets_repo_id")
   @@index([status], map: "idx_targets_status")
@@ -503,8 +511,21 @@ model HarnessSession {
   featuresCompleted Int                 @default(0) @map("features_completed")
   inputTokens       Int                 @default(0) @map("input_tokens")
   outputTokens      Int                 @default(0) @map("output_tokens")
+  cacheReadTokens   Int                 @default(0) @map("cache_read_tokens")
+  cacheWriteTokens  Int                 @default(0) @map("cache_write_tokens")
   costUsd           Float               @default(0) @map("cost_usd")
   durationMs        Int                 @default(0) @map("duration_ms")
+  apiLatencyMs      Int                 @default(0) @map("api_latency_ms")
+  wallClockMs       Int                 @default(0) @map("wall_clock_ms")
+  turnCount         Int                 @default(0) @map("turn_count")
+  retryCount        Int                 @default(0) @map("retry_count")
+  modelFallbacks    Int                 @default(0) @map("model_fallbacks")
+  testsRun          Int                 @default(0) @map("tests_run")
+  testsPassed       Int                 @default(0) @map("tests_passed")
+  testsFailed       Int                 @default(0) @map("tests_failed")
+  testPassRate      Float?              @map("test_pass_rate")
+  contextUtilization Float?             @map("context_utilization")
+  cacheHitRate      Float?              @map("cache_hit_rate")
   errorType         String?             @map("error_type")
   errorMessage      String?             @map("error_message")
   commitsMade       Int                 @default(0) @map("commits_made")
@@ -513,6 +534,8 @@ model HarnessSession {
   createdAt         DateTime            @default(now())
 
   target            Target              @relation(fields: [targetId], references: [id])
+  turns             SessionTurn[]
+  retries           SessionRetry[]
 
   @@index([targetId], map: "idx_harness_sessions_target")
   @@index([status], map: "idx_harness_sessions_status")
@@ -700,4 +723,100 @@ model TokenUsageDetail {
   @@index([sessionId], map: "idx_token_usage_session")
   @@index([model], map: "idx_token_usage_model")
   @@map("token_usage_details")
+}
+
+// SessionTurn: Turn-by-turn metrics within a session
+model SessionTurn {
+  id            String   @id @default(uuid())
+  sessionId     String   @map("session_id")
+  turnNumber    Int      @map("turn_number")
+  inputTokens   Int      @default(0) @map("input_tokens")
+  outputTokens  Int      @default(0) @map("output_tokens")
+  toolCalls     Json?    @map("tool_calls")
+  startedAt     DateTime @default(now()) @map("started_at")
+  finishedAt    DateTime? @map("finished_at")
+  durationMs    Int      @default(0) @map("duration_ms")
+  createdAt     DateTime @default(now())
+
+  session       HarnessSession @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId], map: "idx_session_turns_session")
+  @@map("session_turns")
+}
+
+// SessionRetry: Track retry attempts
+model SessionRetry {
+  id            String   @id @default(uuid())
+  sessionId     String   @map("session_id")
+  retryNumber   Int      @map("retry_number")
+  reason        String   // rate_limit, error, timeout, model_fallback
+  originalModel String?  @map("original_model")
+  fallbackModel String?  @map("fallback_model")
+  waitDurationMs Int     @default(0) @map("wait_duration_ms")
+  succeeded     Boolean  @default(false)
+  errorMessage  String?  @map("error_message")
+  createdAt     DateTime @default(now())
+
+  session       HarnessSession @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId], map: "idx_session_retries_session")
+  @@map("session_retries")
+}
+
+// CodebaseIndex: Track codebase size and structure
+model CodebaseIndex {
+  id              String   @id @default(uuid())
+  targetId        String   @map("target_id")
+  totalFiles      Int      @default(0) @map("total_files")
+  totalLines      Int      @default(0) @map("total_lines")
+  totalSizeBytes  BigInt   @default(0) @map("total_size_bytes")
+  indexSizeTokens Int      @default(0) @map("index_size_tokens")
+  buildDurationMs Int      @default(0) @map("build_duration_ms")
+  fileTypes       Json?    @map("file_types") // {"ts": 150, "js": 50}
+  largestFiles    Json?    @map("largest_files") // Top 10 by size
+  indexedAt       DateTime @default(now()) @map("indexed_at")
+  createdAt       DateTime @default(now())
+
+  target          Target   @relation(fields: [targetId], references: [id])
+
+  @@index([targetId], map: "idx_codebase_index_target")
+  @@map("codebase_indexes")
+}
+
+// ContextUsage: Track context window utilization per session
+model ContextUsage {
+  id                  String   @id @default(uuid())
+  sessionId           String   @map("session_id")
+  turnNumber          Int      @default(0) @map("turn_number")
+  systemTokens        Int      @default(0) @map("system_tokens")
+  featureTokens       Int      @default(0) @map("feature_tokens")
+  fileTokens          Int      @default(0) @map("file_tokens")
+  conversationTokens  Int      @default(0) @map("conversation_tokens")
+  totalTokens         Int      @default(0) @map("total_tokens")
+  contextLimit        Int      @default(200000) @map("context_limit")
+  utilization         Float    @default(0)
+  overflowOccurred    Boolean  @default(false) @map("overflow_occurred")
+  createdAt           DateTime @default(now())
+
+  @@index([sessionId], map: "idx_context_usage_session")
+  @@map("context_usage")
+}
+
+// FileAccessLog: Track frequently accessed files for caching
+model FileAccessLog {
+  id            String   @id @default(uuid())
+  targetId      String   @map("target_id")
+  filePath      String   @map("file_path")
+  accessCount   Int      @default(1) @map("access_count")
+  avgTokens     Int      @default(0) @map("avg_tokens")
+  isCached      Boolean  @default(false) @map("is_cached")
+  lastAccessedAt DateTime @default(now()) @map("last_accessed_at")
+  createdAt     DateTime @default(now())
+
+  target        Target   @relation(fields: [targetId], references: [id])
+
+  @@unique([targetId, filePath])
+  @@index([targetId], map: "idx_file_access_target")
+  @@index([accessCount], map: "idx_file_access_count")
+  @@map("file_access_log")
 }
