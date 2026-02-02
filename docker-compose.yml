@@ -1,22 +1,24 @@
-version: '3.8'
-
 services:
-  # PostgreSQL Database
+  # PostgreSQL Database for ACD
   postgres:
     image: postgres:16-alpine
+    container_name: acd_postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: autonomous_coding
+      POSTGRES_USER: acd_user
+      POSTGRES_PASSWORD: acd_secure_pass_2026
+      POSTGRES_DB: acd_database
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - acd_postgres_data:/var/lib/postgresql/data
+      - ./backend/prisma/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U acd_user -d acd_database"]
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   # Redis for job queue and pub/sub
   redis:
@@ -87,5 +89,5 @@ services:
       replicas: 2
 
 volumes:
-  postgres_data:
+  acd_postgres_data:
   redis_data:

@@ -30,6 +30,7 @@ import { getAnalytics } from './services/analytics';
 import { getScheduler } from './services/scheduler';
 import { getUserEventTracking } from './services/userEventTracking';
 import { getClaudeApiKey, isOAuthToken, getEnv, getEnvValue, validateEnvConfig } from './config/env-config';
+import * as targetSync from './services/target-sync';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -178,6 +179,230 @@ app.get('/api/status', async (req, res) => {
     }
 });
 
+// Comprehensive targets status endpoint - reads from repo-queue.json
+app.get('/api/targets/status', async (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const repoQueueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+        
+        if (!fs.existsSync(repoQueueFile)) {
+            return res.status(404).json({ error: { message: 'repo-queue.json not found' } });
+        }
+        
+        const repoQueue = JSON.parse(fs.readFileSync(repoQueueFile, 'utf-8'));
+        const repos = repoQueue.repos || [];
+        
+        let totalFeatures = 0;
+        let totalPassing = 0;
+        let totalPending = 0;
+        
+        const targets = repos.map((repo: any) => {
+            let features = { total: 0, passing: 0, pending: 0, percentComplete: '0.0' };
+            
+            if (repo.featureList && fs.existsSync(repo.featureList)) {
+                try {
+                    const featureData = JSON.parse(fs.readFileSync(repo.featureList, 'utf-8'));
+                    const featureArray = featureData.features || featureData || [];
+                    if (Array.isArray(featureArray)) {
+                        const total = featureArray.length;
+                        const passing = featureArray.filter((f: any) => 
+                            f.completed || f.passes || f.status === 'passing'
+                        ).length;
+                        features = {
+                            total,
+                            passing,
+                            pending: total - passing,
+                            percentComplete: total > 0 ? ((passing / total) * 100).toFixed(1) : '0.0'
+                        };
+                        totalFeatures += total;
+                        totalPassing += passing;
+                        totalPending += (total - passing);
+                    }
+                } catch (e) {
+                    // Ignore parse errors
+                }
+            }
+            
+            return {
+                id: repo.id,
+                name: repo.name,
+                path: repo.path,
+                priority: repo.priority,
+                enabled: repo.enabled,
+                focus: repo.focus || null,
+                features
+            };
+        });
+        
+        const runningHarnesses = harnessManager.getAllRunning();
+        
+        res.json({
+            data: {
+                timestamp: new Date().toISOString(),
+                summary: {
+                    totalTargets: repos.length,
+                    enabledTargets: repos.filter((r: any) => r.enabled).length,
+                    totalFeatures,
+                    totalPassing,
+                    totalPending,
+                    overallComplete: totalFeatures > 0 ? ((totalPassing / totalFeatures) * 100).toFixed(1) : '0.0'
+                },
+                scheduler: {
+                    queueLength: scheduler.getStats().queueLength,
+                    runningTasks: scheduler.getStats().runningTasks,
+                    circuitBreakerOpen: scheduler.getStats().circuitBreakerOpen
+                },
+                activeHarnesses: runningHarnesses.length,
+                targets
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get targets status' } });
+    }
+});
+
+// Database-backed targets endpoints
+app.get('/api/db/targets', async (req, res) => {
+    try {
+        const targets = await targetSync.getAllTargets();
+        res.json({ data: targets });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/targets/summary', async (req, res) => {
+    try {
+        const summary = await targetSync.getTargetsSummary();
+        res.json({ data: summary });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.post('/api/db/targets/sync', async (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const queueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+        await targetSync.syncTargetsFromQueue(queueFile);
+        const summary = await targetSync.getTargetsSummary();
+        res.json({ data: { synced: true, summary } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/model-usage', async (req, res) => {
+    try {
+        const days = parseInt(req.query.days as string) || 7;
+        const usage = await targetSync.getModelUsageSummary(days);
+        res.json({ data: usage });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/sessions', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 50;
+        const sessions = await prisma.harnessSession.findMany({
+            orderBy: { startedAt: 'desc' },
+            take: limit,
+            include: { target: { select: { name: true, repoId: true } } }
+        });
+        res.json({ data: sessions });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/snapshots', async (req, res) => {
+    try {
+        const days = parseInt(req.query.days as string) || 7;
+        const since = new Date();
+        since.setDate(since.getDate() - days);
+        
+        const snapshots = await prisma.progressSnapshot.findMany({
+            where: { snapshotDate: { gte: since } },
+            orderBy: { snapshotDate: 'desc' },
+            include: { target: { select: { name: true, repoId: true } } }
+        });
+        res.json({ data: snapshots });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+// Enhanced tracking endpoints
+app.get('/api/db/features/:repoId', async (req, res) => {
+    try {
+        const features = await targetSync.getTargetFeatures(req.params.repoId);
+        res.json({ data: features });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.post('/api/db/features/sync/:repoId', async (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const queueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+        const queue = JSON.parse(fs.readFileSync(queueFile, 'utf-8'));
+        const repo = queue.repos.find((r: any) => r.id === req.params.repoId);
+        
+        if (!repo || !repo.featureList) {
+            return res.status(404).json({ error: { message: 'Repo or feature list not found' } });
+        }
+        
+        const synced = await targetSync.syncFeaturesForTarget(req.params.repoId, repo.featureList);
+        res.json({ data: { synced } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/errors', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 50;
+        const errors = await targetSync.getRecentErrors(limit);
+        res.json({ data: errors });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/commits/:repoId', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 50;
+        const commits = await targetSync.getTargetCommits(req.params.repoId, limit);
+        res.json({ data: commits });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/logs/:sessionId', async (req, res) => {
+    try {
+        const logs = await targetSync.getSessionLogs(req.params.sessionId);
+        res.json({ data: logs });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/db/token-usage', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 100;
+        const usage = await prisma.tokenUsageDetail.findMany({
+            orderBy: { createdAt: 'desc' },
+            take: limit
+        });
+        res.json({ data: usage });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
 // General harness control endpoints (for feat-011)
 // These are simplified endpoints for single-project dashboard
 app.post('/api/harness/start', async (req, res) => {
@@ -273,7 +498,7 @@ app.get('/api/projects', async (req, res) => {
                 difficulty, automation_mode as "automationMode",
                 created_at as "createdAt",
                 updated_at as "updatedAt"
-            FROM app.projects
+            FROM projects
             ORDER BY updated_at DESC
         `;
         
@@ -283,10 +508,10 @@ app.get('/api/projects', async (req, res) => {
                 try {
                     const [featureCount, workItemCount] = await Promise.all([
                         prisma.$queryRaw<Array<{count: number}>>`
-                            SELECT COUNT(*)::int as count FROM app.features WHERE project_id = ${project.id}::uuid
+                            SELECT COUNT(*)::int as count FROM features WHERE project_id = ${project.id}::uuid
                         `.catch(() => [{count: 0}]),
                         prisma.$queryRaw<Array<{count: number}>>`
-                            SELECT COUNT(*)::int as count FROM app.work_items WHERE project_id = ${project.id}::uuid
+                            SELECT COUNT(*)::int as count FROM work_items WHERE project_id = ${project.id}::uuid
                         `.catch(() => [{count: 0}])
                     ]);
                     

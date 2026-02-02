@@ -12,6 +12,7 @@ import { spawn, execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import * as metricsDb from './metrics-db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -25,9 +26,14 @@ let FORCE_REPO = null;
 let LOOP_MODE = false;
 let AUTO_COMMIT = true;
 let INTER_REPO_DELAY_SEC = 30;
+let ENABLE_METRICS_DB = true;
 
 const STATUS_FILE = path.join(__dirname, 'queue-status.json');
 const LOG_FILE = path.join(__dirname, 'queue-output.log');
+
+// Metrics tracking state
+let metricsEnabled = false;
+let sessionCounter = {};
 
 // Logging
 function log(message, level = 'info') {
@@ -170,8 +176,58 @@ async function generateFeaturesForRepo(repo) {
   });
 }
 
+// Get model based on complexity level from queue config (target-independent)
+function getModelForComplexity(queue, complexity, taskType = null) {
+  const config = queue.modelConfig || {};
+  const levels = config.complexityLevels || {
+    critical: { models: ['opus', 'sonnet'], fallback: 'sonnet' },
+    high: { models: ['sonnet', 'opus'], fallback: 'haiku' },
+    medium: { models: ['sonnet', 'haiku'], fallback: 'haiku' },
+    low: { models: ['haiku'], fallback: 'haiku' },
+    trivial: { models: ['haiku'], fallback: 'haiku' }
+  };
+  
+  // If taskType provided, map it to complexity level
+  let effectiveComplexity = complexity;
+  if (taskType && config.taskTypeMapping) {
+    effectiveComplexity = config.taskTypeMapping[taskType] || complexity;
+  }
+  
+  // Use default if complexity not specified
+  if (!effectiveComplexity) {
+    effectiveComplexity = config.defaultComplexity || 'medium';
+  }
+  
+  const level = levels[effectiveComplexity] || levels.medium;
+  // Return primary model (first in list)
+  return { 
+    model: level.models[0] || 'haiku',
+    complexity: effectiveComplexity,
+    maxRetries: level.maxRetries || 3,
+    fallback: level.fallback || 'haiku'
+  };
+}
+
+// Detect task type from feature or focus description
+function detectTaskType(feature, focus) {
+  const text = `${feature || ''} ${focus || ''}`.toLowerCase();
+  
+  if (text.includes('architect') || text.includes('system design')) return 'architecture';
+  if (text.includes('security') || text.includes('auth')) return 'security';
+  if (text.includes('api') || text.includes('integration')) return 'api_integration';
+  if (text.includes('database') || text.includes('migration') || text.includes('schema')) return 'database';
+  if (text.includes('new feature') || text.includes('implement')) return 'new_feature';
+  if (text.includes('ui') || text.includes('component') || text.includes('frontend')) return 'ui_component';
+  if (text.includes('refactor') || text.includes('cleanup')) return 'refactor';
+  if (text.includes('test') || text.includes('spec')) return 'test';
+  if (text.includes('bug') || text.includes('fix')) return 'bug_fix';
+  if (text.includes('doc') || text.includes('readme')) return 'documentation';
+  
+  return null; // Use default
+}
+
 async function runRepoSession(repo, options = {}) {
-  const { maxSessions, hours, untilComplete } = options;
+  const { maxSessions, hours, untilComplete, queue } = options;
 
   return new Promise((resolve) => {
     const args = [
@@ -179,6 +235,15 @@ async function runRepoSession(repo, options = {}) {
       `--path=${repo.path}`,
       `--project=${repo.id}`,
     ];
+
+    // Select model based on complexity (target-independent)
+    // Detect task type from focus or use repo complexity as fallback
+    const taskType = detectTaskType(null, repo.focus);
+    const modelConfig = getModelForComplexity(queue || {}, repo.complexity, taskType);
+    args.push(`--model=${modelConfig.model}`);
+    args.push(`--max-retries=${modelConfig.maxRetries}`);
+    args.push(`--fallback-model=${modelConfig.fallback}`);
+    log(`Using model: ${modelConfig.model} (complexity: ${modelConfig.complexity}, task: ${taskType || 'default'})`, 'info');
 
     // Add prompt if specified
     if (repo.prompt) {
@@ -234,12 +299,66 @@ async function runRepoSession(repo, options = {}) {
   });
 }
 
+async function initMetricsDb() {
+  if (!ENABLE_METRICS_DB) {
+    log('Metrics DB disabled', 'info');
+    return false;
+  }
+  try {
+    const result = await metricsDb.testConnection();
+    log(`Metrics DB connected: ${result.time}`, 'success');
+    metricsEnabled = true;
+    return true;
+  } catch (error) {
+    log(`Metrics DB unavailable: ${error.message}`, 'warning');
+    metricsEnabled = false;
+    return false;
+  }
+}
+
+async function trackSessionStart(repoId, repoName, repoPath) {
+  if (!metricsEnabled) return null;
+  try {
+    await metricsDb.ensureTarget(repoId, repoName, repoPath);
+    sessionCounter[repoId] = (sessionCounter[repoId] || 0) + 1;
+    const session = await metricsDb.startSession(repoId, sessionCounter[repoId]);
+    return session.id;
+  } catch (error) {
+    log(`Failed to track session start: ${error.message}`, 'warning');
+    return null;
+  }
+}
+
+async function trackSessionEnd(sessionId, repoId, result, progressBefore, progressAfter) {
+  if (!metricsEnabled || !sessionId) return;
+  try {
+    await metricsDb.endSession(sessionId, {
+      status: result.success ? 'completed' : 'failed',
+      inputTokens: 0, // Would need to parse from output
+      outputTokens: 0,
+      costUsd: 0,
+      featuresBefore: progressBefore.passing,
+      featuresAfter: progressAfter.passing,
+      featuresCompleted: progressAfter.passing - progressBefore.passing,
+      commitsMade: 0,
+      errorType: result.error ? 'unknown' : null,
+      errorMessage: result.error || null,
+    });
+    await metricsDb.updateDailyStats(repoId);
+  } catch (error) {
+    log(`Failed to track session end: ${error.message}`, 'warning');
+  }
+}
+
 async function runQueue() {
   const queue = loadQueue();
   const status = loadStatus();
 
   log('Multi-Repo Queue Runner Starting', 'start');
   log(`Queue file: ${QUEUE_FILE}`, 'info');
+  
+  // Initialize metrics database
+  await initMetricsDb();
 
   // Sort repos by priority
   const repos = queue.repos
@@ -303,8 +422,11 @@ async function runQueue() {
     status.lastUpdated = new Date().toISOString();
     saveStatus(status);
 
-    const progress = getRepoProgress(repo);
-    log(`Current progress: ${progress.passing}/${progress.total} (${progress.percent}%)`, 'info');
+    const progressBefore = getRepoProgress(repo);
+    log(`Current progress: ${progressBefore.passing}/${progressBefore.total} (${progressBefore.percent}%)`, 'info');
+
+    // Track session start in metrics DB
+    const sessionId = await trackSessionStart(repo.id, repo.name, repo.path);
 
     // Calculate time for this repo
     let repoHours = HOURS_PER_REPO;
@@ -319,7 +441,12 @@ async function runQueue() {
       hours: repoHours,
       maxSessions: queue.defaults?.maxSessionsPerRepo || 50,
       untilComplete: repo.untilComplete,
+      queue: queue,  // Pass queue config for model tier selection
     });
+
+    // Track session end in metrics DB
+    const progressAfter = getRepoProgress(repo);
+    await trackSessionEnd(sessionId, repo.id, result, progressBefore, progressAfter);
 
     if (result.complete) {
       log(`${repo.name} is now complete!`, 'success');

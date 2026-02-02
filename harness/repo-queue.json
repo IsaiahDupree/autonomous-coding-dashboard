@@ -1,10 +1,64 @@
 {
-  "description": "Multi-repo work queue with priorities",
-  "version": "1.0",
+  "description": "Multi-repo work queue with priorities and tiered intelligence",
+  "version": "1.1",
   "defaults": {
     "sessionDelay": 5,
     "adaptiveDelay": true,
     "maxSessionsPerRepo": 50
+  },
+  "modelConfig": {
+    "availableModels": {
+      "opus": { "tier": 1, "costPer1kTokens": 0.015, "description": "Most capable, complex reasoning" },
+      "sonnet": { "tier": 2, "costPer1kTokens": 0.003, "description": "Balanced capability and cost" },
+      "haiku": { "tier": 3, "costPer1kTokens": 0.00025, "description": "Fast, efficient, low cost" }
+    },
+    "complexityLevels": {
+      "critical": {
+        "description": "Mission-critical architecture, complex integrations, security",
+        "models": ["opus", "sonnet"],
+        "fallback": "sonnet",
+        "maxRetries": 5
+      },
+      "high": {
+        "description": "New features, API integrations, database changes",
+        "models": ["sonnet", "opus"],
+        "fallback": "haiku",
+        "maxRetries": 3
+      },
+      "medium": {
+        "description": "Standard feature implementation, refactoring",
+        "models": ["sonnet", "haiku"],
+        "fallback": "haiku",
+        "maxRetries": 3
+      },
+      "low": {
+        "description": "Bug fixes, simple changes, documentation",
+        "models": ["haiku"],
+        "fallback": "haiku",
+        "maxRetries": 2
+      },
+      "trivial": {
+        "description": "Comments, formatting, typos",
+        "models": ["haiku"],
+        "fallback": "haiku",
+        "maxRetries": 1
+      }
+    },
+    "taskTypeMapping": {
+      "architecture": "critical",
+      "security": "critical",
+      "api_integration": "high",
+      "database": "high",
+      "new_feature": "high",
+      "ui_component": "medium",
+      "refactor": "medium",
+      "test": "medium",
+      "bug_fix": "low",
+      "documentation": "low",
+      "formatting": "trivial",
+      "comments": "trivial"
+    },
+    "defaultComplexity": "medium"
   },
   "repos": [
     {
@@ -17,6 +71,7 @@
       "priority": 1,
       "enabled": true,
       "untilComplete": true,
+      "complexity": "high",
       "focus": "System Architecture Integration (ARCH-001 to ARCH-008)"
     },
     {
@@ -28,7 +83,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json",
       "priority": 2,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "medium"
     },
     {
       "id": "blogcanvas",
@@ -39,7 +95,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/BlogCanvas/feature_list.json",
       "priority": 3,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "low"
     },
     {
       "id": "portal28",
@@ -50,7 +107,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/Portal28/feature_list.json",
       "priority": 4,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "medium"
     },
     {
       "id": "canvascast",
@@ -61,7 +119,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target/feature_list.json",
       "priority": 5,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "medium"
     },
     {
       "id": "everreach-appkit",
@@ -72,7 +131,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/feature_list.json",
       "priority": 6,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "medium"
     },
     {
       "id": "steadyletters",
@@ -83,7 +143,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/KindLetters/feature_list.json",
       "priority": 7,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "low"
     },
     {
       "id": "vellopad",
@@ -94,7 +155,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/VelloPad/feature_list.json",
       "priority": 8,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "medium"
     },
     {
       "id": "velvethold",
@@ -105,7 +167,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/VelvetHold/feature_list.json",
       "priority": 9,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "low"
     },
     {
       "id": "ai-video-platform",
@@ -116,7 +179,8 @@
       "featureList": "/Users/isaiahdupree/Documents/Software/ai-video-platform/feature_list.json",
       "priority": 10,
       "enabled": true,
-      "untilComplete": true
+      "untilComplete": true,
+      "complexity": "low"
     },
     {
       "id": "remotion",
@@ -128,7 +192,47 @@
       "priority": 11,
       "enabled": true,
       "untilComplete": true,
+      "complexity": "high",
       "focus": "Video Generation Platform with Voice Cloning, SFX, and Static Ads"
+    },
+    {
+      "id": "everreach-expo",
+      "name": "EverReach Expo CRM",
+      "path": "/Users/isaiahdupree/Documents/Software/everreach_expo/rork-crm-superwall",
+      "prompt": "prompts/everreach-expo.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/everreach_expo/rork-crm-superwall/docs/PRD_META_PIXEL_INTEGRATION.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/everreach_expo/rork-crm-superwall/feature_list.json",
+      "priority": 12,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Meta Pixel Integration with Events and CAPI"
+    },
+    {
+      "id": "waitlistlab",
+      "name": "WaitlistLab Demand Engine",
+      "path": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp",
+      "prompt": "prompts/waitlistlab.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/feature_list.json",
+      "priority": 13,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Lead Capture, Ads Autopilot, Ad Intelligence, Remotion Ad Creation"
+    },
+    {
+      "id": "shortslinker",
+      "name": "ShortsLinker",
+      "path": "/Users/isaiahdupree/Documents/Software/ShortsLinker",
+      "prompt": "prompts/shortslinker.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/ShortsLinker/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/ShortsLinker/feature_list.json",
+      "priority": 14,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "YouTube Shorts to Long-Form Video Linking Tool"
     }
   ]
 }

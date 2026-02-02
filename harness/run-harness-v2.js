@@ -16,6 +16,7 @@ import { spawn, execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import * as metricsDb from './metrics-db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -29,6 +30,17 @@ let SESSION_DELAY_MINUTES = 5; // Default 5 min delay between successful session
 let DEFAULT_CONTINUOUS = true; // Default to continuous mode
 let UNTIL_COMPLETE = false; // Run until all features pass
 let ADAPTIVE_DELAY = true; // Dynamically adjust delay based on rate limits
+
+// Model fallback configuration
+// Use model names as recognized by the Claude CLI
+// Note: Sonnet has separate rate limit, so prioritize other models when Sonnet is exhausted
+const AVAILABLE_MODELS = [
+  'haiku',          // Primary - Claude Haiku (faster, uses "all models" quota)
+  'opus',           // Fallback 1 - Claude Opus (uses "all models" quota)
+  'sonnet',         // Fallback 2 - Claude Sonnet (has separate quota, often exhausted first)
+];
+let currentModelIndex = 0;
+let modelRateLimitStatus = {}; // Track rate limit status per model
 
 function createConfig(projectRoot) {
   return {
@@ -210,6 +222,72 @@ function calculateRateLimitWaitMs(output) {
 
   const waitMs = target.getTime() - now.getTime();
   return waitMs > 0 ? waitMs : null;
+}
+
+// ============================================
+// Model Fallback Logic
+// ============================================
+
+function getCurrentModel() {
+  return AVAILABLE_MODELS[currentModelIndex];
+}
+
+function markModelRateLimited(model) {
+  modelRateLimitStatus[model] = {
+    rateLimited: true,
+    rateLimitedAt: Date.now(),
+    resetTime: null,
+  };
+  log(`Model ${model} marked as rate-limited`, 'rate');
+}
+
+function isModelAvailable(model) {
+  const status = modelRateLimitStatus[model];
+  if (!status || !status.rateLimited) return true;
+  
+  // Check if 30 minutes have passed (assume rate limit expired)
+  const timeSinceLimit = Date.now() - status.rateLimitedAt;
+  if (timeSinceLimit > 30 * 60 * 1000) {
+    status.rateLimited = false;
+    log(`Model ${model} rate limit assumed expired`, 'info');
+    return true;
+  }
+  return false;
+}
+
+function getNextAvailableModel() {
+  // Try to find an available model starting from current index
+  for (let i = 0; i < AVAILABLE_MODELS.length; i++) {
+    const index = (currentModelIndex + i) % AVAILABLE_MODELS.length;
+    const model = AVAILABLE_MODELS[index];
+    if (isModelAvailable(model)) {
+      return { model, index };
+    }
+  }
+  return null; // All models rate limited
+}
+
+function switchToNextModel() {
+  const current = getCurrentModel();
+  markModelRateLimited(current);
+  
+  const next = getNextAvailableModel();
+  if (next && next.model !== current) {
+    currentModelIndex = next.index;
+    log(`Switching from ${current} to ${next.model}`, 'info');
+    return next.model;
+  }
+  
+  log('All models rate-limited, will wait for reset', 'warning');
+  return null;
+}
+
+function resetModelStatus() {
+  // Called when a session succeeds - reset the current model's status
+  const model = getCurrentModel();
+  if (modelRateLimitStatus[model]) {
+    modelRateLimitStatus[model].rateLimited = false;
+  }
 }
 
 // ============================================
@@ -402,15 +480,27 @@ function parseSessionOutput(output) {
   return metrics;
 }
 
-function runSession(sessionNumber) {
+async function runSession(sessionNumber, modelOverride = null) {
+  const sessionType = (!FORCE_CODING && isFirstRun()) ? 'INITIALIZER' : 'CODING';
+  const stats = getProgressStats();
+  const model = modelOverride || getCurrentModel();
+  
+  log(`Starting session #${sessionNumber} (${sessionType}) with model: ${model}`, 'start');
+  log(`Progress: ${stats.passing}/${stats.total} features (${stats.percentComplete}%)`);
+  
+  updateStatus(sessionType, 'running', stats, { currentSession: sessionNumber, model });
+  
+  // Start DB session tracking
+  let dbSession = null;
+  try {
+    await metricsDb.ensureTarget(PROJECT_ID, path.basename(PROJECT_ROOT), PROJECT_ROOT);
+    dbSession = await metricsDb.startSession(PROJECT_ID, sessionNumber, sessionType.toLowerCase(), model);
+    log(`DB session started: ${dbSession?.id}`, 'info');
+  } catch (e) {
+    log(`DB session tracking failed (non-fatal): ${e.message}`, 'warn');
+  }
+
   return new Promise((resolve, reject) => {
-    const sessionType = (!FORCE_CODING && isFirstRun()) ? 'INITIALIZER' : 'CODING';
-    const stats = getProgressStats();
-    
-    log(`Starting session #${sessionNumber} (${sessionType})`, 'start');
-    log(`Progress: ${stats.passing}/${stats.total} features (${stats.percentComplete}%)`);
-    
-    updateStatus(sessionType, 'running', stats, { currentSession: sessionNumber });
     
     let prompt;
     try {
@@ -422,6 +512,7 @@ function runSession(sessionNumber) {
     
     const args = [
       '-p', prompt,
+      '--model', model,
       '--allowedTools', 'Edit', 'Bash', 'Read', 'Write', 'mcp__puppeteer',
       '--output-format', 'stream-json',
       '--verbose'
@@ -463,15 +554,43 @@ function runSession(sessionNumber) {
       reject(error);
     });
     
-    claude.on('close', (code) => {
-      const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
+    claude.on('close', async (code) => {
+      const durationMs = Date.now() - startTime;
+      const duration = (durationMs / 1000 / 60).toFixed(1);
       const newStats = getProgressStats();
       const sessionMetrics = parseSessionOutput(output);
+      
+      // End DB session tracking
+      if (dbSession?.id) {
+        try {
+          const featuresCompleted = Math.max(0, newStats.passing - stats.passing);
+          await metricsDb.endSession(dbSession.id, {
+            status: code === 0 ? 'completed' : 'failed',
+            inputTokens: sessionMetrics.inputTokens || 0,
+            outputTokens: sessionMetrics.outputTokens || 0,
+            cacheReadTokens: sessionMetrics.cacheReadTokens || 0,
+            cacheWriteTokens: sessionMetrics.cacheWriteTokens || 0,
+            costUsd: sessionMetrics.cost || 0,
+            featuresBefore: stats.passing,
+            featuresAfter: newStats.passing,
+            featuresCompleted,
+            errorType: code !== 0 ? classifyError(output, code) : null,
+            errorMessage: code !== 0 ? output.slice(-500) : null,
+          });
+          log(`DB session ended: ${featuresCompleted} features completed`, 'info');
+          
+          // Update daily stats
+          await metricsDb.updateDailyStats(PROJECT_ID, newStats.total);
+        } catch (e) {
+          log(`DB session end failed (non-fatal): ${e.message}`, 'warn');
+        }
+      }
       
       if (code === 0) {
         log(`Session #${sessionNumber} completed in ${duration} minutes`, 'success');
         log(`Progress: ${newStats.passing}/${newStats.total} features (${newStats.percentComplete}%)`);
         updateStatus(sessionType, 'completed', newStats);
+        resetModelStatus(); // Model worked, clear any rate limit status
         resolve({ 
           code, 
           output, 
@@ -479,11 +598,12 @@ function runSession(sessionNumber) {
           duration,
           metrics: sessionMetrics,
           success: true,
+          model,
         });
       } else {
         const errorType = classifyError(output, code);
         log(`Session #${sessionNumber} exited with code ${code} (${errorType})`, 'error');
-        updateStatus(sessionType, 'failed', newStats, { errorType });
+        updateStatus(sessionType, 'failed', newStats, { errorType, model });
         resolve({ 
           code, 
           output, 
@@ -492,6 +612,7 @@ function runSession(sessionNumber) {
           metrics: sessionMetrics,
           success: false,
           errorType,
+          model,
         });
       }
     });
@@ -604,7 +725,18 @@ async function runHarness(options = {}) {
             
           case ErrorTypes.RATE_LIMIT:
             metrics.rateLimitHits++;
-            log('Rate limit hit - will back off', 'rate');
+            log('Rate limit hit - attempting model fallback', 'rate');
+            
+            // Try to switch to another model
+            const nextModel = switchToNextModel();
+            if (nextModel) {
+              log(`Switched to fallback model: ${nextModel}`, 'info');
+              // Retry immediately with new model (don't increment session number)
+              consecutiveErrors = 0; // Reset since we're trying a new model
+              continue; // Skip delay and retry with new model
+            }
+            // If no model available, will wait with backoff
+            log('No fallback models available - will wait for rate limit reset', 'warning');
             break;
             
           default:
@@ -774,6 +906,31 @@ PROJECT_ID = getArgValue(args, '--project') || process.env.PROJECT_ID || path.ba
 PROMPT_OVERRIDE = getArgValue(args, '--prompt') || process.env.PROMPT_FILE || null;
 INITIALIZER_PROMPT_OVERRIDE = getArgValue(args, '--initializer-prompt') || null;
 FORCE_CODING = args.includes('--force-coding') || false;
+
+// Model override from CLI (for complexity-based selection from run-queue.js)
+const MODEL_OVERRIDE = getArgValue(args, '--model') || process.env.MODEL || null;
+const FALLBACK_MODEL = getArgValue(args, '--fallback-model') || 'haiku';
+const MAX_RETRIES_OVERRIDE = parseInt(getArgValue(args, '--max-retries') || '3', 10);
+
+if (MODEL_OVERRIDE) {
+  // Set as first model in available models and reset index
+  currentModelIndex = AVAILABLE_MODELS.indexOf(MODEL_OVERRIDE);
+  if (currentModelIndex === -1) {
+    // Add custom model to available models
+    AVAILABLE_MODELS.unshift(MODEL_OVERRIDE);
+    currentModelIndex = 0;
+  }
+  
+  // Ensure fallback model is in the list
+  if (!AVAILABLE_MODELS.includes(FALLBACK_MODEL)) {
+    AVAILABLE_MODELS.push(FALLBACK_MODEL);
+  }
+}
+
+// Update max consecutive errors based on complexity
+if (MAX_RETRIES_OVERRIDE) {
+  CONFIG.maxConsecutiveErrors = MAX_RETRIES_OVERRIDE;
+}
 
 const durationHours = getArgValue(args, '--duration-hours') || process.env.DURATION_HOURS;
 const durationMinutes = getArgValue(args, '--duration-minutes') || process.env.DURATION_MINUTES;

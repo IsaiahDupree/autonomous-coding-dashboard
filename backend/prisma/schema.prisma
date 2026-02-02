@@ -457,3 +457,247 @@ enum NotificationChannel {
 
   @@map("notification_channel")
 }
+
+// ============================================
+// ACD Enhanced Tracking Models
+// ============================================
+
+// Target: Tracks repos from repo-queue.json
+model Target {
+  id              String           @id @default(uuid())
+  repoId          String           @unique @map("repo_id")
+  name            String
+  path            String
+  priority        Int              @default(99)
+  complexity      TargetComplexity @default(medium)
+  enabled         Boolean          @default(true)
+  focus           String?
+  totalFeatures   Int              @default(0) @map("total_features")
+  passingFeatures Int              @default(0) @map("passing_features")
+  percentComplete Float            @default(0) @map("percent_complete")
+  lastSessionAt   DateTime?        @map("last_session_at")
+  lastModel       String?          @map("last_model")
+  status          TargetStatus     @default(pending)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  sessions        HarnessSession[]
+  snapshots       ProgressSnapshot[]
+  features        TargetFeature[]
+
+  @@index([repoId], map: "idx_targets_repo_id")
+  @@index([status], map: "idx_targets_status")
+  @@map("targets")
+}
+
+// HarnessSession: Tracks each harness run
+model HarnessSession {
+  id                String              @id @default(uuid())
+  targetId          String              @map("target_id")
+  sessionNumber     Int                 @map("session_number")
+  sessionType       String              @map("session_type")
+  model             String
+  status            HarnessSessionStatus @default(running)
+  featuresBefore    Int                 @default(0) @map("features_before")
+  featuresAfter     Int                 @default(0) @map("features_after")
+  featuresCompleted Int                 @default(0) @map("features_completed")
+  inputTokens       Int                 @default(0) @map("input_tokens")
+  outputTokens      Int                 @default(0) @map("output_tokens")
+  costUsd           Float               @default(0) @map("cost_usd")
+  durationMs        Int                 @default(0) @map("duration_ms")
+  errorType         String?             @map("error_type")
+  errorMessage      String?             @map("error_message")
+  commitsMade       Int                 @default(0) @map("commits_made")
+  startedAt         DateTime            @default(now()) @map("started_at")
+  finishedAt        DateTime?           @map("finished_at")
+  createdAt         DateTime            @default(now())
+
+  target            Target              @relation(fields: [targetId], references: [id])
+
+  @@index([targetId], map: "idx_harness_sessions_target")
+  @@index([status], map: "idx_harness_sessions_status")
+  @@index([startedAt], map: "idx_harness_sessions_started")
+  @@map("harness_sessions")
+}
+
+// ProgressSnapshot: Daily/hourly progress tracking
+model ProgressSnapshot {
+  id              String   @id @default(uuid())
+  targetId        String   @map("target_id")
+  totalFeatures   Int      @map("total_features")
+  passingFeatures Int      @map("passing_features")
+  percentComplete Float    @map("percent_complete")
+  sessionsToday   Int      @default(0) @map("sessions_today")
+  tokensToday     Int      @default(0) @map("tokens_today")
+  costToday       Float    @default(0) @map("cost_today")
+  snapshotDate    DateTime @map("snapshot_date") @db.Date
+  createdAt       DateTime @default(now())
+
+  target          Target   @relation(fields: [targetId], references: [id])
+
+  @@unique([targetId, snapshotDate])
+  @@index([targetId], map: "idx_progress_snapshots_target")
+  @@index([snapshotDate], map: "idx_progress_snapshots_date")
+  @@map("progress_snapshots")
+}
+
+// ModelUsage: Track model usage and costs
+model ModelUsage {
+  id           String   @id @default(uuid())
+  model        String
+  inputTokens  Int      @default(0) @map("input_tokens")
+  outputTokens Int      @default(0) @map("output_tokens")
+  totalTokens  Int      @default(0) @map("total_tokens")
+  costUsd      Float    @default(0) @map("cost_usd")
+  requestCount Int      @default(1) @map("request_count")
+  usageDate    DateTime @map("usage_date") @db.Date
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([model, usageDate])
+  @@index([model], map: "idx_model_usage_model")
+  @@index([usageDate], map: "idx_model_usage_date")
+  @@map("model_usage")
+}
+
+// QueueStatus: Track overall queue state
+model QueueStatus {
+  id               String    @id @default(uuid())
+  currentTargetId  String?   @map("current_target_id")
+  queueStartedAt   DateTime? @map("queue_started_at")
+  totalSessions    Int       @default(0) @map("total_sessions")
+  totalTokens      Int       @default(0) @map("total_tokens")
+  totalCostUsd     Float     @default(0) @map("total_cost_usd")
+  completedTargets Int       @default(0) @map("completed_targets")
+  isRunning        Boolean   @default(false) @map("is_running")
+  lastUpdated      DateTime  @default(now()) @map("last_updated")
+  createdAt        DateTime  @default(now())
+
+  @@map("queue_status")
+}
+
+enum TargetComplexity {
+  low
+  medium
+  high
+
+  @@map("target_complexity")
+}
+
+enum TargetStatus {
+  pending
+  active
+  complete
+  paused
+  error
+
+  @@map("target_status")
+}
+
+enum HarnessSessionStatus {
+  running
+  completed
+  failed
+  cancelled
+
+  @@map("harness_session_status")
+}
+
+// ============================================
+// Enhanced Tracking Models
+// ============================================
+
+// TargetFeature: Individual features from feature_list.json
+model TargetFeature {
+  id            String   @id @default(uuid())
+  targetId      String   @map("target_id")
+  featureKey    String   @map("feature_key")
+  name          String
+  description   String?
+  category      String?
+  priority      Int      @default(50)
+  status        String   @default("pending")
+  passes        Boolean  @default(false)
+  implementedAt DateTime? @map("implemented_at")
+  sessionId     String?  @map("session_id")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  target        Target   @relation(fields: [targetId], references: [id])
+
+  @@unique([targetId, featureKey])
+  @@index([targetId], map: "idx_target_features_target")
+  @@index([status], map: "idx_target_features_status")
+  @@map("target_features")
+}
+
+// HarnessLog: Logs from harness runs
+model HarnessLog {
+  id          String   @id @default(uuid())
+  sessionId   String   @map("session_id")
+  level       String   @default("info")
+  message     String
+  metadata    Json?
+  timestamp   DateTime @default(now())
+
+  @@index([sessionId], map: "idx_harness_logs_session")
+  @@index([level], map: "idx_harness_logs_level")
+  @@index([timestamp], map: "idx_harness_logs_timestamp")
+  @@map("harness_logs")
+}
+
+// HarnessCommit: Git commits made during sessions
+model HarnessCommit {
+  id           String   @id @default(uuid())
+  sessionId    String   @map("session_id")
+  targetId     String   @map("target_id")
+  sha          String
+  message      String
+  filesChanged Int      @default(0) @map("files_changed")
+  additions    Int      @default(0)
+  deletions    Int      @default(0)
+  branch       String   @default("main")
+  createdAt    DateTime @default(now())
+
+  @@index([sessionId], map: "idx_harness_commits_session")
+  @@index([targetId], map: "idx_harness_commits_target")
+  @@map("harness_commits")
+}
+
+// HarnessError: Detailed error tracking
+model HarnessError {
+  id          String   @id @default(uuid())
+  sessionId   String?  @map("session_id")
+  targetId    String   @map("target_id")
+  errorType   String   @map("error_type")
+  errorCode   String?  @map("error_code")
+  message     String
+  stackTrace  String?  @map("stack_trace")
+  context     Json?
+  resolved    Boolean  @default(false)
+  resolvedAt  DateTime? @map("resolved_at")
+  createdAt   DateTime @default(now())
+
+  @@index([targetId], map: "idx_harness_errors_target")
+  @@index([errorType], map: "idx_harness_errors_type")
+  @@index([resolved], map: "idx_harness_errors_resolved")
+  @@map("harness_errors")
+}
+
+// TokenUsageDetail: Granular token tracking
+model TokenUsageDetail {
+  id              String   @id @default(uuid())
+  sessionId       String   @map("session_id")
+  model           String
+  inputTokens     Int      @default(0) @map("input_tokens")
+  outputTokens    Int      @default(0) @map("output_tokens")
+  cacheReadTokens Int      @default(0) @map("cache_read_tokens")
+  cacheWriteTokens Int     @default(0) @map("cache_write_tokens")
+  costUsd         Float    @default(0) @map("cost_usd")
+  toolName        String?  @map("tool_name")
+  createdAt       DateTime @default(now())
+
+  @@index([sessionId], map: "idx_token_usage_session")
+  @@index([model], map: "idx_token_usage_model")
+  @@map("token_usage_details")
+}

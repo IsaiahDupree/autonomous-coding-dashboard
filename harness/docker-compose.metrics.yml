@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  metrics-db:
+    image: postgres:16-alpine
+    container_name: acd-metrics-db
+    environment:
+      POSTGRES_USER: acd
+      POSTGRES_PASSWORD: acdmetrics
+      POSTGRES_DB: acd_metrics
+    ports:
+      - "5433:5432"
+    volumes:
+      - acd_metrics_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U acd -d acd_metrics"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  acd_metrics_data:

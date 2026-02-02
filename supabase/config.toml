@@ -7,7 +7,7 @@ project_id = "autonomous-coding-dashboard"
 [api]
 enabled = true
 # Port to use for the API URL.
-port = 54321
+port = 54721
 # Schemas to expose in your API. Tables, views and stored procedures in this schema will get API
 # endpoints. `public` and `graphql_public` schemas are included by default.
 schemas = ["public", "graphql_public"]
@@ -28,7 +28,7 @@ enabled = false
 # Port to use for the local database URL.
 port = 54322
 # Port used by db diff command to initialize the shadow database.
-shadow_port = 54320
+shadow_port = 54720
 # The database major version to use. This has to be the same as your remote database's. Run `SHOW
 # server_version;` on the remote database to check.
 major_version = 17
@@ -36,7 +36,7 @@ major_version = 17
 [db.pooler]
 enabled = false
 # Port to use for the local connection pooler.
-port = 54329
+port = 54729
 # Specifies when a server connection can be reused by other clients.
 # Configure one of the supported pooler modes: `transaction`, `session`.
 pool_mode = "transaction"
@@ -82,7 +82,7 @@ enabled = true
 [studio]
 enabled = true
 # Port to use for Supabase Studio.
-port = 54323
+port = 54723
 # External URL of the API server that frontend connects to.
 api_url = "http://127.0.0.1"
 # OpenAI API Key to use for Supabase AI in the Supabase Studio.
@@ -96,7 +96,7 @@ enabled = true
 port = 54324
 # Uncomment to expose additional ports for testing user applications that send emails.
 # smtp_port = 54325
-# pop3_port = 54326
+# pop3_port = 54724
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
@@ -330,7 +330,7 @@ enabled = true
 # `oneshot` — fallback mode if hot reload causes issues (e.g. in large repos or with symlinks).
 policy = "per_worker"
 # Port to attach the Chrome inspector for debugging edge functions.
-inspector_port = 8083
+inspector_port = 8483
 # The Deno major version to use.
 deno_version = 2
 
@@ -339,7 +339,7 @@ deno_version = 2
 
 [analytics]
 enabled = true
-port = 54327
+port = 54727
 # Configure one of the supported backends: `postgres`, `bigquery`.
 backend = "postgres"
 
