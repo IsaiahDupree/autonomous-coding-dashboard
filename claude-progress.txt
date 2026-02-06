@@ -529,3 +529,62 @@ NEXT: feat-024 (Keyboard shortcuts for common actions)
 
 PROJECT COMPLETE! All 25 features have been successfully implemented and tested.
 
+
+=== Session 2026-02-05T00:00:00Z - CODING ===
+- Started dev environment (backend on :3434, frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-027: PRD Sync - Merge multiple PRDs into unified feature backlog
+  * Created harness/prd-sync.js with comprehensive sync logic
+  * Implemented syncFeatures() function to combine features from multiple sources
+  * Added similarity-based deduplication algorithm (uses word overlap)
+  * Generates stable feature hashes for identification
+  * Tracks source PRD metadata for each feature
+  * Supports merge strategies: 'keep-all' and 'merge-duplicates'
+  * Added watchPrds() function for auto-sync on file changes
+  * Backend API: POST /api/prd/sync - syncs features from sources array
+  * Backend API: GET /api/prd/sources - discovers available PRD sources
+  * Backend API: GET /api/prd/status - returns unified feature list stats
+  * CLI tool supports --config, --sources, --output, --watch options
+  * Unified feature list tracks: total_features, sources, created_at
+  * Tests passed: All 6 acceptance criteria verified
+- Created test file: harness/test-feat-027.js
+- Committed: "feat: Implement PRD Sync - merge multiple PRDs into unified backlog (feat-027)"
+
+- Feature status: 27/45 passing (60% complete)
+
+NEXT: feat-028 (PRD Voice/Text Input)
+
+
+=== Session 2026-02-05T19:00:00Z - CODING ===
+- Started dev environment (backend on :3434, frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-028: PRD Voice/Text Input - Add new requirements via voice or text
+  * Created backend API endpoint: POST /api/prd/add-requirement
+  * Auto-generates acceptance criteria using simple heuristics (button, input, display, validation detection)
+  * Generates sequential feature IDs (feat-001, feat-002, etc.)
+  * Supports append to existing PRD or create new file
+  * Added UI button in header (➕ icon) to open PRD input modal
+  * Created comprehensive modal with text input textarea
+  * Implemented voice input using Web Speech API (browser-based)
+  * Voice recording with visual feedback (red dot, status messages)
+  * Real-time transcription appends to textarea
+  * Acceptance criteria preview section (populated after save)
+  * Checkbox to toggle append vs. create new PRD
+  * Backend helper functions: generateAcceptanceCriteria() and generateFeatureId()
+  * Auto-generated criteria based on requirement keywords (button, input, display, validation)
+  * Created prd-input.js with all modal logic and voice recognition
+  * Speech recognition supports continuous mode with interim results
+  * Error handling for microphone permissions and no-speech scenarios
+  * Success/error messages with auto-close after 2 seconds
+  * ESC key and overlay click to close modal
+  * Tests passed: All 4 acceptance criteria verified
+  * Created test file: test-feat-028.js with Puppeteer tests
+  * Verified text input field, voice button, acceptance criteria preview, append checkbox
+  * Backend API successfully adds features to feature_list.json with auto-generated criteria
+- Committed: "feat: Implement PRD Voice/Text Input (feat-028)"
+
+- Feature status: 28/45 passing (62.2% complete)
+
+NEXT: feat-029 (AI-Powered Feature Estimation)

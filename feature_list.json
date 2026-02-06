@@ -368,7 +368,7 @@
         "Auto-generates acceptance criteria from requirements",
         "Appends to existing PRD or creates new one"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-029",

@@ -69,6 +69,7 @@
           </label>
           <button id="settings-btn" class="btn btn-secondary" onclick="openSettingsModal()" title="Harness Settings">⚙️</button>
           <button id="prompts-btn" class="btn btn-secondary" onclick="openPromptsModal()" title="Edit Prompts">📝</button>
+          <button id="prd-input-btn" class="btn btn-secondary" onclick="openPrdInputModal()" title="Add PRD Requirement">➕</button>
           <button id="help-btn" class="btn btn-secondary" onclick="openHelpModal()" title="Help & Keyboard Shortcuts">❓</button>
           <a href="index.html" class="btn">📊 Dashboard</a>
           <a href="control.html" class="btn btn-secondary">🎮 Control Panel</a>
@@ -583,12 +584,83 @@
     </div>
   </div>
 
+  <!-- PRD Input Modal (feat-028) -->
+  <div class="modal-overlay" id="prd-input-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add PRD Requirement</h2>
+        <button class="modal-close" onclick="closePrdInputModal()" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="prd-requirement-text">Describe your requirement</label>
+          <textarea
+            id="prd-requirement-text"
+            rows="5"
+            placeholder="E.g., Add a search bar to filter features by category..."
+            class="prompt-textarea"
+          ></textarea>
+          <small class="form-help">Describe the feature or requirement in natural language</small>
+        </div>
+
+        <div class="form-group">
+          <label>Input Method</label>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <button
+              id="voice-input-btn"
+              class="btn btn-secondary"
+              onclick="toggleVoiceInput()"
+              title="Use voice input"
+            >
+              <span id="voice-icon">🎤</span> <span id="voice-label">Start Voice Input</span>
+            </button>
+            <span id="voice-status" style="color: var(--color-text-secondary); font-size: 0.875rem;"></span>
+          </div>
+          <small class="form-help">Click to start/stop voice recording (uses browser's speech recognition)</small>
+        </div>
+
+        <div class="form-group">
+          <label>Auto-Generated Acceptance Criteria</label>
+          <div id="acceptance-criteria-preview" style="
+            padding: 1rem;
+            background: var(--color-bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            min-height: 100px;
+          ">
+            <p style="color: var(--color-text-secondary); font-style: italic;">
+              Acceptance criteria will be generated automatically based on your requirement...
+            </p>
+          </div>
+          <small class="form-help">These will be generated when you save the requirement</small>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="append-to-existing" checked>
+            <span>Append to existing feature_list.json</span>
+          </label>
+          <small class="form-help">Uncheck to create a new PRD file</small>
+        </div>
+
+        <div id="prd-validation-message" class="validation-message" style="display: none;"></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="closePrdInputModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="savePrdRequirement()" id="save-prd-btn">
+          Add Requirement
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Error Toast Container -->
   <div id="error-toast-container" class="error-toast-container"></div>
 
   <script src="git-timeline.js"></script>
   <script src="cost-tracker.js"></script>
   <script src="project-manager-ui.js"></script>
+  <script src="prd-input.js"></script>
   <script src="app.js"></script>
 </body>
 

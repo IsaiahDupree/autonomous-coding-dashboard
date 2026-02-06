@@ -2720,6 +2720,141 @@ app.get('/api/prd/status', async (req, res) => {
     }
 });
 
+// POST /api/prd/add-requirement - Add new requirement via text/voice
+app.post('/api/prd/add-requirement', async (req, res) => {
+    try {
+        const { requirement, mode, targetPrd, appendToExisting } = req.body;
+
+        if (!requirement || typeof requirement !== 'string') {
+            return res.status(400).json({ error: 'requirement (string) is required' });
+        }
+
+        // Auto-generate acceptance criteria using simple heuristics
+        // In a full implementation, this would call Claude API
+        const acceptanceCriteria = generateAcceptanceCriteria(requirement);
+
+        // Generate feature ID
+        const featureId = generateFeatureId(requirement);
+
+        // Create feature object
+        const newFeature = {
+            id: featureId,
+            category: 'prd-management',
+            priority: 99, // Default low priority
+            description: requirement,
+            acceptance_criteria: acceptanceCriteria,
+            passes: false,
+            source: mode || 'text-input',
+            created_at: new Date().toISOString()
+        };
+
+        // Determine target file
+        const prdPath = targetPrd || path.join(process.cwd(), 'feature_list.json');
+
+        // Load existing PRD or create new
+        let prdData: any;
+        if (appendToExisting && fs.existsSync(prdPath)) {
+            prdData = JSON.parse(fs.readFileSync(prdPath, 'utf-8'));
+        } else {
+            prdData = {
+                project: 'Autonomous Coding Dashboard',
+                description: 'Feature requirements',
+                total_features: 0,
+                features: []
+            };
+        }
+
+        // Add new feature
+        prdData.features = prdData.features || [];
+        prdData.features.push(newFeature);
+        prdData.total_features = prdData.features.length;
+        prdData.updated_at = new Date().toISOString();
+
+        // Write back to file
+        fs.writeFileSync(prdPath, JSON.stringify(prdData, null, 2));
+
+        console.log(`✅ Added requirement: ${featureId}`);
+
+        res.json({
+            success: true,
+            message: 'Requirement added successfully',
+            data: {
+                feature: newFeature,
+                prdPath,
+                totalFeatures: prdData.total_features
+            }
+        });
+    } catch (error: any) {
+        console.error('Error adding requirement:', error);
+        res.status(500).json({ error: error.message || 'Failed to add requirement' });
+    }
+});
+
+// Helper: Generate acceptance criteria from requirement text
+function generateAcceptanceCriteria(requirement: string): string[] {
+    // Simple rule-based criteria generation
+    // In production, this would call Claude API for intelligent generation
+    const criteria: string[] = [];
+
+    // Extract verbs and actions
+    const hasButton = /button|click|press/i.test(requirement);
+    const hasInput = /input|field|form|enter/i.test(requirement);
+    const hasDisplay = /show|display|render|appear/i.test(requirement);
+    const hasValidation = /validat|check|verify|ensure/i.test(requirement);
+
+    if (hasButton) {
+        criteria.push('Button is rendered and visible');
+        criteria.push('Button click triggers expected action');
+    }
+
+    if (hasInput) {
+        criteria.push('Input field accepts user input');
+        criteria.push('Input value is correctly processed');
+    }
+
+    if (hasDisplay) {
+        criteria.push('Content is rendered correctly');
+        criteria.push('Display updates in real-time');
+    }
+
+    if (hasValidation) {
+        criteria.push('Validation logic is implemented');
+        criteria.push('Error messages are displayed appropriately');
+    }
+
+    // Default criteria if no matches
+    if (criteria.length === 0) {
+        criteria.push('Feature is implemented as described');
+        criteria.push('Feature works without errors');
+        criteria.push('Tests pass for the feature');
+    }
+
+    return criteria;
+}
+
+// Helper: Generate feature ID from requirement
+function generateFeatureId(requirement: string): string {
+    // Find highest existing feat-XXX ID
+    const featureListPath = path.join(process.cwd(), 'feature_list.json');
+    let maxId = 0;
+
+    if (fs.existsSync(featureListPath)) {
+        try {
+            const data = JSON.parse(fs.readFileSync(featureListPath, 'utf-8'));
+            for (const feature of data.features || []) {
+                const match = feature.id?.match(/feat-(\d+)/);
+                if (match) {
+                    maxId = Math.max(maxId, parseInt(match[1], 10));
+                }
+            }
+        } catch (e) {
+            // Ignore errors
+        }
+    }
+
+    return `feat-${String(maxId + 1).padStart(3, '0')}`;
+}
+
 // ============================================
 // START SERVER
 // ============================================
