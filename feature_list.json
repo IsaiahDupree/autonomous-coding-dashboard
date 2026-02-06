@@ -689,7 +689,7 @@
         "Persist preference",
         "All components styled"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-053",
