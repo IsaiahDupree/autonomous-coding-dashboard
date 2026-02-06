@@ -977,7 +977,7 @@
         "Generate description from PRD",
         "Add reviewers"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-077",
