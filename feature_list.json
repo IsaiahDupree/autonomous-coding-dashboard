@@ -1229,7 +1229,7 @@
         "Generate release notes",
         "Categorize changes"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-098",
