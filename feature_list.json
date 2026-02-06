@@ -1121,7 +1121,7 @@
         "Import to new instance",
         "Version compatibility"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-089",
