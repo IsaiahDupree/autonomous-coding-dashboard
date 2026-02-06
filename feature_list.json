@@ -1025,7 +1025,7 @@
         "Permission levels",
         "Restrict sensitive actions"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-081",
