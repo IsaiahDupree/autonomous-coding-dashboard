@@ -773,7 +773,7 @@
         "Highlight changes",
         "Version history"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-060",
