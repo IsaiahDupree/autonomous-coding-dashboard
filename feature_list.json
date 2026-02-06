@@ -881,7 +881,7 @@
         "Category breakdown",
         "Optimization suggestions"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-069",
