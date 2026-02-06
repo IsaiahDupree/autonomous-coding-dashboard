@@ -749,7 +749,7 @@
         "Summary of completed features",
         "Error alerts"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-058",
