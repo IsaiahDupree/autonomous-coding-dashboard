@@ -869,7 +869,7 @@
         "Trend line",
         "Projection"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-068",
