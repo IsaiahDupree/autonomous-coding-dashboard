@@ -1073,7 +1073,7 @@
         "Lazy loading",
         "Caching strategy"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-085",
