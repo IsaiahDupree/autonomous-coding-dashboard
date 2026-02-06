@@ -953,7 +953,7 @@
         "Include feature ID",
         "Conventional commit format"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-075",
