@@ -677,7 +677,7 @@
         "Filter by level",
         "Search functionality"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-052",

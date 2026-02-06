@@ -2803,6 +2803,18 @@ io.on('connection', (socket) => {
         socket.leave(`project:${projectId}`);
     });
 
+    // Log streaming (feat-051)
+    socket.on('subscribe_logs', () => {
+        socket.join('log-stream');
+        // Send last 100 log entries as backfill
+        const recent = logBuffer.slice(-100);
+        socket.emit('log_backfill', recent);
+    });
+
+    socket.on('unsubscribe_logs', () => {
+        socket.leave('log-stream');
+    });
+
     socket.on('disconnect', () => {
         console.log('Client disconnected:', socket.id);
     });
@@ -6793,6 +6805,253 @@ app.post('/api/feature-ordering/demo', (req: any, res: any) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
+
+// ============================================
+// REAL-TIME LOG STREAMING (feat-051)
+// ============================================
+
+// Log levels and their numeric priority (lower = more severe)
+const LOG_LEVELS: Record<string, number> = {
+    error: 0,
+    warn: 1,
+    info: 2,
+    debug: 3,
+    trace: 4
+};
+
+interface LogEntry {
+    id: string;
+    timestamp: string;
+    level: string;
+    source: string;
+    message: string;
+}
+
+// In-memory log buffer (ring buffer)
+const LOG_BUFFER_MAX = 2000;
+let logBuffer: LogEntry[] = [];
+let logIdCounter = 0;
+
+function addLogEntry(level: string, source: string, message: string): LogEntry {
+    const entry: LogEntry = {
+        id: `log-${++logIdCounter}`,
+        timestamp: new Date().toISOString(),
+        level: level.toLowerCase(),
+        source,
+        message
+    };
+    logBuffer.push(entry);
+    if (logBuffer.length > LOG_BUFFER_MAX) {
+        logBuffer = logBuffer.slice(-LOG_BUFFER_MAX);
+    }
+    // Emit to all clients in the log-stream room
+    io.to('log-stream').emit('log_entry', entry);
+    return entry;
+}
+
+// Parse a raw log line into a LogEntry
+function parseLogLine(line: string, source: string): LogEntry | null {
+    if (!line.trim()) return null;
+    let level = 'info';
+    const lowerLine = line.toLowerCase();
+    if (lowerLine.includes('error') || lowerLine.includes('err]') || lowerLine.includes('[error')) level = 'error';
+    else if (lowerLine.includes('warn') || lowerLine.includes('[warn')) level = 'warn';
+    else if (lowerLine.includes('debug') || lowerLine.includes('[debug')) level = 'debug';
+    else if (lowerLine.includes('trace') || lowerLine.includes('[trace')) level = 'trace';
+    return addLogEntry(level, source, line.trim());
+}
+
+// Intercept console methods to capture server logs
+const originalConsoleLog = console.log;
+const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+
+console.log = (...args: any[]) => {
+    originalConsoleLog.apply(console, args);
+    const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+    addLogEntry('info', 'server', msg);
+};
+console.error = (...args: any[]) => {
+    originalConsoleError.apply(console, args);
+    const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+    addLogEntry('error', 'server', msg);
+};
+console.warn = (...args: any[]) => {
+    originalConsoleWarn.apply(console, args);
+    const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+    addLogEntry('warn', 'server', msg);
+};
+
+// Tail log files and stream their content
+const LOG_FILES: { path: string; source: string }[] = [];
+const rootDir = path.resolve(__dirname, '..', '..');
+
+// Discover log files
+function discoverLogFiles() {
+    const candidates = [
+        { p: path.join(rootDir, 'backend.log'), s: 'backend' },
+        { p: path.join(rootDir, 'harness-output.log'), s: 'harness' },
+        { p: path.join(rootDir, 'harness', 'queue-output.log'), s: 'queue' },
+        { p: '/tmp/dashboard-backend.log', s: 'backend-stdout' },
+        { p: '/tmp/dashboard-frontend.log', s: 'frontend' },
+    ];
+    for (const c of candidates) {
+        if (fs.existsSync(c.p)) {
+            LOG_FILES.push({ path: c.p, source: c.s });
+        }
+    }
+}
+
+// File watchers for tailing
+const fileWatchers: fs.FSWatcher[] = [];
+
+function startLogFileTailing() {
+    discoverLogFiles();
+    for (const logFile of LOG_FILES) {
+        try {
+            let fileSize = 0;
+            try { fileSize = fs.statSync(logFile.path).size; } catch {}
+            const watcher = fs.watch(logFile.path, () => {
+                try {
+                    const newSize = fs.statSync(logFile.path).size;
+                    if (newSize > fileSize) {
+                        const stream = fs.createReadStream(logFile.path, { start: fileSize, encoding: 'utf8' });
+                        let leftover = '';
+                        stream.on('data', (chunk: string) => {
+                            const lines = (leftover + chunk).split('\n');
+                            leftover = lines.pop() || '';
+                            for (const line of lines) {
+                                parseLogLine(line, logFile.source);
+                            }
+                        });
+                        stream.on('end', () => {
+                            if (leftover.trim()) {
+                                parseLogLine(leftover, logFile.source);
+                            }
+                        });
+                        fileSize = newSize;
+                    }
+                } catch {}
+            });
+            fileWatchers.push(watcher);
+        } catch {}
+    }
+}
+
+// REST API endpoints for log streaming
+
+// GET /api/logs - Get log entries with optional filtering
+app.get('/api/logs', (req, res) => {
+    try {
+        let entries = [...logBuffer];
+        const level = req.query.level as string;
+        const search = req.query.search as string;
+        const source = req.query.source as string;
+        const limit = parseInt(req.query.limit as string) || 200;
+        const offset = parseInt(req.query.offset as string) || 0;
+
+        if (level && level !== 'all') {
+            const maxPriority = LOG_LEVELS[level.toLowerCase()] ?? 4;
+            entries = entries.filter(e => (LOG_LEVELS[e.level] ?? 4) <= maxPriority);
+        }
+
+        if (source) {
+            entries = entries.filter(e => e.source === source);
+        }
+
+        if (search) {
+            const searchLower = search.toLowerCase();
+            entries = entries.filter(e => e.message.toLowerCase().includes(searchLower));
+        }
+
+        const total = entries.length;
+        entries = entries.slice(-limit - offset, entries.length - offset || undefined);
+        if (entries.length > limit) entries = entries.slice(-limit);
+
+        res.json({
+            success: true,
+            data: {
+                entries,
+                total,
+                levels: Object.keys(LOG_LEVELS),
+                sources: [...new Set(logBuffer.map(e => e.source))]
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/logs/sources - Get available log sources
+app.get('/api/logs/sources', (_req, res) => {
+    const sources = [...new Set(logBuffer.map(e => e.source))];
+    res.json({ success: true, data: { sources } });
+});
+
+// GET /api/logs/stats - Get log statistics
+app.get('/api/logs/stats', (_req, res) => {
+    const stats: Record<string, number> = {};
+    for (const level of Object.keys(LOG_LEVELS)) {
+        stats[level] = logBuffer.filter(e => e.level === level).length;
+    }
+    const sources: Record<string, number> = {};
+    for (const entry of logBuffer) {
+        sources[entry.source] = (sources[entry.source] || 0) + 1;
+    }
+    res.json({
+        success: true,
+        data: { total: logBuffer.length, byLevel: stats, bySources: sources }
+    });
+});
+
+// POST /api/logs/clear - Clear log buffer
+app.post('/api/logs/clear', (_req, res) => {
+    logBuffer = [];
+    io.to('log-stream').emit('log_cleared');
+    res.json({ success: true, data: { message: 'Log buffer cleared' } });
+});
+
+// POST /api/logs/demo - Generate demo log entries
+app.post('/api/logs/demo', (_req, res) => {
+    const demoMessages = [
+        { level: 'info', source: 'harness', message: 'Harness session started for project autonomous-coding-dashboard' },
+        { level: 'info', source: 'harness', message: 'Coding agent initialized, loading feature list...' },
+        { level: 'debug', source: 'server', message: 'API request: GET /api/features - 200 OK (12ms)' },
+        { level: 'info', source: 'harness', message: 'Working on feat-051: Real-time log streaming' },
+        { level: 'warn', source: 'harness', message: 'Feature dependency not met: feat-050 should be completed first' },
+        { level: 'info', source: 'server', message: 'WebSocket client connected: socket_abc123' },
+        { level: 'debug', source: 'harness', message: 'Running acceptance test: WebSocket log streaming...' },
+        { level: 'info', source: 'harness', message: 'Test passed: WebSocket streaming verified' },
+        { level: 'error', source: 'server', message: 'Redis connection timeout after 5000ms - retrying...' },
+        { level: 'warn', source: 'frontend', message: 'Slow API response detected: /api/logs took 2340ms' },
+        { level: 'info', source: 'server', message: 'Redis reconnected successfully' },
+        { level: 'info', source: 'harness', message: 'Feature feat-051 implementation complete, running tests' },
+        { level: 'debug', source: 'server', message: 'Socket.IO rooms: log-stream (2 clients), project:1 (1 client)' },
+        { level: 'info', source: 'queue', message: 'Queue processed: 3 features pending, 1 active' },
+        { level: 'error', source: 'harness', message: 'Test assertion failed: expected log level filter to return 5 entries, got 3' },
+        { level: 'info', source: 'harness', message: 'Retrying test after fixing filter logic...' },
+        { level: 'info', source: 'harness', message: 'All acceptance criteria passed for feat-051' },
+        { level: 'trace', source: 'server', message: 'Memory usage: 145MB RSS, 89MB heap used' },
+        { level: 'info', source: 'server', message: 'Feature list updated: 51/120 passing (42.5%)' },
+        { level: 'debug', source: 'frontend', message: 'Dashboard widget mounted: log-streaming-widget' },
+    ];
+
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i >= demoMessages.length) {
+            clearInterval(interval);
+            return;
+        }
+        const msg = demoMessages[i];
+        addLogEntry(msg.level, msg.source, msg.message);
+        i++;
+    }, 300);
+
+    res.json({ success: true, data: { message: `Generating ${demoMessages.length} demo log entries` } });
+});
+
+// Start log file tailing
+startLogFileTailing();
 
 // ============================================
 // START SERVER

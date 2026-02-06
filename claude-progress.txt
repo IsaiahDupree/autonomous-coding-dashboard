@@ -1175,3 +1175,41 @@ NEXT: feat-050 (next feature in queue)
 - Feature status: 50/120 passing (41.7% complete)
 
 NEXT: feat-051 (next feature in queue)
+
+- Implemented feat-051: Real-Time Log Streaming
+  * Created WebSocket-based log streaming using existing Socket.IO infrastructure
+  * Backend additions to src/index.ts:
+    - In-memory ring buffer (2000 entries max) for log storage
+    - Console.log/error/warn interception to capture server logs
+    - Log file tailing (backend.log, harness-output.log, queue-output.log, etc.)
+    - Socket.IO subscribe_logs/unsubscribe_logs events with backfill
+    - log_entry real-time emission to log-stream room
+    - REST API endpoints:
+      GET /api/logs - Get logs with level/source/search filtering
+      GET /api/logs/sources - Get available log sources
+      GET /api/logs/stats - Get log statistics by level and source
+      POST /api/logs/clear - Clear log buffer
+      POST /api/logs/demo - Generate demo log entries
+  * Created log-streaming.js dashboard widget:
+    - Socket.IO WebSocket connection with auto-reconnect
+    - Connection status indicator (Connected/Disconnected)
+    - Stats bar showing totals by level (error, warn, info, debug)
+    - Level filter dropdown (all, error, warn, info, debug, trace)
+    - Source filter dropdown (dynamically populated)
+    - Search input with debounce and highlight matching
+    - Auto-scroll toggle
+    - Pause/resume streaming
+    - Clear logs and generate demo buttons
+    - Monospace log output with color-coded levels
+    - Empty state with demo generation prompt
+  * Added comprehensive CSS styles with ls- prefix namespace
+  * Updated index.html with widget container and script tag
+  * Tests passed: All 3 acceptance criteria verified (33 assertions)
+    - WebSocket log streaming ✓
+    - Filter by level ✓
+    - Search functionality ✓
+- Committed: "feat: Implement Real-Time Log Streaming (feat-051)"
+
+- Feature status: 51/120 passing (42.5% complete)
+
+NEXT: feat-052 (next feature in queue)
