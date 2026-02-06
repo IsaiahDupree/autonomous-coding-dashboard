@@ -812,3 +812,31 @@ NEXT: feat-040 (Test Coverage Dashboard - Visualize test coverage per feature)
 - Feature status: 40/120 passing (33.3% complete)
 
 NEXT: feat-041 (Cross-Project Analytics - Aggregate metrics across all targets)
+
+- Implemented feat-041: Cross-Project Analytics - Aggregate metrics across all targets
+  * Created cross-project-analytics.js dashboard widget with full UI
+  * Summary cards showing total features (3,455), completed (2,257), pending (1,198), total cost ($659.85)
+  * Overall completion progress bar with color-coded health levels
+  * Velocity comparison chart: horizontal bar chart showing features/day per project, sorted by velocity
+  * Cost breakdown chart: horizontal bars showing total spend per project, with per-feature cost
+  * Health score grid: SVG ring charts per project with composite health score (0-100)
+    - Completion factor (0-40 pts), velocity factor (0-30 pts), efficiency factor (0-30 pts)
+    - Labels: Excellent (80+), Good (60+), Fair (40+), Needs Attention (<40)
+  * Sortable projects table with name, features, progress bar, cost, velocity, health columns
+  * Added backend API endpoint GET /api/cross-project-analytics:
+    - Aggregates feature counts from all repo-queue.json targets
+    - Pulls cost data from DB harness sessions grouped by project
+    - Computes velocity from progress snapshots (daily feature deltas, 14-day window)
+    - Calculates composite health scores per project
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles for all widget components
+  * Tests passed: All 4 acceptance criteria verified (52 assertions)
+    - Total features completed across all projects ✓
+    - Cost breakdown by project ✓
+    - Velocity comparison chart ✓
+    - Project health scores ✓
+- Committed: "feat: Implement Cross-Project Analytics (feat-041)"
+
+- Feature status: 41/120 passing (34.2% complete)
+
+NEXT: feat-042 (next feature in queue)

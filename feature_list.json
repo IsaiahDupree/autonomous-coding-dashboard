@@ -549,7 +549,7 @@
         "Velocity comparison chart",
         "Project health scores"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-042",

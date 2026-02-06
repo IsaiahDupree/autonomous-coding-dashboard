@@ -3662,6 +3662,204 @@ app.get('/api/test-coverage', (req, res) => {
 });
 
 // ============================================
+// Cross-Project Analytics (feat-041)
+// ============================================
+
+app.get('/api/cross-project-analytics', async (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const repoQueueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+
+        if (!fs.existsSync(repoQueueFile)) {
+            return res.status(404).json({ success: false, error: 'repo-queue.json not found' });
+        }
+
+        const repoQueue = JSON.parse(fs.readFileSync(repoQueueFile, 'utf-8'));
+        const repos = repoQueue.repos || [];
+
+        // 1. Gather per-project feature data from file system
+        const projects: any[] = [];
+        let grandTotalFeatures = 0;
+        let grandTotalPassing = 0;
+
+        for (const repo of repos) {
+            let total = 0, passing = 0;
+            let categories: Record<string, { total: number; passing: number }> = {};
+
+            if (repo.featureList && fs.existsSync(repo.featureList)) {
+                try {
+                    const featureData = JSON.parse(fs.readFileSync(repo.featureList, 'utf-8'));
+                    const featureArray = featureData.features || featureData || [];
+                    if (Array.isArray(featureArray)) {
+                        total = featureArray.length;
+                        passing = featureArray.filter((f: any) =>
+                            f.completed || f.passes || f.status === 'passing'
+                        ).length;
+                        for (const f of featureArray) {
+                            const cat = f.category || 'uncategorized';
+                            if (!categories[cat]) categories[cat] = { total: 0, passing: 0 };
+                            categories[cat].total++;
+                            if (f.completed || f.passes || f.status === 'passing') categories[cat].passing++;
+                        }
+                    }
+                } catch (e) {
+                    // Ignore parse errors
+                }
+            }
+
+            grandTotalFeatures += total;
+            grandTotalPassing += passing;
+
+            projects.push({
+                id: repo.id,
+                name: repo.name,
+                enabled: repo.enabled,
+                priority: repo.priority,
+                features: { total, passing, pending: total - passing },
+                percentComplete: total > 0 ? parseFloat(((passing / total) * 100).toFixed(1)) : 0,
+                categories,
+            });
+        }
+
+        // 2. Gather cost data from DB sessions grouped by project
+        let costByProject: Record<string, { totalCost: number; sessions: number; totalTokens: number }> = {};
+        try {
+            const sessions = await prisma.harnessSession.findMany({
+                where: { status: 'completed' },
+                select: {
+                    costUsd: true,
+                    inputTokens: true,
+                    outputTokens: true,
+                    target: { select: { repoId: true, name: true } }
+                }
+            });
+            for (const s of sessions) {
+                const repoId = s.target?.repoId || 'unknown';
+                if (!costByProject[repoId]) costByProject[repoId] = { totalCost: 0, sessions: 0, totalTokens: 0 };
+                costByProject[repoId].totalCost += (s.costUsd || 0);
+                costByProject[repoId].sessions++;
+                costByProject[repoId].totalTokens += (s.inputTokens || 0) + (s.outputTokens || 0);
+            }
+        } catch (e) {
+            // DB may not be available - continue with empty cost data
+        }
+
+        // 3. Gather velocity from snapshots (features gained per day)
+        let velocityByProject: Record<string, { dates: string[]; values: number[] }> = {};
+        try {
+            const since = new Date();
+            since.setDate(since.getDate() - 14);
+            const snapshots = await prisma.progressSnapshot.findMany({
+                where: { snapshotDate: { gte: since } },
+                orderBy: { snapshotDate: 'asc' },
+                select: {
+                    passingFeatures: true,
+                    snapshotDate: true,
+                    target: { select: { repoId: true } }
+                }
+            });
+
+            // Group by repo and compute daily deltas
+            const byRepo: Record<string, { date: string; passing: number }[]> = {};
+            for (const snap of snapshots) {
+                const repoId = snap.target?.repoId || 'unknown';
+                if (!byRepo[repoId]) byRepo[repoId] = [];
+                byRepo[repoId].push({
+                    date: snap.snapshotDate.toISOString().split('T')[0],
+                    passing: snap.passingFeatures
+                });
+            }
+
+            for (const [repoId, snaps] of Object.entries(byRepo)) {
+                const dates: string[] = [];
+                const values: number[] = [];
+                for (let i = 1; i < snaps.length; i++) {
+                    const delta = snaps[i].passing - snaps[i - 1].passing;
+                    dates.push(snaps[i].date);
+                    values.push(Math.max(0, delta));
+                }
+                if (dates.length > 0) {
+                    velocityByProject[repoId] = { dates, values };
+                }
+            }
+        } catch (e) {
+            // DB may not be available
+        }
+
+        // 4. Compute health scores per project
+        const projectAnalytics = projects.map(p => {
+            const cost = costByProject[p.id] || { totalCost: 0, sessions: 0, totalTokens: 0 };
+            const velocity = velocityByProject[p.id] || { dates: [], values: [] };
+
+            // Health score: composite of completion %, recent velocity, cost efficiency
+            let healthScore = 0;
+            let healthFactors: Record<string, number> = {};
+
+            // Completion factor (0-40 points)
+            healthFactors.completion = Math.round(p.percentComplete * 0.4);
+
+            // Velocity factor (0-30 points): avg features/day over last 7 days
+            const recentVelocity = velocity.values.slice(-7);
+            const avgVelocity = recentVelocity.length > 0
+                ? recentVelocity.reduce((a: number, b: number) => a + b, 0) / recentVelocity.length
+                : 0;
+            healthFactors.velocity = Math.min(30, Math.round(avgVelocity * 10));
+
+            // Efficiency factor (0-30 points): features per dollar spent
+            const featuresPerDollar = cost.totalCost > 0 ? p.features.passing / cost.totalCost : 0;
+            healthFactors.efficiency = Math.min(30, Math.round(featuresPerDollar * 3));
+
+            // If project is 100% complete, set health to 100
+            if (p.percentComplete >= 100) {
+                healthScore = 100;
+            } else {
+                healthScore = Math.min(100, healthFactors.completion + healthFactors.velocity + healthFactors.efficiency);
+            }
+
+            return {
+                ...p,
+                cost: {
+                    total: parseFloat(cost.totalCost.toFixed(2)),
+                    sessions: cost.sessions,
+                    totalTokens: cost.totalTokens,
+                    costPerFeature: p.features.passing > 0 ? parseFloat((cost.totalCost / p.features.passing).toFixed(2)) : 0,
+                },
+                velocity: {
+                    dates: velocity.dates,
+                    values: velocity.values,
+                    avgDaily: parseFloat(avgVelocity.toFixed(1)),
+                },
+                health: {
+                    score: healthScore,
+                    factors: healthFactors,
+                    label: healthScore >= 80 ? 'Excellent' : healthScore >= 60 ? 'Good' : healthScore >= 40 ? 'Fair' : 'Needs Attention',
+                },
+            };
+        });
+
+        // 5. Overall totals
+        const totalCost = Object.values(costByProject).reduce((sum, c) => sum + c.totalCost, 0);
+
+        res.json({
+            success: true,
+            data: {
+                summary: {
+                    totalProjects: projects.length,
+                    totalFeatures: grandTotalFeatures,
+                    totalCompleted: grandTotalPassing,
+                    totalPending: grandTotalFeatures - grandTotalPassing,
+                    overallPercent: grandTotalFeatures > 0 ? parseFloat(((grandTotalPassing / grandTotalFeatures) * 100).toFixed(1)) : 0,
+                    totalCost: parseFloat(totalCost.toFixed(2)),
+                },
+                projects: projectAnalytics,
+            },
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 
