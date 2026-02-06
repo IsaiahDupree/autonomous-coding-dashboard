@@ -1169,7 +1169,7 @@
         "Suggest fixes",
         "Link to documentation"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-093",
