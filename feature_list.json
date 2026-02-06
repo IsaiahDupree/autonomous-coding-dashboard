@@ -893,7 +893,7 @@
         "Average time per feature",
         "Error patterns"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-070",
