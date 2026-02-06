@@ -857,7 +857,7 @@
         "Bulk actions on groups",
         "Filter by group"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-067",
