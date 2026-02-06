@@ -1289,7 +1289,7 @@
         "Personal settings",
         "Shared resources"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-103",
