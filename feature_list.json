@@ -1253,7 +1253,7 @@
         "Time zone support",
         "Run history"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-100",
