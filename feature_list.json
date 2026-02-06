@@ -1349,7 +1349,7 @@
         "Run after features",
         "Block on failure"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-108",
