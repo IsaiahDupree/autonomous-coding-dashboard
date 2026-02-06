@@ -929,7 +929,7 @@
         "Compare over time",
         "Identify flaky tests"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-073",
