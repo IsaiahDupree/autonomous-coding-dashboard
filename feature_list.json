@@ -1181,7 +1181,7 @@
         "Suggest optimal order",
         "Consider complexity"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-094",
