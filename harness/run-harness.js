@@ -11,6 +11,7 @@ import { spawn, execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import SleepManager from './sleep-manager.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -196,55 +197,106 @@ function isProjectComplete() {
 
 // Main harness loop
 async function runHarness(options = {}) {
-  const { maxSessions = CONFIG.maxSessions, continuous = false } = options;
-  
+  const {
+    maxSessions = CONFIG.maxSessions,
+    continuous = false,
+    enableSleep = true,
+    sleepTimeout = 300000  // 5 minutes default
+  } = options;
+
   log('Agent Harness Starting', 'start');
   log(`Project root: ${PROJECT_ROOT}`);
   log(`Max sessions: ${maxSessions}`);
   log(`Mode: ${continuous ? 'Continuous' : 'Single session'}`);
-  
+  log(`Sleep mode: ${enableSleep ? 'Enabled' : 'Disabled'}`);
+
+  // Initialize sleep manager
+  let sleepManager = null;
+  if (enableSleep) {
+    sleepManager = new SleepManager({
+      sleepTimeoutMs: sleepTimeout,
+      enableUserAccessWake: true,
+      enableCheckbackWake: true
+    });
+
+    // Set up wake callback to resume harness
+    sleepManager.onWake((reason) => {
+      log(`Harness woke up due to: ${reason}`, 'info');
+    });
+
+    // Set up sleep callback
+    sleepManager.onSleep(() => {
+      log('Harness entering low-power sleep mode', 'info');
+    });
+
+    sleepManager.start();
+  }
+
   let sessionNumber = 1;
   
   while (sessionNumber <= maxSessions) {
+    // If sleeping, wait for wake trigger
+    if (sleepManager && sleepManager.getState().isSleeping) {
+      log('Harness is sleeping, waiting for wake trigger...');
+      await new Promise(r => setTimeout(r, 60000)); // Check every minute
+      continue;
+    }
+
     // Check if already complete
     if (isProjectComplete()) {
       log('All features implemented! Project complete.', 'success');
       break;
     }
-    
+
     try {
+      // Record activity before session
+      if (sleepManager) {
+        sleepManager.recordActivity();
+      }
+
       const result = await runSession(sessionNumber);
-      
+
+      // Record activity after session
+      if (sleepManager) {
+        sleepManager.recordActivity();
+      }
+
       // If not continuous mode, exit after one session
       if (!continuous) {
         log('Single session mode - exiting', 'end');
         break;
       }
-      
+
       // Check completion after session
       if (isProjectComplete()) {
         log('All features implemented! Project complete.', 'success');
         break;
       }
-      
+
       // If session errored, wait longer before retry
       const delay = result.error ? CONFIG.sessionDelayMs * 2 : CONFIG.sessionDelayMs;
       log(`Waiting ${delay / 1000}s before next session...`);
       await new Promise(r => setTimeout(r, delay));
-      
+
       sessionNumber++;
-      
+
     } catch (error) {
       log(`Session failed: ${error.message}`, 'error');
-      
+
       if (!continuous) {
+        if (sleepManager) sleepManager.stop();
         process.exit(1);
       }
-      
+
       // Wait and retry
       await new Promise(r => setTimeout(r, CONFIG.sessionDelayMs * 3));
       sessionNumber++;
     }
+  }
+
+  // Cleanup sleep manager
+  if (sleepManager) {
+    sleepManager.stop();
   }
   
   const finalStats = getProgressStats();
@@ -255,7 +307,9 @@ async function runHarness(options = {}) {
 const args = process.argv.slice(2);
 const options = {
   continuous: args.includes('--continuous') || args.includes('-c'),
-  maxSessions: parseInt(args.find(a => a.startsWith('--max='))?.split('=')[1]) || CONFIG.maxSessions
+  maxSessions: parseInt(args.find(a => a.startsWith('--max='))?.split('=')[1]) || CONFIG.maxSessions,
+  enableSleep: !args.includes('--no-sleep'),
+  sleepTimeout: parseInt(args.find(a => a.startsWith('--sleep-timeout='))?.split('=')[1]) || 300000
 };
 
 if (args.includes('--help') || args.includes('-h')) {
@@ -265,14 +319,22 @@ Agent Harness Runner
 Usage: node run-harness.js [options]
 
 Options:
-  --continuous, -c    Run continuously until all features are complete
-  --max=N             Maximum number of sessions to run (default: 100)
-  --help, -h          Show this help message
+  --continuous, -c        Run continuously until all features are complete
+  --max=N                 Maximum number of sessions to run (default: 100)
+  --no-sleep              Disable sleep mode (keep harness active)
+  --sleep-timeout=N       Inactivity timeout in ms before sleep (default: 300000)
+  --help, -h              Show this help message
+
+Sleep Mode:
+  When enabled, the harness enters a low-CPU sleep state after inactivity.
+  Wake triggers: user dashboard access, external trigger file, scheduled time.
+  To wake manually: touch .wake-harness in project root
 
 Examples:
-  node run-harness.js                  # Run single session
-  node run-harness.js -c               # Run continuously
-  node run-harness.js -c --max=50      # Run up to 50 sessions
+  node run-harness.js                         # Run single session with sleep
+  node run-harness.js -c                      # Run continuously with sleep
+  node run-harness.js -c --no-sleep           # Run continuously, no sleep
+  node run-harness.js -c --sleep-timeout=600000  # 10 min sleep timeout
 `);
   process.exit(0);
 }

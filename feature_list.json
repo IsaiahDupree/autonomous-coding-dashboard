@@ -480,7 +480,8 @@
         "Wake triggers: scheduled post, user access, checkback",
         "Configurable sleep timeout"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-05T22:30:00Z"
     },
     {
       "id": "feat-037",

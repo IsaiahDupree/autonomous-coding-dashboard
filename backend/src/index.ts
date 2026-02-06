@@ -553,6 +553,126 @@ app.get('/api/scheduler/stats', (req, res) => {
     }
 });
 
+// Sleep/Wake Management Endpoints (feat-036)
+app.get('/api/harness/sleep/status', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const sleepStateFile = path.join(projectRoot, 'harness-sleep-state.json');
+
+        if (!fs.existsSync(sleepStateFile)) {
+            return res.json({
+                data: {
+                    isSleeping: false,
+                    lastActivityTime: Date.now(),
+                    sleepStartTime: null,
+                    wakeReason: null
+                }
+            });
+        }
+
+        const sleepState = JSON.parse(fs.readFileSync(sleepStateFile, 'utf-8'));
+        res.json({ data: sleepState });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get sleep status' } });
+    }
+});
+
+app.post('/api/harness/sleep/wake', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const wakeFile = path.join(projectRoot, '.wake-harness');
+
+        // Create trigger file to wake the harness
+        fs.writeFileSync(wakeFile, new Date().toISOString());
+
+        res.json({
+            data: {
+                success: true,
+                message: 'Wake signal sent to harness'
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to send wake signal' } });
+    }
+});
+
+app.post('/api/harness/sleep/force-sleep', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const sleepStateFile = path.join(projectRoot, 'harness-sleep-state.json');
+
+        // Force sleep by updating state file
+        const sleepState = {
+            isSleeping: true,
+            lastActivityTime: Date.now() - 600000, // 10 minutes ago
+            sleepStartTime: Date.now(),
+            wakeReason: null,
+            activityCount: 0
+        };
+
+        fs.writeFileSync(sleepStateFile, JSON.stringify(sleepState, null, 2));
+
+        res.json({
+            data: {
+                success: true,
+                message: 'Harness forced into sleep mode'
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to force sleep' } });
+    }
+});
+
+app.post('/api/harness/sleep/config', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const configFile = path.join(projectRoot, 'harness-sleep-config.json');
+
+        const config = {
+            sleepTimeoutMs: req.body.sleepTimeoutMs || 300000,
+            enableScheduledWake: req.body.enableScheduledWake || false,
+            enableUserAccessWake: req.body.enableUserAccessWake !== false,
+            enableCheckbackWake: req.body.enableCheckbackWake !== false,
+            wakeSchedule: req.body.wakeSchedule || null
+        };
+
+        fs.writeFileSync(configFile, JSON.stringify(config, null, 2));
+
+        res.json({
+            data: {
+                success: true,
+                config
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to save sleep config' } });
+    }
+});
+
+app.get('/api/harness/sleep/config', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const configFile = path.join(projectRoot, 'harness-sleep-config.json');
+
+        if (!fs.existsSync(configFile)) {
+            return res.json({
+                data: {
+                    sleepTimeoutMs: 300000,
+                    enableScheduledWake: false,
+                    enableUserAccessWake: true,
+                    enableCheckbackWake: true,
+                    wakeSchedule: null
+                }
+            });
+        }
+
+        const config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
+        res.json({ data: config });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to load sleep config' } });
+    }
+});
+
 // ============================================
 // PROJECTS API
 // ============================================
