@@ -646,3 +646,72 @@ NEXT: feat-034 (Target PRD Viewer)
 
 NEXT: feat-035 (Feature Extraction from PRD - Auto-generate feature list)
 
+
+=== Session 2026-02-05T22:00:00Z - CODING ===
+- Started dev environment (backend on :3434)
+- Verified core dashboard functionality working
+- Found feat-035 partially implemented with backend API
+
+- Implemented feat-035: Feature Extraction from PRD - Auto-generate feature list from PRD
+  * Created harness/prd-extractor.js with comprehensive extraction engine
+  * Parses markdown into structured sections (H1, H2, H3 with nested support)
+  * Extracts features from bullet points and checkbox items
+  * Auto-generates acceptance criteria using pattern matching (display, track, api, button, form, chart, etc.)
+  * Infers categories from description and section title (16 category patterns)
+  * Deduplicates similar features using normalized text comparison
+  * Generates sequential feature IDs (feat-001, feat-002, etc.)
+  * Backend API: POST /api/prd/extract - extracts from file path
+  * Fixed import path: ../harness -> ../../harness for correct resolution
+  * Frontend: "Extract Features" button in PRD viewer (prd-viewer.html line 385)
+  * Modal shows extracted features with categories, acceptance criteria
+  * Download button to save feature_list.json
+  * CLI tool: node prd-extractor.js <prd-file> [--output] [--starting-id] [--project]
+  * Tests passed: All 4 acceptance criteria verified
+    - Tested with test-projects/demo-app/PRD.md - extracted 9 features
+    - Verified API endpoint returns proper JSON structure
+    - Verified CLI tool with file output
+    - Categories detected: general, ui, core, api, documentation
+- Committed: "feat: Implement Feature Extraction from PRD (feat-035)"
+
+- Feature status: 35/120 passing (29.2% complete)
+
+NEXT: feat-036 (Sleep/Wake Mode - CPU-efficient idle state for harness)
+
+
+=== Session 2026-02-05T22:30:00Z - CODING ===
+- Started dev environment (backend on :3434, frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-036: Sleep/Wake Mode - CPU-efficient idle state for harness
+  * Created harness/sleep-manager.js with comprehensive sleep/wake logic
+  * Monitors harness activity and enters sleep after inactivity timeout
+  * Default 5-minute timeout configurable via API
+  * Tracks sleep state, last activity time, wake reasons
+  * Periodic wake checks every minute during sleep (low CPU usage)
+  * Implements wake triggers: user dashboard access, external trigger file
+  * Scheduled wake framework in place (not fully implemented yet)
+  * Integrated sleep manager with run-harness.js
+  * Added --no-sleep and --sleep-timeout CLI options
+  * Records activity before/after sessions
+  * Waits for wake trigger when sleeping
+  * Cleanup on harness exit
+  * Added backend API endpoints (backend/src/index.ts):
+    - GET /api/harness/sleep/status - current sleep state
+    - POST /api/harness/sleep/wake - send wake signal
+    - POST /api/harness/sleep/force-sleep - force sleep mode
+    - GET /api/harness/sleep/config - get configuration
+    - POST /api/harness/sleep/config - save configuration
+  * Created sleep-control.js UI widget
+  * Displays sleep status badge (Awake/Sleeping/Unknown)
+  * Shows last activity time and sleep duration
+  * Force Wake and Force Sleep buttons
+  * Configuration modal for timeout and wake triggers
+  * Polls status every 10 seconds
+  * Updated index.html to include sleep control widget
+  * Tests passed: All 4 acceptance criteria verified
+- Committed: "feat: Implement Sleep/Wake Mode for harness (feat-036)"
+
+- Feature status: 36/120 passing (30.0% complete)
+
+NEXT: feat-037 (Multi-Repo Queue Orchestrator - Process multiple repos in priority order)
+
