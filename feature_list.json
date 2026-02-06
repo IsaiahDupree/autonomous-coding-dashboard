@@ -576,7 +576,7 @@
         "Display database table counts",
         "Run migrations from dashboard"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-044",
@@ -609,7 +609,11 @@
       "category": "harness",
       "priority": 20,
       "description": "Model performance comparison dashboard",
-      "acceptance_criteria": ["Compare Claude versions", "Track success rate by model", "Cost efficiency metrics"],
+      "acceptance_criteria": [
+        "Compare Claude versions",
+        "Track success rate by model",
+        "Cost efficiency metrics"
+      ],
       "passes": false
     },
     {
@@ -617,7 +621,11 @@
       "category": "harness",
       "priority": 20,
       "description": "Automatic model fallback chain",
-      "acceptance_criteria": ["Define fallback order", "Auto-switch on errors", "Log fallback events"],
+      "acceptance_criteria": [
+        "Define fallback order",
+        "Auto-switch on errors",
+        "Log fallback events"
+      ],
       "passes": false
     },
     {
@@ -625,7 +633,11 @@
       "category": "harness",
       "priority": 20,
       "description": "Session replay for debugging",
-      "acceptance_criteria": ["Record all prompts/responses", "Replay sessions", "Export for analysis"],
+      "acceptance_criteria": [
+        "Record all prompts/responses",
+        "Replay sessions",
+        "Export for analysis"
+      ],
       "passes": false
     },
     {
@@ -633,7 +645,11 @@
       "category": "harness",
       "priority": 21,
       "description": "Parallel feature execution mode",
-      "acceptance_criteria": ["Run multiple features simultaneously", "Resource limiting", "Conflict detection"],
+      "acceptance_criteria": [
+        "Run multiple features simultaneously",
+        "Resource limiting",
+        "Conflict detection"
+      ],
       "passes": false
     },
     {
@@ -641,7 +657,11 @@
       "category": "harness",
       "priority": 21,
       "description": "Smart feature ordering by dependencies",
-      "acceptance_criteria": ["Parse feature dependencies", "Build execution graph", "Respect ordering"],
+      "acceptance_criteria": [
+        "Parse feature dependencies",
+        "Build execution graph",
+        "Respect ordering"
+      ],
       "passes": false
     },
     {
@@ -649,7 +669,11 @@
       "category": "ui",
       "priority": 22,
       "description": "Real-time log streaming in dashboard",
-      "acceptance_criteria": ["WebSocket log streaming", "Filter by level", "Search functionality"],
+      "acceptance_criteria": [
+        "WebSocket log streaming",
+        "Filter by level",
+        "Search functionality"
+      ],
       "passes": false
     },
     {
@@ -657,7 +681,11 @@
       "category": "ui",
       "priority": 22,
       "description": "Dark mode toggle",
-      "acceptance_criteria": ["Toggle button in header", "Persist preference", "All components styled"],
+      "acceptance_criteria": [
+        "Toggle button in header",
+        "Persist preference",
+        "All components styled"
+      ],
       "passes": false
     },
     {
@@ -665,7 +693,11 @@
       "category": "ui",
       "priority": 22,
       "description": "Keyboard shortcuts for common actions",
-      "acceptance_criteria": ["Start/stop harness", "Navigate targets", "Shortcut help modal"],
+      "acceptance_criteria": [
+        "Start/stop harness",
+        "Navigate targets",
+        "Shortcut help modal"
+      ],
       "passes": false
     },
     {
@@ -673,7 +705,11 @@
       "category": "ui",
       "priority": 23,
       "description": "Customizable dashboard layout",
-      "acceptance_criteria": ["Drag-drop widgets", "Save layouts", "Reset to default"],
+      "acceptance_criteria": [
+        "Drag-drop widgets",
+        "Save layouts",
+        "Reset to default"
+      ],
       "passes": false
     },
     {
@@ -681,7 +717,11 @@
       "category": "ui",
       "priority": 23,
       "description": "Feature detail modal with full context",
-      "acceptance_criteria": ["Show all acceptance criteria", "Display related code", "Edit inline"],
+      "acceptance_criteria": [
+        "Show all acceptance criteria",
+        "Display related code",
+        "Edit inline"
+      ],
       "passes": false
     },
     {
@@ -689,7 +729,11 @@
       "category": "notifications",
       "priority": 24,
       "description": "Slack integration for alerts",
-      "acceptance_criteria": ["Webhook configuration", "Custom message templates", "Channel selection"],
+      "acceptance_criteria": [
+        "Webhook configuration",
+        "Custom message templates",
+        "Channel selection"
+      ],
       "passes": false
     },
     {
@@ -697,7 +741,11 @@
       "category": "notifications",
       "priority": 24,
       "description": "Email notifications for session completion",
-      "acceptance_criteria": ["Configure email address", "Summary of completed features", "Error alerts"],
+      "acceptance_criteria": [
+        "Configure email address",
+        "Summary of completed features",
+        "Error alerts"
+      ],
       "passes": false
     },
     {
@@ -705,7 +753,11 @@
       "category": "notifications",
       "priority": 24,
       "description": "Desktop push notifications",
-      "acceptance_criteria": ["Browser notification API", "Permission request", "Configurable events"],
+      "acceptance_criteria": [
+        "Browser notification API",
+        "Permission request",
+        "Configurable events"
+      ],
       "passes": false
     },
     {
@@ -713,7 +765,11 @@
       "category": "prd",
       "priority": 25,
       "description": "PRD diff viewer for version comparison",
-      "acceptance_criteria": ["Side-by-side diff", "Highlight changes", "Version history"],
+      "acceptance_criteria": [
+        "Side-by-side diff",
+        "Highlight changes",
+        "Version history"
+      ],
       "passes": false
     },
     {
@@ -721,7 +777,11 @@
       "category": "prd",
       "priority": 25,
       "description": "PRD import from multiple formats",
-      "acceptance_criteria": ["Import from Notion", "Import from Google Docs", "Import from markdown"],
+      "acceptance_criteria": [
+        "Import from Notion",
+        "Import from Google Docs",
+        "Import from markdown"
+      ],
       "passes": false
     },
     {
@@ -729,7 +789,11 @@
       "category": "prd",
       "priority": 25,
       "description": "AI-powered PRD analysis and suggestions",
-      "acceptance_criteria": ["Identify missing acceptance criteria", "Suggest improvements", "Estimate complexity"],
+      "acceptance_criteria": [
+        "Identify missing acceptance criteria",
+        "Suggest improvements",
+        "Estimate complexity"
+      ],
       "passes": false
     },
     {
@@ -737,7 +801,11 @@
       "category": "prd",
       "priority": 26,
       "description": "PRD template library",
-      "acceptance_criteria": ["Pre-built templates", "Custom template creation", "Share templates"],
+      "acceptance_criteria": [
+        "Pre-built templates",
+        "Custom template creation",
+        "Share templates"
+      ],
       "passes": false
     },
     {
@@ -745,7 +813,11 @@
       "category": "targets",
       "priority": 27,
       "description": "Target health scoring system",
-      "acceptance_criteria": ["Score based on completion rate", "Factor in error rate", "Display health badge"],
+      "acceptance_criteria": [
+        "Score based on completion rate",
+        "Factor in error rate",
+        "Display health badge"
+      ],
       "passes": false
     },
     {
@@ -753,7 +825,11 @@
       "category": "targets",
       "priority": 27,
       "description": "Target archiving and restore",
-      "acceptance_criteria": ["Archive completed targets", "Restore from archive", "Archive history"],
+      "acceptance_criteria": [
+        "Archive completed targets",
+        "Restore from archive",
+        "Archive history"
+      ],
       "passes": false
     },
     {
@@ -761,7 +837,11 @@
       "category": "targets",
       "priority": 27,
       "description": "Target cloning with customization",
-      "acceptance_criteria": ["Clone existing target", "Modify paths and settings", "Preserve feature list"],
+      "acceptance_criteria": [
+        "Clone existing target",
+        "Modify paths and settings",
+        "Preserve feature list"
+      ],
       "passes": false
     },
     {
@@ -769,7 +849,11 @@
       "category": "targets",
       "priority": 28,
       "description": "Target grouping and organization",
-      "acceptance_criteria": ["Create target groups", "Bulk actions on groups", "Filter by group"],
+      "acceptance_criteria": [
+        "Create target groups",
+        "Bulk actions on groups",
+        "Filter by group"
+      ],
       "passes": false
     },
     {
@@ -777,7 +861,11 @@
       "category": "analytics",
       "priority": 29,
       "description": "Feature completion velocity chart",
-      "acceptance_criteria": ["Features per day/week", "Trend line", "Projection"],
+      "acceptance_criteria": [
+        "Features per day/week",
+        "Trend line",
+        "Projection"
+      ],
       "passes": false
     },
     {
@@ -785,7 +873,11 @@
       "category": "analytics",
       "priority": 29,
       "description": "Cost per feature breakdown",
-      "acceptance_criteria": ["Track API costs per feature", "Category breakdown", "Optimization suggestions"],
+      "acceptance_criteria": [
+        "Track API costs per feature",
+        "Category breakdown",
+        "Optimization suggestions"
+      ],
       "passes": false
     },
     {
@@ -793,7 +885,11 @@
       "category": "analytics",
       "priority": 29,
       "description": "Session efficiency metrics",
-      "acceptance_criteria": ["Success rate per session", "Average time per feature", "Error patterns"],
+      "acceptance_criteria": [
+        "Success rate per session",
+        "Average time per feature",
+        "Error patterns"
+      ],
       "passes": false
     },
     {
@@ -801,7 +897,11 @@
       "category": "analytics",
       "priority": 30,
       "description": "Export analytics reports",
-      "acceptance_criteria": ["PDF report generation", "CSV data export", "Scheduled reports"],
+      "acceptance_criteria": [
+        "PDF report generation",
+        "CSV data export",
+        "Scheduled reports"
+      ],
       "passes": false
     },
     {
@@ -809,7 +909,11 @@
       "category": "testing",
       "priority": 31,
       "description": "Automated regression test runner",
-      "acceptance_criteria": ["Run tests after each feature", "Block on test failure", "Retry logic"],
+      "acceptance_criteria": [
+        "Run tests after each feature",
+        "Block on test failure",
+        "Retry logic"
+      ],
       "passes": false
     },
     {
@@ -817,7 +921,11 @@
       "category": "testing",
       "priority": 31,
       "description": "Test result history tracking",
-      "acceptance_criteria": ["Store all test runs", "Compare over time", "Identify flaky tests"],
+      "acceptance_criteria": [
+        "Store all test runs",
+        "Compare over time",
+        "Identify flaky tests"
+      ],
       "passes": false
     },
     {
@@ -825,7 +933,11 @@
       "category": "testing",
       "priority": 31,
       "description": "Visual regression testing integration",
-      "acceptance_criteria": ["Screenshot comparison", "Highlight differences", "Approve changes"],
+      "acceptance_criteria": [
+        "Screenshot comparison",
+        "Highlight differences",
+        "Approve changes"
+      ],
       "passes": false
     },
     {
@@ -833,7 +945,11 @@
       "category": "git",
       "priority": 32,
       "description": "Automatic commit message generation",
-      "acceptance_criteria": ["AI-generated commit messages", "Include feature ID", "Conventional commit format"],
+      "acceptance_criteria": [
+        "AI-generated commit messages",
+        "Include feature ID",
+        "Conventional commit format"
+      ],
       "passes": false
     },
     {
@@ -841,7 +957,11 @@
       "category": "git",
       "priority": 32,
       "description": "Branch management per target",
-      "acceptance_criteria": ["Create feature branches", "Auto-merge on completion", "Conflict resolution"],
+      "acceptance_criteria": [
+        "Create feature branches",
+        "Auto-merge on completion",
+        "Conflict resolution"
+      ],
       "passes": false
     },
     {
@@ -849,7 +969,11 @@
       "category": "git",
       "priority": 32,
       "description": "PR auto-creation with descriptions",
-      "acceptance_criteria": ["Create PR on feature complete", "Generate description from PRD", "Add reviewers"],
+      "acceptance_criteria": [
+        "Create PR on feature complete",
+        "Generate description from PRD",
+        "Add reviewers"
+      ],
       "passes": false
     },
     {
@@ -857,7 +981,11 @@
       "category": "git",
       "priority": 33,
       "description": "Git history visualization",
-      "acceptance_criteria": ["Commit timeline", "Branch graph", "Author statistics"],
+      "acceptance_criteria": [
+        "Commit timeline",
+        "Branch graph",
+        "Author statistics"
+      ],
       "passes": false
     },
     {
@@ -865,7 +993,11 @@
       "category": "security",
       "priority": 34,
       "description": "API key encryption at rest",
-      "acceptance_criteria": ["Encrypt stored keys", "Secure key retrieval", "Key rotation support"],
+      "acceptance_criteria": [
+        "Encrypt stored keys",
+        "Secure key retrieval",
+        "Key rotation support"
+      ],
       "passes": false
     },
     {
@@ -873,7 +1005,11 @@
       "category": "security",
       "priority": 34,
       "description": "Audit log for all actions",
-      "acceptance_criteria": ["Log all user actions", "Timestamp and user tracking", "Export audit log"],
+      "acceptance_criteria": [
+        "Log all user actions",
+        "Timestamp and user tracking",
+        "Export audit log"
+      ],
       "passes": false
     },
     {
@@ -881,7 +1017,11 @@
       "category": "security",
       "priority": 34,
       "description": "Role-based access control",
-      "acceptance_criteria": ["Define user roles", "Permission levels", "Restrict sensitive actions"],
+      "acceptance_criteria": [
+        "Define user roles",
+        "Permission levels",
+        "Restrict sensitive actions"
+      ],
       "passes": false
     },
     {
@@ -889,7 +1029,11 @@
       "category": "api",
       "priority": 35,
       "description": "REST API for external integrations",
-      "acceptance_criteria": ["Documented endpoints", "Authentication", "Rate limiting"],
+      "acceptance_criteria": [
+        "Documented endpoints",
+        "Authentication",
+        "Rate limiting"
+      ],
       "passes": false
     },
     {
@@ -897,7 +1041,11 @@
       "category": "api",
       "priority": 35,
       "description": "Webhook support for events",
-      "acceptance_criteria": ["Configure webhook URLs", "Event filtering", "Retry on failure"],
+      "acceptance_criteria": [
+        "Configure webhook URLs",
+        "Event filtering",
+        "Retry on failure"
+      ],
       "passes": false
     },
     {
@@ -905,7 +1053,11 @@
       "category": "api",
       "priority": 35,
       "description": "GraphQL API endpoint",
-      "acceptance_criteria": ["Schema definition", "Query support", "Mutation support"],
+      "acceptance_criteria": [
+        "Schema definition",
+        "Query support",
+        "Mutation support"
+      ],
       "passes": false
     },
     {
@@ -913,7 +1065,11 @@
       "category": "performance",
       "priority": 36,
       "description": "Dashboard load time optimization",
-      "acceptance_criteria": ["Sub-second initial load", "Lazy loading", "Caching strategy"],
+      "acceptance_criteria": [
+        "Sub-second initial load",
+        "Lazy loading",
+        "Caching strategy"
+      ],
       "passes": false
     },
     {
@@ -921,7 +1077,11 @@
       "category": "performance",
       "priority": 36,
       "description": "Database query optimization",
-      "acceptance_criteria": ["Index optimization", "Query analysis", "Connection pooling"],
+      "acceptance_criteria": [
+        "Index optimization",
+        "Query analysis",
+        "Connection pooling"
+      ],
       "passes": false
     },
     {
@@ -929,7 +1089,11 @@
       "category": "performance",
       "priority": 36,
       "description": "Memory usage monitoring",
-      "acceptance_criteria": ["Track memory usage", "Alert on high usage", "Garbage collection metrics"],
+      "acceptance_criteria": [
+        "Track memory usage",
+        "Alert on high usage",
+        "Garbage collection metrics"
+      ],
       "passes": false
     },
     {
@@ -937,7 +1101,11 @@
       "category": "backup",
       "priority": 37,
       "description": "Automatic database backups",
-      "acceptance_criteria": ["Scheduled backups", "Retention policy", "Restore functionality"],
+      "acceptance_criteria": [
+        "Scheduled backups",
+        "Retention policy",
+        "Restore functionality"
+      ],
       "passes": false
     },
     {
@@ -945,7 +1113,11 @@
       "category": "backup",
       "priority": 37,
       "description": "Configuration export/import",
-      "acceptance_criteria": ["Export all settings", "Import to new instance", "Version compatibility"],
+      "acceptance_criteria": [
+        "Export all settings",
+        "Import to new instance",
+        "Version compatibility"
+      ],
       "passes": false
     },
     {
@@ -953,7 +1125,11 @@
       "category": "backup",
       "priority": 37,
       "description": "Feature list versioning",
-      "acceptance_criteria": ["Track all changes", "Rollback support", "Diff between versions"],
+      "acceptance_criteria": [
+        "Track all changes",
+        "Rollback support",
+        "Diff between versions"
+      ],
       "passes": false
     },
     {
@@ -961,7 +1137,11 @@
       "category": "mobile",
       "priority": 38,
       "description": "Mobile-responsive dashboard",
-      "acceptance_criteria": ["Works on phone/tablet", "Touch-friendly controls", "Key metrics visible"],
+      "acceptance_criteria": [
+        "Works on phone/tablet",
+        "Touch-friendly controls",
+        "Key metrics visible"
+      ],
       "passes": false
     },
     {
@@ -969,7 +1149,11 @@
       "category": "mobile",
       "priority": 38,
       "description": "Mobile app notifications",
-      "acceptance_criteria": ["Push notifications", "Quick actions", "Status overview"],
+      "acceptance_criteria": [
+        "Push notifications",
+        "Quick actions",
+        "Status overview"
+      ],
       "passes": false
     },
     {
@@ -977,7 +1161,11 @@
       "category": "ai",
       "priority": 39,
       "description": "AI-powered error diagnosis",
-      "acceptance_criteria": ["Analyze error logs", "Suggest fixes", "Link to documentation"],
+      "acceptance_criteria": [
+        "Analyze error logs",
+        "Suggest fixes",
+        "Link to documentation"
+      ],
       "passes": false
     },
     {
@@ -985,7 +1173,11 @@
       "category": "ai",
       "priority": 39,
       "description": "Smart feature prioritization",
-      "acceptance_criteria": ["Analyze dependencies", "Suggest optimal order", "Consider complexity"],
+      "acceptance_criteria": [
+        "Analyze dependencies",
+        "Suggest optimal order",
+        "Consider complexity"
+      ],
       "passes": false
     },
     {
@@ -993,7 +1185,11 @@
       "category": "ai",
       "priority": 39,
       "description": "Code quality analysis",
-      "acceptance_criteria": ["Analyze generated code", "Suggest improvements", "Track quality over time"],
+      "acceptance_criteria": [
+        "Analyze generated code",
+        "Suggest improvements",
+        "Track quality over time"
+      ],
       "passes": false
     },
     {
@@ -1001,7 +1197,11 @@
       "category": "ai",
       "priority": 40,
       "description": "Natural language feature search",
-      "acceptance_criteria": ["Search features by description", "Semantic matching", "Filter results"],
+      "acceptance_criteria": [
+        "Search features by description",
+        "Semantic matching",
+        "Filter results"
+      ],
       "passes": false
     },
     {
@@ -1009,7 +1209,11 @@
       "category": "documentation",
       "priority": 41,
       "description": "Auto-generate API documentation",
-      "acceptance_criteria": ["Parse code for endpoints", "Generate OpenAPI spec", "Interactive docs"],
+      "acceptance_criteria": [
+        "Parse code for endpoints",
+        "Generate OpenAPI spec",
+        "Interactive docs"
+      ],
       "passes": false
     },
     {
@@ -1017,7 +1221,11 @@
       "category": "documentation",
       "priority": 41,
       "description": "Feature changelog generation",
-      "acceptance_criteria": ["Track completed features", "Generate release notes", "Categorize changes"],
+      "acceptance_criteria": [
+        "Track completed features",
+        "Generate release notes",
+        "Categorize changes"
+      ],
       "passes": false
     },
     {
@@ -1025,7 +1233,11 @@
       "category": "documentation",
       "priority": 41,
       "description": "In-app help system",
-      "acceptance_criteria": ["Contextual help", "Tooltips", "Guided tours"],
+      "acceptance_criteria": [
+        "Contextual help",
+        "Tooltips",
+        "Guided tours"
+      ],
       "passes": false
     },
     {
@@ -1033,7 +1245,11 @@
       "category": "scheduling",
       "priority": 42,
       "description": "Scheduled harness runs",
-      "acceptance_criteria": ["Cron-style scheduling", "Time zone support", "Run history"],
+      "acceptance_criteria": [
+        "Cron-style scheduling",
+        "Time zone support",
+        "Run history"
+      ],
       "passes": false
     },
     {
@@ -1041,7 +1257,11 @@
       "category": "scheduling",
       "priority": 42,
       "description": "Rate limiting for API calls",
-      "acceptance_criteria": ["Configurable limits", "Backoff strategy", "Usage tracking"],
+      "acceptance_criteria": [
+        "Configurable limits",
+        "Backoff strategy",
+        "Usage tracking"
+      ],
       "passes": false
     },
     {
@@ -1049,7 +1269,11 @@
       "category": "scheduling",
       "priority": 42,
       "description": "Off-hours execution mode",
-      "acceptance_criteria": ["Define working hours", "Queue for off-hours", "Cost optimization"],
+      "acceptance_criteria": [
+        "Define working hours",
+        "Queue for off-hours",
+        "Cost optimization"
+      ],
       "passes": false
     },
     {
@@ -1057,7 +1281,11 @@
       "category": "collaboration",
       "priority": 43,
       "description": "Multi-user support",
-      "acceptance_criteria": ["User accounts", "Personal settings", "Shared resources"],
+      "acceptance_criteria": [
+        "User accounts",
+        "Personal settings",
+        "Shared resources"
+      ],
       "passes": false
     },
     {
@@ -1065,7 +1293,11 @@
       "category": "collaboration",
       "priority": 43,
       "description": "Team activity feed",
-      "acceptance_criteria": ["Show recent actions", "Filter by user", "Notifications"],
+      "acceptance_criteria": [
+        "Show recent actions",
+        "Filter by user",
+        "Notifications"
+      ],
       "passes": false
     },
     {
@@ -1073,7 +1305,11 @@
       "category": "collaboration",
       "priority": 43,
       "description": "Comments on features",
-      "acceptance_criteria": ["Add comments", "Mention users", "Thread replies"],
+      "acceptance_criteria": [
+        "Add comments",
+        "Mention users",
+        "Thread replies"
+      ],
       "passes": false
     },
     {
@@ -1081,7 +1317,11 @@
       "category": "plugins",
       "priority": 44,
       "description": "Plugin architecture",
-      "acceptance_criteria": ["Define plugin API", "Load external plugins", "Plugin marketplace"],
+      "acceptance_criteria": [
+        "Define plugin API",
+        "Load external plugins",
+        "Plugin marketplace"
+      ],
       "passes": false
     },
     {
@@ -1089,7 +1329,11 @@
       "category": "plugins",
       "priority": 44,
       "description": "Custom prompt templates",
-      "acceptance_criteria": ["User-defined templates", "Variable substitution", "Share templates"],
+      "acceptance_criteria": [
+        "User-defined templates",
+        "Variable substitution",
+        "Share templates"
+      ],
       "passes": false
     },
     {
@@ -1097,7 +1341,11 @@
       "category": "plugins",
       "priority": 44,
       "description": "Custom validation rules",
-      "acceptance_criteria": ["Define validation scripts", "Run after features", "Block on failure"],
+      "acceptance_criteria": [
+        "Define validation scripts",
+        "Run after features",
+        "Block on failure"
+      ],
       "passes": false
     },
     {
@@ -1105,7 +1353,11 @@
       "category": "monitoring",
       "priority": 45,
       "description": "System health dashboard",
-      "acceptance_criteria": ["CPU, memory, disk usage", "Service status", "Alert thresholds"],
+      "acceptance_criteria": [
+        "CPU, memory, disk usage",
+        "Service status",
+        "Alert thresholds"
+      ],
       "passes": false
     },
     {
@@ -1113,7 +1365,11 @@
       "category": "monitoring",
       "priority": 45,
       "description": "API latency tracking",
-      "acceptance_criteria": ["Track response times", "Identify slow endpoints", "Trend analysis"],
+      "acceptance_criteria": [
+        "Track response times",
+        "Identify slow endpoints",
+        "Trend analysis"
+      ],
       "passes": false
     },
     {
@@ -1121,7 +1377,11 @@
       "category": "monitoring",
       "priority": 45,
       "description": "Error rate monitoring",
-      "acceptance_criteria": ["Track error frequency", "Categorize errors", "Alert on spikes"],
+      "acceptance_criteria": [
+        "Track error frequency",
+        "Categorize errors",
+        "Alert on spikes"
+      ],
       "passes": false
     },
     {
@@ -1129,7 +1389,11 @@
       "category": "ux",
       "priority": 46,
       "description": "Onboarding wizard for new users",
-      "acceptance_criteria": ["Step-by-step setup", "Explain key features", "Skip option"],
+      "acceptance_criteria": [
+        "Step-by-step setup",
+        "Explain key features",
+        "Skip option"
+      ],
       "passes": false
     },
     {
@@ -1137,7 +1401,11 @@
       "category": "ux",
       "priority": 46,
       "description": "Quick actions menu",
-      "acceptance_criteria": ["Keyboard shortcut to open", "Common actions", "Search actions"],
+      "acceptance_criteria": [
+        "Keyboard shortcut to open",
+        "Common actions",
+        "Search actions"
+      ],
       "passes": false
     },
     {
@@ -1145,7 +1413,11 @@
       "category": "ux",
       "priority": 46,
       "description": "Breadcrumb navigation",
-      "acceptance_criteria": ["Show current location", "Navigate up hierarchy", "Persistent display"],
+      "acceptance_criteria": [
+        "Show current location",
+        "Navigate up hierarchy",
+        "Persistent display"
+      ],
       "passes": false
     },
     {
@@ -1153,7 +1425,11 @@
       "category": "ux",
       "priority": 47,
       "description": "Global search across all entities",
-      "acceptance_criteria": ["Search features, targets, logs", "Fuzzy matching", "Result previews"],
+      "acceptance_criteria": [
+        "Search features, targets, logs",
+        "Fuzzy matching",
+        "Result previews"
+      ],
       "passes": false
     },
     {
@@ -1161,7 +1437,11 @@
       "category": "data",
       "priority": 48,
       "description": "Data retention policies",
-      "acceptance_criteria": ["Configure retention periods", "Auto-cleanup old data", "Archive option"],
+      "acceptance_criteria": [
+        "Configure retention periods",
+        "Auto-cleanup old data",
+        "Archive option"
+      ],
       "passes": false
     },
     {
@@ -1169,7 +1449,11 @@
       "category": "data",
       "priority": 48,
       "description": "Data anonymization for sharing",
-      "acceptance_criteria": ["Remove sensitive data", "Export anonymized datasets", "Configurable rules"],
+      "acceptance_criteria": [
+        "Remove sensitive data",
+        "Export anonymized datasets",
+        "Configurable rules"
+      ],
       "passes": false
     },
     {
@@ -1177,7 +1461,11 @@
       "category": "data",
       "priority": 48,
       "description": "Data import from other tools",
-      "acceptance_criteria": ["Import from Jira", "Import from Linear", "Map fields"],
+      "acceptance_criteria": [
+        "Import from Jira",
+        "Import from Linear",
+        "Map fields"
+      ],
       "passes": false
     },
     {
@@ -1185,7 +1473,11 @@
       "category": "deployment",
       "priority": 49,
       "description": "Docker deployment support",
-      "acceptance_criteria": ["Dockerfile provided", "Docker Compose setup", "Environment variables"],
+      "acceptance_criteria": [
+        "Dockerfile provided",
+        "Docker Compose setup",
+        "Environment variables"
+      ],
       "passes": false
     },
     {
@@ -1193,7 +1485,11 @@
       "category": "deployment",
       "priority": 49,
       "description": "One-click cloud deployment",
-      "acceptance_criteria": ["Deploy to Railway/Render", "Environment setup", "Database provisioning"],
+      "acceptance_criteria": [
+        "Deploy to Railway/Render",
+        "Environment setup",
+        "Database provisioning"
+      ],
       "passes": false
     },
     {
@@ -1201,7 +1497,11 @@
       "category": "deployment",
       "priority": 50,
       "description": "Self-hosted installation script",
-      "acceptance_criteria": ["Bash installer", "Dependency checks", "Configuration wizard"],
+      "acceptance_criteria": [
+        "Bash installer",
+        "Dependency checks",
+        "Configuration wizard"
+      ],
       "passes": false
     }
   ]

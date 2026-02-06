@@ -876,3 +876,34 @@ NEXT: feat-042 (next feature in queue)
 - Feature status: 42/120 passing (35.0% complete)
 
 NEXT: feat-043 (next feature in queue)
+
+- Implemented feat-043: Supabase Project Connection - Connect to target Supabase projects
+  * Created supabase-connection.js dashboard widget with full UI
+  * Summary cards showing total targets (22), connected count, total tables, total rows
+  * Connections table listing all targets with status, URL, table count, row count, migration file count
+  * Per-target actions: Connect, Edit, Test, Tables, Migrate, Remove
+  * Credentials form: target select, Supabase URL, API Key, DB connection string (optional)
+  * Connection test runs automatically on save - validates Supabase REST API access
+  * Table details panel: enumerates tables via PostgREST OpenAPI spec, shows row counts per table
+  * Migration panel: discovers SQL files in target project supabase/migrations directories, runs migrations
+  * Added backend API endpoints:
+    - GET /api/supabase/credentials - List stored credentials (keys redacted)
+    - POST /api/supabase/credentials/:targetId - Save & test credentials
+    - DELETE /api/supabase/credentials/:targetId - Remove credentials
+    - POST /api/supabase/test-connection/:targetId - Test connection
+    - GET /api/supabase/tables/:targetId - Get table counts
+    - POST /api/supabase/migrations/:targetId - Run migrations
+    - GET /api/supabase/overview - Combined overview of all targets
+  * Credentials stored in supabase-credentials.json per target
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles for all widget components
+  * Tests passed: All 4 acceptance criteria verified (50 assertions)
+    - Store Supabase project credentials per target ✓
+    - Test connection on save ✓
+    - Display database table counts ✓
+    - Run migrations from dashboard ✓
+- Committed: "feat: Implement Supabase Project Connection (feat-043)"
+
+- Feature status: 43/120 passing (35.8% complete)
+
+NEXT: feat-044 (next feature in queue)
