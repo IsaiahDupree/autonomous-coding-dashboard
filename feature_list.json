@@ -1013,7 +1013,7 @@
         "Timestamp and user tracking",
         "Export audit log"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-080",
