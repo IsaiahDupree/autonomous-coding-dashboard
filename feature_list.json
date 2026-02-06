@@ -941,7 +941,7 @@
         "Highlight differences",
         "Approve changes"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-074",
