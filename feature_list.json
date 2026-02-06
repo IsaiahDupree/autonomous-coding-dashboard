@@ -989,7 +989,7 @@
         "Branch graph",
         "Author statistics"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-078",
