@@ -2596,6 +2596,131 @@ You are a CODING AGENT continuing work on an autonomous coding project. Your job
 });
 
 // ============================================
+// PRD SYNC API
+// ============================================
+
+// POST /api/prd/sync - Sync features from multiple PRD sources
+app.post('/api/prd/sync', async (req, res) => {
+    try {
+        const { sources, outputPath, mergeStrategy } = req.body;
+
+        if (!sources || !Array.isArray(sources) || sources.length === 0) {
+            return res.status(400).json({ error: 'sources array is required' });
+        }
+
+        // Import prd-sync dynamically (ignore TypeScript errors for now)
+        const prdSyncModule = await import('../../harness/prd-sync.js') as any;
+        const { syncFeatures } = prdSyncModule;
+
+        const result = syncFeatures({
+            sources,
+            outputPath: outputPath || path.join(process.cwd(), 'unified-feature-list.json'),
+            mergeStrategy: mergeStrategy || 'merge-duplicates',
+            deduplicateThreshold: 0.7
+        });
+
+        res.json({
+            success: true,
+            message: `Synced ${result.featuresCount} features`,
+            data: result
+        });
+    } catch (error: any) {
+        console.error('PRD sync error:', error);
+        res.status(500).json({ error: error.message || 'Failed to sync PRDs' });
+    }
+});
+
+// GET /api/prd/sources - Get available PRD sources from project configs
+app.get('/api/prd/sources', async (req, res) => {
+    try {
+        // Read projects.json or repo-queue files to find PRD sources
+        const projectRoot = process.cwd();
+        const sources: any[] = [];
+
+        // Check for projects.json
+        const projectsJsonPath = path.join(projectRoot, 'projects.json');
+        if (fs.existsSync(projectsJsonPath)) {
+            const projectsData = JSON.parse(fs.readFileSync(projectsJsonPath, 'utf-8'));
+            for (const project of projectsData.projects || []) {
+                if (project.featureList && fs.existsSync(project.featureList)) {
+                    sources.push({
+                        name: project.name,
+                        path: project.featureList,
+                        type: 'feature_list',
+                        projectId: project.id
+                    });
+                }
+            }
+        }
+
+        // Check for repo-queue in various locations
+        const queuePaths = [
+            path.join(projectRoot, 'repo-queue.json'),
+            path.join(projectRoot, 'targets/repo-queue.json'),
+            path.join(projectRoot, 'harness/repo-queue.json')
+        ];
+
+        for (const queuePath of queuePaths) {
+            if (fs.existsSync(queuePath)) {
+                const queueData = JSON.parse(fs.readFileSync(queuePath, 'utf-8'));
+                for (const repo of queueData.repos || []) {
+                    if (repo.featureList && fs.existsSync(repo.featureList)) {
+                        sources.push({
+                            name: repo.name,
+                            path: repo.featureList,
+                            type: 'feature_list',
+                            repoId: repo.id
+                        });
+                    }
+                }
+            }
+        }
+
+        res.json({ success: true, data: sources });
+    } catch (error: any) {
+        console.error('Error fetching PRD sources:', error);
+        res.status(500).json({ error: error.message || 'Failed to fetch PRD sources' });
+    }
+});
+
+// GET /api/prd/status - Get sync status and feature statistics
+app.get('/api/prd/status', async (req, res) => {
+    try {
+        const unifiedPath = path.join(process.cwd(), 'unified-feature-list.json');
+
+        if (!fs.existsSync(unifiedPath)) {
+            return res.json({
+                success: true,
+                data: {
+                    synced: false,
+                    message: 'No unified feature list found. Run sync first.'
+                }
+            });
+        }
+
+        const data = JSON.parse(fs.readFileSync(unifiedPath, 'utf-8'));
+        const stats = {
+            total: data.total_features || 0,
+            passing: data.features?.filter((f: any) => f.passes).length || 0,
+            sources: data.sources || [],
+            lastSync: data.created_at || null
+        };
+
+        res.json({
+            success: true,
+            data: {
+                synced: true,
+                stats,
+                path: unifiedPath
+            }
+        });
+    } catch (error: any) {
+        console.error('Error fetching PRD status:', error);
+        res.status(500).json({ error: error.message || 'Failed to fetch PRD status' });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 
