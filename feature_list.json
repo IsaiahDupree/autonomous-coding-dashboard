@@ -1133,7 +1133,7 @@
         "Rollback support",
         "Diff between versions"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-090",
