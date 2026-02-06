@@ -978,3 +978,31 @@ NEXT: feat-045 (next feature in queue)
 - Feature status: 45/120 passing (37.5% complete)
 
 NEXT: feat-046 (next feature in queue)
+
+- Implemented feat-046: Model Performance Comparison Dashboard
+  * Created model-performance.js dashboard widget with full UI
+  * Summary cards: Models Used, Total Sessions, Best Success Rate, Most Cost-Efficient
+  * Model comparison table: model name, sessions, features, success rate, cost/feature, avg duration, avg turns, total cost
+  * Success rate by model bar chart (Chart.js)
+  * Cost efficiency by model bar chart (Chart.js)
+  * Token usage & efficiency cards per model with input/output breakdown bar, context utilization, cache hit rate
+  * Features per session and avg tokens per session metrics
+  * Period toggle: 7D / 30D / 90D with dynamic data reload
+  * Refresh button to re-fetch data
+  * Color-coded badges: green for good, yellow for warning, red for bad thresholds
+  * Short model name mapping (claude-opus-4-6 -> Opus 4, etc.)
+  * Added backend API endpoint:
+    - GET /api/model-performance/overview?days=N - Aggregates session data by model
+      - Returns per-model: sessions, features, success rate, cost, tokens, duration, turns, errors, retries, fallbacks
+      - Returns timeline data for time-series analysis
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles with mp- prefix namespace
+  * Tests passed: All 3 acceptance criteria verified (33 assertions)
+    - Compare Claude versions ✓
+    - Track success rate by model ✓
+    - Cost efficiency metrics ✓
+- Committed: "feat: Implement Model Performance Comparison Dashboard (feat-046)"
+
+- Feature status: 46/120 passing (38.3% complete)
+
+NEXT: feat-047 (next feature in queue)

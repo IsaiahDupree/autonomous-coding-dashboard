@@ -3846,3 +3846,320 @@ body:has(.project-sidebar.collapsed) {
     font-size: 0.75rem;
   }
 }
+
+/* ============================================
+   MODEL PERFORMANCE COMPARISON (feat-046)
+   ============================================ */
+
+.mp-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mp-stat-card {
+  background: var(--color-bg-primary, #0f172a);
+  border: 1px solid var(--color-border, #334155);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.mp-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #f1f5f9);
+  margin-bottom: 4px;
+}
+
+.mp-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mp-color-success { color: #10b981; }
+.mp-color-cost { color: #06b6d4; }
+
+.mp-section-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #f1f5f9);
+  margin: 0 0 12px 0;
+}
+
+/* Period Toggle */
+.mp-period-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--color-bg-primary, #0f172a);
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid var(--color-border, #334155);
+}
+
+.mp-period-btn {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary, #94a3b8);
+  transition: all 0.15s;
+}
+
+.mp-period-btn:hover {
+  color: var(--color-text-primary, #f1f5f9);
+}
+
+.mp-period-active {
+  background: var(--color-primary, #6366f1);
+  color: #fff;
+}
+
+/* Comparison Table */
+.mp-table-section {
+  margin-bottom: 20px;
+}
+
+.mp-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border, #334155);
+  border-radius: 8px;
+}
+
+.mp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.mp-table thead th {
+  background: var(--color-bg-primary, #0f172a);
+  color: var(--text-secondary, #94a3b8);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border, #334155);
+  white-space: nowrap;
+}
+
+.mp-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border, #334155);
+  color: var(--color-text-primary, #f1f5f9);
+  white-space: nowrap;
+}
+
+.mp-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.mp-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.mp-model-name {
+  font-weight: 600;
+  color: var(--color-text-primary, #f1f5f9);
+}
+
+.mp-model-full {
+  font-size: 0.7rem;
+  color: var(--text-secondary, #94a3b8);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mp-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mp-good {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.mp-warn {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.mp-bad {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Charts Row */
+.mp-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.mp-chart-container {
+  background: var(--color-bg-primary, #0f172a);
+  border: 1px solid var(--color-border, #334155);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.mp-chart-container canvas {
+  max-height: 220px;
+}
+
+/* Token Usage Cards */
+.mp-token-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.mp-token-card {
+  background: var(--color-bg-primary, #0f172a);
+  border: 1px solid var(--color-border, #334155);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.mp-token-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mp-token-model {
+  font-weight: 600;
+  color: var(--color-text-primary, #f1f5f9);
+  font-size: 0.9rem;
+}
+
+.mp-token-total {
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.75rem;
+}
+
+.mp-token-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-border, #334155);
+  margin-bottom: 8px;
+}
+
+.mp-token-bar-input {
+  background: #6366f1;
+  transition: width 0.3s;
+}
+
+.mp-token-bar-output {
+  background: #06b6d4;
+  transition: width 0.3s;
+}
+
+.mp-token-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #94a3b8);
+  margin-bottom: 6px;
+}
+
+.mp-token-detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mp-dot-input { background: #6366f1; }
+.mp-dot-output { background: #06b6d4; }
+
+.mp-token-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #94a3b8);
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border, #334155);
+}
+
+.mp-token-metrics strong {
+  color: var(--color-text-primary, #f1f5f9);
+}
+
+/* Loading & Empty States */
+.mp-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.mp-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border, #334155);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: mp-spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes mp-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mp-empty {
+  text-align: center;
+  padding: 32px;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.mp-empty-hint {
+  font-size: 0.8rem;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mp-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mp-charts-row {
+    grid-template-columns: 1fr;
+  }
+
+  .mp-table {
+    font-size: 0.75rem;
+  }
+
+  .mp-token-cards {
+    grid-template-columns: 1fr;
+  }
+}

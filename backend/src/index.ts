@@ -5323,6 +5323,170 @@ app.get('/api/posthog/events', async (req, res) => {
 });
 
 // ============================================
+// MODEL PERFORMANCE COMPARISON (feat-046)
+// ============================================
+
+app.get('/api/model-performance/overview', async (req, res) => {
+    try {
+        const days = parseInt(req.query.days as string) || 30;
+        const since = new Date();
+        since.setDate(since.getDate() - days);
+
+        const sessions = await prisma.harnessSession.findMany({
+            where: {
+                startedAt: { gte: since },
+                status: 'completed'
+            },
+            orderBy: { startedAt: 'desc' },
+            include: { target: { select: { name: true, repoId: true } } }
+        });
+
+        // Aggregate by model
+        const byModel: Record<string, {
+            model: string;
+            sessions: number;
+            featuresCompleted: number;
+            totalCost: number;
+            totalInputTokens: number;
+            totalOutputTokens: number;
+            totalCacheReadTokens: number;
+            totalCacheWriteTokens: number;
+            totalDurationMs: number;
+            totalTurns: number;
+            totalRetries: number;
+            totalFallbacks: number;
+            testsRun: number;
+            testsPassed: number;
+            testsFailed: number;
+            errors: number;
+            avgContextUtilization: number;
+            avgCacheHitRate: number;
+            contextUtilCount: number;
+            cacheHitCount: number;
+        }> = {};
+
+        for (const s of sessions) {
+            const model = s.model || 'unknown';
+            if (!byModel[model]) {
+                byModel[model] = {
+                    model,
+                    sessions: 0,
+                    featuresCompleted: 0,
+                    totalCost: 0,
+                    totalInputTokens: 0,
+                    totalOutputTokens: 0,
+                    totalCacheReadTokens: 0,
+                    totalCacheWriteTokens: 0,
+                    totalDurationMs: 0,
+                    totalTurns: 0,
+                    totalRetries: 0,
+                    totalFallbacks: 0,
+                    testsRun: 0,
+                    testsPassed: 0,
+                    testsFailed: 0,
+                    errors: 0,
+                    avgContextUtilization: 0,
+                    avgCacheHitRate: 0,
+                    contextUtilCount: 0,
+                    cacheHitCount: 0,
+                };
+            }
+            const m = byModel[model];
+            m.sessions++;
+            m.featuresCompleted += s.featuresCompleted || 0;
+            m.totalCost += s.costUsd || 0;
+            m.totalInputTokens += s.inputTokens || 0;
+            m.totalOutputTokens += s.outputTokens || 0;
+            m.totalCacheReadTokens += s.cacheReadTokens || 0;
+            m.totalCacheWriteTokens += s.cacheWriteTokens || 0;
+            m.totalDurationMs += s.durationMs || 0;
+            m.totalTurns += s.turnCount || 0;
+            m.totalRetries += s.retryCount || 0;
+            m.totalFallbacks += s.modelFallbacks || 0;
+            m.testsRun += s.testsRun || 0;
+            m.testsPassed += s.testsPassed || 0;
+            m.testsFailed += s.testsFailed || 0;
+            if (s.errorType) m.errors++;
+            if (s.contextUtilization != null) {
+                m.avgContextUtilization += s.contextUtilization;
+                m.contextUtilCount++;
+            }
+            if (s.cacheHitRate != null) {
+                m.avgCacheHitRate += s.cacheHitRate;
+                m.cacheHitCount++;
+            }
+        }
+
+        // Compute derived metrics
+        const models = Object.values(byModel).map(m => {
+            const successRate = m.sessions > 0 ? ((m.sessions - m.errors) / m.sessions * 100) : 0;
+            const costPerFeature = m.featuresCompleted > 0 ? m.totalCost / m.featuresCompleted : 0;
+            const avgDurationMin = m.sessions > 0 ? (m.totalDurationMs / m.sessions / 60000) : 0;
+            const avgTurns = m.sessions > 0 ? m.totalTurns / m.sessions : 0;
+            const avgTokensPerSession = m.sessions > 0 ? (m.totalInputTokens + m.totalOutputTokens) / m.sessions : 0;
+            const avgContextUtil = m.contextUtilCount > 0 ? m.avgContextUtilization / m.contextUtilCount : 0;
+            const avgCacheHit = m.cacheHitCount > 0 ? m.avgCacheHitRate / m.cacheHitCount : 0;
+            const featuresPerSession = m.sessions > 0 ? m.featuresCompleted / m.sessions : 0;
+            const testPassRate = m.testsRun > 0 ? (m.testsPassed / m.testsRun * 100) : null;
+
+            return {
+                model: m.model,
+                sessions: m.sessions,
+                featuresCompleted: m.featuresCompleted,
+                successRate: Math.round(successRate * 10) / 10,
+                totalCost: Math.round(m.totalCost * 100) / 100,
+                costPerFeature: Math.round(costPerFeature * 100) / 100,
+                avgDurationMin: Math.round(avgDurationMin * 10) / 10,
+                avgTurns: Math.round(avgTurns * 10) / 10,
+                avgTokensPerSession: Math.round(avgTokensPerSession),
+                totalInputTokens: m.totalInputTokens,
+                totalOutputTokens: m.totalOutputTokens,
+                totalCacheReadTokens: m.totalCacheReadTokens,
+                totalCacheWriteTokens: m.totalCacheWriteTokens,
+                errors: m.errors,
+                retries: m.totalRetries,
+                fallbacks: m.totalFallbacks,
+                avgContextUtilization: Math.round(avgContextUtil * 1000) / 10,
+                avgCacheHitRate: Math.round(avgCacheHit * 1000) / 10,
+                featuresPerSession: Math.round(featuresPerSession * 100) / 100,
+                testPassRate: testPassRate != null ? Math.round(testPassRate * 10) / 10 : null,
+            };
+        });
+
+        // Sort by features completed desc
+        models.sort((a, b) => b.featuresCompleted - a.featuresCompleted);
+
+        // Time series: sessions over time by model
+        const timeline: Record<string, Record<string, { sessions: number; features: number; cost: number }>> = {};
+        for (const s of sessions) {
+            const date = new Date(s.startedAt!).toISOString().split('T')[0];
+            const model = s.model || 'unknown';
+            if (!timeline[date]) timeline[date] = {};
+            if (!timeline[date][model]) timeline[date][model] = { sessions: 0, features: 0, cost: 0 };
+            timeline[date][model].sessions++;
+            timeline[date][model].features += s.featuresCompleted || 0;
+            timeline[date][model].cost += s.costUsd || 0;
+        }
+
+        const timelineSorted = Object.entries(timeline)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([date, models]) => ({ date, models }));
+
+        res.json({
+            success: true,
+            data: {
+                periodDays: days,
+                totalSessions: sessions.length,
+                models,
+                timeline: timelineSorted
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

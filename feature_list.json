@@ -615,7 +615,8 @@
         "Track success rate by model",
         "Cost efficiency metrics"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T05:00:00Z"
     },
     {
       "id": "feat-047",
