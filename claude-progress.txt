@@ -1126,3 +1126,52 @@ NEXT: feat-049 (next feature in queue)
 - Feature status: 49/120 passing (40.8% complete)
 
 NEXT: feat-050 (next feature in queue)
+
+- Implemented feat-050: Smart Feature Ordering by Dependencies
+  * Created smart-feature-ordering.js dashboard widget with full UI
+  * Summary cards: Total Features, With Dependencies, Ready to Build, Cycle Errors
+  * Execution graph visualization:
+    - SVG-based DAG rendering with layered layout (BFS layer assignment)
+    - Color-coded nodes: completed (green), ready (blue), blocked (gray), cycle (red)
+    - Curved edge arrows showing dependency relationships
+    - Clickable nodes to select features
+  * Execution order list with:
+    - Topological sort ordering (Kahn's algorithm)
+    - Status indicators per feature (completed/ready/blocked/cycle)
+    - Dependency tags showing met/unmet status
+    - Filter by text search
+    - Filter pending-only toggle
+  * Dependency editor:
+    - Select a feature to view/edit dependencies
+    - Add dependencies from dropdown
+    - Remove individual dependencies
+    - Save and clear all actions
+  * Auto-detect dependencies:
+    - Analyzes category groupings and priority ordering
+    - Within-category chaining for adjacent priorities
+    - Core features as dependencies for control/integration features
+  * Cycle detection and resolution:
+    - Detects circular dependencies during topological sort
+    - Displays cycle errors with affected features
+    - Break Cycle button removes the back-edge to resolve
+  * Demo data generation with realistic dependencies and deliberate cycle
+  * Added backend API endpoints:
+    - GET /api/feature-ordering/features - Get all features
+    - GET /api/feature-ordering/dependencies - Get dependencies and computed order
+    - POST /api/feature-ordering/dependencies - Save dependencies
+    - POST /api/feature-ordering/auto-detect - Auto-detect dependencies
+    - POST /api/feature-ordering/compute - Compute execution order (topological sort)
+    - POST /api/feature-ordering/break-cycle - Break a dependency cycle
+    - POST /api/feature-ordering/demo - Generate demo data
+  * State stored in feature-ordering-deps.json and feature-ordering-state.json
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles with sfo- prefix namespace
+  * Tests passed: All 3 acceptance criteria verified (32 assertions)
+    - Parse feature dependencies ✓
+    - Build execution graph ✓
+    - Respect ordering ✓
+- Committed: "feat: Implement Smart Feature Ordering by Dependencies (feat-050)"
+
+- Feature status: 50/120 passing (41.7% complete)
+
+NEXT: feat-051 (next feature in queue)

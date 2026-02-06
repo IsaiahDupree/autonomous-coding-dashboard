@@ -6451,6 +6451,350 @@ app.post('/api/parallel-exec/demo', (req: any, res: any) => {
 });
 
 // ============================================
+// SMART FEATURE ORDERING (feat-050)
+// ============================================
+
+const FEATURE_ORDERING_DEPS_FILE = path.join(__dirname, '../../feature-ordering-deps.json');
+const FEATURE_ORDERING_STATE_FILE = path.join(__dirname, '../../feature-ordering-state.json');
+
+function readFeatureOrderingDeps(): Record<string, string[]> {
+    try {
+        if (fs.existsSync(FEATURE_ORDERING_DEPS_FILE)) {
+            return JSON.parse(fs.readFileSync(FEATURE_ORDERING_DEPS_FILE, 'utf-8'));
+        }
+    } catch (e) { /* ignore */ }
+    return {};
+}
+
+function writeFeatureOrderingDeps(deps: Record<string, string[]>): void {
+    fs.writeFileSync(FEATURE_ORDERING_DEPS_FILE, JSON.stringify(deps, null, 2));
+}
+
+function readFeatureOrderingState(): any {
+    try {
+        if (fs.existsSync(FEATURE_ORDERING_STATE_FILE)) {
+            return JSON.parse(fs.readFileSync(FEATURE_ORDERING_STATE_FILE, 'utf-8'));
+        }
+    } catch (e) { /* ignore */ }
+    return { executionOrder: [], cycleErrors: [], graphData: null };
+}
+
+function writeFeatureOrderingState(state: any): void {
+    fs.writeFileSync(FEATURE_ORDERING_STATE_FILE, JSON.stringify(state, null, 2));
+}
+
+// Topological sort with cycle detection (Kahn's algorithm)
+function topologicalSort(features: any[], deps: Record<string, string[]>): { order: string[], cycles: any[] } {
+    const featureIds = new Set(features.map((f: any) => f.id));
+    const inDegree: Record<string, number> = {};
+    const adjList: Record<string, string[]> = {};
+
+    featureIds.forEach(id => {
+        inDegree[id] = 0;
+        adjList[id] = [];
+    });
+
+    // Build adjacency list: if feat-B depends on feat-A, then A -> B
+    Object.entries(deps).forEach(([fId, depList]) => {
+        if (!featureIds.has(fId)) return;
+        depList.forEach(depId => {
+            if (!featureIds.has(depId)) return;
+            adjList[depId] = adjList[depId] || [];
+            adjList[depId].push(fId);
+            inDegree[fId] = (inDegree[fId] || 0) + 1;
+        });
+    });
+
+    // BFS - process nodes with 0 in-degree
+    const queue: string[] = [];
+    // Seed with features sorted by priority for stable ordering
+    const featureMap = new Map(features.map((f: any) => [f.id, f]));
+    const sortedIds = [...featureIds].sort((a, b) => {
+        const fa = featureMap.get(a);
+        const fb = featureMap.get(b);
+        return ((fa?.priority || 999) - (fb?.priority || 999));
+    });
+
+    sortedIds.forEach(id => {
+        if ((inDegree[id] || 0) === 0) queue.push(id);
+    });
+
+    const order: string[] = [];
+    while (queue.length > 0) {
+        // Sort queue by priority for deterministic ordering
+        queue.sort((a, b) => {
+            const fa = featureMap.get(a);
+            const fb = featureMap.get(b);
+            return ((fa?.priority || 999) - (fb?.priority || 999));
+        });
+
+        const node = queue.shift()!;
+        order.push(node);
+
+        (adjList[node] || []).forEach(child => {
+            inDegree[child]--;
+            if (inDegree[child] === 0) {
+                queue.push(child);
+            }
+        });
+    }
+
+    // Detect cycles: any nodes not in the order are part of cycles
+    const cycles: any[] = [];
+    const ordered = new Set(order);
+    const cycleNodes = [...featureIds].filter(id => !ordered.has(id));
+
+    if (cycleNodes.length > 0) {
+        // Find individual cycles using DFS
+        const visited = new Set<string>();
+        const inStack = new Set<string>();
+
+        function findCycles(node: string, path: string[]): void {
+            if (inStack.has(node)) {
+                // Found a cycle
+                const cycleStart = path.indexOf(node);
+                const cyclePath = path.slice(cycleStart);
+                cycles.push({
+                    index: cycles.length,
+                    message: `Circular dependency: ${cyclePath.join(' → ')} → ${node}`,
+                    features: cyclePath
+                });
+                return;
+            }
+            if (visited.has(node)) return;
+
+            visited.add(node);
+            inStack.add(node);
+            path.push(node);
+
+            const nodeDeps = deps[node] || [];
+            nodeDeps.forEach(depId => {
+                if (featureIds.has(depId) && cycleNodes.includes(depId)) {
+                    findCycles(depId, [...path]);
+                }
+            });
+
+            inStack.delete(node);
+        }
+
+        cycleNodes.forEach(node => {
+            if (!visited.has(node)) {
+                findCycles(node, []);
+            }
+        });
+
+        // Append cycle nodes at end of order so they still appear
+        order.push(...cycleNodes);
+    }
+
+    return { order, cycles };
+}
+
+// Auto-detect dependencies based on category groupings and priority ordering
+function autoDetectDependencies(features: any[]): Record<string, string[]> {
+    const deps: Record<string, string[]> = {};
+    const byCategory: Record<string, any[]> = {};
+
+    features.forEach((f: any) => {
+        const cat = f.category || 'uncategorized';
+        if (!byCategory[cat]) byCategory[cat] = [];
+        byCategory[cat].push(f);
+    });
+
+    // Within each category, higher-priority features depend on lower-priority ones
+    Object.values(byCategory).forEach(catFeatures => {
+        catFeatures.sort((a: any, b: any) => (a.priority || 999) - (b.priority || 999));
+        for (let i = 1; i < catFeatures.length; i++) {
+            const current = catFeatures[i];
+            const prev = catFeatures[i - 1];
+            // Only add dependency if they share the same priority group or are adjacent
+            if (Math.abs((current.priority || 0) - (prev.priority || 0)) <= 2) {
+                deps[current.id] = deps[current.id] || [];
+                if (!deps[current.id].includes(prev.id)) {
+                    deps[current.id].push(prev.id);
+                }
+            }
+        }
+    });
+
+    // Core features are dependencies for control features
+    const coreIds = features.filter((f: any) => f.category === 'core').map((f: any) => f.id);
+    features.filter((f: any) => f.category === 'control').forEach((f: any) => {
+        deps[f.id] = deps[f.id] || [];
+        coreIds.forEach(cId => {
+            if (!deps[f.id].includes(cId)) deps[f.id].push(cId);
+        });
+    });
+
+    // Integration features depend on core features
+    features.filter((f: any) => f.category === 'integration').forEach((f: any) => {
+        deps[f.id] = deps[f.id] || [];
+        coreIds.forEach(cId => {
+            if (!deps[f.id].includes(cId)) deps[f.id].push(cId);
+        });
+    });
+
+    return deps;
+}
+
+// GET /api/feature-ordering/features - Get all features
+app.get('/api/feature-ordering/features', (req: any, res: any) => {
+    try {
+        const features = readFeatureList();
+        res.json({ success: true, data: { features } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/feature-ordering/dependencies - Get dependencies and computed order
+app.get('/api/feature-ordering/dependencies', (req: any, res: any) => {
+    try {
+        const dependencies = readFeatureOrderingDeps();
+        const state = readFeatureOrderingState();
+        res.json({
+            success: true,
+            data: {
+                dependencies,
+                executionOrder: state.executionOrder || [],
+                cycleErrors: state.cycleErrors || [],
+                graphData: state.graphData || null
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/feature-ordering/dependencies - Save dependencies
+app.post('/api/feature-ordering/dependencies', (req: any, res: any) => {
+    try {
+        const { dependencies } = req.body;
+        writeFeatureOrderingDeps(dependencies);
+        res.json({ success: true, data: { dependencies } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/feature-ordering/auto-detect - Auto-detect dependencies
+app.post('/api/feature-ordering/auto-detect', (req: any, res: any) => {
+    try {
+        const features = readFeatureList();
+        const dependencies = autoDetectDependencies(features);
+        writeFeatureOrderingDeps(dependencies);
+        res.json({ success: true, data: { dependencies } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/feature-ordering/compute - Compute execution order
+app.post('/api/feature-ordering/compute', (req: any, res: any) => {
+    try {
+        const features = readFeatureList();
+        const dependencies = readFeatureOrderingDeps();
+        const { order, cycles } = topologicalSort(features, dependencies);
+
+        const state = {
+            executionOrder: order,
+            cycleErrors: cycles,
+            graphData: { nodeCount: features.length, edgeCount: Object.values(dependencies).flat().length },
+            computedAt: new Date().toISOString()
+        };
+        writeFeatureOrderingState(state);
+
+        res.json({ success: true, data: state });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/feature-ordering/break-cycle - Break a dependency cycle
+app.post('/api/feature-ordering/break-cycle', (req: any, res: any) => {
+    try {
+        const { cycleIndex } = req.body;
+        const state = readFeatureOrderingState();
+        const dependencies = readFeatureOrderingDeps();
+
+        const cycle = state.cycleErrors[cycleIndex];
+        if (cycle && cycle.features && cycle.features.length >= 2) {
+            // Remove the back-edge: last feature's dependency on first feature
+            const lastFeature = cycle.features[cycle.features.length - 1];
+            const firstFeature = cycle.features[0];
+            // The cycle closes when lastFeature depends on firstFeature
+            if (dependencies[lastFeature]) {
+                dependencies[lastFeature] = dependencies[lastFeature].filter(
+                    (d: string) => d !== firstFeature
+                );
+            }
+            writeFeatureOrderingDeps(dependencies);
+        }
+
+        res.json({ success: true, data: { dependencies } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/feature-ordering/demo - Generate demo dependency data
+app.post('/api/feature-ordering/demo', (req: any, res: any) => {
+    try {
+        const features = readFeatureList();
+        const pendingFeatures = features.filter((f: any) => !f.passes).slice(0, 15);
+        const passedFeatures = features.filter((f: any) => f.passes);
+
+        // Build realistic demo dependencies
+        const dependencies: Record<string, string[]> = {};
+
+        // Some pending features depend on passed features
+        if (pendingFeatures.length > 0 && passedFeatures.length > 0) {
+            pendingFeatures.forEach((f: any, i: number) => {
+                dependencies[f.id] = [];
+                // First few pending features depend on some passed features
+                if (i < 5 && passedFeatures.length > 3) {
+                    dependencies[f.id].push(passedFeatures[passedFeatures.length - 1].id);
+                    dependencies[f.id].push(passedFeatures[passedFeatures.length - 2].id);
+                }
+                // Chain some pending features together
+                if (i > 0 && i < 10) {
+                    dependencies[f.id].push(pendingFeatures[i - 1].id);
+                }
+            });
+
+            // Add a deliberate cycle for demonstration (last 2 pending features)
+            if (pendingFeatures.length >= 3) {
+                const a = pendingFeatures[pendingFeatures.length - 1].id;
+                const b = pendingFeatures[pendingFeatures.length - 2].id;
+                const c = pendingFeatures[pendingFeatures.length - 3].id;
+                dependencies[a] = dependencies[a] || [];
+                dependencies[b] = dependencies[b] || [];
+                dependencies[c] = dependencies[c] || [];
+                if (!dependencies[a].includes(b)) dependencies[a].push(b);
+                if (!dependencies[b].includes(c)) dependencies[b].push(c);
+                if (!dependencies[c].includes(a)) dependencies[c].push(a);
+            }
+        }
+
+        writeFeatureOrderingDeps(dependencies);
+
+        // Compute order
+        const { order, cycles } = topologicalSort(features, dependencies);
+        const state = {
+            executionOrder: order,
+            cycleErrors: cycles,
+            graphData: { nodeCount: features.length, edgeCount: Object.values(dependencies).flat().length },
+            computedAt: new Date().toISOString()
+        };
+        writeFeatureOrderingState(state);
+
+        res.json({ success: true, data: { message: 'Demo data generated', dependencies, state } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 
