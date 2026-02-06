@@ -917,7 +917,7 @@
         "Block on test failure",
         "Retry logic"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-072",
