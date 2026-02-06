@@ -5646,6 +5646,358 @@ app.get('/api/model-fallback/status', async (req, res) => {
 });
 
 // ============================================
+// SESSION REPLAY (feat-048)
+// ============================================
+
+const SESSION_REPLAY_DIR = path.join(__dirname, '..', '..', 'session-replays');
+
+function ensureReplayDir(): void {
+    if (!fs.existsSync(SESSION_REPLAY_DIR)) {
+        fs.mkdirSync(SESSION_REPLAY_DIR, { recursive: true });
+    }
+}
+
+function readSessionIndex(): any[] {
+    const indexFile = path.join(SESSION_REPLAY_DIR, 'index.json');
+    try {
+        if (fs.existsSync(indexFile)) {
+            return JSON.parse(fs.readFileSync(indexFile, 'utf-8'));
+        }
+    } catch (e) {}
+    return [];
+}
+
+function writeSessionIndex(sessions: any[]): void {
+    ensureReplayDir();
+    const indexFile = path.join(SESSION_REPLAY_DIR, 'index.json');
+    fs.writeFileSync(indexFile, JSON.stringify(sessions, null, 2));
+}
+
+function readSessionData(sessionId: string): any | null {
+    const sessionFile = path.join(SESSION_REPLAY_DIR, `${sessionId}.json`);
+    try {
+        if (fs.existsSync(sessionFile)) {
+            return JSON.parse(fs.readFileSync(sessionFile, 'utf-8'));
+        }
+    } catch (e) {}
+    return null;
+}
+
+function writeSessionData(sessionId: string, data: any): void {
+    ensureReplayDir();
+    const sessionFile = path.join(SESSION_REPLAY_DIR, `${sessionId}.json`);
+    fs.writeFileSync(sessionFile, JSON.stringify(data, null, 2));
+}
+
+// GET /api/session-replay/sessions - List all recorded sessions
+app.get('/api/session-replay/sessions', (req: any, res: any) => {
+    try {
+        const sessions = readSessionIndex();
+        const page = parseInt(req.query.page || '1');
+        const limit = parseInt(req.query.limit || '20');
+        const search = (req.query.search || '').toLowerCase();
+
+        let filtered = sessions;
+        if (search) {
+            filtered = sessions.filter((s: any) =>
+                (s.id || '').toLowerCase().includes(search) ||
+                (s.model || '').toLowerCase().includes(search) ||
+                (s.feature || '').toLowerCase().includes(search) ||
+                (s.status || '').toLowerCase().includes(search)
+            );
+        }
+
+        // Sort by timestamp descending (most recent first)
+        filtered.sort((a: any, b: any) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+
+        const total = filtered.length;
+        const start = (page - 1) * limit;
+        const paginated = filtered.slice(start, start + limit);
+
+        res.json({
+            success: true,
+            data: {
+                sessions: paginated,
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/session-replay/sessions/:id - Get full session data for replay
+app.get('/api/session-replay/sessions/:id', (req: any, res: any) => {
+    try {
+        const sessionData = readSessionData(req.params.id);
+        if (!sessionData) {
+            return res.status(404).json({ success: false, error: 'Session not found' });
+        }
+        res.json({ success: true, data: sessionData });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/session-replay/sessions - Record a new session (called by harness)
+app.post('/api/session-replay/sessions', (req: any, res: any) => {
+    try {
+        const { id, model, feature, sessionType, startedAt, endedAt, status, stats, messages } = req.body;
+
+        if (!id || !messages || !Array.isArray(messages)) {
+            return res.status(400).json({ success: false, error: 'id and messages array are required' });
+        }
+
+        // Store full session data
+        const sessionData = {
+            id,
+            model: model || 'unknown',
+            feature: feature || 'unknown',
+            sessionType: sessionType || 'CODING',
+            startedAt: startedAt || new Date().toISOString(),
+            endedAt: endedAt || new Date().toISOString(),
+            status: status || 'completed',
+            stats: stats || {},
+            messages,
+            messageCount: messages.length,
+            promptCount: messages.filter((m: any) => m.role === 'user' || m.role === 'system').length,
+            responseCount: messages.filter((m: any) => m.role === 'assistant').length,
+            toolCallCount: messages.reduce((acc: number, m: any) =>
+                acc + (m.toolCalls ? m.toolCalls.length : 0), 0),
+        };
+        writeSessionData(id, sessionData);
+
+        // Update index
+        const sessions = readSessionIndex();
+        const existing = sessions.findIndex((s: any) => s.id === id);
+        const indexEntry = {
+            id,
+            model: sessionData.model,
+            feature: sessionData.feature,
+            sessionType: sessionData.sessionType,
+            startedAt: sessionData.startedAt,
+            endedAt: sessionData.endedAt,
+            status: sessionData.status,
+            messageCount: sessionData.messageCount,
+            promptCount: sessionData.promptCount,
+            responseCount: sessionData.responseCount,
+            toolCallCount: sessionData.toolCallCount,
+        };
+
+        if (existing >= 0) {
+            sessions[existing] = indexEntry;
+        } else {
+            sessions.push(indexEntry);
+        }
+
+        // Keep last 200 sessions in index
+        const trimmed = sessions.slice(-200);
+        writeSessionIndex(trimmed);
+
+        res.json({ success: true, data: indexEntry });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/session-replay/sessions/:id/messages - Append messages to an existing session
+app.post('/api/session-replay/sessions/:id/messages', (req: any, res: any) => {
+    try {
+        const sessionData = readSessionData(req.params.id);
+        if (!sessionData) {
+            return res.status(404).json({ success: false, error: 'Session not found' });
+        }
+
+        const { messages } = req.body;
+        if (!messages || !Array.isArray(messages)) {
+            return res.status(400).json({ success: false, error: 'messages array is required' });
+        }
+
+        sessionData.messages.push(...messages);
+        sessionData.messageCount = sessionData.messages.length;
+        sessionData.promptCount = sessionData.messages.filter((m: any) => m.role === 'user' || m.role === 'system').length;
+        sessionData.responseCount = sessionData.messages.filter((m: any) => m.role === 'assistant').length;
+        sessionData.toolCallCount = sessionData.messages.reduce((acc: number, m: any) =>
+            acc + (m.toolCalls ? m.toolCalls.length : 0), 0);
+
+        writeSessionData(req.params.id, sessionData);
+
+        // Update index counts
+        const sessions = readSessionIndex();
+        const idx = sessions.findIndex((s: any) => s.id === req.params.id);
+        if (idx >= 0) {
+            sessions[idx].messageCount = sessionData.messageCount;
+            sessions[idx].promptCount = sessionData.promptCount;
+            sessions[idx].responseCount = sessionData.responseCount;
+            sessions[idx].toolCallCount = sessionData.toolCallCount;
+            writeSessionIndex(sessions);
+        }
+
+        res.json({ success: true, data: { messageCount: sessionData.messageCount } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// DELETE /api/session-replay/sessions/:id - Delete a recorded session
+app.delete('/api/session-replay/sessions/:id', (req: any, res: any) => {
+    try {
+        const sessionFile = path.join(SESSION_REPLAY_DIR, `${req.params.id}.json`);
+        if (fs.existsSync(sessionFile)) {
+            fs.unlinkSync(sessionFile);
+        }
+
+        const sessions = readSessionIndex();
+        const filtered = sessions.filter((s: any) => s.id !== req.params.id);
+        writeSessionIndex(filtered);
+
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/session-replay/export/:id - Export session data as JSON file
+app.get('/api/session-replay/export/:id', (req: any, res: any) => {
+    try {
+        const format = req.query.format || 'json';
+        const sessionData = readSessionData(req.params.id);
+        if (!sessionData) {
+            return res.status(404).json({ success: false, error: 'Session not found' });
+        }
+
+        if (format === 'csv') {
+            // CSV export: one row per message
+            const header = 'timestamp,role,content_preview,tool_calls,tokens\n';
+            const rows = sessionData.messages.map((m: any) => {
+                const content = (m.content || '').substring(0, 200).replace(/"/g, '""').replace(/\n/g, ' ');
+                const toolCalls = m.toolCalls ? m.toolCalls.length : 0;
+                const tokens = m.tokens || 0;
+                return `"${m.timestamp || ''}","${m.role}","${content}",${toolCalls},${tokens}`;
+            }).join('\n');
+
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="session-${req.params.id}.csv"`);
+            res.send(header + rows);
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Disposition', `attachment; filename="session-${req.params.id}.json"`);
+            res.json(sessionData);
+        }
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/session-replay/demo - Generate demo session data for testing
+app.post('/api/session-replay/demo', (req: any, res: any) => {
+    try {
+        const demoSessions = [];
+        const models = ['claude-opus-4-6', 'claude-sonnet-4-6-20250205', 'claude-sonnet-4-5-20250929'];
+        const features = ['feat-048', 'feat-047', 'feat-046', 'feat-045', 'feat-044'];
+        const statuses = ['completed', 'completed', 'completed', 'failed', 'completed'];
+
+        for (let i = 0; i < 5; i++) {
+            const sessionId = `demo-session-${Date.now()}-${i}`;
+            const startTime = new Date(Date.now() - (i * 3600000));
+            const endTime = new Date(startTime.getTime() + 600000 + Math.random() * 1200000);
+
+            const messages = [];
+            const numTurns = 3 + Math.floor(Math.random() * 5);
+
+            // System prompt
+            messages.push({
+                role: 'system',
+                content: 'You are a coding agent working on the autonomous coding dashboard project.',
+                timestamp: startTime.toISOString(),
+                tokens: 150,
+            });
+
+            // User prompt
+            messages.push({
+                role: 'user',
+                content: `Implement ${features[i]}: ${['Session Replay', 'Model Fallback', 'Model Performance', 'PostHog Analytics', 'Deployment Tracker'][i]}. Follow the coding conventions and test thoroughly.`,
+                timestamp: new Date(startTime.getTime() + 1000).toISOString(),
+                tokens: 80,
+            });
+
+            for (let t = 0; t < numTurns; t++) {
+                const turnTime = new Date(startTime.getTime() + (t + 1) * 120000);
+
+                // Assistant response with tool calls
+                messages.push({
+                    role: 'assistant',
+                    content: `Working on step ${t + 1}. Let me ${['read the existing code', 'create the widget file', 'add API endpoints', 'write tests', 'verify functionality', 'update feature status', 'commit changes'][t % 7]}.`,
+                    timestamp: turnTime.toISOString(),
+                    tokens: 200 + Math.floor(Math.random() * 800),
+                    toolCalls: t < numTurns - 1 ? [
+                        {
+                            tool: ['Read', 'Edit', 'Write', 'Bash', 'Bash'][t % 5],
+                            input: { file: `session-replay.js`, command: 'npm test' }[['Read', 'Edit', 'Write', 'Bash', 'Bash'][t % 5] === 'Bash' ? 'command' : 'file'],
+                            output: `Tool executed successfully. ${t % 2 === 0 ? 'File read.' : 'Changes applied.'}`,
+                        }
+                    ] : [],
+                });
+
+                // Tool result if applicable
+                if (t < numTurns - 1) {
+                    messages.push({
+                        role: 'tool',
+                        content: `Tool result: Operation completed successfully.`,
+                        timestamp: new Date(turnTime.getTime() + 5000).toISOString(),
+                        tokens: 50,
+                    });
+                }
+            }
+
+            const sessionData = {
+                id: sessionId,
+                model: models[i % models.length],
+                feature: features[i],
+                sessionType: 'CODING',
+                startedAt: startTime.toISOString(),
+                endedAt: endTime.toISOString(),
+                status: statuses[i],
+                stats: { total: 120, passing: 44 + i, pending: 76 - i },
+                messages,
+                messageCount: messages.length,
+                promptCount: messages.filter((m: any) => m.role === 'user' || m.role === 'system').length,
+                responseCount: messages.filter((m: any) => m.role === 'assistant').length,
+                toolCallCount: messages.reduce((acc: number, m: any) =>
+                    acc + (m.toolCalls ? m.toolCalls.length : 0), 0),
+            };
+
+            writeSessionData(sessionId, sessionData);
+            demoSessions.push({
+                id: sessionId,
+                model: sessionData.model,
+                feature: sessionData.feature,
+                sessionType: sessionData.sessionType,
+                startedAt: sessionData.startedAt,
+                endedAt: sessionData.endedAt,
+                status: sessionData.status,
+                messageCount: sessionData.messageCount,
+                promptCount: sessionData.promptCount,
+                responseCount: sessionData.responseCount,
+                toolCallCount: sessionData.toolCallCount,
+            });
+        }
+
+        // Update index
+        const sessions = readSessionIndex();
+        sessions.push(...demoSessions);
+        writeSessionIndex(sessions.slice(-200));
+
+        res.json({ success: true, data: { created: demoSessions.length, sessions: demoSessions } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

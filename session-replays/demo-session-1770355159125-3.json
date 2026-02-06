@@ -1,0 +1,115 @@
+{
+  "id": "demo-session-1770355159125-3",
+  "model": "claude-opus-4-6",
+  "feature": "feat-045",
+  "sessionType": "CODING",
+  "startedAt": "2026-02-06T02:19:19.125Z",
+  "endedAt": "2026-02-06T02:33:18.785Z",
+  "status": "failed",
+  "stats": {
+    "total": 120,
+    "passing": 47,
+    "pending": 73
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a coding agent working on the autonomous coding dashboard project.",
+      "timestamp": "2026-02-06T02:19:19.125Z",
+      "tokens": 150
+    },
+    {
+      "role": "user",
+      "content": "Implement feat-045: PostHog Analytics. Follow the coding conventions and test thoroughly.",
+      "timestamp": "2026-02-06T02:19:20.125Z",
+      "tokens": 80
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 1. Let me read the existing code.",
+      "timestamp": "2026-02-06T02:21:19.125Z",
+      "tokens": 724,
+      "toolCalls": [
+        {
+          "tool": "Read",
+          "input": "session-replay.js",
+          "output": "Tool executed successfully. File read."
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool result: Operation completed successfully.",
+      "timestamp": "2026-02-06T02:21:24.125Z",
+      "tokens": 50
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 2. Let me create the widget file.",
+      "timestamp": "2026-02-06T02:23:19.125Z",
+      "tokens": 357,
+      "toolCalls": [
+        {
+          "tool": "Edit",
+          "input": "session-replay.js",
+          "output": "Tool executed successfully. Changes applied."
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool result: Operation completed successfully.",
+      "timestamp": "2026-02-06T02:23:24.125Z",
+      "tokens": 50
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 3. Let me add API endpoints.",
+      "timestamp": "2026-02-06T02:25:19.125Z",
+      "tokens": 427,
+      "toolCalls": [
+        {
+          "tool": "Write",
+          "input": "session-replay.js",
+          "output": "Tool executed successfully. File read."
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool result: Operation completed successfully.",
+      "timestamp": "2026-02-06T02:25:24.125Z",
+      "tokens": 50
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 4. Let me write tests.",
+      "timestamp": "2026-02-06T02:27:19.125Z",
+      "tokens": 335,
+      "toolCalls": [
+        {
+          "tool": "Bash",
+          "input": "npm test",
+          "output": "Tool executed successfully. Changes applied."
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool result: Operation completed successfully.",
+      "timestamp": "2026-02-06T02:27:24.125Z",
+      "tokens": 50
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 5. Let me verify functionality.",
+      "timestamp": "2026-02-06T02:29:19.125Z",
+      "tokens": 465,
+      "toolCalls": []
+    }
+  ],
+  "messageCount": 11,
+  "promptCount": 2,
+  "responseCount": 5,
+  "toolCallCount": 4
+}

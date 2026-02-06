@@ -1,0 +1,77 @@
+{
+  "id": "demo-session-1770355100683-0",
+  "model": "claude-opus-4-6",
+  "feature": "feat-048",
+  "sessionType": "CODING",
+  "startedAt": "2026-02-06T05:18:20.683Z",
+  "endedAt": "2026-02-06T05:43:26.902Z",
+  "status": "completed",
+  "stats": {
+    "total": 120,
+    "passing": 44,
+    "pending": 76
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a coding agent working on the autonomous coding dashboard project.",
+      "timestamp": "2026-02-06T05:18:20.683Z",
+      "tokens": 150
+    },
+    {
+      "role": "user",
+      "content": "Implement feat-048: Session Replay. Follow the coding conventions and test thoroughly.",
+      "timestamp": "2026-02-06T05:18:21.683Z",
+      "tokens": 80
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 1. Let me read the existing code.",
+      "timestamp": "2026-02-06T05:20:20.683Z",
+      "tokens": 394,
+      "toolCalls": [
+        {
+          "tool": "Read",
+          "input": "session-replay.js",
+          "output": "Tool executed successfully. File read."
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool result: Operation completed successfully.",
+      "timestamp": "2026-02-06T05:20:25.683Z",
+      "tokens": 50
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 2. Let me create the widget file.",
+      "timestamp": "2026-02-06T05:22:20.683Z",
+      "tokens": 495,
+      "toolCalls": [
+        {
+          "tool": "Edit",
+          "input": "session-replay.js",
+          "output": "Tool executed successfully. Changes applied."
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool result: Operation completed successfully.",
+      "timestamp": "2026-02-06T05:22:25.683Z",
+      "tokens": 50
+    },
+    {
+      "role": "assistant",
+      "content": "Working on step 3. Let me add API endpoints.",
+      "timestamp": "2026-02-06T05:24:20.683Z",
+      "tokens": 798,
+      "toolCalls": []
+    }
+  ],
+  "messageCount": 7,
+  "promptCount": 2,
+  "responseCount": 3,
+  "toolCallCount": 2
+}

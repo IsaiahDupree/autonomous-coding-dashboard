@@ -640,7 +640,7 @@
         "Replay sessions",
         "Export for analysis"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-049",
