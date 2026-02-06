@@ -761,7 +761,7 @@
         "Permission request",
         "Configurable events"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-059",

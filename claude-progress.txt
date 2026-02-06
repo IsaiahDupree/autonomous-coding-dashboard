@@ -1377,3 +1377,37 @@ NEXT: feat-057 (next feature in queue)
 - Feature status: 57/120 passing (47.5% complete)
 
 NEXT: feat-058 (next feature in queue)
+
+- Implemented feat-058: Desktop Push Notifications
+  * Created desktop-notifications.js with configurable notification events UI
+  * Browser Notification API:
+    - Checks API support
+    - Displays permission status (granted/denied/default)
+    - Permission badge in card header
+    - Test notification button
+    - notify() function for sending event-based notifications
+  * Permission request:
+    - requestPermission() with async/await
+    - Request Permission button when status is 'default'
+    - Guidance message when denied
+    - Auto-sends test notification on grant
+  * Configurable events (8 event types):
+    - Feature Completed, Feature Failed, Session Started, Session Ended
+    - Error Occurred, Milestone Reached, Harness Idle, Build Success
+    - Each with toggle, icon, name, and description
+    - isEventEnabled() check function
+  * Additional settings:
+    - Auto-close delay (configurable seconds)
+    - Require interaction toggle
+    - Save/Reset defaults
+    - localStorage persistence (desktop-notifications-config)
+  * CSS styles with dn- prefix namespace
+  * Tests passed: All 3 acceptance criteria verified (28 assertions)
+    - Browser notification API ✓
+    - Permission request ✓
+    - Configurable events ✓
+- Committed: "feat: Implement Desktop Push Notifications (feat-058)"
+
+- Feature status: 58/120 passing (48.3% complete)
+
+NEXT: feat-059 (next feature in queue)
