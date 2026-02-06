@@ -1061,7 +1061,7 @@
         "Query support",
         "Mutation support"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-084",
