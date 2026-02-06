@@ -1313,7 +1313,7 @@
         "Mention users",
         "Thread replies"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-105",
