@@ -821,7 +821,7 @@
         "Factor in error rate",
         "Display health badge"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-064",
