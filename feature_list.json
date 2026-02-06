@@ -1373,7 +1373,7 @@
         "Identify slow endpoints",
         "Trend analysis"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-110",
