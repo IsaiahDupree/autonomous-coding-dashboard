@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Target Project Queue Dashboard - Manage autonomous coding project priorities">
+  <title>Project Queue - Autonomous Coding Dashboard</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .queue-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .queue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .queue-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .queue-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .queue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .queue-item {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: 40px 50px 1fr auto auto;
+      gap: 1rem;
+      align-items: center;
+      cursor: move;
+      transition: all 0.2s;
+    }
+
+    .queue-item:hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    }
+
+    .queue-item.dragging {
+      opacity: 0.5;
+      cursor: grabbing;
+    }
+
+    .queue-item.drag-over {
+      border-color: var(--color-success);
+      border-style: dashed;
+      border-width: 2px;
+    }
+
+    .queue-item.disabled {
+      opacity: 0.5;
+      background: var(--color-bg);
+    }
+
+    .drag-handle {
+      cursor: grab;
+      font-size: 1.5rem;
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    .queue-priority {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      text-align: center;
+    }
+
+    .queue-project-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .queue-project-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--color-text);
+    }
+
+    .queue-project-path {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .queue-project-focus {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .queue-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-width: 200px;
+    }
+
+    .queue-progress-bar {
+      background: var(--color-bg);
+      border-radius: 8px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .queue-progress-fill {
+      background: var(--color-success);
+      height: 100%;
+      transition: width 0.3s;
+    }
+
+    .queue-progress-text {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .queue-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--color-bg);
+      border: 2px solid var(--color-border);
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: var(--color-text-secondary);
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--color-success);
+      border-color: var(--color-success);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+      background-color: white;
+    }
+
+    .complexity-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .complexity-critical {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    .complexity-high {
+      background: rgba(249, 115, 22, 0.1);
+      color: #f97316;
+    }
+
+    .complexity-medium {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .complexity-low {
+      background: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--color-text-secondary);
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <a href="#" class="logo">
+            <div class="logo-icon">🤖</div>
+            <span>Autonomous Coding Agent</span>
+          </a>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <a href="index.html" class="btn btn-secondary">📊 Dashboard</a>
+          <a href="queue.html" class="btn">📋 Project Queue</a>
+          <a href="control.html" class="btn btn-secondary">🎮 Control Panel</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="queue-container">
+    <!-- Header -->
+    <div class="queue-header">
+      <h1>🎯 Target Project Queue</h1>
+      <button class="btn btn-primary" onclick="refreshQueue()">🔄 Refresh</button>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="queue-stats" id="queue-stats">
+      <!-- Stats will be populated here -->
+    </div>
+
+    <!-- Queue List -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Project Queue</h3>
+        <span class="badge badge-info" id="queue-count">0 projects</span>
+      </div>
+      <div class="card-body">
+        <div id="queue-list" class="queue-list">
+          <!-- Queue items will be populated here -->
+        </div>
+        <div id="empty-state" class="empty-state" style="display: none;">
+          <h3>No Projects in Queue</h3>
+          <p>Add projects to the repo-queue.json file to get started.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Error Toast Container -->
+  <div id="error-toast-container" class="error-toast-container"></div>
+
+  <script src="app.js"></script>
+  <script src="queue-dashboard.js"></script>
+</body>
+
+</html>

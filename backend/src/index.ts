@@ -261,6 +261,76 @@ app.get('/api/targets/status', async (req, res) => {
     }
 });
 
+// Update repo queue priorities (for feat-033)
+app.put('/api/targets/update-priority', async (req, res) => {
+    try {
+        const { repoId, newPriority } = req.body;
+
+        if (!repoId || typeof newPriority !== 'number') {
+            return res.status(400).json({ error: { message: 'Missing repoId or newPriority' } });
+        }
+
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const repoQueueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+
+        if (!fs.existsSync(repoQueueFile)) {
+            return res.status(404).json({ error: { message: 'repo-queue.json not found' } });
+        }
+
+        const repoQueue = JSON.parse(fs.readFileSync(repoQueueFile, 'utf-8'));
+        const targetIndex = repoQueue.repos.findIndex((r: any) => r.id === repoId);
+
+        if (targetIndex === -1) {
+            return res.status(404).json({ error: { message: 'Target not found' } });
+        }
+
+        // Update priority
+        repoQueue.repos[targetIndex].priority = newPriority;
+
+        // Write back to file
+        fs.writeFileSync(repoQueueFile, JSON.stringify(repoQueue, null, 2));
+
+        res.json({ data: { success: true, repoId, newPriority } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to update priority' } });
+    }
+});
+
+// Toggle enabled status (for feat-033)
+app.put('/api/targets/toggle-enabled', async (req, res) => {
+    try {
+        const { repoId, enabled } = req.body;
+
+        if (!repoId || typeof enabled !== 'boolean') {
+            return res.status(400).json({ error: { message: 'Missing repoId or enabled' } });
+        }
+
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const repoQueueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+
+        if (!fs.existsSync(repoQueueFile)) {
+            return res.status(404).json({ error: { message: 'repo-queue.json not found' } });
+        }
+
+        const repoQueue = JSON.parse(fs.readFileSync(repoQueueFile, 'utf-8'));
+        const targetIndex = repoQueue.repos.findIndex((r: any) => r.id === repoId);
+
+        if (targetIndex === -1) {
+            return res.status(404).json({ error: { message: 'Target not found' } });
+        }
+
+        // Toggle enabled
+        repoQueue.repos[targetIndex].enabled = enabled;
+
+        // Write back to file
+        fs.writeFileSync(repoQueueFile, JSON.stringify(repoQueue, null, 2));
+
+        res.json({ data: { success: true, repoId, enabled } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to toggle enabled status' } });
+    }
+});
+
 // Database-backed targets endpoints
 app.get('/api/db/targets', async (req, res) => {
     try {

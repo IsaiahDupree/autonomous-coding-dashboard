@@ -438,7 +438,8 @@
         "Allows drag-and-drop priority reordering",
         "Enable/disable projects inline"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T02:54:50Z"
     },
     {
       "id": "feat-034",
