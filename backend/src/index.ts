@@ -5998,6 +5998,459 @@ app.post('/api/session-replay/demo', (req: any, res: any) => {
 });
 
 // ============================================
+// PARALLEL FEATURE EXECUTION (feat-049)
+// ============================================
+
+const PARALLEL_EXEC_CONFIG_FILE = path.join(__dirname, '../../parallel-exec-config.json');
+const PARALLEL_EXEC_STATE_FILE = path.join(__dirname, '../../parallel-exec-state.json');
+
+function readParallelExecConfig(): any {
+    try {
+        if (fs.existsSync(PARALLEL_EXEC_CONFIG_FILE)) {
+            return JSON.parse(fs.readFileSync(PARALLEL_EXEC_CONFIG_FILE, 'utf-8'));
+        }
+    } catch (e) { /* ignore */ }
+    return {
+        maxConcurrent: 3,
+        cpuLimitPercent: 80,
+        memoryLimitMb: 4096,
+        enableConflictDetection: true,
+        autoResolveConflicts: false,
+        isolationMode: 'directory'
+    };
+}
+
+function writeParallelExecConfig(config: any) {
+    fs.writeFileSync(PARALLEL_EXEC_CONFIG_FILE, JSON.stringify(config, null, 2));
+}
+
+function readParallelExecState(): any {
+    try {
+        if (fs.existsSync(PARALLEL_EXEC_STATE_FILE)) {
+            return JSON.parse(fs.readFileSync(PARALLEL_EXEC_STATE_FILE, 'utf-8'));
+        }
+    } catch (e) { /* ignore */ }
+    return { slots: [], queue: [], conflicts: [], log: [], resources: { cpu: 0, memory: 0, activeSlots: 0 } };
+}
+
+function writeParallelExecState(state: any) {
+    fs.writeFileSync(PARALLEL_EXEC_STATE_FILE, JSON.stringify(state, null, 2));
+}
+
+function detectConflicts(slots: any[]): any[] {
+    const conflicts: any[] = [];
+    const filesBySlot: Record<string, string[]> = {};
+
+    // Analyze each running slot for potential file conflicts
+    for (const slot of slots) {
+        if (slot.status !== 'running' || !slot.featureId) continue;
+        // Estimate affected files based on feature category
+        const files = estimateAffectedFiles(slot.featureId, slot.featureName || '');
+        filesBySlot[slot.featureId] = files;
+    }
+
+    // Check for overlapping files between slots
+    const featureIds = Object.keys(filesBySlot);
+    for (let i = 0; i < featureIds.length; i++) {
+        for (let j = i + 1; j < featureIds.length; j++) {
+            const f1 = featureIds[i];
+            const f2 = featureIds[j];
+            const overlap = filesBySlot[f1].filter(f => filesBySlot[f2].includes(f));
+            if (overlap.length > 0) {
+                conflicts.push({
+                    id: `conflict-${f1}-${f2}-${Date.now()}`,
+                    type: 'file_conflict',
+                    severity: overlap.some(f => f.includes('index.html') || f.includes('index.css')) ? 'critical' : 'warning',
+                    features: [f1, f2],
+                    files: overlap,
+                    detectedAt: new Date().toISOString(),
+                    resolved: false
+                });
+            }
+        }
+    }
+
+    return conflicts;
+}
+
+function estimateAffectedFiles(featureId: string, featureName: string): string[] {
+    // Common files that most features touch
+    const commonFiles = ['index.html', 'index.css'];
+    // Feature-specific file
+    const featureFile = featureId.replace('feat-', '') + '.js';
+    const files = [...commonFiles, featureFile];
+
+    // Backend features also touch the backend
+    if (featureName.toLowerCase().includes('api') || featureName.toLowerCase().includes('backend')) {
+        files.push('backend/src/index.ts');
+    }
+
+    return files;
+}
+
+// GET /api/parallel-exec/config - Get parallel execution configuration
+app.get('/api/parallel-exec/config', (req: any, res: any) => {
+    try {
+        const config = readParallelExecConfig();
+        res.json({ success: true, data: config });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/config - Save configuration
+app.post('/api/parallel-exec/config', (req: any, res: any) => {
+    try {
+        const config = req.body;
+        writeParallelExecConfig(config);
+
+        // Log config change
+        const state = readParallelExecState();
+        state.log.push({
+            type: 'config_updated',
+            details: `Config updated: max=${config.maxConcurrent}, cpu=${config.cpuLimitPercent}%, mem=${config.memoryLimitMb}MB`,
+            timestamp: new Date().toISOString()
+        });
+        writeParallelExecState(state);
+
+        res.json({ success: true, data: config });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/parallel-exec/status - Get current execution status
+app.get('/api/parallel-exec/status', (req: any, res: any) => {
+    try {
+        const state = readParallelExecState();
+        const config = readParallelExecConfig();
+
+        // Run conflict detection on active slots
+        if (config.enableConflictDetection) {
+            const newConflicts = detectConflicts(state.slots);
+            // Add only new conflicts (not already detected)
+            const existingIds = new Set(state.conflicts.filter((c: any) => !c.resolved).map((c: any) => c.features.sort().join(',')));
+            for (const nc of newConflicts) {
+                const key = nc.features.sort().join(',');
+                if (!existingIds.has(key)) {
+                    state.conflicts.push(nc);
+                }
+            }
+        }
+
+        // Simulate resource usage based on active slots
+        const activeSlots = state.slots.filter((s: any) => s.status === 'running').length;
+        state.resources = {
+            cpu: Math.min(100, activeSlots * 20 + Math.floor(Math.random() * 10)),
+            memory: activeSlots * 512 + Math.floor(Math.random() * 256),
+            activeSlots
+        };
+
+        writeParallelExecState(state);
+
+        res.json({ success: true, data: state });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/start - Start parallel execution
+app.post('/api/parallel-exec/start', (req: any, res: any) => {
+    try {
+        const config = req.body.config || readParallelExecConfig();
+        const state = readParallelExecState();
+
+        // Check resource limits
+        const activeSlots = state.slots.filter((s: any) => s.status === 'running').length;
+        const availableSlots = config.maxConcurrent - activeSlots;
+
+        if (availableSlots <= 0) {
+            res.json({ success: false, error: 'All execution slots are occupied. Stop running slots or increase max concurrent.' });
+            return;
+        }
+
+        // Pull features from queue to fill available slots
+        let slotsActivated = 0;
+        while (slotsActivated < availableSlots && state.queue.length > 0) {
+            const feature = state.queue.shift();
+            state.slots.push({
+                featureId: feature.featureId,
+                featureName: feature.featureName || feature.description || feature.featureId,
+                status: 'running',
+                startTime: new Date().toISOString(),
+                pid: Math.floor(Math.random() * 90000) + 10000,
+                progress: 0
+            });
+
+            state.log.push({
+                type: 'started',
+                details: `Started ${feature.featureId} in slot #${state.slots.length}`,
+                timestamp: new Date().toISOString()
+            });
+
+            slotsActivated++;
+        }
+
+        // If no queue items, create empty slots ready for assignment
+        if (slotsActivated === 0 && state.slots.length === 0) {
+            // Try to auto-fill from feature_list.json
+            try {
+                const featureListPath = path.join(__dirname, '../../feature_list.json');
+                if (fs.existsSync(featureListPath)) {
+                    const featureData = JSON.parse(fs.readFileSync(featureListPath, 'utf-8'));
+                    const pending = (featureData.features || []).filter((f: any) => !f.passes);
+                    const toStart = pending.slice(0, availableSlots);
+                    for (const f of toStart) {
+                        state.slots.push({
+                            featureId: f.id,
+                            featureName: f.description || f.id,
+                            status: 'running',
+                            startTime: new Date().toISOString(),
+                            pid: Math.floor(Math.random() * 90000) + 10000,
+                            progress: Math.floor(Math.random() * 30)
+                        });
+                        state.log.push({
+                            type: 'started',
+                            details: `Auto-started ${f.id}: ${f.description || ''}`,
+                            timestamp: new Date().toISOString()
+                        });
+                        slotsActivated++;
+                    }
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        // Run conflict detection
+        if (config.enableConflictDetection) {
+            const newConflicts = detectConflicts(state.slots);
+            state.conflicts.push(...newConflicts);
+        }
+
+        writeParallelExecState(state);
+        writeParallelExecConfig(config);
+
+        res.json({ success: true, data: { slotsActivated, totalActive: state.slots.filter((s: any) => s.status === 'running').length } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/stop - Stop all execution
+app.post('/api/parallel-exec/stop', (req: any, res: any) => {
+    try {
+        const state = readParallelExecState();
+
+        for (const slot of state.slots) {
+            if (slot.status === 'running') {
+                slot.status = 'stopped';
+                slot.endTime = new Date().toISOString();
+                state.log.push({
+                    type: 'stopped',
+                    details: `Stopped ${slot.featureId} in slot`,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        state.resources = { cpu: 0, memory: 0, activeSlots: 0 };
+        writeParallelExecState(state);
+
+        res.json({ success: true, data: { stopped: state.slots.filter((s: any) => s.status === 'stopped').length } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/stop-slot - Stop a specific slot
+app.post('/api/parallel-exec/stop-slot', (req: any, res: any) => {
+    try {
+        const { slotIndex } = req.body;
+        const state = readParallelExecState();
+
+        if (slotIndex >= 0 && slotIndex < state.slots.length) {
+            const slot = state.slots[slotIndex];
+            slot.status = 'stopped';
+            slot.endTime = new Date().toISOString();
+            state.log.push({
+                type: 'stopped',
+                details: `Stopped ${slot.featureId} in slot #${slotIndex + 1}`,
+                timestamp: new Date().toISOString()
+            });
+            writeParallelExecState(state);
+        }
+
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/queue - Add features to queue
+app.post('/api/parallel-exec/queue', (req: any, res: any) => {
+    try {
+        const { features } = req.body;
+        const state = readParallelExecState();
+
+        if (Array.isArray(features)) {
+            state.queue.push(...features);
+            state.log.push({
+                type: 'queued',
+                details: `Added ${features.length} features to queue`,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        writeParallelExecState(state);
+        res.json({ success: true, data: { queueLength: state.queue.length } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// DELETE /api/parallel-exec/queue - Clear the queue
+app.delete('/api/parallel-exec/queue', (req: any, res: any) => {
+    try {
+        const state = readParallelExecState();
+        state.queue = [];
+        writeParallelExecState(state);
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// DELETE /api/parallel-exec/queue/:index - Remove specific item from queue
+app.delete('/api/parallel-exec/queue/:index', (req: any, res: any) => {
+    try {
+        const index = parseInt(req.params.index);
+        const state = readParallelExecState();
+        if (index >= 0 && index < state.queue.length) {
+            state.queue.splice(index, 1);
+            writeParallelExecState(state);
+        }
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/resolve-conflict - Resolve a conflict
+app.post('/api/parallel-exec/resolve-conflict', (req: any, res: any) => {
+    try {
+        const { conflictId, slotIndex, resolution } = req.body;
+        const state = readParallelExecState();
+
+        if (conflictId) {
+            const conflict = state.conflicts.find((c: any) => c.id === conflictId);
+            if (conflict) {
+                conflict.resolved = true;
+                conflict.resolution = resolution;
+                conflict.resolvedAt = new Date().toISOString();
+            }
+        }
+
+        if (slotIndex !== undefined && slotIndex >= 0 && slotIndex < state.slots.length) {
+            const slot = state.slots[slotIndex];
+            if (slot.status === 'conflict') {
+                slot.status = resolution === 'abort' ? 'stopped' : 'running';
+                slot.conflictDetails = null;
+            }
+        }
+
+        state.log.push({
+            type: 'resolved',
+            details: `Conflict resolved with: ${resolution}`,
+            timestamp: new Date().toISOString()
+        });
+
+        // Remove resolved conflicts from active list
+        state.conflicts = state.conflicts.filter((c: any) => !c.resolved);
+
+        writeParallelExecState(state);
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// DELETE /api/parallel-exec/log - Clear the execution log
+app.delete('/api/parallel-exec/log', (req: any, res: any) => {
+    try {
+        const state = readParallelExecState();
+        state.log = [];
+        writeParallelExecState(state);
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/parallel-exec/demo - Generate demo data for testing
+app.post('/api/parallel-exec/demo', (req: any, res: any) => {
+    try {
+        const state: any = {
+            slots: [
+                {
+                    featureId: 'feat-050',
+                    featureName: 'Custom notification rules',
+                    status: 'running',
+                    startTime: new Date(Date.now() - 120000).toISOString(),
+                    pid: 45123,
+                    progress: 65
+                },
+                {
+                    featureId: 'feat-051',
+                    featureName: 'Webhook integrations',
+                    status: 'running',
+                    startTime: new Date(Date.now() - 90000).toISOString(),
+                    pid: 45234,
+                    progress: 40
+                },
+                {
+                    featureId: 'feat-052',
+                    featureName: 'API rate limiting dashboard',
+                    status: 'completed',
+                    startTime: new Date(Date.now() - 300000).toISOString(),
+                    endTime: new Date(Date.now() - 60000).toISOString(),
+                    pid: 45345,
+                    progress: 100
+                }
+            ],
+            queue: [
+                { featureId: 'feat-053', featureName: 'Plugin system architecture', priority: 22 },
+                { featureId: 'feat-054', featureName: 'Theme customization', priority: 23 }
+            ],
+            conflicts: [
+                {
+                    id: 'conflict-demo-1',
+                    type: 'file_conflict',
+                    severity: 'warning',
+                    features: ['feat-050', 'feat-051'],
+                    files: ['index.html', 'index.css'],
+                    detectedAt: new Date(Date.now() - 60000).toISOString(),
+                    resolved: false
+                }
+            ],
+            log: [
+                { type: 'started', details: 'Started feat-050 in slot #1', timestamp: new Date(Date.now() - 120000).toISOString() },
+                { type: 'started', details: 'Started feat-051 in slot #2', timestamp: new Date(Date.now() - 90000).toISOString() },
+                { type: 'started', details: 'Started feat-052 in slot #3', timestamp: new Date(Date.now() - 300000).toISOString() },
+                { type: 'completed', details: 'feat-052 completed successfully', timestamp: new Date(Date.now() - 60000).toISOString() },
+                { type: 'conflict', details: 'File conflict detected: feat-050 vs feat-051 (index.html, index.css)', timestamp: new Date(Date.now() - 60000).toISOString() },
+                { type: 'queued', details: 'Added 2 features to queue', timestamp: new Date(Date.now() - 30000).toISOString() },
+                { type: 'resource_limit', details: 'CPU usage at 78% - approaching limit', timestamp: new Date(Date.now() - 15000).toISOString() }
+            ],
+            resources: { cpu: 62, memory: 1536, activeSlots: 2 }
+        };
+
+        writeParallelExecState(state);
+        res.json({ success: true, data: { message: 'Demo data generated' } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

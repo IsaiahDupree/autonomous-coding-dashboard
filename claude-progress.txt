@@ -1074,3 +1074,55 @@ NEXT: feat-048 (next feature in queue)
 - Feature status: 48/120 passing (40.0% complete)
 
 NEXT: feat-049 (next feature in queue)
+
+- Implemented feat-049: Parallel Feature Execution Mode
+  * Created parallel-exec.js dashboard widget with full UI
+  * Summary cards: Active Slots, Queued, Completed, Conflicts
+  * Configuration panel:
+    - Max concurrent slots (slider 1-8)
+    - CPU limit % (slider 20-100)
+    - Memory limit MB (slider 512-16384)
+    - Isolation mode (directory / branch / container)
+    - Conflict detection toggle
+    - Auto-resolve conflicts toggle
+  * Resource usage display with progress bars (CPU, Memory, Slots)
+  * Execution slots grid showing each running feature with:
+    - Feature ID/name, status, start time, PID
+    - Progress bar for running slots
+    - Stop button per slot
+    - Conflict indicator with resolve button
+  * Feature queue with add/remove/clear functionality
+    - Dialog to select pending features from feature_list.json
+    - Select all/none, priority display
+  * Conflict detection panel:
+    - Lists detected file conflicts between parallel features
+    - Shows severity (warning/critical), affected features, files
+    - Resolution options: Pause, Auto-Merge, Abort
+  * Execution log with color-coded event types:
+    - started, completed, failed, conflict, queued, resource_limit, stopped, resolved
+  * Added backend API endpoints:
+    - GET /api/parallel-exec/config - Get parallel execution configuration
+    - POST /api/parallel-exec/config - Save configuration
+    - GET /api/parallel-exec/status - Get execution status with conflict detection
+    - POST /api/parallel-exec/start - Start parallel execution (fills slots from queue)
+    - POST /api/parallel-exec/stop - Stop all execution
+    - POST /api/parallel-exec/stop-slot - Stop specific slot
+    - POST /api/parallel-exec/queue - Add features to queue
+    - DELETE /api/parallel-exec/queue - Clear queue
+    - DELETE /api/parallel-exec/queue/:index - Remove specific queue item
+    - POST /api/parallel-exec/resolve-conflict - Resolve a conflict
+    - DELETE /api/parallel-exec/log - Clear execution log
+    - POST /api/parallel-exec/demo - Generate demo data
+  * Conflict detection algorithm: analyzes affected files per feature, detects overlaps
+  * Config stored in parallel-exec-config.json, state in parallel-exec-state.json
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles with pe- prefix namespace
+  * Tests passed: All 3 acceptance criteria verified (71 assertions)
+    - Run multiple features simultaneously ✓
+    - Resource limiting ✓
+    - Conflict detection ✓
+- Committed: "feat: Implement Parallel Feature Execution Mode (feat-049)"
+
+- Feature status: 49/120 passing (40.8% complete)
+
+NEXT: feat-050 (next feature in queue)

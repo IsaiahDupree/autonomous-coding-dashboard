@@ -1,0 +1,104 @@
+{
+  "slots": [
+    {
+      "featureId": "feat-050",
+      "featureName": "Custom notification rules",
+      "status": "running",
+      "startTime": "2026-02-06T05:28:42.703Z",
+      "pid": 45123,
+      "progress": 65
+    },
+    {
+      "featureId": "feat-051",
+      "featureName": "Webhook integrations",
+      "status": "running",
+      "startTime": "2026-02-06T05:29:12.703Z",
+      "pid": 45234,
+      "progress": 40
+    },
+    {
+      "featureId": "feat-052",
+      "featureName": "API rate limiting dashboard",
+      "status": "completed",
+      "startTime": "2026-02-06T05:25:42.703Z",
+      "endTime": "2026-02-06T05:29:42.703Z",
+      "pid": 45345,
+      "progress": 100
+    }
+  ],
+  "queue": [
+    {
+      "featureId": "feat-053",
+      "featureName": "Plugin system architecture",
+      "priority": 22
+    },
+    {
+      "featureId": "feat-054",
+      "featureName": "Theme customization",
+      "priority": 23
+    }
+  ],
+  "conflicts": [],
+  "log": [
+    {
+      "type": "started",
+      "details": "Started feat-050 in slot #1",
+      "timestamp": "2026-02-06T05:28:42.703Z"
+    },
+    {
+      "type": "started",
+      "details": "Started feat-051 in slot #2",
+      "timestamp": "2026-02-06T05:29:12.703Z"
+    },
+    {
+      "type": "started",
+      "details": "Started feat-052 in slot #3",
+      "timestamp": "2026-02-06T05:25:42.703Z"
+    },
+    {
+      "type": "completed",
+      "details": "feat-052 completed successfully",
+      "timestamp": "2026-02-06T05:29:42.703Z"
+    },
+    {
+      "type": "conflict",
+      "details": "File conflict detected: feat-050 vs feat-051 (index.html, index.css)",
+      "timestamp": "2026-02-06T05:29:42.703Z"
+    },
+    {
+      "type": "queued",
+      "details": "Added 2 features to queue",
+      "timestamp": "2026-02-06T05:30:12.703Z"
+    },
+    {
+      "type": "resource_limit",
+      "details": "CPU usage at 78% - approaching limit",
+      "timestamp": "2026-02-06T05:30:27.703Z"
+    },
+    {
+      "type": "resolved",
+      "details": "Conflict resolved with: pause",
+      "timestamp": "2026-02-06T05:30:42.704Z"
+    },
+    {
+      "type": "config_updated",
+      "details": "Config updated: max=3, cpu=80%, mem=4096MB",
+      "timestamp": "2026-02-06T05:30:42.704Z"
+    },
+    {
+      "type": "config_updated",
+      "details": "Config updated: max=3, cpu=80%, mem=4096MB",
+      "timestamp": "2026-02-06T05:30:42.705Z"
+    },
+    {
+      "type": "config_updated",
+      "details": "Config updated: max=3, cpu=80%, mem=4096MB",
+      "timestamp": "2026-02-06T05:30:42.705Z"
+    }
+  ],
+  "resources": {
+    "cpu": 46,
+    "memory": 1149,
+    "activeSlots": 2
+  }
+}

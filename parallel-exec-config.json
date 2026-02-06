@@ -1,0 +1,8 @@
+{
+  "maxConcurrent": 3,
+  "cpuLimitPercent": 80,
+  "memoryLimitMb": 4096,
+  "enableConflictDetection": true,
+  "autoResolveConflicts": false,
+  "isolationMode": "container"
+}

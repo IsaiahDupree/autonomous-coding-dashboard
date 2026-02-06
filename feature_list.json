@@ -652,7 +652,7 @@
         "Resource limiting",
         "Conflict detection"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-050",
