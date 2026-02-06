@@ -1385,7 +1385,7 @@
         "Categorize errors",
         "Alert on spikes"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-111",
