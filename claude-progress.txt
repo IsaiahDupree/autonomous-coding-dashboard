@@ -1006,3 +1006,36 @@ NEXT: feat-046 (next feature in queue)
 - Feature status: 46/120 passing (38.3% complete)
 
 NEXT: feat-047 (next feature in queue)
+
+- Implemented feat-047: Automatic Model Fallback Chain
+  * Created model-fallback.js dashboard widget with full UI
+  * Summary cards: Active Model, Auto-Switch status, Fallback Events count, Error count
+  * Fallback Order configuration with drag-and-drop reordering
+  * Enable/disable toggle per model in the chain
+  * Auto-switch on errors toggle with configurable settings
+  * Rate limit cooldown (minutes) and max retries per model inputs
+  * Model Status grid: shows each model's availability, rate-limit status, switch counts, errors
+  * Active model indicator with highlighted card
+  * Fallback Event Log: scrollable timeline with color-coded event types
+    - model_switch, rate_limit, error, session_success, config_updated
+  * Each log entry shows icon, timestamp, event type, and details
+  * Clear log button
+  * Refresh button for real-time updates (auto-refresh every 15s)
+  * Added backend API endpoints:
+    - GET /api/model-fallback/config - Get fallback chain configuration
+    - POST /api/model-fallback/config - Save/update fallback chain config
+    - GET /api/model-fallback/status - Get current model statuses (active, rate-limited, etc.)
+    - GET /api/model-fallback/log - Get fallback event log
+    - POST /api/model-fallback/log - Record fallback events (called by harness)
+  * Config stored in model-fallback-config.json, log in model-fallback-log.json
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles with mf- prefix namespace
+  * Tests passed: All 3 acceptance criteria verified (53 assertions)
+    - Define fallback order ✓
+    - Auto-switch on errors ✓
+    - Log fallback events ✓
+- Committed: "feat: Implement Automatic Model Fallback Chain (feat-047)"
+
+- Feature status: 47/120 passing (39.2% complete)
+
+NEXT: feat-048 (next feature in queue)

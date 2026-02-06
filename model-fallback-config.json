@@ -1,0 +1,37 @@
+{
+  "fallbackOrder": [
+    {
+      "model": "claude-opus-4-6",
+      "enabled": true,
+      "label": "Opus 4",
+      "priority": 1
+    },
+    {
+      "model": "claude-sonnet-4-6-20250205",
+      "enabled": true,
+      "label": "Sonnet 4.6",
+      "priority": 2
+    },
+    {
+      "model": "claude-sonnet-4-5-20250929",
+      "enabled": true,
+      "label": "Sonnet 4.5",
+      "priority": 3
+    },
+    {
+      "model": "sonnet",
+      "enabled": true,
+      "label": "Sonnet (latest)",
+      "priority": 4
+    },
+    {
+      "model": "haiku",
+      "enabled": true,
+      "label": "Haiku",
+      "priority": 5
+    }
+  ],
+  "autoSwitchEnabled": true,
+  "rateLimitCooldownMinutes": 30,
+  "maxRetriesPerModel": 3
+}

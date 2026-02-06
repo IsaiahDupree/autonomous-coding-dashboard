@@ -1,0 +1,59 @@
+[
+  {
+    "event": "model_switch",
+    "fromModel": "claude-opus-4-6",
+    "toModel": "claude-sonnet-4-6-20250205",
+    "reason": "rate_limit",
+    "timestamp": "2026-02-06T05:07:22.162Z"
+  },
+  {
+    "event": "rate_limit",
+    "fromModel": "claude-opus-4-6",
+    "details": "429 Too Many Requests",
+    "timestamp": "2026-02-06T05:07:23.104Z"
+  },
+  {
+    "event": "session_success",
+    "toModel": "claude-sonnet-4-6-20250205",
+    "details": "Session completed successfully with fallback model",
+    "timestamp": "2026-02-06T05:07:23.958Z"
+  },
+  {
+    "event": "config_updated",
+    "details": "Fallback order updated: Opus 4 → Sonnet 4.6 → Sonnet 4.5 → Sonnet (latest) → Haiku",
+    "timestamp": "2026-02-06T05:08:21.836Z"
+  },
+  {
+    "event": "model_switch",
+    "fromModel": "claude-opus-4-6",
+    "toModel": "claude-sonnet-4-6-20250205",
+    "reason": "rate_limit",
+    "details": "Auto-switched due to 429 rate limit",
+    "timestamp": "2026-02-06T05:08:23.658Z"
+  },
+  {
+    "event": "error",
+    "fromModel": "claude-opus-4-6",
+    "details": "Server error 500",
+    "timestamp": "2026-02-06T05:08:24.517Z"
+  },
+  {
+    "event": "rate_limit",
+    "fromModel": "claude-sonnet-4-6-20250205",
+    "details": "429 Too Many Requests",
+    "timestamp": "2026-02-06T05:08:24.517Z"
+  },
+  {
+    "event": "model_switch",
+    "fromModel": "claude-sonnet-4-6-20250205",
+    "toModel": "haiku",
+    "reason": "rate_limit",
+    "timestamp": "2026-02-06T05:08:24.518Z"
+  },
+  {
+    "event": "session_success",
+    "toModel": "haiku",
+    "details": "Session completed with fallback",
+    "timestamp": "2026-02-06T05:08:24.519Z"
+  }
+]

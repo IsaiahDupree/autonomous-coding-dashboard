@@ -5487,6 +5487,165 @@ app.get('/api/model-performance/overview', async (req, res) => {
 });
 
 // ============================================
+// MODEL FALLBACK CHAIN (feat-047)
+// ============================================
+
+const FALLBACK_CONFIG_FILE = path.join(__dirname, '..', '..', 'model-fallback-config.json');
+const FALLBACK_LOG_FILE = path.join(__dirname, '..', '..', 'model-fallback-log.json');
+
+function readFallbackConfig(): any {
+    try {
+        if (fs.existsSync(FALLBACK_CONFIG_FILE)) {
+            return JSON.parse(fs.readFileSync(FALLBACK_CONFIG_FILE, 'utf-8'));
+        }
+    } catch (e) {}
+    return {
+        fallbackOrder: [
+            { model: 'claude-opus-4-6', enabled: true, label: 'Opus 4', priority: 1 },
+            { model: 'claude-sonnet-4-6-20250205', enabled: true, label: 'Sonnet 4.6', priority: 2 },
+            { model: 'claude-sonnet-4-5-20250929', enabled: true, label: 'Sonnet 4.5', priority: 3 },
+            { model: 'sonnet', enabled: true, label: 'Sonnet (latest)', priority: 4 },
+            { model: 'haiku', enabled: true, label: 'Haiku', priority: 5 },
+        ],
+        autoSwitchEnabled: true,
+        rateLimitCooldownMinutes: 30,
+        maxRetriesPerModel: 3,
+    };
+}
+
+function writeFallbackConfig(config: any): void {
+    fs.writeFileSync(FALLBACK_CONFIG_FILE, JSON.stringify(config, null, 2));
+}
+
+function readFallbackLog(): any[] {
+    try {
+        if (fs.existsSync(FALLBACK_LOG_FILE)) {
+            return JSON.parse(fs.readFileSync(FALLBACK_LOG_FILE, 'utf-8'));
+        }
+    } catch (e) {}
+    return [];
+}
+
+function appendFallbackLog(event: any): void {
+    const log = readFallbackLog();
+    log.push({ ...event, timestamp: new Date().toISOString() });
+    // Keep last 500 events
+    const trimmed = log.slice(-500);
+    fs.writeFileSync(FALLBACK_LOG_FILE, JSON.stringify(trimmed, null, 2));
+}
+
+// GET /api/model-fallback/config - Get current fallback chain config
+app.get('/api/model-fallback/config', (req, res) => {
+    try {
+        const config = readFallbackConfig();
+        res.json({ success: true, data: config });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/model-fallback/config - Save fallback chain config
+app.post('/api/model-fallback/config', (req, res) => {
+    try {
+        const config = req.body;
+        if (!config || !Array.isArray(config.fallbackOrder)) {
+            return res.status(400).json({ success: false, error: 'Invalid config: fallbackOrder array required' });
+        }
+        writeFallbackConfig(config);
+        appendFallbackLog({
+            event: 'config_updated',
+            details: `Fallback order updated: ${config.fallbackOrder.filter((m: any) => m.enabled).map((m: any) => m.label).join(' → ')}`,
+        });
+        res.json({ success: true, data: config });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/model-fallback/log - Get fallback event log
+app.get('/api/model-fallback/log', (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 100;
+        const log = readFallbackLog();
+        const recent = log.slice(-limit).reverse();
+        res.json({ success: true, data: recent });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/model-fallback/log - Record a fallback event (called by harness)
+app.post('/api/model-fallback/log', (req, res) => {
+    try {
+        const { event, fromModel, toModel, reason, details, sessionId } = req.body;
+        if (!event) {
+            return res.status(400).json({ success: false, error: 'event field required' });
+        }
+        appendFallbackLog({ event, fromModel, toModel, reason, details, sessionId });
+        res.json({ success: true });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/model-fallback/status - Get current model status (which model is active, rate limits)
+app.get('/api/model-fallback/status', async (req, res) => {
+    try {
+        const config = readFallbackConfig();
+        const log = readFallbackLog();
+
+        // Determine current active model from recent log
+        const recentSwitch = [...log].reverse().find(
+            (e: any) => e.event === 'model_switch' || e.event === 'session_start'
+        );
+        const activeModel = recentSwitch?.toModel || config.fallbackOrder[0]?.model || 'unknown';
+
+        // Build per-model status from recent log
+        const modelStatus: Record<string, any> = {};
+        for (const entry of config.fallbackOrder) {
+            const modelLog = log.filter((e: any) => e.fromModel === entry.model || e.toModel === entry.model);
+            const lastRateLimit = [...modelLog].reverse().find((e: any) => e.event === 'rate_limit');
+            const lastSuccess = [...modelLog].reverse().find((e: any) => e.event === 'session_success' && e.toModel === entry.model);
+            const switchCount = modelLog.filter((e: any) => e.event === 'model_switch' && e.fromModel === entry.model).length;
+            const errorCount = modelLog.filter((e: any) => e.event === 'error' && (e.fromModel === entry.model || e.toModel === entry.model)).length;
+
+            let status = 'available';
+            if (lastRateLimit) {
+                const limitTime = new Date(lastRateLimit.timestamp).getTime();
+                const cooldown = config.rateLimitCooldownMinutes * 60 * 1000;
+                if (Date.now() - limitTime < cooldown) {
+                    status = 'rate_limited';
+                }
+            }
+            if (!entry.enabled) status = 'disabled';
+
+            modelStatus[entry.model] = {
+                ...entry,
+                status,
+                activeModel: entry.model === activeModel,
+                switchAwayCount: switchCount,
+                errorCount,
+                lastRateLimit: lastRateLimit?.timestamp || null,
+                lastSuccess: lastSuccess?.timestamp || null,
+            };
+        }
+
+        res.json({
+            success: true,
+            data: {
+                activeModel,
+                autoSwitchEnabled: config.autoSwitchEnabled,
+                models: modelStatus,
+                totalFallbackEvents: log.filter((e: any) => e.event === 'model_switch').length,
+                totalErrors: log.filter((e: any) => e.event === 'error').length,
+            },
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

@@ -628,7 +628,7 @@
         "Auto-switch on errors",
         "Log fallback events"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-048",
