@@ -1337,7 +1337,7 @@
         "Variable substitution",
         "Share templates"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-107",
