@@ -2489,7 +2489,61 @@ function initializeKeyboardShortcuts() {
  * Handle keyboard shortcuts
  * @param {KeyboardEvent} event
  */
+// Navigation targets for keyboard navigation (feat-053)
+const NAV_TARGETS = [
+    { id: 'metrics-section', label: 'Metrics Overview' },
+    { id: 'harness-control-panel', label: 'Harness Control' },
+    { id: 'features-table', label: 'Feature Status' },
+    { id: 'e2e-test-runner-widget', label: 'E2E Test Runner' },
+    { id: 'cost-forecasting-widget', label: 'Cost Forecasting' },
+    { id: 'deployment-tracker-widget', label: 'Deployment Tracker' },
+    { id: 'model-performance-widget', label: 'Model Performance' },
+    { id: 'session-replay-widget', label: 'Session Replay' },
+    { id: 'log-streaming-widget', label: 'Log Streaming' },
+];
+let currentNavIndex = -1;
+
+/**
+ * Navigate to a target section by index
+ */
+function navigateToTarget(index) {
+    if (index < 0 || index >= NAV_TARGETS.length) return;
+    const target = NAV_TARGETS[index];
+    const el = document.getElementById(target.id);
+    if (el) {
+        currentNavIndex = index;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Brief highlight effect
+        el.style.outline = '2px solid var(--color-primary)';
+        el.style.outlineOffset = '4px';
+        el.style.transition = 'outline-color 0.5s ease';
+        setTimeout(() => {
+            el.style.outlineColor = 'transparent';
+            setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 500);
+        }, 1000);
+        showInfo({
+            title: 'Navigation',
+            message: `${target.label} (${index + 1}/${NAV_TARGETS.length})`
+        });
+    }
+}
+
 function handleKeyboardShortcut(event) {
+    // Escape key - close modals (no modifier needed)
+    if (event.key === 'Escape') {
+        const helpModal = document.getElementById('help-modal');
+        if (helpModal && helpModal.style.display !== 'none') {
+            closeHelpModal();
+            return;
+        }
+        const settingsModal = document.getElementById('settings-modal');
+        if (settingsModal && settingsModal.style.display !== 'none') {
+            closeSettingsModal();
+            return;
+        }
+        return;
+    }
+
     // Check for Cmd (Mac) or Ctrl (Windows/Linux)
     const isModKey = event.metaKey || event.ctrlKey;
 
@@ -2537,7 +2591,35 @@ function handleKeyboardShortcut(event) {
         openHelpModal();
         return;
     }
+
+    // Cmd/Ctrl+ArrowDown - Navigate to next target (feat-053)
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        const nextIndex = currentNavIndex < NAV_TARGETS.length - 1 ? currentNavIndex + 1 : 0;
+        navigateToTarget(nextIndex);
+        return;
+    }
+
+    // Cmd/Ctrl+ArrowUp - Navigate to previous target (feat-053)
+    if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        const prevIndex = currentNavIndex > 0 ? currentNavIndex - 1 : NAV_TARGETS.length - 1;
+        navigateToTarget(prevIndex);
+        return;
+    }
+
+    // Cmd/Ctrl+1 through 9 - Jump to target by number (feat-053)
+    const num = parseInt(event.key);
+    if (num >= 1 && num <= 9 && num <= NAV_TARGETS.length) {
+        event.preventDefault();
+        navigateToTarget(num - 1);
+        return;
+    }
 }
+
+// Export navigation functions and data (feat-053)
+window.navigateToTarget = navigateToTarget;
+window.NAV_TARGETS = NAV_TARGETS;
 
 /**
  * Open help modal showing keyboard shortcuts

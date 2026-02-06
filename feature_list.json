@@ -701,7 +701,7 @@
         "Navigate targets",
         "Shortcut help modal"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-054",
