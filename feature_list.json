@@ -725,7 +725,7 @@
         "Display related code",
         "Edit inline"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-056",
