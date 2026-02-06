@@ -845,7 +845,7 @@
         "Modify paths and settings",
         "Preserve feature list"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-066",
