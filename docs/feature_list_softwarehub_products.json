@@ -1,0 +1,852 @@
+{
+  "project": "SoftwareHub Products Suite",
+  "description": "11 software products to be packaged, licensed, and sold via SoftwareHub (Portal28 clone) course platform",
+  "version": "1.0",
+  "created": "2026-02-05",
+  "total_features": 145,
+  "source_document": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/waitlist-lab/docs/DEVELOPER_HANDOFF.md",
+  "prds_location": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/waitlist-lab/docs/PRDs/",
+  "categories": {
+    "watermark-remover": "BlankLogo - Image/video watermark removal tool",
+    "auto-comment": "Multi-platform AI comment automation",
+    "auto-dm": "Multi-platform DM automation with AI responses",
+    "tts-studio": "Text-to-speech with voice cloning",
+    "kalodata-scraper": "TikTok Shop analytics scraper",
+    "competitor-research": "Multi-platform competitor monitoring",
+    "everreach-crm": "Contact management and coaching CRM",
+    "sora-video": "AI video generation orchestrator",
+    "licensing": "License key generation and validation",
+    "course-delivery": "Video course hosting and progress tracking",
+    "packaging": "Electron app building and distribution"
+  },
+  "products": [
+    {
+      "id": "watermark-remover",
+      "name": "Watermark Remover (BlankLogo)",
+      "status": "100%",
+      "codebase": "/Safari Automation/",
+      "prd": "PRD_WATERMARK_REMOVER.md",
+      "pricing": { "personal": 49, "pro": 99, "team": 249, "type": "one-time" }
+    },
+    {
+      "id": "auto-comment",
+      "name": "Auto Comment",
+      "status": "95%",
+      "codebase": "/Safari Automation/packages/unified-comments/",
+      "prd": "PRD_AUTO_COMMENT.md",
+      "pricing": { "starter": 29, "pro": 49, "agency": 149, "type": "monthly" }
+    },
+    {
+      "id": "auto-dm",
+      "name": "Auto DM",
+      "status": "80%",
+      "codebase": "/Safari Automation/packages/unified-dm/",
+      "prd": "PRD_AUTO_DM.md",
+      "pricing": { "starter": 49, "pro": 99, "agency": 249, "type": "monthly" }
+    },
+    {
+      "id": "tts-studio",
+      "name": "TTS Studio",
+      "status": "85%",
+      "codebase": "/Software/TTS/",
+      "prd": "PRD_TTS_STUDIO.md",
+      "pricing": { "starter": 29, "pro": 79, "studio": 199, "lifetime": 499, "type": "mixed" }
+    },
+    {
+      "id": "kalodata-scraper",
+      "name": "KaloData Scraper",
+      "status": "0%",
+      "codebase": "NEW",
+      "prd": "PRD_KALODATA_SCRAPER.md",
+      "pricing": { "starter": 49, "pro": 99, "enterprise": 249, "type": "monthly" }
+    },
+    {
+      "id": "competitor-research",
+      "name": "Competitor Research Tool",
+      "status": "0%",
+      "codebase": "NEW",
+      "prd": "PRD_COMPETITOR_RESEARCH.md",
+      "pricing": { "starter": 39, "pro": 79, "agency": 199, "type": "monthly" }
+    },
+    {
+      "id": "everreach-crm",
+      "name": "EverReach CRM",
+      "status": "100%",
+      "codebase": "/Safari Automation/packages/crm-core/",
+      "prd": "PRD_MASTER_SOFTWARE_INVENTORY.md",
+      "pricing": { "starter": 29, "pro": 79, "type": "monthly" }
+    }
+  ],
+  "features": [
+    {
+      "id": "WR-001",
+      "category": "watermark-remover",
+      "priority": 0,
+      "description": "Electron GUI wrapper for BlankLogo CLI",
+      "status": "ready",
+      "effort_days": 3,
+      "acceptance_criteria": ["Desktop app launches", "CLI commands exposed via UI", "File picker for images/videos"],
+      "passes": false
+    },
+    {
+      "id": "WR-002",
+      "category": "watermark-remover",
+      "priority": 0,
+      "description": "License key integration for Watermark Remover",
+      "status": "ready",
+      "effort_days": 1,
+      "acceptance_criteria": ["License key input on first launch", "Validation against SoftwareHub API", "Feature gating by tier"],
+      "passes": false
+    },
+    {
+      "id": "WR-003",
+      "category": "watermark-remover",
+      "priority": 1,
+      "description": "Watermark Remover course content (3 hours)",
+      "status": "ready",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons recorded", "Uploaded to Mux", "Course structure in SoftwareHub"],
+      "passes": false
+    },
+    {
+      "id": "WR-004",
+      "category": "watermark-remover",
+      "priority": 1,
+      "description": "Watermark Remover marketing materials",
+      "status": "ready",
+      "effort_days": 1,
+      "acceptance_criteria": ["Landing page copy", "Demo video", "Feature screenshots"],
+      "passes": false
+    },
+    {
+      "id": "WR-005",
+      "category": "watermark-remover",
+      "priority": 1,
+      "description": "Watermark Remover product listing in SoftwareHub",
+      "status": "ready",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "Stripe products created", "Download links configured"],
+      "passes": false
+    },
+    {
+      "id": "AC-001",
+      "category": "auto-comment",
+      "priority": 0,
+      "description": "End-to-end testing for all 4 platforms (IG, TikTok, Twitter, Threads)",
+      "status": "95%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Tests pass for each platform", "Rate limiting verified", "Error handling confirmed"],
+      "passes": false
+    },
+    {
+      "id": "AC-002",
+      "category": "auto-comment",
+      "priority": 0,
+      "description": "Load testing (100+ comments/hour)",
+      "status": "95%",
+      "effort_days": 1,
+      "acceptance_criteria": ["Sustained 100 comments/hour", "No account flags", "Metrics logged"],
+      "passes": false
+    },
+    {
+      "id": "AC-003",
+      "category": "auto-comment",
+      "priority": 1,
+      "description": "Edge case handling for Auto Comment",
+      "status": "95%",
+      "effort_days": 1,
+      "acceptance_criteria": ["Private accounts handled", "Deleted posts handled", "Rate limit recovery"],
+      "passes": false
+    },
+    {
+      "id": "AC-004",
+      "category": "auto-comment",
+      "priority": 2,
+      "description": "Web dashboard UI for Auto Comment",
+      "status": "optional",
+      "effort_days": 4,
+      "acceptance_criteria": ["Campaign management", "Analytics dashboard", "Account connection"],
+      "passes": false
+    },
+    {
+      "id": "AC-005",
+      "category": "auto-comment",
+      "priority": 1,
+      "description": "Auto Comment license integration",
+      "status": "ready",
+      "effort_days": 1,
+      "acceptance_criteria": ["License validation", "Tier-based limits", "Subscription check"],
+      "passes": false
+    },
+    {
+      "id": "AC-006",
+      "category": "auto-comment",
+      "priority": 1,
+      "description": "Auto Comment course content",
+      "status": "ready",
+      "effort_days": 2,
+      "acceptance_criteria": ["Setup tutorial", "Platform guides", "Best practices"],
+      "passes": false
+    },
+    {
+      "id": "AC-007",
+      "category": "auto-comment",
+      "priority": 1,
+      "description": "Auto Comment product listing in SoftwareHub",
+      "status": "ready",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "Subscription products in Stripe", "Feature gating"],
+      "passes": false
+    },
+    {
+      "id": "DM-001",
+      "category": "auto-dm",
+      "priority": 0,
+      "description": "Multi-account session handling for Auto DM",
+      "status": "80%",
+      "effort_days": 3,
+      "acceptance_criteria": ["Switch between accounts", "Session persistence", "Concurrent sessions"],
+      "passes": false
+    },
+    {
+      "id": "DM-002",
+      "category": "auto-dm",
+      "priority": 0,
+      "description": "Improved conversation threading",
+      "status": "80%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Track conversation history", "Context-aware responses", "Thread management"],
+      "passes": false
+    },
+    {
+      "id": "DM-003",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "Image/media handling in DMs",
+      "status": "80%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Send images", "Receive and process images", "Media storage"],
+      "passes": false
+    },
+    {
+      "id": "DM-004",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "Scheduled nurture sequences",
+      "status": "80%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Create sequences", "Timed message delivery", "Sequence analytics"],
+      "passes": false
+    },
+    {
+      "id": "DM-005",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "Advanced lead scoring",
+      "status": "80%",
+      "effort_days": 1,
+      "acceptance_criteria": ["Score based on engagement", "Qualify leads", "CRM sync"],
+      "passes": false
+    },
+    {
+      "id": "DM-006",
+      "category": "auto-dm",
+      "priority": 0,
+      "description": "Error recovery system for Auto DM",
+      "status": "80%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Retry failed messages", "Session recovery", "Alert on failures"],
+      "passes": false
+    },
+    {
+      "id": "DM-007",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "High volume testing (50+ DMs/day)",
+      "status": "80%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Sustained 50 DMs/day", "No account flags", "Performance metrics"],
+      "passes": false
+    },
+    {
+      "id": "DM-008",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "Auto DM license integration",
+      "status": "ready",
+      "effort_days": 1,
+      "acceptance_criteria": ["License validation", "Tier-based limits", "Subscription check"],
+      "passes": false
+    },
+    {
+      "id": "DM-009",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "Auto DM course content",
+      "status": "ready",
+      "effort_days": 2,
+      "acceptance_criteria": ["Setup tutorial", "Lead nurturing guide", "Advanced strategies"],
+      "passes": false
+    },
+    {
+      "id": "DM-010",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "Auto DM product listing in SoftwareHub",
+      "status": "ready",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "Subscription products in Stripe", "Feature gating"],
+      "passes": false
+    },
+    {
+      "id": "TTS-001",
+      "category": "tts-studio",
+      "priority": 0,
+      "description": "Electron app shell for TTS Studio",
+      "status": "85%",
+      "effort_days": 2,
+      "acceptance_criteria": ["App launches", "Python backend integration", "IPC communication"],
+      "passes": false
+    },
+    {
+      "id": "TTS-002",
+      "category": "tts-studio",
+      "priority": 0,
+      "description": "Voice library interface",
+      "status": "85%",
+      "effort_days": 1,
+      "acceptance_criteria": ["List available voices", "Voice preview", "Voice cloning upload"],
+      "passes": false
+    },
+    {
+      "id": "TTS-003",
+      "category": "tts-studio",
+      "priority": 0,
+      "description": "Script editor component",
+      "status": "85%",
+      "effort_days": 1,
+      "acceptance_criteria": ["Text input", "SSML support", "Pronunciation hints"],
+      "passes": false
+    },
+    {
+      "id": "TTS-004",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "Export functionality (MP3, AAC)",
+      "status": "85%",
+      "effort_days": 1,
+      "acceptance_criteria": ["Export to MP3", "Export to AAC", "Quality settings"],
+      "passes": false
+    },
+    {
+      "id": "TTS-005",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "Project/history management",
+      "status": "85%",
+      "effort_days": 1,
+      "acceptance_criteria": ["Save projects", "History list", "Re-generate past audio"],
+      "passes": false
+    },
+    {
+      "id": "TTS-006",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "TTS Studio license integration",
+      "status": "ready",
+      "effort_days": 1,
+      "acceptance_criteria": ["License validation", "Tier-based limits", "Lifetime vs subscription"],
+      "passes": false
+    },
+    {
+      "id": "TTS-007",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "TTS Studio course content",
+      "status": "ready",
+      "effort_days": 2,
+      "acceptance_criteria": ["Voice cloning tutorial", "Script optimization", "Use cases"],
+      "passes": false
+    },
+    {
+      "id": "TTS-008",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "TTS Studio product listing in SoftwareHub",
+      "status": "ready",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "Mixed pricing in Stripe", "Download links"],
+      "passes": false
+    },
+    {
+      "id": "KD-001",
+      "category": "kalodata-scraper",
+      "priority": 0,
+      "description": "KaloData.com data extraction via Playwright",
+      "status": "0%",
+      "effort_days": 5,
+      "acceptance_criteria": ["Login to KaloData", "Navigate product pages", "Extract data fields"],
+      "passes": false
+    },
+    {
+      "id": "KD-002",
+      "category": "kalodata-scraper",
+      "priority": 0,
+      "description": "Product performance metrics scraping",
+      "status": "0%",
+      "effort_days": 3,
+      "acceptance_criteria": ["Views, likes, shares", "Sales estimates", "Revenue data"],
+      "passes": false
+    },
+    {
+      "id": "KD-003",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "Trending product discovery",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Trending page scraping", "Category filtering", "Sort by performance"],
+      "passes": false
+    },
+    {
+      "id": "KD-004",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "Historical data tracking",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Store daily snapshots", "Trend visualization", "Compare periods"],
+      "passes": false
+    },
+    {
+      "id": "KD-005",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "Export to CSV/JSON",
+      "status": "0%",
+      "effort_days": 1,
+      "acceptance_criteria": ["CSV export", "JSON export", "Scheduled exports"],
+      "passes": false
+    },
+    {
+      "id": "KD-006",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "Supabase storage integration",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Store scraped data", "User data isolation", "Query API"],
+      "passes": false
+    },
+    {
+      "id": "KD-007",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "KaloData Scraper license integration",
+      "status": "0%",
+      "effort_days": 1,
+      "acceptance_criteria": ["License validation", "Tier-based limits", "API key"],
+      "passes": false
+    },
+    {
+      "id": "KD-008",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "KaloData Scraper course content",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Product research tutorial", "TikTok Shop strategy", "Data analysis"],
+      "passes": false
+    },
+    {
+      "id": "KD-009",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "KaloData Scraper product listing in SoftwareHub",
+      "status": "0%",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "Subscription products in Stripe", "Feature gating"],
+      "passes": false
+    },
+    {
+      "id": "CR-001",
+      "category": "competitor-research",
+      "priority": 0,
+      "description": "Profile tracking across IG, TikTok, Twitter, YouTube",
+      "status": "0%",
+      "effort_days": 6,
+      "acceptance_criteria": ["Add profiles to watch", "Scrape profile data", "Store history"],
+      "passes": false
+    },
+    {
+      "id": "CR-002",
+      "category": "competitor-research",
+      "priority": 0,
+      "description": "Content performance analysis",
+      "status": "0%",
+      "effort_days": 4,
+      "acceptance_criteria": ["Track post metrics", "Engagement rates", "Growth trends"],
+      "passes": false
+    },
+    {
+      "id": "CR-003",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Posting pattern detection",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Post timing analysis", "Frequency detection", "Best times report"],
+      "passes": false
+    },
+    {
+      "id": "CR-004",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Hashtag/keyword monitoring",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Track hashtag usage", "Keyword alerts", "Trend detection"],
+      "passes": false
+    },
+    {
+      "id": "CR-005",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Automated competitor reports",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Weekly reports", "PDF export", "Email delivery"],
+      "passes": false
+    },
+    {
+      "id": "CR-006",
+      "category": "competitor-research",
+      "priority": 2,
+      "description": "Alert system for competitor activity",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["New post alerts", "Viral content alerts", "Slack/email notifications"],
+      "passes": false
+    },
+    {
+      "id": "CR-007",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Competitor Research license integration",
+      "status": "0%",
+      "effort_days": 1,
+      "acceptance_criteria": ["License validation", "Tier-based profile limits", "Subscription check"],
+      "passes": false
+    },
+    {
+      "id": "CR-008",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Competitor Research course content",
+      "status": "0%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Research methodology", "Analysis techniques", "Strategy development"],
+      "passes": false
+    },
+    {
+      "id": "CR-009",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Competitor Research product listing in SoftwareHub",
+      "status": "0%",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "Subscription products in Stripe", "Feature gating"],
+      "passes": false
+    },
+    {
+      "id": "CRM-001",
+      "category": "everreach-crm",
+      "priority": 0,
+      "description": "Host EverReach CRM as SaaS on SoftwareHub",
+      "status": "100%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Deploy to Vercel/Railway", "Database provisioning", "Domain setup"],
+      "passes": false
+    },
+    {
+      "id": "CRM-002",
+      "category": "everreach-crm",
+      "priority": 0,
+      "description": "User authentication integration with SoftwareHub",
+      "status": "100%",
+      "effort_days": 1,
+      "acceptance_criteria": ["SSO from SoftwareHub", "Token-based auth", "User sync"],
+      "passes": false
+    },
+    {
+      "id": "CRM-003",
+      "category": "everreach-crm",
+      "priority": 1,
+      "description": "Multi-tenant data isolation for CRM",
+      "status": "100%",
+      "effort_days": 1,
+      "acceptance_criteria": ["RLS policies", "Org-based separation", "Data migration"],
+      "passes": false
+    },
+    {
+      "id": "CRM-004",
+      "category": "everreach-crm",
+      "priority": 1,
+      "description": "EverReach CRM course content",
+      "status": "100%",
+      "effort_days": 2,
+      "acceptance_criteria": ["CRM setup tutorial", "Lead management", "Automation workflows"],
+      "passes": false
+    },
+    {
+      "id": "CRM-005",
+      "category": "everreach-crm",
+      "priority": 1,
+      "description": "EverReach CRM product listing in SoftwareHub",
+      "status": "100%",
+      "effort_days": 0.5,
+      "acceptance_criteria": ["Product in database", "SaaS subscription in Stripe", "Access provisioning"],
+      "passes": false
+    },
+    {
+      "id": "SORA-001",
+      "category": "sora-video",
+      "priority": 1,
+      "description": "Desktop app UI wrapper for Sora Video",
+      "status": "70%",
+      "effort_days": 4,
+      "acceptance_criteria": ["Electron app", "Project management", "Queue visualization"],
+      "passes": false
+    },
+    {
+      "id": "SORA-002",
+      "category": "sora-video",
+      "priority": 1,
+      "description": "Preview and export options",
+      "status": "70%",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video preview", "Export settings", "Format selection"],
+      "passes": false
+    },
+    {
+      "id": "SORA-003",
+      "category": "sora-video",
+      "priority": 1,
+      "description": "Sora Video license integration",
+      "status": "70%",
+      "effort_days": 1,
+      "acceptance_criteria": ["License validation", "Credit-based usage", "Subscription check"],
+      "passes": false
+    },
+    {
+      "id": "LIC-001",
+      "category": "licensing",
+      "priority": 0,
+      "description": "License key generation system",
+      "status": "exists",
+      "effort_days": 2,
+      "acceptance_criteria": ["PRODUCT-XXXX-XXXX-XXXX format", "Unique keys", "Stored in database"],
+      "passes": false
+    },
+    {
+      "id": "LIC-002",
+      "category": "licensing",
+      "priority": 0,
+      "description": "License validation API endpoint",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["POST /api/license/validate", "Returns tier and status", "Rate limited"],
+      "passes": false
+    },
+    {
+      "id": "LIC-003",
+      "category": "licensing",
+      "priority": 0,
+      "description": "License activation flow",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Activate on purchase", "Machine binding (optional)", "Deactivation support"],
+      "passes": false
+    },
+    {
+      "id": "LIC-004",
+      "category": "licensing",
+      "priority": 1,
+      "description": "License management dashboard for users",
+      "status": "exists",
+      "effort_days": 2,
+      "acceptance_criteria": ["View active licenses", "Download software", "Manage devices"],
+      "passes": false
+    },
+    {
+      "id": "LIC-005",
+      "category": "licensing",
+      "priority": 1,
+      "description": "Admin license management",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["View all licenses", "Revoke licenses", "Generate manual keys"],
+      "passes": false
+    },
+    {
+      "id": "LIC-006",
+      "category": "licensing",
+      "priority": 2,
+      "description": "License expiration handling",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Expiration dates for subscriptions", "Grace period", "Renewal reminders"],
+      "passes": false
+    },
+    {
+      "id": "COURSE-001",
+      "category": "course-delivery",
+      "priority": 0,
+      "description": "Mux video integration for courses",
+      "status": "exists",
+      "effort_days": 2,
+      "acceptance_criteria": ["Upload videos to Mux", "Secure playback", "Adaptive streaming"],
+      "passes": false
+    },
+    {
+      "id": "COURSE-002",
+      "category": "course-delivery",
+      "priority": 0,
+      "description": "Course structure management",
+      "status": "exists",
+      "effort_days": 2,
+      "acceptance_criteria": ["Modules and lessons", "Ordering", "Prerequisites"],
+      "passes": false
+    },
+    {
+      "id": "COURSE-003",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "Progress tracking per user",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Mark lessons complete", "Resume from last watched", "Completion percentage"],
+      "passes": false
+    },
+    {
+      "id": "COURSE-004",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "Course completion certificates",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Generate PDF certificate", "Unique certificate ID", "Verification link"],
+      "passes": false
+    },
+    {
+      "id": "COURSE-005",
+      "category": "course-delivery",
+      "priority": 2,
+      "description": "Course comments and Q&A",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Comment on lessons", "Q&A threads", "Instructor replies"],
+      "passes": false
+    },
+    {
+      "id": "PKG-001",
+      "category": "packaging",
+      "priority": 0,
+      "description": "Electron build pipeline for desktop apps",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Build for macOS", "Build for Windows", "Code signing"],
+      "passes": false
+    },
+    {
+      "id": "PKG-002",
+      "category": "packaging",
+      "priority": 0,
+      "description": "Auto-update system for desktop apps",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Check for updates", "Download and install", "Version tracking"],
+      "passes": false
+    },
+    {
+      "id": "PKG-003",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Download delivery system",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Secure download links", "Version management", "Download tracking"],
+      "passes": false
+    },
+    {
+      "id": "PKG-004",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Installation documentation per product",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["macOS install guide", "Windows install guide", "Troubleshooting"],
+      "passes": false
+    },
+    {
+      "id": "INT-001",
+      "category": "licensing",
+      "priority": 1,
+      "description": "Stripe webhook for license provisioning",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Create license on payment", "Handle subscription events", "Idempotent"],
+      "passes": false
+    },
+    {
+      "id": "INT-002",
+      "category": "licensing",
+      "priority": 1,
+      "description": "Email notifications for purchases",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Welcome email with license", "Download instructions", "Course access info"],
+      "passes": false
+    },
+    {
+      "id": "INT-003",
+      "category": "course-delivery",
+      "priority": 2,
+      "description": "Drip course content by schedule",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Unlock modules over time", "Configurable schedule", "Notification emails"],
+      "passes": false
+    },
+    {
+      "id": "MKT-001",
+      "category": "licensing",
+      "priority": 2,
+      "description": "Product bundle discounts",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Bundle multiple products", "Discount pricing", "Single checkout"],
+      "passes": false
+    },
+    {
+      "id": "MKT-002",
+      "category": "licensing",
+      "priority": 2,
+      "description": "Coupon code system",
+      "status": "exists",
+      "effort_days": 1,
+      "acceptance_criteria": ["Create coupons", "Percentage/fixed discounts", "Usage limits"],
+      "passes": false
+    },
+    {
+      "id": "MKT-003",
+      "category": "licensing",
+      "priority": 2,
+      "description": "Affiliate tracking for products",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Affiliate links", "Commission tracking", "Payout reports"],
+      "passes": false
+    }
+  ]
+}

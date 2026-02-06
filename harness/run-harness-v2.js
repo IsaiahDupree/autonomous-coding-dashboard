@@ -33,11 +33,11 @@ let ADAPTIVE_DELAY = true; // Dynamically adjust delay based on rate limits
 
 // Model fallback configuration
 // Use model names as recognized by the Claude CLI
-// Note: Sonnet has separate rate limit, so prioritize other models when Sonnet is exhausted
+// Prioritize Sonnet 4.5 for best quality
 const AVAILABLE_MODELS = [
-  'haiku',          // Primary - Claude Haiku (faster, uses "all models" quota)
-  'opus',           // Fallback 1 - Claude Opus (uses "all models" quota)
-  'sonnet',         // Fallback 2 - Claude Sonnet (has separate quota, often exhausted first)
+  'claude-sonnet-4-5-20250929',  // Primary - Claude Sonnet 4.5 (best quality)
+  'sonnet',                       // Fallback 1 - Claude Sonnet (latest)
+  'haiku',                        // Fallback 2 - Claude Haiku (faster, lower cost)
 ];
 let currentModelIndex = 0;
 let modelRateLimitStatus = {}; // Track rate limit status per model

@@ -8,38 +8,38 @@
   },
   "modelConfig": {
     "availableModels": {
-      "opus": { "tier": 1, "costPer1kTokens": 0.015, "description": "Most capable, complex reasoning" },
-      "sonnet": { "tier": 2, "costPer1kTokens": 0.003, "description": "Balanced capability and cost" },
-      "haiku": { "tier": 3, "costPer1kTokens": 0.00025, "description": "Fast, efficient, low cost" }
+      "claude-sonnet-4-5-20250929": { "tier": 1, "costPer1kTokens": 0.003, "description": "Sonnet 4.5 - Best quality, recommended" },
+      "sonnet": { "tier": 2, "costPer1kTokens": 0.003, "description": "Sonnet latest - Balanced capability" },
+      "haiku": { "tier": 3, "costPer1kTokens": 0.00025, "description": "Haiku - Fast, efficient, low cost" }
     },
     "complexityLevels": {
       "critical": {
         "description": "Mission-critical architecture, complex integrations, security",
-        "models": ["opus", "sonnet"],
+        "models": ["claude-sonnet-4-5-20250929"],
         "fallback": "sonnet",
         "maxRetries": 5
       },
       "high": {
         "description": "New features, API integrations, database changes",
-        "models": ["sonnet", "opus"],
-        "fallback": "haiku",
+        "models": ["claude-sonnet-4-5-20250929"],
+        "fallback": "sonnet",
         "maxRetries": 3
       },
       "medium": {
         "description": "Standard feature implementation, refactoring",
-        "models": ["sonnet", "haiku"],
-        "fallback": "haiku",
+        "models": ["claude-sonnet-4-5-20250929"],
+        "fallback": "sonnet",
         "maxRetries": 3
       },
       "low": {
         "description": "Bug fixes, simple changes, documentation",
-        "models": ["haiku"],
+        "models": ["claude-sonnet-4-5-20250929"],
         "fallback": "haiku",
         "maxRetries": 2
       },
       "trivial": {
         "description": "Comments, formatting, typos",
-        "models": ["haiku"],
+        "models": ["claude-sonnet-4-5-20250929", "haiku"],
         "fallback": "haiku",
         "maxRetries": 1
       }
@@ -196,6 +196,20 @@
       "focus": "Video Generation Platform with Voice Cloning, SFX, and Static Ads"
     },
     {
+      "id": "remotion-integration",
+      "name": "Remotion Integration APIs",
+      "path": "/Users/isaiahdupree/Documents/Software/Remotion",
+      "prompt": "prompts/remotion-integration.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/UNIFIED_PLATFORM_ARCHITECTURE.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/Remotion/feature_list.json",
+      "priority": 19,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "critical",
+      "focus": "REST API Gateway + Veo 3.1 + Nano Banana + Before/After Template (VEO-*, NANO-*, TEMPLATE-BA-*, API-*)",
+      "notes": "Central video engine APIs for Content Factory, PCT, MediaPoster integration"
+    },
+    {
       "id": "everreach-expo",
       "name": "EverReach Expo CRM",
       "path": "/Users/isaiahdupree/Documents/Software/everreach_expo/rork-crm-superwall",
@@ -233,6 +247,98 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "YouTube Shorts to Long-Form Video Linking Tool"
+    },
+    {
+      "id": "softwarehub",
+      "name": "SoftwareHub",
+      "path": "/Users/isaiahdupree/Documents/Software/SoftwareHub",
+      "prompt": "prompts/softwarehub.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/SoftwareHub/docs/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/SoftwareHub/feature_list.json",
+      "priority": 15,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Course & Software Distribution Platform with Licensing - Cloned from Portal28"
+    },
+    {
+      "id": "programmatic-ads",
+      "name": "Programmatic Creative Testing",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "prompt": "prompts/programmatic-ads.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/PRD-Programmatic-Creative-Testing.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/feature_list_programmatic_ads.json",
+      "priority": 20,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Systematic Facebook Ad Testing - USPs, Angles, Hooks, Templates, Meta API Integration",
+      "notes": "Can integrate with WaitlistLab Ads Autopilot or Remotion for video ads"
+    },
+    {
+      "id": "content-factory",
+      "name": "Content Factory",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "prompt": "prompts/content-factory.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/PRD-Content-Factory.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/feature_list_content_factory.json",
+      "priority": 21,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "AI Content Generation with Veo 3 + Nano Banana for TikTok Shop & Social Commerce",
+      "notes": "Google Veo 3.1 video generation, Nano Banana image generation, 5 awareness levels, $5 micro-testing"
+    },
+    {
+      "id": "lead-form-management",
+      "name": "Lead Form Management",
+      "path": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp",
+      "prompt": "prompts/lead-form-management.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/PRD_LEAD_FORM_MANAGEMENT.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/feature_list_lead_forms.json",
+      "priority": 22,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "Reliable Meta Lead Form Creation - Preflight Validation, Error Handling, Form Reuse",
+      "notes": "Extension to WaitlistLab Ads Autopilot - fixes lead form creation failures"
+    },
+    {
+      "id": "cross-system-integration",
+      "name": "Cross-System Integration",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "prompt": "prompts/cross-system-integration.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/UNIFIED_PLATFORM_ARCHITECTURE.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/feature_list_cross_system_integration.json",
+      "priority": 23,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "critical",
+      "focus": "Shared Auth + Database + Client SDKs + Meta Hub + Publishing + Analytics (250 features)",
+      "notes": "Foundation for all inter-project integrations - AUTH-*, DB-*, RC-*, MH-*, PUB-*, AN-*, AST-*, GW-*"
+    },
+    {
+      "id": "softwarehub-products",
+      "name": "SoftwareHub Products Suite",
+      "path": "/Users/isaiahdupree/Documents/Software/SoftwareHub",
+      "prompt": "prompts/softwarehub-products.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/waitlist-lab/docs/DEVELOPER_HANDOFF.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/feature_list_softwarehub_products.json",
+      "priority": 24,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Package 11 products: Watermark Remover, Auto Comment, Auto DM, TTS Studio, KaloData, Competitor Research, EverReach CRM",
+      "notes": "Products packaged into SoftwareHub (Portal28 clone) with licensing, courses, Electron apps",
+      "relatedPRDs": [
+        "PRD_WATERMARK_REMOVER.md",
+        "PRD_AUTO_COMMENT.md",
+        "PRD_AUTO_DM.md",
+        "PRD_TTS_STUDIO.md",
+        "PRD_KALODATA_SCRAPER.md",
+        "PRD_COMPETITOR_RESEARCH.md",
+        "PRD_COURSE_PLATFORM_LICENSING.md"
+      ]
     }
   ]
 }

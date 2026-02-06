@@ -1,0 +1,529 @@
+{
+  "project": "Content Factory",
+  "description": "AI-powered content generation pipeline using Google Veo 3 + Nano Banana for social commerce (TikTok Shop, Instagram, Facebook)",
+  "version": "1.0",
+  "created": "2026-02-05",
+  "total_features": 65,
+  "features": [
+    {
+      "id": "CF-001",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_product_dossiers table migration",
+      "acceptance_criteria": ["Table with name, slug, links, benefits, pain_points, proof_types", "Category and niche fields", "Status field", "Proper indexes"],
+      "passes": false
+    },
+    {
+      "id": "CF-002",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_generated_images table migration",
+      "acceptance_criteria": ["FK to dossiers", "Type field (before/after/product)", "Prompt and model tracking", "Status workflow"],
+      "passes": false
+    },
+    {
+      "id": "CF-003",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_generated_videos table migration",
+      "acceptance_criteria": ["FK to dossiers and images", "Type field", "Duration and aspect ratio", "Veo model tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-004",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_scripts table with 5 awareness levels",
+      "acceptance_criteria": ["FK to dossiers", "awareness_level 1-5", "market_sophistication 1-5", "Hook/body/CTA structure"],
+      "passes": false
+    },
+    {
+      "id": "CF-005",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_assembled_content table migration",
+      "acceptance_criteria": ["References to scripts, videos, images", "Platform targeting", "Compliance disclosure fields"],
+      "passes": false
+    },
+    {
+      "id": "CF-006",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_published_content table migration",
+      "acceptance_criteria": ["FK to assembled content", "Platform post IDs", "Promotion budget tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-007",
+      "category": "database",
+      "priority": 1,
+      "description": "Create cf_performance_metrics table migration",
+      "acceptance_criteria": ["Daily metrics by published content", "Views, likes, comments, shares, saves", "Conversion metrics if trackable", "Calculated rates"],
+      "passes": false
+    },
+    {
+      "id": "CF-008",
+      "category": "database",
+      "priority": 2,
+      "description": "Create cf_angle_tests table migration",
+      "acceptance_criteria": ["Test definition with hypothesis", "Budget per variant", "Winner tracking", "Status workflow"],
+      "passes": false
+    },
+    {
+      "id": "CF-009",
+      "category": "database",
+      "priority": 2,
+      "description": "Create cf_scoring_config table with default weights",
+      "acceptance_criteria": ["Configurable weights for each metric", "Min thresholds for valid tests", "Default configuration seeded"],
+      "passes": false
+    },
+    {
+      "id": "CF-010",
+      "category": "api",
+      "priority": 1,
+      "description": "Create TypeScript types for Content Factory entities",
+      "acceptance_criteria": ["ProductDossier interface", "GeneratedImage interface", "GeneratedVideo interface", "Script interface", "All enums defined"],
+      "passes": false
+    },
+    {
+      "id": "CF-011",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement GET/POST /api/cf/dossiers - product dossier CRUD",
+      "acceptance_criteria": ["List all dossiers with pagination", "Create dossier with validation", "Zod schema validation"],
+      "passes": false
+    },
+    {
+      "id": "CF-012",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement GET/PUT /api/cf/dossiers/:id - dossier detail and update",
+      "acceptance_criteria": ["Get dossier with all generated content", "Update dossier fields", "404 handling"],
+      "passes": false
+    },
+    {
+      "id": "CF-013",
+      "category": "integration",
+      "priority": 1,
+      "description": "Integrate Google Gemini API for Nano Banana image generation",
+      "acceptance_criteria": ["API key configuration", "Image generation endpoint", "Error handling", "Rate limiting"],
+      "passes": false
+    },
+    {
+      "id": "CF-014",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement before image generation with Nano Banana",
+      "acceptance_criteria": ["Prompt template for 'before' scenes", "Problem emphasis in lighting/environment", "Consistent subject identity", "3-5 variants per generation"],
+      "passes": false
+    },
+    {
+      "id": "CF-015",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement after image generation with Nano Banana",
+      "acceptance_criteria": ["Prompt template for 'after' scenes", "Improved lighting/environment", "Matches before scene composition", "Product visible naturally"],
+      "passes": false
+    },
+    {
+      "id": "CF-016",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/cf/generate/images - batch image generation",
+      "acceptance_criteria": ["Generate before/after pairs", "Track generation status", "Store URLs when complete", "Handle failures gracefully"],
+      "passes": false
+    },
+    {
+      "id": "CF-017",
+      "category": "integration",
+      "priority": 1,
+      "description": "Integrate Google Veo 3.1 API for video generation",
+      "acceptance_criteria": ["API configuration", "Photo-to-video endpoint", "Aspect ratio support (9:16, 1:1)", "Generation status polling"],
+      "passes": false
+    },
+    {
+      "id": "CF-018",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement before/after reveal video generation",
+      "acceptance_criteria": ["8-second vertical video", "Whip-pan transition", "Handheld phone aesthetic", "Ambient sound"],
+      "passes": false
+    },
+    {
+      "id": "CF-019",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/cf/generate/videos - video generation endpoint",
+      "acceptance_criteria": ["Generate from source images", "Track processing status", "Store video URLs", "Thumbnail extraction"],
+      "passes": false
+    },
+    {
+      "id": "CF-020",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement script generation for Unaware level (POV/meme style)",
+      "acceptance_criteria": ["Relatable scenario hook", "No early product mention", "Soft CTA", "15-second target"],
+      "passes": false
+    },
+    {
+      "id": "CF-021",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement script generation for Problem Aware level",
+      "acceptance_criteria": ["Pain point hook", "Agitation of problem", "Solution tease", "'Here's what I found' CTA"],
+      "passes": false
+    },
+    {
+      "id": "CF-022",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement script generation for Solution Aware level",
+      "acceptance_criteria": ["Comparison hook", "Quick comparison", "Proof element", "'This is what I use' CTA"],
+      "passes": false
+    },
+    {
+      "id": "CF-023",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement script generation for Product Aware level",
+      "acceptance_criteria": ["Review-style hook", "Honest pros/cons", "Result demonstration", "'If you've been curious' CTA"],
+      "passes": false
+    },
+    {
+      "id": "CF-024",
+      "category": "generation",
+      "priority": 1,
+      "description": "Implement script generation for Most Aware level",
+      "acceptance_criteria": ["Urgency hook", "Limited offer mention", "Risk reversal", "Direct 'Get it now' CTA"],
+      "passes": false
+    },
+    {
+      "id": "CF-025",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/cf/generate/scripts - generate all 5 awareness levels",
+      "acceptance_criteria": ["Generate scripts for all levels in one call", "Market sophistication parameter", "Store all scripts with metadata"],
+      "passes": false
+    },
+    {
+      "id": "CF-026",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/cf/generate/all - full pipeline generation",
+      "acceptance_criteria": ["Generate images, videos, and scripts for dossier", "Progress tracking", "Parallel where possible", "Summary of generated content"],
+      "passes": false
+    },
+    {
+      "id": "CF-027",
+      "category": "ui",
+      "priority": 1,
+      "description": "Create product dossier form component",
+      "acceptance_criteria": ["All dossier fields", "Benefits array editor", "Pain points array editor", "Proof types selector", "Category/niche dropdowns"],
+      "passes": false
+    },
+    {
+      "id": "CF-028",
+      "category": "ui",
+      "priority": 1,
+      "description": "Create dossier list page",
+      "acceptance_criteria": ["Grid of dossier cards", "Status badges", "Quick stats (images, videos, scripts count)", "Create new button"],
+      "passes": false
+    },
+    {
+      "id": "CF-029",
+      "category": "ui",
+      "priority": 1,
+      "description": "Create dossier detail page with generated content",
+      "acceptance_criteria": ["Dossier info header", "Tabs for Images/Videos/Scripts", "Generation status indicators", "Generate buttons"],
+      "passes": false
+    },
+    {
+      "id": "CF-030",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create image gallery component with before/after pairing",
+      "acceptance_criteria": ["Grid of image pairs", "Before/after toggle view", "Select for assembly", "Regenerate option"],
+      "passes": false
+    },
+    {
+      "id": "CF-031",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create video preview component",
+      "acceptance_criteria": ["Video player with controls", "Thumbnail display", "Duration indicator", "Select for assembly"],
+      "passes": false
+    },
+    {
+      "id": "CF-032",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create script cards with awareness level indicators",
+      "acceptance_criteria": ["Color-coded by awareness level", "Hook/body/CTA preview", "Word count and duration", "Edit and regenerate options"],
+      "passes": false
+    },
+    {
+      "id": "CF-033",
+      "category": "assembly",
+      "priority": 2,
+      "description": "Create content assembly UI - component selector",
+      "acceptance_criteria": ["Select script", "Select videos to include", "Select images for overlays", "Preview combination"],
+      "passes": false
+    },
+    {
+      "id": "CF-034",
+      "category": "assembly",
+      "priority": 2,
+      "description": "Implement caption generation from scripts",
+      "acceptance_criteria": ["Auto-caption from script text", "Timing sync with video", "Style options (font, position)", "Manual edit capability"],
+      "passes": false
+    },
+    {
+      "id": "CF-035",
+      "category": "assembly",
+      "priority": 2,
+      "description": "Implement hashtag generation based on content",
+      "acceptance_criteria": ["AI-suggested hashtags", "Category-appropriate tags", "Trending tag suggestions", "Manual override"],
+      "passes": false
+    },
+    {
+      "id": "CF-036",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement POST /api/cf/assemble - create assembled content",
+      "acceptance_criteria": ["Combine script + videos + images", "Generate captions", "Set platform target", "Store assembled content record"],
+      "passes": false
+    },
+    {
+      "id": "CF-037",
+      "category": "assembly",
+      "priority": 2,
+      "description": "Implement compliance disclosure automation",
+      "acceptance_criteria": ["Auto-detect if product promotion", "Add appropriate disclosure type", "TikTok commercial content toggle", "FTC-compliant text"],
+      "passes": false
+    },
+    {
+      "id": "CF-038",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create content preview page",
+      "acceptance_criteria": ["Full video preview with captions", "Platform-specific mockup", "Disclosure visibility check", "Edit caption/hashtags"],
+      "passes": false
+    },
+    {
+      "id": "CF-039",
+      "category": "integration",
+      "priority": 3,
+      "description": "Integrate TikTok API for content publishing",
+      "acceptance_criteria": ["OAuth authentication", "Video upload endpoint", "Caption and hashtag support", "Commercial disclosure flag"],
+      "passes": false
+    },
+    {
+      "id": "CF-040",
+      "category": "integration",
+      "priority": 3,
+      "description": "Integrate Instagram API for content publishing",
+      "acceptance_criteria": ["Graph API authentication", "Reels upload support", "Caption support", "Branded content tag"],
+      "passes": false
+    },
+    {
+      "id": "CF-041",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement POST /api/cf/publish - publish to platform",
+      "acceptance_criteria": ["Platform selection", "Upload video", "Set caption and hashtags", "Return platform post ID and URL"],
+      "passes": false
+    },
+    {
+      "id": "CF-042",
+      "category": "ui",
+      "priority": 3,
+      "description": "Create publish workflow UI",
+      "acceptance_criteria": ["Platform selector", "Final preview", "Compliance checklist", "Publish button with confirmation"],
+      "passes": false
+    },
+    {
+      "id": "CF-043",
+      "category": "integration",
+      "priority": 3,
+      "description": "Integrate TikTok Promote API for $5 tests",
+      "acceptance_criteria": ["Promote endpoint integration", "Budget setting", "Audience targeting (basic)", "Duration setting"],
+      "passes": false
+    },
+    {
+      "id": "CF-044",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement POST /api/cf/promote - start promotion test",
+      "acceptance_criteria": ["Select published content", "Set budget (default $5)", "Set duration", "Track promotion status"],
+      "passes": false
+    },
+    {
+      "id": "CF-045",
+      "category": "metrics",
+      "priority": 3,
+      "description": "Implement TikTok metrics collection",
+      "acceptance_criteria": ["Poll for views, likes, comments, shares", "Watch time metrics", "Profile visits", "Store in performance_metrics"],
+      "passes": false
+    },
+    {
+      "id": "CF-046",
+      "category": "metrics",
+      "priority": 3,
+      "description": "Implement Instagram metrics collection",
+      "acceptance_criteria": ["Insights API integration", "Reach and impressions", "Engagement metrics", "Save count"],
+      "passes": false
+    },
+    {
+      "id": "CF-047",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement GET /api/cf/metrics/:id - get content performance",
+      "acceptance_criteria": ["Return all metrics for content", "Calculate engagement rate", "Calculate views per dollar", "Historical data"],
+      "passes": false
+    },
+    {
+      "id": "CF-048",
+      "category": "testing",
+      "priority": 3,
+      "description": "Implement angle test creation",
+      "acceptance_criteria": ["Select variants to test", "Set budget per variant", "Define hypothesis", "Create test record"],
+      "passes": false
+    },
+    {
+      "id": "CF-049",
+      "category": "testing",
+      "priority": 3,
+      "description": "Implement scoring algorithm",
+      "acceptance_criteria": ["Calculate composite score from metrics", "Apply configurable weights", "Respect minimum thresholds", "Handle missing data"],
+      "passes": false
+    },
+    {
+      "id": "CF-050",
+      "category": "testing",
+      "priority": 3,
+      "description": "Implement winner identification",
+      "acceptance_criteria": ["Compare variant scores", "Validate sufficient data", "Mark winner", "Generate reason text"],
+      "passes": false
+    },
+    {
+      "id": "CF-051",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement POST /api/cf/tests - create and run angle test",
+      "acceptance_criteria": ["Create test with variants", "Start promotions for all", "Track test status", "Return test ID"],
+      "passes": false
+    },
+    {
+      "id": "CF-052",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement GET /api/cf/tests/:id - get test results",
+      "acceptance_criteria": ["Return test with all variant metrics", "Calculate scores", "Identify leader", "Show statistical significance if calculable"],
+      "passes": false
+    },
+    {
+      "id": "CF-053",
+      "category": "ui",
+      "priority": 3,
+      "description": "Create angle test setup wizard",
+      "acceptance_criteria": ["Select dossier", "Choose variants to test", "Set budget", "Define hypothesis", "Review and launch"],
+      "passes": false
+    },
+    {
+      "id": "CF-054",
+      "category": "ui",
+      "priority": 3,
+      "description": "Create test results dashboard",
+      "acceptance_criteria": ["Variant comparison table", "Score visualization", "Winner highlight", "Next steps recommendations"],
+      "passes": false
+    },
+    {
+      "id": "CF-055",
+      "category": "iteration",
+      "priority": 4,
+      "description": "Implement 'more like winner' generation",
+      "acceptance_criteria": ["Copy winning parameters", "Generate new variants with same awareness level", "Track as iteration of winner"],
+      "passes": false
+    },
+    {
+      "id": "CF-056",
+      "category": "iteration",
+      "priority": 4,
+      "description": "Implement angle performance analytics",
+      "acceptance_criteria": ["Aggregate metrics by awareness level", "Aggregate by hook type", "Identify best-performing patterns", "Dashboard visualization"],
+      "passes": false
+    },
+    {
+      "id": "CF-057",
+      "category": "ui",
+      "priority": 4,
+      "description": "Create Content Factory dashboard",
+      "acceptance_criteria": ["Quick stats (content created, tests running, winners)", "Recent activity", "Top performers", "Quick actions"],
+      "passes": false
+    },
+    {
+      "id": "CF-058",
+      "category": "ui",
+      "priority": 4,
+      "description": "Create analytics insights page",
+      "acceptance_criteria": ["Best awareness level by category", "Best time to post", "Cost efficiency trends", "Recommendations"],
+      "passes": false
+    },
+    {
+      "id": "CF-059",
+      "category": "integration",
+      "priority": 4,
+      "description": "Integrate with Remotion for advanced video assembly",
+      "acceptance_criteria": ["Send clips to Remotion", "Apply templates", "Caption overlays", "Return rendered video"],
+      "passes": false
+    },
+    {
+      "id": "CF-060",
+      "category": "integration",
+      "priority": 4,
+      "description": "Integrate with PCT for hook sharing",
+      "acceptance_criteria": ["Import winning hooks from PCT", "Use as video scripts", "Share performance data"],
+      "passes": false
+    },
+    {
+      "id": "CF-061",
+      "category": "compliance",
+      "priority": 2,
+      "description": "Implement before/after content guidelines check",
+      "acceptance_criteria": ["Flag health/beauty claims", "Add 'results may vary' when needed", "Block exaggerated transformations"],
+      "passes": false
+    },
+    {
+      "id": "CF-062",
+      "category": "compliance",
+      "priority": 2,
+      "description": "Implement FTC disclosure compliance check",
+      "acceptance_criteria": ["Detect affiliate links", "Require clear disclosure", "Validate disclosure visibility"],
+      "passes": false
+    },
+    {
+      "id": "CF-063",
+      "category": "storage",
+      "priority": 1,
+      "description": "Configure R2/S3 storage for generated assets",
+      "acceptance_criteria": ["Bucket configuration", "Upload utility functions", "URL signing for access", "Cleanup for failed generations"],
+      "passes": false
+    },
+    {
+      "id": "CF-064",
+      "category": "ui",
+      "priority": 2,
+      "description": "Add Content Factory navigation to ACD dashboard",
+      "acceptance_criteria": ["Content Factory menu item", "Sub-navigation for Dossiers, Tests, Analytics", "Quick action buttons"],
+      "passes": false
+    },
+    {
+      "id": "CF-065",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement scheduled metrics sync cron job",
+      "acceptance_criteria": ["Run every hour", "Sync metrics for active content", "Update scores for running tests", "Notify on test completion"],
+      "passes": false
+    }
+  ]
+}

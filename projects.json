@@ -1,6 +1,25 @@
 {
   "projects": [
     {
+      "id": "programmatic-creative-testing",
+      "name": "Programmatic Creative Testing",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "description": "Facebook Ad testing system - AI-generated hooks, USPs, marketing angles with Meta API deployment",
+      "icon": "📣",
+      "color": "#1877f2",
+      "active": false,
+      "harness": {
+        "status": "pending",
+        "startTime": null,
+        "duration": 86400,
+        "features": 62
+      },
+      "featureListPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/feature_list_programmatic_ads.json",
+      "prdPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/PRD-Programmatic-Creative-Testing-EXTENDED.md",
+      "integrations": ["waitlistlab-meta", "remotion", "supabase"],
+      "module": "pct"
+    },
+    {
       "id": "demandradar",
       "name": "DemandRadar",
       "path": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar",

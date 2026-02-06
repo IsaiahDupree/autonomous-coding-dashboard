@@ -1,0 +1,2098 @@
+{
+  "project": "Cross-System Integration",
+  "description": "Features for integrating all ACD projects via shared infrastructure, APIs, and data flows",
+  "version": "1.0",
+  "created": "2026-02-05",
+  "total_features": 250,
+  "categories": {
+    "shared-auth": "Portal28 shared authentication across all products",
+    "shared-db": "Supabase shared tables and RLS policies",
+    "remotion-clients": "Client SDKs for consuming Remotion API",
+    "meta-hub": "WaitlistLab as Meta API hub for all products",
+    "publishing": "Cross-platform publishing integrations",
+    "analytics": "Shared analytics and tracking",
+    "asset-mgmt": "Shared asset storage and CDN",
+    "api-gateway": "API authentication and rate limiting",
+    "monitoring": "Observability, logging, alerting across all systems",
+    "security": "Authentication, authorization, secrets management",
+    "resilience": "Error handling, retries, circuit breakers, queues",
+    "dx": "Developer experience, SDKs, documentation, testing",
+    "ai-orchestration": "AI model routing, prompt management, cost tracking",
+    "webhooks": "Event-driven integrations between systems",
+    "caching": "Shared caching layer for performance",
+    "jobs": "Background job processing across systems",
+    "ui-components": "Shared React components, design system",
+    "feature-flags": "Feature toggles, A/B testing, gradual rollouts",
+    "billing": "Usage metering, quotas, invoicing",
+    "compliance": "GDPR, data retention, audit logging",
+    "admin": "Super admin, impersonation, system config",
+    "multi-tenancy": "Workspace/org support, team management",
+    "affiliates": "Referral tracking, commissions, payouts",
+    "search": "Full-text search, filters, indexing",
+    "localization": "i18n, multi-language, currency",
+    "mobile": "Push notifications, deep links, app-specific",
+    "onboarding": "User activation, product tours, checklists",
+    "moderation": "Content review, spam detection, reporting",
+    "export-import": "Data portability, bulk operations"
+  },
+  "features": [
+    {
+      "id": "AUTH-001",
+      "category": "shared-auth",
+      "priority": 0,
+      "description": "Shared Supabase auth project configuration",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Single Supabase project for all apps", "Shared auth.users table", "RLS policies per product"],
+      "passes": false
+    },
+    {
+      "id": "AUTH-002",
+      "category": "shared-auth",
+      "priority": 0,
+      "description": "Cross-product session sharing via cookies",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Shared cookie domain (*.yourdomain.com)", "Session tokens work across subdomains", "SSO between products"],
+      "passes": false
+    },
+    {
+      "id": "AUTH-003",
+      "category": "shared-auth",
+      "priority": 1,
+      "description": "Product-specific role assignments",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User can have different roles per product", "Admin in one, viewer in another", "Roles stored in shared_entitlements"],
+      "passes": false
+    },
+    {
+      "id": "AUTH-004",
+      "category": "shared-auth",
+      "priority": 1,
+      "description": "Unified user profile across products",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["shared_users table with profile data", "Avatar, name, email synced", "Profile updates propagate to all products"],
+      "passes": false
+    },
+    {
+      "id": "AUTH-005",
+      "category": "shared-auth",
+      "priority": 2,
+      "description": "Cross-product OAuth apps (Google, GitHub)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Single OAuth app per provider", "Works for all products", "Redirect URIs for each product"],
+      "passes": false
+    },
+    {
+      "id": "DB-001",
+      "category": "shared-db",
+      "priority": 0,
+      "description": "shared_users table migration",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Table exists", "FK to auth.users", "Profile fields"],
+      "passes": false
+    },
+    {
+      "id": "DB-002",
+      "category": "shared-db",
+      "priority": 0,
+      "description": "shared_entitlements table migration",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Table exists", "Product + plan columns", "Expiration tracking"],
+      "passes": false
+    },
+    {
+      "id": "DB-003",
+      "category": "shared-db",
+      "priority": 1,
+      "description": "shared_assets table migration",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Table exists", "Type + source columns", "URL + metadata"],
+      "passes": false
+    },
+    {
+      "id": "DB-004",
+      "category": "shared-db",
+      "priority": 1,
+      "description": "shared_events table migration",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Table exists", "Product + event_name columns", "Properties JSONB"],
+      "passes": false
+    },
+    {
+      "id": "DB-005",
+      "category": "shared-db",
+      "priority": 1,
+      "description": "RLS policies for product isolation",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Each product only sees its own data", "Admins can see cross-product", "Policies tested"],
+      "passes": false
+    },
+    {
+      "id": "DB-006",
+      "category": "shared-db",
+      "priority": 2,
+      "description": "Cross-product analytics views",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Materialized views for dashboards", "User journey across products", "Funnel analysis"],
+      "passes": false
+    },
+    {
+      "id": "RC-001",
+      "category": "remotion-clients",
+      "priority": 0,
+      "description": "TypeScript Remotion client SDK",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["npm package or shared lib", "All endpoints typed", "Error handling"],
+      "consumers": ["Content Factory", "PCT", "MediaPoster", "WaitlistLab"],
+      "passes": false
+    },
+    {
+      "id": "RC-002",
+      "category": "remotion-clients",
+      "priority": 0,
+      "description": "Content Factory Remotion integration",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Uses RC-001 SDK", "Before/after images via Nano Banana", "Video assembly via render/video"],
+      "passes": false
+    },
+    {
+      "id": "RC-003",
+      "category": "remotion-clients",
+      "priority": 0,
+      "description": "PCT Remotion integration for static ads",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Uses RC-001 SDK", "Static ads via render/static", "Multi-size output"],
+      "passes": false
+    },
+    {
+      "id": "RC-004",
+      "category": "remotion-clients",
+      "priority": 1,
+      "description": "PCT Remotion integration for mini-VSL videos",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Voice clone via audio/clone", "Captions via captions/generate", "Final render via render/video"],
+      "passes": false
+    },
+    {
+      "id": "RC-005",
+      "category": "remotion-clients",
+      "priority": 1,
+      "description": "MediaPoster Remotion integration",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Video generation from templates", "Multi-format output for platforms"],
+      "passes": false
+    },
+    {
+      "id": "RC-006",
+      "category": "remotion-clients",
+      "priority": 1,
+      "description": "WaitlistLab Remotion integration for ad creatives",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Static ads for Ads Autopilot", "Video ads when needed"],
+      "passes": false
+    },
+    {
+      "id": "RC-007",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Job status webhook callbacks",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Webhook URL in job submission", "POST on completion/failure", "Retry logic"],
+      "passes": false
+    },
+    {
+      "id": "RC-008",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Batch job submission endpoint",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Submit multiple jobs in one call", "Bulk status checking", "Cost optimization"],
+      "passes": false
+    },
+    {
+      "id": "MH-001",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "WaitlistLab Meta Marketing API client library",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Shared TypeScript lib", "Campaign/AdSet/Ad CRUD", "Rate limiting built-in"],
+      "consumers": ["PCT", "Content Factory"],
+      "passes": false
+    },
+    {
+      "id": "MH-002",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "PCT Meta API integration via WaitlistLab",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Uses MH-001 lib", "Campaign creation", "Ad publishing", "Insights fetching"],
+      "passes": false
+    },
+    {
+      "id": "MH-003",
+      "category": "meta-hub",
+      "priority": 1,
+      "description": "Content Factory Meta API integration",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Uses MH-001 lib", "Ad creation for FB/IG", "Pixel events"],
+      "passes": false
+    },
+    {
+      "id": "MH-004",
+      "category": "meta-hub",
+      "priority": 1,
+      "description": "Shared Meta Pixel CAPI client",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Server-side event sending", "User matching", "All products can send events"],
+      "consumers": ["All products"],
+      "passes": false
+    },
+    {
+      "id": "MH-005",
+      "category": "meta-hub",
+      "priority": 1,
+      "description": "Cross-product pixel attribution",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Track user across products", "Attribution to original campaign", "LTV by acquisition source"],
+      "passes": false
+    },
+    {
+      "id": "MH-006",
+      "category": "meta-hub",
+      "priority": 2,
+      "description": "Meta API rate limit pooling",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Centralized rate limit tracking", "Queue across all consumers", "Fair allocation"],
+      "passes": false
+    },
+    {
+      "id": "PUB-001",
+      "category": "publishing",
+      "priority": 1,
+      "description": "Content Factory TikTok publishing API",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Video upload", "Caption/hashtags", "Commercial content disclosure"],
+      "passes": false
+    },
+    {
+      "id": "PUB-002",
+      "category": "publishing",
+      "priority": 1,
+      "description": "Content Factory TikTok Promote integration",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["$5 micro-tests", "Boost existing posts", "Metrics collection"],
+      "passes": false
+    },
+    {
+      "id": "PUB-003",
+      "category": "publishing",
+      "priority": 1,
+      "description": "MediaPoster Instagram Graph API publishing",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Feed posts", "Stories", "Reels", "Carousel"],
+      "passes": false
+    },
+    {
+      "id": "PUB-004",
+      "category": "publishing",
+      "priority": 1,
+      "description": "MediaPoster YouTube Data API publishing",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Video upload", "Shorts upload", "Metadata management"],
+      "passes": false
+    },
+    {
+      "id": "PUB-005",
+      "category": "publishing",
+      "priority": 2,
+      "description": "Cross-platform content syndication",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["One content piece → multiple platforms", "Platform-specific formatting", "Scheduling"],
+      "passes": false
+    },
+    {
+      "id": "PUB-006",
+      "category": "publishing",
+      "priority": 2,
+      "description": "Content Factory → MediaPoster handoff",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Export content to MediaPoster", "MediaPoster publishes to IG/YouTube", "Unified tracking"],
+      "passes": false
+    },
+    {
+      "id": "PUB-007",
+      "category": "publishing",
+      "priority": 2,
+      "description": "ShortsLinker YouTube description updates",
+      "target_project": "ShortsLinker",
+      "acceptance_criteria": ["Uses MediaPoster YouTube API", "Batch description updates", "Link injection"],
+      "passes": false
+    },
+    {
+      "id": "AN-001",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Shared event tracking SDK",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["trackEvent(product, name, props)", "Sends to shared_events", "User ID resolution"],
+      "consumers": ["All products"],
+      "passes": false
+    },
+    {
+      "id": "AN-002",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Cross-product funnel tracking",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User journey across products", "Signup → Activation → Revenue", "Cohort analysis"],
+      "passes": false
+    },
+    {
+      "id": "AN-003",
+      "category": "analytics",
+      "priority": 2,
+      "description": "Creative performance tracking (Remotion → Meta)",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Link Remotion asset_id to Meta ad_id", "Track which creatives win", "Feed back to generation"],
+      "passes": false
+    },
+    {
+      "id": "AN-004",
+      "category": "analytics",
+      "priority": 2,
+      "description": "PCT performance feedback loop",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Winning hooks tracked", "Losing angles archived", "Auto-generate more like winners"],
+      "passes": false
+    },
+    {
+      "id": "AN-005",
+      "category": "analytics",
+      "priority": 2,
+      "description": "Content Factory TikTok metrics collection",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Views, likes, shares, comments", "Daily polling", "Scoring algorithm input"],
+      "passes": false
+    },
+    {
+      "id": "AN-006",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Unified analytics dashboard",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["All products in one view", "Key metrics per product", "Cross-product insights"],
+      "passes": false
+    },
+    {
+      "id": "AST-001",
+      "category": "asset-mgmt",
+      "priority": 1,
+      "description": "Shared asset storage (R2/Supabase Storage)",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Central storage bucket", "CDN for fast delivery", "All products can access"],
+      "passes": false
+    },
+    {
+      "id": "AST-002",
+      "category": "asset-mgmt",
+      "priority": 1,
+      "description": "Asset deduplication",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Hash-based dedup", "Same image not stored twice", "Reference counting"],
+      "passes": false
+    },
+    {
+      "id": "AST-003",
+      "category": "asset-mgmt",
+      "priority": 2,
+      "description": "Asset tagging and search",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Tags for categorization", "Full-text search", "Filter by source/type"],
+      "passes": false
+    },
+    {
+      "id": "AST-004",
+      "category": "asset-mgmt",
+      "priority": 2,
+      "description": "Asset usage tracking",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Which products use which assets", "Usage counts", "Cleanup of unused"],
+      "passes": false
+    },
+    {
+      "id": "AST-005",
+      "category": "asset-mgmt",
+      "priority": 2,
+      "description": "Meta asset upload integration",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Upload shared_assets to Meta", "Store meta_asset_id", "Reuse across ads"],
+      "passes": false
+    },
+    {
+      "id": "GW-001",
+      "category": "api-gateway",
+      "priority": 0,
+      "description": "API key management for external consumers",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Generate API keys per consumer", "Store in DB", "Revocation support"],
+      "passes": false
+    },
+    {
+      "id": "GW-002",
+      "category": "api-gateway",
+      "priority": 0,
+      "description": "Per-consumer rate limiting",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Rate limits per API key", "Configurable per consumer", "429 responses when exceeded"],
+      "passes": false
+    },
+    {
+      "id": "GW-003",
+      "category": "api-gateway",
+      "priority": 1,
+      "description": "Request logging and audit trail",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Log all API calls", "Include request/response", "Searchable logs"],
+      "passes": false
+    },
+    {
+      "id": "GW-004",
+      "category": "api-gateway",
+      "priority": 1,
+      "description": "API versioning support",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["/v1/, /v2/ endpoints", "Deprecation warnings", "Migration path"],
+      "passes": false
+    },
+    {
+      "id": "GW-005",
+      "category": "api-gateway",
+      "priority": 2,
+      "description": "GraphQL gateway for unified queries",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Query across shared tables", "Federation from multiple services", "Schema stitching"],
+      "passes": false
+    },
+    {
+      "id": "STRIPE-001",
+      "category": "shared-auth",
+      "priority": 0,
+      "description": "Shared Stripe customer ID across products",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Single Stripe customer per user", "All products use same customer", "Payment methods shared"],
+      "passes": false
+    },
+    {
+      "id": "STRIPE-002",
+      "category": "shared-auth",
+      "priority": 1,
+      "description": "Product-specific Stripe subscriptions",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Each product has own subscription products", "User can subscribe to multiple", "Unified billing portal"],
+      "passes": false
+    },
+    {
+      "id": "STRIPE-003",
+      "category": "shared-auth",
+      "priority": 2,
+      "description": "Cross-product bundle pricing",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Discount for multiple products", "Bundle subscription products", "Proration support"],
+      "passes": false
+    },
+    {
+      "id": "CF-TIKTOK-001",
+      "category": "publishing",
+      "priority": 0,
+      "description": "TikTok OAuth authentication flow",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["TikTok login", "Token storage", "Refresh flow"],
+      "passes": false
+    },
+    {
+      "id": "CF-TIKTOK-002",
+      "category": "publishing",
+      "priority": 0,
+      "description": "TikTok video upload endpoint",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["POST video", "Caption + hashtags", "Commercial disclosure"],
+      "passes": false
+    },
+    {
+      "id": "CF-TIKTOK-003",
+      "category": "publishing",
+      "priority": 1,
+      "description": "TikTok Shop affiliate link integration",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Attach affiliate link to video", "Track clicks/conversions", "Commission tracking"],
+      "passes": false
+    },
+    {
+      "id": "PCT-WL-001",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "PCT uses WaitlistLab for campaign creation",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Creates campaigns via WaitlistLab API", "OUTCOME_AWARENESS or OUTCOME_LEADS", "Proper UTM params"],
+      "passes": false
+    },
+    {
+      "id": "PCT-WL-002",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "PCT uses WaitlistLab for ad creation",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Creates ads via WaitlistLab API", "Links to Remotion-generated creatives", "Batch creation support"],
+      "passes": false
+    },
+    {
+      "id": "PCT-WL-003",
+      "category": "meta-hub",
+      "priority": 1,
+      "description": "PCT fetches insights via WaitlistLab",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Gets ad performance metrics", "Identifies winners/losers", "Feeds iteration loop"],
+      "passes": false
+    },
+    {
+      "id": "MP-CF-001",
+      "category": "publishing",
+      "priority": 2,
+      "description": "MediaPoster receives content from Content Factory",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["API endpoint for content ingestion", "Stores in MediaPoster queue", "Publishes to Instagram"],
+      "passes": false
+    },
+    {
+      "id": "MP-SL-001",
+      "category": "publishing",
+      "priority": 2,
+      "description": "ShortsLinker uses MediaPoster YouTube API",
+      "target_project": "ShortsLinker",
+      "acceptance_criteria": ["Uses shared YouTube API client", "Updates descriptions", "Respects rate limits"],
+      "passes": false
+    },
+    {
+      "id": "VOICE-001",
+      "category": "remotion-clients",
+      "priority": 1,
+      "description": "Shared voice reference storage",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Voice references stored in shared_assets", "Reusable across products", "Per-user voice profiles"],
+      "passes": false
+    },
+    {
+      "id": "VOICE-002",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "PCT voice reference for video ads",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Brand voice stored", "Used for mini-VSL generation", "Consistent across ads"],
+      "passes": false
+    },
+    {
+      "id": "VOICE-003",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Content Factory voice cloning for scripts",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Creator voice cloned", "Used for 5 awareness-level scripts", "Emotion control"],
+      "passes": false
+    },
+    {
+      "id": "TEMPLATE-001",
+      "category": "remotion-clients",
+      "priority": 1,
+      "description": "Shared ad template library",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Templates stored centrally", "PCT and WaitlistLab can use", "Versioning"],
+      "passes": false
+    },
+    {
+      "id": "TEMPLATE-002",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Custom template upload for brands",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["User uploads Canva export", "Converted to Remotion template", "Brand-specific"],
+      "passes": false
+    },
+    {
+      "id": "TEMPLATE-003",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Template A/B testing framework",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Test template variations", "Track performance per template", "Auto-select winners"],
+      "passes": false
+    },
+    {
+      "id": "GAPRADAR-001",
+      "category": "analytics",
+      "priority": 3,
+      "description": "GapRadar feeds niche data to Content Factory",
+      "target_project": "GapRadar",
+      "acceptance_criteria": ["API endpoint for niche insights", "Content Factory uses for targeting", "Reddit pain points → scripts"],
+      "passes": false
+    },
+    {
+      "id": "GAPRADAR-002",
+      "category": "analytics",
+      "priority": 3,
+      "description": "GapRadar feeds competitor ads to PCT",
+      "target_project": "GapRadar",
+      "acceptance_criteria": ["Competitor ad library export", "PCT uses for inspiration", "Angle extraction"],
+      "passes": false
+    },
+    {
+      "id": "EMAIL-001",
+      "category": "shared-auth",
+      "priority": 1,
+      "description": "Shared email sending (Resend) configuration",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Single Resend account", "All products can send", "Template library"],
+      "passes": false
+    },
+    {
+      "id": "EMAIL-002",
+      "category": "shared-auth",
+      "priority": 2,
+      "description": "Cross-product email preferences",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User opts out of one, affects all", "Preference center", "Compliance (CAN-SPAM, GDPR)"],
+      "passes": false
+    },
+    {
+      "id": "MOBILE-001",
+      "category": "analytics",
+      "priority": 2,
+      "description": "EverReach mobile app Meta SDK integration",
+      "target_project": "EverReach",
+      "acceptance_criteria": ["Mobile events to Meta Pixel", "App install tracking", "Deep link attribution"],
+      "passes": false
+    },
+    {
+      "id": "MOBILE-002",
+      "category": "analytics",
+      "priority": 2,
+      "description": "EverReach shares lead data with WaitlistLab",
+      "target_project": "EverReach",
+      "acceptance_criteria": ["Mobile leads synced to WaitlistLab", "Unified lead database", "Deduplication"],
+      "passes": false
+    },
+    {
+      "id": "VH-001",
+      "category": "shared-auth",
+      "priority": 3,
+      "description": "VelvetHold uses shared Stripe customer",
+      "target_project": "VelvetHold",
+      "acceptance_criteria": ["Deposits use shared customer", "Payment methods shared with other products", "Unified refund handling"],
+      "passes": false
+    },
+    {
+      "id": "VP-001",
+      "category": "shared-auth",
+      "priority": 3,
+      "description": "VelloPad uses shared Stripe customer",
+      "target_project": "VelloPad",
+      "acceptance_criteria": ["Book purchases use shared customer", "POD orders tracked", "Cross-sell to other products"],
+      "passes": false
+    },
+    {
+      "id": "SL-001",
+      "category": "shared-auth",
+      "priority": 3,
+      "description": "SteadyLetters uses shared Stripe customer",
+      "target_project": "SteadyLetters",
+      "acceptance_criteria": ["Letter credits via shared customer", "Thanks.io charges tracked", "Usage analytics"],
+      "passes": false
+    },
+    {
+      "id": "SH-001",
+      "category": "shared-auth",
+      "priority": 2,
+      "description": "SoftwareHub license activation via Portal28 auth",
+      "target_project": "SoftwareHub",
+      "acceptance_criteria": ["License tied to Portal28 user", "SSO for software access", "Entitlements synced"],
+      "passes": false
+    },
+    {
+      "id": "BC-001",
+      "category": "shared-auth",
+      "priority": 3,
+      "description": "BlogCanvas uses shared auth for vendors",
+      "target_project": "BlogCanvas",
+      "acceptance_criteria": ["Vendor accounts via Portal28", "Role-based access", "Multi-blog support"],
+      "passes": false
+    },
+    {
+      "id": "CC-001",
+      "category": "publishing",
+      "priority": 2,
+      "description": "CanvasCast uses MediaPoster YouTube API",
+      "target_project": "CanvasCast",
+      "acceptance_criteria": ["Video uploads via MediaPoster", "Thumbnail generation", "Playlist management"],
+      "passes": false
+    },
+    {
+      "id": "MON-001",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Centralized logging infrastructure (Axiom/Datadog)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["All products send logs to central system", "Structured JSON logging", "Log retention policy"],
+      "passes": false
+    },
+    {
+      "id": "MON-002",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Application performance monitoring (APM)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Trace requests across services", "Latency percentiles", "Error rates tracked"],
+      "passes": false
+    },
+    {
+      "id": "MON-003",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Remotion API health monitoring",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Health check endpoint", "Uptime monitoring", "Alert on degradation"],
+      "passes": false
+    },
+    {
+      "id": "MON-004",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Meta API rate limit monitoring",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Track API quota usage", "Alert at 80% threshold", "Dashboard visualization"],
+      "passes": false
+    },
+    {
+      "id": "MON-005",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "AI cost tracking dashboard",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["OpenAI, Gemini, ElevenLabs costs", "Per-product breakdown", "Budget alerts"],
+      "passes": false
+    },
+    {
+      "id": "MON-006",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Video render queue monitoring",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Queue depth metrics", "Average wait time", "Throughput per hour"],
+      "passes": false
+    },
+    {
+      "id": "MON-007",
+      "category": "monitoring",
+      "priority": 3,
+      "description": "Cross-product user session tracing",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Track user journey across products", "Session replay capability", "Funnel drop-off analysis"],
+      "passes": false
+    },
+    {
+      "id": "SEC-001",
+      "category": "security",
+      "priority": 0,
+      "description": "Centralized secrets management (Vault/Infisical)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["All API keys in central vault", "Rotation support", "Audit logging"],
+      "passes": false
+    },
+    {
+      "id": "SEC-002",
+      "category": "security",
+      "priority": 0,
+      "description": "API key encryption at rest",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Keys encrypted in database", "Decryption only at runtime", "Key derivation function"],
+      "passes": false
+    },
+    {
+      "id": "SEC-003",
+      "category": "security",
+      "priority": 1,
+      "description": "JWT token rotation for cross-product auth",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Short-lived access tokens", "Refresh token rotation", "Revocation support"],
+      "passes": false
+    },
+    {
+      "id": "SEC-004",
+      "category": "security",
+      "priority": 1,
+      "description": "Webhook signature verification",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["HMAC signature on all webhooks", "Timestamp validation", "Replay attack prevention"],
+      "passes": false
+    },
+    {
+      "id": "SEC-005",
+      "category": "security",
+      "priority": 2,
+      "description": "API request signing for inter-service calls",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Signed requests between services", "Timestamp + nonce", "Verification middleware"],
+      "passes": false
+    },
+    {
+      "id": "SEC-006",
+      "category": "security",
+      "priority": 2,
+      "description": "Content Security Policy for all products",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Strict CSP headers", "Script-src whitelist", "Report-uri for violations"],
+      "passes": false
+    },
+    {
+      "id": "SEC-007",
+      "category": "security",
+      "priority": 2,
+      "description": "Rate limiting on authentication endpoints",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Brute force protection", "IP-based limiting", "Progressive delays"],
+      "passes": false
+    },
+    {
+      "id": "RES-001",
+      "category": "resilience",
+      "priority": 0,
+      "description": "Remotion API circuit breaker",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Circuit opens on failures", "Fallback responses", "Auto-recovery"],
+      "consumers": ["Content Factory", "PCT", "MediaPoster"],
+      "passes": false
+    },
+    {
+      "id": "RES-002",
+      "category": "resilience",
+      "priority": 0,
+      "description": "Meta API retry with exponential backoff",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Automatic retries on 5xx", "Exponential backoff", "Max retry limit"],
+      "passes": false
+    },
+    {
+      "id": "RES-003",
+      "category": "resilience",
+      "priority": 1,
+      "description": "Dead letter queue for failed jobs",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Failed jobs stored for review", "Retry mechanism", "Admin notification"],
+      "passes": false
+    },
+    {
+      "id": "RES-004",
+      "category": "resilience",
+      "priority": 1,
+      "description": "Graceful degradation for AI services",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Fallback from Veo to LTX-Video", "Fallback from Nano Banana to DALL-E", "User notification"],
+      "passes": false
+    },
+    {
+      "id": "RES-005",
+      "category": "resilience",
+      "priority": 1,
+      "description": "Database connection pooling",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Shared connection pool", "Pool size per product", "Connection timeout handling"],
+      "passes": false
+    },
+    {
+      "id": "RES-006",
+      "category": "resilience",
+      "priority": 2,
+      "description": "TikTok API fallback to manual posting",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Queue content for manual review", "Export for TikTok app", "Notification to user"],
+      "passes": false
+    },
+    {
+      "id": "RES-007",
+      "category": "resilience",
+      "priority": 2,
+      "description": "Asset upload retry mechanism",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Retry failed uploads", "Resume partial uploads", "Checksum verification"],
+      "passes": false
+    },
+    {
+      "id": "DX-001",
+      "category": "dx",
+      "priority": 1,
+      "description": "Monorepo setup for shared packages",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["pnpm/turborepo workspace", "Shared packages published", "Version sync"],
+      "passes": false
+    },
+    {
+      "id": "DX-002",
+      "category": "dx",
+      "priority": 1,
+      "description": "OpenAPI specs for all APIs",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["OpenAPI 3.0 spec", "Auto-generated docs", "Client generation"],
+      "passes": false
+    },
+    {
+      "id": "DX-003",
+      "category": "dx",
+      "priority": 1,
+      "description": "TypeScript types package for shared schemas",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["@acd/types package", "Zod schemas", "Auto-generated from DB"],
+      "passes": false
+    },
+    {
+      "id": "DX-004",
+      "category": "dx",
+      "priority": 2,
+      "description": "Local development environment setup",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Docker compose for all services", "Local Supabase", "Seed data scripts"],
+      "passes": false
+    },
+    {
+      "id": "DX-005",
+      "category": "dx",
+      "priority": 2,
+      "description": "Integration test suite for cross-product flows",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["End-to-end tests", "CI pipeline", "Coverage reporting"],
+      "passes": false
+    },
+    {
+      "id": "DX-006",
+      "category": "dx",
+      "priority": 2,
+      "description": "API mocking for development",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Mock server for Remotion API", "Fixtures for common responses", "Configurable delays"],
+      "passes": false
+    },
+    {
+      "id": "DX-007",
+      "category": "dx",
+      "priority": 3,
+      "description": "Developer documentation portal",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Docusaurus site", "API reference", "Integration guides"],
+      "passes": false
+    },
+    {
+      "id": "AI-001",
+      "category": "ai-orchestration",
+      "priority": 1,
+      "description": "Centralized prompt library",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Versioned prompts in DB", "A/B testing support", "Performance tracking"],
+      "passes": false
+    },
+    {
+      "id": "AI-002",
+      "category": "ai-orchestration",
+      "priority": 1,
+      "description": "AI model router (cost vs quality)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Route by task complexity", "GPT-4 for complex, Haiku for simple", "Cost tracking per route"],
+      "passes": false
+    },
+    {
+      "id": "AI-003",
+      "category": "ai-orchestration",
+      "priority": 1,
+      "description": "Token usage tracking per product",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Track tokens per API call", "Aggregate by product", "Budget limits"],
+      "passes": false
+    },
+    {
+      "id": "AI-004",
+      "category": "ai-orchestration",
+      "priority": 2,
+      "description": "AI response caching",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Cache identical prompts", "TTL configuration", "Cache hit rate metrics"],
+      "passes": false
+    },
+    {
+      "id": "AI-005",
+      "category": "ai-orchestration",
+      "priority": 2,
+      "description": "Prompt template inheritance",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Base prompts with overrides", "Per-product customization", "Version history"],
+      "passes": false
+    },
+    {
+      "id": "AI-006",
+      "category": "ai-orchestration",
+      "priority": 2,
+      "description": "AI output validation layer",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Structured output validation", "Retry on invalid format", "Fallback handling"],
+      "passes": false
+    },
+    {
+      "id": "WH-001",
+      "category": "webhooks",
+      "priority": 1,
+      "description": "Webhook delivery infrastructure",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Reliable delivery", "Retry on failure", "Delivery status tracking"],
+      "passes": false
+    },
+    {
+      "id": "WH-002",
+      "category": "webhooks",
+      "priority": 1,
+      "description": "Remotion job completion webhooks",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["POST on render complete", "Include output URLs", "Error details on failure"],
+      "consumers": ["Content Factory", "PCT", "MediaPoster"],
+      "passes": false
+    },
+    {
+      "id": "WH-003",
+      "category": "webhooks",
+      "priority": 1,
+      "description": "Stripe webhook hub for all products",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Single Stripe webhook endpoint", "Route by product", "Idempotent processing"],
+      "passes": false
+    },
+    {
+      "id": "WH-004",
+      "category": "webhooks",
+      "priority": 2,
+      "description": "Meta webhook hub for ad events",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Leadgen webhooks", "Ad insights updates", "Fan page events"],
+      "passes": false
+    },
+    {
+      "id": "WH-005",
+      "category": "webhooks",
+      "priority": 2,
+      "description": "TikTok webhook processing",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Video status updates", "Comment notifications", "Shop order events"],
+      "passes": false
+    },
+    {
+      "id": "WH-006",
+      "category": "webhooks",
+      "priority": 3,
+      "description": "Custom webhook subscriptions per user",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User configures webhook URL", "Event type filtering", "Delivery logs"],
+      "passes": false
+    },
+    {
+      "id": "CACHE-001",
+      "category": "caching",
+      "priority": 1,
+      "description": "Redis cluster for shared caching",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Upstash or Redis Cloud", "All products can access", "TTL policies"],
+      "passes": false
+    },
+    {
+      "id": "CACHE-002",
+      "category": "caching",
+      "priority": 1,
+      "description": "User session caching",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Session data in Redis", "Fast auth checks", "Invalidation on logout"],
+      "passes": false
+    },
+    {
+      "id": "CACHE-003",
+      "category": "caching",
+      "priority": 2,
+      "description": "API response caching for read endpoints",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Cache GET responses", "Invalidation on updates", "Cache headers"],
+      "passes": false
+    },
+    {
+      "id": "CACHE-004",
+      "category": "caching",
+      "priority": 2,
+      "description": "Asset metadata caching",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Cache asset info", "Reduce DB queries", "Warm cache on upload"],
+      "passes": false
+    },
+    {
+      "id": "CACHE-005",
+      "category": "caching",
+      "priority": 3,
+      "description": "Meta insights caching",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Cache ad insights", "Refresh hourly", "Reduce API calls"],
+      "passes": false
+    },
+    {
+      "id": "JOB-001",
+      "category": "jobs",
+      "priority": 0,
+      "description": "Background job queue (BullMQ/Inngest)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Shared job queue", "All products can enqueue", "Dashboard UI"],
+      "passes": false
+    },
+    {
+      "id": "JOB-002",
+      "category": "jobs",
+      "priority": 1,
+      "description": "Scheduled job infrastructure",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Cron-style scheduling", "Timezone support", "Job history"],
+      "passes": false
+    },
+    {
+      "id": "JOB-003",
+      "category": "jobs",
+      "priority": 1,
+      "description": "Video render job processing",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Priority queues", "Parallel processing", "Progress tracking"],
+      "passes": false
+    },
+    {
+      "id": "JOB-004",
+      "category": "jobs",
+      "priority": 1,
+      "description": "Meta ad publishing job queue",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Rate-limited processing", "Batch optimization", "Failure handling"],
+      "passes": false
+    },
+    {
+      "id": "JOB-005",
+      "category": "jobs",
+      "priority": 2,
+      "description": "Content Factory video pipeline jobs",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Multi-step pipeline", "Checkpoint/resume", "Parallel generation"],
+      "passes": false
+    },
+    {
+      "id": "JOB-006",
+      "category": "jobs",
+      "priority": 2,
+      "description": "Analytics aggregation jobs",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Daily rollups", "Materialized views refresh", "Performance metrics"],
+      "passes": false
+    },
+    {
+      "id": "JOB-007",
+      "category": "jobs",
+      "priority": 3,
+      "description": "Cleanup jobs for expired data",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Delete old logs", "Archive completed jobs", "Storage optimization"],
+      "passes": false
+    },
+    {
+      "id": "SYNC-001",
+      "category": "resilience",
+      "priority": 1,
+      "description": "Meta ad status sync job",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Sync ad status hourly", "Update local DB", "Detect external changes"],
+      "passes": false
+    },
+    {
+      "id": "SYNC-002",
+      "category": "resilience",
+      "priority": 2,
+      "description": "TikTok video status sync",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Sync published status", "Update metrics", "Handle deletions"],
+      "passes": false
+    },
+    {
+      "id": "SYNC-003",
+      "category": "resilience",
+      "priority": 2,
+      "description": "Stripe subscription sync",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Sync subscription status", "Handle cancellations", "Update entitlements"],
+      "passes": false
+    },
+    {
+      "id": "FLOW-001",
+      "category": "publishing",
+      "priority": 1,
+      "description": "Content approval workflow",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Human review gate", "Approve/reject/edit", "Audit trail"],
+      "passes": false
+    },
+    {
+      "id": "FLOW-002",
+      "category": "publishing",
+      "priority": 2,
+      "description": "Multi-step content pipeline",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Image → Video → Assembly → Publish", "Status tracking", "Rollback support"],
+      "passes": false
+    },
+    {
+      "id": "FLOW-003",
+      "category": "publishing",
+      "priority": 2,
+      "description": "PCT hook → ad pipeline",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Hook → Template → Image → Ad creation", "Batch processing", "Review checkpoint"],
+      "passes": false
+    },
+    {
+      "id": "NOTIFY-001",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Slack alerting integration",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Critical alerts to Slack", "Configurable channels", "Actionable messages"],
+      "passes": false
+    },
+    {
+      "id": "NOTIFY-002",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Email alerts for job failures",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Email on job failure", "Summary of error", "Link to logs"],
+      "passes": false
+    },
+    {
+      "id": "NOTIFY-003",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "In-app notifications for content status",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Notify on publish success/failure", "Bell icon UI", "Read/unread tracking"],
+      "passes": false
+    },
+    {
+      "id": "MIGRATE-001",
+      "category": "shared-db",
+      "priority": 1,
+      "description": "Cross-product database migration system",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Shared migration runner", "Per-product migrations", "Rollback support"],
+      "passes": false
+    },
+    {
+      "id": "MIGRATE-002",
+      "category": "shared-db",
+      "priority": 2,
+      "description": "Data seeding for development",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Seed users, products, assets", "Realistic test data", "Idempotent seeding"],
+      "passes": false
+    },
+    {
+      "id": "SCALE-001",
+      "category": "resilience",
+      "priority": 2,
+      "description": "Horizontal scaling for Remotion API",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Multiple instances", "Load balancing", "Stateless design"],
+      "passes": false
+    },
+    {
+      "id": "SCALE-002",
+      "category": "resilience",
+      "priority": 3,
+      "description": "Auto-scaling based on queue depth",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Scale up on queue growth", "Scale down when idle", "Cost optimization"],
+      "passes": false
+    },
+    {
+      "id": "COST-001",
+      "category": "ai-orchestration",
+      "priority": 2,
+      "description": "AI usage quotas per user",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Quota per plan tier", "Usage tracking", "Upgrade prompts"],
+      "passes": false
+    },
+    {
+      "id": "COST-002",
+      "category": "ai-orchestration",
+      "priority": 2,
+      "description": "Video render quotas per plan",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Minutes per month", "Overage pricing", "Usage dashboard"],
+      "passes": false
+    },
+    {
+      "id": "COST-003",
+      "category": "ai-orchestration",
+      "priority": 3,
+      "description": "Cost allocation per product",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Track costs by product", "Monthly reports", "Budget forecasting"],
+      "passes": false
+    },
+    {
+      "id": "UI-001",
+      "category": "ui-components",
+      "priority": 1,
+      "description": "Shared design system package (@acd/ui)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Tailwind config shared", "Color tokens", "Typography scale", "Spacing system"],
+      "passes": false
+    },
+    {
+      "id": "UI-002",
+      "category": "ui-components",
+      "priority": 1,
+      "description": "Button component library",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Primary/secondary/ghost variants", "Loading states", "Icon support", "All products use same buttons"],
+      "passes": false
+    },
+    {
+      "id": "UI-003",
+      "category": "ui-components",
+      "priority": 1,
+      "description": "Form components library",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Input, Select, Checkbox, Radio", "Validation states", "Error messages", "React Hook Form compatible"],
+      "passes": false
+    },
+    {
+      "id": "UI-004",
+      "category": "ui-components",
+      "priority": 1,
+      "description": "Modal and dialog components",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Confirmation dialogs", "Form modals", "Keyboard accessible", "Focus trapping"],
+      "passes": false
+    },
+    {
+      "id": "UI-005",
+      "category": "ui-components",
+      "priority": 1,
+      "description": "Data table component",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Sorting", "Filtering", "Pagination", "Row selection", "Column resizing"],
+      "passes": false
+    },
+    {
+      "id": "UI-006",
+      "category": "ui-components",
+      "priority": 2,
+      "description": "Toast notification system",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Success/error/warning/info", "Auto-dismiss", "Action buttons", "Stacking"],
+      "passes": false
+    },
+    {
+      "id": "UI-007",
+      "category": "ui-components",
+      "priority": 2,
+      "description": "Shared navigation components",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Sidebar", "Top nav", "Breadcrumbs", "Mobile responsive"],
+      "passes": false
+    },
+    {
+      "id": "UI-008",
+      "category": "ui-components",
+      "priority": 2,
+      "description": "Loading and skeleton states",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Spinner component", "Skeleton loaders", "Progress bars", "Suspense boundaries"],
+      "passes": false
+    },
+    {
+      "id": "UI-009",
+      "category": "ui-components",
+      "priority": 2,
+      "description": "Card and container components",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Content cards", "Stat cards", "Feature cards", "Consistent shadows/borders"],
+      "passes": false
+    },
+    {
+      "id": "UI-010",
+      "category": "ui-components",
+      "priority": 3,
+      "description": "Chart and visualization components",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Line charts", "Bar charts", "Pie charts", "Recharts wrapper"],
+      "passes": false
+    },
+    {
+      "id": "FF-001",
+      "category": "feature-flags",
+      "priority": 1,
+      "description": "Feature flag infrastructure (LaunchDarkly/Flagsmith)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Central flag management", "All products can check flags", "Real-time updates"],
+      "passes": false
+    },
+    {
+      "id": "FF-002",
+      "category": "feature-flags",
+      "priority": 1,
+      "description": "User-targeted feature flags",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Flags per user ID", "Percentage rollouts", "Beta user groups"],
+      "passes": false
+    },
+    {
+      "id": "FF-003",
+      "category": "feature-flags",
+      "priority": 2,
+      "description": "A/B testing framework",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Experiment variants", "Statistical significance", "Conversion tracking"],
+      "passes": false
+    },
+    {
+      "id": "FF-004",
+      "category": "feature-flags",
+      "priority": 2,
+      "description": "Feature flag React SDK",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["useFeatureFlag hook", "FeatureGate component", "SSR compatible"],
+      "passes": false
+    },
+    {
+      "id": "FF-005",
+      "category": "feature-flags",
+      "priority": 2,
+      "description": "Kill switch for features",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Instant disable", "No deploy required", "Audit log"],
+      "passes": false
+    },
+    {
+      "id": "FF-006",
+      "category": "feature-flags",
+      "priority": 3,
+      "description": "Product-specific flag overrides",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Global flags with product overrides", "Inheritance model", "Admin UI"],
+      "passes": false
+    },
+    {
+      "id": "BILL-001",
+      "category": "billing",
+      "priority": 1,
+      "description": "Usage metering infrastructure",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Track API calls per user", "Storage usage", "AI token usage", "Video render minutes"],
+      "passes": false
+    },
+    {
+      "id": "BILL-002",
+      "category": "billing",
+      "priority": 1,
+      "description": "Plan limits enforcement",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Check limits before action", "Graceful limit reached UX", "Upgrade prompts"],
+      "passes": false
+    },
+    {
+      "id": "BILL-003",
+      "category": "billing",
+      "priority": 2,
+      "description": "Overage billing",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Track usage above limit", "Bill at end of period", "Usage alerts at thresholds"],
+      "passes": false
+    },
+    {
+      "id": "BILL-004",
+      "category": "billing",
+      "priority": 2,
+      "description": "Usage dashboard for users",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Current usage vs limits", "Usage history", "Projected usage"],
+      "passes": false
+    },
+    {
+      "id": "BILL-005",
+      "category": "billing",
+      "priority": 2,
+      "description": "Invoice generation",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Monthly invoices", "PDF export", "Line item breakdown"],
+      "passes": false
+    },
+    {
+      "id": "BILL-006",
+      "category": "billing",
+      "priority": 3,
+      "description": "Credit system for prepaid usage",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Purchase credits", "Deduct on usage", "Credit balance tracking"],
+      "passes": false
+    },
+    {
+      "id": "COMP-001",
+      "category": "compliance",
+      "priority": 1,
+      "description": "GDPR data export (right to portability)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User requests export", "All data in JSON/CSV", "Delivered within 30 days"],
+      "passes": false
+    },
+    {
+      "id": "COMP-002",
+      "category": "compliance",
+      "priority": 1,
+      "description": "GDPR data deletion (right to erasure)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User requests deletion", "Cascade delete across products", "Anonymize where needed"],
+      "passes": false
+    },
+    {
+      "id": "COMP-003",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Audit logging for sensitive actions",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Log who did what when", "Immutable logs", "Searchable"],
+      "passes": false
+    },
+    {
+      "id": "COMP-004",
+      "category": "compliance",
+      "priority": 2,
+      "description": "Data retention policies",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Configurable per data type", "Auto-delete expired data", "Retention dashboard"],
+      "passes": false
+    },
+    {
+      "id": "COMP-005",
+      "category": "compliance",
+      "priority": 2,
+      "description": "Cookie consent management",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Cookie banner", "Preference storage", "Analytics opt-out"],
+      "passes": false
+    },
+    {
+      "id": "COMP-006",
+      "category": "compliance",
+      "priority": 3,
+      "description": "Privacy policy version tracking",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Track policy versions", "User acceptance per version", "Re-consent on updates"],
+      "passes": false
+    },
+    {
+      "id": "ADMIN-001",
+      "category": "admin",
+      "priority": 1,
+      "description": "Super admin role and permissions",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Cross-product access", "All data visible", "Secure access controls"],
+      "passes": false
+    },
+    {
+      "id": "ADMIN-002",
+      "category": "admin",
+      "priority": 1,
+      "description": "User impersonation for support",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Login as user", "Audit logged", "Time-limited sessions"],
+      "passes": false
+    },
+    {
+      "id": "ADMIN-003",
+      "category": "admin",
+      "priority": 2,
+      "description": "System configuration dashboard",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Feature flags UI", "Rate limits config", "System status"],
+      "passes": false
+    },
+    {
+      "id": "ADMIN-004",
+      "category": "admin",
+      "priority": 2,
+      "description": "User management admin panel",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Search users", "View/edit profiles", "Manage subscriptions"],
+      "passes": false
+    },
+    {
+      "id": "ADMIN-005",
+      "category": "admin",
+      "priority": 2,
+      "description": "Cross-product user search",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Search by email/name/ID", "See all product access", "Quick actions"],
+      "passes": false
+    },
+    {
+      "id": "ADMIN-006",
+      "category": "admin",
+      "priority": 3,
+      "description": "Bulk user operations",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Bulk email", "Bulk plan change", "CSV import/export"],
+      "passes": false
+    },
+    {
+      "id": "MT-001",
+      "category": "multi-tenancy",
+      "priority": 2,
+      "description": "Workspace/organization model",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Users belong to workspaces", "Workspace-level billing", "Data isolation"],
+      "passes": false
+    },
+    {
+      "id": "MT-002",
+      "category": "multi-tenancy",
+      "priority": 2,
+      "description": "Team member invitations",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Invite by email", "Accept/decline flow", "Pending invites list"],
+      "passes": false
+    },
+    {
+      "id": "MT-003",
+      "category": "multi-tenancy",
+      "priority": 2,
+      "description": "Team roles and permissions",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Owner/Admin/Member/Viewer", "Per-product permissions", "Role management UI"],
+      "passes": false
+    },
+    {
+      "id": "MT-004",
+      "category": "multi-tenancy",
+      "priority": 3,
+      "description": "Workspace switching",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["User in multiple workspaces", "Quick switch UI", "Context preservation"],
+      "passes": false
+    },
+    {
+      "id": "MT-005",
+      "category": "multi-tenancy",
+      "priority": 3,
+      "description": "Workspace-level API keys",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Keys scoped to workspace", "Member can create keys", "Key permissions"],
+      "passes": false
+    },
+    {
+      "id": "AFF-001",
+      "category": "affiliates",
+      "priority": 2,
+      "description": "Referral link tracking",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Unique referral codes", "Click tracking", "UTM parameter support"],
+      "passes": false
+    },
+    {
+      "id": "AFF-002",
+      "category": "affiliates",
+      "priority": 2,
+      "description": "Affiliate signup attribution",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Cookie-based attribution", "30-day window", "First-touch tracking"],
+      "passes": false
+    },
+    {
+      "id": "AFF-003",
+      "category": "affiliates",
+      "priority": 2,
+      "description": "Commission calculation",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Percentage of sale", "Recurring commissions", "Tiered rates"],
+      "passes": false
+    },
+    {
+      "id": "AFF-004",
+      "category": "affiliates",
+      "priority": 3,
+      "description": "Affiliate dashboard",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Clicks, signups, conversions", "Earnings history", "Payout requests"],
+      "passes": false
+    },
+    {
+      "id": "AFF-005",
+      "category": "affiliates",
+      "priority": 3,
+      "description": "Affiliate payout processing",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["PayPal/Stripe Connect", "Minimum threshold", "Payout history"],
+      "passes": false
+    },
+    {
+      "id": "SEARCH-001",
+      "category": "search",
+      "priority": 2,
+      "description": "Full-text search infrastructure (Meilisearch/Typesense)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Central search service", "All products can index", "Fast autocomplete"],
+      "passes": false
+    },
+    {
+      "id": "SEARCH-002",
+      "category": "search",
+      "priority": 2,
+      "description": "Asset search across products",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Search images/videos by metadata", "Tag-based filtering", "Relevance ranking"],
+      "passes": false
+    },
+    {
+      "id": "SEARCH-003",
+      "category": "search",
+      "priority": 2,
+      "description": "User search for admin",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Search by email/name", "Filter by product/plan", "Instant results"],
+      "passes": false
+    },
+    {
+      "id": "SEARCH-004",
+      "category": "search",
+      "priority": 3,
+      "description": "Content search for MediaPoster",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Search posts by text", "Filter by platform/status", "Date range"],
+      "passes": false
+    },
+    {
+      "id": "I18N-001",
+      "category": "localization",
+      "priority": 3,
+      "description": "i18n infrastructure (next-intl)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Message extraction", "Translation files", "Locale routing"],
+      "passes": false
+    },
+    {
+      "id": "I18N-002",
+      "category": "localization",
+      "priority": 3,
+      "description": "Shared translation library",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Common strings shared", "Product-specific overrides", "Translation management"],
+      "passes": false
+    },
+    {
+      "id": "I18N-003",
+      "category": "localization",
+      "priority": 3,
+      "description": "Currency formatting",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Multi-currency display", "User locale detection", "Stripe multi-currency"],
+      "passes": false
+    },
+    {
+      "id": "I18N-004",
+      "category": "localization",
+      "priority": 3,
+      "description": "Date/time localization",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Timezone handling", "Locale-aware formatting", "Relative time"],
+      "passes": false
+    },
+    {
+      "id": "MOB-001",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Push notification infrastructure (OneSignal/Firebase)",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Web push", "iOS/Android push", "Segmentation"],
+      "passes": false
+    },
+    {
+      "id": "MOB-002",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Push notification preferences",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Per-notification-type opt-in", "Quiet hours", "Device management"],
+      "passes": false
+    },
+    {
+      "id": "MOB-003",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Deep link handling",
+      "target_project": "EverReach",
+      "acceptance_criteria": ["Universal links (iOS)", "App links (Android)", "Fallback to web"],
+      "passes": false
+    },
+    {
+      "id": "MOB-004",
+      "category": "mobile",
+      "priority": 3,
+      "description": "Mobile app version requirements",
+      "target_project": "EverReach",
+      "acceptance_criteria": ["Force update for old versions", "Soft update prompts", "Version tracking"],
+      "passes": false
+    },
+    {
+      "id": "OB-001",
+      "category": "onboarding",
+      "priority": 1,
+      "description": "Welcome email sequence",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Day 0, 1, 3, 7 emails", "Product-specific sequences", "Unsubscribe handling"],
+      "passes": false
+    },
+    {
+      "id": "OB-002",
+      "category": "onboarding",
+      "priority": 2,
+      "description": "Product tour system",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Step-by-step tours", "Highlight elements", "Skip/complete tracking"],
+      "passes": false
+    },
+    {
+      "id": "OB-003",
+      "category": "onboarding",
+      "priority": 2,
+      "description": "Onboarding checklist",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Key actions to complete", "Progress tracking", "Rewards/gamification"],
+      "passes": false
+    },
+    {
+      "id": "OB-004",
+      "category": "onboarding",
+      "priority": 2,
+      "description": "Activation metrics tracking",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Define activation per product", "Track completion rates", "Identify drop-off"],
+      "passes": false
+    },
+    {
+      "id": "OB-005",
+      "category": "onboarding",
+      "priority": 3,
+      "description": "Demo data seeding for new users",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Sample projects/content", "Easy to delete", "Product-specific demos"],
+      "passes": false
+    },
+    {
+      "id": "MOD-001",
+      "category": "moderation",
+      "priority": 2,
+      "description": "Content moderation queue",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Flagged content review", "Approve/reject actions", "Bulk operations"],
+      "passes": false
+    },
+    {
+      "id": "MOD-002",
+      "category": "moderation",
+      "priority": 2,
+      "description": "AI content safety checks",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Check generated images", "Flag inappropriate content", "Human review queue"],
+      "passes": false
+    },
+    {
+      "id": "MOD-003",
+      "category": "moderation",
+      "priority": 3,
+      "description": "User reporting system",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Report button on content", "Report queue for admins", "Reporter notifications"],
+      "passes": false
+    },
+    {
+      "id": "MOD-004",
+      "category": "moderation",
+      "priority": 3,
+      "description": "Spam detection",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Detect spam signups", "Rate limit suspicious activity", "IP blocking"],
+      "passes": false
+    },
+    {
+      "id": "EXP-001",
+      "category": "export-import",
+      "priority": 2,
+      "description": "Bulk data export",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Export to CSV/JSON", "Background processing", "Download link via email"],
+      "passes": false
+    },
+    {
+      "id": "EXP-002",
+      "category": "export-import",
+      "priority": 2,
+      "description": "Bulk data import",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["CSV upload", "Validation preview", "Error handling"],
+      "passes": false
+    },
+    {
+      "id": "EXP-003",
+      "category": "export-import",
+      "priority": 3,
+      "description": "Product data migration tools",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Move data between workspaces", "Clone configurations", "Transfer ownership"],
+      "passes": false
+    },
+    {
+      "id": "EXP-004",
+      "category": "export-import",
+      "priority": 3,
+      "description": "API data export",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Paginated data endpoints", "Rate limiting", "Cursor-based pagination"],
+      "passes": false
+    },
+    {
+      "id": "INT-PCT-001",
+      "category": "publishing",
+      "priority": 1,
+      "description": "PCT hook performance feedback",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Track hook → ad → performance", "Identify winning hooks", "Auto-archive losers"],
+      "passes": false
+    },
+    {
+      "id": "INT-PCT-002",
+      "category": "publishing",
+      "priority": 2,
+      "description": "PCT winning hook iteration",
+      "target_project": "PCT",
+      "acceptance_criteria": ["Generate variations of winners", "A/B test variations", "Scaling automation"],
+      "passes": false
+    },
+    {
+      "id": "INT-CF-001",
+      "category": "publishing",
+      "priority": 1,
+      "description": "Content Factory awareness level optimization",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Track performance by awareness level", "Identify best level per niche", "Auto-adjust mix"],
+      "passes": false
+    },
+    {
+      "id": "INT-CF-002",
+      "category": "publishing",
+      "priority": 2,
+      "description": "Content Factory product dossier sharing",
+      "target_project": "Content Factory",
+      "acceptance_criteria": ["Dossiers accessible to PCT", "Shared USP/angle library", "Cross-pollination"],
+      "passes": false
+    },
+    {
+      "id": "INT-MP-001",
+      "category": "publishing",
+      "priority": 2,
+      "description": "MediaPoster content calendar",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Calendar view of scheduled posts", "Drag-drop rescheduling", "Gap detection"],
+      "passes": false
+    },
+    {
+      "id": "INT-MP-002",
+      "category": "publishing",
+      "priority": 2,
+      "description": "MediaPoster analytics aggregation",
+      "target_project": "MediaPoster",
+      "acceptance_criteria": ["Cross-platform metrics", "Best time to post", "Content performance ranking"],
+      "passes": false
+    },
+    {
+      "id": "INT-WL-001",
+      "category": "meta-hub",
+      "priority": 1,
+      "description": "WaitlistLab campaign templates",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Reusable campaign configs", "Quick launch from template", "Clone existing campaigns"],
+      "passes": false
+    },
+    {
+      "id": "INT-WL-002",
+      "category": "meta-hub",
+      "priority": 2,
+      "description": "WaitlistLab audience sharing",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["Custom audiences accessible to all products", "Lookalike generation", "Audience insights"],
+      "passes": false
+    },
+    {
+      "id": "INT-REM-001",
+      "category": "remotion-clients",
+      "priority": 1,
+      "description": "Remotion template marketplace",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Browse templates", "Preview before use", "One-click add to project"],
+      "passes": false
+    },
+    {
+      "id": "INT-REM-002",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Remotion render history",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["Past renders searchable", "Re-render with changes", "Download history"],
+      "passes": false
+    },
+    {
+      "id": "INT-REM-003",
+      "category": "remotion-clients",
+      "priority": 2,
+      "description": "Remotion asset library per user",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["User's uploaded assets", "Generated assets history", "Favorites"],
+      "passes": false
+    },
+    {
+      "id": "PERF-001",
+      "category": "caching",
+      "priority": 1,
+      "description": "CDN configuration for all products",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Cloudflare/Vercel Edge", "Asset caching rules", "Cache invalidation"],
+      "passes": false
+    },
+    {
+      "id": "PERF-002",
+      "category": "caching",
+      "priority": 2,
+      "description": "Database query optimization",
+      "target_project": "Portal28",
+      "acceptance_criteria": ["Slow query logging", "Index recommendations", "Query analysis"],
+      "passes": false
+    },
+    {
+      "id": "PERF-003",
+      "category": "caching",
+      "priority": 2,
+      "description": "Image optimization pipeline",
+      "target_project": "Remotion",
+      "acceptance_criteria": ["WebP conversion", "Responsive sizes", "Lazy loading support"],
+      "passes": false
+    }
+  ]
+}
