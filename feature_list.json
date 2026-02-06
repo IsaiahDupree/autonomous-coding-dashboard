@@ -1085,7 +1085,7 @@
         "Query analysis",
         "Connection pooling"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-086",
