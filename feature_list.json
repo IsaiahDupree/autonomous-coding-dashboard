@@ -1157,7 +1157,7 @@
         "Quick actions",
         "Status overview"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-092",
