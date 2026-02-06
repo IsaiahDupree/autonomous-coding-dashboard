@@ -1325,7 +1325,7 @@
         "Load external plugins",
         "Plugin marketplace"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-106",
