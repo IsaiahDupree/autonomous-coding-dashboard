@@ -781,3 +781,34 @@ NEXT: feat-038 (Adaptive Session Delay - Smart delay based on activity)
 - Feature status: 39/120 passing (32.5% complete)
 
 NEXT: feat-040 (Test Coverage Dashboard - Visualize test coverage per feature)
+
+=== Session 2026-02-06T05:50:00Z - CODING ===
+- Started dev environment (backend on :3434, frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-040: Test Coverage Dashboard - Visualize test coverage per feature
+  * Created test-coverage.js dashboard widget with full UI
+  * Shows which features have tests with check/cross icons
+  * Displays overall coverage percentage with progress bar
+  * Category breakdown grid showing coverage per category with progress bars
+  * Color-coded coverage levels: green (75%+), amber (40-75%), red (<40%)
+  * Clickable category cards filter feature table
+  * Feature table with status, description, category, test count, and file links
+  * Filter dropdowns for category and coverage status (all/with tests/without tests)
+  * Highlights features without tests with red background tint and X icon
+  * Links test file names with data-path attribute for full file paths
+  * Added backend API endpoint GET /api/test-coverage:
+    - Scans root and harness/ directories for test-feat-NNN pattern files
+    - Returns per-feature coverage, per-category stats, and overall metrics
+  * Updated index.html with widget container and script tag
+  * Added CSS styles for all widget components (progress bars, grid, table, filters)
+  * Tests passed: All 4 acceptance criteria verified (22 assertions)
+    - Shows which features have tests ✓
+    - Displays coverage percentage per category ✓
+    - Highlights features without tests ✓
+    - Links to test files ✓
+- Committed: "feat: Implement Test Coverage Dashboard (feat-040)"
+
+- Feature status: 40/120 passing (33.3% complete)
+
+NEXT: feat-041 (Cross-Project Analytics - Aggregate metrics across all targets)

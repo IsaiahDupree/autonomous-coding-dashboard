@@ -3575,6 +3575,93 @@ app.get('/api/e2e/screenshots/:filename', (req, res) => {
 });
 
 // ============================================
+// TEST COVERAGE API (feat-040)
+// ============================================
+
+// GET /api/test-coverage - Analyze test coverage per feature
+app.get('/api/test-coverage', (req, res) => {
+    try {
+        const features = readFeatureList();
+        const projectRoot = path.join(process.cwd(), '..');
+        const harnessDir = path.join(projectRoot, 'harness');
+
+        // Scan for test files matching test-feat-NNN pattern
+        const testFileMap: Record<string, { name: string; path: string }[]> = {};
+
+        // Scan root directory
+        const rootFiles = fs.readdirSync(projectRoot).filter(f =>
+            /^test-feat-\d+/i.test(f) && f.endsWith('.js')
+        );
+        for (const file of rootFiles) {
+            const match = file.match(/test-feat-(\d+)/i);
+            if (match) {
+                const featId = `feat-${match[1].padStart(3, '0')}`;
+                if (!testFileMap[featId]) testFileMap[featId] = [];
+                testFileMap[featId].push({ name: file, path: path.join(projectRoot, file) });
+            }
+        }
+
+        // Scan harness directory
+        if (fs.existsSync(harnessDir)) {
+            const harnessFiles = fs.readdirSync(harnessDir).filter(f =>
+                /^test-feat-\d+/i.test(f) && f.endsWith('.js')
+            );
+            for (const file of harnessFiles) {
+                const match = file.match(/test-feat-(\d+)/i);
+                if (match) {
+                    const featId = `feat-${match[1].padStart(3, '0')}`;
+                    if (!testFileMap[featId]) testFileMap[featId] = [];
+                    testFileMap[featId].push({ name: file, path: path.join(harnessDir, file) });
+                }
+            }
+        }
+
+        // Build per-feature coverage data
+        const featureCoverage = features.map((f: any) => ({
+            id: f.id,
+            description: f.description || '',
+            category: f.category || 'uncategorized',
+            passes: f.passes || false,
+            testFiles: testFileMap[f.id] || [],
+        }));
+
+        // Build per-category summary
+        const categoryMap: Record<string, { total: number; covered: number }> = {};
+        for (const fc of featureCoverage) {
+            if (!categoryMap[fc.category]) {
+                categoryMap[fc.category] = { total: 0, covered: 0 };
+            }
+            categoryMap[fc.category].total++;
+            if (fc.testFiles.length > 0) categoryMap[fc.category].covered++;
+        }
+
+        const categories = Object.entries(categoryMap)
+            .map(([name, stats]) => ({ name, ...stats }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+        const totalFeatures = featureCoverage.length;
+        const coveredFeatures = featureCoverage.filter(f => f.testFiles.length > 0).length;
+        const overallPct = totalFeatures > 0 ? Math.round((coveredFeatures / totalFeatures) * 100) : 0;
+
+        res.json({
+            success: true,
+            data: {
+                overall: {
+                    total: totalFeatures,
+                    covered: coveredFeatures,
+                    uncovered: totalFeatures - coveredFeatures,
+                    percentage: overallPct,
+                },
+                categories,
+                features: featureCoverage,
+            },
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

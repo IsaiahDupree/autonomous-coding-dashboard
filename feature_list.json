@@ -535,7 +535,8 @@
         "Highlights features without tests",
         "Links to test files"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T05:50:00Z"
     },
     {
       "id": "feat-041",
