@@ -494,7 +494,8 @@
         "Switches to next project when current completes",
         "Respects untilComplete flag per project"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-05T22:30:00Z"
     },
     {
       "id": "feat-038",

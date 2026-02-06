@@ -330,6 +330,12 @@ Sleep Mode:
   Wake triggers: user dashboard access, external trigger file, scheduled time.
   To wake manually: touch .wake-harness in project root
 
+Multi-Repo Mode:
+  To process multiple repos in priority order, use multi-repo-orchestrator.js instead:
+    node harness/multi-repo-orchestrator.js [options]
+
+  The orchestrator reads repo-queue.json and processes enabled projects sequentially.
+
 Examples:
   node run-harness.js                         # Run single session with sleep
   node run-harness.js -c                      # Run continuously with sleep
