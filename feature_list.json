@@ -905,7 +905,7 @@
         "CSV data export",
         "Scheduled reports"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-071",
