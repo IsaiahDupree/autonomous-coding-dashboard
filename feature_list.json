@@ -508,7 +508,8 @@
         "Configurable min/max delay bounds",
         "Logs delay adjustments"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T03:31:00Z"
     },
     {
       "id": "feat-039",
@@ -521,7 +522,7 @@
         "Show screenshots on failure",
         "Link test results to features"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-040",

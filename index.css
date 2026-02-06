@@ -1761,3 +1761,175 @@ body:has(.project-sidebar.collapsed) {
     margin-top: 0.5rem;
   }
 }
+
+/* ============================================
+   E2E Test Runner Styles (feat-039)
+   ============================================ */
+
+.e2e-summary {
+  padding: 0;
+}
+
+.e2e-stat {
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.e2e-stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.e2e-stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.e2e-stat-pass .e2e-stat-value {
+  color: var(--color-success);
+}
+
+.e2e-stat-fail .e2e-stat-value {
+  color: var(--color-error, #ef4444);
+}
+
+.e2e-stat-skip .e2e-stat-value {
+  color: var(--color-text-secondary);
+}
+
+.e2e-progress-pass {
+  background: var(--color-success);
+  transition: width 0.3s ease;
+}
+
+.e2e-progress-fail {
+  background: var(--color-error, #ef4444);
+  transition: width 0.3s ease;
+}
+
+.e2e-running {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.e2e-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: e2e-spin 0.8s linear infinite;
+}
+
+@keyframes e2e-spin {
+  to { transform: rotate(360deg); }
+}
+
+.e2e-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.e2e-results-table th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--color-border);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+.e2e-results-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.e2e-row-pass {
+  background: transparent;
+}
+
+.e2e-row-fail {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.e2e-row-skip {
+  opacity: 0.6;
+}
+
+.e2e-icon-pass {
+  color: var(--color-success);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.e2e-icon-fail {
+  color: var(--color-error, #ef4444);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.e2e-icon-skip {
+  color: var(--color-text-secondary);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.e2e-test-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.e2e-details-btn {
+  font-size: 0.75rem !important;
+  padding: 0.2rem 0.5rem !important;
+}
+
+.e2e-feature-filter {
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+}
+
+.e2e-select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.btn-sm {
+  font-size: 0.8rem !important;
+  padding: 0.3rem 0.75rem !important;
+}
+
+.badge-error {
+  background: var(--color-error, #ef4444);
+  color: white;
+}
