@@ -1241,7 +1241,7 @@
         "Tooltips",
         "Guided tours"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-099",
