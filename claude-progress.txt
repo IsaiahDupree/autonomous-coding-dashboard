@@ -1256,3 +1256,31 @@ NEXT: feat-053 (next feature in queue)
 - Feature status: 53/120 passing (44.2% complete)
 
 NEXT: feat-054 (next feature in queue)
+
+- Implemented feat-054: Customizable Dashboard Layout
+  * Created dashboard-layout.js with drag-and-drop reordering system
+  * Layout toggle button (📐) added to header next to theme toggle
+  * Layout edit mode:
+    - Body gets layout-edit-mode class
+    - All widgets become draggable with drag handles
+    - Dashed outline on hover shows droppable targets
+    - Visual feedback during drag (opacity, border indicators)
+  * Floating toolbar at bottom with:
+    - Save Layout button (persists to localStorage)
+    - Reset to Default button (restores original order)
+    - Cancel button (exits edit mode without saving)
+  * Data attributes on widgets:
+    - data-layout-id: unique identifier per widget
+    - data-layout-default-order: original position for reset
+  * localStorage key: dashboard-layout-order (JSON array of IDs)
+  * Layout restored on page load from localStorage
+  * Public API: window.dashboardLayout.{saveLayout, resetLayout, toggleLayoutEditMode, restoreLayout}
+  * Tests passed: All 3 acceptance criteria verified (23 assertions)
+    - Drag-drop widgets ✓
+    - Save layouts ✓
+    - Reset to default ✓
+- Committed: "feat: Implement Customizable Dashboard Layout (feat-054)"
+
+- Feature status: 54/120 passing (45.0% complete)
+
+NEXT: feat-055 (next feature in queue)

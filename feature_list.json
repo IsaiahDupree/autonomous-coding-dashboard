@@ -713,7 +713,7 @@
         "Save layouts",
         "Reset to default"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-055",
