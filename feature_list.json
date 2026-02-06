@@ -965,7 +965,7 @@
         "Auto-merge on completion",
         "Conflict resolution"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-076",
