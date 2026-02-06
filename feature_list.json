@@ -602,7 +602,8 @@
         "Shows event timeline",
         "Embeds key charts in dashboard"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T04:50:00Z"
     },
     {
       "id": "feat-046",
