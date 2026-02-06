@@ -1277,7 +1277,7 @@
         "Queue for off-hours",
         "Cost optimization"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-102",
