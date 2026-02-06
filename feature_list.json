@@ -833,7 +833,7 @@
         "Restore from archive",
         "Archive history"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-065",
