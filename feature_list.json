@@ -1109,7 +1109,7 @@
         "Retention policy",
         "Restore functionality"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-088",
