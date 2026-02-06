@@ -1001,7 +1001,7 @@
         "Secure key retrieval",
         "Key rotation support"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-079",
