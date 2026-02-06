@@ -3001,6 +3001,61 @@ app.get('/api/prd/read', (req, res) => {
     }
 });
 
+// POST /api/prd/extract - Extract features from PRD markdown
+app.post('/api/prd/extract', async (req, res) => {
+    try {
+        const { prdPath, outputPath, startingId, projectName } = req.body;
+
+        if (!prdPath) {
+            return res.status(400).json({
+                success: false,
+                error: 'PRD path is required'
+            });
+        }
+
+        // Check if PRD file exists
+        if (!fs.existsSync(prdPath)) {
+            return res.status(404).json({
+                success: false,
+                error: 'PRD file not found'
+            });
+        }
+
+        // Read PRD content
+        const prdContent = fs.readFileSync(prdPath, 'utf-8');
+
+        // Import the extractor module dynamically
+        const { extractFeaturesFromPRD, saveFeatureList } = await import('../../harness/prd-extractor.js');
+
+        // Extract features
+        const featureList = extractFeaturesFromPRD(prdContent, {
+            startingId: startingId || 1,
+            projectName: projectName || 'Extracted from PRD',
+            includeUncategorized: true
+        });
+
+        // Save to output path if provided
+        if (outputPath) {
+            saveFeatureList(featureList, outputPath);
+        }
+
+        res.json({
+            success: true,
+            data: {
+                featureList,
+                featuresCount: featureList.features.length,
+                outputPath: outputPath || null
+            }
+        });
+    } catch (error: any) {
+        console.error('Error extracting features from PRD:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Failed to extract features'
+        });
+    }
+});
+
 // GET /api/projects/list - List all projects from repo-queue.json
 app.get('/api/projects/list', (req, res) => {
     try {

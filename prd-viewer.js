@@ -426,3 +426,158 @@ function showInfo(message) {
     alert(message);
   }
 }
+
+/**
+ * Extract features from current PRD
+ */
+async function extractFeatures() {
+  if (!currentPRDPath || !currentProject) {
+    showWarning('No PRD loaded. Please select a project first.');
+    return;
+  }
+
+  const extractBtn = document.getElementById('extract-btn');
+  if (!extractBtn) return;
+
+  // Disable button and show loading
+  extractBtn.disabled = true;
+  extractBtn.textContent = '⏳ Extracting...';
+
+  try {
+    // Call backend API to extract features
+    const response = await fetch('http://localhost:3434/api/prd/extract', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prdPath: currentPRDPath,
+        projectName: currentProject,
+        startingId: 1
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.data.featureList) {
+      const { featuresCount, featureList } = data.data;
+
+      // Show success message with feature count
+      showInfo(`✅ Successfully extracted ${featuresCount} features from PRD!`);
+
+      // Open modal to show extracted features
+      showExtractionResultsModal(featureList);
+    } else {
+      showError(data.error || 'Failed to extract features');
+    }
+  } catch (err) {
+    console.error('Error extracting features:', err);
+    showError('Failed to extract features. Please check that the backend is running.');
+  } finally {
+    // Re-enable button
+    extractBtn.disabled = false;
+    extractBtn.textContent = '🔍 Extract Features';
+  }
+}
+
+/**
+ * Show extraction results in a modal
+ */
+function showExtractionResultsModal(featureList) {
+  // Create modal HTML
+  const modalHTML = `
+    <div class="modal-overlay" id="extraction-modal" onclick="closeExtractionModal(event)">
+      <div class="modal large-modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Extracted Features</h2>
+          <button class="modal-close" onclick="closeExtractionModal()">&times;</button>
+        </div>
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+          <div style="margin-bottom: 1rem;">
+            <strong>Total Features:</strong> ${featureList.features.length}
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <strong>Categories:</strong>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+              ${getUniqueCategoriesHTML(featureList.features)}
+            </div>
+          </div>
+
+          <div class="features-list">
+            ${featureList.features.map(f => `
+              <div class="feature-card" style="margin-bottom: 1rem; padding: 1rem; background: var(--color-bg); border-radius: 8px; border-left: 3px solid var(--color-primary);">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <strong>${f.id}</strong>
+                  <span class="badge badge-${f.category}">${f.category}</span>
+                </div>
+                <div style="margin-bottom: 0.5rem;">${f.description}</div>
+                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">
+                  <strong>Acceptance Criteria:</strong>
+                  <ul style="margin: 0.25rem 0 0 1.5rem; padding: 0;">
+                    ${f.acceptance_criteria.map(c => `<li>${c}</li>`).join('')}
+                  </ul>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeExtractionModal()">Close</button>
+          <button class="btn btn-primary" onclick="downloadExtractedFeatures()">💾 Download JSON</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Store feature list globally for download
+  window.extractedFeatureList = featureList;
+
+  // Insert modal into DOM
+  const modalContainer = document.createElement('div');
+  modalContainer.innerHTML = modalHTML;
+  document.body.appendChild(modalContainer.firstElementChild);
+}
+
+/**
+ * Get unique categories as HTML badges
+ */
+function getUniqueCategoriesHTML(features) {
+  const categories = [...new Set(features.map(f => f.category))];
+  return categories.map(cat => `<span class="badge badge-${cat}">${cat}</span>`).join('');
+}
+
+/**
+ * Close extraction results modal
+ */
+function closeExtractionModal(event) {
+  if (event && event.target.classList.contains('modal-overlay')) {
+    const modal = document.getElementById('extraction-modal');
+    if (modal) modal.remove();
+  } else if (!event) {
+    const modal = document.getElementById('extraction-modal');
+    if (modal) modal.remove();
+  }
+}
+
+/**
+ * Download extracted features as JSON
+ */
+function downloadExtractedFeatures() {
+  if (!window.extractedFeatureList) {
+    showWarning('No extracted features to download.');
+    return;
+  }
+
+  const blob = new Blob([JSON.stringify(window.extractedFeatureList, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${currentProject || 'features'}_extracted.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showInfo('Feature list downloaded successfully!');
+}
