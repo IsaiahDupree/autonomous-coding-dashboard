@@ -1049,7 +1049,7 @@
         "Event filtering",
         "Retry on failure"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-083",
