@@ -737,7 +737,7 @@
         "Custom message templates",
         "Channel selection"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-057",
