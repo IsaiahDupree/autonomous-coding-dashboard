@@ -1037,7 +1037,7 @@
         "Authentication",
         "Rate limiting"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-082",
