@@ -589,7 +589,7 @@
         "Displays build logs on failure",
         "Triggers redeploy from dashboard"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-045",

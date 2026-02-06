@@ -4505,6 +4505,423 @@ async function runSupabaseMigrations(
 }
 
 // ============================================
+// DEPLOYMENT STATUS TRACKER API (feat-044)
+// ============================================
+
+// Store deployment configs and status in a JSON file
+function getDeploymentsFile(): string {
+    return path.join(path.resolve(__dirname, '..', '..'), 'deployment-configs.json');
+}
+
+function readDeploymentConfigs(): any {
+    const f = getDeploymentsFile();
+    if (fs.existsSync(f)) {
+        return JSON.parse(fs.readFileSync(f, 'utf-8'));
+    }
+    return { configs: {}, deployments: {} };
+}
+
+function writeDeploymentConfigs(data: any): void {
+    fs.writeFileSync(getDeploymentsFile(), JSON.stringify(data, null, 2));
+}
+
+// GET /api/deployments/overview - Get deployment status for all projects
+app.get('/api/deployments/overview', async (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const repoQueueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+        if (!fs.existsSync(repoQueueFile)) {
+            return res.status(404).json({ success: false, error: 'repo-queue.json not found' });
+        }
+
+        const repoQueue = JSON.parse(fs.readFileSync(repoQueueFile, 'utf-8'));
+        const repos = repoQueue.repos || [];
+        const deployData = readDeploymentConfigs();
+
+        const targets = repos.map((repo: any) => {
+            const config = deployData.configs[repo.id] || null;
+            const deployment = deployData.deployments[repo.id] || null;
+            return {
+                id: repo.id,
+                name: repo.name,
+                path: repo.path,
+                provider: config?.provider || null,
+                siteId: config?.siteId || null,
+                projectId: config?.projectId || null,
+                apiToken: config?.apiToken ? '***' + config.apiToken.slice(-4) : null,
+                configured: !!config,
+                deployment: deployment ? {
+                    id: deployment.id,
+                    status: deployment.status,
+                    url: deployment.url,
+                    previewUrl: deployment.previewUrl,
+                    createdAt: deployment.createdAt,
+                    buildLog: deployment.buildLog || null,
+                    error: deployment.error || null,
+                    branch: deployment.branch || 'main',
+                    commitSha: deployment.commitSha || null
+                } : null
+            };
+        });
+
+        const configured = targets.filter((t: any) => t.configured).length;
+        const deployed = targets.filter((t: any) => t.deployment?.status === 'ready').length;
+        const failed = targets.filter((t: any) => t.deployment?.status === 'error').length;
+        const building = targets.filter((t: any) => t.deployment?.status === 'building').length;
+
+        res.json({
+            success: true,
+            data: {
+                summary: {
+                    totalTargets: repos.length,
+                    configured,
+                    deployed,
+                    failed,
+                    building
+                },
+                targets
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/deployments/config/:targetId - Save deployment config for a project
+app.post('/api/deployments/config/:targetId', express.json(), (req, res) => {
+    try {
+        const { targetId } = req.params;
+        const { provider, apiToken, siteId, projectId, teamId } = req.body;
+
+        if (!provider || !apiToken) {
+            return res.status(400).json({ success: false, error: 'provider and apiToken are required' });
+        }
+
+        if (!['netlify', 'vercel'].includes(provider)) {
+            return res.status(400).json({ success: false, error: 'provider must be netlify or vercel' });
+        }
+
+        const deployData = readDeploymentConfigs();
+        deployData.configs[targetId] = {
+            provider,
+            apiToken,
+            siteId: siteId || null,
+            projectId: projectId || null,
+            teamId: teamId || null,
+            savedAt: new Date().toISOString()
+        };
+        writeDeploymentConfigs(deployData);
+
+        res.json({
+            success: true,
+            data: {
+                targetId,
+                provider,
+                configured: true,
+                savedAt: deployData.configs[targetId].savedAt
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// DELETE /api/deployments/config/:targetId - Remove deployment config
+app.delete('/api/deployments/config/:targetId', (req, res) => {
+    try {
+        const { targetId } = req.params;
+        const deployData = readDeploymentConfigs();
+        delete deployData.configs[targetId];
+        delete deployData.deployments[targetId];
+        writeDeploymentConfigs(deployData);
+
+        res.json({ success: true, data: { targetId, deleted: true } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/deployments/check/:targetId - Check deployment status from provider API
+app.post('/api/deployments/check/:targetId', express.json(), async (req, res) => {
+    try {
+        const { targetId } = req.params;
+        const deployData = readDeploymentConfigs();
+        const config = deployData.configs[targetId];
+
+        if (!config) {
+            return res.status(404).json({ success: false, error: 'No deployment config for this target' });
+        }
+
+        let deployment: any = null;
+
+        if (config.provider === 'netlify') {
+            // Netlify API: GET /api/v1/sites/{site_id}/deploys
+            const siteId = config.siteId;
+            if (!siteId) {
+                return res.status(400).json({ success: false, error: 'siteId required for Netlify' });
+            }
+
+            try {
+                const resp = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}/deploys?per_page=1`, {
+                    headers: { 'Authorization': `Bearer ${config.apiToken}` }
+                });
+
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    deployment = {
+                        id: null,
+                        status: 'error',
+                        error: `Netlify API error (${resp.status}): ${errText}`,
+                        createdAt: new Date().toISOString()
+                    };
+                } else {
+                    const deploys = await resp.json();
+                    if (deploys && deploys.length > 0) {
+                        const latest = deploys[0];
+                        deployment = {
+                            id: latest.id,
+                            status: latest.state === 'ready' ? 'ready' : latest.state === 'error' ? 'error' : 'building',
+                            url: latest.ssl_url || latest.url || null,
+                            previewUrl: latest.deploy_ssl_url || latest.deploy_url || null,
+                            createdAt: latest.created_at,
+                            branch: latest.branch || 'main',
+                            commitSha: latest.commit_ref || null,
+                            buildLog: null,
+                            error: latest.error_message || null
+                        };
+                    }
+                }
+            } catch (fetchErr: any) {
+                deployment = {
+                    id: null,
+                    status: 'error',
+                    error: `Network error: ${fetchErr.message}`,
+                    createdAt: new Date().toISOString()
+                };
+            }
+        } else if (config.provider === 'vercel') {
+            // Vercel API: GET /v6/deployments
+            const projectId = config.projectId;
+            if (!projectId) {
+                return res.status(400).json({ success: false, error: 'projectId required for Vercel' });
+            }
+
+            try {
+                const teamQuery = config.teamId ? `&teamId=${config.teamId}` : '';
+                const resp = await fetch(`https://api.vercel.com/v6/deployments?projectId=${projectId}&limit=1${teamQuery}`, {
+                    headers: { 'Authorization': `Bearer ${config.apiToken}` }
+                });
+
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    deployment = {
+                        id: null,
+                        status: 'error',
+                        error: `Vercel API error (${resp.status}): ${errText}`,
+                        createdAt: new Date().toISOString()
+                    };
+                } else {
+                    const data = await resp.json();
+                    if (data.deployments && data.deployments.length > 0) {
+                        const latest = data.deployments[0];
+                        const stateMap: any = { READY: 'ready', ERROR: 'error', BUILDING: 'building', QUEUED: 'building', INITIALIZING: 'building' };
+                        deployment = {
+                            id: latest.uid,
+                            status: stateMap[latest.state] || latest.state,
+                            url: latest.url ? `https://${latest.url}` : null,
+                            previewUrl: latest.url ? `https://${latest.url}` : null,
+                            createdAt: latest.created ? new Date(latest.created).toISOString() : new Date().toISOString(),
+                            branch: latest.meta?.githubCommitRef || 'main',
+                            commitSha: latest.meta?.githubCommitSha || null,
+                            buildLog: null,
+                            error: latest.errorMessage || null
+                        };
+                    }
+                }
+            } catch (fetchErr: any) {
+                deployment = {
+                    id: null,
+                    status: 'error',
+                    error: `Network error: ${fetchErr.message}`,
+                    createdAt: new Date().toISOString()
+                };
+            }
+        }
+
+        if (deployment) {
+            deployData.deployments[targetId] = deployment;
+            writeDeploymentConfigs(deployData);
+        }
+
+        res.json({ success: true, data: { targetId, deployment } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/deployments/logs/:targetId - Get build logs for a deployment
+app.get('/api/deployments/logs/:targetId', async (req, res) => {
+    try {
+        const { targetId } = req.params;
+        const deployData = readDeploymentConfigs();
+        const config = deployData.configs[targetId];
+        const deployment = deployData.deployments[targetId];
+
+        if (!config || !deployment) {
+            return res.status(404).json({ success: false, error: 'No deployment data for this target' });
+        }
+
+        let buildLog = '';
+
+        if (config.provider === 'netlify' && deployment.id) {
+            try {
+                const resp = await fetch(`https://api.netlify.com/api/v1/deploys/${deployment.id}/log`, {
+                    headers: { 'Authorization': `Bearer ${config.apiToken}` }
+                });
+                if (resp.ok) {
+                    const logEntries = await resp.json();
+                    if (Array.isArray(logEntries)) {
+                        buildLog = logEntries.map((e: any) => `[${e.section || ''}] ${e.message || ''}`).join('\n');
+                    }
+                } else {
+                    buildLog = `Failed to fetch logs: ${resp.status}`;
+                }
+            } catch (e: any) {
+                buildLog = `Error fetching logs: ${e.message}`;
+            }
+        } else if (config.provider === 'vercel' && deployment.id) {
+            try {
+                const teamQuery = config.teamId ? `?teamId=${config.teamId}` : '';
+                const resp = await fetch(`https://api.vercel.com/v2/deployments/${deployment.id}/events${teamQuery}`, {
+                    headers: { 'Authorization': `Bearer ${config.apiToken}` }
+                });
+                if (resp.ok) {
+                    const events = await resp.json();
+                    if (Array.isArray(events)) {
+                        buildLog = events.map((e: any) => e.text || '').filter(Boolean).join('\n');
+                    }
+                } else {
+                    buildLog = `Failed to fetch logs: ${resp.status}`;
+                }
+            } catch (e: any) {
+                buildLog = `Error fetching logs: ${e.message}`;
+            }
+        } else {
+            buildLog = 'No build logs available (no deployment ID)';
+        }
+
+        // Store the log
+        if (deployData.deployments[targetId]) {
+            deployData.deployments[targetId].buildLog = buildLog;
+            writeDeploymentConfigs(deployData);
+        }
+
+        res.json({ success: true, data: { targetId, buildLog } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/deployments/redeploy/:targetId - Trigger a redeploy
+app.post('/api/deployments/redeploy/:targetId', express.json(), async (req, res) => {
+    try {
+        const { targetId } = req.params;
+        const deployData = readDeploymentConfigs();
+        const config = deployData.configs[targetId];
+
+        if (!config) {
+            return res.status(404).json({ success: false, error: 'No deployment config for this target' });
+        }
+
+        let result: any = null;
+
+        if (config.provider === 'netlify') {
+            const siteId = config.siteId;
+            if (!siteId) {
+                return res.status(400).json({ success: false, error: 'siteId required for Netlify redeploy' });
+            }
+
+            try {
+                // Netlify: POST /api/v1/sites/{site_id}/builds to trigger rebuild
+                const resp = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}/builds`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${config.apiToken}` }
+                });
+
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    result = { success: false, error: `Netlify redeploy failed (${resp.status}): ${errText}` };
+                } else {
+                    const build = await resp.json();
+                    result = { success: true, buildId: build.id, status: 'building' };
+
+                    // Update deployment status
+                    deployData.deployments[targetId] = {
+                        ...(deployData.deployments[targetId] || {}),
+                        status: 'building',
+                        id: build.deploy_id || deployData.deployments[targetId]?.id,
+                        createdAt: new Date().toISOString(),
+                        error: null,
+                        buildLog: null
+                    };
+                    writeDeploymentConfigs(deployData);
+                }
+            } catch (e: any) {
+                result = { success: false, error: `Network error: ${e.message}` };
+            }
+        } else if (config.provider === 'vercel') {
+            const deployment = deployData.deployments[targetId];
+            if (!deployment?.id) {
+                return res.status(400).json({ success: false, error: 'No previous deployment to redeploy' });
+            }
+
+            try {
+                const teamQuery = config.teamId ? `?teamId=${config.teamId}` : '';
+                const resp = await fetch(`https://api.vercel.com/v13/deployments${teamQuery}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: config.projectId,
+                        target: 'production',
+                        deploymentId: deployment.id
+                    })
+                });
+
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    result = { success: false, error: `Vercel redeploy failed (${resp.status}): ${errText}` };
+                } else {
+                    const data = await resp.json();
+                    result = { success: true, deploymentId: data.id || data.uid, status: 'building' };
+
+                    deployData.deployments[targetId] = {
+                        id: data.id || data.uid,
+                        status: 'building',
+                        url: data.url ? `https://${data.url}` : deployment.url,
+                        previewUrl: data.url ? `https://${data.url}` : deployment.previewUrl,
+                        createdAt: new Date().toISOString(),
+                        branch: deployment.branch || 'main',
+                        commitSha: null,
+                        error: null,
+                        buildLog: null
+                    };
+                    writeDeploymentConfigs(deployData);
+                }
+            } catch (e: any) {
+                result = { success: false, error: `Network error: ${e.message}` };
+            }
+        }
+
+        res.json({ success: true, data: { targetId, result } });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 

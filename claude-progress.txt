@@ -907,3 +907,43 @@ NEXT: feat-043 (next feature in queue)
 - Feature status: 43/120 passing (35.8% complete)
 
 NEXT: feat-044 (next feature in queue)
+
+- Implemented feat-044: Deployment Status Tracker - Track Netlify/Vercel deployments
+  * Created deployment-tracker.js dashboard widget with full UI
+  * Summary cards: total targets, configured, live, failed
+  * Deployments table listing all targets with provider badge, status dot, preview URL, branch, last deploy time
+  * Status indicators: live (green glow), error (red glow), building (pulsing yellow), unconfigured (gray)
+  * Provider badges: Netlify (teal) and Vercel (white) with distinct styling
+  * Preview URL links open in new tab with truncated display
+  * Branch and commit sha display per deployment
+  * Time-ago display for last deploy (just now, Xm, Xh, Xd)
+  * Config form: target select, provider (Netlify/Vercel), API token, Site ID / Project ID / Team ID
+    - Auto-toggles between Netlify (Site ID) and Vercel (Project ID + Team ID) fields
+    - Saves and auto-checks deployment status on save
+  * Build log panel: monospace pre-formatted log viewer with close button
+    - Fetches logs from Netlify deploy log API or Vercel events API
+    - "Logs" button only appears for failed deployments
+  * Redeploy button: triggers rebuild via Netlify builds API or Vercel deployments API
+    - Confirmation dialog before triggering
+  * Refresh All button: checks status for all configured projects
+  * Edit/Remove config actions per project
+  * Added backend API endpoints:
+    - GET /api/deployments/overview - Combined status for all targets
+    - POST /api/deployments/config/:targetId - Save provider config (credentials)
+    - DELETE /api/deployments/config/:targetId - Remove config
+    - POST /api/deployments/check/:targetId - Check deployment status via provider API
+    - GET /api/deployments/logs/:targetId - Fetch build logs from provider
+    - POST /api/deployments/redeploy/:targetId - Trigger redeploy via provider API
+  * Deployment configs stored in deployment-configs.json per target
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles with dt- prefix namespace
+  * Tests passed: All 4 acceptance criteria verified (51 assertions)
+    - Shows deployment status per project ✓
+    - Links to live preview URLs ✓
+    - Displays build logs on failure ✓
+    - Triggers redeploy from dashboard ✓
+- Committed: "feat: Implement Deployment Status Tracker (feat-044)"
+
+- Feature status: 44/120 passing (36.7% complete)
+
+NEXT: feat-045 (next feature in queue)
