@@ -1205,7 +1205,7 @@
         "Semantic matching",
         "Filter results"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-096",
