@@ -1145,7 +1145,7 @@
         "Touch-friendly controls",
         "Key metrics visible"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-091",
