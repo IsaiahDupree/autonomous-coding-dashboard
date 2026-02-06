@@ -2103,6 +2103,246 @@ app.get('/api/costs/pricing', async (req, res) => {
 });
 
 // ============================================
+// COST FORECASTING API (feat-042)
+// ============================================
+
+app.get('/api/cost-forecast', async (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const repoQueueFile = path.join(projectRoot, 'harness', 'repo-queue.json');
+
+        if (!fs.existsSync(repoQueueFile)) {
+            return res.status(404).json({ success: false, error: 'repo-queue.json not found' });
+        }
+
+        const repoQueue = JSON.parse(fs.readFileSync(repoQueueFile, 'utf-8'));
+        const repos = repoQueue.repos || [];
+
+        // 1. Gather per-project feature counts
+        const projects: any[] = [];
+        let grandTotalFeatures = 0;
+        let grandTotalPassing = 0;
+
+        for (const repo of repos) {
+            let total = 0, passing = 0;
+            if (repo.featureList && fs.existsSync(repo.featureList)) {
+                try {
+                    const featureData = JSON.parse(fs.readFileSync(repo.featureList, 'utf-8'));
+                    const featureArray = featureData.features || featureData || [];
+                    if (Array.isArray(featureArray)) {
+                        total = featureArray.length;
+                        passing = featureArray.filter((f: any) =>
+                            f.completed || f.passes || f.status === 'passing'
+                        ).length;
+                    }
+                } catch (e) { /* ignore */ }
+            }
+            grandTotalFeatures += total;
+            grandTotalPassing += passing;
+            projects.push({ id: repo.id, name: repo.name, total, passing, pending: total - passing });
+        }
+
+        // 2. Gather cost data from DB sessions
+        let totalCost = 0;
+        let totalSessions = 0;
+        let totalFeaturesCompleted = grandTotalPassing;
+        let dailyCosts: { date: string; cost: number; features: number }[] = [];
+        let costByProject: Record<string, { totalCost: number; sessions: number }> = {};
+
+        try {
+            const sessions = await prisma.harnessSession.findMany({
+                where: { status: 'completed' },
+                select: {
+                    costUsd: true,
+                    startedAt: true,
+                    target: { select: { repoId: true } }
+                },
+                orderBy: { startedAt: 'asc' }
+            });
+
+            for (const s of sessions) {
+                const cost = s.costUsd || 0;
+                totalCost += cost;
+                totalSessions++;
+                const repoId = s.target?.repoId || 'unknown';
+                if (!costByProject[repoId]) costByProject[repoId] = { totalCost: 0, sessions: 0 };
+                costByProject[repoId].totalCost += cost;
+                costByProject[repoId].sessions++;
+            }
+
+            // Aggregate daily costs from sessions
+            const dailyMap: Record<string, number> = {};
+            for (const s of sessions) {
+                if (s.startedAt) {
+                    const day = s.startedAt.toISOString().split('T')[0];
+                    dailyMap[day] = (dailyMap[day] || 0) + (s.costUsd || 0);
+                }
+            }
+            const sortedDays = Object.keys(dailyMap).sort();
+            dailyCosts = sortedDays.map(d => ({ date: d, cost: Math.round(dailyMap[d] * 100) / 100, features: 0 }));
+        } catch (e) { /* DB may not be available */ }
+
+        // 3. Gather daily feature snapshots for velocity calculation
+        // Aggregate per-target snapshots by day to get total passing across all projects
+        let dailyFeatures: { date: string; passing: number }[] = [];
+        try {
+            const snapshots = await prisma.progressSnapshot.findMany({
+                orderBy: { snapshotDate: 'asc' },
+                select: { passingFeatures: true, snapshotDate: true, totalFeatures: true, targetId: true }
+            });
+
+            // Group by target+day, taking the latest (max) snapshot per target per day
+            const byTargetDay: Record<string, Record<string, number>> = {};
+            for (const snap of snapshots) {
+                const day = snap.snapshotDate.toISOString().split('T')[0];
+                const tid = snap.targetId || 'unknown';
+                if (!byTargetDay[day]) byTargetDay[day] = {};
+                // Take max passing for each target on each day
+                byTargetDay[day][tid] = Math.max(byTargetDay[day][tid] || 0, snap.passingFeatures);
+            }
+
+            // Sum across all targets per day to get aggregate passing
+            const sortedDates = Object.keys(byTargetDay).sort();
+            // Track cumulative max per target across days (fill forward)
+            const latestByTarget: Record<string, number> = {};
+            for (const day of sortedDates) {
+                for (const [tid, val] of Object.entries(byTargetDay[day])) {
+                    latestByTarget[tid] = val;
+                }
+                const totalPassing = Object.values(latestByTarget).reduce((a, b) => a + b, 0);
+                dailyFeatures.push({ date: day, passing: totalPassing });
+            }
+
+            // Merge feature counts into dailyCosts
+            for (const dc of dailyCosts) {
+                const match = dailyFeatures.find(df => df.date === dc.date);
+                if (match) dc.features = match.passing;
+            }
+        } catch (e) { /* DB may not be available */ }
+
+        // 4. Calculate forecasting metrics
+        const remainingFeatures = grandTotalFeatures - grandTotalPassing;
+        const costPerFeature = totalFeaturesCompleted > 0
+            ? totalCost / totalFeaturesCompleted
+            : (totalSessions > 0 ? totalCost / totalSessions : 3.0); // fallback estimate
+
+        // Velocity: features per day from snapshots (use positive deltas only)
+        let avgFeaturesPerDay = 0;
+        if (dailyFeatures.length >= 2) {
+            const recentDays = dailyFeatures.slice(-14);
+            if (recentDays.length >= 2) {
+                // Sum only positive daily deltas to measure forward progress
+                let totalGains = 0;
+                let dayCount = 0;
+                for (let i = 1; i < recentDays.length; i++) {
+                    const delta = recentDays[i].passing - recentDays[i - 1].passing;
+                    if (delta > 0) totalGains += delta;
+                    dayCount++;
+                }
+                avgFeaturesPerDay = dayCount > 0 ? totalGains / dayCount : 0;
+            }
+        }
+
+        // Projected cost for remaining features
+        const projectedCostRemaining = remainingFeatures * costPerFeature;
+        const projectedTotalCost = totalCost + projectedCostRemaining;
+
+        // Estimated days to completion
+        const estimatedDaysToComplete = avgFeaturesPerDay > 0
+            ? Math.ceil(remainingFeatures / avgFeaturesPerDay)
+            : null;
+
+        const estimatedCompletionDate = estimatedDaysToComplete
+            ? new Date(Date.now() + estimatedDaysToComplete * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            : null;
+
+        // Daily cost rate
+        const costDays = dailyCosts.length;
+        const avgDailyCost = costDays > 0 ? totalCost / costDays : 0;
+
+        // Confidence intervals (simple: +/- 30% for low, +/- 15% for medium based on data points)
+        const dataPoints = dailyCosts.length;
+        const confidenceLevel = dataPoints >= 14 ? 'high' : dataPoints >= 7 ? 'medium' : 'low';
+        const marginPct = confidenceLevel === 'high' ? 0.15 : confidenceLevel === 'medium' ? 0.25 : 0.40;
+
+        const confidenceIntervals = {
+            level: confidenceLevel,
+            projectedCost: {
+                low: Math.round((projectedTotalCost * (1 - marginPct)) * 100) / 100,
+                mid: Math.round(projectedTotalCost * 100) / 100,
+                high: Math.round((projectedTotalCost * (1 + marginPct)) * 100) / 100,
+            },
+            daysToComplete: estimatedDaysToComplete ? {
+                low: Math.max(1, Math.round(estimatedDaysToComplete * (1 - marginPct * 0.5))),
+                mid: estimatedDaysToComplete,
+                high: Math.round(estimatedDaysToComplete * (1 + marginPct)),
+            } : null,
+        };
+
+        // Budget alerts
+        const budgetAlerts: { type: string; message: string; severity: string }[] = [];
+        // Check if projected cost exceeds common thresholds
+        const budgetThresholds = [500, 1000, 2000, 5000];
+        for (const threshold of budgetThresholds) {
+            if (totalCost < threshold && projectedTotalCost >= threshold) {
+                budgetAlerts.push({
+                    type: 'budget_threshold',
+                    message: `Projected total cost ($${confidenceIntervals.projectedCost.mid.toFixed(2)}) will exceed $${threshold}`,
+                    severity: threshold <= 1000 ? 'warning' : 'critical',
+                });
+            }
+        }
+        if (avgDailyCost > 50) {
+            budgetAlerts.push({
+                type: 'high_daily_cost',
+                message: `Daily cost rate ($${avgDailyCost.toFixed(2)}/day) is high`,
+                severity: 'warning',
+            });
+        }
+
+        // Per-project forecasts
+        const projectForecasts = projects.filter(p => p.pending > 0).map(p => {
+            const projCost = costByProject[p.id];
+            const cpf = projCost && p.passing > 0 ? projCost.totalCost / p.passing : costPerFeature;
+            const projected = p.pending * cpf;
+            return {
+                id: p.id,
+                name: p.name,
+                remaining: p.pending,
+                costPerFeature: Math.round(cpf * 100) / 100,
+                projectedCost: Math.round(projected * 100) / 100,
+                spent: projCost ? Math.round(projCost.totalCost * 100) / 100 : 0,
+            };
+        }).sort((a, b) => b.projectedCost - a.projectedCost);
+
+        res.json({
+            success: true,
+            data: {
+                summary: {
+                    totalFeatures: grandTotalFeatures,
+                    completedFeatures: grandTotalPassing,
+                    remainingFeatures,
+                    totalCostSoFar: Math.round(totalCost * 100) / 100,
+                    costPerFeature: Math.round(costPerFeature * 100) / 100,
+                    avgDailyCost: Math.round(avgDailyCost * 100) / 100,
+                    avgFeaturesPerDay: Math.round(avgFeaturesPerDay * 100) / 100,
+                    projectedCostRemaining: Math.round(projectedCostRemaining * 100) / 100,
+                    projectedTotalCost: Math.round(projectedTotalCost * 100) / 100,
+                    estimatedDaysToComplete,
+                    estimatedCompletionDate,
+                },
+                confidenceIntervals,
+                budgetAlerts,
+                dailyCosts: dailyCosts.slice(-30), // Last 30 days
+                projectForecasts,
+            },
+        });
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message || 'Failed to compute forecast' });
+    }
+});
+
+// ============================================
 // PROJECT MANAGER API
 // ============================================
 

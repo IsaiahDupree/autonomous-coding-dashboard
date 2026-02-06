@@ -562,7 +562,8 @@
         "Provides confidence intervals",
         "Alerts on budget thresholds"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T06:00:00Z"
     },
     {
       "id": "feat-043",

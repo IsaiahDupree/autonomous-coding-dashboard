@@ -840,3 +840,39 @@ NEXT: feat-041 (Cross-Project Analytics - Aggregate metrics across all targets)
 - Feature status: 41/120 passing (34.2% complete)
 
 NEXT: feat-042 (next feature in queue)
+
+- Implemented feat-042: Cost Forecasting - Predict future API costs
+  * Created cost-forecasting.js dashboard widget with full UI
+  * Summary cards: total spent, projected remaining, projected total, cost per feature
+  * Confidence interval visualization: range bar showing low/mid/high projections
+    - Confidence levels: high (15% margin, 14+ data points), medium (25%), low (40%)
+    - Shows green spent bar and purple projected range overlay
+  * Daily cost trend chart with historical bars and 7-day forecast (dashed)
+    - Color-codes bars above 1.5x average in red
+    - Average cost/day reference line
+  * Budget alerts system:
+    - Automatic alerts when projected cost exceeds $500/$1000/$2000/$5000 thresholds
+    - High daily cost rate warnings
+    - Custom budget threshold via localStorage
+  * Per-project cost forecast table:
+    - Shows remaining features, cost/feature, spent, and projected cost
+    - Stacked bar showing spent (green) vs projected (purple)
+    - Sorted by projected cost descending
+  * Added backend API endpoint GET /api/cost-forecast:
+    - Aggregates feature data from repo-queue.json targets
+    - Pulls cost data from DB harness sessions
+    - Computes velocity from progress snapshots (aggregate per-target, forward fill)
+    - Calculates confidence intervals based on data availability
+    - Per-project forecasts using individual cost-per-feature rates
+  * Updated index.html with widget container and script tag
+  * Added comprehensive CSS styles for all widget components
+  * Tests passed: All 4 acceptance criteria verified (51 assertions)
+    - Projects cost based on remaining features ✓
+    - Considers historical cost per feature ✓
+    - Provides confidence intervals ✓
+    - Alerts on budget thresholds ✓
+- Committed: "feat: Implement Cost Forecasting (feat-042)"
+
+- Feature status: 42/120 passing (35.0% complete)
+
+NEXT: feat-043 (next feature in queue)
