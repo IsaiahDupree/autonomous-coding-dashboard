@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PRD Viewer - View and navigate product requirement documents">
+  <title>PRD Viewer - Autonomous Coding Dashboard</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Highlight.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Marked.js for markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .prd-container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      height: calc(100vh - 120px);
+    }
+
+    .prd-sidebar {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-y: auto;
+      position: sticky;
+      top: 100px;
+      max-height: calc(100vh - 140px);
+    }
+
+    .prd-sidebar h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .prd-toc {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .prd-toc li {
+      margin-bottom: 0.5rem;
+    }
+
+    .prd-toc a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      display: block;
+      padding: 0.375rem 0.5rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .prd-toc a:hover {
+      background: var(--color-bg);
+      color: var(--color-primary);
+    }
+
+    .prd-toc a.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .prd-toc .toc-h2 {
+      padding-left: 0;
+    }
+
+    .prd-toc .toc-h3 {
+      padding-left: 1rem;
+      font-size: 0.8125rem;
+    }
+
+    .prd-toc .toc-h4 {
+      padding-left: 2rem;
+      font-size: 0.75rem;
+    }
+
+    .prd-main {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .prd-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .prd-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .prd-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 0.875rem;
+      width: 250px;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      padding: 0.25rem;
+      display: none;
+    }
+
+    .search-clear:hover {
+      color: var(--color-text);
+    }
+
+    .search-input:not(:placeholder-shown) + .search-clear {
+      display: block;
+    }
+
+    .prd-content {
+      padding: 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .markdown-body {
+      color: var(--color-text);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4 {
+      color: var(--color-text);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .markdown-body h1 {
+      font-size: 2rem;
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.5rem;
+    }
+
+    .markdown-body h2 {
+      font-size: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0.375rem;
+    }
+
+    .markdown-body h3 {
+      font-size: 1.25rem;
+    }
+
+    .markdown-body p {
+      margin-bottom: 1rem;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+    }
+
+    .markdown-body li {
+      margin-bottom: 0.5rem;
+    }
+
+    .markdown-body code {
+      background: var(--color-bg);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875em;
+    }
+
+    .markdown-body pre {
+      background: var(--color-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    .markdown-body pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .markdown-body blockquote {
+      border-left: 4px solid var(--color-primary);
+      padding-left: 1rem;
+      color: var(--color-text-secondary);
+      margin: 1rem 0;
+    }
+
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    .markdown-body th,
+    .markdown-body td {
+      padding: 0.75rem;
+      border: 1px solid var(--color-border);
+      text-align: left;
+    }
+
+    .markdown-body th {
+      background: var(--color-bg);
+      font-weight: 600;
+    }
+
+    .markdown-body a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .markdown-body a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .search-highlight {
+      background: rgba(255, 235, 59, 0.3);
+      padding: 0.1em 0.2em;
+      border-radius: 3px;
+    }
+
+    .loading-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      color: var(--color-text-secondary);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--color-text-secondary);
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-selector {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 0.875rem;
+      cursor: pointer;
+      min-width: 200px;
+    }
+
+    @media (max-width: 768px) {
+      .prd-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .prd-sidebar {
+        position: relative;
+        top: 0;
+        max-height: 300px;
+      }
+
+      .search-input {
+        width: 150px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <a href="#" class="logo">
+            <div class="logo-icon">🤖</div>
+            <span>Autonomous Coding Agent</span>
+          </a>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <a href="index.html" class="btn btn-secondary">📊 Dashboard</a>
+          <a href="queue.html" class="btn btn-secondary">📋 Project Queue</a>
+          <a href="prd-viewer.html" class="btn">📄 PRD Viewer</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="prd-container">
+    <!-- Sidebar with Table of Contents -->
+    <aside class="prd-sidebar">
+      <h3>Table of Contents</h3>
+      <ul class="prd-toc" id="prd-toc">
+        <!-- TOC will be populated here -->
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="prd-main">
+      <div class="prd-header">
+        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+          <h1 class="prd-title">📄 PRD Viewer</h1>
+          <select class="project-selector" id="project-selector">
+            <option value="">Select a project...</option>
+          </select>
+        </div>
+        <div class="prd-actions">
+          <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="Search in document...">
+            <button class="search-clear" id="search-clear">✕</button>
+          </div>
+          <button class="btn btn-secondary" onclick="downloadPRD()">📥 Download</button>
+        </div>
+      </div>
+
+      <div class="prd-content" id="prd-content">
+        <div class="empty-state">
+          <h3>No PRD Selected</h3>
+          <p>Select a project from the dropdown to view its PRD.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Error Toast Container -->
+  <div id="error-toast-container" class="error-toast-container"></div>
+
+  <script src="app.js"></script>
+  <script src="prd-viewer.js"></script>
+</body>
+
+</html>

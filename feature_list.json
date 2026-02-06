@@ -452,7 +452,8 @@
         "Links to referenced files open in editor",
         "Search within PRD content"
       ],
-      "passes": false
+      "passes": true,
+      "implemented_at": "2026-02-06T03:30:00Z"
     },
     {
       "id": "feat-035",

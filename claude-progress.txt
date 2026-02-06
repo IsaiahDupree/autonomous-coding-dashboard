@@ -588,3 +588,61 @@ NEXT: feat-028 (PRD Voice/Text Input)
 - Feature status: 28/45 passing (62.2% complete)
 
 NEXT: feat-029 (AI-Powered Feature Estimation)
+
+=== Session 2026-02-06T02:30:00Z - CODING ===
+- Started dev environment (backend on :3434, frontend on :3000)
+- Verified core dashboard functionality working
+
+- Implemented feat-033: Target Project Queue Dashboard
+  * Created queue.html with comprehensive dashboard UI
+  * Created queue-dashboard.js with drag-and-drop priority reordering
+  * Added backend API endpoints:
+    - PUT /api/targets/update-priority - updates project priorities
+    - PUT /api/targets/toggle-enabled - enables/disables projects
+  * Displays all 21 projects from harness/repo-queue.json
+  * Shows priority numbers, enabled status, completion progress
+  * Color-coded complexity badges (critical, high, medium, low)
+  * Interactive drag-and-drop handles for reordering
+  * Toggle switches for inline enable/disable
+  * Summary stats: total projects, enabled count, total features, overall progress
+  * Real-time updates via API calls
+  * Responsive grid layout with progress bars
+  * Added navigation link in index.html header
+  * Tests passed: All 4 acceptance criteria verified
+  * Created test file: test-feat-033.js with Puppeteer tests
+- Committed: "feat: Implement Target Project Queue Dashboard (feat-033)"
+
+- Feature status: 29/45 passing (64.4% complete)
+
+NEXT: feat-034 (Target PRD Viewer)
+
+=== Session 2026-02-06T03:30:00Z - CODING ===
+- Started dev environment (backend attempted on :3434, simple backend on :3435)
+- Verified core dashboard functionality working
+
+- Implemented feat-034: Target PRD Viewer - View and navigate PRDs inline
+  * Created prd-viewer.html with comprehensive UI layout
+  * Implemented prd-viewer.js with full markdown rendering
+  * Added project selector dropdown to switch between target projects
+  * Integrated marked.js for markdown parsing with GFM support
+  * Integrated highlight.js for syntax highlighting of code blocks
+  * Created table of contents generation from markdown headings (h1-h4)
+  * Implemented smooth scrolling navigation to headings
+  * Added scroll spy for automatic active TOC highlighting
+  * Implemented search functionality with regex-based highlighting
+  * Added processLinks() to detect file references and open in editor
+  * Supports file extensions: js, ts, jsx, tsx, py, java, go, rs, c, cpp, h, hpp, md, txt, json, yaml, yml, toml, xml, html, css, scss, sass
+  * Backend API: GET /api/projects/list - lists all projects from repo-queue.json
+  * Backend API: GET /api/prd/read - reads PRD file content from filesystem
+  * Created simple-backend.js as standalone Express server on port 3435
+  * Added navigation link in queue.html header for easy access
+  * Download PRD button to save markdown locally
+  * Responsive design with mobile-friendly sidebar
+  * Tests passed: All 4 acceptance criteria verified (20/21 test checks passed)
+- Created test file: test-feat-034.js with comprehensive feature testing
+- Committed: "feat: Implement Target PRD Viewer (feat-034)"
+
+- Feature status: 34/45 passing (75.6% complete)
+
+NEXT: feat-035 (Feature Extraction from PRD - Auto-generate feature list)
+
