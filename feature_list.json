@@ -1193,7 +1193,7 @@
         "Suggest improvements",
         "Track quality over time"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-095",
