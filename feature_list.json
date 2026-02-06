@@ -1301,7 +1301,7 @@
         "Filter by user",
         "Notifications"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-104",
