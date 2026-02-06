@@ -785,7 +785,7 @@
         "Import from Google Docs",
         "Import from markdown"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-061",
