@@ -197,6 +197,15 @@ DO NOT just analyze or report status. Actually implement code for pending featur
 - Integration tests: `__tests__/integration/<feature>.test.ts`
 - E2E tests: `e2e/<feature>.spec.ts`
 
+## IMPORTANT: Remove MockRedis from Production
+
+MockRedis is used as a Redis fallback in production rate limiting code:
+- `apps/api/src/lib/ratelimit-mock.ts` → MockRedis class (delete this file)
+- `apps/api/src/lib/ratelimit.ts:12` → imports MockRedis, uses it at line 53 as fallback
+- `apps/web/src/lib/ratelimit.ts:37` → inline MockRedis class, used at line 100
+
+**Action:** Replace MockRedis with a proper in-memory rate limiter (simple Map-based `InMemoryRateLimiter`) or require Redis URL in production config. Remove all "Mock" naming from production code.
+
 Remember to:
 1. Read existing code patterns before creating new files
 2. Check the relevant PRD in `docs/prds/` for detailed requirements
@@ -204,6 +213,7 @@ Remember to:
 4. Add Supabase migrations for database changes
 5. **IMPORTANT**: Mark features as `"passes": true` in `/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target/feature_list.json` when complete
 6. Follow the PRD acceptance criteria for each feature
+7. **NEVER use mock data, mock providers, or "Mock" classes in production code**
 
 ## How to Mark a Feature Complete
 After implementing a feature, edit `feature_list.json` and find the feature by its ID (e.g., "FOUND-001"), then change `"passes": false` to `"passes": true`. Example:

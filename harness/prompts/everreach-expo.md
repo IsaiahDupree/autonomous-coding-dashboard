@@ -62,6 +62,13 @@ META_PIXEL_ID=
 META_CONVERSIONS_ACCESS_TOKEN=
 ```
 
+## IMPORTANT: Remove Dummy Stripe Key from Production
+
+The Stripe webhook handler uses a dummy fallback key:
+- `backend-vercel/app/api/webhooks/stripe/route.ts:43` → `new Stripe('sk_test_dummy', ...)` when STRIPE_SECRET_KEY is missing
+
+**Action:** Remove `sk_test_dummy` fallback. Throw ConfigError when STRIPE_SECRET_KEY is missing. **NEVER use dummy/fake API keys or mock data in production code.**
+
 ## Success Criteria
 
 - All P0 events tracked correctly

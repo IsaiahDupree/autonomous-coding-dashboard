@@ -66,18 +66,47 @@ const ErrorTypes = {
 };
 
 function classifyError(output, exitCode) {
-  const lowerOutput = output.toLowerCase();
+  // Only check the tail of output to avoid false positives from session content
+  const tailLength = 3000;
+  const lowerTail = output.slice(-tailLength).toLowerCase();
   
-  if (lowerOutput.includes('invalid api key') || lowerOutput.includes('unauthorized')) {
-    return ErrorTypes.AUTH_ERROR;
-  }
-  if (lowerOutput.includes('rate limit') || lowerOutput.includes('429')) {
+  // Rate limiting - check FIRST (takes priority over auth)
+  if (
+    lowerTail.includes('rate limit') ||
+    lowerTail.includes('429') ||
+    lowerTail.includes('too many requests') ||
+    lowerTail.includes('overloaded') ||
+    lowerTail.includes('hit your limit') ||
+    lowerTail.includes('resets')
+  ) {
     return ErrorTypes.RATE_LIMIT;
   }
-  if (lowerOutput.includes('500') || lowerOutput.includes('internal server error')) {
+  
+  // Auth errors - strict patterns only, tail-checked
+  const authPatterns = [
+    'invalid api key',
+    'invalid_api_key',
+    'authentication_failed',
+    '"error":"authentication_failed"',
+    'api key is invalid',
+    'could not authenticate',
+  ];
+  const hasAuthError = authPatterns.some(p => lowerTail.includes(p));
+  const hasUnauthorized = lowerTail.includes('401') && lowerTail.includes('unauthorized');
+  if (hasAuthError || hasUnauthorized) {
+    return ErrorTypes.AUTH_ERROR;
+  }
+  
+  if (
+    lowerTail.includes('500 internal') ||
+    lowerTail.includes('502 bad gateway') ||
+    lowerTail.includes('503 service') ||
+    lowerTail.includes('504 gateway') ||
+    lowerTail.includes('internal server error')
+  ) {
     return ErrorTypes.SERVER_ERROR;
   }
-  if (lowerOutput.includes('econnrefused') || lowerOutput.includes('timeout')) {
+  if (lowerTail.includes('econnrefused') || lowerTail.includes('timeout') || lowerTail.includes('network error')) {
     return ErrorTypes.TRANSIENT;
   }
   
@@ -232,7 +261,14 @@ async function main() {
       consecutiveErrors++;
       
       if (result.errorType === ErrorTypes.AUTH_ERROR) {
-        log('Authentication error - stopping harness', 'error');
+        if (consecutiveErrors <= 2) {
+          log(`Possible auth error (attempt ${consecutiveErrors}/2) — retrying in 3 min`, 'warning');
+          log(`Tail: ${result.output.slice(-300).replace(/\n/g, ' ').trim()}`, 'info');
+          updateStatus('auth_retry', { attempt: consecutiveErrors });
+          await new Promise(r => setTimeout(r, 3 * 60 * 1000));
+          continue;
+        }
+        log('Authentication error after retries — stopping harness', 'error');
         updateStatus('auth_error');
         break;
       }

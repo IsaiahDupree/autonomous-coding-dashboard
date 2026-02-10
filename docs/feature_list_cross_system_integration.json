@@ -3,7 +3,7 @@
   "description": "Features for integrating all ACD projects via shared infrastructure, APIs, and data flows",
   "version": "1.0",
   "created": "2026-02-05",
-  "total_features": 250,
+  "total_features": 235,
   "categories": {
     "shared-auth": "Portal28 shared authentication across all products",
     "shared-db": "Supabase shared tables and RLS policies",
@@ -2093,6 +2093,90 @@
       "target_project": "Remotion",
       "acceptance_criteria": ["WebP conversion", "Responsive sizes", "Lazy loading support"],
       "passes": false
+    },
+    {
+      "id": "GAP-001",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "Unified Meta CAPI ingest endpoint",
+      "target_project": "WaitlistLab",
+      "acceptance_criteria": ["POST /api/v1/meta/event endpoint", "PII SHA256 hashing", "Event deduplication via event_id", "Batching up to 1000 events", "Exponential backoff retries", "Logging to attribution_events table"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires META_CAPI_INGEST_ENABLED=true after deployment verification",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
+    },
+    {
+      "id": "GAP-002",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "Cross-product attribution via segment engine → CAPI",
+      "target_project": "Growth Data Plane",
+      "acceptance_criteria": ["Segment engine fires CAPI on conversion events", "Covers all products: SnapMix, SoftwareHub, VelvetHold, etc.", "Maps standard Meta events (Lead, Purchase, StartTrial)", "Depends on GAP-001"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires SEGMENT_ENGINE_META_CAPI_ENABLED=true after GAP-001 deployed",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
+    },
+    {
+      "id": "GAP-003",
+      "category": "shared-db",
+      "priority": 0,
+      "description": "Shared person table for cross-product lead data",
+      "target_project": "Supabase Shared",
+      "acceptance_criteria": ["shared.person table with email, phone, UTM, Meta fbp/fbc", "shared.identity_link for cross-system ID mapping", "RLS: service_role only", "WaitlistLab lead form → person sync"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires SHARED_PERSON_TABLE_ENABLED=true after migration applied",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
+    },
+    {
+      "id": "GAP-004",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Ad performance insights in ACD dashboard",
+      "target_project": "ACD Backend",
+      "acceptance_criteria": ["GET /api/meta/insights endpoint", "Aggregated spend, CPC, CTR, conversions", "Per-project breakdown", "Daily trend data", "15-min cache TTL"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires ACD_META_INSIGHTS_ENABLED=true after Supabase shared access confirmed",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
+    },
+    {
+      "id": "GAP-005",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Meta Pixel + CAPI client snippet for all products",
+      "target_project": "All Products",
+      "acceptance_criteria": ["Drop-in lib/tracking/meta-pixel.ts snippet", "Client Pixel + server CAPI with dedup", "Disabled by default via META_PIXEL_ENABLED env", "Relay to WaitlistLab CAPI hub", "Deploy on: SnapMix, SoftwareHub, VelvetHold, SteadyLetters, BlogCanvas"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires NEXT_PUBLIC_META_PIXEL_ENABLED=true per product after privacy review",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
+    },
+    {
+      "id": "GAP-006",
+      "category": "meta-hub",
+      "priority": 0,
+      "description": "Non-WaitlistLab conversion events edge function",
+      "target_project": "Growth Data Plane",
+      "acceptance_criteria": ["Supabase Edge Function track-conversion", "Stores to unified events table", "Looks up person for CAPI user_data", "Forwards to GAP-001 CAPI endpoint", "Disabled by default"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires CONVERSION_TRACKING_ENABLED=true and META_CAPI_FORWARD_ENABLED=true",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
+    },
+    {
+      "id": "GAP-007",
+      "category": "meta-hub",
+      "priority": 1,
+      "description": "Automated Custom Audience sync from segments",
+      "target_project": "Growth Data Plane",
+      "acceptance_criteria": ["Segment → Meta Custom Audience mapping", "PII hashing per Meta spec", "Audience replace on segment re-evaluation", "Supports: Activated Free Users, High Intent, Power Users, Win-Back, Lookalike seeds"],
+      "passes": false,
+      "disabled": true,
+      "disabled_reason": "Requires META_CUSTOM_AUDIENCE_SYNC_ENABLED=true — highest risk, deploy last",
+      "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
     }
   ]
 }

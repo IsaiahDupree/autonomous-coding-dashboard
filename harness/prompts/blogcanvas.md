@@ -86,11 +86,22 @@ npm test       # Run tests
 5. Update `feature_list.json` with `"passes": true`
 6. Commit changes
 
+## IMPORTANT: Remove TODO Stubs from Production
+
+The following files contain TODO stubs that need real implementations:
+- `src/app/api/blog-posts/[id]/showcase/route.ts:118` → "TODO: Send email notifications" — implement real email service (Resend/SendGrid)
+- `src/app/api/websites/[id]/competitors/[competitorId]/analyze/route.ts:27` → "TODO: In a real implementation" — implement real competitor analysis
+- `src/lib/analytics/check-back-scheduler.ts:88` → "TODO: Integrate with Google Analytics and Search Console APIs"
+
+**Action:** Replace TODO stubs with real integrations or mark the feature as `passes: false`.
+
 ## Critical Rules
 - ❌ Do NOT break existing functionality
 - ❌ Do NOT hardcode API keys
 - ❌ Do NOT mark features passing without testing
+- ❌ Do NOT leave TODO stubs with fake/placeholder return values
 - ✅ Follow existing code patterns
 - ✅ Use TypeScript types properly
 - ✅ Test with browser on port 4848
 - ✅ Commit before session ends
+- ✅ **NEVER use mock data, TODO stubs with fake returns, or placeholder implementations in production**

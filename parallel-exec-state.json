@@ -38,7 +38,23 @@
       "priority": 23
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "id": "conflict-feat-050-feat-051-1770356597775",
+      "type": "file_conflict",
+      "severity": "critical",
+      "features": [
+        "feat-050",
+        "feat-051"
+      ],
+      "files": [
+        "index.html",
+        "index.css"
+      ],
+      "detectedAt": "2026-02-06T05:43:17.775Z",
+      "resolved": false
+    }
+  ],
   "log": [
     {
       "type": "started",
@@ -97,8 +113,8 @@
     }
   ],
   "resources": {
-    "cpu": 46,
-    "memory": 1149,
+    "cpu": 40,
+    "memory": 1252,
     "activeSlots": 2
   }
 }

@@ -95,6 +95,15 @@ REMOTION_SERVICE_URL=http://localhost:8686
 POSTHOG_API_KEY=
 ```
 
+## IMPORTANT: Remove TODO Stubs from Production
+
+The following files contain TODO stubs that need real implementations:
+- `waitlist-lab/src/app/dashboard/page-old.tsx:63` → "TODO: Fetch real data from Facebook API" — implement Meta Marketing API or remove old page
+- `waitlist-lab/src/lib/amd/platform-manager.ts:267` → "TODO: Implement Twitter API v2 posting" — implement real posting
+- `waitlist-lab/src/lib/amd/platform-manager.ts:286` → "TODO: Implement Twitter API metrics fetching" — implement real metrics
+
+**Action:** Replace TODO stubs with real API implementations. **NEVER use mock data or TODO stubs with fake returns in production code.**
+
 ## Success Metrics
 
 - Monthly Lead Volume: 5,000

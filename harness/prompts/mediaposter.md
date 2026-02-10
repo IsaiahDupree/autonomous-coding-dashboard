@@ -192,6 +192,17 @@ Implement System Architecture Integration (ARCH-001 to ARCH-008) to wire togethe
 
 Each feature should result in working, tested code that integrates with existing services.
 
+## CRITICAL: Remove Mock Providers from Production
+
+The following mock providers are imported as production fallbacks and must be replaced:
+- `Backend/services/ai_providers/mock_provider.py` → MockAIProvider (imported in `__init__.py:26`, used as fallback at line 54)
+- `Backend/services/video_providers/mock_provider.py` → MockVideoProvider (imported in `__init__.py:41`, used as fallback at lines 51,59)
+- `Backend/services/ai_content_generator.py` → TODO stubs returning fake data for OpenAI, Anthropic, Stability AI, DALL-E, Runway ML
+- `Backend/api/comment_automation.py:432-438` → Mock comment summarization
+- `Backend/api/endpoints/publishing_analytics.py:89` → Hardcoded content variants
+
+**Action:** Replace mock fallbacks with `raise NotConfiguredError("Provider not configured")`. Implement real API calls for all TODO stubs. Delete `mock_provider.py` files or move to `tests/` directory.
+
 Remember to:
 1. Read existing code patterns in `Backend/services/` before creating new services
 2. Follow FastAPI patterns for new endpoints
@@ -199,3 +210,4 @@ Remember to:
 4. Update `feature_list.json` with `passes: true` when features complete
 5. No silent skips - always fail with clear error
 6. Use real OpenAI calls for any AI features
+7. **NEVER use mock providers, mock data, or TODO stubs with fake returns in production code**

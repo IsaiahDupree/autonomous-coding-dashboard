@@ -198,6 +198,18 @@ DO NOT just analyze or report status. Actually implement code for pending featur
 - Integration tests: `__tests__/integration/<feature>.test.ts`
 - E2E tests: `e2e/<feature>.spec.ts`
 
+## CRITICAL: Remove Mock Data from Production
+
+**`src/lib/mock-data.ts` must be deleted.** It contains hardcoded fake data that is imported in 6+ production dashboard pages:
+- `src/app/dashboard/page.tsx` → mockRuns, mockGapOpportunities, mockConceptIdeas
+- `src/app/dashboard/gaps/page.tsx` → mockGapOpportunities, mockClusters, mockAdCreatives, mockRedditMentions
+- `src/app/dashboard/ugc/page.tsx` → mockUGCAssets, mockUGCRecommendations
+- `src/app/dashboard/brands/[id]/page.tsx` → mockAdCreatives, mockGapOpportunities
+- `src/app/dashboard/compare/page.tsx` → mockRuns
+- `src/app/dashboard/ideas/page.tsx` → mockConceptIdeas, mockAppStoreResults
+
+**Action:** Replace all mock imports with real Supabase queries or API calls. Delete `src/lib/mock-data.ts` when done.
+
 Remember to:
 1. Read existing code patterns before creating new files
 2. Create proper TypeScript types for all new features
@@ -205,6 +217,7 @@ Remember to:
 4. Test each feature works before moving to the next
 5. **IMPORTANT**: Mark features as `"passes": true` in `/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json` when complete
 6. Follow the PRD acceptance criteria for each feature
+7. **NEVER use mock data in production code** — always fetch real data from Supabase/API
 
 ## How to Mark a Feature Complete
 After implementing a feature, edit `feature_list.json` and find the feature by its ID (e.g., "LAND-001"), then change `"passes": false` to `"passes": true`. Example:

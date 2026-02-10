@@ -7,6 +7,7 @@ You are working on **SteadyLetters** (formerly KindLetters), a SaaS web applicat
 
 ## PRD References
 - **Main PRD**: `/Users/isaiahdupree/Documents/Software/KindLetters/PRD_STEADYLETTERS.md`
+- **Live API Testing**: `/Users/isaiahdupree/Documents/Software/KindLetters/PRD_LIVE_API_TESTING.md`
 - **Mobile Optimization**: `/Users/isaiahdupree/Documents/Software/KindLetters/PRD_MOBILE_OPTIMIZATION.md`
 - **Security Hardening**: `/Users/isaiahdupree/Documents/Software/KindLetters/PRD_SECURITY_HARDENING.md`
 - **Observability**: `/Users/isaiahdupree/Documents/Software/KindLetters/PRD_OBSERVABILITY.md`
@@ -20,7 +21,16 @@ You are working on **SteadyLetters** (formerly KindLetters), a SaaS web applicat
 
 ## Current Phase Priority
 
-**Phase 6: Mobile Optimization (MOB-001 to MOB-010)** - HIGHEST PRIORITY
+**Phase 9: Live API Testing (LIVE-TEST-001 to LIVE-TEST-015)** - HIGHEST PRIORITY
+- Create tests/live/config.ts with safety gates and default recipient (3425 Delaney Drive Apt 214, Melbourne FL 32934)
+- Create tests/live/cost-tracker.ts with budget enforcement ($5 max default)
+- Create tests/live/thanks-io-live.test.ts with 27 tests across 8 categories
+- Profile-based gating: smoke ($1.14), standard ($5.78), full ($12)
+- npm scripts: test:live, test:live:smoke, test:live:standard, test:live:full
+- See PRD: PRD_LIVE_API_TESTING.md for full spec
+- **IMPORTANT:** Starter files already exist at tests/live/ — validate, fix, and enhance them
+
+**Phase 6: Mobile Optimization (MOB-001 to MOB-010)**
 - Mobile hamburger menu navigation
 - Touch targets and iOS input fixes
 - Responsive layouts for all pages

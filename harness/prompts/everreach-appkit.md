@@ -164,8 +164,17 @@ After implementing a feature, edit `feature_list.json` and find the feature by i
 }
 ```
 
+## IMPORTANT: Remove TODO Stubs from Production
+
+The paywall screen has placeholder purchase logic:
+- `ios-starter/app/paywall.tsx:184` → "TODO: Replace with actual RevenueCat implementation"
+- `ios-starter/app/paywall.tsx:197` → "TODO: Replace with actual RevenueCat implementation"
+
+**Action:** Implement real RevenueCat SDK for purchases and subscriptions. **NEVER use TODO stubs with fake returns in production code.**
+
 Remember:
 - **147 total features** across 3 starter kits
 - Work on ONE feature at a time
 - Always update `feature_list.json` when done
 - Check the `acceptance` array for completion criteria
+- **NEVER use mock data or placeholder implementations in production**

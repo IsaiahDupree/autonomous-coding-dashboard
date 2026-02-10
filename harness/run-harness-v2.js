@@ -32,12 +32,11 @@ let UNTIL_COMPLETE = false; // Run until all features pass
 let ADAPTIVE_DELAY = true; // Dynamically adjust delay based on rate limits
 
 // Model fallback configuration
-// Use model names as recognized by the Claude CLI
-// Prioritize Sonnet 4.5 for best quality
+// Verified working model IDs (tested 2026-02-06)
 const AVAILABLE_MODELS = [
-  'claude-sonnet-4-5-20250929',  // Primary - Claude Sonnet 4.5 (best quality)
-  'sonnet',                       // Fallback 1 - Claude Sonnet (latest)
-  'haiku',                        // Fallback 2 - Claude Haiku (faster, lower cost)
+  'claude-opus-4-6',              // Primary - Claude Opus 4.6 (most capable)
+  'claude-sonnet-4-5-20250929',   // Fallback 1 - Claude Sonnet 4.5 (fast, high quality)
+  'claude-haiku-4-5-20251001',    // Fallback 2 - Claude Haiku 4.5 (faster, lower cost)
 ];
 let currentModelIndex = 0;
 let modelRateLimitStatus = {}; // Track rate limit status per model
@@ -99,55 +98,70 @@ const ErrorTypes = {
 
 function classifyError(output, exitCode) {
   const lowerOutput = output.toLowerCase();
+  // Only check the tail of output for auth/error signals to avoid false
+  // positives from content the agent wrote or discussed during the session.
+  const tailLength = 3000;
+  const lowerTail = output.slice(-tailLength).toLowerCase();
   
-  // Authentication errors - DO NOT RETRY
+  // Rate limiting - check FIRST (takes priority over auth since rate limit
+  // responses can sometimes include 'unauthorized' or similar words)
   if (
-    lowerOutput.includes('invalid api key') ||
-    lowerOutput.includes('authentication_failed') ||
-    lowerOutput.includes('unauthorized') ||
-    lowerOutput.includes('"error":"authentication_failed"')
-  ) {
-    return ErrorTypes.AUTH_ERROR;
-  }
-  
-  // Rate limiting - back off and retry
-  if (
-    lowerOutput.includes('rate limit') ||
-    lowerOutput.includes('429') ||
-    lowerOutput.includes('too many requests') ||
-    lowerOutput.includes('overloaded') ||
-    lowerOutput.includes('hit your limit') ||
-    lowerOutput.includes('resets')
+    lowerTail.includes('rate limit') ||
+    lowerTail.includes('429') ||
+    lowerTail.includes('too many requests') ||
+    lowerTail.includes('overloaded') ||
+    lowerTail.includes('hit your limit') ||
+    lowerTail.includes('resets')
   ) {
     return ErrorTypes.RATE_LIMIT;
   }
   
-  // Server errors - retry with backoff
+  // Authentication errors - only match against tail of output with strict patterns
+  // to avoid false positives from code/discussion in session body
+  const authPatterns = [
+    'invalid api key',
+    'invalid_api_key',
+    'authentication_failed',
+    '"error":"authentication_failed"',
+    'invalid x-api-key',
+    'api key is invalid',
+    'could not authenticate',
+    'invalid authorization',
+  ];
+  const hasAuthError = authPatterns.some(p => lowerTail.includes(p));
+  // Only classify as auth if "unauthorized" appears in a structured error context
+  // (not just anywhere in discussion)
+  const hasUnauthorized = lowerTail.includes('401') && lowerTail.includes('unauthorized');
+  if (hasAuthError || hasUnauthorized) {
+    return ErrorTypes.AUTH_ERROR;
+  }
+  
+  // Server errors - retry with backoff (check tail only)
   if (
-    lowerOutput.includes('500') ||
-    lowerOutput.includes('502') ||
-    lowerOutput.includes('503') ||
-    lowerOutput.includes('504') ||
-    lowerOutput.includes('internal server error')
+    lowerTail.includes('500 internal') ||
+    lowerTail.includes('502 bad gateway') ||
+    lowerTail.includes('503 service') ||
+    lowerTail.includes('504 gateway') ||
+    lowerTail.includes('internal server error')
   ) {
     return ErrorTypes.SERVER_ERROR;
   }
   
   // Config errors - don't retry
   if (
-    lowerOutput.includes('file not found') ||
-    lowerOutput.includes('enoent') ||
-    lowerOutput.includes('prompt file not found')
+    lowerTail.includes('file not found') ||
+    lowerTail.includes('enoent') ||
+    lowerTail.includes('prompt file not found')
   ) {
     return ErrorTypes.CONFIG_ERROR;
   }
   
   // Network/transient - retry quickly
   if (
-    lowerOutput.includes('econnrefused') ||
-    lowerOutput.includes('econnreset') ||
-    lowerOutput.includes('timeout') ||
-    lowerOutput.includes('network')
+    lowerTail.includes('econnrefused') ||
+    lowerTail.includes('econnreset') ||
+    lowerTail.includes('timeout') ||
+    lowerTail.includes('network error')
   ) {
     return ErrorTypes.TRANSIENT;
   }
@@ -721,11 +735,40 @@ async function runHarness(options = {}) {
         switch (result.errorType) {
           case ErrorTypes.AUTH_ERROR:
             metrics.authErrors++;
-            log('Authentication failed - stopping harness. Please check your API key.', 'auth');
+            
+            // Auth errors get ONE retry with a pause — transient auth failures
+            // (e.g. API gateway hiccup, temporary token issue) are common enough
+            // that hard-stopping on the first occurrence is too aggressive.
+            if (consecutiveErrors <= 2) {
+              const authRetryMinutes = 3;
+              log(`Possible auth error (attempt ${consecutiveErrors}/${2}) — retrying in ${authRetryMinutes} min`, 'auth');
+              log(`Tail of output: ${result.output.slice(-300).replace(/\n/g, ' ').trim()}`, 'info');
+              
+              // Try switching models first — auth errors can be model-specific
+              const authFallback = switchToNextModel();
+              if (authFallback) {
+                log(`Switching to ${authFallback} for auth retry`, 'info');
+              }
+              
+              updateStatus('error', 'auth_retry', result.stats || getProgressStats(), {
+                message: `Auth error — retrying (${consecutiveErrors}/2)`,
+                errorType: result.errorType,
+                resumeAt: new Date(Date.now() + authRetryMinutes * 60 * 1000).toISOString(),
+              });
+              saveMetrics(metrics);
+              await new Promise(r => setTimeout(r, authRetryMinutes * 60 * 1000));
+              sessionNumber++;
+              continue; // Retry the loop
+            }
+            
+            // After 2 consecutive auth errors, stop
+            log('Authentication failed after retries — stopping harness.', 'auth');
             log('Set ANTHROPIC_API_KEY environment variable with a valid key.', 'info');
+            log(`Last output tail: ${result.output.slice(-500).replace(/\n/g, ' ').trim()}`, 'info');
             updateStatus('error', 'auth_failed', null, { 
-              message: 'Invalid API key - harness stopped',
+              message: 'Invalid API key after retries — harness stopped',
               errorType: result.errorType,
+              authErrorCount: metrics.authErrors,
             });
             saveMetrics(metrics);
             process.exit(1);

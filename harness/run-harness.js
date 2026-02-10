@@ -12,6 +12,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import SleepManager from './sleep-manager.js';
+import AdaptiveDelay from './adaptive-delay.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -121,14 +122,15 @@ function runSession(sessionNumber) {
   return new Promise((resolve, reject) => {
     const sessionType = isFirstRun() ? 'INITIALIZER' : 'CODING';
     const stats = getProgressStats();
-    
+    const previousPassing = stats.passing;
+
     log(`Starting session #${sessionNumber} (${sessionType})`, 'start');
     log(`Progress: ${stats.passing}/${stats.total} features (${stats.percentComplete}%)`);
-    
+
     updateStatus(sessionType, 'running', stats);
-    
+
     const prompt = getPrompt();
-    
+
     // Build Claude command arguments
     const args = [
       '-p', prompt,
@@ -136,54 +138,55 @@ function runSession(sessionNumber) {
       '--output-format', 'stream-json',
       '--verbose'
     ];
-    
+
     const startTime = Date.now();
     let output = '';
-    
+
     // Authentication: Always use Claude CLI's local auth (most reliable)
     // Clear any API keys from environment to prevent overriding local auth
     const env = { ...process.env };
     delete env.CLAUDE_CODE_OAUTH_TOKEN;
     delete env.ANTHROPIC_API_KEY;
     delete env.CLAUDE_API_KEY;
-    
+
     log(`Using Claude CLI local authentication`, 'info');
-    
+
     const claude = spawn('claude', args, {
       cwd: PROJECT_ROOT,
       env,
       stdio: ['inherit', 'pipe', 'pipe']
     });
-    
+
     claude.stdout.on('data', (data) => {
       const text = data.toString();
       output += text;
       process.stdout.write(text);
     });
-    
+
     claude.stderr.on('data', (data) => {
       process.stderr.write(data);
     });
-    
+
     claude.on('error', (error) => {
       log(`Failed to start Claude: ${error.message}`, 'error');
       updateStatus(sessionType, 'error', stats);
       reject(error);
     });
-    
+
     claude.on('close', (code) => {
       const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
       const newStats = getProgressStats();
-      
+      const featuresCompleted = newStats.passing - previousPassing;
+
       if (code === 0) {
         log(`Session #${sessionNumber} completed in ${duration} minutes`, 'success');
         log(`Progress: ${newStats.passing}/${newStats.total} features (${newStats.percentComplete}%)`);
         updateStatus(sessionType, 'completed', newStats);
-        resolve({ code, output, stats: newStats, duration });
+        resolve({ code, output, stats: newStats, duration, featuresCompleted });
       } else {
         log(`Session #${sessionNumber} exited with code ${code}`, 'error');
         updateStatus(sessionType, 'failed', newStats);
-        resolve({ code, output, stats: newStats, duration, error: true });
+        resolve({ code, output, stats: newStats, duration, error: true, featuresCompleted });
       }
     });
   });
@@ -201,7 +204,10 @@ async function runHarness(options = {}) {
     maxSessions = CONFIG.maxSessions,
     continuous = false,
     enableSleep = true,
-    sleepTimeout = 300000  // 5 minutes default
+    sleepTimeout = 300000,  // 5 minutes default
+    adaptiveDelay = true,
+    minDelayMs = 2000,
+    maxDelayMs = 120000
   } = options;
 
   log('Agent Harness Starting', 'start');
@@ -209,6 +215,7 @@ async function runHarness(options = {}) {
   log(`Max sessions: ${maxSessions}`);
   log(`Mode: ${continuous ? 'Continuous' : 'Single session'}`);
   log(`Sleep mode: ${enableSleep ? 'Enabled' : 'Disabled'}`);
+  log(`Adaptive delay: ${adaptiveDelay ? 'Enabled' : 'Disabled'}`);
 
   // Initialize sleep manager
   let sleepManager = null;
@@ -232,8 +239,18 @@ async function runHarness(options = {}) {
     sleepManager.start();
   }
 
+  // Initialize adaptive delay manager
+  let delayManager = null;
+  if (adaptiveDelay) {
+    delayManager = new AdaptiveDelay({
+      minDelayMs,
+      maxDelayMs,
+      defaultDelayMs: CONFIG.sessionDelayMs
+    });
+  }
+
   let sessionNumber = 1;
-  
+
   while (sessionNumber <= maxSessions) {
     // If sleeping, wait for wake trigger
     if (sleepManager && sleepManager.getState().isSleeping) {
@@ -273,9 +290,24 @@ async function runHarness(options = {}) {
         break;
       }
 
-      // If session errored, wait longer before retry
-      const delay = result.error ? CONFIG.sessionDelayMs * 2 : CONFIG.sessionDelayMs;
-      log(`Waiting ${delay / 1000}s before next session...`);
+      // Use adaptive delay if enabled, otherwise use simple fixed delay
+      let delay;
+      if (delayManager) {
+        delay = delayManager.recordSession(result);
+        log(`Next session delay: ${delayManager.getCurrentDelayFormatted()} (adaptive)`);
+
+        // Log delay stats every 5 sessions
+        if (sessionNumber % 5 === 0) {
+          const stats = delayManager.getStats();
+          log('Adaptive delay stats', 'info');
+          console.log(JSON.stringify(stats, null, 2));
+        }
+      } else {
+        // Fallback to simple delay logic
+        delay = result.error ? CONFIG.sessionDelayMs * 2 : CONFIG.sessionDelayMs;
+        log(`Waiting ${delay / 1000}s before next session...`);
+      }
+
       await new Promise(r => setTimeout(r, delay));
 
       sessionNumber++;
@@ -288,8 +320,14 @@ async function runHarness(options = {}) {
         process.exit(1);
       }
 
+      // Record error in adaptive delay if enabled
+      if (delayManager) {
+        delayManager.recordSession({ error: true, code: 1, featuresCompleted: 0 });
+      }
+
       // Wait and retry
-      await new Promise(r => setTimeout(r, CONFIG.sessionDelayMs * 3));
+      const retryDelay = delayManager ? delayManager.getCurrentDelay() : CONFIG.sessionDelayMs * 3;
+      await new Promise(r => setTimeout(r, retryDelay));
       sessionNumber++;
     }
   }
@@ -298,7 +336,14 @@ async function runHarness(options = {}) {
   if (sleepManager) {
     sleepManager.stop();
   }
-  
+
+  // Log final adaptive delay stats
+  if (delayManager) {
+    const finalStats = delayManager.getStats();
+    log('Final adaptive delay statistics:', 'info');
+    console.log(JSON.stringify(finalStats, null, 2));
+  }
+
   const finalStats = getProgressStats();
   log(`Harness finished. Final progress: ${finalStats.passing}/${finalStats.total} (${finalStats.percentComplete}%)`, 'end');
 }
@@ -309,7 +354,10 @@ const options = {
   continuous: args.includes('--continuous') || args.includes('-c'),
   maxSessions: parseInt(args.find(a => a.startsWith('--max='))?.split('=')[1]) || CONFIG.maxSessions,
   enableSleep: !args.includes('--no-sleep'),
-  sleepTimeout: parseInt(args.find(a => a.startsWith('--sleep-timeout='))?.split('=')[1]) || 300000
+  sleepTimeout: parseInt(args.find(a => a.startsWith('--sleep-timeout='))?.split('=')[1]) || 300000,
+  adaptiveDelay: !args.includes('--no-adaptive'),
+  minDelayMs: parseInt(args.find(a => a.startsWith('--min-delay='))?.split('=')[1]) || 2000,
+  maxDelayMs: parseInt(args.find(a => a.startsWith('--max-delay='))?.split('=')[1]) || 120000
 };
 
 if (args.includes('--help') || args.includes('-h')) {
@@ -323,12 +371,22 @@ Options:
   --max=N                 Maximum number of sessions to run (default: 100)
   --no-sleep              Disable sleep mode (keep harness active)
   --sleep-timeout=N       Inactivity timeout in ms before sleep (default: 300000)
+  --no-adaptive           Disable adaptive delay (use fixed delays)
+  --min-delay=N           Minimum delay in ms (default: 2000)
+  --max-delay=N           Maximum delay in ms (default: 120000)
   --help, -h              Show this help message
 
 Sleep Mode:
   When enabled, the harness enters a low-CPU sleep state after inactivity.
   Wake triggers: user dashboard access, external trigger file, scheduled time.
   To wake manually: touch .wake-harness in project root
+
+Adaptive Delay:
+  Intelligently adjusts delays between sessions based on activity:
+  - Increases delay after errors or failures
+  - Decreases delay during productive sessions
+  - Respects configurable min/max bounds
+  - Logs all delay adjustments for transparency
 
 Multi-Repo Mode:
   To process multiple repos in priority order, use multi-repo-orchestrator.js instead:
@@ -337,10 +395,11 @@ Multi-Repo Mode:
   The orchestrator reads repo-queue.json and processes enabled projects sequentially.
 
 Examples:
-  node run-harness.js                         # Run single session with sleep
-  node run-harness.js -c                      # Run continuously with sleep
+  node run-harness.js                         # Run single session with adaptive delay
+  node run-harness.js -c                      # Run continuously with adaptive delay
   node run-harness.js -c --no-sleep           # Run continuously, no sleep
-  node run-harness.js -c --sleep-timeout=600000  # 10 min sleep timeout
+  node run-harness.js -c --no-adaptive        # Run continuously with fixed delays
+  node run-harness.js -c --min-delay=1000 --max-delay=60000  # Custom delay bounds
 `);
   process.exit(0);
 }

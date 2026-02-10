@@ -847,6 +847,686 @@
       "effort_days": 2,
       "acceptance_criteria": ["Affiliate links", "Commission tracking", "Payout reports"],
       "passes": false
+    },
+    {
+      "id": "WR-006",
+      "category": "watermark-remover",
+      "priority": 1,
+      "description": "Batch processing mode for multiple files",
+      "status": "ready",
+      "effort_days": 2,
+      "acceptance_criteria": ["Drag-and-drop folder", "Progress bar per file", "Output folder selection"],
+      "passes": false
+    },
+    {
+      "id": "WR-007",
+      "category": "watermark-remover",
+      "priority": 2,
+      "description": "Auto-update mechanism via Electron",
+      "status": "ready",
+      "effort_days": 1,
+      "acceptance_criteria": ["Check for updates on launch", "Download and install silently", "Changelog display"],
+      "passes": false
+    },
+    {
+      "id": "WR-008",
+      "category": "watermark-remover",
+      "priority": 2,
+      "description": "Watermark region detection with AI preview",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Auto-detect watermark region", "Preview before removal", "Manual adjustment option"],
+      "passes": false
+    },
+    {
+      "id": "AC-008",
+      "category": "auto-comment",
+      "priority": 1,
+      "description": "Comment template library with category tags",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Template CRUD", "Category filtering", "Variable substitution"],
+      "passes": false
+    },
+    {
+      "id": "AC-009",
+      "category": "auto-comment",
+      "priority": 1,
+      "description": "AI tone adjustment per platform",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Platform-specific tone presets", "Custom tone slider", "Preview before posting"],
+      "passes": false
+    },
+    {
+      "id": "AC-010",
+      "category": "auto-comment",
+      "priority": 2,
+      "description": "Comment analytics and engagement tracking",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Reply rate tracking", "Follower gain attribution", "Best time analysis"],
+      "passes": false
+    },
+    {
+      "id": "AC-011",
+      "category": "auto-comment",
+      "priority": 2,
+      "description": "Auto-comment course content (2 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "Platform setup guides", "Strategy templates"],
+      "passes": false
+    },
+    {
+      "id": "DM-011",
+      "category": "auto-dm",
+      "priority": 1,
+      "description": "DM conversation threading and follow-up sequences",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Multi-step sequences", "Conditional branching", "Delay between messages"],
+      "passes": false
+    },
+    {
+      "id": "DM-012",
+      "category": "auto-dm",
+      "priority": 2,
+      "description": "Auto-DM course content (2.5 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "DM strategy guides", "Compliance training"],
+      "passes": false
+    },
+    {
+      "id": "DM-013",
+      "category": "auto-dm",
+      "priority": 2,
+      "description": "DM response analytics dashboard",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Open rate tracking", "Reply rate", "Conversion attribution"],
+      "passes": false
+    },
+    {
+      "id": "TTS-009",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "Voice cloning model training interface",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Upload 30s-5min sample", "Training progress indicator", "Quality score"],
+      "passes": false
+    },
+    {
+      "id": "TTS-010",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "Batch audio generation with queue",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Multiple scripts queued", "Parallel processing", "Zip download"],
+      "passes": false
+    },
+    {
+      "id": "TTS-011",
+      "category": "tts-studio",
+      "priority": 2,
+      "description": "SSML editor for speech control",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Pause, emphasis, speed controls", "Visual SSML builder", "Preview playback"],
+      "passes": false
+    },
+    {
+      "id": "TTS-012",
+      "category": "tts-studio",
+      "priority": 2,
+      "description": "TTS Studio course content (3 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "Voice cloning tutorial", "Use case guides"],
+      "passes": false
+    },
+    {
+      "id": "KD-010",
+      "category": "kalodata-scraper",
+      "priority": 1,
+      "description": "Scheduled scraping with cron jobs",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Daily/weekly schedule", "Delta detection", "Alert on changes"],
+      "passes": false
+    },
+    {
+      "id": "KD-011",
+      "category": "kalodata-scraper",
+      "priority": 2,
+      "description": "Data visualization dashboard for scraped data",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Charts for trending products", "Revenue estimates", "Category breakdown"],
+      "passes": false
+    },
+    {
+      "id": "KD-012",
+      "category": "kalodata-scraper",
+      "priority": 2,
+      "description": "KaloData course content (2 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "TikTok Shop strategy", "Data interpretation guide"],
+      "passes": false
+    },
+    {
+      "id": "CR-010",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Automated weekly competitor digest email",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Weekly email via Resend", "Top changes summary", "New competitor alerts"],
+      "passes": false
+    },
+    {
+      "id": "CR-011",
+      "category": "competitor-research",
+      "priority": 2,
+      "description": "Competitor Research course content (2 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "Framework templates", "Analysis methodology"],
+      "passes": false
+    },
+    {
+      "id": "CR-012",
+      "category": "competitor-research",
+      "priority": 1,
+      "description": "Competitor pricing change detection",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Price monitoring", "Change alerts", "Historical price chart"],
+      "passes": false
+    },
+    {
+      "id": "CRM-006",
+      "category": "everreach-crm",
+      "priority": 1,
+      "description": "Contact import from CSV and vCard",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["CSV mapping UI", "vCard parsing", "Duplicate detection"],
+      "passes": false
+    },
+    {
+      "id": "CRM-007",
+      "category": "everreach-crm",
+      "priority": 1,
+      "description": "Warmth score decay and reminder system",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Auto-decay after inactivity", "Push notification reminders", "Customizable decay rate"],
+      "passes": false
+    },
+    {
+      "id": "CRM-008",
+      "category": "everreach-crm",
+      "priority": 2,
+      "description": "EverReach CRM course content (2 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "Relationship management strategies", "Setup guides"],
+      "passes": false
+    },
+    {
+      "id": "CRM-009",
+      "category": "everreach-crm",
+      "priority": 2,
+      "description": "CRM integration with email and calendar",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Google Calendar sync", "Email activity logging", "Meeting scheduling"],
+      "passes": false
+    },
+    {
+      "id": "CRM-010",
+      "category": "everreach-crm",
+      "priority": 2,
+      "description": "CRM analytics and relationship health dashboard",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Network graph visualization", "Warmth score trends", "Engagement metrics"],
+      "passes": false
+    },
+    {
+      "id": "SORA-004",
+      "category": "sora-video",
+      "priority": 0,
+      "description": "Sora prompt template library",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["50+ curated prompts", "Category organization", "One-click generation"],
+      "passes": false
+    },
+    {
+      "id": "SORA-005",
+      "category": "sora-video",
+      "priority": 1,
+      "description": "Video generation queue with progress tracking",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Queue management UI", "Real-time progress", "Retry failed generations"],
+      "passes": false
+    },
+    {
+      "id": "SORA-006",
+      "category": "sora-video",
+      "priority": 1,
+      "description": "Generated video library with tagging",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Gallery view", "Tag-based organization", "Search and filter"],
+      "passes": false
+    },
+    {
+      "id": "SORA-007",
+      "category": "sora-video",
+      "priority": 1,
+      "description": "Sora Video course content (2.5 hours)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Video lessons", "Prompt engineering guide", "Use case tutorials"],
+      "passes": false
+    },
+    {
+      "id": "SORA-008",
+      "category": "sora-video",
+      "priority": 2,
+      "description": "Video post-processing pipeline (trim, caption, music)",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Trim editor", "Auto-caption overlay", "Background music mixer"],
+      "passes": false
+    },
+    {
+      "id": "SORA-009",
+      "category": "sora-video",
+      "priority": 2,
+      "description": "Multi-part video stitching with transitions",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Concatenate multiple clips", "Transition effects", "Final render export"],
+      "passes": false
+    },
+    {
+      "id": "PKG-005",
+      "category": "packaging",
+      "priority": 0,
+      "description": "Windows installer packaging (NSIS)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["NSIS installer script", "Desktop shortcut", "Uninstaller"],
+      "passes": false
+    },
+    {
+      "id": "PKG-006",
+      "category": "packaging",
+      "priority": 0,
+      "description": "Linux AppImage packaging",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["AppImage build", "Runs on Ubuntu 20+", "Auto-update support"],
+      "passes": false
+    },
+    {
+      "id": "PKG-007",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Crash reporting and error telemetry",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Sentry integration", "Crash reports with context", "User consent prompt"],
+      "passes": false
+    },
+    {
+      "id": "PKG-008",
+      "category": "packaging",
+      "priority": 1,
+      "description": "In-app license activation and deactivation",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Activate with key", "Deactivate to transfer", "Device limit enforcement"],
+      "passes": false
+    },
+    {
+      "id": "PKG-009",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Offline mode with license caching",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Cache license for 7 days offline", "Grace period on expiry", "Re-validate on reconnect"],
+      "passes": false
+    },
+    {
+      "id": "PKG-010",
+      "category": "packaging",
+      "priority": 2,
+      "description": "CI/CD pipeline for multi-platform builds",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["GitHub Actions workflow", "macOS + Windows + Linux matrix", "Auto-publish releases"],
+      "passes": false
+    },
+    {
+      "id": "CD-001",
+      "category": "course-delivery",
+      "priority": 0,
+      "description": "Course catalog page with product cards",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Grid layout", "Product thumbnails", "Price and CTA"],
+      "passes": false
+    },
+    {
+      "id": "CD-002",
+      "category": "course-delivery",
+      "priority": 0,
+      "description": "Video player with chapter navigation",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["HLS streaming via Mux", "Chapter markers", "Playback speed control"],
+      "passes": false
+    },
+    {
+      "id": "CD-003",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "Student progress tracking and completion certificates",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Lesson completion tracking", "Progress bar per course", "PDF certificate on completion"],
+      "passes": false
+    },
+    {
+      "id": "CD-004",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "Course discussion forums per lesson",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Threaded discussions", "Instructor replies highlighted", "Notification on replies"],
+      "passes": false
+    },
+    {
+      "id": "CD-005",
+      "category": "course-delivery",
+      "priority": 2,
+      "description": "Quiz and assessment system",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Multiple choice + free text", "Auto-grading", "Minimum score to proceed"],
+      "passes": false
+    },
+    {
+      "id": "CD-006",
+      "category": "course-delivery",
+      "priority": 2,
+      "description": "Course analytics dashboard for instructors",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Enrollment counts", "Completion rates", "Drop-off analysis by lesson"],
+      "passes": false
+    },
+    {
+      "id": "LIC-001",
+      "category": "licensing",
+      "priority": 0,
+      "description": "License key generation API endpoint",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["POST /api/licenses/generate", "Format: XXXX-XXXX-XXXX-XXXX", "Tied to product and tier"],
+      "passes": false
+    },
+    {
+      "id": "LIC-002",
+      "category": "licensing",
+      "priority": 0,
+      "description": "License validation middleware",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["Validate key against DB", "Check expiry and device limit", "Return feature flags"],
+      "passes": false
+    },
+    {
+      "id": "LIC-003",
+      "category": "licensing",
+      "priority": 1,
+      "description": "License management admin panel",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["List all licenses", "Revoke/extend", "Usage analytics"],
+      "passes": false
+    },
+    {
+      "id": "LIC-004",
+      "category": "licensing",
+      "priority": 1,
+      "description": "Trial license with auto-expiry",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["7-day trial key generation", "Auto-disable on expiry", "Upgrade prompt in app"],
+      "passes": false
+    },
+    {
+      "id": "LIC-005",
+      "category": "licensing",
+      "priority": 2,
+      "description": "Subscription license with recurring billing",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Stripe subscription sync", "Auto-revoke on cancellation", "Grace period"],
+      "passes": false
+    },
+    {
+      "id": "LIC-006",
+      "category": "licensing",
+      "priority": 2,
+      "description": "License usage analytics and fraud detection",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Activation count tracking", "Suspicious pattern alerts", "IP-based anomaly detection"],
+      "passes": false
+    },
+    {
+      "id": "PLT-001",
+      "category": "packaging",
+      "priority": 0,
+      "description": "SoftwareHub product listing API",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["CRUD for products", "Pricing tiers", "Feature lists per tier"],
+      "passes": false
+    },
+    {
+      "id": "PLT-002",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Product checkout flow with Stripe",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Checkout session creation", "Success/cancel redirects", "License delivery on success"],
+      "passes": false
+    },
+    {
+      "id": "PLT-003",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Customer portal for license and subscription management",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["View active licenses", "Download products", "Manage subscriptions"],
+      "passes": false
+    },
+    {
+      "id": "PLT-004",
+      "category": "packaging",
+      "priority": 2,
+      "description": "Product review and rating system",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Star ratings", "Text reviews", "Verified purchase badge"],
+      "passes": false
+    },
+    {
+      "id": "PLT-005",
+      "category": "packaging",
+      "priority": 2,
+      "description": "Product demo mode (limited features without license)",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Demo flag in Electron apps", "Watermarked output", "Upgrade prompt"],
+      "passes": false
+    },
+    {
+      "id": "TEST-SH-001",
+      "category": "packaging",
+      "priority": 1,
+      "description": "End-to-end test: purchase → license → activate → use product",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Stripe test mode purchase", "License generated", "App activated", "Feature unlocked"],
+      "passes": false
+    },
+    {
+      "id": "TEST-SH-002",
+      "category": "licensing",
+      "priority": 1,
+      "description": "License validation edge case tests",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["Expired license", "Revoked license", "Device limit exceeded", "Invalid format"],
+      "passes": false
+    },
+    {
+      "id": "TEST-SH-003",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "Course video playback tests across browsers",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["Chrome, Safari, Firefox", "HLS playback", "Chapter navigation"],
+      "passes": false
+    },
+    {
+      "id": "DOC-001",
+      "category": "packaging",
+      "priority": 2,
+      "description": "API documentation for license validation endpoint",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["OpenAPI spec", "Code examples", "Error codes documented"],
+      "passes": false
+    },
+    {
+      "id": "DOC-002",
+      "category": "course-delivery",
+      "priority": 2,
+      "description": "Course creation guide for new products",
+      "status": "new",
+      "effort_days": 1,
+      "acceptance_criteria": ["Step-by-step guide", "Video specs", "Mux upload instructions"],
+      "passes": false
+    },
+    {
+      "id": "SEC-SH-001",
+      "category": "licensing",
+      "priority": 0,
+      "description": "License key obfuscation in Electron apps",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Key not in plain text", "Encrypted storage", "Anti-tamper checks"],
+      "passes": false
+    },
+    {
+      "id": "SEC-SH-002",
+      "category": "packaging",
+      "priority": 1,
+      "description": "Code signing for macOS and Windows builds",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Apple Developer cert", "Windows Authenticode", "No security warnings on install"],
+      "passes": false
+    },
+    {
+      "id": "PERF-SH-001",
+      "category": "watermark-remover",
+      "priority": 1,
+      "description": "GPU-accelerated watermark removal",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["CUDA/Metal support", "3x speed improvement", "Fallback to CPU"],
+      "passes": false
+    },
+    {
+      "id": "PERF-SH-002",
+      "category": "tts-studio",
+      "priority": 1,
+      "description": "Streaming audio generation for long text",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Stream audio chunks", "Play while generating", "Progress indicator"],
+      "passes": false
+    },
+    {
+      "id": "I18N-001",
+      "category": "course-delivery",
+      "priority": 2,
+      "description": "Multi-language course support",
+      "status": "new",
+      "effort_days": 3,
+      "acceptance_criteria": ["Subtitle tracks per language", "Translated descriptions", "Language selector"],
+      "passes": false
+    },
+    {
+      "id": "I18N-002",
+      "category": "packaging",
+      "priority": 2,
+      "description": "Electron app localization framework",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["i18n setup", "English + Spanish + Portuguese", "Language auto-detect"],
+      "passes": false
+    },
+    {
+      "id": "ONBOARD-001",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "New student onboarding flow",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Welcome email sequence", "Getting started checklist", "First lesson prompt"],
+      "passes": false
+    },
+    {
+      "id": "ONBOARD-002",
+      "category": "licensing",
+      "priority": 1,
+      "description": "Product activation wizard in Electron apps",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Step-by-step activation", "License key input", "Feature overview per tier"],
+      "passes": false
+    },
+    {
+      "id": "ANALYTICS-001",
+      "category": "course-delivery",
+      "priority": 1,
+      "description": "Revenue analytics per product with Stripe integration",
+      "status": "new",
+      "effort_days": 2,
+      "acceptance_criteria": ["Daily/monthly revenue chart", "Per-product breakdown", "Refund rate tracking"],
+      "passes": false
     }
   ]
 }

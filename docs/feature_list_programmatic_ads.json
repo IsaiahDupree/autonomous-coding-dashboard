@@ -2,7 +2,7 @@
   "project": "Programmatic Creative Testing System",
   "created": "2025-01-01T00:00:00Z",
   "description": "Systematic Facebook ad creative testing through structured parameters - USPs, marketing angles, messaging frameworks, awareness levels, and market sophistication",
-  "total_features": 68,
+  "total_features": 120,
   "features": [
     {
       "id": "PCT-001",
@@ -832,6 +832,422 @@
         "Define new text placeholder zones",
         "Save as reusable template"
       ],
+      "passes": false
+    },
+    {
+      "id": "PCT-069",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Real-time ad performance dashboard with key metrics",
+      "acceptance_criteria": ["CTR, CPC, ROAS display", "Time-series charts", "Comparison to benchmarks"],
+      "passes": false
+    },
+    {
+      "id": "PCT-070",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Creative fatigue detection and alerting",
+      "acceptance_criteria": ["Declining CTR detection", "Auto-alert when creative fatigues", "Suggested refresh actions"],
+      "passes": false
+    },
+    {
+      "id": "PCT-071",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Winner/loser classification with statistical significance",
+      "acceptance_criteria": ["Auto-classify based on p-value", "Confidence interval display", "Sample size calculator"],
+      "passes": false
+    },
+    {
+      "id": "PCT-072",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Cross-campaign performance comparison",
+      "acceptance_criteria": ["Compare multiple campaigns", "Normalize by spend", "Export comparison reports"],
+      "passes": false
+    },
+    {
+      "id": "PCT-073",
+      "category": "generation",
+      "priority": 1,
+      "description": "AI-powered headline variations generator",
+      "acceptance_criteria": ["Generate 10+ headline variations", "Tone/style customization", "A/B test recommendations"],
+      "passes": false
+    },
+    {
+      "id": "PCT-074",
+      "category": "generation",
+      "priority": 1,
+      "description": "Dynamic text overlay for video ads",
+      "acceptance_criteria": ["Text animation presets", "Font and color customization", "Export ready for Meta"],
+      "passes": false
+    },
+    {
+      "id": "PCT-075",
+      "category": "generation",
+      "priority": 1,
+      "description": "Competitor ad library scraper integration",
+      "acceptance_criteria": ["Search competitor ads", "Save to swipe file", "Extract hooks and CTAs"],
+      "passes": false
+    },
+    {
+      "id": "PCT-076",
+      "category": "audience",
+      "priority": 1,
+      "description": "Lookalike audience builder from VoC data",
+      "acceptance_criteria": ["Build audiences from customer profiles", "Export to Meta", "Track audience performance"],
+      "passes": false
+    },
+    {
+      "id": "PCT-077",
+      "category": "audience",
+      "priority": 1,
+      "description": "Interest targeting recommendations engine",
+      "acceptance_criteria": ["AI-suggested interests", "Overlap analysis", "Budget recommendations"],
+      "passes": false
+    },
+    {
+      "id": "PCT-078",
+      "category": "audience",
+      "priority": 1,
+      "description": "Custom audience sync with CRM",
+      "acceptance_criteria": ["Import from CRM", "Auto-refresh schedules", "Segment by purchase history"],
+      "passes": false
+    },
+    {
+      "id": "PCT-079",
+      "category": "budget",
+      "priority": 1,
+      "description": "Budget allocation optimizer across ad sets",
+      "acceptance_criteria": ["Auto-shift budget to winners", "Min/max budget constraints", "Scheduling rules"],
+      "passes": false
+    },
+    {
+      "id": "PCT-080",
+      "category": "budget",
+      "priority": 1,
+      "description": "ROAS-based bid strategy recommendations",
+      "acceptance_criteria": ["Target ROAS input", "Bid cap suggestions", "Historical performance analysis"],
+      "passes": false
+    },
+    {
+      "id": "PCT-081",
+      "category": "budget",
+      "priority": 1,
+      "description": "Spend pacing alerts and forecasting",
+      "acceptance_criteria": ["Daily spend tracking", "Over/under pace alerts", "Month-end forecast"],
+      "passes": false
+    },
+    {
+      "id": "PCT-082",
+      "category": "creative",
+      "priority": 1,
+      "description": "UGC-style video template generator",
+      "acceptance_criteria": ["iPhone selfie aesthetic", "Authentic backgrounds", "Caption overlays"],
+      "passes": false
+    },
+    {
+      "id": "PCT-083",
+      "category": "creative",
+      "priority": 1,
+      "description": "Before/after comparison image generator",
+      "acceptance_criteria": ["Side-by-side layout", "Slider animation option", "Text overlay zones"],
+      "passes": false
+    },
+    {
+      "id": "PCT-084",
+      "category": "creative",
+      "priority": 1,
+      "description": "Testimonial card generator from reviews",
+      "acceptance_criteria": ["Pull from VoC database", "Star rating display", "Profile photo placeholder"],
+      "passes": false
+    },
+    {
+      "id": "PCT-085",
+      "category": "creative",
+      "priority": 1,
+      "description": "Product showcase carousel builder",
+      "acceptance_criteria": ["Multi-image carousel", "Auto-crop to platform specs", "Price overlay option"],
+      "passes": false
+    },
+    {
+      "id": "PCT-086",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Ad policy compliance checker",
+      "acceptance_criteria": ["Scan for prohibited claims", "Flag risky wording", "Suggest compliant alternatives"],
+      "passes": false
+    },
+    {
+      "id": "PCT-087",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Disclosure requirements manager",
+      "acceptance_criteria": ["Auto-add required disclosures", "Industry-specific rules", "Placement guidelines"],
+      "passes": false
+    },
+    {
+      "id": "PCT-088",
+      "category": "compliance",
+      "priority": 2,
+      "description": "Landing page consistency checker",
+      "acceptance_criteria": ["Compare ad to landing page", "Flag mismatches", "Screenshot comparison"],
+      "passes": false
+    },
+    {
+      "id": "PCT-089",
+      "category": "testing",
+      "priority": 1,
+      "description": "Multivariate test planner",
+      "acceptance_criteria": ["Define variables to test", "Calculate sample size needs", "Generate test matrix"],
+      "passes": false
+    },
+    {
+      "id": "PCT-090",
+      "category": "testing",
+      "priority": 1,
+      "description": "Sequential testing framework",
+      "acceptance_criteria": ["Phase 1: hooks, Phase 2: body, Phase 3: CTA", "Auto-advance winners", "Learning documentation"],
+      "passes": false
+    },
+    {
+      "id": "PCT-091",
+      "category": "testing",
+      "priority": 1,
+      "description": "Geographic split test manager",
+      "acceptance_criteria": ["Holdout region selection", "Lift measurement", "Statistical comparison"],
+      "passes": false
+    },
+    {
+      "id": "PCT-092",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Weekly performance report generator",
+      "acceptance_criteria": ["Auto-generate PDF reports", "Key metrics summary", "Top/bottom performers"],
+      "passes": false
+    },
+    {
+      "id": "PCT-093",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Creative leaderboard with rankings",
+      "acceptance_criteria": ["Rank by ROAS/CTR/CPA", "Time period filtering", "Export to CSV"],
+      "passes": false
+    },
+    {
+      "id": "PCT-094",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Attribution model comparison tool",
+      "acceptance_criteria": ["Last-click vs first-click vs linear", "Compare outcomes", "Recommendations"],
+      "passes": false
+    },
+    {
+      "id": "PCT-095",
+      "category": "automation",
+      "priority": 1,
+      "description": "Auto-pause underperforming ads rule engine",
+      "acceptance_criteria": ["Define pause thresholds", "Grace period settings", "Notification on pause"],
+      "passes": false
+    },
+    {
+      "id": "PCT-096",
+      "category": "automation",
+      "priority": 1,
+      "description": "Auto-scale winning ads budget rule",
+      "acceptance_criteria": ["Scale triggers", "Max budget caps", "Gradual vs immediate scale"],
+      "passes": false
+    },
+    {
+      "id": "PCT-097",
+      "category": "automation",
+      "priority": 1,
+      "description": "Scheduled ad activation/deactivation",
+      "acceptance_criteria": ["Calendar-based scheduling", "Day-parting support", "Timezone handling"],
+      "passes": false
+    },
+    {
+      "id": "PCT-098",
+      "category": "integration",
+      "priority": 1,
+      "description": "Google Ads connector for cross-platform testing",
+      "acceptance_criteria": ["OAuth connection", "Campaign sync", "Unified reporting"],
+      "passes": false
+    },
+    {
+      "id": "PCT-099",
+      "category": "integration",
+      "priority": 1,
+      "description": "TikTok Ads connector",
+      "acceptance_criteria": ["API integration", "Creative format adaptation", "Performance import"],
+      "passes": false
+    },
+    {
+      "id": "PCT-100",
+      "category": "integration",
+      "priority": 1,
+      "description": "Shopify/WooCommerce conversion tracking",
+      "acceptance_criteria": ["Order import", "Revenue attribution", "Product-level ROAS"],
+      "passes": false
+    },
+    {
+      "id": "PCT-101",
+      "category": "ai",
+      "priority": 1,
+      "description": "GPT-4 powered ad copy refinement",
+      "acceptance_criteria": ["Suggest improvements", "Tone adjustment", "Length optimization"],
+      "passes": false
+    },
+    {
+      "id": "PCT-102",
+      "category": "ai",
+      "priority": 1,
+      "description": "Image-to-ad-copy AI generator",
+      "acceptance_criteria": ["Analyze product images", "Generate matching copy", "Multiple variations"],
+      "passes": false
+    },
+    {
+      "id": "PCT-103",
+      "category": "ai",
+      "priority": 1,
+      "description": "Predictive performance scoring for new creatives",
+      "acceptance_criteria": ["Score before launch", "Historical pattern matching", "Confidence level"],
+      "passes": false
+    },
+    {
+      "id": "PCT-104",
+      "category": "ai",
+      "priority": 1,
+      "description": "Auto-generated A/B test hypotheses",
+      "acceptance_criteria": ["Suggest what to test next", "Based on performance gaps", "Prioritize by impact"],
+      "passes": false
+    },
+    {
+      "id": "PCT-105",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Creative brief template builder",
+      "acceptance_criteria": ["Reusable brief templates", "Auto-populate from context", "Share with team"],
+      "passes": false
+    },
+    {
+      "id": "PCT-106",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Approval workflow with stakeholder roles",
+      "acceptance_criteria": ["Submit for approval", "Role-based permissions", "Audit trail"],
+      "passes": false
+    },
+    {
+      "id": "PCT-107",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Creative asset version control",
+      "acceptance_criteria": ["Track all versions", "Rollback capability", "Diff comparison"],
+      "passes": false
+    },
+    {
+      "id": "PCT-108",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Team collaboration with comments and @mentions",
+      "acceptance_criteria": ["Comment on creatives", "@mention team members", "Notification system"],
+      "passes": false
+    },
+    {
+      "id": "PCT-109",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Mobile-responsive dashboard",
+      "acceptance_criteria": ["Works on phone/tablet", "Touch-friendly controls", "Key metrics visible"],
+      "passes": false
+    },
+    {
+      "id": "PCT-110",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Push notifications for ad alerts",
+      "acceptance_criteria": ["Performance alerts", "Approval requests", "Configurable thresholds"],
+      "passes": false
+    },
+    {
+      "id": "PCT-111",
+      "category": "data",
+      "priority": 1,
+      "description": "Historical data import from existing accounts",
+      "acceptance_criteria": ["Bulk import past campaigns", "Preserve metrics", "Backfill analytics"],
+      "passes": false
+    },
+    {
+      "id": "PCT-112",
+      "category": "data",
+      "priority": 1,
+      "description": "Data export in multiple formats",
+      "acceptance_criteria": ["CSV, JSON, Excel export", "Custom date ranges", "Filter by campaign"],
+      "passes": false
+    },
+    {
+      "id": "PCT-113",
+      "category": "data",
+      "priority": 2,
+      "description": "API for external tool integration",
+      "acceptance_criteria": ["REST API endpoints", "Authentication", "Rate limiting"],
+      "passes": false
+    },
+    {
+      "id": "PCT-114",
+      "category": "ui",
+      "priority": 1,
+      "description": "Dark mode support",
+      "acceptance_criteria": ["Toggle dark/light", "Persist preference", "All components styled"],
+      "passes": false
+    },
+    {
+      "id": "PCT-115",
+      "category": "ui",
+      "priority": 1,
+      "description": "Customizable dashboard widgets",
+      "acceptance_criteria": ["Drag-and-drop layout", "Add/remove widgets", "Save configurations"],
+      "passes": false
+    },
+    {
+      "id": "PCT-116",
+      "category": "ui",
+      "priority": 2,
+      "description": "Keyboard shortcuts for power users",
+      "acceptance_criteria": ["Common actions mapped", "Shortcut reference modal", "Customizable bindings"],
+      "passes": false
+    },
+    {
+      "id": "PCT-117",
+      "category": "security",
+      "priority": 1,
+      "description": "Role-based access control (RBAC)",
+      "acceptance_criteria": ["Admin, Editor, Viewer roles", "Granular permissions", "Audit logging"],
+      "passes": false
+    },
+    {
+      "id": "PCT-118",
+      "category": "security",
+      "priority": 1,
+      "description": "Two-factor authentication support",
+      "acceptance_criteria": ["TOTP support", "Recovery codes", "Enforce for admins"],
+      "passes": false
+    },
+    {
+      "id": "PCT-119",
+      "category": "security",
+      "priority": 2,
+      "description": "SSO integration (Google, Microsoft)",
+      "acceptance_criteria": ["OAuth2 flow", "Auto-provision users", "Domain restrictions"],
+      "passes": false
+    },
+    {
+      "id": "PCT-120",
+      "category": "performance",
+      "priority": 1,
+      "description": "Caching layer for fast dashboard loads",
+      "acceptance_criteria": ["Redis caching", "Cache invalidation", "Sub-second page loads"],
       "passes": false
     }
   ]

@@ -1,0 +1,39 @@
+{
+  "configs": {
+    "blogcanvas": {
+      "provider": "netlify",
+      "apiToken": "test-token-12345",
+      "siteId": "site-abc123",
+      "projectId": null,
+      "teamId": null,
+      "savedAt": "2026-02-06T04:36:33.652Z"
+    },
+    "gapradar": {
+      "provider": "vercel",
+      "apiToken": "test-vercel-token-67890",
+      "siteId": null,
+      "projectId": "prj_test123",
+      "teamId": "team_test456",
+      "savedAt": "2026-02-06T04:36:33.653Z"
+    }
+  },
+  "deployments": {
+    "blogcanvas": {
+      "id": null,
+      "status": "error",
+      "error": "Netlify API error (401): {\"code\":401,\"message\":\"Access Denied\"}",
+      "createdAt": "2026-02-06T04:36:50.983Z"
+    },
+    "gapradar": {
+      "id": "deploy-vercel-001",
+      "status": "error",
+      "url": "https://gapradar.vercel.app",
+      "previewUrl": "https://gapradar-abc123.vercel.app",
+      "createdAt": "2026-02-06T02:36:33.653Z",
+      "branch": "develop",
+      "commitSha": "xyz789",
+      "buildLog": "Failed to fetch logs: 404",
+      "error": "Build failed"
+    }
+  }
+}

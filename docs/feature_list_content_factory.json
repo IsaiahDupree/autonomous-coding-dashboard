@@ -3,7 +3,7 @@
   "description": "AI-powered content generation pipeline using Google Veo 3 + Nano Banana for social commerce (TikTok Shop, Instagram, Facebook)",
   "version": "1.0",
   "created": "2026-02-05",
-  "total_features": 65,
+  "total_features": 120,
   "features": [
     {
       "id": "CF-001",
@@ -523,6 +523,446 @@
       "priority": 2,
       "description": "Implement scheduled metrics sync cron job",
       "acceptance_criteria": ["Run every hour", "Sync metrics for active content", "Update scores for running tests", "Notify on test completion"],
+      "passes": false
+    },
+    {
+      "id": "CF-066",
+      "category": "veo",
+      "priority": 1,
+      "description": "Google Veo 3 API integration for video generation",
+      "acceptance_criteria": ["API authentication", "Prompt submission", "Video retrieval", "Error handling"],
+      "passes": false
+    },
+    {
+      "id": "CF-067",
+      "category": "veo",
+      "priority": 1,
+      "description": "Veo prompt template library for product videos",
+      "acceptance_criteria": ["Before/after templates", "Product showcase templates", "Testimonial style templates"],
+      "passes": false
+    },
+    {
+      "id": "CF-068",
+      "category": "veo",
+      "priority": 1,
+      "description": "Veo video aspect ratio and duration controls",
+      "acceptance_criteria": ["9:16 for TikTok/Reels", "1:1 for feed", "16:9 for YouTube", "Duration 15-60s options"],
+      "passes": false
+    },
+    {
+      "id": "CF-069",
+      "category": "veo",
+      "priority": 2,
+      "description": "Veo video queue management",
+      "acceptance_criteria": ["Queue multiple generations", "Priority ordering", "Status tracking", "Cost estimation"],
+      "passes": false
+    },
+    {
+      "id": "CF-070",
+      "category": "nano",
+      "priority": 1,
+      "description": "Nano Banana API integration for image generation",
+      "acceptance_criteria": ["API connection", "Image prompt submission", "Result retrieval", "Style consistency"],
+      "passes": false
+    },
+    {
+      "id": "CF-071",
+      "category": "nano",
+      "priority": 1,
+      "description": "Product image generation with consistent branding",
+      "acceptance_criteria": ["Brand color injection", "Logo placement", "Background options", "Multiple variations"],
+      "passes": false
+    },
+    {
+      "id": "CF-072",
+      "category": "nano",
+      "priority": 2,
+      "description": "Before/after image pair generation",
+      "acceptance_criteria": ["Same subject consistency", "Transformation visualization", "Side-by-side export"],
+      "passes": false
+    },
+    {
+      "id": "CF-073",
+      "category": "tiktok",
+      "priority": 1,
+      "description": "TikTok Shop product data import",
+      "acceptance_criteria": ["Import product catalog", "Sync pricing", "Import reviews", "Category mapping"],
+      "passes": false
+    },
+    {
+      "id": "CF-074",
+      "category": "tiktok",
+      "priority": 1,
+      "description": "TikTok video posting automation",
+      "acceptance_criteria": ["OAuth authentication", "Video upload", "Caption and hashtags", "Schedule posting"],
+      "passes": false
+    },
+    {
+      "id": "CF-075",
+      "category": "tiktok",
+      "priority": 1,
+      "description": "TikTok analytics import for content performance",
+      "acceptance_criteria": ["Views, likes, shares import", "Comment sentiment", "Conversion tracking", "Trending detection"],
+      "passes": false
+    },
+    {
+      "id": "CF-076",
+      "category": "instagram",
+      "priority": 1,
+      "description": "Instagram Reels posting automation",
+      "acceptance_criteria": ["Graph API integration", "Reel upload", "Caption formatting", "Hashtag optimization"],
+      "passes": false
+    },
+    {
+      "id": "CF-077",
+      "category": "instagram",
+      "priority": 1,
+      "description": "Instagram shopping tag integration",
+      "acceptance_criteria": ["Product tagging in posts", "Shop catalog sync", "Price display", "Checkout links"],
+      "passes": false
+    },
+    {
+      "id": "CF-078",
+      "category": "facebook",
+      "priority": 1,
+      "description": "Facebook Reels cross-posting",
+      "acceptance_criteria": ["Auto-post to Facebook from IG", "Separate captions option", "Audience targeting"],
+      "passes": false
+    },
+    {
+      "id": "CF-079",
+      "category": "scripts",
+      "priority": 1,
+      "description": "Awareness Level 1 (Unaware) script generator",
+      "acceptance_criteria": ["Problem agitation focus", "No product mention", "Curiosity hooks", "Educational angle"],
+      "passes": false
+    },
+    {
+      "id": "CF-080",
+      "category": "scripts",
+      "priority": 1,
+      "description": "Awareness Level 2 (Problem Aware) script generator",
+      "acceptance_criteria": ["Solution category introduction", "Pain point validation", "Social proof hints"],
+      "passes": false
+    },
+    {
+      "id": "CF-081",
+      "category": "scripts",
+      "priority": 1,
+      "description": "Awareness Level 3 (Solution Aware) script generator",
+      "acceptance_criteria": ["Product introduction", "Differentiation focus", "Feature highlights", "Benefit stacking"],
+      "passes": false
+    },
+    {
+      "id": "CF-082",
+      "category": "scripts",
+      "priority": 1,
+      "description": "Awareness Level 4 (Product Aware) script generator",
+      "acceptance_criteria": ["Objection handling", "Risk reversal", "Urgency creation", "Social proof heavy"],
+      "passes": false
+    },
+    {
+      "id": "CF-083",
+      "category": "scripts",
+      "priority": 1,
+      "description": "Awareness Level 5 (Most Aware) script generator",
+      "acceptance_criteria": ["Direct offer", "Price justification", "Bonus stacking", "Deadline urgency"],
+      "passes": false
+    },
+    {
+      "id": "CF-084",
+      "category": "hooks",
+      "priority": 1,
+      "description": "Pattern interrupt hook library",
+      "acceptance_criteria": ["Controversial statement hooks", "Question hooks", "Story hooks", "Statistic hooks"],
+      "passes": false
+    },
+    {
+      "id": "CF-085",
+      "category": "hooks",
+      "priority": 1,
+      "description": "Hook performance tracking and scoring",
+      "acceptance_criteria": ["3-second retention rate", "Watch-through correlation", "A/B test integration"],
+      "passes": false
+    },
+    {
+      "id": "CF-086",
+      "category": "hooks",
+      "priority": 2,
+      "description": "AI hook generation from winning patterns",
+      "acceptance_criteria": ["Analyze top performers", "Generate variations", "Style transfer"],
+      "passes": false
+    },
+    {
+      "id": "CF-087",
+      "category": "assembly",
+      "priority": 1,
+      "description": "Video assembly pipeline with clips, audio, and captions",
+      "acceptance_criteria": ["Clip sequencing", "Audio track overlay", "Auto-caption generation", "Export formats"],
+      "passes": false
+    },
+    {
+      "id": "CF-088",
+      "category": "assembly",
+      "priority": 1,
+      "description": "Caption style presets for platform optimization",
+      "acceptance_criteria": ["TikTok style captions", "Instagram style", "YouTube style", "Custom fonts"],
+      "passes": false
+    },
+    {
+      "id": "CF-089",
+      "category": "assembly",
+      "priority": 2,
+      "description": "B-roll stock footage auto-insertion",
+      "acceptance_criteria": ["Keyword-based search", "Pexels/Unsplash integration", "Auto-placement suggestions"],
+      "passes": false
+    },
+    {
+      "id": "CF-090",
+      "category": "music",
+      "priority": 1,
+      "description": "Royalty-free music library integration",
+      "acceptance_criteria": ["Genre categorization", "Mood filtering", "BPM matching", "License tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-091",
+      "category": "music",
+      "priority": 2,
+      "description": "Trending audio detection for TikTok",
+      "acceptance_criteria": ["Trending sound alerts", "Audio download", "Usage tracking", "Expiry warnings"],
+      "passes": false
+    },
+    {
+      "id": "CF-092",
+      "category": "voiceover",
+      "priority": 1,
+      "description": "AI voiceover generation integration",
+      "acceptance_criteria": ["Multiple voice options", "Emotion control", "Pacing adjustment", "Multi-language"],
+      "passes": false
+    },
+    {
+      "id": "CF-093",
+      "category": "voiceover",
+      "priority": 2,
+      "description": "Voice cloning for brand consistency",
+      "acceptance_criteria": ["Voice sample upload", "Clone generation", "Quality validation", "Usage limits"],
+      "passes": false
+    },
+    {
+      "id": "CF-094",
+      "category": "testing",
+      "priority": 1,
+      "description": "Content A/B test creation wizard",
+      "acceptance_criteria": ["Variable selection", "Audience split", "Duration setting", "Success metrics"],
+      "passes": false
+    },
+    {
+      "id": "CF-095",
+      "category": "testing",
+      "priority": 1,
+      "description": "Statistical significance calculator for tests",
+      "acceptance_criteria": ["Sample size recommendations", "P-value calculation", "Confidence intervals"],
+      "passes": false
+    },
+    {
+      "id": "CF-096",
+      "category": "testing",
+      "priority": 1,
+      "description": "Auto-winner selection and scaling",
+      "acceptance_criteria": ["Define winning criteria", "Auto-pause losers", "Scale winner budget", "Notifications"],
+      "passes": false
+    },
+    {
+      "id": "CF-097",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Cross-platform content performance dashboard",
+      "acceptance_criteria": ["Unified metrics view", "Platform comparison", "Best time analysis", "ROI tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-098",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Content attribution to sales",
+      "acceptance_criteria": ["UTM tracking", "Pixel integration", "Revenue attribution", "ROAS calculation"],
+      "passes": false
+    },
+    {
+      "id": "CF-099",
+      "category": "analytics",
+      "priority": 2,
+      "description": "Audience insights from content engagement",
+      "acceptance_criteria": ["Demographics analysis", "Interest mapping", "Behavior patterns", "Lookalike suggestions"],
+      "passes": false
+    },
+    {
+      "id": "CF-100",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Content calendar with drag-drop scheduling",
+      "acceptance_criteria": ["Calendar view", "Drag-drop posts", "Bulk scheduling", "Conflict detection"],
+      "passes": false
+    },
+    {
+      "id": "CF-101",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Content approval workflow",
+      "acceptance_criteria": ["Submit for review", "Approval/rejection", "Feedback comments", "Revision tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-102",
+      "category": "workflow",
+      "priority": 2,
+      "description": "Team collaboration with role-based access",
+      "acceptance_criteria": ["Creator, Editor, Admin roles", "Permission levels", "Activity logging"],
+      "passes": false
+    },
+    {
+      "id": "CF-103",
+      "category": "templates",
+      "priority": 1,
+      "description": "Video template library with customization",
+      "acceptance_criteria": ["Pre-built templates", "Color/font customization", "Logo placement", "Save as new template"],
+      "passes": false
+    },
+    {
+      "id": "CF-104",
+      "category": "templates",
+      "priority": 2,
+      "description": "Template performance tracking",
+      "acceptance_criteria": ["Track usage per template", "Performance metrics per template", "Recommendations"],
+      "passes": false
+    },
+    {
+      "id": "CF-105",
+      "category": "ai",
+      "priority": 1,
+      "description": "AI content brief generator from product data",
+      "acceptance_criteria": ["Auto-generate briefs", "Include key angles", "Suggest hooks", "Reference competitors"],
+      "passes": false
+    },
+    {
+      "id": "CF-106",
+      "category": "ai",
+      "priority": 1,
+      "description": "AI caption and hashtag generator",
+      "acceptance_criteria": ["Platform-optimized captions", "Relevant hashtags", "Emoji suggestions", "CTA options"],
+      "passes": false
+    },
+    {
+      "id": "CF-107",
+      "category": "ai",
+      "priority": 2,
+      "description": "AI trend prediction for content planning",
+      "acceptance_criteria": ["Analyze trending topics", "Predict upcoming trends", "Content suggestions", "Timing recommendations"],
+      "passes": false
+    },
+    {
+      "id": "CF-108",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Platform-specific content policy checker",
+      "acceptance_criteria": ["TikTok policy check", "Instagram policy check", "Flag violations", "Suggest fixes"],
+      "passes": false
+    },
+    {
+      "id": "CF-109",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Copyright and music rights verification",
+      "acceptance_criteria": ["Music rights check", "Image rights check", "License documentation", "Risk assessment"],
+      "passes": false
+    },
+    {
+      "id": "CF-110",
+      "category": "export",
+      "priority": 1,
+      "description": "Multi-format video export",
+      "acceptance_criteria": ["MP4, MOV, WebM formats", "Quality presets", "Batch export", "Cloud storage upload"],
+      "passes": false
+    },
+    {
+      "id": "CF-111",
+      "category": "export",
+      "priority": 2,
+      "description": "Platform-specific export presets",
+      "acceptance_criteria": ["TikTok optimal settings", "Instagram optimal settings", "YouTube optimal settings"],
+      "passes": false
+    },
+    {
+      "id": "CF-112",
+      "category": "notifications",
+      "priority": 1,
+      "description": "Real-time notification system",
+      "acceptance_criteria": ["In-app notifications", "Email alerts", "Slack integration", "Custom triggers"],
+      "passes": false
+    },
+    {
+      "id": "CF-113",
+      "category": "notifications",
+      "priority": 2,
+      "description": "Performance alert thresholds",
+      "acceptance_criteria": ["Set custom thresholds", "Alert on viral content", "Alert on underperformers"],
+      "passes": false
+    },
+    {
+      "id": "CF-114",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Mobile-responsive content review",
+      "acceptance_criteria": ["Review on phone", "Approve/reject actions", "Quick edits", "Preview content"],
+      "passes": false
+    },
+    {
+      "id": "CF-115",
+      "category": "integration",
+      "priority": 1,
+      "description": "Shopify product sync for content creation",
+      "acceptance_criteria": ["Import products", "Sync inventory", "Price updates", "Image import"],
+      "passes": false
+    },
+    {
+      "id": "CF-116",
+      "category": "integration",
+      "priority": 2,
+      "description": "CRM integration for customer content",
+      "acceptance_criteria": ["Import customer testimonials", "UGC collection", "Permission tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-117",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Weekly content performance report",
+      "acceptance_criteria": ["Auto-generate reports", "Top performers", "Recommendations", "PDF/email delivery"],
+      "passes": false
+    },
+    {
+      "id": "CF-118",
+      "category": "reporting",
+      "priority": 2,
+      "description": "ROI dashboard for content investment",
+      "acceptance_criteria": ["Cost per content piece", "Revenue attribution", "ROI calculation", "Trend analysis"],
+      "passes": false
+    },
+    {
+      "id": "CF-119",
+      "category": "storage",
+      "priority": 1,
+      "description": "Asset library with search and tagging",
+      "acceptance_criteria": ["Upload assets", "Tag system", "Search functionality", "Version tracking"],
+      "passes": false
+    },
+    {
+      "id": "CF-120",
+      "category": "storage",
+      "priority": 2,
+      "description": "Automatic asset cleanup for old content",
+      "acceptance_criteria": ["Retention policies", "Archive old assets", "Storage usage alerts", "Bulk delete"],
       "passes": false
     }
   ]

@@ -1,5 +1,16 @@
 # ShortsLinker - YouTube Shorts to Long-Form Video Linking Tool
 
+## AUTONOMOUS MODE — DO NOT ASK WHAT TO WORK ON
+
+You are running in a fully autonomous session with NO human interaction. **Never ask what to focus on.** Instead:
+1. Read `feature_list.json` and find the FIRST feature where `"passes": false`
+2. Implement that feature following TDD (write test → implement → verify)
+3. Set `"passes": true` in `feature_list.json` when done
+4. Commit your changes
+5. Move to the next failing feature
+
+**Do NOT stop to ask questions. Do NOT present options. Just pick the next failing feature and implement it.**
+
 ## Project Overview
 ShortsLinker is a local desktop tool that scans a creator's YouTube channel, matches Shorts to their corresponding long-form videos, and bulk-inserts the correct long-form links into Shorts descriptions. It solves the creator ops gap where Shorts don't automatically link to their source long-form videos.
 

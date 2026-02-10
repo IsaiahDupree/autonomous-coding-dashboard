@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PRD Viewer Test</title>
+</head>
+<body>
+    <h1>PRD Viewer Test - Check if file opens</h1>
+    <p>This tests basic functionality of the PRD viewer</p>
+
+    <script>
+        console.log('Test file loaded');
+        console.log('Window location:', window.location.href);
+        console.log('Test: Can we reach prd-viewer.html?');
+
+        // Try to fetch the prd viewer page
+        fetch('prd-viewer.html')
+            .then(r => r.text())
+            .then(html => {
+                console.log('PRD Viewer HTML length:', html.length);
+                console.log('SUCCESS: PRD Viewer page is accessible');
+            })
+            .catch(err => {
+                console.error('FAILED: Could not load PRD Viewer:', err);
+            });
+    </script>
+</body>
+</html>

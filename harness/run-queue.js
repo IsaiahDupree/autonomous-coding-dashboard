@@ -180,11 +180,11 @@ async function generateFeaturesForRepo(repo) {
 function getModelForComplexity(queue, complexity, taskType = null) {
   const config = queue.modelConfig || {};
   const levels = config.complexityLevels || {
-    critical: { models: ['opus', 'sonnet'], fallback: 'sonnet' },
-    high: { models: ['sonnet', 'opus'], fallback: 'haiku' },
-    medium: { models: ['sonnet', 'haiku'], fallback: 'haiku' },
-    low: { models: ['haiku'], fallback: 'haiku' },
-    trivial: { models: ['haiku'], fallback: 'haiku' }
+    critical: { models: ['claude-opus-4-6'], fallback: 'claude-sonnet-4-5-20250929' },
+    high: { models: ['claude-opus-4-6'], fallback: 'claude-sonnet-4-5-20250929' },
+    medium: { models: ['claude-sonnet-4-5-20250929'], fallback: 'claude-haiku-4-5-20251001' },
+    low: { models: ['claude-sonnet-4-5-20250929'], fallback: 'claude-haiku-4-5-20251001' },
+    trivial: { models: ['claude-haiku-4-5-20251001'], fallback: 'claude-haiku-4-5-20251001' }
   };
   
   // If taskType provided, map it to complexity level

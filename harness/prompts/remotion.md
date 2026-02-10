@@ -48,6 +48,15 @@ You are an autonomous coding agent working on Remotion VideoStudio, an AI-powere
 3. Track attribution for all stock media
 4. Run timeline QA gate before final render
 5. Keep audio events engine-agnostic (Remotion + Motion Canvas)
+6. **NEVER use mock providers in production** — see cleanup below
+
+## CRITICAL: Remove Mock Video Provider from Production
+
+`python/services/video_providers/mock_provider.py` (MockVideoProvider) is imported in `__init__.py` and used as a production fallback:
+- `python/services/video_providers/__init__.py:41` → `from .mock_provider import MockVideoProvider`
+- `python/services/video_providers/__init__.py:51,59` → `return MockVideoProvider()`
+
+**Action:** Replace mock fallback with `raise NotConfiguredError("Video provider not configured")`. Delete `mock_provider.py` or move to `tests/` directory.
 
 ## Commands
 ```bash
