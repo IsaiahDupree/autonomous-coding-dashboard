@@ -820,3 +820,589 @@ model FileAccessLog {
   @@index([accessCount], map: "idx_file_access_count")
   @@map("file_access_log")
 }
+
+// ============================================
+// Programmatic Creative Testing Models
+// ============================================
+
+model PctBrand {
+  id          String   @id @default(uuid())
+  orgId       String?  @map("org_id")
+  name        String
+  description String?
+  voice       String?
+  values      String?
+  toneStyle   String?  @map("tone_style")
+  logoUrl     String?  @map("logo_url")
+  colors      Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products    PctProduct[]
+
+  @@index([orgId], map: "idx_pct_brands_org")
+  @@map("pct_brands")
+}
+
+model PctProduct {
+  id              String   @id @default(uuid())
+  brandId         String   @map("brand_id")
+  name            String
+  description     String?
+  features        Json?
+  benefits        Json?
+  targetAudience  String?  @map("target_audience")
+  pricePoint      String?  @map("price_point")
+  category        String?
+  imageUrl        String?  @map("image_url")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  brand           PctBrand           @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  voiceOfCustomer PctVoiceOfCustomer[]
+  usps            PctUSP[]
+  hooks           PctHook[]
+  templates       PctTemplate[]
+
+  @@index([brandId], map: "idx_pct_products_brand")
+  @@map("pct_products")
+}
+
+model PctVoiceOfCustomer {
+  id         String              @id @default(uuid())
+  productId  String              @map("product_id")
+  content    String
+  source     String?
+  sourceType PctVocSourceType    @default(other) @map("source_type")
+  sentiment  PctSentiment        @default(neutral)
+  isGoldNugget Boolean           @default(false) @map("is_gold_nugget")
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  product    PctProduct          @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId], map: "idx_pct_voc_product")
+  @@map("pct_voice_of_customer")
+}
+
+model PctUSP {
+  id              String   @id @default(uuid())
+  productId       String   @map("product_id")
+  content         String
+  isAiGenerated   Boolean  @default(false) @map("is_ai_generated")
+  strengthScore   Int?     @map("strength_score")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  product         PctProduct        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  angles          PctMarketingAngle[]
+  hooks           PctHook[]
+
+  @@index([productId], map: "idx_pct_usps_product")
+  @@map("pct_usps")
+}
+
+model PctMarketingAngle {
+  id         String            @id @default(uuid())
+  uspId      String            @map("usp_id")
+  content    String
+  category   PctAngleCategory  @default(functional)
+  isApproved Boolean           @default(false) @map("is_approved")
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  usp        PctUSP            @relation(fields: [uspId], references: [id], onDelete: Cascade)
+  hooks      PctHook[]
+
+  @@index([uspId], map: "idx_pct_angles_usp")
+  @@map("pct_marketing_angles")
+}
+
+model PctHook {
+  id                    String                @id @default(uuid())
+  productId             String                @map("product_id")
+  uspId                 String?               @map("usp_id")
+  marketingAngleId      String?               @map("marketing_angle_id")
+  content               String
+  status                PctHookStatus         @default(pending)
+  rating                Int?
+  messagingFramework    PctMessagingFramework  @map("messaging_framework")
+  awarenessLevel        Int                   @map("awareness_level")
+  marketSophistication  Int                   @map("market_sophistication")
+  isAiGenerated         Boolean               @default(true) @map("is_ai_generated")
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+
+  product               PctProduct            @relation(fields: [productId], references: [id], onDelete: Cascade)
+  usp                   PctUSP?               @relation(fields: [uspId], references: [id], onDelete: SetNull)
+  angle                 PctMarketingAngle?    @relation(fields: [marketingAngleId], references: [id], onDelete: SetNull)
+  generatedAds          PctGeneratedAd[]
+  videoScripts          PctVideoScript[]
+
+  @@index([productId], map: "idx_pct_hooks_product")
+  @@index([uspId], map: "idx_pct_hooks_usp")
+  @@index([status], map: "idx_pct_hooks_status")
+  @@map("pct_hooks")
+}
+
+enum PctVocSourceType {
+  amazon
+  reddit
+  forum
+  survey
+  review_site
+  social_media
+  other
+
+  @@map("pct_voc_source_type")
+}
+
+enum PctSentiment {
+  positive
+  negative
+  neutral
+
+  @@map("pct_sentiment")
+}
+
+enum PctAngleCategory {
+  emotional
+  functional
+  social_proof
+
+  @@map("pct_angle_category")
+}
+
+enum PctHookStatus {
+  pending
+  approved
+  rejected
+
+  @@map("pct_hook_status")
+}
+
+enum PctMessagingFramework {
+  punchy
+  bold_statements
+  desire_future_states
+  question_based
+  problem_agitation
+  social_proof
+  urgency_scarcity
+  educational
+
+  @@map("pct_messaging_framework")
+}
+
+// ============================================
+// PCT Static Ad Creation Models (P1)
+// ============================================
+
+model PctTemplate {
+  id            String   @id @default(uuid())
+  productId     String?  @map("product_id")
+  name          String
+  imageUrl      String   @map("image_url")
+  width         Int
+  height        Int
+  textZones     Json     @default("[]") @map("text_zones")
+  category      String?
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  product       PctProduct?    @relation(fields: [productId], references: [id], onDelete: SetNull)
+  generatedAds  PctGeneratedAd[]
+
+  @@index([productId], map: "idx_pct_templates_product")
+  @@map("pct_templates")
+}
+
+model PctGeneratedAd {
+  id            String       @id @default(uuid())
+  templateId    String       @map("template_id")
+  hookId        String       @map("hook_id")
+  imageDataUrl  String       @map("image_data_url")
+  width         Int
+  height        Int
+  status        PctAdStatus  @default(pending)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  template      PctTemplate  @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  hook          PctHook      @relation(fields: [hookId], references: [id], onDelete: Cascade)
+
+  @@index([templateId], map: "idx_pct_generated_ads_template")
+  @@index([hookId], map: "idx_pct_generated_ads_hook")
+  @@index([status], map: "idx_pct_generated_ads_status")
+  @@map("pct_generated_ads")
+}
+
+enum PctAdStatus {
+  pending
+  approved
+  rejected
+  deployed
+
+  @@map("pct_ad_status")
+}
+
+// ============================================
+// VIDEO SCRIPTS
+// ============================================
+
+model PctVideoScript {
+  id              String              @id @default(uuid())
+  hookId          String              @map("hook_id")
+  productId       String              @map("product_id")
+  title           String?
+  hook            String
+  lid             String
+  body            String
+  cta             String
+  fullScript      String              @map("full_script")
+  duration        PctScriptDuration   @default(thirty_seconds)
+  narratorStyle   String?             @map("narrator_style")
+  wordCount       Int                 @map("word_count")
+  status          PctScriptStatus     @default(draft)
+  isAiGenerated   Boolean             @default(true) @map("is_ai_generated")
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  hookRef         PctHook             @relation(fields: [hookId], references: [id], onDelete: Cascade)
+
+  @@index([hookId], map: "idx_pct_scripts_hook")
+  @@index([productId], map: "idx_pct_scripts_product")
+  @@index([status], map: "idx_pct_scripts_status")
+  @@map("pct_video_scripts")
+}
+
+enum PctScriptDuration {
+  fifteen_seconds
+  thirty_seconds
+  sixty_seconds
+  ninety_seconds
+
+  @@map("pct_script_duration")
+}
+
+enum PctScriptStatus {
+  draft
+  approved
+  rejected
+
+  @@map("pct_script_status")
+}
+
+// ============================================
+// Content Factory Models
+// ============================================
+
+enum CfDossierStatus {
+  active
+  paused
+  archived
+
+  @@map("cf_dossier_status")
+}
+
+enum CfImageType {
+  before
+  after
+  product
+  lifestyle
+
+  @@map("cf_image_type")
+}
+
+enum CfGenerationStatus {
+  pending
+  generating
+  complete
+  failed
+
+  @@map("cf_generation_status")
+}
+
+enum CfVideoType {
+  before_after
+  demo
+  reveal
+  full_ad
+
+  @@map("cf_video_type")
+}
+
+enum CfAspectRatio {
+  portrait  // 9:16
+  square    // 1:1
+  landscape // 16:9
+
+  @@map("cf_aspect_ratio")
+}
+
+enum CfContentStatus {
+  draft
+  ready
+  published
+  archived
+
+  @@map("cf_content_status")
+}
+
+enum CfPlatform {
+  tiktok
+  instagram
+  facebook
+
+  @@map("cf_platform")
+}
+
+enum CfDisclosureType {
+  paid_partnership
+  affiliate
+  sponsored
+
+  @@map("cf_disclosure_type")
+}
+
+enum CfPublishStatus {
+  published
+  promoted
+  completed
+
+  @@map("cf_publish_status")
+}
+
+enum CfTestStatus {
+  draft
+  running
+  completed
+
+  @@map("cf_test_status")
+}
+
+// CF-001: Product Dossiers
+model CfProductDossier {
+  id              String           @id @default(uuid())
+  name            String
+  slug            String           @unique
+  tiktokShopUrl   String?          @map("tiktok_shop_url")
+  affiliateLink   String?          @map("affiliate_link")
+  productPageUrl  String?          @map("product_page_url")
+  price           Float?
+  discountPrice   Float?           @map("discount_price")
+  benefits        Json             @default("[]")
+  painPoints      Json             @default("[]") @map("pain_points")
+  proofTypes      Json             @default("[]") @map("proof_types")
+  targetAudience  String?          @map("target_audience")
+  category        String?
+  niche           String?
+  status          CfDossierStatus  @default(active)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  images          CfGeneratedImage[]
+  videos          CfGeneratedVideo[]
+  scripts         CfScript[]
+  assembledContent CfAssembledContent[]
+  angleTests      CfAngleTest[]
+
+  @@index([status], map: "idx_cf_dossiers_status")
+  @@map("cf_product_dossiers")
+}
+
+// CF-002: Generated Images
+model CfGeneratedImage {
+  id            String             @id @default(uuid())
+  dossierId     String             @map("dossier_id")
+  type          CfImageType
+  variantNumber Int                @default(1) @map("variant_number")
+  prompt        String
+  model         String             @default("nano-banana")
+  imageUrl      String?            @map("image_url")
+  thumbnailUrl  String?            @map("thumbnail_url")
+  status        CfGenerationStatus @default(pending)
+  errorMessage  String?            @map("error_message")
+  createdAt     DateTime           @default(now())
+
+  dossier       CfProductDossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  videos        CfGeneratedVideo[]
+
+  @@index([dossierId], map: "idx_cf_images_dossier")
+  @@index([type], map: "idx_cf_images_type")
+  @@map("cf_generated_images")
+}
+
+// CF-003: Generated Videos
+model CfGeneratedVideo {
+  id              String             @id @default(uuid())
+  dossierId       String             @map("dossier_id")
+  sourceImageId   String?            @map("source_image_id")
+  type            CfVideoType
+  prompt          String
+  model           String             @default("veo-3.1")
+  durationSeconds Int                @default(8) @map("duration_seconds")
+  aspectRatio     CfAspectRatio      @default(portrait)
+  videoUrl        String?            @map("video_url")
+  thumbnailUrl    String?            @map("thumbnail_url")
+  status          CfGenerationStatus @default(pending)
+  errorMessage    String?            @map("error_message")
+  createdAt       DateTime           @default(now())
+
+  dossier         CfProductDossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  sourceImage     CfGeneratedImage?  @relation(fields: [sourceImageId], references: [id], onDelete: SetNull)
+
+  @@index([dossierId], map: "idx_cf_videos_dossier")
+  @@index([type], map: "idx_cf_videos_type")
+  @@map("cf_generated_videos")
+}
+
+// CF-004: Scripts (5 awareness levels)
+model CfScript {
+  id                       String           @id @default(uuid())
+  dossierId                String           @map("dossier_id")
+  awarenessLevel           Int              @map("awareness_level")
+  marketSophistication     Int              @default(3) @map("market_sophistication")
+  hook                     String
+  body                     String
+  cta                      String
+  fullScript               String           @map("full_script")
+  wordCount                Int?             @map("word_count")
+  estimatedDurationSeconds Int?             @map("estimated_duration_seconds")
+  promptUsed               String?          @map("prompt_used")
+  model                    String           @default("claude-sonnet-4")
+  performanceScore         Float?           @map("performance_score")
+  createdAt                DateTime         @default(now())
+
+  dossier                  CfProductDossier @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  assembledContent         CfAssembledContent[]
+
+  @@index([dossierId], map: "idx_cf_scripts_dossier")
+  @@index([awarenessLevel], map: "idx_cf_scripts_awareness")
+  @@map("cf_scripts")
+}
+
+// CF-005: Assembled Content
+model CfAssembledContent {
+  id              String            @id @default(uuid())
+  dossierId       String            @map("dossier_id")
+  scriptId        String?           @map("script_id")
+  videoIds        Json              @default("[]") @map("video_ids")
+  imageIds        Json              @default("[]") @map("image_ids")
+  title           String?
+  caption         String?
+  hashtags        Json              @default("[]")
+  finalVideoUrl   String?           @map("final_video_url")
+  thumbnailUrl    String?           @map("thumbnail_url")
+  targetPlatform  CfPlatform        @default(tiktok) @map("target_platform")
+  hasDisclosure   Boolean           @default(false) @map("has_disclosure")
+  disclosureType  CfDisclosureType? @map("disclosure_type")
+  status          CfContentStatus   @default(draft)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  dossier         CfProductDossier  @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  script          CfScript?         @relation(fields: [scriptId], references: [id], onDelete: SetNull)
+  publishedContent CfPublishedContent[]
+
+  @@index([dossierId], map: "idx_cf_assembled_dossier")
+  @@index([status], map: "idx_cf_assembled_status")
+  @@map("cf_assembled_content")
+}
+
+// CF-006: Published Content
+model CfPublishedContent {
+  id                String             @id @default(uuid())
+  contentId         String             @map("content_id")
+  platform          CfPlatform
+  platformPostId    String?            @map("platform_post_id")
+  postUrl           String?            @map("post_url")
+  promoted          Boolean            @default(false)
+  promoteBudgetCents Int?              @map("promote_budget_cents")
+  promoteStartAt    DateTime?          @map("promote_start_at")
+  promoteEndAt      DateTime?          @map("promote_end_at")
+  status            CfPublishStatus    @default(published)
+  publishedAt       DateTime           @default(now()) @map("published_at")
+
+  content           CfAssembledContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  metrics           CfPerformanceMetric[]
+
+  @@index([contentId], map: "idx_cf_published_content")
+  @@index([platform], map: "idx_cf_published_platform")
+  @@map("cf_published_content")
+}
+
+// CF-007: Performance Metrics
+model CfPerformanceMetric {
+  id               String           @id @default(uuid())
+  publishedId      String           @map("published_id")
+  date             DateTime         @db.Date
+  views            Int              @default(0)
+  likes            Int              @default(0)
+  comments         Int              @default(0)
+  shares           Int              @default(0)
+  saves            Int              @default(0)
+  watchTimeSeconds Int?             @map("watch_time_seconds")
+  avgWatchPct      Float?           @map("avg_watch_pct")
+  profileVisits    Int?             @map("profile_visits")
+  linkClicks       Int              @default(0) @map("link_clicks")
+  addToCarts       Int              @default(0) @map("add_to_carts")
+  purchases        Int              @default(0)
+  purchaseValue    Float?           @map("purchase_value")
+  spendCents       Int              @default(0) @map("spend_cents")
+  reach            Int              @default(0)
+  engagementRate   Float?           @map("engagement_rate")
+  costPerView      Float?           @map("cost_per_view")
+  viewsPerDollar   Float?           @map("views_per_dollar")
+  syncedAt         DateTime         @default(now()) @map("synced_at")
+
+  published        CfPublishedContent @relation(fields: [publishedId], references: [id], onDelete: Cascade)
+
+  @@unique([publishedId, date])
+  @@index([publishedId], map: "idx_cf_metrics_published")
+  @@map("cf_performance_metrics")
+}
+
+// CF-008: Angle Tests
+model CfAngleTest {
+  id                    String           @id @default(uuid())
+  dossierId             String           @map("dossier_id")
+  name                  String
+  hypothesis            String?
+  awarenessLevel        Int?             @map("awareness_level")
+  hookType              String?          @map("hook_type")
+  visualStyle           String?          @map("visual_style")
+  budgetPerVariantCents Int              @default(500) @map("budget_per_variant_cents")
+  totalBudgetCents      Int?             @map("total_budget_cents")
+  variantIds            Json             @default("[]") @map("variant_ids")
+  status                CfTestStatus     @default(draft)
+  winnerId              String?          @map("winner_id")
+  winnerReason          String?          @map("winner_reason")
+  startedAt             DateTime?        @map("started_at")
+  completedAt           DateTime?        @map("completed_at")
+  createdAt             DateTime         @default(now())
+
+  dossier               CfProductDossier @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId], map: "idx_cf_tests_dossier")
+  @@index([status], map: "idx_cf_tests_status")
+  @@map("cf_angle_tests")
+}
+
+// CF-009: Scoring Config
+model CfScoringConfig {
+  id                    String   @id @default(uuid())
+  name                  String
+  holdRateWeight        Float    @default(0.3)  @map("hold_rate_weight")
+  watchTimeWeight       Float    @default(0.25) @map("watch_time_weight")
+  engagementWeight      Float    @default(0.2)  @map("engagement_weight")
+  clickRateWeight       Float    @default(0.15) @map("click_rate_weight")
+  conversionWeight      Float    @default(0.1)  @map("conversion_weight")
+  minViewsForValid      Int      @default(100)  @map("min_views_for_valid")
+  minSpendCentsForValid Int      @default(300)  @map("min_spend_cents_for_valid")
+  isDefault             Boolean  @default(false) @map("is_default")
+  createdAt             DateTime @default(now())
+
+  @@map("cf_scoring_config")
+}

@@ -11,7 +11,7 @@
       "priority": 1,
       "description": "Create cf_product_dossiers table migration",
       "acceptance_criteria": ["Table with name, slug, links, benefits, pain_points, proof_types", "Category and niche fields", "Status field", "Proper indexes"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-002",
@@ -19,7 +19,7 @@
       "priority": 1,
       "description": "Create cf_generated_images table migration",
       "acceptance_criteria": ["FK to dossiers", "Type field (before/after/product)", "Prompt and model tracking", "Status workflow"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-003",
@@ -27,7 +27,7 @@
       "priority": 1,
       "description": "Create cf_generated_videos table migration",
       "acceptance_criteria": ["FK to dossiers and images", "Type field", "Duration and aspect ratio", "Veo model tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-004",
@@ -35,7 +35,7 @@
       "priority": 1,
       "description": "Create cf_scripts table with 5 awareness levels",
       "acceptance_criteria": ["FK to dossiers", "awareness_level 1-5", "market_sophistication 1-5", "Hook/body/CTA structure"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-005",
@@ -43,7 +43,7 @@
       "priority": 1,
       "description": "Create cf_assembled_content table migration",
       "acceptance_criteria": ["References to scripts, videos, images", "Platform targeting", "Compliance disclosure fields"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-006",
@@ -51,7 +51,7 @@
       "priority": 1,
       "description": "Create cf_published_content table migration",
       "acceptance_criteria": ["FK to assembled content", "Platform post IDs", "Promotion budget tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-007",
@@ -59,7 +59,7 @@
       "priority": 1,
       "description": "Create cf_performance_metrics table migration",
       "acceptance_criteria": ["Daily metrics by published content", "Views, likes, comments, shares, saves", "Conversion metrics if trackable", "Calculated rates"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-008",
@@ -67,7 +67,7 @@
       "priority": 2,
       "description": "Create cf_angle_tests table migration",
       "acceptance_criteria": ["Test definition with hypothesis", "Budget per variant", "Winner tracking", "Status workflow"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-009",
@@ -75,7 +75,7 @@
       "priority": 2,
       "description": "Create cf_scoring_config table with default weights",
       "acceptance_criteria": ["Configurable weights for each metric", "Min thresholds for valid tests", "Default configuration seeded"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-010",
@@ -83,7 +83,7 @@
       "priority": 1,
       "description": "Create TypeScript types for Content Factory entities",
       "acceptance_criteria": ["ProductDossier interface", "GeneratedImage interface", "GeneratedVideo interface", "Script interface", "All enums defined"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-011",
@@ -91,7 +91,7 @@
       "priority": 1,
       "description": "Implement GET/POST /api/cf/dossiers - product dossier CRUD",
       "acceptance_criteria": ["List all dossiers with pagination", "Create dossier with validation", "Zod schema validation"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-012",
@@ -99,7 +99,7 @@
       "priority": 1,
       "description": "Implement GET/PUT /api/cf/dossiers/:id - dossier detail and update",
       "acceptance_criteria": ["Get dossier with all generated content", "Update dossier fields", "404 handling"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-013",
@@ -107,7 +107,7 @@
       "priority": 1,
       "description": "Integrate Google Gemini API for Nano Banana image generation",
       "acceptance_criteria": ["API key configuration", "Image generation endpoint", "Error handling", "Rate limiting"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-014",
@@ -115,7 +115,7 @@
       "priority": 1,
       "description": "Implement before image generation with Nano Banana",
       "acceptance_criteria": ["Prompt template for 'before' scenes", "Problem emphasis in lighting/environment", "Consistent subject identity", "3-5 variants per generation"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-015",
@@ -123,7 +123,7 @@
       "priority": 1,
       "description": "Implement after image generation with Nano Banana",
       "acceptance_criteria": ["Prompt template for 'after' scenes", "Improved lighting/environment", "Matches before scene composition", "Product visible naturally"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-016",
@@ -131,7 +131,7 @@
       "priority": 1,
       "description": "Implement POST /api/cf/generate/images - batch image generation",
       "acceptance_criteria": ["Generate before/after pairs", "Track generation status", "Store URLs when complete", "Handle failures gracefully"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-017",
@@ -139,7 +139,7 @@
       "priority": 1,
       "description": "Integrate Google Veo 3.1 API for video generation",
       "acceptance_criteria": ["API configuration", "Photo-to-video endpoint", "Aspect ratio support (9:16, 1:1)", "Generation status polling"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-018",
@@ -147,7 +147,7 @@
       "priority": 1,
       "description": "Implement before/after reveal video generation",
       "acceptance_criteria": ["8-second vertical video", "Whip-pan transition", "Handheld phone aesthetic", "Ambient sound"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-019",
@@ -155,7 +155,7 @@
       "priority": 1,
       "description": "Implement POST /api/cf/generate/videos - video generation endpoint",
       "acceptance_criteria": ["Generate from source images", "Track processing status", "Store video URLs", "Thumbnail extraction"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-020",
@@ -163,7 +163,7 @@
       "priority": 1,
       "description": "Implement script generation for Unaware level (POV/meme style)",
       "acceptance_criteria": ["Relatable scenario hook", "No early product mention", "Soft CTA", "15-second target"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-021",
@@ -171,7 +171,7 @@
       "priority": 1,
       "description": "Implement script generation for Problem Aware level",
       "acceptance_criteria": ["Pain point hook", "Agitation of problem", "Solution tease", "'Here's what I found' CTA"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-022",
@@ -179,7 +179,7 @@
       "priority": 1,
       "description": "Implement script generation for Solution Aware level",
       "acceptance_criteria": ["Comparison hook", "Quick comparison", "Proof element", "'This is what I use' CTA"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-023",
@@ -187,7 +187,7 @@
       "priority": 1,
       "description": "Implement script generation for Product Aware level",
       "acceptance_criteria": ["Review-style hook", "Honest pros/cons", "Result demonstration", "'If you've been curious' CTA"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-024",
@@ -195,7 +195,7 @@
       "priority": 1,
       "description": "Implement script generation for Most Aware level",
       "acceptance_criteria": ["Urgency hook", "Limited offer mention", "Risk reversal", "Direct 'Get it now' CTA"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-025",
@@ -203,7 +203,7 @@
       "priority": 1,
       "description": "Implement POST /api/cf/generate/scripts - generate all 5 awareness levels",
       "acceptance_criteria": ["Generate scripts for all levels in one call", "Market sophistication parameter", "Store all scripts with metadata"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-026",
@@ -211,7 +211,7 @@
       "priority": 1,
       "description": "Implement POST /api/cf/generate/all - full pipeline generation",
       "acceptance_criteria": ["Generate images, videos, and scripts for dossier", "Progress tracking", "Parallel where possible", "Summary of generated content"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-027",
@@ -219,7 +219,7 @@
       "priority": 1,
       "description": "Create product dossier form component",
       "acceptance_criteria": ["All dossier fields", "Benefits array editor", "Pain points array editor", "Proof types selector", "Category/niche dropdowns"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-028",
@@ -227,7 +227,7 @@
       "priority": 1,
       "description": "Create dossier list page",
       "acceptance_criteria": ["Grid of dossier cards", "Status badges", "Quick stats (images, videos, scripts count)", "Create new button"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-029",
@@ -235,7 +235,7 @@
       "priority": 1,
       "description": "Create dossier detail page with generated content",
       "acceptance_criteria": ["Dossier info header", "Tabs for Images/Videos/Scripts", "Generation status indicators", "Generate buttons"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-030",
@@ -243,7 +243,7 @@
       "priority": 2,
       "description": "Create image gallery component with before/after pairing",
       "acceptance_criteria": ["Grid of image pairs", "Before/after toggle view", "Select for assembly", "Regenerate option"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-031",
@@ -251,7 +251,7 @@
       "priority": 2,
       "description": "Create video preview component",
       "acceptance_criteria": ["Video player with controls", "Thumbnail display", "Duration indicator", "Select for assembly"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-032",
@@ -259,7 +259,7 @@
       "priority": 2,
       "description": "Create script cards with awareness level indicators",
       "acceptance_criteria": ["Color-coded by awareness level", "Hook/body/CTA preview", "Word count and duration", "Edit and regenerate options"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-033",
@@ -267,7 +267,7 @@
       "priority": 2,
       "description": "Create content assembly UI - component selector",
       "acceptance_criteria": ["Select script", "Select videos to include", "Select images for overlays", "Preview combination"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-034",
@@ -275,7 +275,7 @@
       "priority": 2,
       "description": "Implement caption generation from scripts",
       "acceptance_criteria": ["Auto-caption from script text", "Timing sync with video", "Style options (font, position)", "Manual edit capability"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-035",
@@ -283,7 +283,7 @@
       "priority": 2,
       "description": "Implement hashtag generation based on content",
       "acceptance_criteria": ["AI-suggested hashtags", "Category-appropriate tags", "Trending tag suggestions", "Manual override"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-036",
@@ -291,7 +291,7 @@
       "priority": 2,
       "description": "Implement POST /api/cf/assemble - create assembled content",
       "acceptance_criteria": ["Combine script + videos + images", "Generate captions", "Set platform target", "Store assembled content record"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-037",
@@ -299,7 +299,7 @@
       "priority": 2,
       "description": "Implement compliance disclosure automation",
       "acceptance_criteria": ["Auto-detect if product promotion", "Add appropriate disclosure type", "TikTok commercial content toggle", "FTC-compliant text"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-038",
@@ -307,7 +307,7 @@
       "priority": 2,
       "description": "Create content preview page",
       "acceptance_criteria": ["Full video preview with captions", "Platform-specific mockup", "Disclosure visibility check", "Edit caption/hashtags"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-039",
@@ -315,7 +315,7 @@
       "priority": 3,
       "description": "Integrate TikTok API for content publishing",
       "acceptance_criteria": ["OAuth authentication", "Video upload endpoint", "Caption and hashtag support", "Commercial disclosure flag"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-040",
@@ -323,7 +323,7 @@
       "priority": 3,
       "description": "Integrate Instagram API for content publishing",
       "acceptance_criteria": ["Graph API authentication", "Reels upload support", "Caption support", "Branded content tag"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-041",
@@ -331,7 +331,7 @@
       "priority": 3,
       "description": "Implement POST /api/cf/publish - publish to platform",
       "acceptance_criteria": ["Platform selection", "Upload video", "Set caption and hashtags", "Return platform post ID and URL"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-042",
@@ -339,7 +339,7 @@
       "priority": 3,
       "description": "Create publish workflow UI",
       "acceptance_criteria": ["Platform selector", "Final preview", "Compliance checklist", "Publish button with confirmation"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-043",
@@ -347,7 +347,7 @@
       "priority": 3,
       "description": "Integrate TikTok Promote API for $5 tests",
       "acceptance_criteria": ["Promote endpoint integration", "Budget setting", "Audience targeting (basic)", "Duration setting"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-044",
@@ -355,7 +355,7 @@
       "priority": 3,
       "description": "Implement POST /api/cf/promote - start promotion test",
       "acceptance_criteria": ["Select published content", "Set budget (default $5)", "Set duration", "Track promotion status"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-045",
@@ -363,7 +363,7 @@
       "priority": 3,
       "description": "Implement TikTok metrics collection",
       "acceptance_criteria": ["Poll for views, likes, comments, shares", "Watch time metrics", "Profile visits", "Store in performance_metrics"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-046",
@@ -371,7 +371,7 @@
       "priority": 3,
       "description": "Implement Instagram metrics collection",
       "acceptance_criteria": ["Insights API integration", "Reach and impressions", "Engagement metrics", "Save count"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-047",
@@ -379,7 +379,7 @@
       "priority": 3,
       "description": "Implement GET /api/cf/metrics/:id - get content performance",
       "acceptance_criteria": ["Return all metrics for content", "Calculate engagement rate", "Calculate views per dollar", "Historical data"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-048",
@@ -387,7 +387,7 @@
       "priority": 3,
       "description": "Implement angle test creation",
       "acceptance_criteria": ["Select variants to test", "Set budget per variant", "Define hypothesis", "Create test record"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-049",
@@ -395,7 +395,7 @@
       "priority": 3,
       "description": "Implement scoring algorithm",
       "acceptance_criteria": ["Calculate composite score from metrics", "Apply configurable weights", "Respect minimum thresholds", "Handle missing data"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-050",
@@ -403,7 +403,7 @@
       "priority": 3,
       "description": "Implement winner identification",
       "acceptance_criteria": ["Compare variant scores", "Validate sufficient data", "Mark winner", "Generate reason text"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-051",
@@ -411,7 +411,7 @@
       "priority": 3,
       "description": "Implement POST /api/cf/tests - create and run angle test",
       "acceptance_criteria": ["Create test with variants", "Start promotions for all", "Track test status", "Return test ID"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-052",
@@ -419,7 +419,7 @@
       "priority": 3,
       "description": "Implement GET /api/cf/tests/:id - get test results",
       "acceptance_criteria": ["Return test with all variant metrics", "Calculate scores", "Identify leader", "Show statistical significance if calculable"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-053",
@@ -427,7 +427,7 @@
       "priority": 3,
       "description": "Create angle test setup wizard",
       "acceptance_criteria": ["Select dossier", "Choose variants to test", "Set budget", "Define hypothesis", "Review and launch"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-054",
@@ -435,7 +435,7 @@
       "priority": 3,
       "description": "Create test results dashboard",
       "acceptance_criteria": ["Variant comparison table", "Score visualization", "Winner highlight", "Next steps recommendations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-055",
@@ -443,7 +443,7 @@
       "priority": 4,
       "description": "Implement 'more like winner' generation",
       "acceptance_criteria": ["Copy winning parameters", "Generate new variants with same awareness level", "Track as iteration of winner"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-056",
@@ -451,7 +451,7 @@
       "priority": 4,
       "description": "Implement angle performance analytics",
       "acceptance_criteria": ["Aggregate metrics by awareness level", "Aggregate by hook type", "Identify best-performing patterns", "Dashboard visualization"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-057",
@@ -459,7 +459,7 @@
       "priority": 4,
       "description": "Create Content Factory dashboard",
       "acceptance_criteria": ["Quick stats (content created, tests running, winners)", "Recent activity", "Top performers", "Quick actions"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-058",
@@ -467,7 +467,7 @@
       "priority": 4,
       "description": "Create analytics insights page",
       "acceptance_criteria": ["Best awareness level by category", "Best time to post", "Cost efficiency trends", "Recommendations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-059",
@@ -475,7 +475,7 @@
       "priority": 4,
       "description": "Integrate with Remotion for advanced video assembly",
       "acceptance_criteria": ["Send clips to Remotion", "Apply templates", "Caption overlays", "Return rendered video"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-060",
@@ -483,7 +483,7 @@
       "priority": 4,
       "description": "Integrate with PCT for hook sharing",
       "acceptance_criteria": ["Import winning hooks from PCT", "Use as video scripts", "Share performance data"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-061",
@@ -491,7 +491,7 @@
       "priority": 2,
       "description": "Implement before/after content guidelines check",
       "acceptance_criteria": ["Flag health/beauty claims", "Add 'results may vary' when needed", "Block exaggerated transformations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-062",
@@ -499,7 +499,7 @@
       "priority": 2,
       "description": "Implement FTC disclosure compliance check",
       "acceptance_criteria": ["Detect affiliate links", "Require clear disclosure", "Validate disclosure visibility"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-063",
@@ -507,7 +507,7 @@
       "priority": 1,
       "description": "Configure R2/S3 storage for generated assets",
       "acceptance_criteria": ["Bucket configuration", "Upload utility functions", "URL signing for access", "Cleanup for failed generations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-064",
@@ -515,7 +515,7 @@
       "priority": 2,
       "description": "Add Content Factory navigation to ACD dashboard",
       "acceptance_criteria": ["Content Factory menu item", "Sub-navigation for Dossiers, Tests, Analytics", "Quick action buttons"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-065",
@@ -523,7 +523,7 @@
       "priority": 2,
       "description": "Implement scheduled metrics sync cron job",
       "acceptance_criteria": ["Run every hour", "Sync metrics for active content", "Update scores for running tests", "Notify on test completion"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-066",
@@ -531,7 +531,7 @@
       "priority": 1,
       "description": "Google Veo 3 API integration for video generation",
       "acceptance_criteria": ["API authentication", "Prompt submission", "Video retrieval", "Error handling"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-067",
@@ -539,7 +539,7 @@
       "priority": 1,
       "description": "Veo prompt template library for product videos",
       "acceptance_criteria": ["Before/after templates", "Product showcase templates", "Testimonial style templates"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-068",
@@ -547,7 +547,7 @@
       "priority": 1,
       "description": "Veo video aspect ratio and duration controls",
       "acceptance_criteria": ["9:16 for TikTok/Reels", "1:1 for feed", "16:9 for YouTube", "Duration 15-60s options"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-069",
@@ -555,7 +555,7 @@
       "priority": 2,
       "description": "Veo video queue management",
       "acceptance_criteria": ["Queue multiple generations", "Priority ordering", "Status tracking", "Cost estimation"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-070",
@@ -563,7 +563,7 @@
       "priority": 1,
       "description": "Nano Banana API integration for image generation",
       "acceptance_criteria": ["API connection", "Image prompt submission", "Result retrieval", "Style consistency"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-071",
@@ -571,7 +571,7 @@
       "priority": 1,
       "description": "Product image generation with consistent branding",
       "acceptance_criteria": ["Brand color injection", "Logo placement", "Background options", "Multiple variations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-072",
@@ -579,7 +579,7 @@
       "priority": 2,
       "description": "Before/after image pair generation",
       "acceptance_criteria": ["Same subject consistency", "Transformation visualization", "Side-by-side export"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-073",
@@ -587,7 +587,7 @@
       "priority": 1,
       "description": "TikTok Shop product data import",
       "acceptance_criteria": ["Import product catalog", "Sync pricing", "Import reviews", "Category mapping"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-074",
@@ -595,7 +595,7 @@
       "priority": 1,
       "description": "TikTok video posting automation",
       "acceptance_criteria": ["OAuth authentication", "Video upload", "Caption and hashtags", "Schedule posting"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-075",
@@ -603,7 +603,7 @@
       "priority": 1,
       "description": "TikTok analytics import for content performance",
       "acceptance_criteria": ["Views, likes, shares import", "Comment sentiment", "Conversion tracking", "Trending detection"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-076",
@@ -611,7 +611,7 @@
       "priority": 1,
       "description": "Instagram Reels posting automation",
       "acceptance_criteria": ["Graph API integration", "Reel upload", "Caption formatting", "Hashtag optimization"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-077",
@@ -619,7 +619,7 @@
       "priority": 1,
       "description": "Instagram shopping tag integration",
       "acceptance_criteria": ["Product tagging in posts", "Shop catalog sync", "Price display", "Checkout links"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-078",
@@ -627,7 +627,7 @@
       "priority": 1,
       "description": "Facebook Reels cross-posting",
       "acceptance_criteria": ["Auto-post to Facebook from IG", "Separate captions option", "Audience targeting"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-079",
@@ -635,7 +635,7 @@
       "priority": 1,
       "description": "Awareness Level 1 (Unaware) script generator",
       "acceptance_criteria": ["Problem agitation focus", "No product mention", "Curiosity hooks", "Educational angle"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-080",
@@ -643,7 +643,7 @@
       "priority": 1,
       "description": "Awareness Level 2 (Problem Aware) script generator",
       "acceptance_criteria": ["Solution category introduction", "Pain point validation", "Social proof hints"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-081",
@@ -651,7 +651,7 @@
       "priority": 1,
       "description": "Awareness Level 3 (Solution Aware) script generator",
       "acceptance_criteria": ["Product introduction", "Differentiation focus", "Feature highlights", "Benefit stacking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-082",
@@ -659,7 +659,7 @@
       "priority": 1,
       "description": "Awareness Level 4 (Product Aware) script generator",
       "acceptance_criteria": ["Objection handling", "Risk reversal", "Urgency creation", "Social proof heavy"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-083",
@@ -667,7 +667,7 @@
       "priority": 1,
       "description": "Awareness Level 5 (Most Aware) script generator",
       "acceptance_criteria": ["Direct offer", "Price justification", "Bonus stacking", "Deadline urgency"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-084",
@@ -675,7 +675,7 @@
       "priority": 1,
       "description": "Pattern interrupt hook library",
       "acceptance_criteria": ["Controversial statement hooks", "Question hooks", "Story hooks", "Statistic hooks"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-085",
@@ -683,7 +683,7 @@
       "priority": 1,
       "description": "Hook performance tracking and scoring",
       "acceptance_criteria": ["3-second retention rate", "Watch-through correlation", "A/B test integration"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-086",
@@ -691,7 +691,7 @@
       "priority": 2,
       "description": "AI hook generation from winning patterns",
       "acceptance_criteria": ["Analyze top performers", "Generate variations", "Style transfer"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-087",
@@ -699,7 +699,7 @@
       "priority": 1,
       "description": "Video assembly pipeline with clips, audio, and captions",
       "acceptance_criteria": ["Clip sequencing", "Audio track overlay", "Auto-caption generation", "Export formats"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-088",
@@ -707,7 +707,7 @@
       "priority": 1,
       "description": "Caption style presets for platform optimization",
       "acceptance_criteria": ["TikTok style captions", "Instagram style", "YouTube style", "Custom fonts"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-089",
@@ -715,7 +715,7 @@
       "priority": 2,
       "description": "B-roll stock footage auto-insertion",
       "acceptance_criteria": ["Keyword-based search", "Pexels/Unsplash integration", "Auto-placement suggestions"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-090",
@@ -723,7 +723,7 @@
       "priority": 1,
       "description": "Royalty-free music library integration",
       "acceptance_criteria": ["Genre categorization", "Mood filtering", "BPM matching", "License tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-091",
@@ -731,7 +731,7 @@
       "priority": 2,
       "description": "Trending audio detection for TikTok",
       "acceptance_criteria": ["Trending sound alerts", "Audio download", "Usage tracking", "Expiry warnings"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-092",
@@ -739,7 +739,7 @@
       "priority": 1,
       "description": "AI voiceover generation integration",
       "acceptance_criteria": ["Multiple voice options", "Emotion control", "Pacing adjustment", "Multi-language"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-093",
@@ -747,7 +747,7 @@
       "priority": 2,
       "description": "Voice cloning for brand consistency",
       "acceptance_criteria": ["Voice sample upload", "Clone generation", "Quality validation", "Usage limits"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-094",
@@ -755,7 +755,7 @@
       "priority": 1,
       "description": "Content A/B test creation wizard",
       "acceptance_criteria": ["Variable selection", "Audience split", "Duration setting", "Success metrics"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-095",
@@ -763,7 +763,7 @@
       "priority": 1,
       "description": "Statistical significance calculator for tests",
       "acceptance_criteria": ["Sample size recommendations", "P-value calculation", "Confidence intervals"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-096",
@@ -771,7 +771,7 @@
       "priority": 1,
       "description": "Auto-winner selection and scaling",
       "acceptance_criteria": ["Define winning criteria", "Auto-pause losers", "Scale winner budget", "Notifications"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-097",
@@ -779,7 +779,7 @@
       "priority": 1,
       "description": "Cross-platform content performance dashboard",
       "acceptance_criteria": ["Unified metrics view", "Platform comparison", "Best time analysis", "ROI tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-098",
@@ -787,7 +787,7 @@
       "priority": 1,
       "description": "Content attribution to sales",
       "acceptance_criteria": ["UTM tracking", "Pixel integration", "Revenue attribution", "ROAS calculation"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-099",
@@ -795,7 +795,7 @@
       "priority": 2,
       "description": "Audience insights from content engagement",
       "acceptance_criteria": ["Demographics analysis", "Interest mapping", "Behavior patterns", "Lookalike suggestions"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-100",
@@ -803,7 +803,7 @@
       "priority": 1,
       "description": "Content calendar with drag-drop scheduling",
       "acceptance_criteria": ["Calendar view", "Drag-drop posts", "Bulk scheduling", "Conflict detection"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-101",
@@ -811,7 +811,7 @@
       "priority": 1,
       "description": "Content approval workflow",
       "acceptance_criteria": ["Submit for review", "Approval/rejection", "Feedback comments", "Revision tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-102",
@@ -819,7 +819,7 @@
       "priority": 2,
       "description": "Team collaboration with role-based access",
       "acceptance_criteria": ["Creator, Editor, Admin roles", "Permission levels", "Activity logging"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-103",
@@ -827,7 +827,7 @@
       "priority": 1,
       "description": "Video template library with customization",
       "acceptance_criteria": ["Pre-built templates", "Color/font customization", "Logo placement", "Save as new template"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-104",
@@ -835,7 +835,7 @@
       "priority": 2,
       "description": "Template performance tracking",
       "acceptance_criteria": ["Track usage per template", "Performance metrics per template", "Recommendations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-105",
@@ -843,7 +843,7 @@
       "priority": 1,
       "description": "AI content brief generator from product data",
       "acceptance_criteria": ["Auto-generate briefs", "Include key angles", "Suggest hooks", "Reference competitors"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-106",
@@ -851,7 +851,7 @@
       "priority": 1,
       "description": "AI caption and hashtag generator",
       "acceptance_criteria": ["Platform-optimized captions", "Relevant hashtags", "Emoji suggestions", "CTA options"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-107",
@@ -859,7 +859,7 @@
       "priority": 2,
       "description": "AI trend prediction for content planning",
       "acceptance_criteria": ["Analyze trending topics", "Predict upcoming trends", "Content suggestions", "Timing recommendations"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-108",
@@ -867,7 +867,7 @@
       "priority": 1,
       "description": "Platform-specific content policy checker",
       "acceptance_criteria": ["TikTok policy check", "Instagram policy check", "Flag violations", "Suggest fixes"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-109",
@@ -875,7 +875,7 @@
       "priority": 1,
       "description": "Copyright and music rights verification",
       "acceptance_criteria": ["Music rights check", "Image rights check", "License documentation", "Risk assessment"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-110",
@@ -883,7 +883,7 @@
       "priority": 1,
       "description": "Multi-format video export",
       "acceptance_criteria": ["MP4, MOV, WebM formats", "Quality presets", "Batch export", "Cloud storage upload"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-111",
@@ -891,7 +891,7 @@
       "priority": 2,
       "description": "Platform-specific export presets",
       "acceptance_criteria": ["TikTok optimal settings", "Instagram optimal settings", "YouTube optimal settings"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-112",
@@ -899,7 +899,7 @@
       "priority": 1,
       "description": "Real-time notification system",
       "acceptance_criteria": ["In-app notifications", "Email alerts", "Slack integration", "Custom triggers"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-113",
@@ -907,7 +907,7 @@
       "priority": 2,
       "description": "Performance alert thresholds",
       "acceptance_criteria": ["Set custom thresholds", "Alert on viral content", "Alert on underperformers"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-114",
@@ -915,7 +915,7 @@
       "priority": 2,
       "description": "Mobile-responsive content review",
       "acceptance_criteria": ["Review on phone", "Approve/reject actions", "Quick edits", "Preview content"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-115",
@@ -923,7 +923,7 @@
       "priority": 1,
       "description": "Shopify product sync for content creation",
       "acceptance_criteria": ["Import products", "Sync inventory", "Price updates", "Image import"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-116",
@@ -931,7 +931,7 @@
       "priority": 2,
       "description": "CRM integration for customer content",
       "acceptance_criteria": ["Import customer testimonials", "UGC collection", "Permission tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-117",
@@ -939,7 +939,7 @@
       "priority": 1,
       "description": "Weekly content performance report",
       "acceptance_criteria": ["Auto-generate reports", "Top performers", "Recommendations", "PDF/email delivery"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-118",
@@ -947,7 +947,7 @@
       "priority": 2,
       "description": "ROI dashboard for content investment",
       "acceptance_criteria": ["Cost per content piece", "Revenue attribution", "ROI calculation", "Trend analysis"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-119",
@@ -955,7 +955,7 @@
       "priority": 1,
       "description": "Asset library with search and tagging",
       "acceptance_criteria": ["Upload assets", "Tag system", "Search functionality", "Version tracking"],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CF-120",
@@ -963,7 +963,7 @@
       "priority": 2,
       "description": "Automatic asset cleanup for old content",
       "acceptance_criteria": ["Retention policies", "Archive old assets", "Storage usage alerts", "Bulk delete"],
-      "passes": false
+      "passes": true
     }
   ]
 }

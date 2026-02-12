@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Factory - AI Content Generation Pipeline</title>
+  <link rel="stylesheet" href="cf.css">
+</head>
+<body>
+  <div class="cf-app">
+    <!-- Sidebar Navigation -->
+    <nav class="cf-sidebar">
+      <div class="cf-sidebar-header">
+        <h1>Content Factory</h1>
+        <p>AI Content Pipeline</p>
+      </div>
+      <div class="cf-nav-item active" data-page="dashboard">
+        <span class="cf-nav-icon">&#9678;</span> Dashboard
+      </div>
+      <div class="cf-nav-item" data-page="dossiers">
+        <span class="cf-nav-icon">&#9776;</span> Dossiers
+      </div>
+      <div class="cf-nav-item" data-page="generate">
+        <span class="cf-nav-icon">&#9733;</span> Generate
+      </div>
+      <div class="cf-nav-item" data-page="content">
+        <span class="cf-nav-icon">&#9654;</span> Content
+      </div>
+      <div class="cf-nav-item" data-page="assembly">
+        <span class="cf-nav-icon">&#9998;</span> Assembly
+      </div>
+      <div class="cf-nav-item" data-page="preview">
+        <span class="cf-nav-icon">&#9728;</span> Preview
+      </div>
+      <div class="cf-nav-item" data-page="publish">
+        <span class="cf-nav-icon">&#9992;</span> Publish
+      </div>
+      <div class="cf-nav-item" data-page="tests">
+        <span class="cf-nav-icon">&#9881;</span> Tests
+      </div>
+      <div class="cf-nav-item" data-page="hooks">
+        <span class="cf-nav-icon">&#9889;</span> Hooks
+      </div>
+      <div class="cf-nav-item" data-page="analytics">
+        <span class="cf-nav-icon">&#9733;</span> Analytics
+      </div>
+      <div class="cf-nav-item" data-page="assets">
+        <span class="cf-nav-icon">&#9842;</span> Assets
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="cf-main">
+      <!-- Toast Container -->
+      <div class="cf-toast-container" id="cfToasts"></div>
+
+      <!-- DASHBOARD PAGE (CF-057 Enhanced) -->
+      <div id="page-dashboard" class="cf-page active">
+        <div class="cf-page-header">
+          <h2>Dashboard</h2>
+          <button class="cf-btn cf-btn-primary" onclick="CF.showPage('dossiers')">+ New Dossier</button>
+        </div>
+        <div class="cf-stats-bar" id="cfDashboardStats">
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statDossiers">0</div>
+            <div class="cf-stat-label">Dossiers</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statImages">0</div>
+            <div class="cf-stat-label">Images</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statVideos">0</div>
+            <div class="cf-stat-label">Videos</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statScripts">0</div>
+            <div class="cf-stat-label">Scripts</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statAssembled">0</div>
+            <div class="cf-stat-label">Assembled</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statPublished">0</div>
+            <div class="cf-stat-label">Published</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="statTests">0</div>
+            <div class="cf-stat-label">Tests</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions (CF-057) -->
+        <div class="cf-quick-actions">
+          <div class="cf-quick-action" onclick="CF.openDossierModal()">
+            <div class="cf-quick-action-icon">&#9776;</div>
+            <div class="cf-quick-action-label">New Dossier</div>
+          </div>
+          <div class="cf-quick-action" onclick="CF.showPage('generate')">
+            <div class="cf-quick-action-icon">&#9733;</div>
+            <div class="cf-quick-action-label">Generate Content</div>
+          </div>
+          <div class="cf-quick-action" onclick="CF.showPage('assembly')">
+            <div class="cf-quick-action-icon">&#9998;</div>
+            <div class="cf-quick-action-label">Assemble</div>
+          </div>
+          <div class="cf-quick-action" onclick="CF.showPage('publish')">
+            <div class="cf-quick-action-icon">&#9992;</div>
+            <div class="cf-quick-action-label">Publish</div>
+          </div>
+          <div class="cf-quick-action" onclick="CF.openTestWizard()">
+            <div class="cf-quick-action-icon">&#9881;</div>
+            <div class="cf-quick-action-label">New Test</div>
+          </div>
+          <div class="cf-quick-action" onclick="CF.showPage('analytics')">
+            <div class="cf-quick-action-icon">&#9733;</div>
+            <div class="cf-quick-action-label">Analytics</div>
+          </div>
+        </div>
+
+        <div class="cf-dashboard-grid">
+          <div class="cf-card">
+            <div class="cf-card-header">
+              <h3>Recent Dossiers</h3>
+            </div>
+            <div id="dashboardDossierList"></div>
+          </div>
+          <div class="cf-card">
+            <div class="cf-card-header">
+              <h3>Active Tests</h3>
+            </div>
+            <div id="dashboardTestsList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOSSIERS PAGE -->
+      <div id="page-dossiers" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Product Dossiers</h2>
+          <button class="cf-btn cf-btn-primary" onclick="CF.openDossierModal()">+ New Dossier</button>
+        </div>
+        <div class="cf-dossier-grid" id="dossierGrid"></div>
+      </div>
+
+      <!-- GENERATE PAGE -->
+      <div id="page-generate" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Generate Content</h2>
+        </div>
+        <div class="cf-card" style="margin-bottom: 16px;">
+          <div class="cf-card-header">
+            <h3>Select Dossier</h3>
+          </div>
+          <select class="cf-select" id="genDossierSelect" onchange="CF.onGenDossierChange()">
+            <option value="">-- Select a product dossier --</option>
+          </select>
+        </div>
+
+        <div id="genControls" style="display:none">
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div class="cf-card">
+              <h3 style="margin-bottom:12px">Images</h3>
+              <p style="font-size:13px; color:var(--cf-text-muted); margin-bottom:12px;">Generate before/after image pairs using Nano Banana (mock)</p>
+              <div class="cf-form-group">
+                <label>Variants per type</label>
+                <select class="cf-select" id="genImageVariants">
+                  <option value="3">3 variants</option>
+                  <option value="5">5 variants</option>
+                </select>
+              </div>
+              <button class="cf-btn cf-btn-primary" onclick="CF.generateImages()" id="btnGenImages">Generate Images</button>
+            </div>
+
+            <div class="cf-card">
+              <h3 style="margin-bottom:12px">Videos</h3>
+              <p style="font-size:13px; color:var(--cf-text-muted); margin-bottom:12px;">Generate before/after reveal video using Veo 3.1 (mock)</p>
+              <div class="cf-form-group">
+                <label>Duration</label>
+                <select class="cf-select" id="genVideoDuration">
+                  <option value="8">8 seconds</option>
+                  <option value="15">15 seconds</option>
+                </select>
+              </div>
+              <button class="cf-btn cf-btn-primary" onclick="CF.generateVideos()" id="btnGenVideos">Generate Video</button>
+            </div>
+
+            <div class="cf-card">
+              <h3 style="margin-bottom:12px">Scripts</h3>
+              <p style="font-size:13px; color:var(--cf-text-muted); margin-bottom:12px;">Generate scripts for all 5 awareness levels using Claude AI</p>
+              <div class="cf-form-group">
+                <label>Market Sophistication</label>
+                <select class="cf-select" id="genSophistication">
+                  <option value="1">1 - New category</option>
+                  <option value="2">2 - Competition emerging</option>
+                  <option value="3" selected>3 - Crowded market</option>
+                  <option value="4">4 - Skeptical market</option>
+                  <option value="5">5 - Exhausted market</option>
+                </select>
+              </div>
+              <button class="cf-btn cf-btn-primary" onclick="CF.generateScripts()" id="btnGenScripts">Generate All 5 Scripts</button>
+            </div>
+          </div>
+
+          <div class="cf-card">
+            <h3 style="margin-bottom:12px">Full Pipeline</h3>
+            <p style="font-size:13px; color:var(--cf-text-muted); margin-bottom:12px;">Generate everything at once: images, video, and all 5 awareness-level scripts</p>
+            <button class="cf-btn cf-btn-primary cf-btn-lg" onclick="CF.generateAll()" id="btnGenAll">Generate All Content</button>
+            <div class="cf-gen-progress" id="genProgress" style="display:none">
+              <div class="cf-gen-progress-bar"><div class="cf-gen-progress-fill" id="genProgressFill" style="width:0%"></div></div>
+              <div class="cf-gen-progress-text" id="genProgressText">Starting generation...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENT PAGE (CF-030, CF-031, CF-032) -->
+      <div id="page-content" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Generated Content</h2>
+        </div>
+        <div class="cf-card" style="margin-bottom: 16px;">
+          <select class="cf-select" id="contentDossierSelect" onchange="CF.loadDossierContent()">
+            <option value="">-- Select a dossier to view content --</option>
+          </select>
+        </div>
+
+        <div id="contentView" style="display:none">
+          <div class="cf-tabs">
+            <div class="cf-tab active" data-tab="images">Images</div>
+            <div class="cf-tab" data-tab="videos">Videos</div>
+            <div class="cf-tab" data-tab="scripts">Scripts</div>
+          </div>
+
+          <!-- CF-030: Image Gallery with Before/After Pairing -->
+          <div class="cf-tab-panel active" id="tab-images">
+            <div class="cf-gallery-controls">
+              <div class="cf-toggle-group">
+                <button class="cf-toggle-btn active" data-view="paired" onclick="CF.setImageView('paired')">Paired View</button>
+                <button class="cf-toggle-btn" data-view="grid" onclick="CF.setImageView('grid')">Grid View</button>
+                <button class="cf-toggle-btn" data-view="before" onclick="CF.setImageView('before')">Before Only</button>
+                <button class="cf-toggle-btn" data-view="after" onclick="CF.setImageView('after')">After Only</button>
+              </div>
+              <div class="cf-gallery-actions">
+                <button class="cf-btn cf-btn-secondary cf-btn-sm" onclick="CF.selectAllImages()">Select All</button>
+                <button class="cf-btn cf-btn-primary cf-btn-sm" onclick="CF.assembleSelected()" id="btnAssembleImages" disabled>Use in Assembly</button>
+              </div>
+            </div>
+            <div id="imageGalleryContent"></div>
+          </div>
+
+          <!-- CF-031: Video Preview Component -->
+          <div class="cf-tab-panel" id="tab-videos">
+            <div id="videoGalleryContent"></div>
+          </div>
+
+          <!-- CF-032: Script Cards with Awareness Level Indicators -->
+          <div class="cf-tab-panel" id="tab-scripts">
+            <div class="cf-scripts-filter">
+              <button class="cf-filter-btn active" data-level="all" onclick="CF.filterScripts('all')">All Levels</button>
+              <button class="cf-filter-btn" data-level="1" onclick="CF.filterScripts(1)">L1: Unaware</button>
+              <button class="cf-filter-btn" data-level="2" onclick="CF.filterScripts(2)">L2: Problem</button>
+              <button class="cf-filter-btn" data-level="3" onclick="CF.filterScripts(3)">L3: Solution</button>
+              <button class="cf-filter-btn" data-level="4" onclick="CF.filterScripts(4)">L4: Product</button>
+              <button class="cf-filter-btn" data-level="5" onclick="CF.filterScripts(5)">L5: Most Aware</button>
+            </div>
+            <div id="scriptCardsContent"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ASSEMBLY PAGE (CF-033, CF-034, CF-035, CF-037) -->
+      <div id="page-assembly" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Content Assembly</h2>
+        </div>
+
+        <div class="cf-card" style="margin-bottom: 16px;">
+          <select class="cf-select" id="assemblyDossierSelect" onchange="CF.loadAssemblyDossier()">
+            <option value="">-- Select a dossier to assemble --</option>
+          </select>
+        </div>
+
+        <div id="assemblyWorkspace" style="display:none">
+          <div class="cf-assembly-grid">
+            <!-- Script Selection -->
+            <div class="cf-assembly-section">
+              <h3 class="cf-assembly-section-title">1. Select Script</h3>
+              <div id="assemblyScriptList" class="cf-assembly-list"></div>
+            </div>
+
+            <!-- Video Selection -->
+            <div class="cf-assembly-section">
+              <h3 class="cf-assembly-section-title">2. Select Videos</h3>
+              <div id="assemblyVideoList" class="cf-assembly-list"></div>
+            </div>
+
+            <!-- Image Selection -->
+            <div class="cf-assembly-section">
+              <h3 class="cf-assembly-section-title">3. Select Images</h3>
+              <div id="assemblyImageList" class="cf-assembly-list"></div>
+            </div>
+          </div>
+
+          <!-- Assembly Config -->
+          <div class="cf-card" style="margin-top:16px">
+            <h3 style="margin-bottom:12px">4. Configure & Assemble</h3>
+            <div class="cf-form-row">
+              <div class="cf-form-group">
+                <label>Title</label>
+                <input type="text" class="cf-input" id="assemblyTitle" placeholder="Content title...">
+              </div>
+              <div class="cf-form-group">
+                <label>Target Platform</label>
+                <select class="cf-select" id="assemblyPlatform">
+                  <option value="tiktok">TikTok</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="facebook">Facebook</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- CF-034: Caption Generation -->
+            <div class="cf-form-group">
+              <label>Caption <button type="button" class="cf-btn cf-btn-sm cf-btn-secondary" onclick="CF.autoGenerateCaption()" style="margin-left:8px">Auto-Generate</button></label>
+              <textarea class="cf-textarea" id="assemblyCaption" placeholder="Caption will be auto-generated from selected script..."></textarea>
+            </div>
+
+            <!-- CF-035: Hashtag Generation -->
+            <div class="cf-form-group">
+              <label>Hashtags <button type="button" class="cf-btn cf-btn-sm cf-btn-secondary" onclick="CF.autoGenerateHashtags()" style="margin-left:8px">Auto-Generate</button></label>
+              <div class="cf-tags-container" id="assemblyHashtags">
+                <input type="text" class="cf-tags-input" id="hashtagInput" placeholder="Type a hashtag and press Enter...">
+              </div>
+            </div>
+
+            <!-- CF-037: Compliance Disclosure -->
+            <div class="cf-compliance-section" id="assemblyCompliance" style="display:none">
+              <h4>Compliance Disclosure</h4>
+              <div class="cf-compliance-checks" id="complianceChecks"></div>
+              <div class="cf-form-group" style="margin-top:8px">
+                <label>Disclosure Type</label>
+                <select class="cf-select" id="assemblyDisclosureType">
+                  <option value="">None</option>
+                  <option value="affiliate">Affiliate Link</option>
+                  <option value="paid_partnership">Paid Partnership</option>
+                  <option value="sponsored">Sponsored</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-top:16px;">
+              <button class="cf-btn cf-btn-primary cf-btn-lg" onclick="CF.assembleContent()" id="btnAssemble">Assemble Content</button>
+              <button class="cf-btn cf-btn-secondary" onclick="CF.previewAssembly()">Preview</button>
+            </div>
+          </div>
+
+          <!-- Assembled Content List -->
+          <div class="cf-card" style="margin-top:16px">
+            <div class="cf-card-header">
+              <h3>Assembled Content</h3>
+            </div>
+            <div id="assembledContentList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREVIEW PAGE (CF-038) -->
+      <div id="page-preview" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Content Preview</h2>
+        </div>
+        <div class="cf-card" style="margin-bottom:16px;">
+          <select class="cf-select" id="previewContentSelect" onchange="CF.loadContentPreview()">
+            <option value="">-- Select assembled content to preview --</option>
+          </select>
+        </div>
+        <div id="previewContainer" style="display:none">
+          <div class="cf-preview-layout">
+            <!-- Phone Mockup -->
+            <div class="cf-phone-mockup">
+              <div class="cf-phone-notch"></div>
+              <div class="cf-phone-screen" id="previewScreen">
+                <div class="cf-preview-video" id="previewVideo"></div>
+                <div class="cf-preview-overlay">
+                  <div class="cf-preview-caption" id="previewCaption"></div>
+                  <div class="cf-preview-hashtags" id="previewHashtags"></div>
+                  <div class="cf-preview-disclosure" id="previewDisclosure" style="display:none"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Details Panel -->
+            <div class="cf-preview-details">
+              <div class="cf-card" style="margin-bottom:12px">
+                <h3 style="margin-bottom:8px" id="previewTitle">Content Title</h3>
+                <div class="cf-preview-meta" id="previewMeta"></div>
+              </div>
+              <div class="cf-card" style="margin-bottom:12px">
+                <h4 style="margin-bottom:8px">Script</h4>
+                <div id="previewScript"></div>
+              </div>
+              <div class="cf-card" style="margin-bottom:12px">
+                <h4 style="margin-bottom:8px">Caption</h4>
+                <div id="previewCaptionFull" style="white-space:pre-line;font-size:14px"></div>
+              </div>
+              <div class="cf-card" style="margin-bottom:12px">
+                <h4 style="margin-bottom:8px">Hashtags</h4>
+                <div id="previewHashtagsFull"></div>
+              </div>
+              <!-- CF-061, CF-062: Compliance Checks -->
+              <div class="cf-card" id="previewComplianceCard" style="margin-bottom:12px;display:none">
+                <h4 style="margin-bottom:8px">Compliance Check</h4>
+                <div id="previewComplianceDetails"></div>
+              </div>
+              <div style="display:flex; gap:8px">
+                <button class="cf-btn cf-btn-primary" onclick="CF.publishFromPreview()">Publish</button>
+                <button class="cf-btn cf-btn-secondary" onclick="CF.editCaption()">Edit Caption</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOOKS PAGE (CF-084, CF-085) -->
+      <div id="page-hooks" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Hook Library</h2>
+        </div>
+        <div class="cf-card" style="margin-bottom:16px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="cf-filter-btn active" onclick="CF.filterHooks(null, this)">All</button>
+            <button class="cf-filter-btn" onclick="CF.filterHooks(1, this)">L1: Unaware</button>
+            <button class="cf-filter-btn" onclick="CF.filterHooks(2, this)">L2: Problem</button>
+            <button class="cf-filter-btn" onclick="CF.filterHooks(3, this)">L3: Solution</button>
+            <button class="cf-filter-btn" onclick="CF.filterHooks(4, this)">L4: Product</button>
+            <button class="cf-filter-btn" onclick="CF.filterHooks(5, this)">L5: Most Aware</button>
+          </div>
+          <div id="hooksList"></div>
+        </div>
+        <div class="cf-card">
+          <div class="cf-card-header">
+            <h3>Hook Performance</h3>
+          </div>
+          <div id="hookPerformanceChart"></div>
+        </div>
+      </div>
+
+      <!-- PUBLISH PAGE (CF-042) -->
+      <div id="page-publish" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Publish Content</h2>
+        </div>
+
+        <div class="cf-publish-wizard">
+          <!-- Step 1: Select Content -->
+          <div class="cf-card" style="margin-bottom:16px">
+            <h3 style="margin-bottom:12px">1. Select Content to Publish</h3>
+            <select class="cf-select" id="publishContentSelect" onchange="CF.loadPublishPreview()">
+              <option value="">-- Select assembled content --</option>
+            </select>
+          </div>
+
+          <!-- Step 2: Platform Selection -->
+          <div id="publishDetails" style="display:none">
+            <div class="cf-card" style="margin-bottom:16px">
+              <h3 style="margin-bottom:12px">2. Choose Platform</h3>
+              <div class="cf-platform-selector">
+                <div class="cf-platform-option selected" data-platform="tiktok" onclick="CF.selectPlatform('tiktok')">
+                  <div class="cf-platform-icon">T</div>
+                  <div class="cf-platform-name">TikTok</div>
+                  <div class="cf-platform-desc">9:16 vertical, 15-60s</div>
+                </div>
+                <div class="cf-platform-option" data-platform="instagram" onclick="CF.selectPlatform('instagram')">
+                  <div class="cf-platform-icon">I</div>
+                  <div class="cf-platform-name">Instagram Reels</div>
+                  <div class="cf-platform-desc">9:16 vertical, up to 90s</div>
+                </div>
+                <div class="cf-platform-option" data-platform="facebook" onclick="CF.selectPlatform('facebook')">
+                  <div class="cf-platform-icon">F</div>
+                  <div class="cf-platform-name">Facebook Reels</div>
+                  <div class="cf-platform-desc">9:16 vertical, up to 60s</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Final Preview -->
+            <div class="cf-card" style="margin-bottom:16px">
+              <h3 style="margin-bottom:12px">3. Final Preview</h3>
+              <div class="cf-publish-preview-grid">
+                <div class="cf-publish-preview-left">
+                  <div class="cf-phone-mockup cf-phone-sm">
+                    <div class="cf-phone-notch"></div>
+                    <div class="cf-phone-screen" id="publishPreviewScreen">
+                      <div class="cf-preview-video" id="publishPreviewVideo"></div>
+                      <div class="cf-preview-overlay">
+                        <div class="cf-preview-caption" id="publishPreviewCaption"></div>
+                        <div class="cf-preview-hashtags" id="publishPreviewHashtags"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="cf-publish-preview-right">
+                  <div class="cf-publish-meta">
+                    <div id="publishPreviewTitle" style="font-weight:600;margin-bottom:8px"></div>
+                    <div id="publishPreviewInfo" style="font-size:13px;color:var(--cf-text-muted)"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Compliance Checklist -->
+            <div class="cf-card" style="margin-bottom:16px">
+              <h3 style="margin-bottom:12px">4. Compliance Checklist</h3>
+              <div id="publishComplianceChecks"></div>
+            </div>
+
+            <!-- Step 5: Publish -->
+            <div class="cf-card">
+              <h3 style="margin-bottom:12px">5. Publish</h3>
+              <div style="display:flex;gap:8px">
+                <button class="cf-btn cf-btn-primary cf-btn-lg" onclick="CF.confirmPublish()" id="btnPublish">Publish Now</button>
+                <button class="cf-btn cf-btn-secondary" onclick="CF.schedulePublish()">Schedule</button>
+              </div>
+              <div id="publishResult" style="display:none;margin-top:12px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TESTS PAGE (CF-053, CF-054) -->
+      <div id="page-tests" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Angle Tests</h2>
+          <button class="cf-btn cf-btn-primary" onclick="CF.openTestWizard()">+ New Test</button>
+        </div>
+
+        <!-- Active Tests -->
+        <div class="cf-card" style="margin-bottom:16px" id="activeTestsCard">
+          <div class="cf-card-header">
+            <h3>Active Tests</h3>
+          </div>
+          <div id="activeTestsList"></div>
+        </div>
+
+        <!-- Completed Tests -->
+        <div class="cf-card" id="completedTestsCard">
+          <div class="cf-card-header">
+            <h3>Completed Tests</h3>
+          </div>
+          <div id="completedTestsList"></div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS PAGE (CF-058) -->
+      <div id="page-analytics" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Analytics &amp; Insights</h2>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="cf-stats-bar" id="analyticsStats">
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="analyticsTotalContent">0</div>
+            <div class="cf-stat-label">Total Content</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="analyticsPublished">0</div>
+            <div class="cf-stat-label">Published</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="analyticsTests">0</div>
+            <div class="cf-stat-label">Tests Run</div>
+          </div>
+          <div class="cf-stat-card">
+            <div class="cf-stat-value" id="analyticsWinners">0</div>
+            <div class="cf-stat-label">Winners Found</div>
+          </div>
+        </div>
+
+        <!-- Best by Awareness Level -->
+        <div class="cf-card" style="margin-bottom:16px">
+          <div class="cf-card-header">
+            <h3>Performance by Awareness Level</h3>
+          </div>
+          <div id="awarenessLevelPerf">
+            <div class="cf-awareness-chart">
+              <div class="cf-awareness-row" data-level="1">
+                <div class="cf-awareness-label"><span class="cf-awareness-tag cf-awareness-tag-1">L1</span> Unaware</div>
+                <div class="cf-awareness-bar-container"><div class="cf-awareness-bar level-1" id="barLevel1" style="width:0%"></div></div>
+                <div class="cf-awareness-value" id="valLevel1">--</div>
+              </div>
+              <div class="cf-awareness-row" data-level="2">
+                <div class="cf-awareness-label"><span class="cf-awareness-tag cf-awareness-tag-2">L2</span> Problem</div>
+                <div class="cf-awareness-bar-container"><div class="cf-awareness-bar level-2" id="barLevel2" style="width:0%"></div></div>
+                <div class="cf-awareness-value" id="valLevel2">--</div>
+              </div>
+              <div class="cf-awareness-row" data-level="3">
+                <div class="cf-awareness-label"><span class="cf-awareness-tag cf-awareness-tag-3">L3</span> Solution</div>
+                <div class="cf-awareness-bar-container"><div class="cf-awareness-bar level-3" id="barLevel3" style="width:0%"></div></div>
+                <div class="cf-awareness-value" id="valLevel3">--</div>
+              </div>
+              <div class="cf-awareness-row" data-level="4">
+                <div class="cf-awareness-label"><span class="cf-awareness-tag cf-awareness-tag-4">L4</span> Product</div>
+                <div class="cf-awareness-bar-container"><div class="cf-awareness-bar level-4" id="barLevel4" style="width:0%"></div></div>
+                <div class="cf-awareness-value" id="valLevel4">--</div>
+              </div>
+              <div class="cf-awareness-row" data-level="5">
+                <div class="cf-awareness-label"><span class="cf-awareness-tag cf-awareness-tag-5">L5</span> Most Aware</div>
+                <div class="cf-awareness-bar-container"><div class="cf-awareness-bar level-5" id="barLevel5" style="width:0%"></div></div>
+                <div class="cf-awareness-value" id="valLevel5">--</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Performers -->
+        <div class="cf-card" style="margin-bottom:16px">
+          <div class="cf-card-header">
+            <h3>Top Performing Content</h3>
+          </div>
+          <div id="topPerformersList">
+            <div class="cf-empty" style="padding:24px"><p>Publish and promote content to see analytics data</p></div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="cf-card">
+          <div class="cf-card-header">
+            <h3>Recommendations</h3>
+          </div>
+          <div id="analyticsRecommendations">
+            <div class="cf-recommendation">
+              <div class="cf-recommendation-icon">1</div>
+              <div class="cf-recommendation-content">
+                <h4>Generate more content</h4>
+                <p>Create product dossiers and generate content across all 5 awareness levels to identify winners.</p>
+              </div>
+            </div>
+            <div class="cf-recommendation">
+              <div class="cf-recommendation-icon">2</div>
+              <div class="cf-recommendation-content">
+                <h4>Run $5 micro-tests</h4>
+                <p>Set up angle tests with different awareness levels to find the best-performing hooks for your products.</p>
+              </div>
+            </div>
+            <div class="cf-recommendation">
+              <div class="cf-recommendation-icon">3</div>
+              <div class="cf-recommendation-content">
+                <h4>Scale winners</h4>
+                <p>Once you identify winning content, increase promotion budget to maximize ROI.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ASSETS PAGE (CF-119) -->
+      <div id="page-assets" class="cf-page" style="display:none">
+        <div class="cf-page-header">
+          <h2>Asset Library</h2>
+        </div>
+        <div class="cf-card" style="margin-bottom:16px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <input type="text" class="cf-input" id="assetSearch" placeholder="Search assets..." style="max-width:300px" oninput="CF.searchAssets()">
+            <div class="cf-toggle-group">
+              <button class="cf-toggle-btn active" onclick="CF.filterAssetType('all', this)">All</button>
+              <button class="cf-toggle-btn" onclick="CF.filterAssetType('image', this)">Images</button>
+              <button class="cf-toggle-btn" onclick="CF.filterAssetType('video', this)">Videos</button>
+              <button class="cf-toggle-btn" onclick="CF.filterAssetType('script', this)">Scripts</button>
+            </div>
+          </div>
+        </div>
+        <div id="assetGrid" class="cf-image-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Dossier Modal -->
+  <div class="cf-modal-overlay" id="dossierModal" style="display:none">
+    <div class="cf-modal">
+      <div class="cf-modal-header">
+        <h3 id="dossierModalTitle">New Product Dossier</h3>
+        <button class="cf-modal-close" onclick="CF.closeDossierModal()">&times;</button>
+      </div>
+      <form id="dossierForm" onsubmit="CF.saveDossier(event)">
+        <input type="hidden" id="dossierId" value="">
+        <div class="cf-form-group">
+          <label>Product Name *</label>
+          <input type="text" class="cf-input" id="dossierName" required placeholder="e.g., MagicScrub Kitchen Cleaner">
+        </div>
+        <div class="cf-form-row">
+          <div class="cf-form-group">
+            <label>Category</label>
+            <select class="cf-select" id="dossierCategory">
+              <option value="">Select...</option>
+              <option value="home">Home</option>
+              <option value="beauty">Beauty</option>
+              <option value="fitness">Fitness</option>
+              <option value="kitchen">Kitchen</option>
+              <option value="tech">Tech</option>
+              <option value="health">Health</option>
+              <option value="fashion">Fashion</option>
+              <option value="pets">Pets</option>
+              <option value="outdoors">Outdoors</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="cf-form-group">
+            <label>Niche</label>
+            <input type="text" class="cf-input" id="dossierNiche" placeholder="e.g., eco-friendly cleaning">
+          </div>
+        </div>
+        <div class="cf-form-group">
+          <label>Target Audience</label>
+          <input type="text" class="cf-input" id="dossierAudience" placeholder="e.g., busy moms ages 25-45">
+        </div>
+        <div class="cf-form-row">
+          <div class="cf-form-group">
+            <label>Price ($)</label>
+            <input type="number" class="cf-input" id="dossierPrice" step="0.01" placeholder="29.99">
+          </div>
+          <div class="cf-form-group">
+            <label>Discount Price ($)</label>
+            <input type="number" class="cf-input" id="dossierDiscountPrice" step="0.01" placeholder="19.99">
+          </div>
+        </div>
+        <div class="cf-form-group">
+          <label>Benefits (press Enter to add)</label>
+          <div class="cf-tags-container" id="benefitsTags">
+            <input type="text" class="cf-tags-input" id="benefitsInput" placeholder="Type a benefit and press Enter...">
+          </div>
+        </div>
+        <div class="cf-form-group">
+          <label>Pain Points (press Enter to add)</label>
+          <div class="cf-tags-container" id="painPointsTags">
+            <input type="text" class="cf-tags-input" id="painPointsInput" placeholder="Type a pain point and press Enter...">
+          </div>
+        </div>
+        <div class="cf-form-group">
+          <label>TikTok Shop URL</label>
+          <input type="url" class="cf-input" id="dossierTikTokUrl" placeholder="https://www.tiktok.com/...">
+        </div>
+        <div class="cf-form-group">
+          <label>Affiliate Link</label>
+          <input type="url" class="cf-input" id="dossierAffiliateLink" placeholder="https://...">
+        </div>
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:20px">
+          <button type="button" class="cf-btn cf-btn-secondary" onclick="CF.closeDossierModal()">Cancel</button>
+          <button type="submit" class="cf-btn cf-btn-primary" id="btnSaveDossier">Save Dossier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dossier Detail Modal -->
+  <div class="cf-modal-overlay" id="dossierDetailModal" style="display:none">
+    <div class="cf-modal" style="max-width:800px">
+      <div class="cf-modal-header">
+        <h3 id="dossierDetailTitle">Dossier Detail</h3>
+        <button class="cf-modal-close" onclick="CF.closeDossierDetail()">&times;</button>
+      </div>
+      <div id="dossierDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Test Wizard Modal (CF-053) -->
+  <div class="cf-modal-overlay" id="testWizardModal" style="display:none">
+    <div class="cf-modal" style="max-width:700px">
+      <div class="cf-modal-header">
+        <h3>New Angle Test</h3>
+        <button class="cf-modal-close" onclick="CF.closeTestWizard()">&times;</button>
+      </div>
+      <form id="testWizardForm" onsubmit="CF.createTest(event)">
+        <div class="cf-form-group">
+          <label>Test Name *</label>
+          <input type="text" class="cf-input" id="testName" required placeholder="e.g., L1 vs L3 hooks for MagicScrub">
+        </div>
+        <div class="cf-form-group">
+          <label>Select Dossier *</label>
+          <select class="cf-select" id="testDossierSelect" required onchange="CF.loadTestVariants()">
+            <option value="">-- Select a product dossier --</option>
+          </select>
+        </div>
+        <div class="cf-form-group">
+          <label>Hypothesis</label>
+          <textarea class="cf-textarea" id="testHypothesis" placeholder="e.g., Level 1 hooks will get more views but Level 3 will convert better"></textarea>
+        </div>
+        <div class="cf-form-row">
+          <div class="cf-form-group">
+            <label>Awareness Level Filter</label>
+            <select class="cf-select" id="testAwarenessLevel">
+              <option value="">All levels</option>
+              <option value="1">L1: Unaware</option>
+              <option value="2">L2: Problem Aware</option>
+              <option value="3">L3: Solution Aware</option>
+              <option value="4">L4: Product Aware</option>
+              <option value="5">L5: Most Aware</option>
+            </select>
+          </div>
+          <div class="cf-form-group">
+            <label>Budget Per Variant ($)</label>
+            <input type="number" class="cf-input" id="testBudget" value="5" min="1" step="1">
+          </div>
+        </div>
+        <div class="cf-form-group">
+          <label>Select Variants to Test (published content)</label>
+          <div id="testVariantsList" class="cf-test-variants-list">
+            <div class="cf-empty" style="padding:16px"><p>Select a dossier to see available content</p></div>
+          </div>
+        </div>
+        <div class="cf-test-summary" id="testSummary" style="display:none">
+          <div class="cf-test-summary-item"><span>Variants:</span><span id="testSummaryVariants">0</span></div>
+          <div class="cf-test-summary-item"><span>Budget Per Variant:</span><span id="testSummaryBudget">$5</span></div>
+          <div class="cf-test-summary-item cf-test-summary-total"><span>Total Budget:</span><span id="testSummaryTotal">$0</span></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button type="button" class="cf-btn cf-btn-secondary" onclick="CF.closeTestWizard()">Cancel</button>
+          <button type="submit" class="cf-btn cf-btn-primary" id="btnCreateTest">Create Test</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Test Detail Modal (CF-054) -->
+  <div class="cf-modal-overlay" id="testDetailModal" style="display:none">
+    <div class="cf-modal" style="max-width:900px">
+      <div class="cf-modal-header">
+        <h3 id="testDetailTitle">Test Results</h3>
+        <button class="cf-modal-close" onclick="CF.closeTestDetail()">&times;</button>
+      </div>
+      <div id="testDetailContent"></div>
+    </div>
+  </div>
+
+  <script src="cf.js"></script>
+</body>
+</html>

@@ -30,6 +30,8 @@ import { getAnalytics } from './services/analytics';
 import { getScheduler } from './services/scheduler';
 import { getUserEventTracking } from './services/userEventTracking';
 import { getClaudeApiKey, isOAuthToken, getEnv, getEnvValue, validateEnvConfig } from './config/env-config';
+import pctRouter from './routes/pct';
+import cfRouter from './routes/content-factory';
 import * as targetSync from './services/target-sync';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -78,13 +80,23 @@ const redis = new Redis(getEnvValue('redisUrl') || 'redis://localhost:6379');
 app.use(cors({
   origin: ['http://localhost:3535', 'http://localhost:3000', 'http://127.0.0.1:3535'],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+
+// Serve static files from project root (for pct.html, index.html, etc.)
+const projectRoot = path.resolve(__dirname, '..', '..');
+app.use(express.static(projectRoot, { index: false }));
 
 // Auth routes
 app.use('/api/auth', authRouter);
+
+// Programmatic Creative Testing routes
+app.use('/api/pct', pctRouter);
+
+// Content Factory routes
+app.use('/api/cf', cfRouter);
 
 // Root route
 app.get('/', (req, res) => {

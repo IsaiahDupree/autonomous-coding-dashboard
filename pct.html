@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Programmatic Creative Testing - Systematic Facebook ad creative generation and testing">
+  <title>Programmatic Creative Testing</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Shared design system variables from index.css -->
+  <link rel="stylesheet" href="index.css">
+  <!-- PCT-specific styles -->
+  <link rel="stylesheet" href="pct.css">
+</head>
+
+<body class="pct-page">
+  <!-- Header -->
+  <div class="pct-header">
+    <div class="pct-header-inner">
+      <div class="pct-header-left">
+        <a href="index.html" class="pct-back">&larr; Dashboard</a>
+        <span class="pct-title">Programmatic Creative Testing</span>
+      </div>
+      <div class="pct-header-right">
+        <a href="index.html" class="pct-btn pct-btn-sm">Dashboard</a>
+        <a href="queue.html" class="pct-btn pct-btn-sm">Queue</a>
+        <a href="control.html" class="pct-btn pct-btn-sm">Control</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="pct-container">
+    <!-- Stats Bar -->
+    <div class="pct-stats-bar" id="pct-stats"></div>
+
+    <!-- Tabs -->
+    <div class="pct-tabs">
+      <button class="pct-tab active" data-tab="context">Context & Setup</button>
+      <button class="pct-tab" data-tab="usps">USPs & Angles</button>
+      <button class="pct-tab" data-tab="generate">Hook Generation</button>
+      <button class="pct-tab" data-tab="review">Hook Review</button>
+      <button class="pct-tab" data-tab="creative">Ad Creative</button>
+      <button class="pct-tab" data-tab="scripts">Video Scripts</button>
+    </div>
+
+    <!-- ===== Tab 1: Context & Setup ===== -->
+    <div class="pct-tab-panel active" id="panel-context">
+      <div class="pct-two-col">
+        <!-- Left: Brand & Product Selection -->
+        <div class="pct-sidebar-section">
+          <!-- Brand Card -->
+          <div class="pct-card">
+            <div class="pct-card-header">
+              <div class="pct-card-title">Brands</div>
+            </div>
+            <div id="brand-list"></div>
+
+            <details style="margin-top:var(--space-sm)">
+              <summary style="font-size:0.8125rem;color:var(--color-primary-light);cursor:pointer;user-select:none">+ New Brand</summary>
+              <div style="margin-top:var(--space-sm)">
+                <div class="pct-form-group">
+                  <label>Brand Name *</label>
+                  <input id="brand-name" class="pct-input" placeholder="e.g. Miracle Bomb">
+                </div>
+                <div class="pct-form-group">
+                  <label>Description</label>
+                  <textarea id="brand-desc" class="pct-textarea" placeholder="What does the brand do?" rows="2"></textarea>
+                </div>
+                <div class="pct-form-group">
+                  <label>Brand Voice</label>
+                  <input id="brand-voice" class="pct-input" placeholder="e.g. Friendly, confident, witty">
+                </div>
+                <div class="pct-form-group">
+                  <label>Core Values</label>
+                  <input id="brand-values" class="pct-input" placeholder="e.g. Quality, innovation, honesty">
+                </div>
+                <div class="pct-form-group">
+                  <label>Tone Style</label>
+                  <select id="brand-tone" class="pct-select">
+                    <option value="">-- Select --</option>
+                    <option value="professional">Professional</option>
+                    <option value="casual">Casual</option>
+                    <option value="bold">Bold</option>
+                    <option value="friendly">Friendly</option>
+                    <option value="luxury">Luxury</option>
+                    <option value="playful">Playful</option>
+                  </select>
+                </div>
+                <button class="pct-btn pct-btn-primary" onclick="createBrand()" style="width:100%">Create Brand</button>
+              </div>
+            </details>
+          </div>
+
+          <!-- Product Card -->
+          <div class="pct-card">
+            <div class="pct-card-header">
+              <div class="pct-card-title">Products</div>
+            </div>
+            <div id="product-list"></div>
+
+            <details style="margin-top:var(--space-sm)">
+              <summary style="font-size:0.8125rem;color:var(--color-primary-light);cursor:pointer;user-select:none">+ New Product</summary>
+              <div style="margin-top:var(--space-sm)">
+                <div class="pct-form-group">
+                  <label>Product Name *</label>
+                  <input id="product-name" class="pct-input" placeholder="e.g. Glow Serum">
+                </div>
+                <div class="pct-form-group">
+                  <label>Description</label>
+                  <textarea id="product-desc" class="pct-textarea" placeholder="What is this product?" rows="2"></textarea>
+                </div>
+                <div class="pct-form-group">
+                  <label>Features (one per line)</label>
+                  <textarea id="product-features" class="pct-textarea" placeholder="Vitamin C infused&#10;SPF 30&#10;Lightweight formula" rows="3"></textarea>
+                </div>
+                <div class="pct-form-group">
+                  <label>Benefits (one per line)</label>
+                  <textarea id="product-benefits" class="pct-textarea" placeholder="Brighter skin in 7 days&#10;All-day hydration&#10;No greasy residue" rows="3"></textarea>
+                </div>
+                <div class="pct-form-group">
+                  <label>Target Audience</label>
+                  <input id="product-audience" class="pct-input" placeholder="e.g. Women 25-45 concerned about aging">
+                </div>
+                <div class="pct-form-group">
+                  <label>Price Point</label>
+                  <input id="product-price" class="pct-input" placeholder="e.g. $49.99">
+                </div>
+                <div class="pct-form-group">
+                  <label>Category</label>
+                  <input id="product-category" class="pct-input" placeholder="e.g. Skincare, Beauty">
+                </div>
+                <button class="pct-btn pct-btn-primary" onclick="createProduct()" style="width:100%">Create Product</button>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Right: Product Detail (VoC) -->
+        <div id="product-detail">
+          <div class="pct-empty">
+            <div class="pct-empty-text">Select a product to see details</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Tab 2: USPs & Angles ===== -->
+    <div class="pct-tab-panel" id="panel-usps">
+      <div class="pct-card" style="margin-bottom:var(--space-md)">
+        <div class="pct-card-header">
+          <div class="pct-card-title">USP Management</div>
+          <div style="display:flex;gap:var(--space-sm)">
+            <button class="pct-btn pct-btn-primary" id="gen-usps-btn" onclick="generateUspsAi()">Generate USPs with AI</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:var(--space-sm);margin-bottom:var(--space-md)">
+          <input id="usp-manual-input" class="pct-input" placeholder="Type a USP manually..." style="flex:1">
+          <button class="pct-btn" onclick="createManualUsp()">Add USP</button>
+        </div>
+        <div id="usp-list">
+          <div class="pct-empty">
+            <div class="pct-empty-text">Select a product in the Context tab first</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Tab 3: Hook Generation ===== -->
+    <div class="pct-tab-panel" id="panel-generate">
+      <div id="generation-panel"></div>
+    </div>
+
+    <!-- ===== Tab 4: Hook Review ===== -->
+    <div class="pct-tab-panel" id="panel-review">
+      <div id="hook-review-panel"></div>
+    </div>
+
+    <!-- ===== Tab 5: Ad Creative ===== -->
+    <div class="pct-tab-panel" id="panel-creative">
+      <div id="creative-panel"></div>
+    </div>
+    <!-- ===== Tab 6: Video Scripts ===== -->
+    <div class="pct-tab-panel" id="panel-scripts">
+      <div id="scripts-panel"></div>
+    </div>
+  </div>
+
+  <!-- Lightbox for ad preview -->
+  <div class="pct-lightbox" id="pct-lightbox" onclick="closeLightbox(event)">
+    <div class="pct-lightbox-content">
+      <button class="pct-lightbox-close" onclick="closeLightbox()">&times;</button>
+      <img id="pct-lightbox-img" src="" alt="Ad preview">
+      <div class="pct-lightbox-info" id="pct-lightbox-info"></div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="pct-toast" class="pct-toast"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="pct.js"></script>
+</body>
+
+</html>

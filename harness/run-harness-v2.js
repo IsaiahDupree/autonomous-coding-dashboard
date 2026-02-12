@@ -968,6 +968,12 @@ PROMPT_OVERRIDE = getArgValue(args, '--prompt') || process.env.PROMPT_FILE || nu
 INITIALIZER_PROMPT_OVERRIDE = getArgValue(args, '--initializer-prompt') || null;
 FORCE_CODING = args.includes('--force-coding') || false;
 
+// Feature list override from CLI (for repos with non-standard feature list paths)
+const FEATURE_LIST_OVERRIDE = getArgValue(args, '--feature-list') || process.env.FEATURE_LIST || null;
+if (FEATURE_LIST_OVERRIDE) {
+  CONFIG.featureList = path.resolve(FEATURE_LIST_OVERRIDE);
+}
+
 // Model override from CLI (for complexity-based selection from run-queue.js)
 const MODEL_OVERRIDE = getArgValue(args, '--model') || process.env.MODEL || null;
 const FALLBACK_MODEL = getArgValue(args, '--fallback-model') || 'haiku';

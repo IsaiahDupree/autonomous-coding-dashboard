@@ -255,6 +255,12 @@ async function runRepoSession(repo, options = {}) {
       }
     }
 
+    // Pass custom feature list path if it differs from the default
+    const defaultFeatureList = path.join(repo.path, 'feature_list.json');
+    if (repo.featureList && path.resolve(repo.featureList) !== path.resolve(defaultFeatureList)) {
+      args.push(`--feature-list=${repo.featureList}`);
+    }
+
     // Always enable adaptive delay for sawtooth pattern
     args.push('--adaptive-delay');
 
