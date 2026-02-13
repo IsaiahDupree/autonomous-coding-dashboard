@@ -1,0 +1,82 @@
+import type { ProductId } from "./types";
+/**
+ * UsageContext - Additional context about how an asset is being used.
+ */
+export interface UsageContext {
+    /** Component or widget that uses the asset */
+    componentId?: string;
+    /** Page URL where the asset appears */
+    pageUrl?: string;
+    /** Ad ID if used in an ad creative */
+    adId?: string;
+}
+/**
+ * UsageRecord - A single usage event for an asset.
+ */
+export interface UsageRecord {
+    assetId: string;
+    product: ProductId;
+    context?: UsageContext;
+    timestamp: string;
+}
+/**
+ * PersistenceCallback - Called when usage data changes, allowing external persistence.
+ */
+export type PersistenceCallback = (records: UsageRecord[]) => Promise<void>;
+/**
+ * UsageTracker - Tracks how assets are used across ACD products.
+ *
+ * Uses an in-memory store with an optional persistence callback for
+ * writing usage data to an external database.
+ */
+export declare class UsageTracker {
+    /** Map of assetId -> usage records */
+    private records;
+    /** Map of assetId -> orgId for scoping queries */
+    private assetOrgs;
+    /** Map of assetId -> createdAt for age-based queries */
+    private assetCreatedAt;
+    /** Optional callback for persisting usage data */
+    private persistCallback;
+    /**
+     * @param persistCallback - Optional callback invoked when usage data changes.
+     */
+    constructor(persistCallback?: PersistenceCallback);
+    /**
+     * Register an asset with the tracker (for org-scoped queries).
+     */
+    registerAsset(assetId: string, orgId: string, createdAt: string): void;
+    /**
+     * Record a usage event for an asset.
+     */
+    recordUsage(assetId: string, product: ProductId, context?: UsageContext): Promise<void>;
+    /**
+     * Get total usage count for an asset.
+     */
+    getUsageCount(assetId: string): number;
+    /**
+     * Get usage count broken down by product.
+     */
+    getUsageByProduct(assetId: string): Map<ProductId, number>;
+    /**
+     * Find assets that have not been used and are older than the specified number of days.
+     * Useful for cleanup/archival workflows.
+     */
+    getUnusedAssets(orgId: string, olderThanDays: number): string[];
+    /**
+     * Get the most-used assets for an organization, sorted by usage count descending.
+     */
+    getMostUsedAssets(orgId: string, limit?: number): Array<{
+        assetId: string;
+        count: number;
+    }>;
+    /**
+     * Get all usage records for a specific asset.
+     */
+    getUsageRecords(assetId: string): UsageRecord[];
+    /**
+     * Clear all usage data (useful for testing).
+     */
+    clear(): void;
+}
+//# sourceMappingURL=usage.d.ts.map

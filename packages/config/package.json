@@ -1,0 +1,19 @@
+{
+  "name": "@acd/config",
+  "version": "1.0.0",
+  "description": "Shared configuration and environment variable management for ACD",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@acd/types",
+  "version": "1.0.0",
+  "description": "Shared Zod schemas and TypeScript types used across all ACD products",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

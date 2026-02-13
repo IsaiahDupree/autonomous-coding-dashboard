@@ -1,0 +1,25 @@
+{
+  "name": "@acd/ui-system",
+  "version": "1.0.0",
+  "description": "UI Design System specs, tokens, and integration dashboard types for ACD",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

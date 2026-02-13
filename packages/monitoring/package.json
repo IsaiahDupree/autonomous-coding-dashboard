@@ -1,0 +1,18 @@
+{
+  "name": "@acd/monitoring",
+  "version": "1.0.0",
+  "description": "Monitoring, notifications, and analytics for the Autonomous Coding Dashboard",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.10.0"
+  },
+  "license": "MIT"
+}

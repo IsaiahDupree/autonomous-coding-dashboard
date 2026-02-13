@@ -1,0 +1,231 @@
+/**
+ * @acd/types - Shared Zod schemas and TypeScript types for all ACD products.
+ *
+ * This package provides the canonical type definitions used across the entire
+ * ACD ecosystem. Every schema is defined with Zod for runtime validation,
+ * and each has a corresponding inferred TypeScript type export.
+ */
+
+// Product definitions and enums
+export {
+  ProductIdSchema,
+  ProductTierSchema,
+  ProductStatusSchema,
+  ProductDefinitionSchema,
+  ProductDisplayNames,
+  type ProductId,
+  type ProductTier,
+  type ProductStatus,
+  type ProductDefinition,
+} from "./product";
+
+// User and entitlement types
+export {
+  UserRoleSchema,
+  AccountStatusSchema,
+  SharedUserSchema,
+  EntitlementStatusSchema,
+  SharedEntitlementSchema,
+  type UserRole,
+  type AccountStatus,
+  type SharedUser,
+  type EntitlementStatus,
+  type SharedEntitlement,
+} from "./user";
+
+// Asset types
+export {
+  AssetTypeSchema,
+  AssetStatusSchema,
+  StorageProviderSchema,
+  AssetDimensionsSchema,
+  VideoMetadataSchema,
+  AudioMetadataSchema,
+  SharedAssetSchema,
+  type AssetType,
+  type AssetStatus,
+  type StorageProvider,
+  type AssetDimensions,
+  type VideoMetadata,
+  type AudioMetadata,
+  type SharedAsset,
+} from "./asset";
+
+// Event and tracking types
+export {
+  EventCategorySchema,
+  EventSeveritySchema,
+  EventContextSchema,
+  SharedEventSchema,
+  TrackEventInputSchema,
+  BatchTrackInputSchema,
+  type EventCategory,
+  type EventSeverity,
+  type EventContext,
+  type SharedEvent,
+  type TrackEventInput,
+  type BatchTrackInput,
+} from "./event";
+
+// Person and identity types (Meta/lead data)
+export {
+  IdentityProviderSchema,
+  IdentityLinkSchema,
+  LeadSourceSchema,
+  LifecycleStageSchema,
+  UtmParametersSchema,
+  PersonSchema,
+  type IdentityProvider,
+  type IdentityLink,
+  type LeadSource,
+  type LifecycleStage,
+  type UtmParameters,
+  type Person,
+} from "./person";
+
+// Auth types
+export {
+  AuthProviderSchema,
+  AuthMethodSchema,
+  SessionStatusSchema,
+  AuthSessionSchema,
+  JWTPayloadSchema,
+  OAuthGrantTypeSchema,
+  OAuthConfigSchema,
+  type AuthProvider,
+  type AuthMethod,
+  type SessionStatus,
+  type AuthSession,
+  type JWTPayload,
+  type OAuthGrantType,
+  type OAuthConfig,
+} from "./auth";
+
+// API types
+export {
+  ApiKeyTypeSchema,
+  ApiKeyStatusSchema,
+  ApiPermissionSchema,
+  ApiKeySchema,
+  RateLimitAlgorithmSchema,
+  RateLimitConfigSchema,
+  PaginationMetaSchema,
+  ApiErrorDetailSchema,
+  ApiResponseSchema,
+  ApiSuccessResponseSchema,
+  ApiErrorResponseSchema,
+  type ApiKeyType,
+  type ApiKeyStatus,
+  type ApiPermission,
+  type ApiKey,
+  type RateLimitAlgorithm,
+  type RateLimitConfig,
+  type PaginationMeta,
+  type ApiErrorDetail,
+  type ApiErrorResponse,
+  type ApiResponse,
+} from "./api";
+
+// Remotion / rendering types
+export {
+  RenderJobStatusSchema,
+  VideoOutputFormatSchema,
+  StaticOutputFormatSchema,
+  VideoCodecSchema,
+  AudioCodecSchema,
+  AspectRatioSchema,
+  ResolutionPresetSchema,
+  RenderVideoInputSchema,
+  RenderStaticInputSchema,
+  VoiceCloneProviderSchema,
+  VoiceCloneInputSchema,
+  CaptionStyleSchema,
+  CaptionInputSchema,
+  VeoInputSchema,
+  NanoBananaInputSchema,
+  BeforeAfterTransitionSchema,
+  BeforeAfterInputSchema,
+  RenderTypeSchema,
+  RenderJobSchema,
+  type RenderJobStatus,
+  type VideoOutputFormat,
+  type StaticOutputFormat,
+  type VideoCodec,
+  type AudioCodec,
+  type AspectRatio,
+  type ResolutionPreset,
+  type RenderVideoInput,
+  type RenderStaticInput,
+  type VoiceCloneProvider,
+  type VoiceCloneInput,
+  type CaptionStyle,
+  type CaptionInput,
+  type VeoInput,
+  type NanoBananaInput,
+  type BeforeAfterTransition,
+  type BeforeAfterInput,
+  type RenderType,
+  type RenderJob,
+} from "./remotion";
+
+// Meta Marketing API types
+export {
+  CampaignObjectiveSchema,
+  CampaignStatusSchema,
+  BuyingTypeSchema,
+  BudgetTypeSchema,
+  CampaignSchema,
+  OptimizationGoalSchema,
+  BillingEventSchema,
+  TargetingSchema,
+  AdSetSchema,
+  CreativeFormatSchema,
+  CallToActionSchema,
+  AdCreativeSchema,
+  AdSchema,
+  InsightSchema,
+  StandardPixelEventSchema,
+  PixelEventSchema,
+  CAPIActionSourceSchema,
+  CAPIEventSchema,
+  type CampaignObjective,
+  type CampaignStatus,
+  type BuyingType,
+  type BudgetType,
+  type Campaign,
+  type OptimizationGoal,
+  type BillingEvent,
+  type Targeting,
+  type AdSet,
+  type CreativeFormat,
+  type CallToAction,
+  type AdCreative,
+  type Ad,
+  type Insight,
+  type StandardPixelEvent,
+  type PixelEvent,
+  type CAPIActionSource,
+  type CAPIEvent,
+} from "./meta";
+
+// Stripe / billing types
+export {
+  PaymentStatusSchema,
+  PaymentMethodTypeSchema,
+  PaymentMethodSummarySchema,
+  SharedStripeCustomerSchema,
+  BillingIntervalSchema,
+  SubscriptionStatusSchema,
+  CancelReasonSchema,
+  ProductSubscriptionSchema,
+  BundlePricingSchema,
+  type PaymentStatus,
+  type PaymentMethodType,
+  type PaymentMethodSummary,
+  type SharedStripeCustomer,
+  type BillingInterval,
+  type SubscriptionStatus,
+  type CancelReason,
+  type ProductSubscription,
+  type BundlePricing,
+} from "./stripe";

@@ -1,0 +1,26 @@
+{
+  "name": "@acd/platform",
+  "version": "1.0.0",
+  "description": "Platform services: search, i18n, mobile, onboarding, moderation, export/import",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.0"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

@@ -1,0 +1,386 @@
+/**
+ * Low-level HTTP transport for the Remotion API client.
+ *
+ * Responsibilities:
+ *  - Attach API key auth header to every request.
+ *  - Retry transient failures with exponential back-off + jitter.
+ *  - Route every request through a circuit breaker.
+ *  - Enforce a per-request timeout via AbortController.
+ *  - Structured request / response logging.
+ */
+
+import { CircuitBreaker, CircuitBreakerOptions } from "./circuit-breaker";
+import {
+  RemotionApiError,
+  RemotionRateLimitError,
+  RemotionTimeoutError,
+} from "./errors";
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export interface HttpClientConfig {
+  /** Base URL of the Remotion API (no trailing slash). */
+  apiUrl: string;
+  /** API key used in the Authorization header. */
+  apiKey: string;
+  /** Request timeout in milliseconds. Default: 30 000 */
+  timeoutMs?: number;
+  /** Maximum number of retries for transient failures. Default: 3 */
+  maxRetries?: number;
+  /** Base delay in ms for exponential back-off. Default: 500 */
+  retryBaseDelayMs?: number;
+  /** Maximum delay in ms between retries. Default: 10 000 */
+  retryMaxDelayMs?: number;
+  /** Circuit breaker options. */
+  circuitBreaker?: CircuitBreakerOptions;
+  /** Optional logger; defaults to `console`. Set to `null` to disable. */
+  logger?: Logger | null;
+}
+
+export interface RequestOptions {
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  path: string;
+  body?: unknown;
+  query?: Record<string, string | number | boolean | undefined>;
+  headers?: Record<string, string>;
+  /** Override the default timeout for this single request. */
+  timeoutMs?: number;
+  /** Override the default retry count for this single request. */
+  maxRetries?: number;
+}
+
+export interface Logger {
+  debug(message: string, meta?: Record<string, unknown>): void;
+  info(message: string, meta?: Record<string, unknown>): void;
+  warn(message: string, meta?: Record<string, unknown>): void;
+  error(message: string, meta?: Record<string, unknown>): void;
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Build a URL with optional query parameters. */
+function buildUrl(
+  base: string,
+  path: string,
+  query?: Record<string, string | number | boolean | undefined>,
+): string {
+  const url = new URL(path, base);
+  if (query) {
+    for (const [key, value] of Object.entries(query)) {
+      if (value !== undefined) {
+        url.searchParams.set(key, String(value));
+      }
+    }
+  }
+  return url.toString();
+}
+
+/** Sleep for `ms` milliseconds. */
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Compute the back-off delay for a given attempt.
+ * Uses exponential back-off with full jitter capped at `maxDelayMs`.
+ */
+function backoffDelay(
+  attempt: number,
+  baseMs: number,
+  maxMs: number,
+): number {
+  const exponential = baseMs * Math.pow(2, attempt);
+  const capped = Math.min(exponential, maxMs);
+  // Full jitter: uniform random in [0, capped].
+  return Math.floor(Math.random() * capped);
+}
+
+/** Determine whether a status code is retryable. */
+function isRetryableStatus(status: number): boolean {
+  return status === 429 || status === 502 || status === 503 || status === 504;
+}
+
+/** Parse the Retry-After header into milliseconds. */
+function parseRetryAfter(header: string | null): number {
+  if (!header) return 0;
+  const seconds = Number(header);
+  if (!Number.isNaN(seconds)) return seconds * 1000;
+  // Try parsing as HTTP-date.
+  const date = Date.parse(header);
+  if (!Number.isNaN(date)) return Math.max(0, date - Date.now());
+  return 0;
+}
+
+// ---------------------------------------------------------------------------
+// Default console logger adapter
+// ---------------------------------------------------------------------------
+
+const defaultLogger: Logger = {
+  debug(message, meta) {
+    console.debug(`[remotion-client] ${message}`, meta ?? "");
+  },
+  info(message, meta) {
+    console.info(`[remotion-client] ${message}`, meta ?? "");
+  },
+  warn(message, meta) {
+    console.warn(`[remotion-client] ${message}`, meta ?? "");
+  },
+  error(message, meta) {
+    console.error(`[remotion-client] ${message}`, meta ?? "");
+  },
+};
+
+// ---------------------------------------------------------------------------
+// HttpClient
+// ---------------------------------------------------------------------------
+
+export class HttpClient {
+  private readonly apiUrl: string;
+  private readonly apiKey: string;
+  private readonly timeoutMs: number;
+  private readonly maxRetries: number;
+  private readonly retryBaseDelayMs: number;
+  private readonly retryMaxDelayMs: number;
+  private readonly breaker: CircuitBreaker;
+  private readonly logger: Logger | null;
+
+  constructor(config: HttpClientConfig) {
+    this.apiUrl = config.apiUrl.replace(/\/+$/, ""); // strip trailing slashes
+    this.apiKey = config.apiKey;
+    this.timeoutMs = config.timeoutMs ?? 30_000;
+    this.maxRetries = config.maxRetries ?? 3;
+    this.retryBaseDelayMs = config.retryBaseDelayMs ?? 500;
+    this.retryMaxDelayMs = config.retryMaxDelayMs ?? 10_000;
+    this.breaker = new CircuitBreaker(config.circuitBreaker);
+    this.logger = config.logger === null ? null : (config.logger ?? defaultLogger);
+  }
+
+  // -----------------------------------------------------------------------
+  // Public convenience methods
+  // -----------------------------------------------------------------------
+
+  async get<T>(path: string, query?: RequestOptions["query"]): Promise<T> {
+    return this.request<T>({ method: "GET", path, query });
+  }
+
+  async post<T>(path: string, body?: unknown): Promise<T> {
+    return this.request<T>({ method: "POST", path, body });
+  }
+
+  async put<T>(path: string, body?: unknown): Promise<T> {
+    return this.request<T>({ method: "PUT", path, body });
+  }
+
+  async patch<T>(path: string, body?: unknown): Promise<T> {
+    return this.request<T>({ method: "PATCH", path, body });
+  }
+
+  async delete<T>(path: string): Promise<T> {
+    return this.request<T>({ method: "DELETE", path });
+  }
+
+  // -----------------------------------------------------------------------
+  // Core request method
+  // -----------------------------------------------------------------------
+
+  async request<T>(opts: RequestOptions): Promise<T> {
+    const maxRetries = opts.maxRetries ?? this.maxRetries;
+    const timeoutMs = opts.timeoutMs ?? this.timeoutMs;
+    let lastError: Error | undefined;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const result = await this.breaker.execute(() =>
+          this.doFetch<T>(opts, timeoutMs),
+        );
+        return result;
+      } catch (error: unknown) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+
+        const shouldRetry =
+          attempt < maxRetries && this.isRetryable(lastError);
+
+        if (!shouldRetry) {
+          throw lastError;
+        }
+
+        // Determine delay.
+        let delay: number;
+        if (
+          lastError instanceof RemotionRateLimitError &&
+          lastError.retryAfterMs > 0
+        ) {
+          delay = lastError.retryAfterMs;
+        } else {
+          delay = backoffDelay(
+            attempt,
+            this.retryBaseDelayMs,
+            this.retryMaxDelayMs,
+          );
+        }
+
+        this.logger?.warn(`Request failed, retrying in ${delay}ms`, {
+          attempt: attempt + 1,
+          maxRetries,
+          path: opts.path,
+          error: lastError.message,
+        });
+
+        await sleep(delay);
+      }
+    }
+
+    // Should be unreachable, but just in case.
+    throw lastError ?? new Error("Unexpected retry loop exit");
+  }
+
+  /** Expose the circuit breaker for external inspection / reset. */
+  getCircuitBreaker(): CircuitBreaker {
+    return this.breaker;
+  }
+
+  // -----------------------------------------------------------------------
+  // Internal
+  // -----------------------------------------------------------------------
+
+  private async doFetch<T>(
+    opts: RequestOptions,
+    timeoutMs: number,
+  ): Promise<T> {
+    const url = buildUrl(this.apiUrl, opts.path, opts.query);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${this.apiKey}`,
+      Accept: "application/json",
+      ...opts.headers,
+    };
+
+    if (opts.body !== undefined) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    const startMs = Date.now();
+    this.logger?.debug(`--> ${opts.method} ${url}`);
+
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        method: opts.method,
+        headers,
+        body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+        signal: controller.signal,
+      });
+    } catch (err: unknown) {
+      clearTimeout(timer);
+      if (
+        err instanceof Error &&
+        (err.name === "AbortError" || err.message.includes("abort"))
+      ) {
+        throw new RemotionTimeoutError(
+          `Request to ${opts.method} ${opts.path} timed out after ${timeoutMs}ms`,
+          timeoutMs,
+        );
+      }
+      throw err;
+    } finally {
+      clearTimeout(timer);
+    }
+
+    const durationMs = Date.now() - startMs;
+
+    this.logger?.debug(`<-- ${response.status} ${opts.method} ${url}`, {
+      durationMs,
+    });
+
+    // ------ Handle error responses ------ //
+
+    if (!response.ok) {
+      const body = await this.safeParseBody(response);
+      const requestId =
+        response.headers.get("x-request-id") ?? undefined;
+
+      if (response.status === 429) {
+        const retryAfterMs = parseRetryAfter(
+          response.headers.get("retry-after"),
+        );
+        throw new RemotionRateLimitError(
+          body?.message ?? `Rate limited on ${opts.method} ${opts.path}`,
+          {
+            status: 429,
+            code: body?.code ?? "RATE_LIMITED",
+            details: body?.details,
+            requestId,
+            retryAfterMs: retryAfterMs || 1_000,
+          },
+        );
+      }
+
+      throw new RemotionApiError(
+        body?.message ?? `API error ${response.status} on ${opts.method} ${opts.path}`,
+        {
+          status: response.status,
+          code: body?.code ?? "UNKNOWN_ERROR",
+          details: body?.details,
+          requestId,
+        },
+      );
+    }
+
+    // ------ Parse successful response ------ //
+
+    // Handle 204 No Content.
+    if (response.status === 204) {
+      return undefined as unknown as T;
+    }
+
+    const json = (await response.json()) as T;
+    return json;
+  }
+
+  /**
+   * Attempt to parse a JSON error body; return a generic shape or null.
+   */
+  private async safeParseBody(
+    response: Response,
+  ): Promise<{
+    message?: string;
+    code?: string;
+    details?: Record<string, unknown>;
+  } | null> {
+    try {
+      return (await response.json()) as {
+        message?: string;
+        code?: string;
+        details?: Record<string, unknown>;
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  /** Decide whether an error is worth retrying. */
+  private isRetryable(error: Error): boolean {
+    if (error instanceof RemotionTimeoutError) return true;
+    if (error instanceof RemotionRateLimitError) return true;
+    if (error instanceof RemotionApiError) {
+      return isRetryableStatus(error.status);
+    }
+    // Network-level errors (e.g. ECONNRESET) are retryable.
+    if (
+      error.message.includes("ECONNRESET") ||
+      error.message.includes("ECONNREFUSED") ||
+      error.message.includes("ETIMEDOUT") ||
+      error.message.includes("fetch failed") ||
+      error.message.includes("network")
+    ) {
+      return true;
+    }
+    return false;
+  }
+}
