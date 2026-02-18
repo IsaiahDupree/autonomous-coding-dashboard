@@ -113,8 +113,8 @@
     }
   ],
   "resources": {
-    "cpu": 40,
-    "memory": 1252,
+    "cpu": 47,
+    "memory": 1205,
     "activeSlots": 2
   }
 }

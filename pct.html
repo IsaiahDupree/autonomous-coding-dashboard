@@ -48,6 +48,10 @@
       <button class="pct-tab" data-tab="review">Hook Review</button>
       <button class="pct-tab" data-tab="creative">Ad Creative</button>
       <button class="pct-tab" data-tab="scripts">Video Scripts</button>
+      <button class="pct-tab" data-tab="deploy">Deployment</button>
+      <button class="pct-tab" data-tab="analytics">Analytics</button>
+      <button class="pct-tab" data-tab="automation">Automation</button>
+      <button class="pct-tab" data-tab="settings">Settings</button>
     </div>
 
     <!-- ===== Tab 1: Context & Setup ===== -->
@@ -61,6 +65,12 @@
               <div class="pct-card-title">Brands</div>
             </div>
             <div id="brand-list"></div>
+
+            <!-- F1.1.5: Brand profile templates for quick setup -->
+            <details style="margin-top:var(--space-sm)">
+              <summary style="font-size:0.8125rem;color:var(--color-primary-light);cursor:pointer;user-select:none">&#9889; Quick Brand Templates</summary>
+              <div id="brand-templates-grid" style="margin-top:var(--space-sm);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xs)"></div>
+            </details>
 
             <details style="margin-top:var(--space-sm)">
               <summary style="font-size:0.8125rem;color:var(--color-primary-light);cursor:pointer;user-select:none">+ New Brand</summary>
@@ -92,6 +102,40 @@
                     <option value="luxury">Luxury</option>
                     <option value="playful">Playful</option>
                   </select>
+                </div>
+                <!-- F1.1.3: Brand guidelines upload (logo, colors, fonts) -->
+                <div class="pct-form-group">
+                  <label>Logo URL <span style="font-size:0.75rem;color:var(--color-muted)">(optional)</span></label>
+                  <input id="brand-logo-url" class="pct-input" placeholder="https://... or paste image URL">
+                </div>
+                <div class="pct-form-group">
+                  <label>Brand Colors <span style="font-size:0.75rem;color:var(--color-muted)">(pick primary &amp; accent)</span></label>
+                  <div style="display:flex;gap:var(--space-sm);align-items:center">
+                    <div>
+                      <div style="font-size:0.75rem;color:var(--color-muted);margin-bottom:2px">Primary</div>
+                      <input id="brand-color-primary" type="color" value="#6366f1" style="width:44px;height:36px;border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;background:none;padding:2px">
+                    </div>
+                    <div>
+                      <div style="font-size:0.75rem;color:var(--color-muted);margin-bottom:2px">Accent</div>
+                      <input id="brand-color-accent" type="color" value="#f59e0b" style="width:44px;height:36px;border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;background:none;padding:2px">
+                    </div>
+                    <div>
+                      <div style="font-size:0.75rem;color:var(--color-muted);margin-bottom:2px">Background</div>
+                      <input id="brand-color-bg" type="color" value="#ffffff" style="width:44px;height:36px;border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;background:none;padding:2px">
+                    </div>
+                    <div>
+                      <div style="font-size:0.75rem;color:var(--color-muted);margin-bottom:2px">Text</div>
+                      <input id="brand-color-text" type="color" value="#111827" style="width:44px;height:36px;border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;background:none;padding:2px">
+                    </div>
+                  </div>
+                </div>
+                <div class="pct-form-group">
+                  <label>Heading Font <span style="font-size:0.75rem;color:var(--color-muted)">(optional)</span></label>
+                  <input id="brand-font-heading" class="pct-input" placeholder="e.g. Playfair Display, Montserrat">
+                </div>
+                <div class="pct-form-group">
+                  <label>Body Font <span style="font-size:0.75rem;color:var(--color-muted)">(optional)</span></label>
+                  <input id="brand-font-body" class="pct-input" placeholder="e.g. Inter, Open Sans">
                 </div>
                 <button class="pct-btn pct-btn-primary" onclick="createBrand()" style="width:100%">Create Brand</button>
               </div>
@@ -136,7 +180,27 @@
                   <label>Category</label>
                   <input id="product-category" class="pct-input" placeholder="e.g. Skincare, Beauty">
                 </div>
+                <!-- F1.2.2: Product image upload and management -->
+                <div class="pct-form-group">
+                  <label>Product Image URL <span style="font-size:0.75rem;color:var(--color-muted)">(optional)</span></label>
+                  <input id="product-image-url" class="pct-input" placeholder="https://... or paste image URL">
+                  <div id="product-image-preview" style="margin-top:var(--space-xs)"></div>
+                </div>
                 <button class="pct-btn pct-btn-primary" onclick="createProduct()" style="width:100%">Create Product</button>
+              </div>
+            </details>
+
+            <details style="margin-top:var(--space-sm)">
+              <summary style="font-size:0.8125rem;color:var(--color-primary-light);cursor:pointer;user-select:none">+ Bulk Import Products (CSV/JSON)</summary>
+              <div style="margin-top:var(--space-sm)">
+                <div class="pct-form-group">
+                  <label>Paste CSV or JSON</label>
+                  <textarea id="bulk-product-input" class="pct-textarea" rows="5" placeholder='CSV: name,description,features,benefits,targetAudience,pricePoint,category&#10;Glow Serum,Vitamin C serum,...&#10;&#10;OR JSON: [{"name":"Glow Serum","description":"...","features":["Vitamin C"]}]'></textarea>
+                </div>
+                <div style="font-size:0.75rem;color:var(--color-muted);margin-bottom:var(--space-sm)">
+                  CSV headers: name, description, features, benefits, targetAudience, pricePoint, category
+                </div>
+                <button class="pct-btn pct-btn-primary" onclick="bulkImportProducts()" style="width:100%">Import Products</button>
               </div>
             </details>
           </div>
@@ -190,6 +254,26 @@
     <div class="pct-tab-panel" id="panel-scripts">
       <div id="scripts-panel"></div>
     </div>
+
+    <!-- ===== Tab 7: Deployment ===== -->
+    <div class="pct-tab-panel" id="panel-deploy">
+      <div id="deploy-panel"></div>
+    </div>
+
+    <!-- ===== Tab 8: Analytics & Iteration ===== -->
+    <div class="pct-tab-panel" id="panel-analytics">
+      <div id="analytics-panel"></div>
+    </div>
+
+    <!-- ===== Tab 9: Automation (F9.1 Webhooks + F9.3 Scheduling) ===== -->
+    <div class="pct-tab-panel" id="panel-automation">
+      <div id="automation-panel"></div>
+    </div>
+
+    <!-- ===== Tab 10: Settings (F10.2 API Keys + Default Presets) ===== -->
+    <div class="pct-tab-panel" id="panel-settings">
+      <div id="settings-panel"></div>
+    </div>
   </div>
 
   <!-- Lightbox for ad preview -->
@@ -203,6 +287,31 @@
 
   <!-- Toast container -->
   <div id="pct-toast" class="pct-toast"></div>
+
+  <!-- Teleprompter overlay -->
+  <div id="pct-teleprompter" class="pct-teleprompter" style="display:none">
+    <div class="pct-teleprompter-controls">
+      <button class="pct-btn pct-btn-sm" onclick="teleprompterSlower()">- Slower</button>
+      <button class="pct-btn pct-btn-sm pct-btn-primary" id="teleprompter-play-btn" onclick="teleprompterToggle()">&#9654; Play</button>
+      <button class="pct-btn pct-btn-sm" onclick="teleprompterFaster()">+ Faster</button>
+      <span id="teleprompter-speed-label" style="color:rgba(255,255,255,0.7);font-size:0.875rem"></span>
+      <button class="pct-btn pct-btn-sm" onclick="teleprompterFontSmaller()">A-</button>
+      <button class="pct-btn pct-btn-sm" onclick="teleprompterFontLarger()">A+</button>
+      <button class="pct-btn pct-btn-sm" style="margin-left:auto" onclick="closeTeleprompter()">&#10005; Close</button>
+    </div>
+    <div id="pct-teleprompter-text" class="pct-teleprompter-text"></div>
+  </div>
+
+  <!-- Side-by-side comparison modal -->
+  <div id="pct-compare-modal" class="pct-compare-modal" style="display:none">
+    <div class="pct-compare-modal-inner">
+      <div class="pct-compare-modal-header">
+        <span class="pct-compare-modal-title">Side-by-Side Comparison</span>
+        <button class="pct-btn pct-btn-sm" onclick="closeCompareModal()">&#10005; Close</button>
+      </div>
+      <div id="pct-compare-content" class="pct-compare-content"></div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>

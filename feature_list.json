@@ -1397,7 +1397,7 @@
         "Explain key features",
         "Skip option"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-112",
@@ -1409,7 +1409,7 @@
         "Common actions",
         "Search actions"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-113",
@@ -1421,7 +1421,7 @@
         "Navigate up hierarchy",
         "Persistent display"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-114",
@@ -1433,7 +1433,7 @@
         "Fuzzy matching",
         "Result previews"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-115",
@@ -1445,7 +1445,7 @@
         "Auto-cleanup old data",
         "Archive option"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-116",
@@ -1457,7 +1457,7 @@
         "Export anonymized datasets",
         "Configurable rules"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-117",
@@ -1469,7 +1469,7 @@
         "Import from Linear",
         "Map fields"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-118",
@@ -1481,7 +1481,7 @@
         "Docker Compose setup",
         "Environment variables"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-119",
@@ -1493,7 +1493,7 @@
         "Environment setup",
         "Database provisioning"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "feat-120",
@@ -1505,7 +1505,7 @@
         "Dependency checks",
         "Configuration wizard"
       ],
-      "passes": false
+      "passes": true
     }
   ]
 }

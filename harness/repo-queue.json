@@ -8,38 +8,60 @@
   },
   "modelConfig": {
     "availableModels": {
-      "claude-opus-4-6": { "tier": 1, "costPer1kTokens": 0.015, "description": "Claude Opus 4.6 - Most capable, best for critical/complex tasks" },
-      "claude-sonnet-4-5-20250929": { "tier": 2, "costPer1kTokens": 0.003, "description": "Claude Sonnet 4.5 - Fast, high quality" },
-      "claude-haiku-4-5-20251001": { "tier": 3, "costPer1kTokens": 0.00025, "description": "Claude Haiku 4.5 - Fast, efficient, low cost" }
+      "claude-opus-4-6": {
+        "tier": 1,
+        "costPer1kTokens": 0.015,
+        "description": "Claude Opus 4.6 - Most capable, best for critical/complex tasks"
+      },
+      "claude-sonnet-4-5-20250929": {
+        "tier": 2,
+        "costPer1kTokens": 0.003,
+        "description": "Claude Sonnet 4.5 - Fast, high quality"
+      },
+      "claude-haiku-4-5-20251001": {
+        "tier": 3,
+        "costPer1kTokens": 0.00025,
+        "description": "Claude Haiku 4.5 - Fast, efficient, low cost"
+      }
     },
     "complexityLevels": {
       "critical": {
         "description": "Mission-critical architecture, complex integrations, security",
-        "models": ["claude-opus-4-6"],
+        "models": [
+          "claude-opus-4-6"
+        ],
         "fallback": "claude-sonnet-4-5-20250929",
         "maxRetries": 5
       },
       "high": {
         "description": "New features, API integrations, database changes",
-        "models": ["claude-opus-4-6"],
+        "models": [
+          "claude-opus-4-6"
+        ],
         "fallback": "claude-sonnet-4-5-20250929",
         "maxRetries": 3
       },
       "medium": {
         "description": "Standard feature implementation, refactoring",
-        "models": ["claude-sonnet-4-5-20250929"],
+        "models": [
+          "claude-sonnet-4-5-20250929"
+        ],
         "fallback": "claude-haiku-4-5-20251001",
         "maxRetries": 3
       },
       "low": {
         "description": "Bug fixes, simple changes, documentation",
-        "models": ["claude-sonnet-4-5-20250929"],
+        "models": [
+          "claude-sonnet-4-5-20250929"
+        ],
         "fallback": "claude-haiku-4-5-20251001",
         "maxRetries": 2
       },
       "trivial": {
         "description": "Comments, formatting, typos",
-        "models": ["claude-haiku-4-5-20251001"],
+        "models": [
+          "claude-haiku-4-5-20251001"
+        ],
         "fallback": "claude-haiku-4-5-20251001",
         "maxRetries": 1
       }
@@ -136,7 +158,7 @@
     },
     {
       "id": "steadyletters",
-      "name": "SteadyLetters",
+      "name": "SteadyLetters (Web)",
       "path": "/Users/isaiahdupree/Documents/Software/KindLetters",
       "prompt": "prompts/steadyletters.md",
       "prd": "/Users/isaiahdupree/Documents/Software/KindLetters/PRD_STEADYLETTERS.md",
@@ -145,6 +167,19 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "low"
+    },
+    {
+      "id": "steadyletters-ios",
+      "name": "SteadyLetters iOS",
+      "path": "/Users/isaiahdupree/Documents/Software/KindLetters/ios",
+      "prompt": "prompts/steadyletters-ios.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/KindLetters/PRD_STEADYLETTERS.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/KindLetters/ios/feature_list.json",
+      "priority": 7,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Expo Router iOS app: Auth, AI letter gen, voice-to-letter, Thanks.io send, recipients, orders, live tests"
     },
     {
       "id": "vellopad",
@@ -352,7 +387,280 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Snapchat-style producer track sharing: ephemeral snaps, real-time visual player, presence, reactions, DJ/producer networking",
-      "notes": "MVP = Upload → Snap → Landing Player → Reactions → Presence. Then comments, networking, security, DJ features, Live Listen Rooms, billing."
+      "notes": "MVP = Upload \u2192 Snap \u2192 Landing Player \u2192 Reactions \u2192 Presence. Then comments, networking, security, DJ features, Live Listen Rooms, billing."
+    },
+    {
+      "id": "rork-crm",
+      "name": "Rork CRM (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-crm-superwall",
+      "prompt": "prompts/rork-crm.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-crm-superwall/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-crm-superwall/feature_list.json",
+      "priority": 26,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "kawaii-coffee",
+      "name": "Kawaii Coffee Timer (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/kawaii-coffee-timer",
+      "prompt": "prompts/kawaii-coffee.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/kawaii-coffee-timer/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/kawaii-coffee-timer/feature_list.json",
+      "priority": 27,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "voice-chat-pdf",
+      "name": "Voice Chat PDF (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-voice-chat-pdf",
+      "prompt": "prompts/voice-chat-pdf.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-voice-chat-pdf/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-voice-chat-pdf/feature_list.json",
+      "priority": 28,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "youtube-quiz",
+      "name": "YouTube Quiz Generator (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-youtube-quiz-generator",
+      "prompt": "prompts/youtube-quiz.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-youtube-quiz-generator/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-youtube-quiz-generator/feature_list.json",
+      "priority": 29,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "ai-calculator",
+      "name": "AI Calculator Builder (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-ai-calculator-builder",
+      "prompt": "prompts/ai-calculator.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-ai-calculator-builder/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-ai-calculator-builder/feature_list.json",
+      "priority": 30,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "client-portal-rork",
+      "name": "Client Portal System (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-client-portal-system",
+      "prompt": "prompts/client-portal.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-client-portal-system/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-client-portal-system/feature_list.json",
+      "priority": 31,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "collab-ai-workos",
+      "name": "Collaborative AI WorkOS (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-collaborative-ai-workos",
+      "prompt": "prompts/collab-ai-workos.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-collaborative-ai-workos/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-collaborative-ai-workos/feature_list.json",
+      "priority": 32,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "couples-habits",
+      "name": "Couples Habit Tracker (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-couples-habit-tracker",
+      "prompt": "prompts/couples-habits.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-couples-habit-tracker/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-couples-habit-tracker/feature_list.json",
+      "priority": 33,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "low",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "ig-lead-finder",
+      "name": "IG Research Lead Finder (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-ig-research---lead-finder",
+      "prompt": "prompts/ig-lead-finder.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-ig-research---lead-finder/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-ig-research---lead-finder/feature_list.json",
+      "priority": 34,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "learning-gigs",
+      "name": "Learning-to-Gigs (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-learning-to-gigs-app",
+      "prompt": "prompts/learning-gigs.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-learning-to-gigs-app/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-learning-to-gigs-app/feature_list.json",
+      "priority": 35,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "media-ai-schema",
+      "name": "Media AI Schema (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-media-ai-schema---app",
+      "prompt": "prompts/media-ai-schema.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-media-ai-schema---app/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-media-ai-schema---app/feature_list.json",
+      "priority": 36,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "meta-growth-hub",
+      "name": "Meta Content Growth Hub (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-meta-content-growth-hub",
+      "prompt": "prompts/meta-growth-hub.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-meta-content-growth-hub/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-meta-content-growth-hub/feature_list.json",
+      "priority": 37,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "promap-rf",
+      "name": "ProMap RF Indoor Mapper (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-promap-rf-indoor-mapper",
+      "prompt": "prompts/promap-rf.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-promap-rf-indoor-mapper/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-promap-rf-indoor-mapper/feature_list.json",
+      "priority": 38,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "pulselense",
+      "name": "PulseLense (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-pulselense",
+      "prompt": "prompts/pulselense.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-pulselense/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-pulselense/feature_list.json",
+      "priority": 39,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "simulive-studio",
+      "name": "Simulive Multistream Studio (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-simulive---multistream-studio",
+      "prompt": "prompts/simulive-studio.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-simulive---multistream-studio/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-simulive---multistream-studio/feature_list.json",
+      "priority": 40,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "social-campaigns",
+      "name": "Social Media Campaigns (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-social-media-campaign-manager",
+      "prompt": "prompts/social-campaigns.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-social-media-campaign-manager/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-social-media-campaign-manager/feature_list.json",
+      "priority": 41,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "sora-watermark",
+      "name": "Sora Watermark Remover (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-sora-watermark-remover",
+      "prompt": "prompts/sora-watermark.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-sora-watermark-remover/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-sora-watermark-remover/feature_list.json",
+      "priority": 42,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "low",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "strongface",
+      "name": "StrongFace (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-strongface",
+      "prompt": "prompts/strongface.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-strongface/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-strongface/feature_list.json",
+      "priority": 43,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "unified-media",
+      "name": "Unified Media Gallery (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-unified-media-gallery-app",
+      "prompt": "prompts/unified-media.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-unified-media-gallery-app/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-unified-media-gallery-app/feature_list.json",
+      "priority": 44,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "vlogflow",
+      "name": "VlogFlow Plan and Film (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-vlogflow--plan---film",
+      "prompt": "prompts/vlogflow.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-vlogflow--plan---film/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-vlogflow--plan---film/feature_list.json",
+      "priority": 45,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "voice-love-notes",
+      "name": "Voice-to-Letter Love Notes (AppKit)",
+      "path": "/Users/isaiahdupree/Documents/Software/rork-voice-to-letter-love-notes",
+      "prompt": "prompts/voice-love-notes.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/rork-voice-to-letter-love-notes/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/rork-voice-to-letter-love-notes/feature_list.json",
+      "priority": 46,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "medium",
+      "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
     }
   ]
 }

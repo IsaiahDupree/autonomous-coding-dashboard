@@ -1,166 +1,41 @@
-# Cross-System Integration Implementation Plan
+# Implementation Plan: Programmatic Creative Testing System
 
-## Current State
-- 235 features across 26 categories, **0 passing**
-- Existing: Supabase schema (ACD-specific), Express+Prisma backend, user event tracking
-- Missing: All shared packages, cross-product tables, client SDKs, API gateway
+## Current State Analysis
 
-## Strategy: Build all 235 features in dependency order across 8 phases
+The PCT system has a **substantial foundation** already built:
 
-### Phase 1: Database Foundations + Shared Types
-- DB-001: shared_users table
-- DB-002: shared_entitlements table
-- DB-003: shared_assets table
-- DB-004: shared_events table
-- DB-005: RLS policies for product isolation
-- DB-006: Cross-product analytics views
-- GAP-003: shared.person table
-- MIGRATE-001: Cross-product migration system
-- MIGRATE-002: Data seeding
-- DX-001: Monorepo packages/ setup
-- DX-003: @acd/types package with Zod schemas
+### Already Implemented (Working)
+- **Database**: Full Prisma schema with 9 PCT models + enums
+- **Backend API** (`backend/src/routes/pct.ts`, ~1400 lines): 40+ endpoints for CRUD + AI generation
+- **AI Service** (`backend/src/services/ai-generation.ts`): USP, angle, hook, video script generation via Claude API
+- **Frontend** (`pct.js`, ~3000 lines): Complete vanilla JS app with full state management
+- **Features Complete**: Brand/Product/VoC management, USP/Angle generation, Hook generation (single/batch/matrix), Hook review (approve/reject/rate/edit/filter/export), Template management with canvas zone editor, Batch ad generation + gallery, Video script generation with section editing
 
-### Phase 2: Auth + Security
-- AUTH-001: Shared Supabase auth config
-- AUTH-002: Cross-product session sharing
-- AUTH-003: Product-specific roles
-- AUTH-004: Unified user profiles
-- AUTH-005: Cross-product OAuth
-- STRIPE-001: Shared Stripe customer
-- STRIPE-002: Product-specific subscriptions
-- STRIPE-003: Bundle pricing
-- SEC-001: Centralized secrets management
-- SEC-002: API key encryption at rest
-- SEC-003: JWT token rotation
-- SEC-004: Webhook signature verification
-- SEC-005: Inter-service request signing
-- SEC-006: CSP headers
-- SEC-007: Auth rate limiting
-- EMAIL-001: Shared Resend config
-- EMAIL-002: Cross-product email prefs
+### What Needs Building
 
-### Phase 3: Client SDKs + API Gateway
-- RC-001: Remotion TypeScript client SDK
-- MH-001: Meta Marketing API client library
-- GW-001: API key management
-- GW-002: Per-consumer rate limiting
-- GW-003: Request logging/audit
-- GW-004: API versioning
-- GW-005: GraphQL gateway
-- AN-001: Shared event tracking SDK
-- AST-001: Shared asset storage
-- AST-002: Asset deduplication
-- AST-003: Asset tagging/search
-- AST-004: Asset usage tracking
-- AST-005: Meta asset upload
-- RES-001: Remotion circuit breaker
-- RES-002: Meta API retry/backoff
-- RES-003: Dead letter queue
-- RES-004: AI service degradation
-- RES-005: DB connection pooling
+**Phase 1 - Gap Features (P0/P1 incomplete):**
+1. Brand guidelines upload (logo, colors) - F1.1.3
+2. Bulk product import (CSV/JSON) - F1.2.6
+3. VoC search/library UI - F1.3.6
+4. Hook duplicate detection - F4.3.6
+5. Multi-size ad generation - F5.2.3, F5.2.4
+6. Individual ad regeneration - F5.3.7
+7. Side-by-side ad comparison - F5.4.3
 
-### Phase 4: Product Integrations
-- RC-002: Content Factory Remotion
-- RC-003: PCT Remotion static ads
-- RC-004: PCT Remotion mini-VSL
-- RC-005: MediaPoster Remotion
-- RC-006: WaitlistLab Remotion
-- RC-007: Job status webhooks
-- RC-008: Batch job submission
-- MH-002: PCT Meta integration
-- MH-003: Content Factory Meta
-- MH-004: Shared Pixel CAPI
-- MH-005: Cross-product attribution
-- MH-006: Meta rate limit pooling
-- PCT-WL-001: PCT → WaitlistLab campaigns
-- PCT-WL-002: PCT → WaitlistLab ads
-- PCT-WL-003: PCT insights via WaitlistLab
-- VOICE-001: Shared voice storage
-- VOICE-002: PCT voice reference
-- VOICE-003: CF voice cloning
-- GAP-001: Unified CAPI ingest
-- GAP-002: Cross-product attribution engine
-- GAP-005: Meta Pixel+CAPI snippet
-- GAP-006: Non-WL conversion edge function
+**Phase 2 - Meta Deployment (Module 7):**
+8. Meta Business OAuth - F7.1.1-F7.1.5
+9. Campaign/Ad Set browser - F7.2.1-F7.2.5
+10. Batch ad push with rate limiting - F7.3.1-F7.3.8
+11. Ad status sync - F7.4.1-F7.4.4
 
-### Phase 5: Publishing + Workflows
-- CF-TIKTOK-001: TikTok OAuth
-- CF-TIKTOK-002: TikTok video upload
-- CF-TIKTOK-003: TikTok Shop affiliate
-- PUB-001: CF TikTok publishing API
-- PUB-002: CF TikTok Promote
-- PUB-003: MediaPoster Instagram
-- PUB-004: MediaPoster YouTube
-- PUB-005: Cross-platform syndication
-- PUB-006: CF → MediaPoster handoff
-- PUB-007: ShortsLinker YouTube
-- FLOW-001: Content approval workflow
-- FLOW-002: Multi-step content pipeline
-- FLOW-003: PCT hook → ad pipeline
-- TEMPLATE-001: Shared template library
-- TEMPLATE-002: Custom template upload
-- TEMPLATE-003: Template A/B testing
-- RES-006: TikTok fallback
-- RES-007: Asset upload retry
-- SYNC-001: Meta ad status sync
-- SYNC-002: TikTok video sync
-- SYNC-003: Stripe subscription sync
+**Phase 3 - Analytics & Iteration (Module 8):**
+12. Performance data import - F8.1.1-F8.1.5
+13. Insights dashboard - F8.2.1-F8.2.6
+14. Iteration workflows - F8.3.1-F8.3.6
 
-### Phase 6: Infrastructure Services
-- JOB-001: BullMQ/Inngest queue
-- JOB-002: Scheduled jobs
-- JOB-003: Video render jobs
-- JOB-004: Meta ad publishing queue
-- JOB-005: CF video pipeline jobs
-- JOB-006: Analytics aggregation
-- JOB-007: Cleanup jobs
-- WH-001: Webhook delivery
-- WH-002: Remotion webhooks
-- WH-003: Stripe webhook hub
-- WH-004: Meta webhook hub
-- WH-005: TikTok webhooks
-- WH-006: Custom subscriptions
-- CACHE-001: Redis cluster
-- CACHE-002: Session caching
-- CACHE-003: API response caching
-- CACHE-004: Asset metadata caching
-- CACHE-005: Meta insights caching
-- PERF-001: CDN configuration
-- PERF-002: DB query optimization
-- PERF-003: Image optimization
+**Phase 4 - Advanced Features:**
+15. Video script enhancements (triggers, emotion arc, teleprompter) - F6.1.5-6.2.6
+16. Scheduling & automation - F9.3.1-F9.3.4
+17. Webhook system - F9.1.1-F9.1.4
 
-### Phase 7: Analytics + Monitoring + UI
-- AN-002: Cross-product funnels
-- AN-003: Creative performance
-- AN-004: PCT feedback loop
-- AN-005: TikTok metrics
-- AN-006: Unified analytics dashboard
-- GAP-004: Ad insights in ACD
-- MON-001 to MON-007: Logging, APM, health, rate limits, cost, queues, sessions
-- NOTIFY-001 to NOTIFY-003: Slack, email, in-app
-- UI-001 to UI-010: Design system, buttons, forms, modals, tables, toasts, nav, loading, cards, charts
-- INT-PCT-001/002, INT-CF-001/002, INT-MP-001/002: Product analytics
-- INT-REM-001/002/003: Remotion marketplace/history/library
-- INT-WL-001/002: Campaign templates, audience sharing
-
-### Phase 8: Enterprise Features
-- FF-001 to FF-006: Feature flags
-- BILL-001 to BILL-006: Billing/metering
-- AI-001 to AI-006: AI orchestration
-- COST-001 to COST-003: Cost tracking
-- COMP-001 to COMP-006: Compliance/GDPR
-- ADMIN-001 to ADMIN-006: Admin panel
-- MT-001 to MT-005: Multi-tenancy
-- AFF-001 to AFF-005: Affiliates
-- SEARCH-001 to SEARCH-004: Full-text search
-- I18N-001 to I18N-004: Localization
-- MOB-001 to MOB-004: Mobile
-- OB-001 to OB-005: Onboarding
-- MOD-001 to MOD-004: Moderation
-- EXP-001 to EXP-004: Export/import
-- SH-001, BC-001, VH-001, VP-001, SL-001: Product auth
-- MP-CF-001, MP-SL-001, CC-001: Product publishing
-- GAPRADAR-001/002, MOBILE-001/002: Cross-product data
-- GAP-007: Custom Audience sync
-- SCALE-001/002: Scaling
-- DX-002,004,005,006,007: DX tooling
+## Starting Implementation: Phase 1 Gap Features

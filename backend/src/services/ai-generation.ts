@@ -37,6 +37,13 @@ interface HookGenerationParams {
   marketSophistication: number;
   product: ProductContext;
   batchSize: number;
+  referenceHook?: string;
+  psychologicalTriggers?: string[];
+  emotionTargets?: string[];
+  copywriterStyle?: string;
+  toneModifier?: string;
+  maxWords?: number;
+  aiModel?: string; // F4.1.6: claude-sonnet (default), claude-haiku, gpt-4o, gpt-4o-mini
 }
 
 const FRAMEWORK_DESCRIPTIONS: Record<string, string> = {
@@ -155,6 +162,8 @@ interface VideoScriptParams {
   product: ProductContext;
   duration: '15s' | '30s' | '60s' | '90s';
   narratorStyle?: string;
+  psychologicalTriggers?: string[];
+  emotionArc?: string;
 }
 
 interface VideoScriptResult {
@@ -179,6 +188,12 @@ export async function generateVideoScript(params: VideoScriptParams): Promise<Vi
   const narratorDesc = params.narratorStyle
     ? `Write in the voice of a ${params.narratorStyle} narrator.`
     : 'Write in a conversational, engaging tone.';
+  const triggersDesc = params.psychologicalTriggers?.length
+    ? `\nPSYCHOLOGICAL TRIGGERS to weave throughout: ${params.psychologicalTriggers.join(', ')}`
+    : '';
+  const emotionArcDesc = params.emotionArc
+    ? `\nEMOTION ARC: Structure the emotional journey as "${params.emotionArc}"`
+    : '';
 
   const prompt = `You are an expert video ad scriptwriter creating Facebook/Instagram video ad scripts.
 
@@ -194,7 +209,7 @@ WINNING HOOK (use this as the opening):
 "${params.hookContent}"
 
 TARGET DURATION: ${params.duration} (approximately ${durationGuide.words} total words)
-${narratorDesc}
+${narratorDesc}${triggersDesc}${emotionArcDesc}
 
 SCRIPT STRUCTURE:
 1. **HOOK** (first 3 seconds): The attention-grabbing opening. Use or adapt the winning hook above. ${durationGuide.hookWords} words.
@@ -243,6 +258,112 @@ Return ONLY a JSON object with these fields:
   };
 }
 
+export async function extractPainPoints(
+  vocEntries: VocEntry[],
+  product: ProductContext
+): Promise<Array<{ painPoint: string; frequency: number; severity: string }>> {
+  const vocText = vocEntries.map(v => `- "${v.content}" (${v.sentiment || 'neutral'})`).join('\n');
+
+  const prompt = `You are a customer research analyst. Analyze these Voice of Customer entries and extract the key pain points.
+
+Product: ${product.name}
+Description: ${product.description || 'Not provided'}
+
+Customer Quotes:
+${vocText}
+
+Extract 5-10 distinct pain points. For each, estimate:
+- frequency: How many quotes reference this pain (1-${vocEntries.length})
+- severity: "low", "medium", or "high" based on emotional intensity
+
+Return ONLY a JSON array of objects with "painPoint", "frequency", and "severity" fields.
+Example: [{"painPoint": "Product is too complicated to use", "frequency": 3, "severity": "high"}]`;
+
+  const response = await anthropic.messages.create({
+    model: MODEL,
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = response.content[0].type === 'text' ? response.content[0].text : '';
+  const jsonMatch = text.match(/\[[\s\S]*\]/);
+  if (!jsonMatch) throw new Error('Failed to parse pain points response');
+  return JSON.parse(jsonMatch[0]);
+}
+
+export async function extractBenefits(
+  vocEntries: VocEntry[],
+  product: ProductContext
+): Promise<Array<{ benefit: string; frequency: number; category: string }>> {
+  const vocText = vocEntries.map(v => `- "${v.content}" (${v.sentiment || 'neutral'})`).join('\n');
+
+  const prompt = `You are a customer research analyst. Analyze these Voice of Customer entries and extract the key benefits/desires customers mention.
+
+Product: ${product.name}
+Description: ${product.description || 'Not provided'}
+
+Customer Quotes:
+${vocText}
+
+Extract 5-10 distinct benefits or desires. For each:
+- frequency: How many quotes reference this benefit (1-${vocEntries.length})
+- category: "functional" (practical benefit), "emotional" (feeling/aspiration), or "social" (status/belonging)
+
+Return ONLY a JSON array of objects with "benefit", "frequency", and "category" fields.
+Example: [{"benefit": "Saves time in morning routine", "frequency": 5, "category": "functional"}]`;
+
+  const response = await anthropic.messages.create({
+    model: MODEL,
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = response.content[0].type === 'text' ? response.content[0].text : '';
+  const jsonMatch = text.match(/\[[\s\S]*\]/);
+  if (!jsonMatch) throw new Error('Failed to parse benefits response');
+  return JSON.parse(jsonMatch[0]);
+}
+
+export async function scoreUSP(
+  uspContent: string,
+  product: ProductContext
+): Promise<{ score: number; reasoning: string; strengths: string[]; weaknesses: string[] }> {
+  const prompt = `You are an expert direct response copywriter scoring a Unique Selling Proposition (USP) for ad effectiveness.
+
+Product: ${product.name}
+Description: ${product.description || 'Not provided'}
+Target Audience: ${product.targetAudience || 'Not provided'}
+Brand Voice: ${product.brandVoice || 'Not specified'}
+
+USP to evaluate: "${uspContent}"
+
+Score this USP on a scale of 1-10 based on:
+- Uniqueness (is it truly differentiated?)
+- Specificity (is it concrete and measurable?)
+- Emotional resonance (does it connect with the audience?)
+- Testability (can it generate multiple angles/hooks?)
+- Clarity (is it immediately understood?)
+
+Return ONLY a JSON object:
+{
+  "score": 7,
+  "reasoning": "One sentence explaining the overall score",
+  "strengths": ["Strength 1", "Strength 2"],
+  "weaknesses": ["Weakness 1"]
+}`;
+
+  const response = await anthropic.messages.create({
+    model: MODEL,
+    max_tokens: 512,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = response.content[0].type === 'text' ? response.content[0].text : '';
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('Failed to parse USP score response');
+  return JSON.parse(jsonMatch[0]);
+}
+
 export async function generateHooks(params: HookGenerationParams): Promise<string[]> {
   const frameworkDesc = FRAMEWORK_DESCRIPTIONS[params.messagingFramework] || params.messagingFramework;
   const awarenessDesc = AWARENESS_DESCRIPTIONS[params.awarenessLevel] || `Level ${params.awarenessLevel}`;
@@ -268,14 +389,23 @@ Generate exactly ${params.batchSize} unique ad hooks that:
 2. Follow the ${params.messagingFramework} messaging framework style
 3. Are appropriate for the ${awarenessDesc.split(' - ')[0]} awareness level
 4. Match the market sophistication strategy
-5. Are short enough for ad headlines (typically 5-15 words)
+5. Are short enough for ad headlines (typically ${params.maxWords && params.maxWords > 0 ? `${params.maxWords} words max` : '5-15 words'})
 6. Are attention-grabbing and scroll-stopping
 7. Each hook should be distinct - do not repeat the same idea
-
+${params.psychologicalTriggers?.length ? `\nPSYCHOLOGICAL TRIGGERS to leverage: ${params.psychologicalTriggers.join(', ')}` : ''}${params.emotionTargets?.length ? `\nTARGET EMOTIONS: ${params.emotionTargets.join(', ')}` : ''}${params.copywriterStyle ? `\nWRITING STYLE: Write in the style of ${params.copywriterStyle === 'ogilvy' ? 'David Ogilvy (elegant, research-driven, benefit-focused)' : params.copywriterStyle === 'schwartz' ? 'Eugene Schwartz (market sophistication master, mechanism-focused)' : params.copywriterStyle === 'halbert' ? 'Gary Halbert (conversational, story-driven, personal)' : params.copywriterStyle === 'collier' ? 'Robert Collier (desire-focused, enter the conversation in their mind)' : params.copywriterStyle === 'sugarman' ? 'Joe Sugarman (curiosity, slippery slope, mental engagement)' : 'modern DTC (social media native, casual, relatable)'}` : ''}${params.toneModifier ? `\nTONE: ${params.toneModifier}` : ''}
+${params.referenceHook ? `\nREFERENCE HOOK (generate variations inspired by this winning hook, maintaining similar style/tone but with fresh angles):\n"${params.referenceHook}"` : ''}
 Return ONLY a JSON array of hook strings, nothing else.`;
 
+  // F4.1.6: Select model based on aiModel param
+  const MODEL_MAP: Record<string, string> = {
+    'claude-sonnet': 'claude-sonnet-4-20250514',
+    'claude-haiku': 'claude-haiku-4-20250514',
+    'claude-opus': 'claude-opus-4-20250514',
+  };
+  const selectedModel = params.aiModel && MODEL_MAP[params.aiModel] ? MODEL_MAP[params.aiModel] : MODEL;
+
   const response = await anthropic.messages.create({
-    model: MODEL,
+    model: selectedModel,
     max_tokens: 4096,
     messages: [{ role: 'user', content: prompt }],
   });
@@ -283,5 +413,59 @@ Return ONLY a JSON array of hook strings, nothing else.`;
   const text = response.content[0].type === 'text' ? response.content[0].text : '';
   const jsonMatch = text.match(/\[[\s\S]*\]/);
   if (!jsonMatch) throw new Error('Failed to parse hooks response');
+  return JSON.parse(jsonMatch[0]);
+}
+
+// F6.2.4: AI rewrite suggestions for a specific script section
+export async function rewriteScriptSection(params: {
+  section: 'hook' | 'lid' | 'body' | 'cta';
+  currentText: string;
+  fullScript: { hook: string; lid: string; body: string; cta: string };
+  productName: string;
+  brandVoice?: string;
+  count?: number;
+}): Promise<string[]> {
+  const sectionGuide: Record<string, string> = {
+    hook: 'The first 3 seconds — must stop the scroll and grab attention immediately (5-20 words)',
+    lid: 'Bridge from the hook to the main message — creates curiosity or establishes relevance (10-25 words)',
+    body: 'Main content — delivers benefits, proof, or story for spoken delivery',
+    cta: 'Final call to action — clear, urgent, and motivating (8-20 words)',
+  };
+
+  const count = params.count || 3;
+
+  const prompt = `You are an expert video ad scriptwriter. Rewrite the "${params.section.toUpperCase()}" section of this video ad script.
+
+PRODUCT: ${params.productName}
+${params.brandVoice ? `BRAND VOICE: ${params.brandVoice}` : ''}
+
+FULL SCRIPT CONTEXT:
+HOOK: ${params.fullScript.hook}
+LID: ${params.fullScript.lid}
+BODY: ${params.fullScript.body}
+CTA: ${params.fullScript.cta}
+
+SECTION TO REWRITE (${params.section.toUpperCase()}):
+"${params.currentText}"
+
+SECTION GUIDELINES: ${sectionGuide[params.section]}
+
+Generate ${count} alternative rewrites of the ${params.section.toUpperCase()} section.
+- Each must fit naturally with the other sections
+- Vary the approach (e.g., different emotional tone, angle, or phrasing)
+- Write for SPOKEN delivery (short sentences, conversational)
+- Do NOT repeat the original text
+
+Return ONLY a JSON array of ${count} strings (the rewritten section texts), nothing else.`;
+
+  const response = await anthropic.messages.create({
+    model: MODEL,
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = response.content[0].type === 'text' ? response.content[0].text : '';
+  const jsonMatch = text.match(/\[[\s\S]*\]/);
+  if (!jsonMatch) throw new Error('Failed to parse rewrite suggestions');
   return JSON.parse(jsonMatch[0]);
 }

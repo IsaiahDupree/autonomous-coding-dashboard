@@ -3,7 +3,7 @@
 
 set -e
 
-echo "🚀 Starting Autonomous Coding Dashboard development environment..."
+echo "Starting Autonomous Coding Dashboard development environment..."
 echo ""
 
 # Get the directory where this script is located
@@ -15,6 +15,10 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
+
+# Port configuration
+BACKEND_PORT=3434
+DASHBOARD_PORT=3535
 
 # Function to check if a port is in use
 port_in_use() {
@@ -31,67 +35,44 @@ kill_port() {
 }
 
 # Kill existing processes on our ports
-kill_port 3000
-kill_port 8080
+kill_port $BACKEND_PORT
+kill_port $DASHBOARD_PORT
 
-# Check for backend
+# Start backend (Express + Prisma on port 3434)
 if [ -d "backend" ]; then
-  echo "Starting backend server..."
+  echo "Starting backend API server on port $BACKEND_PORT..."
   cd backend
-  
+
   if [ -f "package.json" ]; then
     npm install --silent 2>/dev/null || true
+    npx prisma generate --no-hints 2>/dev/null || true
     npm run dev > /tmp/dashboard-backend.log 2>&1 &
     BACKEND_PID=$!
     echo "  Backend PID: $BACKEND_PID"
-  elif [ -f "requirements.txt" ]; then
-    pip install -r requirements.txt -q 2>/dev/null || true
-    python app.py > /tmp/dashboard-backend.log 2>&1 &
-    BACKEND_PID=$!
-    echo "  Backend PID: $BACKEND_PID"
   fi
-  
+
   cd "$SCRIPT_DIR"
 fi
 
-# Check for frontend
-if [ -d "frontend" ]; then
-  echo "Starting frontend server..."
-  cd frontend
-  
+# Start dashboard (Next.js on port 3535)
+if [ -d "dashboard" ]; then
+  echo "Starting dashboard on port $DASHBOARD_PORT..."
+  cd dashboard
+
   if [ -f "package.json" ]; then
     npm install --silent 2>/dev/null || true
-    npm run dev > /tmp/dashboard-frontend.log 2>&1 &
+    DASHBOARD_PORT=$DASHBOARD_PORT npm run dev > /tmp/dashboard-frontend.log 2>&1 &
     FRONTEND_PID=$!
-    echo "  Frontend PID: $FRONTEND_PID"
+    echo "  Dashboard PID: $FRONTEND_PID"
   fi
-  
-  cd "$SCRIPT_DIR"
-fi
 
-# If no frontend/backend dirs, try to serve static files
-if [ ! -d "frontend" ] && [ ! -d "backend" ]; then
-  echo "No frontend/backend directories found."
-  echo "Starting simple HTTP server for static files..."
-  
-  if command -v python3 &> /dev/null; then
-    python3 -m http.server 3000 > /tmp/dashboard-server.log 2>&1 &
-    SERVER_PID=$!
-    echo "  Server PID: $SERVER_PID"
-  elif command -v npx &> /dev/null; then
-    npx -y serve -l 3000 > /tmp/dashboard-server.log 2>&1 &
-    SERVER_PID=$!
-    echo "  Server PID: $SERVER_PID"
-  else
-    echo -e "${RED}No suitable server found. Install Python 3 or Node.js.${NC}"
-    exit 1
-  fi
+  cd "$SCRIPT_DIR"
 fi
 
 # Wait for servers to start
 echo ""
 echo "Waiting for servers to start..."
-sleep 3
+sleep 5
 
 # Health checks
 echo ""
@@ -99,10 +80,10 @@ echo "Running health checks..."
 
 check_url() {
   if curl -s -o /dev/null -w "%{http_code}" "$1" | grep -q "200\|304"; then
-    echo -e "  ${GREEN}✓${NC} $2 is healthy ($1)"
+    echo -e "  ${GREEN}OK${NC} $2 is healthy ($1)"
     return 0
   else
-    echo -e "  ${RED}✗${NC} $2 is not responding ($1)"
+    echo -e "  ${RED}FAIL${NC} $2 is not responding ($1)"
     return 1
   fi
 }
@@ -110,20 +91,22 @@ check_url() {
 FRONTEND_OK=false
 BACKEND_OK=false
 
-if port_in_use 3000; then
-  if check_url "http://localhost:3000" "Frontend"; then
+if port_in_use $BACKEND_PORT; then
+  if check_url "http://localhost:$BACKEND_PORT/api/health" "Backend API"; then
+    BACKEND_OK=true
+  elif check_url "http://localhost:$BACKEND_PORT" "Backend API"; then
+    BACKEND_OK=true
+  fi
+else
+  echo -e "  ${YELLOW}WARN${NC} Nothing running on port $BACKEND_PORT"
+fi
+
+if port_in_use $DASHBOARD_PORT; then
+  if check_url "http://localhost:$DASHBOARD_PORT" "Dashboard"; then
     FRONTEND_OK=true
   fi
 else
-  echo -e "  ${YELLOW}⚠${NC} Nothing running on port 3000"
-fi
-
-if port_in_use 8080; then
-  if check_url "http://localhost:8080/health" "Backend"; then
-    BACKEND_OK=true
-  elif check_url "http://localhost:8080" "Backend"; then
-    BACKEND_OK=true
-  fi
+  echo -e "  ${YELLOW}WARN${NC} Nothing running on port $DASHBOARD_PORT"
 fi
 
 echo ""
@@ -131,24 +114,26 @@ echo "================================"
 echo "Development Environment Status"
 echo "================================"
 
-if [ "$FRONTEND_OK" = true ] || port_in_use 3000; then
-  echo -e "${GREEN}Frontend:${NC} http://localhost:3000"
+if [ "$BACKEND_OK" = true ] || port_in_use $BACKEND_PORT; then
+  echo -e "${GREEN}Backend API:${NC}  http://localhost:$BACKEND_PORT"
+  echo -e "${GREEN}PCT API:${NC}      http://localhost:$BACKEND_PORT/api/pct"
 fi
 
-if [ "$BACKEND_OK" = true ] || port_in_use 8080; then
-  echo -e "${GREEN}Backend:${NC}  http://localhost:8080"
+if [ "$FRONTEND_OK" = true ] || port_in_use $DASHBOARD_PORT; then
+  echo -e "${GREEN}Dashboard:${NC}    http://localhost:$DASHBOARD_PORT"
+  echo -e "${GREEN}Creative Testing:${NC} http://localhost:$DASHBOARD_PORT/creative-testing"
 fi
 
 echo ""
 echo "Log files:"
-echo "  Backend:  /tmp/dashboard-backend.log"
-echo "  Frontend: /tmp/dashboard-frontend.log"
+echo "  Backend:   /tmp/dashboard-backend.log"
+echo "  Dashboard: /tmp/dashboard-frontend.log"
 echo ""
-echo "To stop servers, run: kill \$(lsof -ti:3000,8080)"
+echo "To stop servers, run: kill \$(lsof -ti:$BACKEND_PORT,$DASHBOARD_PORT)"
 echo ""
 
 # Exit with success if at least one server is running
-if port_in_use 3000 || port_in_use 8080; then
+if port_in_use $BACKEND_PORT || port_in_use $DASHBOARD_PORT; then
   exit 0
 else
   echo -e "${RED}No servers started successfully.${NC}"

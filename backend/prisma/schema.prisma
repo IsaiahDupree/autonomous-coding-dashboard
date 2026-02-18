@@ -886,13 +886,15 @@ model PctVoiceOfCustomer {
 }
 
 model PctUSP {
-  id              String   @id @default(uuid())
-  productId       String   @map("product_id")
+  id              String    @id @default(uuid())
+  productId       String    @map("product_id")
   content         String
-  isAiGenerated   Boolean  @default(false) @map("is_ai_generated")
-  strengthScore   Int?     @map("strength_score")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  isAiGenerated   Boolean   @default(false) @map("is_ai_generated")
+  strengthScore   Int?      @map("strength_score")
+  archivedAt      DateTime? @map("archived_at")
+  archiveNote     String?   @map("archive_note")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   product         PctProduct        @relation(fields: [productId], references: [id], onDelete: Cascade)
   angles          PctMarketingAngle[]
@@ -900,6 +902,57 @@ model PctUSP {
 
   @@index([productId], map: "idx_pct_usps_product")
   @@map("pct_usps")
+}
+
+// F10.1.4: Activity Log for user actions
+model PctActivityLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  userName   String?  @map("user_name")
+  action     String   // e.g. "created_usp", "archived_usp", "generated_hooks"
+  entityType String?  @map("entity_type")  // brand, product, usp, hook, etc.
+  entityId   String?  @map("entity_id")
+  details    Json?
+  createdAt  DateTime @default(now())
+
+  @@index([userId], map: "idx_pct_activity_user")
+  @@index([action], map: "idx_pct_activity_action")
+  @@index([createdAt], map: "idx_pct_activity_created")
+  @@map("pct_activity_logs")
+}
+
+// F10.1.1/F10.1.2/F10.1.3: PCT User + Role management
+model PctUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String
+  passwordHash String   @map("password_hash")
+  role         String   @default("viewer") // admin, editor, viewer
+  workspaceId  String?  @map("workspace_id")
+  avatarUrl    String?  @map("avatar_url")
+  isActive     Boolean  @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email], map: "idx_pct_users_email")
+  @@index([workspaceId], map: "idx_pct_users_workspace")
+  @@map("pct_users")
+}
+
+// F10.1.3: Team Workspace
+model PctWorkspace {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  plan        String   @default("free")
+  ownerId     String?  @map("owner_id")
+  settings    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug], map: "idx_pct_workspaces_slug")
+  @@map("pct_workspaces")
 }
 
 model PctMarketingAngle {
@@ -930,6 +983,7 @@ model PctHook {
   awarenessLevel        Int                   @map("awareness_level")
   marketSophistication  Int                   @map("market_sophistication")
   isAiGenerated         Boolean               @default(true) @map("is_ai_generated")
+  tags                  Json                  @default("[]")
   createdAt             DateTime              @default(now())
   updatedAt             DateTime              @updatedAt
 
@@ -1029,8 +1083,9 @@ model PctGeneratedAd {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
-  template      PctTemplate  @relation(fields: [templateId], references: [id], onDelete: Cascade)
-  hook          PctHook      @relation(fields: [hookId], references: [id], onDelete: Cascade)
+  template      PctTemplate     @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  hook          PctHook         @relation(fields: [hookId], references: [id], onDelete: Cascade)
+  deployments   PctAdDeployment[]
 
   @@index([templateId], map: "idx_pct_generated_ads_template")
   @@index([hookId], map: "idx_pct_generated_ads_hook")
@@ -1092,6 +1147,162 @@ enum PctScriptStatus {
   rejected
 
   @@map("pct_script_status")
+}
+
+// ============================================
+// PCT Meta Deployment Models (Module 7)
+// ============================================
+
+// Meta Business account connection
+model PctMetaAccount {
+  id                String   @id @default(uuid())
+  name              String
+  accessToken       String   @map("access_token")
+  accessTokenExpiry DateTime? @map("access_token_expiry")
+  adAccountId       String?  @map("ad_account_id")
+  adAccountName     String?  @map("ad_account_name")
+  businessId        String?  @map("business_id")
+  businessName      String?  @map("business_name")
+  isActive          Boolean  @default(true) @map("is_active")
+  lastSyncAt        DateTime? @map("last_sync_at")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  campaigns         PctMetaCampaign[]
+  deployments       PctAdDeployment[]
+
+  @@index([isActive], map: "idx_pct_meta_accounts_active")
+  @@map("pct_meta_accounts")
+}
+
+// Mirror of Meta campaigns
+model PctMetaCampaign {
+  id              String             @id @default(uuid())
+  metaAccountId   String             @map("meta_account_id")
+  metaCampaignId  String             @unique @map("meta_campaign_id")
+  name            String
+  objective       String?
+  status          String             @default("ACTIVE")
+  budgetCents     Int?               @map("budget_cents")
+  budgetType      String?            @map("budget_type") // daily, lifetime
+  syncedAt        DateTime           @default(now()) @map("synced_at")
+  createdAt       DateTime           @default(now())
+
+  metaAccount     PctMetaAccount     @relation(fields: [metaAccountId], references: [id], onDelete: Cascade)
+  adSets          PctMetaAdSet[]
+
+  @@index([metaAccountId], map: "idx_pct_meta_campaigns_account")
+  @@map("pct_meta_campaigns")
+}
+
+// Mirror of Meta ad sets
+model PctMetaAdSet {
+  id            String             @id @default(uuid())
+  campaignId    String             @map("campaign_id")
+  metaAdSetId   String             @unique @map("meta_ad_set_id")
+  name          String
+  status        String             @default("ACTIVE")
+  targeting     Json?
+  budgetCents   Int?               @map("budget_cents")
+  budgetType    String?            @map("budget_type")
+  syncedAt      DateTime           @default(now()) @map("synced_at")
+  createdAt     DateTime           @default(now())
+
+  campaign      PctMetaCampaign    @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  deployments   PctAdDeployment[]
+
+  @@index([campaignId], map: "idx_pct_meta_adsets_campaign")
+  @@map("pct_meta_ad_sets")
+}
+
+// Tracks ads pushed to Meta
+model PctAdDeployment {
+  id              String                @id @default(uuid())
+  generatedAdId   String                @map("generated_ad_id")
+  metaAccountId   String                @map("meta_account_id")
+  adSetId         String?               @map("ad_set_id")
+  metaAdId        String?               @unique @map("meta_ad_id")
+  headline        String?
+  bodyText        String?
+  ctaText         String?
+  destinationUrl  String?               @map("destination_url")
+  status          PctDeploymentStatus   @default(pending)
+  errorMessage    String?               @map("error_message")
+  reviewStatus    String?               @map("review_status")
+  rejectionReason String?               @map("rejection_reason")
+  livePreviewUrl  String?               @map("live_preview_url")
+  pushedAt        DateTime?             @map("pushed_at")
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  generatedAd     PctGeneratedAd        @relation(fields: [generatedAdId], references: [id], onDelete: Cascade)
+  metaAccount     PctMetaAccount        @relation(fields: [metaAccountId], references: [id], onDelete: Cascade)
+  adSet           PctMetaAdSet?         @relation(fields: [adSetId], references: [id], onDelete: SetNull)
+  metrics         PctPerformanceMetric[]
+
+  @@index([generatedAdId], map: "idx_pct_deployments_ad")
+  @@index([metaAccountId], map: "idx_pct_deployments_account")
+  @@index([status], map: "idx_pct_deployments_status")
+  @@map("pct_ad_deployments")
+}
+
+enum PctDeploymentStatus {
+  pending
+  queued
+  pushing
+  success
+  failed
+  rejected
+
+  @@map("pct_deployment_status")
+}
+
+// ============================================
+// PCT Analytics & Iteration Models (Module 8)
+// ============================================
+
+// Performance metrics imported from Meta for deployed ads
+model PctPerformanceMetric {
+  id              String          @id @default(uuid())
+  deploymentId    String          @map("deployment_id")
+  date            DateTime        @db.Date
+  impressions     Int             @default(0)
+  clicks          Int             @default(0)
+  spend           Float           @default(0) // in dollars
+  reach           Int             @default(0)
+  ctr             Float?          // click-through rate
+  cpc             Float?          // cost per click
+  cpm             Float?          // cost per mille
+  conversions     Int             @default(0)
+  conversionValue Float?          @map("conversion_value")
+  roas            Float?          // return on ad spend
+  frequency       Float?
+  syncedAt        DateTime        @default(now()) @map("synced_at")
+  createdAt       DateTime        @default(now())
+
+  deployment      PctAdDeployment @relation(fields: [deploymentId], references: [id], onDelete: Cascade)
+
+  @@unique([deploymentId, date])
+  @@index([deploymentId], map: "idx_pct_metrics_deployment")
+  @@index([date], map: "idx_pct_metrics_date")
+  @@map("pct_performance_metrics")
+}
+
+// Iteration history: tracks "create more like winner" actions
+model PctIterationHistory {
+  id              String   @id @default(uuid())
+  productId       String   @map("product_id")
+  iterationType   String   @map("iteration_type") // expand_angle, new_hooks, new_templates, ab_test
+  sourceId        String   @map("source_id")       // ID of the winning hook/angle/template
+  sourceType      String   @map("source_type")     // hook, angle, usp, template
+  parameters      Json     @default("{}")          // which parameters were used
+  generatedCount  Int      @default(0) @map("generated_count")
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  @@index([productId], map: "idx_pct_iterations_product")
+  @@index([sourceId], map: "idx_pct_iterations_source")
+  @@map("pct_iteration_history")
 }
 
 // ============================================
