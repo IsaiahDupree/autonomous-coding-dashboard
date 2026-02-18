@@ -1239,6 +1239,7 @@ model PctAdDeployment {
   metaAccount     PctMetaAccount        @relation(fields: [metaAccountId], references: [id], onDelete: Cascade)
   adSet           PctMetaAdSet?         @relation(fields: [adSetId], references: [id], onDelete: SetNull)
   metrics         PctPerformanceMetric[]
+  fatigueAlerts   PctFatigueAlert[]
 
   @@index([generatedAdId], map: "idx_pct_deployments_ad")
   @@index([metaAccountId], map: "idx_pct_deployments_account")
@@ -1303,6 +1304,488 @@ model PctIterationHistory {
   @@index([productId], map: "idx_pct_iterations_product")
   @@index([sourceId], map: "idx_pct_iterations_source")
   @@map("pct_iteration_history")
+}
+
+// ============================================
+// PCT-063/064: Hook Examples Database for AI Learning
+// ============================================
+
+model PctHookExample {
+  id                    String                @id @default(uuid())
+  hookText              String                @map("hook_text")
+  messagingFramework    PctMessagingFramework  @map("messaging_framework")
+  industry              String?
+  niche                 String?
+  awarenessLevel        Int?                  @map("awareness_level")
+  marketSophistication  Int?                  @map("market_sophistication")
+  source                String                @default("swipe_file") // internal_winner, swipe_file, competitor
+  sourceUrl             String?               @map("source_url")
+  performanceScore      Float?                @map("performance_score")
+  tags                  Json                  @default("[]")
+  isActive              Boolean               @default(true) @map("is_active")
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+
+  @@index([messagingFramework], map: "idx_pct_hook_examples_framework")
+  @@index([industry], map: "idx_pct_hook_examples_industry")
+  @@index([isActive], map: "idx_pct_hook_examples_active")
+  @@map("pct_hook_examples")
+}
+
+// ============================================
+// PCT-067: Ad Inspiration References
+// ============================================
+
+model PctAdInspiration {
+  id              String   @id @default(uuid())
+  productId       String?  @map("product_id")
+  title           String?
+  sourceUrl       String?  @map("source_url")
+  imageUrl        String?  @map("image_url")
+  adCopy          String?  @map("ad_copy")
+  hookExtracted   String?  @map("hook_extracted")
+  ctaExtracted    String?  @map("cta_extracted")
+  structureNotes  String?  @map("structure_notes")
+  tags            Json     @default("[]")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([productId], map: "idx_pct_ad_inspirations_product")
+  @@map("pct_ad_inspirations")
+}
+
+// ============================================
+// PCT-070/071/072: Advanced Analytics Models
+// ============================================
+
+model PctFatigueAlert {
+  id              String   @id @default(uuid())
+  deploymentId    String   @map("deployment_id")
+  alertType       String   @map("alert_type") // declining_ctr, increasing_cpc, frequency_cap
+  metric          String   // ctr, cpc, frequency
+  previousValue   Float    @map("previous_value")
+  currentValue    Float    @map("current_value")
+  declinePercent  Float    @map("decline_percent")
+  suggestedAction String?  @map("suggested_action")
+  isAcknowledged  Boolean  @default(false) @map("is_acknowledged")
+  createdAt       DateTime @default(now())
+
+  deployment      PctAdDeployment @relation(fields: [deploymentId], references: [id], onDelete: Cascade)
+
+  @@index([deploymentId], map: "idx_pct_fatigue_alerts_deployment")
+  @@index([isAcknowledged], map: "idx_pct_fatigue_alerts_ack")
+  @@map("pct_fatigue_alerts")
+}
+
+model PctStatisticalTest {
+  id              String   @id @default(uuid())
+  testName        String   @map("test_name")
+  controlId       String   @map("control_id")
+  variantId       String   @map("variant_id")
+  metric          String   // ctr, cpc, roas, cvr
+  controlValue    Float    @map("control_value")
+  variantValue    Float    @map("variant_value")
+  pValue          Float    @map("p_value")
+  confidenceLevel Float    @map("confidence_level")
+  sampleSizeControl  Int   @map("sample_size_control")
+  sampleSizeVariant  Int   @map("sample_size_variant")
+  isSignificant   Boolean  @default(false) @map("is_significant")
+  winner          String?  // control, variant, none
+  createdAt       DateTime @default(now())
+
+  @@index([controlId], map: "idx_pct_stat_tests_control")
+  @@index([variantId], map: "idx_pct_stat_tests_variant")
+  @@map("pct_statistical_tests")
+}
+
+// ============================================
+// PCT-076/077/078: Audience Management
+// ============================================
+
+model PctAudience {
+  id              String   @id @default(uuid())
+  metaAccountId   String?  @map("meta_account_id")
+  name            String
+  audienceType    String   @map("audience_type") // lookalike, custom, interest, saved
+  description     String?
+  size            Int?
+  sourceType      String?  @map("source_type") // voc, crm, website, purchase
+  targeting       Json?    // interest targeting, demographics
+  metaAudienceId  String?  @map("meta_audience_id")
+  refreshSchedule String?  @map("refresh_schedule") // daily, weekly, monthly
+  lastRefreshedAt DateTime? @map("last_refreshed_at")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([metaAccountId], map: "idx_pct_audiences_account")
+  @@index([audienceType], map: "idx_pct_audiences_type")
+  @@map("pct_audiences")
+}
+
+// ============================================
+// PCT-079/080/081: Budget Management
+// ============================================
+
+model PctBudgetRule {
+  id              String   @id @default(uuid())
+  metaAccountId   String?  @map("meta_account_id")
+  name            String
+  ruleType        String   @map("rule_type") // allocate, bid_cap, pacing
+  targetRoas      Float?   @map("target_roas")
+  minBudgetCents  Int?     @map("min_budget_cents")
+  maxBudgetCents  Int?     @map("max_budget_cents")
+  conditions      Json     @default("{}") // trigger conditions
+  schedule        Json?    // when to apply
+  isActive        Boolean  @default(true) @map("is_active")
+  lastAppliedAt   DateTime? @map("last_applied_at")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([metaAccountId], map: "idx_pct_budget_rules_account")
+  @@map("pct_budget_rules")
+}
+
+model PctSpendPacing {
+  id              String   @id @default(uuid())
+  metaAccountId   String   @map("meta_account_id")
+  date            DateTime @db.Date
+  dailyBudgetCents Int     @map("daily_budget_cents")
+  actualSpendCents Int     @map("actual_spend_cents")
+  pacingStatus    String   @map("pacing_status") // on_track, over_pace, under_pace
+  forecastedMonthly Float? @map("forecasted_monthly")
+  createdAt       DateTime @default(now())
+
+  @@unique([metaAccountId, date])
+  @@index([metaAccountId], map: "idx_pct_spend_pacing_account")
+  @@map("pct_spend_pacing")
+}
+
+// ============================================
+// PCT-082-085: Creative Templates
+// ============================================
+
+model PctCreativeTemplate {
+  id              String   @id @default(uuid())
+  templateType    String   @map("template_type") // ugc, before_after, testimonial, carousel
+  name            String
+  description     String?
+  config          Json     @default("{}") // type-specific configuration
+  previewImageUrl String?  @map("preview_image_url")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([templateType], map: "idx_pct_creative_templates_type")
+  @@map("pct_creative_templates")
+}
+
+// ============================================
+// PCT-086/087/088: Compliance
+// ============================================
+
+model PctComplianceCheck {
+  id              String   @id @default(uuid())
+  hookId          String?  @map("hook_id")
+  adId            String?  @map("ad_id")
+  checkType       String   @map("check_type") // policy, disclosure, landing_page
+  status          String   @default("pending") // pending, passed, failed, warning
+  issues          Json     @default("[]")
+  suggestions     Json     @default("[]")
+  checkedAt       DateTime @default(now()) @map("checked_at")
+  createdAt       DateTime @default(now())
+
+  @@index([hookId], map: "idx_pct_compliance_hook")
+  @@index([adId], map: "idx_pct_compliance_ad")
+  @@map("pct_compliance_checks")
+}
+
+model PctDisclosureRule {
+  id              String   @id @default(uuid())
+  industry        String
+  ruleText        String   @map("rule_text")
+  placementGuide  String?  @map("placement_guide")
+  isRequired      Boolean  @default(true) @map("is_required")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([industry], map: "idx_pct_disclosure_rules_industry")
+  @@map("pct_disclosure_rules")
+}
+
+// ============================================
+// PCT-089/090/091: Testing Frameworks
+// ============================================
+
+model PctTestPlan {
+  id              String   @id @default(uuid())
+  productId       String?  @map("product_id")
+  name            String
+  testType        String   @map("test_type") // multivariate, sequential, geo_split
+  status          String   @default("draft") // draft, running, completed, paused
+  variables       Json     @default("[]") // what to test
+  sampleSize      Int?     @map("sample_size")
+  currentPhase    Int      @default(1) @map("current_phase")
+  totalPhases     Int      @default(1) @map("total_phases")
+  holdoutRegions  Json?    @map("holdout_regions")
+  results         Json?
+  startedAt       DateTime? @map("started_at")
+  completedAt     DateTime? @map("completed_at")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([productId], map: "idx_pct_test_plans_product")
+  @@index([status], map: "idx_pct_test_plans_status")
+  @@map("pct_test_plans")
+}
+
+// ============================================
+// PCT-092/093/094: Reporting
+// ============================================
+
+model PctReport {
+  id              String   @id @default(uuid())
+  reportType      String   @map("report_type") // weekly, monthly, custom, leaderboard
+  title           String
+  dateFrom        DateTime @map("date_from")
+  dateTo          DateTime @map("date_to")
+  data            Json     @default("{}")
+  format          String   @default("json") // json, csv, pdf
+  fileUrl         String?  @map("file_url")
+  createdAt       DateTime @default(now())
+
+  @@index([reportType], map: "idx_pct_reports_type")
+  @@map("pct_reports")
+}
+
+// ============================================
+// PCT-095/096: Automation Rules
+// ============================================
+
+model PctAutomationRule {
+  id              String   @id @default(uuid())
+  metaAccountId   String?  @map("meta_account_id")
+  name            String
+  ruleType        String   @map("rule_type") // auto_pause, auto_scale
+  triggerMetric   String   @map("trigger_metric") // ctr, cpc, roas, spend
+  triggerOperator String   @map("trigger_operator") // lt, gt, eq, lte, gte
+  triggerValue    Float    @map("trigger_value")
+  gracePeriodHours Int     @default(24) @map("grace_period_hours")
+  action          Json     @default("{}") // pause, scale_budget, etc.
+  maxBudgetCents  Int?     @map("max_budget_cents")
+  scaleType       String?  @map("scale_type") // gradual, immediate
+  scalePercent    Float?   @map("scale_percent")
+  isActive        Boolean  @default(true) @map("is_active")
+  lastTriggeredAt DateTime? @map("last_triggered_at")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([metaAccountId], map: "idx_pct_automation_rules_account")
+  @@index([ruleType], map: "idx_pct_automation_rules_type")
+  @@map("pct_automation_rules")
+}
+
+// ============================================
+// PCT-098/099/100: Platform Integrations
+// ============================================
+
+model PctPlatformConnection {
+  id              String   @id @default(uuid())
+  platform        String   // google_ads, tiktok, shopify, woocommerce
+  name            String
+  accessToken     String   @map("access_token")
+  refreshToken    String?  @map("refresh_token")
+  tokenExpiry     DateTime? @map("token_expiry")
+  accountId       String?  @map("account_id")
+  settings        Json     @default("{}")
+  isActive        Boolean  @default(true) @map("is_active")
+  lastSyncAt      DateTime? @map("last_sync_at")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([platform], map: "idx_pct_platform_connections_platform")
+  @@map("pct_platform_connections")
+}
+
+model PctConversionEvent {
+  id              String   @id @default(uuid())
+  platformId      String   @map("platform_id")
+  platform        String   // shopify, woocommerce, meta
+  orderId         String?  @map("order_id")
+  revenue         Float    @default(0)
+  currency        String   @default("USD")
+  productName     String?  @map("product_name")
+  adId            String?  @map("ad_id")
+  campaignId      String?  @map("campaign_id")
+  attributionModel String? @map("attribution_model")
+  eventDate       DateTime @map("event_date")
+  createdAt       DateTime @default(now())
+
+  @@index([platformId], map: "idx_pct_conversions_platform")
+  @@index([adId], map: "idx_pct_conversions_ad")
+  @@index([eventDate], map: "idx_pct_conversions_date")
+  @@map("pct_conversion_events")
+}
+
+// ============================================
+// PCT-101-104: AI Features
+// ============================================
+
+model PctAiPrediction {
+  id              String   @id @default(uuid())
+  hookId          String?  @map("hook_id")
+  adId            String?  @map("ad_id")
+  predictedCtr    Float?   @map("predicted_ctr")
+  predictedCpc    Float?   @map("predicted_cpc")
+  predictedRoas   Float?   @map("predicted_roas")
+  overallScore    Float    @map("overall_score")
+  confidenceLevel Float    @map("confidence_level")
+  factors         Json     @default("[]") // what influenced the prediction
+  createdAt       DateTime @default(now())
+
+  @@index([hookId], map: "idx_pct_ai_predictions_hook")
+  @@index([adId], map: "idx_pct_ai_predictions_ad")
+  @@map("pct_ai_predictions")
+}
+
+model PctAbTestHypothesis {
+  id              String   @id @default(uuid())
+  productId       String?  @map("product_id")
+  hypothesis      String
+  variable        String   // hook, angle, framework, awareness, audience
+  priority        String   @default("medium") // high, medium, low
+  expectedImpact  String?  @map("expected_impact")
+  reasoning       String?
+  status          String   @default("proposed") // proposed, testing, validated, rejected
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([productId], map: "idx_pct_ab_hypotheses_product")
+  @@index([status], map: "idx_pct_ab_hypotheses_status")
+  @@map("pct_ab_test_hypotheses")
+}
+
+// ============================================
+// PCT-105/107/108: Workflow
+// ============================================
+
+model PctCreativeBrief {
+  id              String   @id @default(uuid())
+  productId       String?  @map("product_id")
+  title           String
+  objective       String?
+  targetAudience  String?  @map("target_audience")
+  keyMessages     Json     @default("[]") @map("key_messages")
+  toneOfVoice     String?  @map("tone_of_voice")
+  constraints     Json?
+  references      Json     @default("[]")
+  status          String   @default("draft") // draft, approved, in_progress, completed
+  createdBy       String?  @map("created_by")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([productId], map: "idx_pct_briefs_product")
+  @@map("pct_creative_briefs")
+}
+
+model PctAssetVersion {
+  id              String   @id @default(uuid())
+  assetType       String   @map("asset_type") // hook, ad, template, script
+  assetId         String   @map("asset_id")
+  version         Int      @default(1)
+  data            Json     // full snapshot of the asset
+  changeNote      String?  @map("change_note")
+  changedBy       String?  @map("changed_by")
+  createdAt       DateTime @default(now())
+
+  @@unique([assetType, assetId, version])
+  @@index([assetId], map: "idx_pct_asset_versions_asset")
+  @@map("pct_asset_versions")
+}
+
+model PctComment {
+  id              String   @id @default(uuid())
+  entityType      String   @map("entity_type") // hook, ad, template, script, brief
+  entityId        String   @map("entity_id")
+  userId          String?  @map("user_id")
+  userName        String?  @map("user_name")
+  content         String
+  mentions        Json     @default("[]") // @mentioned userIds
+  parentId        String?  @map("parent_id") // for threaded replies
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([entityType, entityId], map: "idx_pct_comments_entity")
+  @@index([userId], map: "idx_pct_comments_user")
+  @@map("pct_comments")
+}
+
+// ============================================
+// PCT-110: Push Notifications
+// ============================================
+
+model PctNotification {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  type            String   // performance_alert, approval_request, fatigue_alert, budget_alert
+  title           String
+  message         String
+  data            Json?
+  isRead          Boolean  @default(false) @map("is_read")
+  createdAt       DateTime @default(now())
+
+  @@index([userId], map: "idx_pct_notifications_user")
+  @@index([isRead], map: "idx_pct_notifications_read")
+  @@map("pct_notifications")
+}
+
+// ============================================
+// PCT-114: Dark Mode / UI Preferences
+// ============================================
+
+model PctUserPreference {
+  id              String   @id @default(uuid())
+  userId          String   @unique @map("user_id")
+  theme           String   @default("light") // light, dark, system
+  dashboardLayout Json?    @map("dashboard_layout")
+  widgetConfig    Json?    @map("widget_config")
+  shortcuts       Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("pct_user_preferences")
+}
+
+// ============================================
+// PCT-118/119: Security
+// ============================================
+
+model PctTwoFactorAuth {
+  id              String   @id @default(uuid())
+  userId          String   @unique @map("user_id")
+  secret          String
+  recoveryCodes   Json     @default("[]") @map("recovery_codes")
+  isEnabled       Boolean  @default(false) @map("is_enabled")
+  enabledAt       DateTime? @map("enabled_at")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("pct_two_factor_auth")
+}
+
+model PctSsoConnection {
+  id              String   @id @default(uuid())
+  provider        String   // google, microsoft
+  clientId        String   @map("client_id")
+  clientSecret    String   @map("client_secret")
+  domainRestriction String? @map("domain_restriction")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([provider], map: "idx_pct_sso_provider")
+  @@map("pct_sso_connections")
 }
 
 // ============================================
