@@ -1,0 +1,2162 @@
+{
+  "project": "BlogCanvas Vendor Offer Platform",
+  "description": "Vendor-branded landing pages + checkout + client portal + scheduling + analytics",
+  "version": "1.0",
+  "totalFeatures": 139,
+  "completedFeatures": 139,
+  "phases": {
+    "phase1_mvp": "Core platform functionality",
+    "phase2_scale": "Advanced features and integrations",
+    "phase3_mobile": "Mobile & PWA support",
+    "phase4_whitelabel": "White-label & custom domains",
+    "phase5_selfservice": "Client self-service portal",
+    "phase6_referral": "Referral & affiliate system",
+    "phase7_testing": "Testing strategy & coverage",
+    "phase8_i18n": "Internationalization",
+    "phase9_analytics": "Advanced analytics & reporting",
+    "phase10_ai": "AI-powered features expansion",
+    "phase11_team": "Team collaboration enhancements",
+    "phase12_security": "Advanced security features",
+    "phase13_templates": "Content templates library",
+    "phase14_video": "Video features"
+  },
+  "features": [
+    {
+      "id": "VENDOR-001",
+      "name": "Vendor Auth & Profile",
+      "description": "Vendor registration, login, and profile management with handle selection",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "auth",
+      "files": [
+        "src/app/api/auth/vendor/route.ts",
+        "src/app/vendor/register/page.tsx",
+        "src/app/vendor/profile/page.tsx",
+        "src/lib/db/vendors.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VENDOR-002",
+      "name": "Vendor Handle System",
+      "description": "Unique vendor handles for URL routing (/@vendorhandle/)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "routing",
+      "files": [
+        "src/app/@[vendor]/layout.tsx",
+        "src/lib/db/vendor-handles.ts"
+      ],
+      "dependencies": [
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "VENDOR-003",
+      "name": "Vendor Dashboard Layout",
+      "description": "Main vendor dashboard with navigation sidebar and stats overview",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/vendor/dashboard/page.tsx",
+        "src/app/vendor/dashboard/layout.tsx",
+        "src/components/vendor/DashboardNav.tsx",
+        "src/components/vendor/StatsOverview.tsx"
+      ],
+      "dependencies": [
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "PAGE-001",
+      "name": "Offer Page Data Model",
+      "description": "Database schema for offer pages with JSON block storage",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/offer_pages.sql",
+        "src/types/offer-page.ts",
+        "src/lib/db/offer-pages.ts"
+      ],
+      "dependencies": [
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "PAGE-002",
+      "name": "Page Block Editor Framework",
+      "description": "Block-based editor infrastructure with drag-and-drop support",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "8h",
+      "passes": true,
+      "category": "editor",
+      "files": [
+        "src/components/editor/BlockEditor.tsx",
+        "src/components/editor/BlockRenderer.tsx",
+        "src/components/editor/BlockToolbar.tsx",
+        "src/lib/editor/block-types.ts"
+      ],
+      "dependencies": [
+        "PAGE-001"
+      ]
+    },
+    {
+      "id": "PAGE-003",
+      "name": "Hero Block",
+      "description": "Hero section block with headline, subheadline, and CTA button",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/HeroBlock.tsx",
+        "src/components/blocks/HeroBlockEditor.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-004",
+      "name": "VSL Block",
+      "description": "Video sales letter block with YouTube/Vimeo embed and CTA",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/VSLBlock.tsx",
+        "src/components/blocks/VSLBlockEditor.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-005",
+      "name": "Problem-Solution Block",
+      "description": "Problem agitation and solution preview section",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/ProblemSolutionBlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-006",
+      "name": "Features/Included Block",
+      "description": "What's included section with bullets and feature list",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/FeaturesBlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-007",
+      "name": "Testimonials Block",
+      "description": "Social proof section with testimonials, logos, and screenshots",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/TestimonialsBlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-008",
+      "name": "Offer Stack Block",
+      "description": "Value stack with base offer, add-ons, and bonuses",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/OfferStackBlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-009",
+      "name": "Pricing Block",
+      "description": "Pricing display with one-time/subscription options and checkout CTA",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/PricingBlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-010",
+      "name": "FAQ Block",
+      "description": "Expandable FAQ section for objection handling",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/FAQBlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-011",
+      "name": "CTA Block",
+      "description": "Final call-to-action section with button and urgency text",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "1h",
+      "passes": true,
+      "category": "blocks",
+      "files": [
+        "src/components/blocks/CTABlock.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-012",
+      "name": "Page Templates (5 Starter)",
+      "description": "5 proven landing page templates (audit, retainer, DFY, coaching, productized)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "6h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/page-templates.ts",
+        "src/components/editor/TemplateSelector.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-013",
+      "name": "Page Preview Mode",
+      "description": "Live preview of offer page while editing",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "editor",
+      "files": [
+        "src/components/editor/PagePreview.tsx"
+      ],
+      "dependencies": [
+        "PAGE-002"
+      ]
+    },
+    {
+      "id": "PAGE-014",
+      "name": "Page Publish Flow",
+      "description": "Publish/unpublish offer pages with URL slug management",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "publishing",
+      "files": [
+        "src/app/api/offer-pages/[id]/publish/route.ts",
+        "src/components/editor/PublishSettings.tsx"
+      ],
+      "dependencies": [
+        "PAGE-001"
+      ]
+    },
+    {
+      "id": "PAGE-015",
+      "name": "Public Page Rendering",
+      "description": "Public offer page rendering at /@vendor/slug",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "rendering",
+      "files": [
+        "src/app/@[vendor]/[slug]/page.tsx",
+        "src/components/public/OfferPageRenderer.tsx"
+      ],
+      "dependencies": [
+        "VENDOR-002",
+        "PAGE-001"
+      ]
+    },
+    {
+      "id": "OFFER-001",
+      "name": "Offer Data Model",
+      "description": "Database schema for offers with pricing configuration",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/offers.sql",
+        "src/types/offer.ts",
+        "src/lib/db/vendor/offers.ts",
+        "src/app/api/vendor/offers/route.ts",
+        "src/app/api/vendor/offers/[id]/route.ts"
+      ],
+      "dependencies": [
+        "PAGE-001"
+      ]
+    },
+    {
+      "id": "OFFER-002",
+      "name": "Add-Ons Data Model",
+      "description": "Database schema for offer add-ons (setup fee, revisions, rush, etc.)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/offer_addons.sql",
+        "src/types/offer.ts",
+        "src/lib/db/vendor/addons.ts",
+        "src/app/api/vendor/addons/route.ts",
+        "src/app/api/vendor/addons/[id]/route.ts"
+      ],
+      "dependencies": [
+        "OFFER-001"
+      ]
+    },
+    {
+      "id": "OFFER-003",
+      "name": "Offer Configuration UI",
+      "description": "UI for configuring offer pricing, add-ons, and checkout options",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "editor",
+      "files": [
+        "src/components/vendor/OfferSettings.tsx",
+        "src/components/vendor/AddOnEditor.tsx"
+      ],
+      "dependencies": [
+        "OFFER-001",
+        "OFFER-002"
+      ]
+    },
+    {
+      "id": "CHECKOUT-001",
+      "name": "Stripe Connect Setup",
+      "description": "Stripe Connect integration for vendor payouts",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "payments",
+      "files": [
+        "src/app/api/stripe/connect/route.ts",
+        "src/lib/stripe/connect.ts",
+        "src/lib/stripe/client.ts",
+        "src/app/vendor/settings/payments/page.tsx"
+      ],
+      "dependencies": [
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "CHECKOUT-002",
+      "name": "Checkout Session Creation",
+      "description": "Create Stripe checkout sessions with offer + add-ons",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "payments",
+      "files": [
+        "src/app/api/checkout/session/route.ts",
+        "src/lib/stripe/checkout.ts"
+      ],
+      "dependencies": [
+        "CHECKOUT-001",
+        "OFFER-001"
+      ]
+    },
+    {
+      "id": "CHECKOUT-003",
+      "name": "Subscription Checkout",
+      "description": "Recurring subscription checkout flow",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "payments",
+      "files": [
+        "src/lib/stripe/checkout.ts"
+      ],
+      "dependencies": [
+        "CHECKOUT-002"
+      ]
+    },
+    {
+      "id": "CHECKOUT-004",
+      "name": "Checkout Webhook Handler",
+      "description": "Handle Stripe webhooks for checkout.session.completed",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "payments",
+      "files": [
+        "src/app/api/webhooks/stripe/route.ts",
+        "src/lib/stripe/webhooks.ts"
+      ],
+      "dependencies": [
+        "CHECKOUT-002"
+      ]
+    },
+    {
+      "id": "CHECKOUT-005",
+      "name": "Order Creation",
+      "description": "Create order records from successful checkouts",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/orders.sql",
+        "src/types/order.ts",
+        "src/lib/db/vendor/orders.ts",
+        "src/app/api/webhooks/stripe/route.ts"
+      ],
+      "dependencies": [
+        "CHECKOUT-004"
+      ]
+    },
+    {
+      "id": "CLIENT-001",
+      "name": "Client Data Model",
+      "description": "Database schema for clients (purchasers)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/20260117000001_vendor_platform_base.sql",
+        "src/types/client.ts",
+        "src/lib/db/vendor/clients.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "CLIENT-002",
+      "name": "Workspace Data Model",
+      "description": "Database schema for client workspaces (vendor-client relationship container)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/20260117000001_vendor_platform_base.sql",
+        "src/types/portal.ts",
+        "src/lib/db/vendor/workspaces.ts"
+      ],
+      "dependencies": [
+        "CLIENT-001",
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "CLIENT-003",
+      "name": "Workspace Creation on Checkout",
+      "description": "Auto-create workspace when checkout completes",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "automation",
+      "files": [
+        "src/app/api/webhooks/stripe/route.ts"
+      ],
+      "dependencies": [
+        "CLIENT-002",
+        "CHECKOUT-004"
+      ]
+    },
+    {
+      "id": "PORTAL-001",
+      "name": "Client Portal Layout",
+      "description": "Client portal main layout with navigation",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/app/portal/[workspaceId]/page.tsx",
+        "src/app/portal/[workspaceId]/layout.tsx",
+        "src/components/portal/PortalNav.tsx"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "PORTAL-002",
+      "name": "Purchase Summary View",
+      "description": "Client view of purchase scope, pricing, and add-ons",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/PurchaseSummary.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-001"
+      ]
+    },
+    {
+      "id": "PORTAL-003",
+      "name": "Onboarding Steps Data Model",
+      "description": "Database schema for onboarding checklists",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/onboarding_steps.sql",
+        "src/types/onboarding.ts",
+        "src/lib/db/onboarding.ts"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "PORTAL-004",
+      "name": "Onboarding Checklist UI",
+      "description": "Step-by-step onboarding checklist component",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/OnboardingChecklist.tsx",
+        "src/components/portal/OnboardingStep.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-003"
+      ]
+    },
+    {
+      "id": "PORTAL-005",
+      "name": "Client Forms Data Model",
+      "description": "Database schema for intake forms and submissions",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/forms.sql",
+        "src/types/form.ts",
+        "src/lib/db/forms.ts"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "PORTAL-006",
+      "name": "Form Builder",
+      "description": "Vendor-side form builder for intake forms",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "6h",
+      "passes": true,
+      "category": "forms",
+      "files": [
+        "src/components/forms/FormBuilder.tsx",
+        "src/components/forms/FormField.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-005"
+      ]
+    },
+    {
+      "id": "PORTAL-007",
+      "name": "Form Submission UI",
+      "description": "Client-side form filling and submission",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/FormSubmission.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-005"
+      ]
+    },
+    {
+      "id": "PORTAL-008",
+      "name": "Messages Data Model",
+      "description": "Database schema for workspace messages",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/messages.sql",
+        "src/types/message.ts",
+        "src/lib/db/messages.ts"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "PORTAL-009",
+      "name": "Messages UI",
+      "description": "Client-vendor messaging interface",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/Messages.tsx",
+        "src/components/portal/MessageThread.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-008"
+      ]
+    },
+    {
+      "id": "PORTAL-010",
+      "name": "Deliverables Data Model",
+      "description": "Database schema for deliverable files and links",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/deliverables.sql",
+        "src/types/deliverable.ts",
+        "src/lib/db/deliverables.ts"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "PORTAL-011",
+      "name": "Deliverables UI",
+      "description": "Client view of deliverable files and links",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/Deliverables.tsx",
+        "src/components/portal/DeliverableItem.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-010"
+      ]
+    },
+    {
+      "id": "PORTAL-012",
+      "name": "Revisions Data Model",
+      "description": "Database schema for revision requests",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/revisions.sql",
+        "src/types/revision.ts",
+        "src/lib/db/revisions.ts"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "PORTAL-013",
+      "name": "Revisions UI",
+      "description": "Revision request and approval interface",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/Revisions.tsx",
+        "src/components/portal/RevisionRequest.tsx"
+      ],
+      "dependencies": [
+        "PORTAL-012"
+      ]
+    },
+    {
+      "id": "SCHED-001",
+      "name": "Meeting Types Data Model",
+      "description": "Database schema for vendor meeting types",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/meeting_types.sql",
+        "src/types/meeting.ts",
+        "src/lib/db/meeting-types.ts"
+      ],
+      "dependencies": [
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "SCHED-002",
+      "name": "Meetings Data Model",
+      "description": "Database schema for booked meetings",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/meetings.sql",
+        "src/lib/db/meetings.ts"
+      ],
+      "dependencies": [
+        "SCHED-001"
+      ]
+    },
+    {
+      "id": "SCHED-003",
+      "name": "Google Calendar OAuth",
+      "description": "Google Calendar OAuth flow for vendors",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "integrations",
+      "files": [
+        "src/app/api/auth/google/route.ts",
+        "src/app/api/auth/google/callback/route.ts",
+        "src/lib/google/oauth.ts",
+        "src/lib/google/calendar.ts",
+        "src/lib/db/vendor/calendar.ts"
+      ],
+      "dependencies": [
+        "VENDOR-001"
+      ]
+    },
+    {
+      "id": "SCHED-004",
+      "name": "Vendor Availability Settings",
+      "description": "Vendor availability configuration UI",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "scheduling",
+      "files": [
+        "src/app/vendor/settings/availability/page.tsx",
+        "src/app/api/vendor/availability/route.ts"
+      ],
+      "dependencies": [
+        "SCHED-001"
+      ]
+    },
+    {
+      "id": "SCHED-005",
+      "name": "Available Slots API",
+      "description": "API to compute available booking slots",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "scheduling",
+      "files": [
+        "src/app/api/scheduling/slots/route.ts",
+        "src/lib/scheduling/availability.ts"
+      ],
+      "dependencies": [
+        "SCHED-003",
+        "SCHED-004"
+      ]
+    },
+    {
+      "id": "SCHED-006",
+      "name": "Booking UI",
+      "description": "Client-facing meeting booking interface",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "scheduling",
+      "files": [
+        "src/components/scheduling/BookingCalendar.tsx"
+      ],
+      "dependencies": [
+        "SCHED-005"
+      ]
+    },
+    {
+      "id": "SCHED-007",
+      "name": "Meeting Creation + Calendar Event",
+      "description": "Create meeting record and Google Calendar event",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "scheduling",
+      "files": [
+        "src/app/api/scheduling/book/route.ts",
+        "src/lib/google/calendar.ts"
+      ],
+      "dependencies": [
+        "SCHED-002",
+        "SCHED-003"
+      ]
+    },
+    {
+      "id": "SCHED-008",
+      "name": "Meeting Confirmations",
+      "description": "Email confirmations for booked meetings",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "src/lib/email/templates/meeting-confirmation.tsx"
+      ],
+      "dependencies": [
+        "SCHED-007"
+      ]
+    },
+    {
+      "id": "SCHED-009",
+      "name": "Portal Meetings View",
+      "description": "Client portal view of scheduled meetings",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "portal",
+      "files": [
+        "src/components/portal/Meetings.tsx",
+        "src/components/portal/MeetingCard.tsx"
+      ],
+      "dependencies": [
+        "SCHED-002",
+        "PORTAL-001"
+      ]
+    },
+    {
+      "id": "DASH-001",
+      "name": "Vendor Leads View",
+      "description": "Dashboard view of leads (visits, opt-ins, bookings)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/vendor/dashboard/leads/page.tsx",
+        "src/components/vendor/LeadsTable.tsx"
+      ],
+      "dependencies": [
+        "VENDOR-003"
+      ]
+    },
+    {
+      "id": "DASH-002",
+      "name": "Vendor Sales View",
+      "description": "Dashboard view of sales, MRR, and refunds",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/vendor/dashboard/sales/page.tsx",
+        "src/components/vendor/SalesMetrics.tsx"
+      ],
+      "dependencies": [
+        "VENDOR-003",
+        "CHECKOUT-005"
+      ]
+    },
+    {
+      "id": "DASH-003",
+      "name": "Vendor Pipeline View",
+      "description": "Pipeline view (Prospect \u2192 Booked \u2192 Paid \u2192 Active \u2192 Completed)",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/vendor/dashboard/pipeline/page.tsx",
+        "src/components/vendor/PipelineBoard.tsx"
+      ],
+      "dependencies": [
+        "VENDOR-003",
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "DASH-004",
+      "name": "Client Profiles View",
+      "description": "Individual client profile with notes, forms, files, messages",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/vendor/clients/[id]/page.tsx",
+        "src/components/vendor/ClientProfile.tsx"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "DASH-005",
+      "name": "Vendor Workspaces List",
+      "description": "List of all vendor workspaces with status and actions",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/vendor/dashboard/workspaces/page.tsx",
+        "src/components/vendor/WorkspacesList.tsx"
+      ],
+      "dependencies": [
+        "CLIENT-002"
+      ]
+    },
+    {
+      "id": "TRACK-001",
+      "name": "Event Log Data Model",
+      "description": "Database schema for event tracking",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/20260117000003_vendor_analytics.sql",
+        "src/types/analytics.ts",
+        "src/lib/db/events.ts",
+        "src/app/api/events/track/route.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TRACK-002",
+      "name": "Landing Page Event Tracking",
+      "description": "Track page_view, scroll_depth, vsl_play, cta_click events",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/tracking/page-events.ts",
+        "src/components/tracking/PageTracker.tsx",
+        "src/components/public/OfferPageRenderer.tsx"
+      ],
+      "dependencies": [
+        "TRACK-001",
+        "PAGE-015"
+      ]
+    },
+    {
+      "id": "TRACK-003",
+      "name": "Checkout Event Tracking",
+      "description": "Track checkout_start and checkout_complete events",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/tracking/checkout-events.ts",
+        "src/app/api/webhooks/stripe/route.ts"
+      ],
+      "dependencies": [
+        "TRACK-001",
+        "CHECKOUT-002"
+      ]
+    },
+    {
+      "id": "TRACK-004",
+      "name": "Portal Event Tracking",
+      "description": "Track portal_view, onboarding_step, form_submitted, etc.",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/tracking/portal-events.ts"
+      ],
+      "dependencies": [
+        "TRACK-001",
+        "PORTAL-001"
+      ]
+    },
+    {
+      "id": "TRACK-005",
+      "name": "UTM Attribution Capture",
+      "description": "Capture and store UTM parameters for attribution",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "supabase/migrations/attribution.sql",
+        "src/lib/tracking/attribution.ts"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-006",
+      "name": "Funnel Analytics View",
+      "description": "Vendor dashboard funnel view (views \u2192 clicks \u2192 checkout \u2192 purchase)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/app/vendor/dashboard/analytics/page.tsx",
+        "src/app/api/vendor/analytics/funnel/route.ts",
+        "src/app/api/vendor/analytics/pages/route.ts"
+      ],
+      "dependencies": [
+        "TRACK-001",
+        "VENDOR-003"
+      ]
+    },
+    {
+      "id": "TRACK-007",
+      "name": "Client Engagement Stats",
+      "description": "Client check-in frequency and engagement metrics",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/analytics/client-engagement.ts",
+        "src/components/vendor/EngagementMetrics.tsx"
+      ],
+      "dependencies": [
+        "TRACK-004"
+      ]
+    },
+    {
+      "id": "EMAIL-001",
+      "name": "Resend Integration",
+      "description": "Resend email service integration",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "src/lib/email/resend.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "EMAIL-002",
+      "name": "Portal Ready Email",
+      "description": "Email sent when workspace is created post-checkout",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "src/lib/email/templates/portal-ready.tsx"
+      ],
+      "dependencies": [
+        "EMAIL-001",
+        "CLIENT-003"
+      ]
+    },
+    {
+      "id": "PWA-001",
+      "name": "PWA Manifest",
+      "description": "Web app manifest for PWA",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "2h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "public/manifest.json",
+        "src/app/layout.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PWA-002",
+      "name": "Service Worker",
+      "description": "Offline caching",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "4h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "public/sw.js",
+        "public/offline.html",
+        "src/app/register-sw.tsx"
+      ],
+      "dependencies": [
+        "PWA-001"
+      ]
+    },
+    {
+      "id": "PWA-003",
+      "name": "Mobile Navigation",
+      "description": "Responsive hamburger menu",
+      "priority": "P0",
+      "phase": 3,
+      "effort": "4h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/components/MobileNav.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PWA-004",
+      "name": "Touch Targets",
+      "description": "44x44px minimum",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "2h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/globals.css"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PWA-005",
+      "name": "Push Notifications",
+      "description": "Browser push",
+      "priority": "P2",
+      "phase": 3,
+      "effort": "4h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/lib/notifications/push.ts",
+        "src/app/api/push/subscribe/route.ts",
+        "src/app/api/push/unsubscribe/route.ts",
+        "src/app/api/push/vapid-key/route.ts",
+        "src/app/api/notifications/preferences/route.ts",
+        "src/components/notifications/PushNotificationPrompt.tsx",
+        "src/components/notifications/NotificationSettings.tsx",
+        "supabase/migrations/20260119000002_push_notifications.sql"
+      ],
+      "dependencies": [
+        "PWA-002"
+      ]
+    },
+    {
+      "id": "WL-001",
+      "name": "Custom Domain Table",
+      "description": "DB schema for domains",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "2h",
+      "passes": true,
+      "category": "whitelabel",
+      "files": [
+        "supabase/migrations/20260120000001_custom_domains.sql",
+        "src/types/custom-domain.ts",
+        "src/lib/db/custom-domains.ts",
+        "src/app/api/vendor/domains/route.ts",
+        "src/app/api/vendor/domains/[domainId]/route.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "WL-002",
+      "name": "Domain Verification",
+      "description": "DNS verification",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "4h",
+      "passes": true,
+      "category": "whitelabel",
+      "files": [
+        "src/lib/domains/verify.ts",
+        "src/app/api/vendor/domains/[domainId]/verify/route.ts"
+      ],
+      "dependencies": [
+        "WL-001"
+      ]
+    },
+    {
+      "id": "WL-003",
+      "name": "SSL Management",
+      "description": "Auto-provision SSL",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "6h",
+      "passes": true,
+      "category": "whitelabel",
+      "files": [
+        "src/lib/domains/ssl.ts",
+        "src/app/api/vendor/domains/[domainId]/ssl/route.ts"
+      ],
+      "dependencies": [
+        "WL-002"
+      ]
+    },
+    {
+      "id": "WL-004",
+      "name": "White-Label Branding",
+      "description": "Remove branding",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "4h",
+      "passes": true,
+      "category": "whitelabel",
+      "files": [
+        "src/lib/branding/whitelabel.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SS-001",
+      "name": "Client Dashboard",
+      "description": "Self-service dashboard",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8h",
+      "passes": true,
+      "category": "selfservice",
+      "files": [
+        "src/app/client/dashboard/page.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SS-002",
+      "name": "Client Profile",
+      "description": "Profile management",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "4h",
+      "passes": true,
+      "category": "selfservice",
+      "files": [
+        "src/app/client/profile/page.tsx"
+      ],
+      "dependencies": [
+        "SS-001"
+      ]
+    },
+    {
+      "id": "SS-003",
+      "name": "Content Request Form",
+      "description": "Submit requests",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "4h",
+      "passes": true,
+      "category": "selfservice",
+      "files": [
+        "src/app/client/requests/new/page.tsx"
+      ],
+      "dependencies": [
+        "SS-001"
+      ]
+    },
+    {
+      "id": "SS-004",
+      "name": "Invoice History",
+      "description": "View invoices",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "4h",
+      "passes": true,
+      "category": "selfservice",
+      "files": [
+        "src/app/client/invoices/page.tsx"
+      ],
+      "dependencies": [
+        "SS-001"
+      ]
+    },
+    {
+      "id": "REF-001",
+      "name": "Referral Table",
+      "description": "Referral tracking schema",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "2h",
+      "passes": true,
+      "category": "referral",
+      "files": [
+        "supabase/migrations/referrals.sql"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "REF-002",
+      "name": "Referral Links",
+      "description": "Generate referral links",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "2h",
+      "passes": true,
+      "category": "referral",
+      "files": [
+        "src/lib/referrals/generate.ts"
+      ],
+      "dependencies": [
+        "REF-001"
+      ]
+    },
+    {
+      "id": "REF-003",
+      "name": "Referral Tracking",
+      "description": "Track conversions",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "4h",
+      "passes": true,
+      "category": "referral",
+      "files": [
+        "src/lib/referrals/track.ts"
+      ],
+      "dependencies": [
+        "REF-002"
+      ]
+    },
+    {
+      "id": "REF-004",
+      "name": "Affiliate Dashboard",
+      "description": "Affiliate earnings",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "6h",
+      "passes": true,
+      "category": "referral",
+      "files": [
+        "src/app/affiliate/dashboard/page.tsx"
+      ],
+      "dependencies": [
+        "REF-003"
+      ]
+    },
+    {
+      "id": "REF-005",
+      "name": "Payout Management",
+      "description": "Manage payouts",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "4h",
+      "passes": true,
+      "category": "referral",
+      "files": [
+        "src/app/admin/payouts/page.tsx"
+      ],
+      "dependencies": [
+        "REF-003"
+      ]
+    },
+    {
+      "id": "TEST-001",
+      "name": "Jest Setup",
+      "description": "Unit testing (using Jest)",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "2h",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "jest.config.mjs",
+        "jest.setup.js"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEST-002",
+      "name": "Playwright Setup",
+      "description": "E2E testing",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "2h",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "playwright.config.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEST-003",
+      "name": "Auth E2E",
+      "description": "Login/logout tests",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "4h",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "__tests__/e2e/auth-flows.spec.ts",
+        "__tests__/e2e/auth-real.spec.ts"
+      ],
+      "dependencies": [
+        "TEST-002"
+      ]
+    },
+    {
+      "id": "TEST-004",
+      "name": "Checkout E2E",
+      "description": "Checkout tests",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "4h",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "__tests__/e2e/stripe-integration.spec.ts"
+      ],
+      "dependencies": [
+        "TEST-002"
+      ]
+    },
+    {
+      "id": "TEST-005",
+      "name": "CI Pipeline",
+      "description": "GitHub Actions",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "2h",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/e2e-tests.yml"
+      ],
+      "dependencies": [
+        "TEST-001"
+      ]
+    },
+    {
+      "id": "I18N-001",
+      "name": "next-intl Setup",
+      "description": "i18n config",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "4h",
+      "passes": true,
+      "category": "i18n",
+      "files": [
+        "src/i18n.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "I18N-002",
+      "name": "Language Selector",
+      "description": "Switch languages",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "2h",
+      "passes": true,
+      "category": "i18n",
+      "files": [
+        "src/components/LanguageSelector.tsx"
+      ],
+      "dependencies": [
+        "I18N-001"
+      ]
+    },
+    {
+      "id": "I18N-003",
+      "name": "Spanish Translation",
+      "description": "es.json",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "4h",
+      "passes": true,
+      "category": "i18n",
+      "files": [
+        "messages/es.json"
+      ],
+      "dependencies": [
+        "I18N-001"
+      ]
+    },
+    {
+      "id": "I18N-004",
+      "name": "Locale Formatting",
+      "description": "Date/time/currency",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "3h",
+      "passes": true,
+      "category": "i18n",
+      "files": [
+        "src/lib/locale.ts"
+      ],
+      "dependencies": [
+        "I18N-001"
+      ]
+    },
+    {
+      "id": "ANA-001",
+      "name": "Cohort Analysis",
+      "description": "Retention cohorts",
+      "priority": "P1",
+      "phase": 9,
+      "effort": "6h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/app/vendor/analytics/cohorts/page.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ANA-002",
+      "name": "Revenue Forecast",
+      "description": "Trends and forecast",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "6h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/analytics/forecast.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ANA-003",
+      "name": "Report Builder",
+      "description": "Custom reports",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "8h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/app/vendor/reports/builder/page.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ANA-004",
+      "name": "Scheduled Reports",
+      "description": "Weekly reports",
+      "priority": "P1",
+      "phase": 9,
+      "effort": "4h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/reports/scheduler.ts"
+      ],
+      "dependencies": [
+        "ANA-003"
+      ]
+    },
+    {
+      "id": "AI-001",
+      "name": "AI Pricing",
+      "description": "Optimal pricing",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "8h",
+      "passes": true,
+      "category": "ai",
+      "files": [
+        "src/lib/ai/pricing.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "AI-002",
+      "name": "AI Chatbot",
+      "description": "Client chatbot",
+      "priority": "P2",
+      "phase": 10,
+      "effort": "10h",
+      "passes": true,
+      "category": "ai",
+      "files": [
+        "src/components/AIChatbot.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "AI-003",
+      "name": "AI Insights",
+      "description": "Anomaly detection",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "8h",
+      "passes": true,
+      "category": "ai",
+      "files": [
+        "src/app/vendor/insights/page.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "AI-004",
+      "name": "AI Email",
+      "description": "Weekly AI insights",
+      "priority": "P2",
+      "phase": 10,
+      "effort": "4h",
+      "passes": true,
+      "category": "ai",
+      "files": [
+        "src/lib/email/templates/ai-insights.tsx"
+      ],
+      "dependencies": [
+        "AI-003"
+      ]
+    },
+    {
+      "id": "TEAM-001",
+      "name": "Task Assignment",
+      "description": "Assign tasks",
+      "priority": "P1",
+      "phase": 11,
+      "effort": "6h",
+      "passes": true,
+      "category": "team",
+      "files": [
+        "src/app/vendor/tasks/page.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEAM-002",
+      "name": "Activity Feed",
+      "description": "Team activity",
+      "priority": "P2",
+      "phase": 11,
+      "effort": "5h",
+      "passes": true,
+      "category": "team",
+      "files": [
+        "src/components/ActivityFeed.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEAM-003",
+      "name": "@Mentions",
+      "description": "Mention colleagues",
+      "priority": "P2",
+      "phase": 11,
+      "effort": "4h",
+      "passes": true,
+      "category": "team",
+      "files": [
+        "src/components/MentionInput.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEAM-004",
+      "name": "Presence",
+      "description": "Who is online",
+      "priority": "P3",
+      "phase": 11,
+      "effort": "4h",
+      "passes": true,
+      "category": "team",
+      "files": [
+        "src/lib/presence.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SEC-001",
+      "name": "Audit Logs",
+      "description": "Compliance logs",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "6h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/lib/audit-logger.ts",
+        "supabase/migrations/20260113000003_audit_logging.sql",
+        "src/app/api/audit-logs/route.ts",
+        "src/app/app/audit-logs/page.tsx"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SEC-002",
+      "name": "IP Allowlist",
+      "description": "IP restriction",
+      "priority": "P1",
+      "phase": 12,
+      "effort": "4h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/lib/security/ip-filter.ts",
+        "supabase/migrations/20260120000002_ip_allowlist.sql",
+        "src/app/api/vendor/ip-allowlist/route.ts",
+        "src/app/api/vendor/ip-allowlist/[ruleId]/route.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SEC-003",
+      "name": "SSO",
+      "description": "SAML/OIDC SSO",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "8h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/lib/auth/sso.ts",
+        "src/app/api/vendor/sso/route.ts",
+        "src/app/api/vendor/sso/[id]/route.ts",
+        "src/app/api/vendor/sso/[id]/test/route.ts",
+        "src/app/api/auth/sso/login/route.ts",
+        "src/app/vendor/settings/sso/page.tsx",
+        "src/types/sso.ts",
+        "supabase/migrations/20260126000001_sso_connections.sql"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SEC-004",
+      "name": "Security Dashboard",
+      "description": "Compliance reports",
+      "priority": "P1",
+      "phase": 12,
+      "effort": "4h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/app/vendor/security/page.tsx",
+        "src/app/api/vendor/security/metrics/route.ts"
+      ],
+      "dependencies": [
+        "SEC-001"
+      ]
+    },
+    {
+      "id": "TPL-001",
+      "name": "Offer Templates",
+      "description": "Industry templates",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "6h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/offer-pages.ts",
+        "src/lib/templates/page-templates.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TPL-002",
+      "name": "Onboarding Templates",
+      "description": "Checklist templates",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "4h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/onboarding.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TPL-003",
+      "name": "Email Templates",
+      "description": "Pre-built emails",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "4h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/emails.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TPL-004",
+      "name": "Template Cloning",
+      "description": "Clone templates",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "3h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/clone.ts"
+      ],
+      "dependencies": [
+        "TPL-001"
+      ]
+    },
+    {
+      "id": "VID-001",
+      "name": "Video Upload",
+      "description": "Native video hosting",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "8h",
+      "passes": true,
+      "category": "video",
+      "files": [
+        "src/lib/video/upload.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VID-002",
+      "name": "Video Player",
+      "description": "Custom player",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "6h",
+      "passes": true,
+      "category": "video",
+      "files": [
+        "src/components/VideoPlayer.tsx"
+      ],
+      "dependencies": [
+        "VID-001"
+      ]
+    },
+    {
+      "id": "VID-003",
+      "name": "Video Analytics",
+      "description": "Views, watch time",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "5h",
+      "passes": true,
+      "category": "video",
+      "files": [
+        "src/lib/video/analytics.ts"
+      ],
+      "dependencies": [
+        "VID-001"
+      ]
+    },
+    {
+      "id": "VID-004",
+      "name": "Mux Integration",
+      "description": "Video processing",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "6h",
+      "passes": true,
+      "category": "video",
+      "files": [
+        "src/lib/video/mux.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "META-001",
+      "name": "Meta Pixel Installation",
+      "description": "Install Facebook Pixel script in app layout",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-002",
+      "name": "PageView Tracking",
+      "description": "Track all page views with Meta Pixel",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-003",
+      "name": "Standard Events Mapping",
+      "description": "Map app events to Meta standard events (Purchase, Lead, etc.)",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-004",
+      "name": "CAPI Server-Side Events",
+      "description": "Implement Conversions API for server-side event tracking",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-005",
+      "name": "Event Deduplication",
+      "description": "Use event_id to deduplicate browser and server events",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-006",
+      "name": "User Data Hashing (PII)",
+      "description": "Hash email/phone with SHA256 for CAPI user matching",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-007",
+      "name": "Custom Audiences Setup",
+      "description": "Configure custom audiences based on user behavior",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "META-008",
+      "name": "Conversion Optimization",
+      "description": "Set up conversion optimization for key events",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "GDP-001",
+      "name": "Supabase Schema Setup",
+      "description": "Create person, identity_link, event, email_message, email_event, subscription, deal, person_features, segment tables",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true
+    },
+    {
+      "id": "GDP-002",
+      "name": "Person & Identity Tables",
+      "description": "Canonical person table with identity links for posthog, stripe, meta",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true
+    },
+    {
+      "id": "GDP-003",
+      "name": "Unified Events Table",
+      "description": "Normalized events from web/app/email/stripe/booking/meta sources",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true
+    },
+    {
+      "id": "GDP-004",
+      "name": "Resend Webhook Edge Function",
+      "description": "Verify Svix signature, store email events, map tags to person_id",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true
+    },
+    {
+      "id": "GDP-005",
+      "name": "Email Event Tracking",
+      "description": "Track delivered/opened/clicked/bounced events from Resend webhooks",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true
+    },
+    {
+      "id": "GDP-006",
+      "name": "Click Redirect Tracker",
+      "description": "Attribution spine: email \u2192 click \u2192 session \u2192 conversion with first-party cookie",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-007",
+      "name": "Stripe Webhook Integration",
+      "description": "Handle subscription events, map stripe_customer_id to person_id",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-008",
+      "name": "Subscription Snapshot",
+      "description": "Upsert subscription status, plan, MRR from Stripe events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-009",
+      "name": "PostHog Identity Stitching",
+      "description": "Call posthog.identify(personId) on login/signup",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-010",
+      "name": "Meta Pixel + CAPI Dedup",
+      "description": "Fire Pixel eventID matching CAPI event_id for deduplication",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-011",
+      "name": "Person Features Computation",
+      "description": "Compute active_days, core_actions, pricing_views, email_opens from events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-012",
+      "name": "Segment Engine",
+      "description": "Evaluate segment membership and trigger automations (Resend, Meta, outbound)",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "NOMOCK-001",
+      "name": "Implement Real Email Notifications for Blog Showcase",
+      "description": "Replace TODO stub in src/app/api/blog-posts/[id]/showcase/route.ts with real email service integration (Resend/SendGrid) for showcase notifications",
+      "priority": "P1",
+      "category": "automation",
+      "passes": true,
+      "effort": "3h",
+      "files": [
+        "src/app/api/blog-posts/[id]/showcase/route.ts",
+        "src/lib/email/templates/content-showcase.tsx"
+      ],
+      "acceptance": [
+        "Email notifications sent via real email service",
+        "No TODO.*Send email.*integrate stubs remain"
+      ]
+    },
+    {
+      "id": "NOMOCK-002",
+      "name": "Implement Real Competitor Analysis API",
+      "description": "Replace TODO stub in src/app/api/websites/[id]/competitors/[competitorId]/analyze/route.ts with real competitor analysis using web scraping or AI analysis instead of placeholder comment",
+      "priority": "P1",
+      "category": "ai",
+      "passes": true,
+      "effort": "6h",
+      "files": [
+        "src/app/api/websites/[id]/competitors/[competitorId]/analyze/route.ts",
+        "src/lib/competitors/analyzer.ts"
+      ],
+      "acceptance": [
+        "Competitor analysis performs real web analysis",
+        "No TODO.*real implementation stubs remain",
+        "Returns actual competitive metrics"
+      ]
+    },
+    {
+      "id": "NOMOCK-003",
+      "name": "Implement Real Google Analytics/Search Console Integration",
+      "description": "Replace TODO stub in src/lib/analytics/check-back-scheduler.ts with real Google Analytics and Search Console API integration for checkback metrics",
+      "priority": "P2",
+      "category": "analytics",
+      "passes": true,
+      "effort": "8h",
+      "files": [
+        "src/lib/analytics/check-back-scheduler.ts",
+        "src/lib/analytics/google-analytics.ts",
+        "src/lib/analytics/search-console.ts"
+      ],
+      "acceptance": [
+        "Google Analytics API integrated for traffic metrics",
+        "Search Console API integrated for SEO metrics",
+        "No TODO.*Integrate.*Google stubs remain"
+      ]
+    }
+  ],
+  "lastUpdated": "2026-02-06T23:30:00.000Z"
+}

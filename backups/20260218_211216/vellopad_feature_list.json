@@ -1,0 +1,2380 @@
+{
+  "project": "VelloPad",
+  "description": "Modern book creation platform with full editing, print-ready PDF generation, and POD integration",
+  "version": "1.0",
+  "totalFeatures": 142,
+  "completedFeatures": 142,
+  "phases": {
+    "phase1_foundation": "Foundation & Auth (BS-EP01)",
+    "phase2_book_studio": "Book Studio Core (BS-EP02)",
+    "phase3_assets": "Assets, Templates, Cover (BS-EP03)",
+    "phase4_rendition": "Rendition Pipeline (BS-EP04)",
+    "phase5_commerce": "Commerce + Orders (BS-EP05)",
+    "phase6_print": "Print Orchestrator (BS-EP06)",
+    "phase7_messaging": "Admin Campaigns + Lifecycle Messaging (BS-EP07)",
+    "phase8_marketing": "SEO Blog + Marketing Hub (BS-EP08)",
+    "phase9_reliability": "Analytics & Reliability (BS-EP09)",
+    "phase10_multi_tenant": "Multi-tenant storefront architecture with branded subdomains",
+    "phase11_product_modes": "Product mode adapters (cover-only vs custom interior)",
+    "phase12_photo_book_mvp": "Photo Book Platform MVP: upload, auto-layout, PDF generation",
+    "phase13_photo_book_enhanced": "Photo Book Enhanced: AI features, collaboration, multi-provider",
+    "phase14_photo_book_premium": "Photo Book Premium: marketplace, white-label, bulk ordering"
+  },
+  "features": [
+    {
+      "id": "BS-101",
+      "name": "Auth + Workspace Creation",
+      "description": "User signup/login with default workspace creation",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "auth",
+      "files": [
+        "src/app/auth/",
+        "src/lib/auth/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "BS-102",
+      "name": "Workspace Member Roles",
+      "description": "Owner, admin, member roles with invite/remove",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "auth",
+      "files": [
+        "lib/workspace/roles.ts",
+        "app/api/workspaces/[workspaceId]/members/route.ts"
+      ],
+      "dependencies": [
+        "BS-101"
+      ]
+    },
+    {
+      "id": "BS-103",
+      "name": "Settings Page",
+      "description": "Profile + workspace settings management",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "settings",
+      "files": [
+        "app/(app)/settings/page.tsx",
+        "components/settings/"
+      ],
+      "dependencies": [
+        "BS-101"
+      ]
+    },
+    {
+      "id": "BS-201",
+      "name": "Create Book Wizard",
+      "description": "Title, genre, trim, binding selection in <60s",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "book",
+      "files": [
+        "src/app/books/new/"
+      ],
+      "dependencies": [
+        "BS-101"
+      ]
+    },
+    {
+      "id": "BS-202",
+      "name": "Outline Builder",
+      "description": "Chapters/sections drag-drop reorder",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "8pts",
+      "passes": true,
+      "category": "book",
+      "files": [
+        "src/components/outline/"
+      ],
+      "dependencies": [
+        "BS-201"
+      ]
+    },
+    {
+      "id": "BS-203",
+      "name": "Chapter Editor",
+      "description": "Rich text editor with autosave + word count (TipTap)",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "13pts",
+      "passes": true,
+      "category": "editor",
+      "files": [
+        "src/components/editor/"
+      ],
+      "dependencies": [
+        "BS-202"
+      ]
+    },
+    {
+      "id": "BS-204",
+      "name": "Book Dashboard",
+      "description": "Progress percent + next step CTA",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/books/[id]/"
+      ],
+      "dependencies": [
+        "BS-201",
+        "BS-203"
+      ]
+    },
+    {
+      "id": "BS-205",
+      "name": "Version Snapshots",
+      "description": "Manual + milestone auto-snapshots with restore",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "8pts",
+      "passes": true,
+      "category": "versioning",
+      "files": [
+        "src/lib/versions/"
+      ],
+      "dependencies": [
+        "BS-203"
+      ]
+    },
+    {
+      "id": "BS-301",
+      "name": "Asset Library",
+      "description": "Upload images, store metadata, reuse across book",
+      "priority": "P0",
+      "phase": 3,
+      "effort": "8pts",
+      "passes": true,
+      "category": "assets",
+      "files": [
+        "src/components/assets/",
+        "src/lib/storage/"
+      ],
+      "dependencies": [
+        "BS-101",
+        "BS-201"
+      ]
+    },
+    {
+      "id": "BS-302",
+      "name": "Print Quality Warnings",
+      "description": "DPI estimate + safe/unsafe indicators",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "5pts",
+      "passes": true,
+      "category": "assets",
+      "files": [
+        "src/lib/assets/quality.ts"
+      ],
+      "dependencies": [
+        "BS-301"
+      ]
+    },
+    {
+      "id": "BS-303",
+      "name": "Template System",
+      "description": "Interior styles + spec defaults",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "8pts",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/"
+      ],
+      "dependencies": [
+        "BS-201"
+      ]
+    },
+    {
+      "id": "BS-304",
+      "name": "Cover Basics",
+      "description": "Title/subtitle/author + safe zones overlay",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "8pts",
+      "passes": true,
+      "category": "cover",
+      "files": [
+        "src/components/cover/"
+      ],
+      "dependencies": [
+        "BS-201"
+      ]
+    },
+    {
+      "id": "BS-401",
+      "name": "Rendition Request",
+      "description": "Enqueue job for interior+cover PDFs",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "8pts",
+      "passes": true,
+      "category": "rendition",
+      "files": [
+        "src/lib/rendition/queue.ts"
+      ],
+      "dependencies": [
+        "BS-203",
+        "BS-205"
+      ]
+    },
+    {
+      "id": "BS-402",
+      "name": "Preflight Engine",
+      "description": "Fonts, margins, bleed, low-res image checks",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "13pts",
+      "passes": true,
+      "category": "rendition",
+      "files": [
+        "src/lib/rendition/preflight.ts"
+      ],
+      "dependencies": [
+        "BS-401",
+        "BS-302"
+      ]
+    },
+    {
+      "id": "BS-403",
+      "name": "Preview System",
+      "description": "Fast preview + print simulation preview",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "8pts",
+      "passes": true,
+      "category": "preview",
+      "files": [
+        "components/preview/BookPreview.tsx",
+        "app/(app)/books/[id]/preview/page.tsx",
+        "app/api/books/[bookId]/preview/route.ts"
+      ],
+      "dependencies": [
+        "BS-203"
+      ]
+    },
+    {
+      "id": "BS-501",
+      "name": "Quote Flow",
+      "description": "Qty + address → price + shipping options",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "commerce",
+      "files": [
+        "lib/commerce/quotes.ts",
+        "app/api/quote/route.ts",
+        "components/commerce/QuoteForm.tsx",
+        "components/commerce/QuoteComparison.tsx",
+        "app/(app)/books/[id]/order/page.tsx"
+      ],
+      "dependencies": [
+        "BS-401",
+        "BS-402",
+        "BS-601"
+      ]
+    },
+    {
+      "id": "BS-502",
+      "name": "Stripe Checkout",
+      "description": "Checkout + webhook confirmation",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "commerce",
+      "files": [
+        "lib/stripe/checkout.ts",
+        "app/api/checkout/route.ts",
+        "app/api/webhooks/stripe/route.ts"
+      ],
+      "dependencies": [
+        "BS-501"
+      ]
+    },
+    {
+      "id": "BS-503",
+      "name": "Order Detail Page",
+      "description": "Status timeline + tracking",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "lib/commerce/orders.ts",
+        "app/(app)/orders/[id]/page.tsx"
+      ],
+      "dependencies": [
+        "BS-502",
+        "BS-602"
+      ]
+    },
+    {
+      "id": "BS-504",
+      "name": "Reorder Flow",
+      "description": "Reorder from saved rendition without regenerating",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "3pts",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "lib/commerce/reorder.ts",
+        "app/api/orders/[id]/reorder/route.ts",
+        "components/commerce/ReorderButton.tsx",
+        "supabase/migrations/20260121000006_add_reorder_support.sql"
+      ],
+      "dependencies": [
+        "BS-503"
+      ]
+    },
+    {
+      "id": "BS-601",
+      "name": "Print Orchestrator Service",
+      "description": "Canonical interface + adapter framework",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "print",
+      "files": [
+        "src/lib/print/orchestrator.ts"
+      ],
+      "dependencies": [
+        "BS-401"
+      ]
+    },
+    {
+      "id": "BS-602",
+      "name": "Provider Adapter v1",
+      "description": "First POD provider (Peecho/Prodigi/Lulu)",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "13pts",
+      "passes": true,
+      "category": "print",
+      "files": [
+        "src/lib/print/adapters/"
+      ],
+      "dependencies": [
+        "BS-601"
+      ]
+    },
+    {
+      "id": "BS-603",
+      "name": "Webhook Ingestion",
+      "description": "Provider → order status updates",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "print",
+      "files": [
+        "src/app/api/webhooks/print/"
+      ],
+      "dependencies": [
+        "BS-602"
+      ]
+    },
+    {
+      "id": "BS-604",
+      "name": "Fallback Polling",
+      "description": "Poll providers without reliable webhooks",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "print",
+      "files": [
+        "src/lib/print/polling.ts"
+      ],
+      "dependencies": [
+        "BS-602"
+      ]
+    },
+    {
+      "id": "BS-701",
+      "name": "Event Collection Pipeline",
+      "description": "Product events stored + forwarded to analytics",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "5pts",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/events/"
+      ],
+      "dependencies": [
+        "BS-101"
+      ]
+    },
+    {
+      "id": "BS-702",
+      "name": "Lifecycle Email Automations",
+      "description": "Activation, stalled, proof push, post-delivery",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "8pts",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "lib/email/lifecycle/index.ts",
+        "lib/email/lifecycle/README.md",
+        "app/api/emails/send/route.ts",
+        "app/api/cron/emails/route.ts"
+      ],
+      "dependencies": [
+        "BS-701",
+        "BS-503"
+      ]
+    },
+    {
+      "id": "BS-703",
+      "name": "Admin Broadcast Tool",
+      "description": "Segment → send campaign",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "8pts",
+      "passes": true,
+      "category": "admin",
+      "files": [
+        "app/(app)/admin/campaigns/",
+        "app/api/campaigns/",
+        "components/campaigns/",
+        "lib/campaigns/broadcast-service.ts",
+        "supabase/migrations/20260129000002_add_broadcast_campaigns.sql",
+        "e2e/admin-campaigns.spec.ts"
+      ],
+      "dependencies": [
+        "BS-701"
+      ]
+    },
+    {
+      "id": "BS-801",
+      "name": "Headless CMS Integration",
+      "description": "Blog + tutorials from CMS",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "8pts",
+      "passes": true,
+      "category": "content",
+      "files": [
+        "src/lib/cms/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "BS-802",
+      "name": "Marketing Hub",
+      "description": "Daily tasks + weekly plan generator",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "13pts",
+      "passes": true,
+      "category": "marketing",
+      "files": [
+        "supabase/migrations/20260202000002_add_marketing_hub_schema.sql",
+        "lib/marketing/types.ts",
+        "lib/marketing/task-service.ts",
+        "lib/marketing/metrics-service.ts",
+        "lib/marketing/plan-generator.ts",
+        "lib/marketing/plan-service.ts",
+        "app/api/marketing/tasks/route.ts",
+        "app/api/marketing/tasks/daily/route.ts",
+        "app/api/marketing/tasks/[taskId]/route.ts",
+        "app/api/marketing/tasks/[taskId]/complete/route.ts",
+        "app/api/marketing/plans/route.ts",
+        "app/api/marketing/plans/generate/route.ts",
+        "app/api/marketing/plans/current/route.ts",
+        "app/api/marketing/metrics/dashboard/route.ts",
+        "app/(app)/admin/marketing/page.tsx",
+        "e2e/marketing-hub.spec.ts"
+      ],
+      "dependencies": [
+        "BS-701",
+        "BS-702"
+      ]
+    },
+    {
+      "id": "BS-901",
+      "name": "Job Observability",
+      "description": "Render job logs, retries, alerting",
+      "priority": "P0",
+      "phase": 9,
+      "effort": "5pts",
+      "passes": true,
+      "category": "reliability",
+      "files": [
+        "lib/jobs/monitoring.ts",
+        "app/api/jobs/stats/route.ts",
+        "app/api/jobs/logs/route.ts"
+      ],
+      "dependencies": [
+        "BS-401"
+      ]
+    },
+    {
+      "id": "BS-902",
+      "name": "Commerce Audit Logs",
+      "description": "Provider audit logs with PII redaction",
+      "priority": "P1",
+      "phase": 9,
+      "effort": "3pts",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/lib/audit/index.ts",
+        "src/lib/audit/README.md",
+        "supabase/migrations/20260126000002_add_audit_logs.sql",
+        "app/api/webhooks/stripe/route.ts",
+        "app/api/webhooks/print/prodigi/route.ts",
+        "e2e/audit-logs.spec.ts"
+      ],
+      "dependencies": [
+        "BS-502",
+        "BS-602"
+      ]
+    },
+    {
+      "id": "DB-001",
+      "name": "Database Schema - Core",
+      "description": "Workspaces, books, chapters tables",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "DB-002",
+      "name": "Database Schema - Assets",
+      "description": "Assets, templates tables",
+      "priority": "P0",
+      "phase": 3,
+      "effort": "2pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": [
+        "DB-001"
+      ]
+    },
+    {
+      "id": "DB-003",
+      "name": "Database Schema - Renditions",
+      "description": "Renditions, render_jobs tables",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "2pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": [
+        "DB-001"
+      ]
+    },
+    {
+      "id": "DB-004",
+      "name": "Database Schema - Commerce",
+      "description": "Orders, quotes, shipments tables",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "3pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": [
+        "DB-001"
+      ]
+    },
+    {
+      "id": "DB-005",
+      "name": "Database Schema - Events",
+      "description": "Events, campaigns, email_sends tables",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "2pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": [
+        "DB-001"
+      ]
+    },
+    {
+      "id": "UI-001",
+      "name": "Design System Setup",
+      "description": "shadcn/ui + VelloPad color palette",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "ui",
+      "files": [
+        "src/app/globals.css",
+        "tailwind.config.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "UI-002",
+      "name": "Dashboard Layout",
+      "description": "Book cards with progress and CTAs",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "ui",
+      "files": [
+        "src/app/dashboard/"
+      ],
+      "dependencies": [
+        "UI-001"
+      ]
+    },
+    {
+      "id": "UI-003",
+      "name": "Editor Layout Mode",
+      "description": "WYSIWYG page layout (margins, headers/footers)",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "8pts",
+      "passes": true,
+      "category": "editor",
+      "files": [
+        "components/editor/layout/",
+        "components/editor/chapter-editor-with-layout.tsx",
+        "supabase/migrations/20260202000001_add_chapter_layout_config.sql",
+        "e2e/editor-layout-mode.spec.ts"
+      ],
+      "dependencies": [
+        "BS-203"
+      ]
+    },
+    {
+      "id": "AI-001",
+      "name": "Prompt Sidekick Panel",
+      "description": "Rewrite, outline, title suggestions",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "8pts",
+      "passes": true,
+      "category": "ai",
+      "files": [
+        "components/ai/sidekick/ai-sidekick-panel.tsx",
+        "components/editor/chapter-editor-with-ai.tsx",
+        "app/api/ai/writing-assistant/route.ts",
+        "e2e/ai-sidekick.spec.ts"
+      ],
+      "dependencies": [
+        "BS-203"
+      ]
+    },
+    {
+      "id": "AI-002",
+      "name": "Inline Coach",
+      "description": "Detect stuck users, suggest next actions",
+      "priority": "P2",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "ai",
+      "files": [
+        "src/components/ai/coach/"
+      ],
+      "dependencies": [
+        "BS-204"
+      ]
+    },
+    {
+      "id": "TEST-001",
+      "name": "E2E Test Setup",
+      "description": "Playwright configuration",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2pts",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "playwright.config.ts",
+        "e2e/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEST-002",
+      "name": "Auth E2E Tests",
+      "description": "Signup, login, workspace creation tests",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "e2e/auth.spec.ts"
+      ],
+      "dependencies": [
+        "TEST-001",
+        "BS-101"
+      ]
+    },
+    {
+      "id": "TEST-003",
+      "name": "Book Creation E2E",
+      "description": "Create book, add chapters, edit tests",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "e2e/book.spec.ts"
+      ],
+      "dependencies": [
+        "TEST-001",
+        "BS-203"
+      ]
+    },
+    {
+      "id": "TEST-004",
+      "name": "Checkout E2E Tests",
+      "description": "Quote, checkout, order tracking tests",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "testing",
+      "files": [
+        "e2e/checkout.spec.ts"
+      ],
+      "dependencies": [
+        "TEST-001",
+        "BS-502"
+      ]
+    },
+    {
+      "id": "MT-001",
+      "name": "Tenant Hostname Resolution",
+      "description": "Next.js middleware to resolve tenant from Host header (vellopad.com, faith.vellopad.com, custom domains)",
+      "priority": "P0",
+      "phase": 10,
+      "effort": "5pts",
+      "passes": true,
+      "category": "multi-tenant",
+      "files": [
+        "src/middleware.ts",
+        "src/lib/tenant/resolver.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "MT-002",
+      "name": "Tenants Database Schema",
+      "description": "tenants table with id, name, domains[], brand_kit_json, email_branding_id, enabled",
+      "priority": "P0",
+      "phase": 10,
+      "effort": "3pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": [
+        "DB-001"
+      ]
+    },
+    {
+      "id": "MT-003",
+      "name": "Brand Kit System",
+      "description": "Per-tenant colors, fonts, logo, favicon, homepage layout, tone of voice",
+      "priority": "P0",
+      "phase": 10,
+      "effort": "8pts",
+      "passes": true,
+      "category": "multi-tenant",
+      "files": [
+        "src/lib/tenant/brand-kit.ts",
+        "src/components/theme-provider.tsx"
+      ],
+      "dependencies": [
+        "MT-001",
+        "MT-002"
+      ]
+    },
+    {
+      "id": "MT-004",
+      "name": "Tenant-Specific Homepage",
+      "description": "Hero variants, featured collections, social proof blocks per tenant",
+      "priority": "P0",
+      "phase": 10,
+      "effort": "8pts",
+      "passes": true,
+      "category": "multi-tenant",
+      "files": [
+        "src/app/page.tsx",
+        "src/components/storefront/"
+      ],
+      "dependencies": [
+        "MT-003"
+      ]
+    },
+    {
+      "id": "MT-005",
+      "name": "Tenant Collections",
+      "description": "tenant_collections table linking tenants to curated product collections",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "5pts",
+      "passes": true,
+      "category": "database",
+      "files": [
+        "supabase/migrations/",
+        "src/lib/tenant/collections.ts"
+      ],
+      "dependencies": [
+        "MT-002"
+      ]
+    },
+    {
+      "id": "MT-006",
+      "name": "Tenant Template Overrides",
+      "description": "Interior/cover templates with global defaults + tenant-specific overrides",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "5pts",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/lib/templates/tenant-overrides.ts"
+      ],
+      "dependencies": [
+        "MT-002",
+        "BS-303"
+      ]
+    },
+    {
+      "id": "MT-007",
+      "name": "Row Level Security for Tenants",
+      "description": "Supabase RLS policies for tenant-aware data isolation",
+      "priority": "P0",
+      "phase": 10,
+      "effort": "5pts",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "supabase/migrations/"
+      ],
+      "dependencies": [
+        "MT-002"
+      ]
+    },
+    {
+      "id": "MT-008",
+      "name": "Tenant Email Branding",
+      "description": "Per-tenant from_name, from_email, header/footer templates, typography/colors",
+      "priority": "P0",
+      "phase": 10,
+      "effort": "5pts",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "lib/email/tenant-branding.ts",
+        "lib/email/tenant-branding.README.md",
+        "lib/email/lifecycle/index.ts"
+      ],
+      "dependencies": [
+        "MT-002",
+        "BS-702"
+      ]
+    },
+    {
+      "id": "MT-009",
+      "name": "Subdomain Sending Domains",
+      "description": "Configure SPF/DKIM/DMARC for tenant-specific sending domains (mail.faith.vellopad.com)",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "4pts",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "src/lib/email/sending-domains.ts",
+        "supabase/migrations/20260202100000_add_sending_domains.sql",
+        "app/api/admin/sending-domains/route.ts",
+        "app/api/admin/sending-domains/[id]/verify/route.ts",
+        "e2e/sending-domains.spec.ts"
+      ],
+      "dependencies": [
+        "MT-008"
+      ]
+    },
+    {
+      "id": "MT-010",
+      "name": "Tenant-Aware Email Sequences",
+      "description": "Email templates selected by (tenant_id, lifecycle_event)",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "5pts",
+      "passes": true,
+      "category": "email",
+      "files": [
+        "src/lib/email/tenant-sequences.ts",
+        "supabase/migrations/20260202100100_add_email_templates.sql",
+        "app/api/admin/email-templates/route.ts",
+        "app/api/admin/email-templates/[id]/route.ts",
+        "e2e/email-templates.spec.ts"
+      ],
+      "dependencies": [
+        "MT-008",
+        "BS-702"
+      ]
+    },
+    {
+      "id": "MT-011",
+      "name": "Customer Signup Tenant Tracking",
+      "description": "Track signup_tenant_id and interests[] for culture-matching segmentation",
+      "priority": "P1",
+      "phase": 10,
+      "effort": "3pts",
+      "passes": true,
+      "category": "multi-tenant",
+      "files": [
+        "src/lib/auth/signup.ts"
+      ],
+      "dependencies": [
+        "MT-001",
+        "BS-101"
+      ]
+    },
+    {
+      "id": "MT-012",
+      "name": "Custom Domain Self-Serve",
+      "description": "Allow tenants to configure custom domains with DNS verification",
+      "priority": "P2",
+      "phase": 10,
+      "effort": "8pts",
+      "passes": true,
+      "category": "multi-tenant",
+      "files": [
+        "src/app/admin/domains/"
+      ],
+      "dependencies": [
+        "MT-001"
+      ]
+    },
+    {
+      "id": "MT-013",
+      "name": "Tenant Analytics Dashboard",
+      "description": "Per-tenant analytics with orders, revenue, conversion metrics",
+      "priority": "P2",
+      "phase": 10,
+      "effort": "8pts",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/app/admin/analytics/"
+      ],
+      "dependencies": [
+        "MT-002",
+        "BS-701"
+      ]
+    },
+    {
+      "id": "PM-001",
+      "name": "Notebook Adapter Interface",
+      "description": "Base interface with capabilities, asset requirements, quote, createOrder, getStatus, preflight",
+      "priority": "P0",
+      "phase": 11,
+      "effort": "5pts",
+      "passes": true,
+      "category": "adapters",
+      "files": [
+        "lib/adapters/notebook-adapter.ts",
+        "lib/adapters/README.md"
+      ],
+      "dependencies": [
+        "BS-601"
+      ]
+    },
+    {
+      "id": "PM-002",
+      "name": "Cover-Only Notebook Adapter",
+      "description": "Mode B adapter: user customizes cover, uses pre-approved stock interior PDF",
+      "priority": "P0",
+      "phase": 11,
+      "effort": "5pts",
+      "passes": true,
+      "category": "adapters",
+      "files": [
+        "lib/adapters/cover-only-adapter.ts"
+      ],
+      "dependencies": [
+        "PM-001"
+      ]
+    },
+    {
+      "id": "PM-003",
+      "name": "Custom Interior Notebook Adapter",
+      "description": "Mode A adapter: user edits pages (planner layouts, prompts, etc), generates print-ready interior PDF",
+      "priority": "P1",
+      "phase": 11,
+      "effort": "13pts",
+      "passes": true,
+      "category": "adapters",
+      "files": [
+        "src/lib/adapters/custom-interior-adapter.ts"
+      ],
+      "dependencies": [
+        "PM-001",
+        "BS-401"
+      ]
+    },
+    {
+      "id": "PM-004",
+      "name": "Stock Interior Library",
+      "description": "Pre-approved interior PDFs (lined, dotted, blank, planner v1) for cover-only mode",
+      "priority": "P0",
+      "phase": 11,
+      "effort": "3pts",
+      "passes": true,
+      "category": "assets",
+      "files": [
+        "lib/interiors/stock-library.ts",
+        "lib/interiors/README.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PM-005",
+      "name": "Interior PDF Render Service",
+      "description": "Generate print-ready multi-page interior PDF from user's page editor content",
+      "priority": "P1",
+      "phase": 11,
+      "effort": "13pts",
+      "passes": true,
+      "category": "rendition",
+      "files": [
+        "src/lib/rendition/interior-renderer.ts"
+      ],
+      "dependencies": [
+        "BS-401",
+        "PM-003"
+      ]
+    },
+    {
+      "id": "PM-006",
+      "name": "Interior Template Versioning",
+      "description": "Store template versions so reprints reproduce exactly",
+      "priority": "P1",
+      "phase": 11,
+      "effort": "5pts",
+      "passes": true,
+      "category": "versioning",
+      "files": [
+        "src/lib/templates/versioning.ts"
+      ],
+      "dependencies": [
+        "BS-205",
+        "PM-003"
+      ]
+    },
+    {
+      "id": "PM-007",
+      "name": "Spiral Binding Preflight",
+      "description": "Validate margins near spiral edge, bleed zones, DPI for spiral-bound notebooks",
+      "priority": "P0",
+      "phase": 11,
+      "effort": "5pts",
+      "passes": true,
+      "category": "rendition",
+      "files": [
+        "lib/rendition/preflight-spiral.ts",
+        "lib/rendition/preflight-spiral.README.md"
+      ],
+      "dependencies": [
+        "BS-402"
+      ]
+    },
+    {
+      "id": "PM-008",
+      "name": "Product Mode Capabilities",
+      "description": "supportsCoverOnly, supportsCustomInterior, supportsSpiralBinding, allowedSizes, paperTypes, pageCounts",
+      "priority": "P0",
+      "phase": 11,
+      "effort": "3pts",
+      "passes": true,
+      "category": "adapters",
+      "files": [
+        "lib/adapters/capabilities.ts",
+        "lib/adapters/capabilities.README.md"
+      ],
+      "dependencies": [
+        "PM-001"
+      ]
+    },
+    {
+      "id": "PM-009",
+      "name": "Print Provider Adapter Composition",
+      "description": "Compose product mode + print provider adapters (e.g., CustomInterior + Prodigi)",
+      "priority": "P1",
+      "phase": 11,
+      "effort": "5pts",
+      "passes": true,
+      "category": "adapters",
+      "files": [
+        "lib/adapters/composer.ts",
+        "e2e/adapter-composition.spec.ts"
+      ],
+      "dependencies": [
+        "PM-001",
+        "PM-002",
+        "BS-602"
+      ]
+    },
+    {
+      "id": "PM-010",
+      "name": "Niche Template Marketplace",
+      "description": "Faith templates, teacher templates, fitness templates per tenant niche",
+      "priority": "P2",
+      "phase": 11,
+      "effort": "8pts",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/templates/photo-book/niche/"
+      ],
+      "dependencies": [
+        "MT-006",
+        "PM-003"
+      ]
+    },
+    {
+      "id": "PM-011",
+      "name": "User Preference Self-Select",
+      "description": "'What are you using this for?' preference selection for culture-matching",
+      "priority": "P1",
+      "phase": 11,
+      "effort": "3pts",
+      "passes": true,
+      "category": "multi-tenant",
+      "files": [
+        "src/components/onboarding/preferences.tsx"
+      ],
+      "dependencies": [
+        "MT-011"
+      ]
+    },
+    {
+      "id": "PM-012",
+      "name": "Niche Landing Pages",
+      "description": "Tailored landing pages for niche use-cases (prayer journal, bible study notes, sermon notes)",
+      "priority": "P2",
+      "phase": 11,
+      "effort": "5pts",
+      "passes": true,
+      "category": "marketing",
+      "files": [
+        "src/app/landing/"
+      ],
+      "dependencies": [
+        "MT-004"
+      ]
+    },
+    {
+      "id": "PB-001",
+      "name": "Photo Drag-and-Drop Upload",
+      "description": "Drag-and-drop image upload supporting up to 100 images per project",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "app/(app)/photo-book/upload/page.tsx",
+        "components/photo-book/PhotoUploader.tsx",
+        "app/api/photo-book/projects/route.ts",
+        "app/api/photo-book/projects/[projectId]/photos/route.ts",
+        "supabase/migrations/20260121000010_add_photo_book_schema.sql"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PB-002",
+      "name": "Cloud Storage Integration",
+      "description": "Bulk upload from Google Photos, Dropbox, and iCloud",
+      "priority": "P1",
+      "phase": 12,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/cloud-import/"
+      ],
+      "dependencies": [
+        "PB-001"
+      ]
+    },
+    {
+      "id": "PB-003",
+      "name": "Image Auto-Organization",
+      "description": "Auto-organize uploaded images by date using EXIF metadata",
+      "priority": "P1",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/exif/"
+      ],
+      "dependencies": [
+        "PB-001"
+      ]
+    },
+    {
+      "id": "PB-004",
+      "name": "Image Optimization Pipeline",
+      "description": "Automatic compression, format conversion, and thumbnail generation",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "lib/image-processing/optimizer.ts",
+        "lib/image-processing/server-optimizer.ts",
+        "lib/image-processing/README.md"
+      ],
+      "dependencies": [
+        "PB-001"
+      ]
+    },
+    {
+      "id": "PB-005",
+      "name": "R2/S3 Storage Integration",
+      "description": "Cloudflare R2 or AWS S3 storage for uploaded images",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "lib/storage/index.ts",
+        "lib/storage/providers/supabase.ts",
+        "lib/storage/providers/s3.ts",
+        "lib/storage/providers/r2.ts",
+        "lib/storage/README.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PB-006",
+      "name": "Smart Auto-Layout Engine",
+      "description": "Automated layout generation based on image count and template rules",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "lib/layout-engine/",
+        "app/api/photo-book/projects/[projectId]/layout/route.ts",
+        "e2e/layout-engine.spec.ts"
+      ],
+      "dependencies": [
+        "PB-001"
+      ]
+    },
+    {
+      "id": "PB-007",
+      "name": "Photo Book Templates",
+      "description": "Pre-built templates: Classic, Collage, Magazine, Minimalist",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/templates/photo-book/"
+      ],
+      "dependencies": [
+        "PB-006"
+      ]
+    },
+    {
+      "id": "PB-008",
+      "name": "Auto-Caption Generation",
+      "description": "Generate captions from EXIF metadata (date, location)",
+      "priority": "P2",
+      "phase": 12,
+      "effort": "3pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/caption-generator/"
+      ],
+      "dependencies": [
+        "PB-003"
+      ]
+    },
+    {
+      "id": "PB-009",
+      "name": "Cover Design Editor",
+      "description": "Customize photo book cover with title, subtitle, and image",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/components/photo-book/cover-editor/"
+      ],
+      "dependencies": [
+        "PB-007"
+      ]
+    },
+    {
+      "id": "PB-010",
+      "name": "Print-Ready PDF Generation",
+      "description": "Generate PDFs with bleed (3mm), safe zone (6mm), 300 DPI, CMYK",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/pdf-generator/"
+      ],
+      "dependencies": [
+        "PB-006",
+        "PB-009"
+      ]
+    },
+    {
+      "id": "PB-011",
+      "name": "Multiple Page Sizes",
+      "description": "Support for 8x8, 10x10, 12x12, and 8x11 inch formats",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/pdf-generator/sizes.ts"
+      ],
+      "dependencies": [
+        "PB-010"
+      ]
+    },
+    {
+      "id": "PB-012",
+      "name": "Binding Options",
+      "description": "Hardcover, softcover, and layflat binding options",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "3pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/print-options/"
+      ],
+      "dependencies": [
+        "PB-010"
+      ]
+    },
+    {
+      "id": "PB-013",
+      "name": "Prodigi API Integration",
+      "description": "REST API integration with Prodigi for order creation and tracking",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/providers/prodigi/"
+      ],
+      "dependencies": [
+        "PB-010"
+      ]
+    },
+    {
+      "id": "PB-014",
+      "name": "Shipping Calculator",
+      "description": "Calculate domestic and international shipping costs via Prodigi",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/providers/prodigi/shipping.ts"
+      ],
+      "dependencies": [
+        "PB-013"
+      ]
+    },
+    {
+      "id": "PB-015",
+      "name": "Print Order Webhooks",
+      "description": "Handle Prodigi webhooks for order status updates",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/api/webhooks/prodigi/"
+      ],
+      "dependencies": [
+        "PB-013"
+      ]
+    },
+    {
+      "id": "PB-016",
+      "name": "Photo Book Dashboard",
+      "description": "User dashboard for project management, order history, and tracking",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/photo-book/dashboard/"
+      ],
+      "dependencies": [
+        "PB-013"
+      ]
+    },
+    {
+      "id": "PB-017",
+      "name": "Preview Mode",
+      "description": "Flip-through preview of photo book pages before ordering",
+      "priority": "P0",
+      "phase": 12,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/components/photo-book/preview/"
+      ],
+      "dependencies": [
+        "PB-006"
+      ]
+    },
+    {
+      "id": "PB-018",
+      "name": "PDF Download Option",
+      "description": "Allow users to download PDF for self-printing",
+      "priority": "P1",
+      "phase": 12,
+      "effort": "3pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/api/photo-book/download/"
+      ],
+      "dependencies": [
+        "PB-010"
+      ]
+    },
+    {
+      "id": "PB-019",
+      "name": "Manual Layout Adjustment",
+      "description": "Drag-and-drop editor for adjusting photo positions on pages",
+      "priority": "P0",
+      "phase": 13,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/components/photo-book/editor/"
+      ],
+      "dependencies": [
+        "PB-006"
+      ]
+    },
+    {
+      "id": "PB-020",
+      "name": "Page Reordering",
+      "description": "Drag-and-drop page reordering in photo book",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "components/photo-book/page-sorter/PageSorter.tsx",
+        "components/photo-book/page-sorter/index.ts",
+        "e2e/photo-book-page-reordering.spec.ts"
+      ],
+      "dependencies": [
+        "PB-019"
+      ]
+    },
+    {
+      "id": "PB-021",
+      "name": "Text Overlay Editor",
+      "description": "Add captions, dates, and quotes to photo book pages",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "components/photo-book/text-editor/TextOverlayEditor.tsx",
+        "components/photo-book/text-editor/index.ts",
+        "e2e/photo-book-text-overlay.spec.ts"
+      ],
+      "dependencies": [
+        "PB-019"
+      ]
+    },
+    {
+      "id": "PB-022",
+      "name": "Photo Filters & Effects",
+      "description": "Apply B&W, vintage, and other filters to images",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/image-filters/"
+      ],
+      "dependencies": [
+        "PB-001"
+      ]
+    },
+    {
+      "id": "PB-023",
+      "name": "Crop & Rotate Tools",
+      "description": "Individual image cropping and rotation within layouts",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/components/photo-book/image-tools/"
+      ],
+      "dependencies": [
+        "PB-019"
+      ]
+    },
+    {
+      "id": "PB-024",
+      "name": "AI Smart Photo Selection",
+      "description": "AI-powered removal of duplicates and blurry images",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/ai/photo-selection/"
+      ],
+      "dependencies": [
+        "PB-001"
+      ]
+    },
+    {
+      "id": "PB-025",
+      "name": "AI Auto-Enhance",
+      "description": "Automatic brightness, contrast, and color enhancement",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/ai/auto-enhance/"
+      ],
+      "dependencies": [
+        "PB-024"
+      ]
+    },
+    {
+      "id": "PB-026",
+      "name": "Face Detection Cropping",
+      "description": "Use face detection for optimal image cropping",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/ai/face-detection/"
+      ],
+      "dependencies": [
+        "PB-024"
+      ]
+    },
+    {
+      "id": "PB-027",
+      "name": "AI Caption Suggestions",
+      "description": "Generate caption suggestions using image recognition",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/ai/caption-ai/"
+      ],
+      "dependencies": [
+        "PB-024"
+      ]
+    },
+    {
+      "id": "PB-028",
+      "name": "Shareable Preview Links",
+      "description": "Generate shareable links for photo book previews",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "3pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/photo-book/share/"
+      ],
+      "dependencies": [
+        "PB-017"
+      ]
+    },
+    {
+      "id": "PB-029",
+      "name": "Collaborative Editing",
+      "description": "Multiple users can edit the same photo book project",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/collaboration/",
+        "supabase/migrations/20260202400000_add_photo_book_collaboration.sql",
+        "app/api/photo-book/projects/[projectId]/collaborators/route.ts",
+        "app/api/photo-book/projects/[projectId]/collaborators/[collaboratorId]/route.ts",
+        "app/api/photo-book/projects/[projectId]/activity/route.ts",
+        "app/api/photo-book/projects/[projectId]/presence/route.ts",
+        "components/photo-book/collaboration/CollaboratorsList.tsx",
+        "components/photo-book/collaboration/InviteCollaboratorDialog.tsx",
+        "components/photo-book/collaboration/ActivityFeed.tsx",
+        "components/photo-book/collaboration/PresenceIndicators.tsx",
+        "e2e/photo-book-collaboration.spec.ts"
+      ],
+      "dependencies": [
+        "PB-019"
+      ]
+    },
+    {
+      "id": "PB-030",
+      "name": "Approval Workflow",
+      "description": "Client approval workflow for photographers delivering albums",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/approval-workflow/",
+        "supabase/migrations/20260202410000_add_approval_workflow.sql"
+      ],
+      "dependencies": [
+        "PB-029"
+      ]
+    },
+    {
+      "id": "PB-031",
+      "name": "Page Comments & Feedback",
+      "description": "Add comments and feedback on specific pages",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/approval-workflow/index.ts",
+        "supabase/migrations/20260202410000_add_approval_workflow.sql"
+      ],
+      "dependencies": [
+        "PB-029"
+      ]
+    },
+    {
+      "id": "PB-032",
+      "name": "Gelato Integration",
+      "description": "Backup print provider for EU fulfillment",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/providers/gelato/types.ts",
+        "src/lib/providers/gelato/client.ts",
+        "src/lib/providers/gelato/adapter.ts",
+        "src/lib/providers/gelato/index.ts",
+        "src/lib/providers/gelato/README.md",
+        "e2e/gelato-integration.spec.ts"
+      ],
+      "dependencies": [
+        "PB-013"
+      ]
+    },
+    {
+      "id": "PB-033",
+      "name": "Multi-Provider Price Comparison",
+      "description": "Compare prices across print providers",
+      "priority": "P2",
+      "phase": 13,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/providers/price-compare.ts"
+      ],
+      "dependencies": [
+        "PB-032"
+      ]
+    },
+    {
+      "id": "PB-034",
+      "name": "Provider Failover System",
+      "description": "Automatic failover if primary print provider is unavailable",
+      "priority": "P1",
+      "phase": 13,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "lib/providers/failover.ts",
+        "lib/providers/failover.README.md",
+        "e2e/provider-failover.spec.ts"
+      ],
+      "dependencies": [
+        "PB-032"
+      ]
+    },
+    {
+      "id": "PB-035",
+      "name": "Template Marketplace",
+      "description": "Browse and purchase professional photo book templates",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/photo-book/marketplace/",
+        "lib/photo-book/template-marketplace-service.ts",
+        "app/api/photo-book/marketplace/route.ts",
+        "app/api/photo-book/marketplace/[templateId]/route.ts",
+        "src/app/photo-book/marketplace/page.tsx",
+        "src/app/photo-book/marketplace/[templateId]/page.tsx",
+        "supabase/migrations/20260202300000_add_template_marketplace.sql",
+        "e2e/template-marketplace.spec.ts"
+      ],
+      "dependencies": [
+        "PB-007"
+      ]
+    },
+    {
+      "id": "PB-036",
+      "name": "User Template Sharing",
+      "description": "Allow users to create and sell their own templates",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/photo-book/my-templates/"
+      ],
+      "dependencies": [
+        "PB-035"
+      ]
+    },
+    {
+      "id": "PB-037",
+      "name": "Seasonal Template Collections",
+      "description": "Holiday, graduation, and seasonal template packs",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/templates/photo-book/seasonal/"
+      ],
+      "dependencies": [
+        "PB-035"
+      ]
+    },
+    {
+      "id": "PB-038",
+      "name": "Brand Kit Integration",
+      "description": "Save and apply brand logos, colors, and fonts",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "lib/brand-kit/index.ts",
+        "supabase/migrations/20260202200000_add_brand_kits.sql",
+        "components/brand-kit/BrandKitManager.tsx",
+        "app/api/brand-kits/route.ts",
+        "app/api/brand-kits/[id]/route.ts"
+      ],
+      "dependencies": [
+        "PB-021"
+      ]
+    },
+    {
+      "id": "PB-039",
+      "name": "White-Label Solution",
+      "description": "White-label photo book platform for photographers/agencies",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "21pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/white-label/"
+      ],
+      "dependencies": [
+        "PB-035",
+        "MT-001"
+      ]
+    },
+    {
+      "id": "PB-040",
+      "name": "Bulk Ordering",
+      "description": "Order multiple copies with volume discounts",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "lib/bulk-orders/index.ts",
+        "app/api/bulk-orders/route.ts",
+        "app/api/bulk-orders/[id]/route.ts"
+      ],
+      "dependencies": [
+        "PB-013"
+      ]
+    },
+    {
+      "id": "PB-041",
+      "name": "Client Portals",
+      "description": "Dedicated portals for clients to upload photos and approve designs",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/client-portal/"
+      ],
+      "dependencies": [
+        "PB-030"
+      ]
+    },
+    {
+      "id": "PB-042",
+      "name": "Invoice Generation",
+      "description": "Generate invoices for B2B customers",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/invoicing/"
+      ],
+      "dependencies": [
+        "PB-040"
+      ]
+    },
+    {
+      "id": "PB-043",
+      "name": "Reseller Pricing",
+      "description": "Tiered pricing for resellers and agencies",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "5pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/lib/pricing/reseller.ts"
+      ],
+      "dependencies": [
+        "PB-039"
+      ]
+    },
+    {
+      "id": "PB-044",
+      "name": "Photo Book API",
+      "description": "Public API for developers to integrate photo book creation",
+      "priority": "P2",
+      "phase": 14,
+      "effort": "13pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/api/v1/photo-book/"
+      ],
+      "dependencies": [
+        "PB-010",
+        "PB-013"
+      ]
+    },
+    {
+      "id": "PB-045",
+      "name": "Photo Book Analytics",
+      "description": "Dashboard showing conversions, popular templates, order metrics",
+      "priority": "P1",
+      "phase": 14,
+      "effort": "8pts",
+      "passes": true,
+      "category": "photo-book",
+      "files": [
+        "src/app/photo-book/analytics/",
+        "lib/photo-book/analytics-service.ts",
+        "app/api/photo-book/analytics/route.ts",
+        "app/api/photo-book/analytics/export/route.ts",
+        "e2e/photo-book-analytics.spec.ts"
+      ],
+      "dependencies": [
+        "PB-016"
+      ]
+    },
+    {
+      "id": "TRACK-001",
+      "name": "Tracking SDK Integration",
+      "description": "Install and initialize user event tracking SDK from ACD",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-002",
+      "name": "Acquisition Event Tracking",
+      "description": "Track landing_view, cta_click, pricing_view with UTM params",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/analytics/acquisition.ts",
+        "components/analytics/TrackedLink.tsx",
+        "components/analytics/TrackedButton.tsx",
+        "components/homepage/LandingPage.tsx",
+        "e2e/acquisition-tracking.spec.ts"
+      ]
+    },
+    {
+      "id": "TRACK-003",
+      "name": "Activation Event Tracking",
+      "description": "Track signup_start, login_success, activation_complete",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-004",
+      "name": "Core Value Event Tracking",
+      "description": "Track product-specific value events (created, completed, downloaded)",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "app/api/books/route.ts",
+        "app/api/books/[id]/chapters/[chapterId]/route.ts",
+        "app/api/books/[id]/cover/route.ts",
+        "lib/rendition/worker.ts",
+        "e2e/tracking-events.spec.ts"
+      ]
+    },
+    {
+      "id": "TRACK-005",
+      "name": "Monetization Event Tracking",
+      "description": "Track checkout_started, purchase_completed, subscription events",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/stripe/checkout.ts",
+        "e2e/tracking-events.spec.ts"
+      ]
+    },
+    {
+      "id": "TRACK-006",
+      "name": "Retention Event Tracking",
+      "description": "Track return_session, returning_user product events",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "lib/analytics/retention.ts"
+      ]
+    },
+    {
+      "id": "TRACK-007",
+      "name": "Error & Performance Tracking",
+      "description": "Track errors, API failures, and Core Web Vitals",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "lib/analytics/error-tracking.ts"
+      ]
+    },
+    {
+      "id": "TRACK-008",
+      "name": "User Identification",
+      "description": "Identify users on login with traits (email, plan, etc.)",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-001",
+      "name": "Meta Pixel Installation",
+      "description": "Install Facebook Pixel script in app layout",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-pixel.ts",
+        "components/providers/meta-pixel-provider.tsx",
+        "app/layout.tsx"
+      ]
+    },
+    {
+      "id": "META-002",
+      "name": "PageView Tracking",
+      "description": "Track all page views with Meta Pixel",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "components/providers/meta-pixel-provider.tsx"
+      ]
+    },
+    {
+      "id": "META-003",
+      "name": "Standard Events Mapping",
+      "description": "Map app events to Meta standard events (Purchase, Lead, etc.)",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-integration.ts",
+        "lib/stripe/checkout.ts"
+      ]
+    },
+    {
+      "id": "META-004",
+      "name": "CAPI Server-Side Events",
+      "description": "Implement Conversions API for server-side event tracking",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-capi.ts",
+        "lib/analytics/meta-integration.ts"
+      ]
+    },
+    {
+      "id": "META-005",
+      "name": "Event Deduplication",
+      "description": "Use event_id to deduplicate browser and server events",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-pixel.ts",
+        "lib/analytics/meta-integration.ts"
+      ]
+    },
+    {
+      "id": "META-006",
+      "name": "User Data Hashing (PII)",
+      "description": "Hash email/phone with SHA256 for CAPI user matching",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-capi.ts"
+      ]
+    },
+    {
+      "id": "META-007",
+      "name": "Custom Audiences Setup",
+      "description": "Configure custom audiences based on user behavior",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-audiences.ts"
+      ]
+    },
+    {
+      "id": "META-008",
+      "name": "Conversion Optimization",
+      "description": "Set up conversion optimization for key events",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "lib/analytics/meta-optimization.ts"
+      ]
+    },
+    {
+      "id": "GDP-001",
+      "name": "Supabase Schema Setup",
+      "description": "Create person, identity_link, event, email_message, email_event, subscription, deal, person_features, segment tables",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "supabase/migrations/20260126000001_add_growth_data_plane.sql",
+        "e2e/growth-data-plane.spec.ts"
+      ],
+      "dependencies": [
+        "DB-001"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-002",
+      "name": "Person & Identity Tables",
+      "description": "Canonical person table with identity links for posthog, stripe, meta",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "supabase/migrations/20260126000001_add_growth_data_plane.sql"
+      ],
+      "dependencies": [
+        "GDP-001"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-003",
+      "name": "Unified Events Table",
+      "description": "Normalized events from web/app/email/stripe/booking/meta sources",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "supabase/migrations/20260126000001_add_growth_data_plane.sql"
+      ],
+      "dependencies": [
+        "GDP-001"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-004",
+      "name": "Resend Webhook Edge Function",
+      "description": "Verify Svix signature, store email events, map tags to person_id",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "app/api/webhooks/resend/route.ts",
+        "lib/email/resend-client.ts",
+        "lib/email/README.md",
+        "e2e/resend-webhook.spec.ts"
+      ],
+      "dependencies": [
+        "GDP-001",
+        "GDP-002",
+        "GDP-003"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-005",
+      "name": "Email Event Tracking",
+      "description": "Track delivered/opened/clicked/bounced events from Resend webhooks",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "app/api/webhooks/resend/route.ts",
+        "e2e/resend-webhook.spec.ts"
+      ],
+      "dependencies": [
+        "GDP-004"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-006",
+      "name": "Click Redirect Tracker",
+      "description": "Attribution spine: email → click → session → conversion with first-party cookie",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/tracking/click-redirect.ts",
+        "lib/tracking/README.md",
+        "lib/email/email-message-sync.ts",
+        "app/api/track/click/route.ts",
+        "supabase/migrations/20260129000001_add_click_tracking_functions.sql",
+        "e2e/click-tracking.spec.ts",
+        "lib/email/lifecycle/index.ts"
+      ]
+    },
+    {
+      "id": "GDP-007",
+      "name": "Stripe Webhook Integration",
+      "description": "Handle subscription events, map stripe_customer_id to person_id",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "app/api/webhooks/stripe/route.ts",
+        "lib/stripe/subscription-sync.ts",
+        "lib/stripe/subscription-sync.README.md",
+        "e2e/stripe-subscription-sync.spec.ts"
+      ]
+    },
+    {
+      "id": "GDP-008",
+      "name": "Subscription Snapshot",
+      "description": "Upsert subscription status, plan, MRR from Stripe events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/stripe/subscription-sync.ts",
+        "supabase/migrations/20260126000001_add_growth_data_plane.sql",
+        "e2e/stripe-subscription-sync.spec.ts"
+      ]
+    },
+    {
+      "id": "GDP-009",
+      "name": "PostHog Identity Stitching",
+      "description": "Call posthog.identify(personId) on login/signup",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/identity/posthog-identity.ts",
+        "lib/identity/use-identity-sync.ts",
+        "lib/identity/README.md",
+        "app/auth/callback/route.ts",
+        "components/app-shell.tsx",
+        "e2e/posthog-identity.spec.ts"
+      ]
+    },
+    {
+      "id": "GDP-010",
+      "name": "Meta Pixel + CAPI Dedup",
+      "description": "Fire Pixel eventID matching CAPI event_id for deduplication",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "lib/analytics/event-dedup.ts",
+        "lib/analytics/meta-integration.ts",
+        "lib/analytics/DEDUPLICATION.md",
+        "e2e/meta-deduplication.spec.ts"
+      ],
+      "dependencies": [
+        "META-001",
+        "META-004",
+        "META-005"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-011",
+      "name": "Person Features Computation",
+      "description": "Compute active_days, core_actions, pricing_views, email_opens from events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "lib/features/person-features.ts",
+        "lib/features/README.md",
+        "app/api/features/compute/route.ts",
+        "app/api/cron/compute-features/route.ts",
+        "e2e/person-features.spec.ts"
+      ],
+      "dependencies": [
+        "GDP-001",
+        "GDP-003"
+      ],
+      "passes": true
+    },
+    {
+      "id": "GDP-012",
+      "name": "Segment Engine",
+      "description": "Evaluate segment membership and trigger automations (Resend, Meta, outbound)",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "lib/segments/segment-engine.ts",
+        "lib/segments/README.md",
+        "app/api/segments/route.ts",
+        "app/api/segments/[segmentId]/route.ts",
+        "app/api/segments/[segmentId]/evaluate/route.ts",
+        "app/api/segments/[segmentId]/compute-membership/route.ts",
+        "app/api/segments/[segmentId]/members/route.ts",
+        "app/api/cron/compute-segments/route.ts",
+        "e2e/segment-engine.spec.ts"
+      ]
+    }
+  ],
+  "lastUpdated": "2026-02-02T12:00:07.619Z",
+  "stats": {
+    "total": 142,
+    "passing": 142,
+    "pending": 0,
+    "percentComplete": "100.0"
+  }
+}

@@ -1,0 +1,1197 @@
+{
+  "project": "SnapMix",
+  "description": "Snapchat-style producer-to-producer track sharing platform with real-time visual playback, presence awareness, and networking",
+  "version": "1.0",
+  "totalFeatures": 130,
+  "completedFeatures": 130,
+  "lastUpdated": "2026-02-13",
+  "prds": [
+    "docs/PRD_SNAPMIX.md"
+  ],
+  "phases": {
+    "phase1_infrastructure": "Project setup, Next.js, database schema, auth, design system",
+    "phase2_upload": "Track upload, transcoding, waveform generation, storage",
+    "phase3_snaps": "Snap creation, expiration, passcodes, link generation",
+    "phase4_player": "Landing page player, visual experience, WebAudio",
+    "phase5_realtime": "WebSocket presence, live events, reactions",
+    "phase6_comments": "Timecoded comments, markers, audio replies",
+    "phase7_networking": "Profiles, follows, DMs, collab threads",
+    "phase8_security": "Streaming security, watermarking, token management",
+    "phase9_dj": "DJ features: BPM/key detection, B2B matching, crate sharing",
+    "phase10_monetization": "Pricing tiers, Stripe, usage limits",
+    "phase11_live": "Live Listen Rooms, real-time co-listening",
+    "phase12_polish": "Analytics, notifications, mobile, testing, docs"
+  },
+  "features": [
+    {
+      "id": "INFRA-001",
+      "name": "Next.js 15 Project Setup",
+      "description": "Initialize Next.js 15 with App Router, TypeScript, TailwindCSS, shadcn/ui",
+      "category": "infrastructure",
+      "priority": "P0",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "INFRA-002",
+      "name": "Database Schema & Migrations",
+      "description": "Supabase/Postgres schema for users, snaps, tracks, sessions, events, comments, replies",
+      "category": "infrastructure",
+      "priority": "P0",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "INFRA-003",
+      "name": "Design System & Theme",
+      "description": "Dark-mode-first design system with music/producer aesthetic, custom components",
+      "category": "infrastructure",
+      "priority": "P0",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "INFRA-004",
+      "name": "Environment Configuration",
+      "description": "Environment variables, secrets management, development/staging/production configs",
+      "category": "infrastructure",
+      "priority": "P0",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "INFRA-005",
+      "name": "CI/CD Pipeline",
+      "description": "GitHub Actions for build, test, lint, deploy to Vercel/Netlify",
+      "category": "infrastructure",
+      "priority": "P1",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "AUTH-001",
+      "name": "Email/Password Authentication",
+      "description": "Sign up and sign in with email/password via Supabase Auth",
+      "category": "auth",
+      "priority": "P0",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "AUTH-002",
+      "name": "OAuth Social Login",
+      "description": "Sign in with Google, Apple, and Discord (producer community staple)",
+      "category": "auth",
+      "priority": "P1",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "AUTH-003",
+      "name": "Session Management",
+      "description": "JWT-based session management with refresh tokens and device tracking",
+      "category": "auth",
+      "priority": "P0",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "AUTH-004",
+      "name": "Magic Link Login",
+      "description": "Passwordless magic link authentication via email",
+      "category": "auth",
+      "priority": "P1",
+      "phase": "phase1_infrastructure",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-001",
+      "name": "Track Upload Flow",
+      "description": "Drag-and-drop or file picker upload for audio files (WAV, MP3, FLAC, AIFF)",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-002",
+      "name": "Audio Transcoding Pipeline",
+      "description": "Server-side ffmpeg transcoding to AAC/Opus for streaming, preserve original",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-003",
+      "name": "Waveform Peaks Extraction",
+      "description": "Extract waveform peak data as JSON for client-side rendering",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-004",
+      "name": "HLS Segment Generation",
+      "description": "Generate HLS manifest and segments with short TTLs for secure streaming",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-005",
+      "name": "Object Storage Integration",
+      "description": "S3/R2 storage for originals, transcoded files, waveform peaks, cover art",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-006",
+      "name": "CDN Distribution",
+      "description": "CDN-fronted delivery for audio segments and static assets",
+      "category": "upload",
+      "priority": "P1",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-007",
+      "name": "Upload Progress & Status",
+      "description": "Real-time upload progress bar with transcoding status updates",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "UPLOAD-008",
+      "name": "Worker Queue System",
+      "description": "Background job queue for transcoding, peaks extraction, watermark rendering",
+      "category": "upload",
+      "priority": "P0",
+      "phase": "phase2_upload",
+      "passes": true
+    },
+    {
+      "id": "SNAP-001",
+      "name": "Create Snap Flow",
+      "description": "UI to create a snap: select track, set title, message, expiration, passcode",
+      "category": "snaps",
+      "priority": "P0",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-002",
+      "name": "Snap Link Generation",
+      "description": "Generate unique shareable snap links (app.bpmwave.com/s/<snapId>)",
+      "category": "snaps",
+      "priority": "P0",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-003",
+      "name": "Expiration Controls",
+      "description": "Set snap expiration by time (hours/days) and/or max play count",
+      "category": "snaps",
+      "priority": "P0",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-004",
+      "name": "Passcode Protection",
+      "description": "Optional passcode lock on snap links with hashed storage",
+      "category": "snaps",
+      "priority": "P0",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-005",
+      "name": "Visibility Modes",
+      "description": "Support link_only, invite_only, and teaser visibility modes",
+      "category": "snaps",
+      "priority": "P1",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-006",
+      "name": "Snap Recipient Selection",
+      "description": "Choose specific recipients by username or email for invite-only snaps",
+      "category": "snaps",
+      "priority": "P1",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-007",
+      "name": "Snap Management Dashboard",
+      "description": "View all sent snaps with status, open count, and management actions",
+      "category": "snaps",
+      "priority": "P1",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-008",
+      "name": "Revoke Snap Access",
+      "description": "Instantly revoke access to a snap, killing active streams",
+      "category": "snaps",
+      "priority": "P1",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "SNAP-009",
+      "name": "Public Teaser Mode",
+      "description": "15-second public preview with gated full listen requiring approval",
+      "category": "snaps",
+      "priority": "P2",
+      "phase": "phase3_snaps",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-001",
+      "name": "Landing Page Player",
+      "description": "Full-screen landing page player with play button, track info, and visuals",
+      "category": "player",
+      "priority": "P0",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-002",
+      "name": "Waveform Visualization",
+      "description": "Interactive waveform display with playhead, seek, and zoom",
+      "category": "player",
+      "priority": "P0",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-003",
+      "name": "Spectrum Analyzer",
+      "description": "Real-time frequency spectrum bars using WebAudio AnalyserNode",
+      "category": "player",
+      "priority": "P1",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-004",
+      "name": "Generative Visuals",
+      "description": "WebGL/shader-based generative visuals that react to audio amplitude and frequency",
+      "category": "player",
+      "priority": "P2",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-005",
+      "name": "Cover Art Scene Templates",
+      "description": "Selectable visual templates (like TikTok filters but for audio playback)",
+      "category": "player",
+      "priority": "P2",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-006",
+      "name": "Playback Controls",
+      "description": "Play/pause, seek, volume, loop section, playback speed controls",
+      "category": "player",
+      "priority": "P0",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-007",
+      "name": "Mobile Responsive Player",
+      "description": "Fully responsive landing page player for mobile browsers",
+      "category": "player",
+      "priority": "P0",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-008",
+      "name": "Passcode Entry Screen",
+      "description": "Clean passcode entry UI before revealing the player",
+      "category": "player",
+      "priority": "P0",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "PLAYER-009",
+      "name": "Expired Snap Screen",
+      "description": "Graceful expired/unavailable state with sender info and request access option",
+      "category": "player",
+      "priority": "P1",
+      "phase": "phase4_player",
+      "passes": true
+    },
+    {
+      "id": "RT-001",
+      "name": "WebSocket Connection Layer",
+      "description": "WebSocket server for real-time snap events and presence",
+      "category": "realtime",
+      "priority": "P0",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-002",
+      "name": "snap.opened Event",
+      "description": "Emit event when recipient opens the snap landing page",
+      "category": "realtime",
+      "priority": "P0",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-003",
+      "name": "snap.playing / snap.paused Events",
+      "description": "Emit play/pause state changes to sender in real time",
+      "category": "realtime",
+      "priority": "P0",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-004",
+      "name": "snap.position Tracking",
+      "description": "Throttled playhead position updates (every 1-3s) visible to sender",
+      "category": "realtime",
+      "priority": "P0",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-005",
+      "name": "Quick Reactions",
+      "description": "Emoji reactions (\ud83d\udd25\ud83d\udca1\ud83c\udf9a\ufe0f\ud83d\ude2e\u200d\ud83d\udca8) with timecode, visible to both parties",
+      "category": "realtime",
+      "priority": "P0",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-006",
+      "name": "Sender Live Dashboard",
+      "description": "Real-time dashboard showing all active listeners with their playback state",
+      "category": "realtime",
+      "priority": "P1",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-007",
+      "name": "Presence Indicators",
+      "description": "Show 'listening now' badges and active session count on snaps",
+      "category": "realtime",
+      "priority": "P1",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-008",
+      "name": "Replay Detection",
+      "description": "Track and display replay count ('Replayed 3x') to sender",
+      "category": "realtime",
+      "priority": "P1",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "RT-009",
+      "name": "Loop Section Detection",
+      "description": "Detect and report when listener loops a specific section (e.g., 'Looping bar 9-16')",
+      "category": "realtime",
+      "priority": "P2",
+      "phase": "phase5_realtime",
+      "passes": true
+    },
+    {
+      "id": "COMMENT-001",
+      "name": "Timecoded Comments",
+      "description": "Drop text comments at specific timecodes visible on the waveform",
+      "category": "comments",
+      "priority": "P0",
+      "phase": "phase6_comments",
+      "passes": true
+    },
+    {
+      "id": "COMMENT-002",
+      "name": "Marker System",
+      "description": "Visual markers on waveform for sender and receiver notes at timecodes",
+      "category": "comments",
+      "priority": "P1",
+      "phase": "phase6_comments",
+      "passes": true
+    },
+    {
+      "id": "COMMENT-003",
+      "name": "Audio Reply (Snap Back)",
+      "description": "Record and send 15-30s audio replies attached to a snap",
+      "category": "comments",
+      "priority": "P1",
+      "phase": "phase6_comments",
+      "passes": true
+    },
+    {
+      "id": "COMMENT-004",
+      "name": "Comment Thread Replies",
+      "description": "Reply to specific timecoded comments creating threaded discussions",
+      "category": "comments",
+      "priority": "P2",
+      "phase": "phase6_comments",
+      "passes": true
+    },
+    {
+      "id": "COMMENT-005",
+      "name": "Comment Notifications",
+      "description": "Push/email notifications when new comments or replies arrive",
+      "category": "comments",
+      "priority": "P1",
+      "phase": "phase6_comments",
+      "passes": true
+    },
+    {
+      "id": "NET-001",
+      "name": "Producer Profile Creation",
+      "description": "Profile with genres, DAW, role, city/timezone, bio, avatar, links",
+      "category": "networking",
+      "priority": "P1",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-002",
+      "name": "Looking For Tags",
+      "description": "Profile tags for what you're seeking (vocalist, mix help, collabs, feedback)",
+      "category": "networking",
+      "priority": "P1",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-003",
+      "name": "Follow System",
+      "description": "Follow/unfollow producers with follower counts and feed impact",
+      "category": "networking",
+      "priority": "P1",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-004",
+      "name": "Direct Messages",
+      "description": "DM system between users with snap attachment support",
+      "category": "networking",
+      "priority": "P1",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-005",
+      "name": "Collab Threads",
+      "description": "Snap threads that evolve into mini project chats for collaboration",
+      "category": "networking",
+      "priority": "P2",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-006",
+      "name": "Snap Feed",
+      "description": "Private feed of snaps received and sent with status indicators",
+      "category": "networking",
+      "priority": "P1",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-007",
+      "name": "Open Sessions Discovery",
+      "description": "See who's currently listening to something you shared",
+      "category": "networking",
+      "priority": "P2",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-008",
+      "name": "Producer Discovery / Search",
+      "description": "Search and discover producers by genre, DAW, role, city, looking-for tags",
+      "category": "networking",
+      "priority": "P1",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "NET-009",
+      "name": "Request Full Listen",
+      "description": "Request access to gated/teaser snaps from other producers",
+      "category": "networking",
+      "priority": "P2",
+      "phase": "phase7_networking",
+      "passes": true
+    },
+    {
+      "id": "SEC-001",
+      "name": "Signed Playback Tokens",
+      "description": "Short-lived JWT tokens per session for HLS segment access",
+      "category": "security",
+      "priority": "P0",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-002",
+      "name": "No Raw File Delivery",
+      "description": "Only serve transcoded streaming format, never expose original uploads",
+      "category": "security",
+      "priority": "P0",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-003",
+      "name": "Rate Limiting & Bot Protection",
+      "description": "Rate limiting on landing pages and API endpoints, bot detection",
+      "category": "security",
+      "priority": "P0",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-004",
+      "name": "Encryption at Rest",
+      "description": "Storage-level encryption for all audio files and user data",
+      "category": "security",
+      "priority": "P0",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-005",
+      "name": "Disable Caching Headers",
+      "description": "Set no-cache/no-store headers on audio segments to prevent local caching",
+      "category": "security",
+      "priority": "P1",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-006",
+      "name": "Device Binding",
+      "description": "Soft device fingerprinting with new-device re-verification requirement",
+      "category": "security",
+      "priority": "P2",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-007",
+      "name": "Forensic Audio Watermarking",
+      "description": "Near-inaudible watermark unique per recipient/session for leak tracing",
+      "category": "security",
+      "priority": "P2",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-008",
+      "name": "Visual Watermark Overlay",
+      "description": "Username, session ID, timestamp overlay on player visuals",
+      "category": "security",
+      "priority": "P2",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-009",
+      "name": "Mid-Play Access Revocation",
+      "description": "Kill active playback token server-side, ending stream immediately",
+      "category": "security",
+      "priority": "P2",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "SEC-010",
+      "name": "Client-Side Encryption Mode",
+      "description": "Optional privacy mode where receiver key is required to decrypt audio",
+      "category": "security",
+      "priority": "P2",
+      "phase": "phase8_security",
+      "passes": true
+    },
+    {
+      "id": "DJ-001",
+      "name": "Auto BPM Detection",
+      "description": "Automatic BPM detection on upload displayed on snap and profile",
+      "category": "dj",
+      "priority": "P1",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-002",
+      "name": "Auto Key Detection",
+      "description": "Automatic musical key detection displayed on snap metadata",
+      "category": "dj",
+      "priority": "P1",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-003",
+      "name": "Gear/DAW Tags on Posts",
+      "description": "Tag clips with gear and DAW info ('Made with Ableton + Push 3')",
+      "category": "dj",
+      "priority": "P1",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-004",
+      "name": "B2B Matchmaking",
+      "description": "Match DJs for B2B sets by genre, tempo range, and city",
+      "category": "dj",
+      "priority": "P2",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-005",
+      "name": "Setlist / Crate Sharing",
+      "description": "Share setlists and track crates with transition notes between tracks",
+      "category": "dj",
+      "priority": "P2",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-006",
+      "name": "Open Sessions / Flip Contests",
+      "description": "Public rooms for feedback, flip contests, and collaborative listening",
+      "category": "dj",
+      "priority": "P2",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-007",
+      "name": "Transition Notes",
+      "description": "Annotate transition points between tracks in shared setlists",
+      "category": "dj",
+      "priority": "P2",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "DJ-008",
+      "name": "Genre + Tempo Browsing",
+      "description": "Browse public snaps by genre and tempo range filters",
+      "category": "dj",
+      "priority": "P2",
+      "phase": "phase9_dj",
+      "passes": true
+    },
+    {
+      "id": "BILLING-001",
+      "name": "Stripe Integration",
+      "description": "Stripe setup for subscription billing (Free, Pro, Studio tiers)",
+      "category": "billing",
+      "priority": "P1",
+      "phase": "phase10_monetization",
+      "passes": true
+    },
+    {
+      "id": "BILLING-002",
+      "name": "Free Tier Limits",
+      "description": "Enforce 5 snap links/month, standard quality, 24h max expiration",
+      "category": "billing",
+      "priority": "P1",
+      "phase": "phase10_monetization",
+      "passes": true
+    },
+    {
+      "id": "BILLING-003",
+      "name": "Pro Tier Features",
+      "description": "Unlimited snaps, HQ streaming, watermarking, custom expiration, analytics",
+      "category": "billing",
+      "priority": "P1",
+      "phase": "phase10_monetization",
+      "passes": true
+    },
+    {
+      "id": "BILLING-004",
+      "name": "Studio Tier Features",
+      "description": "Live Listen Rooms, encryption mode, team accounts, API access",
+      "category": "billing",
+      "priority": "P2",
+      "phase": "phase10_monetization",
+      "passes": true
+    },
+    {
+      "id": "BILLING-005",
+      "name": "Usage Metering",
+      "description": "Track snap count, storage usage, and stream minutes per billing period",
+      "category": "billing",
+      "priority": "P1",
+      "phase": "phase10_monetization",
+      "passes": true
+    },
+    {
+      "id": "BILLING-006",
+      "name": "Subscription Management UI",
+      "description": "Upgrade/downgrade/cancel subscription with billing history",
+      "category": "billing",
+      "priority": "P1",
+      "phase": "phase10_monetization",
+      "passes": true
+    },
+    {
+      "id": "LIVE-001",
+      "name": "Live Listen Room Creation",
+      "description": "Create a live room where sender and receivers listen simultaneously",
+      "category": "live",
+      "priority": "P2",
+      "phase": "phase11_live",
+      "passes": true
+    },
+    {
+      "id": "LIVE-002",
+      "name": "Synchronized Playhead",
+      "description": "Sync playhead position across all room participants",
+      "category": "live",
+      "priority": "P2",
+      "phase": "phase11_live",
+      "passes": true
+    },
+    {
+      "id": "LIVE-003",
+      "name": "Live Marker Drops",
+      "description": "Sender drops markers in real-time, receiver can click to jump",
+      "category": "live",
+      "priority": "P2",
+      "phase": "phase11_live",
+      "passes": true
+    },
+    {
+      "id": "LIVE-004",
+      "name": "Live Voice Chat",
+      "description": "Optional voice channel overlay during live listen sessions",
+      "category": "live",
+      "priority": "P2",
+      "phase": "phase11_live",
+      "passes": true
+    },
+    {
+      "id": "LIVE-005",
+      "name": "Live Room Invites",
+      "description": "Invite specific users to join a live listen room via link or notification",
+      "category": "live",
+      "priority": "P2",
+      "phase": "phase11_live",
+      "passes": true
+    },
+    {
+      "id": "LIVE-006",
+      "name": "Producer Coaching Mode",
+      "description": "Structured feedback flow: sender marks sections, receiver responds inline",
+      "category": "live",
+      "priority": "P2",
+      "phase": "phase11_live",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-001",
+      "name": "Snap Analytics Dashboard",
+      "description": "Per-snap stats: opens, plays, avg listen duration, reactions, replays",
+      "category": "analytics",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-002",
+      "name": "Listener Engagement Heatmap",
+      "description": "Visual heatmap showing which sections of a track get most engagement",
+      "category": "analytics",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-003",
+      "name": "Profile Analytics",
+      "description": "Track profile views, follower growth, snap engagement over time",
+      "category": "analytics",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-004",
+      "name": "Export Analytics CSV",
+      "description": "Export snap and engagement data as CSV for external analysis",
+      "category": "analytics",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-001",
+      "name": "Push Notifications",
+      "description": "Web push notifications for snap opens, reactions, comments, follows",
+      "category": "notifications",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-002",
+      "name": "Email Notifications",
+      "description": "Transactional emails for snap activity, new followers, weekly digest",
+      "category": "notifications",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-003",
+      "name": "Notification Preferences",
+      "description": "Granular notification settings per event type (push, email, in-app)",
+      "category": "notifications",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-004",
+      "name": "In-App Notification Center",
+      "description": "Centralized notification feed with read/unread status",
+      "category": "notifications",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "MOBILE-001",
+      "name": "PWA Support",
+      "description": "Progressive Web App with installable experience on mobile",
+      "category": "mobile",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "MOBILE-002",
+      "name": "Mobile Recording for Replies",
+      "description": "In-browser audio recording for snap replies on mobile devices",
+      "category": "mobile",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "MOBILE-003",
+      "name": "Touch Gestures",
+      "description": "Touch-optimized waveform seeking, swipe reactions, pull-to-refresh",
+      "category": "mobile",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "TEST-001",
+      "name": "Unit Tests - Core",
+      "description": "Unit tests for snap creation, expiration logic, token generation",
+      "category": "testing",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "TEST-002",
+      "name": "Integration Tests - Streaming",
+      "description": "Integration tests for upload \u2192 transcode \u2192 HLS \u2192 playback pipeline",
+      "category": "testing",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "TEST-003",
+      "name": "E2E Tests - Snap Flow",
+      "description": "End-to-end tests for full create \u2192 share \u2192 open \u2192 react workflow",
+      "category": "testing",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "TEST-004",
+      "name": "WebSocket Event Tests",
+      "description": "Tests for all real-time event types and presence accuracy",
+      "category": "testing",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "TEST-005",
+      "name": "Security Tests",
+      "description": "Tests for token expiration, rate limiting, access revocation, watermarking",
+      "category": "testing",
+      "priority": "P0",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "DOC-001",
+      "name": "API Documentation",
+      "description": "REST API docs for snap creation, management, and analytics endpoints",
+      "category": "documentation",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "DOC-002",
+      "name": "WebSocket Events Reference",
+      "description": "Documentation for all real-time event types and payloads",
+      "category": "documentation",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "DOC-003",
+      "name": "Security Whitepaper",
+      "description": "Public-facing security stance document explaining streaming-only, watermarking, encryption",
+      "category": "documentation",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "SEO-001",
+      "name": "Landing Page SEO",
+      "description": "Open Graph tags, Twitter cards, and meta for shared snap links",
+      "category": "seo",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "SEO-002",
+      "name": "Marketing Landing Page",
+      "description": "Public homepage explaining the product with CTA to sign up",
+      "category": "seo",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "A11Y-001",
+      "name": "Keyboard Navigation",
+      "description": "Full keyboard navigation for player controls and snap management",
+      "category": "accessibility",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "A11Y-002",
+      "name": "Screen Reader Support",
+      "description": "ARIA labels for all interactive elements and player state",
+      "category": "accessibility",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "PERF-001",
+      "name": "Audio Preloading Strategy",
+      "description": "Smart preloading of HLS segments for instant playback start",
+      "category": "performance",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "PERF-002",
+      "name": "Waveform Canvas Optimization",
+      "description": "Offscreen canvas rendering for smooth 60fps waveform animation",
+      "category": "performance",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "PERF-003",
+      "name": "WebSocket Reconnection",
+      "description": "Automatic reconnection with exponential backoff on connection drops",
+      "category": "performance",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ADMIN-001",
+      "name": "Admin Dashboard",
+      "description": "Admin panel for user management, content moderation, system stats",
+      "category": "admin",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ADMIN-002",
+      "name": "Content Report System",
+      "description": "Report snap content for abuse/copyright with review workflow",
+      "category": "admin",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ADMIN-003",
+      "name": "DMCA Takedown Flow",
+      "description": "DMCA notice handling with snap removal and counter-notice process",
+      "category": "admin",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "GDPR-001",
+      "name": "Data Export",
+      "description": "User data export including profile, snaps, comments, analytics",
+      "category": "compliance",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "GDPR-002",
+      "name": "Account Deletion",
+      "description": "Full account deletion with cascading removal of all user data",
+      "category": "compliance",
+      "priority": "P0",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "GDPR-003",
+      "name": "Cookie Consent & Privacy Policy",
+      "description": "GDPR-compliant consent banner and privacy policy pages",
+      "category": "compliance",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "API-001",
+      "name": "Public API - Snap Creation",
+      "description": "REST API for programmatic snap creation (Studio tier)",
+      "category": "api",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "API-002",
+      "name": "Public API - Analytics",
+      "description": "REST API for retrieving snap analytics data (Studio tier)",
+      "category": "api",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "API-003",
+      "name": "Webhook Notifications",
+      "description": "Outbound webhooks for snap events (opened, completed, expired)",
+      "category": "api",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ONBOARD-001",
+      "name": "First-Run Onboarding Flow",
+      "description": "Step-by-step wizard: set profile, genres, DAW, upload first track, create first snap",
+      "category": "onboarding",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "ONBOARD-002",
+      "name": "Demo Snap Experience",
+      "description": "Pre-loaded demo snap so new users can experience the player before uploading",
+      "category": "onboarding",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "SHARE-001",
+      "name": "Social Share Cards",
+      "description": "Beautiful OG image cards with waveform preview for sharing snap links on social media",
+      "category": "sharing",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "SHARE-002",
+      "name": "QR Code for Snap Links",
+      "description": "Generate QR codes for snap links for in-person sharing at sessions/events",
+      "category": "sharing",
+      "priority": "P2",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "PERF-004",
+      "name": "Lazy Loading & Code Splitting",
+      "description": "Route-level code splitting and lazy loading for player components and visuals",
+      "category": "performance",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "INFRA-006",
+      "name": "Error Tracking & Monitoring",
+      "description": "Sentry integration for error tracking, performance monitoring, and alerting",
+      "category": "infrastructure",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    },
+    {
+      "id": "INFRA-007",
+      "name": "Health Check Endpoints",
+      "description": "API health checks for server, database, storage, and WebSocket connectivity",
+      "category": "infrastructure",
+      "priority": "P1",
+      "phase": "phase12_polish",
+      "passes": true
+    }
+  ]
+}

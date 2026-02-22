@@ -1,0 +1,1904 @@
+{
+  "project": {
+    "name": "AI-Enhanced Personal CRM (EverReach)",
+    "description": "A mobile-first CRM application with AI-powered features for managing personal and professional relationships, tracking warmth scores, and automating outreach.",
+    "version": "1.0.0",
+    "platform": "React Native (Expo)",
+    "initialized": "2026-02-02",
+    "status": "Active Development",
+    "totalFeatures": 126,
+    "completedFeatures": 122,
+    "lastUpdated": "2026-02-09"
+  },
+  "prds": [
+    "PRD_META_PIXEL_INTEGRATION.md"
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "category": "Authentication",
+      "name": "User Authentication",
+      "description": "Allow users to sign up and log in using email/password and Apple Sign In",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "User can sign up with email and password",
+        "User can log in with existing credentials",
+        "Apple Sign In works on iOS devices",
+        "Session persists after app restart",
+        "Logout functionality works correctly"
+      ]
+    },
+    {
+      "id": "F002",
+      "category": "Authentication",
+      "name": "Password Reset",
+      "description": "Enable users to reset their password via email",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "User receives password reset email",
+        "Reset link works and redirects to app",
+        "New password can be set successfully",
+        "User can log in with new password"
+      ]
+    },
+    {
+      "id": "F003",
+      "category": "Contact Management",
+      "name": "Create Contact",
+      "description": "Allow users to manually create new contacts with name, email, phone, and other details",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Add contact form displays correctly",
+        "Required fields are validated",
+        "Contact saves to database",
+        "New contact appears in contacts list",
+        "Avatar placeholder generates correctly"
+      ]
+    },
+    {
+      "id": "F004",
+      "category": "Contact Management",
+      "name": "Edit Contact",
+      "description": "Enable users to edit existing contact information",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Edit contact form pre-fills with existing data",
+        "Changes save correctly",
+        "Updated information displays immediately",
+        "Validation prevents invalid data"
+      ]
+    },
+    {
+      "id": "F005",
+      "category": "Contact Management",
+      "name": "Delete Contact",
+      "description": "Allow users to delete contacts with confirmation",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Delete button shows confirmation dialog",
+        "Contact removes from database",
+        "Associated data (notes, interactions) handled correctly",
+        "Deleted contact no longer appears in lists"
+      ]
+    },
+    {
+      "id": "F006",
+      "category": "Contact Management",
+      "name": "View Contact Details",
+      "description": "Display comprehensive contact information including warmth score, interactions, notes",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Contact detail page displays all information",
+        "Warmth score shows correctly",
+        "Recent interactions timeline displays",
+        "Notes section visible",
+        "Profile picture or avatar displays"
+      ]
+    },
+    {
+      "id": "F007",
+      "category": "Contact Management",
+      "name": "Contact List View",
+      "description": "Show all contacts in a searchable, filterable list",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Contacts list loads and displays",
+        "Search functionality works",
+        "Contacts sorted by relevance",
+        "Warmth indicators visible",
+        "List scrolls smoothly"
+      ]
+    },
+    {
+      "id": "F008",
+      "category": "Contact Management",
+      "name": "Import Contacts",
+      "description": "Allow users to import contacts from device contacts (including SIM card on Android)",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Contact permissions requested correctly",
+        "Device contacts (including SIM) accessible",
+        "User can select contacts to import",
+        "Imported contacts save to database",
+        "Duplicate detection works"
+      ]
+    },
+    {
+      "id": "F009",
+      "category": "Contact Management",
+      "name": "Contact Avatar Upload",
+      "description": "Enable users to upload profile pictures for contacts from camera or photo library",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Camera permission requested",
+        "Photo library permission requested",
+        "Image picker works on iOS and Android",
+        "Image uploads successfully",
+        "Avatar displays in all views"
+      ]
+    },
+    {
+      "id": "F010",
+      "category": "Contact Management",
+      "name": "Social Media Channels",
+      "description": "Add and manage social media handles (Instagram, Twitter, LinkedIn, etc.) for contacts",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Can add social media platform",
+        "Handle validation works",
+        "Multiple platforms supported per contact",
+        "Social links are clickable",
+        "Channels persist correctly"
+      ]
+    },
+    {
+      "id": "F011",
+      "category": "Warmth Tracking",
+      "name": "Warmth Score Calculation",
+      "description": "Automatically calculate warmth scores based on interaction frequency and recency",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Warmth score calculates correctly",
+        "Score updates after interactions",
+        "Warmth bands (hot, warm, cooling, cold) assign correctly",
+        "Score decays over time without interaction",
+        "Recompute API endpoint works"
+      ]
+    },
+    {
+      "id": "F012",
+      "category": "Warmth Tracking",
+      "name": "Warmth Score Display",
+      "description": "Show warmth scores and indicators throughout the app",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Warmth score visible on contact card",
+        "Color-coded warmth indicators display",
+        "Warmth graph shows history",
+        "Warmth band labels correct",
+        "Real-time updates after interaction"
+      ]
+    },
+    {
+      "id": "F013",
+      "category": "Warmth Tracking",
+      "name": "Warmth Settings",
+      "description": "Allow users to configure warmth calculation parameters",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Settings page displays options",
+        "Decay rate adjustable",
+        "Warmth thresholds configurable",
+        "Changes apply to calculations",
+        "Settings persist correctly"
+      ]
+    },
+    {
+      "id": "F014",
+      "category": "Dashboard",
+      "name": "Home Dashboard",
+      "description": "Display overview of contacts, warmth segments, and recent activity",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Dashboard loads quickly",
+        "Warmth segments show correct counts",
+        "Recent interactions display",
+        "Quick action buttons work",
+        "Data refreshes on pull-to-refresh"
+      ]
+    },
+    {
+      "id": "F015",
+      "category": "Dashboard",
+      "name": "Dashboard Welcome Ribbon",
+      "description": "Show personalized welcome message with user's first name",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Welcome message displays",
+        "User's first name shows correctly",
+        "Greeting changes based on time of day",
+        "Profile link accessible"
+      ]
+    },
+    {
+      "id": "F016",
+      "category": "Dashboard",
+      "name": "Warmth Segments",
+      "description": "Group and display contacts by warmth bands (hot, warm, cooling, cold)",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Segments display with correct counts",
+        "Tapping segment shows filtered contacts",
+        "Counts update after interactions",
+        "Empty segments handled gracefully"
+      ]
+    },
+    {
+      "id": "F017",
+      "category": "Dashboard",
+      "name": "Recent Interactions",
+      "description": "Show timeline of recent contact interactions",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Recent interactions list displays",
+        "Interactions sorted by date",
+        "Warmth status reflects current score",
+        "Tapping interaction navigates to contact",
+        "Real-time updates after new interaction"
+      ]
+    },
+    {
+      "id": "F018",
+      "category": "Notes",
+      "name": "Create Text Note",
+      "description": "Allow users to add text notes to contacts",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Add note button visible",
+        "Note composer opens",
+        "Text note saves successfully",
+        "Note appears in notes list",
+        "Note persists in database"
+      ]
+    },
+    {
+      "id": "F019",
+      "category": "Notes",
+      "name": "Edit Text Note",
+      "description": "Enable users to edit existing text notes",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Edit option available on notes",
+        "Note editor pre-fills with content",
+        "Changes save correctly",
+        "Edited timestamp updates"
+      ]
+    },
+    {
+      "id": "F020",
+      "category": "Notes",
+      "name": "Delete Note",
+      "description": "Allow users to delete notes with confirmation",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Delete button shows confirmation",
+        "Note removes from database",
+        "Deleted note no longer visible",
+        "No error occurs on deletion"
+      ]
+    },
+    {
+      "id": "F021",
+      "category": "Notes",
+      "name": "Voice Notes",
+      "description": "Record and transcribe voice notes for contacts",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Microphone permission requested",
+        "Voice recording starts/stops correctly",
+        "Audio transcribes to text",
+        "Voice note saves to contact",
+        "Audio playback works"
+      ]
+    },
+    {
+      "id": "F022",
+      "category": "Notes",
+      "name": "Personal Notes",
+      "description": "Create and manage personal notes not tied to specific contacts",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Personal notes section accessible",
+        "Can create new personal note",
+        "Notes save correctly",
+        "Notes list displays properly",
+        "Edit and delete work"
+      ]
+    },
+    {
+      "id": "F023",
+      "category": "AI Features",
+      "name": "AI Message Generation",
+      "description": "Generate personalized messages using AI based on contact context and goals",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Message generation interface opens",
+        "Goal selection works",
+        "AI generates relevant message",
+        "Message incorporates contact context",
+        "Multiple message options provided"
+      ]
+    },
+    {
+      "id": "F024",
+      "category": "AI Features",
+      "name": "AI Goal Suggestions",
+      "description": "Suggest conversation goals based on contact relationship and history",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Goal suggestions display",
+        "Suggestions relevant to contact",
+        "Custom goal creation available",
+        "Selected goal affects message generation"
+      ]
+    },
+    {
+      "id": "F025",
+      "category": "AI Features",
+      "name": "AI Insights",
+      "description": "Provide AI-generated insights about contact relationships",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Insights section displays on contact detail",
+        "Insights are relevant and actionable",
+        "Insights update based on new data",
+        "Maximum 3 insights shown to avoid duplication"
+      ]
+    },
+    {
+      "id": "F026",
+      "category": "AI Features",
+      "name": "Screenshot Analysis",
+      "description": "Upload and analyze screenshots using AI vision to extract context",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Image picker opens",
+        "Screenshot uploads successfully",
+        "AI analysis completes without timeout",
+        "OCR text extracted correctly",
+        "Analysis summary displays",
+        "Can save screenshot to contact"
+      ]
+    },
+    {
+      "id": "F027",
+      "category": "AI Features",
+      "name": "Screenshot-to-Contact Workflow",
+      "description": "Save screenshots to contacts and craft messages with screenshot context",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Contact picker appears after screenshot selection",
+        "Can select contact from picker",
+        "Craft message button enabled after selection",
+        "Message goal pre-filled with screenshot context",
+        "Can edit goal before generating message"
+      ]
+    },
+    {
+      "id": "F028",
+      "category": "AI Features",
+      "name": "AI Chat Assistant",
+      "description": "Interactive AI chat for asking questions about contacts and getting suggestions",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Chat interface opens",
+        "AI responds to questions",
+        "Chat history persists",
+        "Responses are contextually relevant",
+        "Can ask about specific contacts"
+      ]
+    },
+    {
+      "id": "F029",
+      "category": "Messages",
+      "name": "Message Templates",
+      "description": "Create and manage reusable message templates",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Templates section accessible",
+        "Can create new template",
+        "Template saves correctly",
+        "Can use template in message generation",
+        "Variables in templates work"
+      ]
+    },
+    {
+      "id": "F030",
+      "category": "Messages",
+      "name": "Send Message (SMS)",
+      "description": "Send generated messages via SMS directly from the app",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Send SMS option available",
+        "Native SMS composer opens",
+        "Message pre-filled correctly",
+        "Interaction logged after send",
+        "Warmth score updates"
+      ]
+    },
+    {
+      "id": "F031",
+      "category": "Messages",
+      "name": "Send Message (Email)",
+      "description": "Send generated messages via email directly from the app",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Send email option available",
+        "Native email composer opens",
+        "Message and subject pre-filled",
+        "Interaction logged after send",
+        "Warmth score updates"
+      ]
+    },
+    {
+      "id": "F032",
+      "category": "Messages",
+      "name": "Copy Message",
+      "description": "Copy generated message to clipboard for pasting elsewhere",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Copy button visible",
+        "Message copies to clipboard",
+        "Confirmation toast appears",
+        "Clipboard content matches message"
+      ]
+    },
+    {
+      "id": "F033",
+      "category": "Messages",
+      "name": "Message Tone Selection",
+      "description": "Allow users to select message tone (professional, casual, friendly, etc.)",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Tone selector displays",
+        "Multiple tone options available",
+        "Selected tone affects message generation",
+        "Tone preference persists"
+      ]
+    },
+    {
+      "id": "F034",
+      "category": "Interactions",
+      "name": "Log Interaction",
+      "description": "Manually log interactions with contacts (calls, meetings, messages)",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Interaction log form displays",
+        "Can select interaction type",
+        "Date/time selection works",
+        "Interaction saves to database",
+        "Warmth score updates after logging"
+      ]
+    },
+    {
+      "id": "F035",
+      "category": "Interactions",
+      "name": "Interaction Timeline",
+      "description": "Display chronological timeline of all interactions with a contact",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Timeline displays on contact detail",
+        "Interactions sorted chronologically",
+        "Different interaction types distinguished",
+        "Timestamps display correctly",
+        "Can tap to view details"
+      ]
+    },
+    {
+      "id": "F036",
+      "category": "Interactions",
+      "name": "Automatic Interaction Detection",
+      "description": "Automatically log interactions when messages are sent from the app",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Interaction logged after message send",
+        "Correct interaction type recorded",
+        "Direction (outbound) set correctly",
+        "Timestamp accurate",
+        "Warmth recompute triggered"
+      ]
+    },
+    {
+      "id": "F037",
+      "category": "Pipeline Management",
+      "name": "Pipeline Stages",
+      "description": "Assign contacts to pipeline stages (lead, prospect, client, etc.)",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Pipeline stage selector visible",
+        "Can change contact stage",
+        "Stage saves correctly",
+        "Pipeline history tracked",
+        "Stage displayed on contact card"
+      ]
+    },
+    {
+      "id": "F038",
+      "category": "Pipeline Management",
+      "name": "Pipeline History",
+      "description": "Track and display history of pipeline stage changes",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Pipeline history timeline displays",
+        "Stage changes logged with timestamps",
+        "History persists correctly",
+        "Can view full pipeline history"
+      ]
+    },
+    {
+      "id": "F039",
+      "category": "Pipeline Management",
+      "name": "Pipeline Theme",
+      "description": "Categorize contacts by theme (networking, sales, partnership, etc.)",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Theme selector available",
+        "Multiple themes supported",
+        "Theme displays on contact",
+        "Can filter by theme"
+      ]
+    },
+    {
+      "id": "F040",
+      "category": "Search & Filter",
+      "name": "Global Search",
+      "description": "Search across all contacts by name, company, email, phone, notes",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Search bar accessible",
+        "Search results display instantly",
+        "Fuzzy matching works",
+        "Search highlights matched text",
+        "Recent searches saved"
+      ]
+    },
+    {
+      "id": "F041",
+      "category": "Search & Filter",
+      "name": "Filter Contacts",
+      "description": "Filter contacts by warmth, pipeline stage, tags, and custom criteria",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Filter options display",
+        "Multiple filters can be applied",
+        "Filter results update immediately",
+        "Filter state persists",
+        "Can clear filters"
+      ]
+    },
+    {
+      "id": "F042",
+      "category": "Notifications",
+      "name": "Notification Settings",
+      "description": "Configure notification preferences (daily, weekly, monthly reminders)",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Notification settings accessible",
+        "Frequency options available (daily, weekly, monthly)",
+        "Settings save correctly",
+        "Push notification permissions requested",
+        "Settings affect notification delivery"
+      ]
+    },
+    {
+      "id": "F043",
+      "category": "Notifications",
+      "name": "Follow-up Reminders",
+      "description": "Send notifications to follow up with contacts based on warmth decay",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Reminders scheduled correctly",
+        "Notifications delivered at right time",
+        "Tapping notification opens contact",
+        "Reminders respect user preferences",
+        "Can snooze or dismiss reminders"
+      ]
+    },
+    {
+      "id": "F044",
+      "category": "Settings",
+      "name": "Theme Settings",
+      "description": "Toggle between light and dark mode",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Theme selector in settings",
+        "Can toggle light/dark mode",
+        "Theme applies immediately",
+        "Theme preference persists",
+        "All screens respect theme"
+      ]
+    },
+    {
+      "id": "F045",
+      "category": "Settings",
+      "name": "Profile Settings",
+      "description": "View and edit user profile information",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Profile section accessible",
+        "Can view profile info",
+        "Can edit first name",
+        "Can upload profile avatar",
+        "About me section editable",
+        "Changes save to backend"
+      ]
+    },
+    {
+      "id": "F046",
+      "category": "Settings",
+      "name": "Settings Page Organization",
+      "description": "Logical organization of settings with profile at top, testing at bottom",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Profile section at top",
+        "Personal section near top",
+        "Subscription section visible (if applicable)",
+        "Testing section at bottom",
+        "Logical grouping of related settings"
+      ]
+    },
+    {
+      "id": "F047",
+      "category": "Subscription",
+      "name": "Subscription Plans",
+      "description": "Display available subscription tiers and pricing",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Subscription plans display",
+        "Pricing information clear",
+        "Plan features listed",
+        "Current plan highlighted",
+        "Can navigate to upgrade"
+      ]
+    },
+    {
+      "id": "F048",
+      "category": "Subscription",
+      "name": "Subscription Purchase",
+      "description": "Enable users to purchase subscriptions via in-app purchase",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Purchase flow initiates",
+        "Payment processed successfully",
+        "Subscription activates immediately",
+        "Receipt validation works",
+        "Premium features unlock"
+      ]
+    },
+    {
+      "id": "F049",
+      "category": "Subscription",
+      "name": "Subscription Status",
+      "description": "Display current subscription status and usage limits",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Subscription status visible",
+        "Usage stats display",
+        "Limits shown clearly",
+        "Renewal date displayed",
+        "Cancellation status shown if applicable"
+      ]
+    },
+    {
+      "id": "F050",
+      "category": "Subscription",
+      "name": "Cancel Subscription",
+      "description": "Allow users to cancel active subscriptions",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Cancel button accessible",
+        "Confirmation dialog appears",
+        "Cancellation processes correctly",
+        "Access maintained until period end",
+        "Cancellation reflected in status"
+      ]
+    },
+    {
+      "id": "F051",
+      "category": "Subscription",
+      "name": "Trial Period",
+      "description": "Offer free trial period for premium features",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Trial banner displays",
+        "Trial days remaining shown",
+        "Premium features accessible during trial",
+        "Trial expires correctly",
+        "Upgrade prompt shown after expiry"
+      ]
+    },
+    {
+      "id": "F052",
+      "category": "Paywall",
+      "name": "Feature Gating",
+      "description": "Restrict premium features behind paywall",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Premium features detect subscription status",
+        "Paywall displays when accessing gated feature",
+        "Free users see appropriate messaging",
+        "Premium users access features without paywall"
+      ]
+    },
+    {
+      "id": "F053",
+      "category": "Paywall",
+      "name": "Paywall UI",
+      "description": "Display attractive paywall screen with benefits and pricing",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Paywall design is visually appealing",
+        "Benefits clearly listed",
+        "Call-to-action prominent",
+        "Can dismiss paywall",
+        "Purchase flow accessible from paywall"
+      ]
+    },
+    {
+      "id": "F054",
+      "category": "Paywall",
+      "name": "Remote Paywall Configuration",
+      "description": "Configure paywall content and triggers remotely without app update",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Paywall content fetched from backend",
+        "Changes reflect without app update",
+        "Fallback to local config if offline",
+        "Multiple paywall variants supported"
+      ]
+    },
+    {
+      "id": "F055",
+      "category": "Onboarding",
+      "name": "Welcome Screen",
+      "description": "Show welcome screen on first app launch",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Welcome screen displays on first launch",
+        "Welcome flow guides user",
+        "Can skip onboarding",
+        "Onboarding completion tracked",
+        "Doesn't show on subsequent launches"
+      ]
+    },
+    {
+      "id": "F056",
+      "category": "Onboarding",
+      "name": "Onboarding Tutorial",
+      "description": "Interactive tutorial explaining key features",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Tutorial steps display in sequence",
+        "Can navigate forward/backward",
+        "Highlights key features",
+        "Can be accessed from settings",
+        "Completion state saved"
+      ]
+    },
+    {
+      "id": "F057",
+      "category": "UI/UX",
+      "name": "Bottom Navigation",
+      "description": "Consistent bottom navigation bar across main screens",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Bottom nav visible on main screens",
+        "All nav items functional",
+        "Active tab highlighted",
+        "Icons clear and intuitive",
+        "Badges show notifications"
+      ]
+    },
+    {
+      "id": "F058",
+      "category": "UI/UX",
+      "name": "Back Navigation",
+      "description": "Back buttons work consistently throughout app without showing '(tabs)' text",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Back button present on all sub-screens",
+        "Back navigation works correctly",
+        "No '(tabs)' text displayed",
+        "Back gesture works on iOS",
+        "Android back button handled"
+      ]
+    },
+    {
+      "id": "F059",
+      "category": "UI/UX",
+      "name": "Pull to Refresh",
+      "description": "Enable pull-to-refresh on list and dashboard screens",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Pull-to-refresh gesture works",
+        "Loading indicator displays",
+        "Data refreshes correctly",
+        "Refresh completes smoothly",
+        "Works on all relevant screens"
+      ]
+    },
+    {
+      "id": "F060",
+      "category": "UI/UX",
+      "name": "Loading States",
+      "description": "Display appropriate loading indicators during data fetching",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Skeleton loaders display while loading",
+        "Spinners show during operations",
+        "Loading states don't block UI unnecessarily",
+        "Error states handle gracefully",
+        "Empty states display appropriately"
+      ]
+    },
+    {
+      "id": "F061",
+      "category": "UI/UX",
+      "name": "Error Handling",
+      "description": "User-friendly error messages and recovery options",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Errors display clear messages",
+        "No undefined or technical errors shown",
+        "Retry options provided",
+        "Error doesn't crash app",
+        "Errors logged for debugging"
+      ]
+    },
+    {
+      "id": "F062",
+      "category": "UI/UX",
+      "name": "Typography System",
+      "description": "Consistent typography across all pages using centralized font system",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Typography utility accessible",
+        "Consistent font sizes used",
+        "Font weights standardized",
+        "Line heights appropriate",
+        "Typography scales well"
+      ]
+    },
+    {
+      "id": "F063",
+      "category": "UI/UX",
+      "name": "Responsive Design",
+      "description": "App layout adapts to different screen sizes and orientations",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Works on small phones",
+        "Works on large tablets",
+        "Portrait orientation optimized",
+        "Landscape orientation handled",
+        "Safe area insets respected"
+      ]
+    },
+    {
+      "id": "F064",
+      "category": "UI/UX",
+      "name": "Haptic Feedback",
+      "description": "Provide tactile feedback for user interactions",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Button presses have haptic feedback",
+        "Success actions have appropriate feedback",
+        "Error actions have warning feedback",
+        "Selection feedback on pickers",
+        "Haptics can be disabled in settings"
+      ]
+    },
+    {
+      "id": "F065",
+      "category": "Performance",
+      "name": "Fast App Launch",
+      "description": "App launches quickly with splash screen",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "App launches in under 3 seconds",
+        "Splash screen displays",
+        "Initial screen loads without delay",
+        "No unnecessary initialization blocking"
+      ]
+    },
+    {
+      "id": "F066",
+      "category": "Performance",
+      "name": "Smooth Scrolling",
+      "description": "Lists and scrollable content scroll smoothly at 60fps",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Contact lists scroll smoothly",
+        "No frame drops during scroll",
+        "Large lists virtualized",
+        "Animations don't stutter",
+        "Gestures responsive"
+      ]
+    },
+    {
+      "id": "F067",
+      "category": "Performance",
+      "name": "Image Optimization",
+      "description": "Images load quickly and are optimized for performance",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Images cached appropriately",
+        "Lazy loading for off-screen images",
+        "Image compression works",
+        "Thumbnails generated for large images",
+        "No memory leaks from images"
+      ]
+    },
+    {
+      "id": "F068",
+      "category": "Performance",
+      "name": "Offline Support",
+      "description": "App functions with limited connectivity and syncs when online",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Offline mode detected",
+        "Cached data accessible offline",
+        "Changes queue for sync",
+        "Auto-sync when connection restored",
+        "Offline indicator displayed"
+      ]
+    },
+    {
+      "id": "F069",
+      "category": "Data Management",
+      "name": "Data Sync",
+      "description": "Synchronize data between device and backend",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Changes sync to backend",
+        "Backend changes pull to device",
+        "Conflict resolution works",
+        "Sync status visible to user",
+        "Manual sync option available"
+      ]
+    },
+    {
+      "id": "F070",
+      "category": "Data Management",
+      "name": "Data Export",
+      "description": "Export contact data to CSV or vCard format",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Export option accessible",
+        "Can select export format",
+        "Export completes successfully",
+        "File can be shared",
+        "All data included in export"
+      ]
+    },
+    {
+      "id": "F071",
+      "category": "Data Management",
+      "name": "Data Backup",
+      "description": "Automatic backup of user data to cloud",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Backup runs automatically",
+        "Backup status visible",
+        "Can trigger manual backup",
+        "Backup includes all data",
+        "Restore from backup works"
+      ]
+    },
+    {
+      "id": "F072",
+      "category": "Security",
+      "name": "Secure Authentication",
+      "description": "Secure storage of authentication tokens and credentials",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Tokens stored in secure storage",
+        "Sensitive data encrypted",
+        "Session management secure",
+        "Auto-logout on inactivity",
+        "Token refresh works"
+      ]
+    },
+    {
+      "id": "F073",
+      "category": "Security",
+      "name": "Data Encryption",
+      "description": "Encrypt sensitive user data at rest and in transit",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "HTTPS used for all API calls",
+        "Local database encrypted",
+        "Sensitive fields encrypted",
+        "Encryption keys managed securely"
+      ]
+    },
+    {
+      "id": "F074",
+      "category": "Security",
+      "name": "Permissions Management",
+      "description": "Properly request and handle device permissions",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Permissions requested at appropriate times",
+        "Permission rationale shown",
+        "App handles denied permissions gracefully",
+        "Can re-request permissions",
+        "Permissions status checked before use"
+      ]
+    },
+    {
+      "id": "F075",
+      "category": "Analytics",
+      "name": "Event Tracking",
+      "description": "Track key user actions and events for analytics",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Key events tracked (signup, login, message send, etc.)",
+        "Event properties captured",
+        "Analytics consent respected",
+        "Events sent to analytics service",
+        "No PII tracked without consent"
+      ]
+    },
+    {
+      "id": "F076",
+      "category": "Analytics",
+      "name": "Analytics Dashboard",
+      "description": "Admin dashboard to view usage analytics",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Dashboard accessible to admins",
+        "Key metrics displayed",
+        "Charts and graphs clear",
+        "Data exportable",
+        "Real-time updates"
+      ]
+    },
+    {
+      "id": "F077",
+      "category": "Testing",
+      "name": "API Test Suite",
+      "description": "In-app API testing and health monitoring",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Test suite accessible from settings",
+        "Tests run successfully",
+        "Results displayed clearly",
+        "Can test individual endpoints",
+        "Health status shown"
+      ]
+    },
+    {
+      "id": "F078",
+      "category": "Testing",
+      "name": "E2E Test Coverage",
+      "description": "End-to-end tests for critical user flows",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Login flow tested",
+        "Contact creation flow tested",
+        "Message generation flow tested",
+        "Subscription flow tested",
+        "Tests pass consistently"
+      ]
+    },
+    {
+      "id": "F079",
+      "category": "Accessibility",
+      "name": "Screen Reader Support",
+      "description": "App is accessible to screen reader users",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "All buttons have accessibility labels",
+        "Images have alt text",
+        "Screen reader navigation logical",
+        "Form inputs properly labeled",
+        "Announcements for state changes"
+      ]
+    },
+    {
+      "id": "F080",
+      "category": "Accessibility",
+      "name": "Color Contrast",
+      "description": "Sufficient color contrast for readability",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Text meets WCAG contrast ratios",
+        "Important UI elements distinguishable",
+        "Works for colorblind users",
+        "Both light and dark themes accessible"
+      ]
+    },
+    {
+      "id": "F081",
+      "category": "Accessibility",
+      "name": "Font Scaling",
+      "description": "App respects system font size settings",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Text scales with system settings",
+        "Layout doesn't break with large text",
+        "Minimum touch target sizes maintained",
+        "No text cut off at larger sizes"
+      ]
+    },
+    {
+      "id": "F082",
+      "category": "Localization",
+      "name": "Multi-language Support",
+      "description": "App supports multiple languages",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Language selector available",
+        "All UI text translatable",
+        "Date/time formats localized",
+        "Number formats localized",
+        "RTL languages supported"
+      ]
+    },
+    {
+      "id": "F083",
+      "category": "Support",
+      "name": "Help Center",
+      "description": "In-app help documentation and FAQs",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Help section accessible",
+        "FAQs cover common questions",
+        "Search functionality works",
+        "Content is clear and helpful",
+        "Can contact support"
+      ]
+    },
+    {
+      "id": "F084",
+      "category": "Support",
+      "name": "Feature Request System",
+      "description": "Allow users to submit feature requests and bug reports",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Feature request form accessible",
+        "Can select request type (feature/feedback/bug)",
+        "Form submits successfully without 405 error",
+        "Confirmation shown after submission",
+        "Requests saved to backend"
+      ]
+    },
+    {
+      "id": "F085",
+      "category": "Support",
+      "name": "Terms and Privacy",
+      "description": "Display terms of service and privacy policy",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Terms accessible from settings",
+        "Privacy policy accessible",
+        "Content displays in-app or browser",
+        "Links functional",
+        "Latest version displayed"
+      ]
+    },
+    {
+      "id": "F086",
+      "category": "Bug Fixes",
+      "name": "Fix Warmth Score Not Updating After Message Send",
+      "description": "Ensure warmth score increases in database after sending messages",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Warmth recompute triggered after message send",
+        "Interaction logged before recompute",
+        "Database warmth score updates",
+        "Contact moves between warmth bands correctly",
+        "UI reflects updated warmth score"
+      ]
+    },
+    {
+      "id": "F087",
+      "category": "Bug Fixes",
+      "name": "Fix Recent Interactions Showing Wrong Warmth Status",
+      "description": "Display correct current warmth status in recent interactions list",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Recent interactions query includes current warmth_band",
+        "Warmth badges match contact's current warmth",
+        "Interactions update after warmth changes",
+        "All warmth levels display correctly"
+      ]
+    },
+    {
+      "id": "F088",
+      "category": "Bug Fixes",
+      "name": "Fix Home Dashboard Wrong Contact Counts",
+      "description": "Correctly segment and count contacts by warmth bands",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Dashboard shows all warmth segments",
+        "Counts accurate for each segment",
+        "Segments update after interactions",
+        "Empty segments handled properly"
+      ]
+    },
+    {
+      "id": "F089",
+      "category": "Bug Fixes",
+      "name": "Add Note Button to Contact Notes Screen",
+      "description": "Add missing 'Add Note' button to contact notes tab",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Add note button visible on notes tab",
+        "Button opens note composer",
+        "Note saves successfully",
+        "Note appears in list immediately"
+      ]
+    },
+    {
+      "id": "F090",
+      "category": "Bug Fixes",
+      "name": "Fix Contact Avatar Background Colors",
+      "description": "Tie avatar background colors to warmth scores consistently",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Avatar colors match warmth band",
+        "Colors consistent across all views",
+        "Colors update when warmth changes",
+        "No random color changes"
+      ]
+    },
+    {
+      "id": "F091",
+      "category": "Bug Fixes",
+      "name": "Fix Camera Button Image Upload",
+      "description": "Enable camera button to capture and upload contact profile pictures",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Camera button functional",
+        "Camera permissions requested",
+        "Image uploads successfully",
+        "Uploaded image displays on contact",
+        "Works on iOS and Android"
+      ]
+    },
+    {
+      "id": "F092",
+      "category": "Bug Fixes",
+      "name": "Fix Screenshot Upload Timeout Error",
+      "description": "Resolve AbortSignal.timeout error in React Native environment",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "Screenshot uploads without timeout error",
+        "No AbortSignal.timeout errors in console",
+        "Upload completes within timeout",
+        "Progress feedback shown during upload"
+      ]
+    },
+    {
+      "id": "F093",
+      "category": "Bug Fixes",
+      "name": "Fix Personal Notes Save Error",
+      "description": "Allow users to create and save personal notes without 'Failed to save note' error",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "New note ID set to 'new' not timestamp",
+        "Backend creates note instead of attempting update",
+        "Note saves successfully",
+        "No error alerts shown",
+        "Note persists after reload"
+      ]
+    },
+    {
+      "id": "F094",
+      "category": "Bug Fixes",
+      "name": "Fix Note Deletion Error",
+      "description": "Enable note deletion with proper confirmation and error handling",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Delete button shows confirmation dialog",
+        "No 'undefined exception' errors",
+        "Note deletes successfully",
+        "Confirmation allows cancel or confirm",
+        "Error handling prevents crashes"
+      ]
+    },
+    {
+      "id": "F095",
+      "category": "Bug Fixes",
+      "name": "Fix Feature Request 405 Error",
+      "description": "Allow feature request submissions without 405 CORS errors",
+      "priority": "critical",
+      "passes": true,
+      "testCriteria": [
+        "OPTIONS handler exists for CORS preflight",
+        "CORS headers present on all responses",
+        "Feature request submits successfully",
+        "No 405 errors in console",
+        "Request saves to database"
+      ]
+    },
+    {
+      "id": "F096",
+      "category": "Bug Fixes",
+      "name": "Fix Contact Import SIM Permissions",
+      "description": "Clarify that SIM contacts are included in Android READ_CONTACTS permission",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "UI text mentions 'device + SIM' on Android",
+        "SIM contacts accessible after permission grant",
+        "Contact count shows SIM contacts",
+        "Import works for SIM contacts",
+        "Documentation updated"
+      ]
+    },
+    {
+      "id": "F097",
+      "category": "Bug Fixes",
+      "name": "Fix Message Generation Page UI",
+      "description": "Prevent content cut-off on message generation page",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "ScrollView has adequate bottom padding",
+        "All action buttons fully visible",
+        "No content cut off at bottom",
+        "Smooth scrolling to bottom",
+        "Safe area insets respected"
+      ]
+    },
+    {
+      "id": "F098",
+      "category": "Bug Fixes",
+      "name": "Remove '(tabs)' from Back Buttons",
+      "description": "Clean back button labels to show only arrow without '(tabs)' text",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "headerBackTitle set to empty string globally",
+        "No back buttons show '(tabs)'",
+        "Back navigation still works",
+        "Applies to all screens",
+        "Single-line fix in _layout.tsx"
+      ]
+    },
+    {
+      "id": "F099",
+      "category": "Enhancements",
+      "name": "Reorganize Settings Page",
+      "description": "Logical organization with profile at top, testing at bottom",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Profile section appears first",
+        "Personal section near top",
+        "Subscription section visible when applicable",
+        "Testing & Development section at bottom",
+        "Logical grouping of related settings"
+      ]
+    },
+    {
+      "id": "F100",
+      "category": "Enhancements",
+      "name": "Redesign AI Insights Section",
+      "description": "Improve contact detail page information hierarchy",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Contact Channels moved above Quick Actions",
+        "AI Insights shows max 3 suggestions",
+        "No duplicate insights",
+        "Better information flow",
+        "Important contact methods prioritized"
+      ]
+    },
+    {
+      "id": "F101",
+      "category": "Enhancements",
+      "name": "Update Notification Settings Reminders",
+      "description": "Change 'Custom' reminders to 'Monthly' with clear description",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "Reminder frequency shows Daily, Weekly, Monthly",
+        "No 'Custom' option present",
+        "Monthly option shows correct description",
+        "Settings update and persist correctly"
+      ]
+    },
+    {
+      "id": "F102",
+      "category": "Enhancements",
+      "name": "Add Bottom Nav to Screenshot Analysis Page",
+      "description": "Implement bottom navigation with 4 quick actions",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Bottom nav visible on screenshot analysis page",
+        "Home, Select, Contacts, Message buttons present",
+        "Buttons enabled/disabled based on context",
+        "Haptic feedback on button press",
+        "Analytics tracking for actions"
+      ]
+    },
+    {
+      "id": "F103",
+      "category": "Documentation",
+      "name": "Profile Endpoints Specification",
+      "description": "Document required backend APIs for user profile feature",
+      "priority": "low",
+      "passes": true,
+      "testCriteria": [
+        "API endpoints documented",
+        "Request/response schemas defined",
+        "Authentication requirements specified",
+        "Error cases documented"
+      ]
+    },
+    {
+      "id": "F104",
+      "category": "Documentation",
+      "name": "README Documentation",
+      "description": "Comprehensive README with setup instructions, architecture, and usage",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "README file exists and is complete",
+        "Setup instructions clear",
+        "Environment variables documented",
+        "Architecture explained",
+        "Common issues troubleshooting included"
+      ]
+    },
+    {
+      "id": "F105",
+      "category": "Deployment",
+      "name": "iOS Build Configuration",
+      "description": "Proper configuration for iOS App Store submission",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Bundle identifier correct",
+        "Permissions properly described",
+        "App icons present",
+        "Splash screen configured",
+        "Build settings optimized"
+      ]
+    },
+    {
+      "id": "F106",
+      "category": "Deployment",
+      "name": "Android Build Configuration",
+      "description": "Proper configuration for Android Play Store submission",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Package name correct",
+        "Permissions declared",
+        "Adaptive icon configured",
+        "Signing configured",
+        "Build variants set up"
+      ]
+    },
+    {
+      "id": "F107",
+      "category": "Deployment",
+      "name": "Environment Configuration",
+      "description": "Separate configurations for development, staging, and production",
+      "priority": "high",
+      "passes": true,
+      "testCriteria": [
+        "Environment variables separated",
+        "API endpoints configurable per environment",
+        "Feature flags work per environment",
+        "Can build for each environment",
+        ".env.example provided"
+      ]
+    },
+    {
+      "id": "F108",
+      "category": "Deployment",
+      "name": "CI/CD Pipeline",
+      "description": "Automated build and deployment pipeline",
+      "priority": "medium",
+      "passes": true,
+      "testCriteria": [
+        "Tests run automatically on commit",
+        "Builds trigger on merge to main",
+        "Deployments automated",
+        "Version bumping automated",
+        "Release notes generated"
+      ]
+    },
+    {
+      "id": "META-001",
+      "name": "Meta Pixel SDK Setup",
+      "description": "Install and configure react-native-fbsdk-next with Pixel ID in app.json",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-002",
+      "name": "MetaPixelService Client",
+      "description": "Create MetaPixelService class with event tracking, PII hashing, and consent checking",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-003",
+      "name": "Event ID Generation",
+      "description": "Generate unique event IDs for client-server deduplication",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "generateEventId method found"
+    },
+    {
+      "id": "META-004",
+      "name": "PII Hashing (SHA256)",
+      "description": "Hash email and phone with SHA256 before sending to Meta",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "hashPII method with SHA256, lowercase, and trim found"
+    },
+    {
+      "id": "META-005",
+      "name": "Marketing Consent Category",
+      "description": "Add marketing category to AnalyticsConsent for GDPR/CCPA compliance",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-006",
+      "name": "CAPI Backend Endpoint",
+      "description": "Create /api/meta/events endpoint for Conversions API server-side tracking",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-007",
+      "name": "Purchase Event Tracking",
+      "description": "Track subscription purchases with value, currency, and plan",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "trackSubscriptionPurchased() calls MetaPixelService.trackPurchase()"
+    },
+    {
+      "id": "META-008",
+      "name": "StartTrial Event Tracking",
+      "description": "Track trial starts with plan and duration",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "trackTrialStarted() calls MetaPixelService.trackStartTrial()"
+    },
+    {
+      "id": "META-009",
+      "name": "CompleteRegistration Event",
+      "description": "Track new user sign-ups with registration method",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "trackSignInSucceeded() calls MetaPixelService.trackCompleteRegistration()"
+    },
+    {
+      "id": "META-010",
+      "name": "ViewContent Event (Paywall)",
+      "description": "Track paywall views for retargeting",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "trackPaywallViewed() calls MetaPixelService.trackViewContent()"
+    },
+    {
+      "id": "META-011",
+      "name": "Lead Event Tracking",
+      "description": "Track message sent events as leads",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "trackMessageSent() calls MetaPixelService.trackLead()"
+    },
+    {
+      "id": "META-012",
+      "name": "TrialConverted Custom Event",
+      "description": "Track trial to paid conversion as custom event",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "trackTrialConverted() calls MetaPixelService.trackTrialConverted()"
+    },
+    {
+      "id": "META-013",
+      "name": "AnalyticsService Integration",
+      "description": "Add MetaPixelService calls to existing AnalyticsService methods",
+      "category": "meta-pixel",
+      "priority": "P0",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true,
+      "lastTested": "2026-02-05T03:24:02.599Z",
+      "testStatus": "PASS",
+      "testMessage": "MetaPixelService imported in analytics.ts"
+    },
+    {
+      "id": "META-014",
+      "name": "Meta Events Database Table",
+      "description": "Create meta_pixel_events table for logging and debugging",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-015",
+      "name": "FBC/FBP Cookie Handling",
+      "description": "Capture and forward Facebook click/browser IDs for attribution",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-016",
+      "name": "Server Context Enrichment",
+      "description": "Add IP address and user agent to CAPI events",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-017",
+      "name": "Event Deduplication Testing",
+      "description": "Verify client and server events deduplicate correctly",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "META-018",
+      "name": "Meta Events Manager Verification",
+      "description": "Verify all events appear correctly in Meta Events Manager",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "prd": "PRD_META_PIXEL_INTEGRATION.md",
+      "passes": true
+    },
+    {
+      "id": "NOMOCK-001",
+      "name": "Remove Dummy Stripe Key Fallback",
+      "description": "Replace 'sk_test_dummy' fallback in backend-vercel/app/api/webhooks/stripe/route.ts with proper error handling that throws ConfigError when STRIPE_SECRET_KEY is missing instead of silently falling back to a dummy key",
+      "priority": "P0",
+      "category": "payments",
+      "passes": true,
+      "files": [
+        "backend-vercel/app/api/webhooks/stripe/route.ts"
+      ],
+      "acceptance": [
+        "No sk_test_dummy or dummy keys in production code",
+        "ConfigError thrown when STRIPE_SECRET_KEY missing",
+        "Stripe webhook only processes when properly configured",
+        "grep -rn 'dummy' backend-vercel/ returns zero results in route files"
+      ]
+    }
+  ],
+  "categories": {
+    "Authentication": "User login, signup, and session management",
+    "Contact Management": "Creating, editing, viewing, and organizing contacts",
+    "Warmth Tracking": "Relationship warmth scoring and monitoring",
+    "Dashboard": "Home screen with overview and quick actions",
+    "Notes": "Text and voice notes for contacts",
+    "AI Features": "AI-powered message generation, insights, and analysis",
+    "Messages": "Message templates, sending, and tone selection",
+    "Interactions": "Logging and tracking contact interactions",
+    "Pipeline Management": "Sales pipeline and relationship stages",
+    "Search & Filter": "Finding and filtering contacts",
+    "Notifications": "Push notifications and reminders",
+    "Settings": "App configuration and preferences",
+    "Subscription": "Premium features and payment",
+    "Paywall": "Feature gating and monetization",
+    "Onboarding": "First-time user experience",
+    "UI/UX": "User interface and experience improvements",
+    "Performance": "Speed, responsiveness, and optimization",
+    "Data Management": "Sync, export, backup",
+    "Security": "Authentication security and data protection",
+    "Analytics": "Usage tracking and metrics",
+    "Testing": "Quality assurance and testing tools",
+    "Accessibility": "Screen readers, contrast, font scaling",
+    "Localization": "Multi-language support",
+    "Support": "Help documentation and user support",
+    "Bug Fixes": "Critical bugs that need fixing",
+    "Enhancements": "UX improvements and polish",
+    "Documentation": "Technical documentation",
+    "Deployment": "Build configuration and CI/CD",
+    "meta-pixel": "Meta Pixel and Conversions API integration"
+  },
+  "priority_definitions": {
+    "critical": "Must be working for app to function - blocking issues",
+    "high": "Important for good user experience - should be completed soon",
+    "medium": "Nice to have features that improve usability",
+    "low": "Future enhancements and polish items",
+    "P0": "Highest priority - must have",
+    "P1": "High priority - should have",
+    "P2": "Medium priority - nice to have"
+  },
+  "testing_approach": {
+    "manual_testing": "Test features through the app UI on physical devices (iOS and Android)",
+    "e2e_testing": "Automated end-to-end tests using Detox or Maestro",
+    "api_testing": "Test backend API endpoints using in-app test suite",
+    "regression_testing": "Re-test existing features after making changes",
+    "integration_testing": "Test feature interactions and data flow"
+  },
+  "next_steps": [
+    "Review this feature list with the team",
+    "Prioritize features based on business goals",
+    "Begin implementing and testing features incrementally",
+    "Update 'passes' status as features are completed and verified",
+    "Run comprehensive testing before deployment",
+    "Focus on critical bugs first (warmth tracking, note creation, message sending)",
+    "Implement high-priority features second (AI message generation, contact import)",
+    "Polish UI/UX elements third",
+    "Optimize performance and add enhancements last"
+  ],
+  "autonomous_coding_instructions": {
+    "approach": "Work through features incrementally, testing each one thoroughly before moving to the next",
+    "workflow": [
+      "1. Select next feature from feature list (prioritize by: critical > high > medium > low)",
+      "2. Read relevant code files to understand current implementation",
+      "3. Implement the feature or fix the bug",
+      "4. Test the feature against all test criteria",
+      "5. Update feature 'passes' status to true if all criteria met",
+      "6. Document changes in claude-progress.txt",
+      "7. Move to next feature"
+    ],
+    "quality_standards": [
+      "All code must follow existing patterns in the codebase",
+      "Error handling must be comprehensive",
+      "User-facing messages must be clear and friendly",
+      "Changes must not break existing features",
+      "All test criteria must pass before marking feature complete"
+    ],
+    "testing_requirements": [
+      "Test on both iOS and Android when platform-specific",
+      "Verify edge cases and error scenarios",
+      "Ensure accessibility features work",
+      "Check performance impact",
+      "Test with real-world data volumes"
+    ]
+  }
+}

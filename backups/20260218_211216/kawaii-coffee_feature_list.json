@@ -1,0 +1,1758 @@
+{
+  "version": "3.0",
+  "project": "Kawaii Coffee Timer",
+  "description": "Cute kawaii-themed coffee brewing timer with brew method presets and customization",
+  "features": [
+    {
+      "id": "SETUP-001",
+      "category": "setup",
+      "priority": 1,
+      "description": "Expo project initialized with app.json config (name, slug, bundleIds)",
+      "passes": true,
+      "acceptance_criteria": [
+        "app.json exists with name, slug, iOS bundleId, Android package",
+        "expo-router configured as entry point",
+        "Splash screen configured"
+      ]
+    },
+    {
+      "id": "SETUP-002",
+      "category": "setup",
+      "priority": 1,
+      "description": "TypeScript configured with strict mode and path aliases",
+      "passes": true,
+      "acceptance_criteria": [
+        "tsconfig.json extends expo/tsconfig.base",
+        "strict: true enabled",
+        "Path alias @/* maps to root"
+      ]
+    },
+    {
+      "id": "SETUP-003",
+      "category": "setup",
+      "priority": 1,
+      "description": "ESLint configured for code quality",
+      "passes": true,
+      "acceptance_criteria": [
+        "eslint.config.js exists",
+        "extends eslint-config-expo",
+        "lint script in package.json"
+      ]
+    },
+    {
+      "id": "SETUP-004",
+      "category": "setup",
+      "priority": 1,
+      "description": "Core Expo dependencies installed (router, constants, font, haptics, image)",
+      "passes": true,
+      "acceptance_criteria": [
+        "expo-router in package.json",
+        "expo-constants in package.json",
+        "expo-font in package.json",
+        "expo-haptics in package.json",
+        "expo-image in package.json"
+      ]
+    },
+    {
+      "id": "SETUP-005",
+      "category": "setup",
+      "priority": 1,
+      "description": "Navigation dependencies installed (react-navigation, gesture-handler, screens, safe-area)",
+      "passes": true,
+      "acceptance_criteria": [
+        "@react-navigation/native in package.json",
+        "react-native-gesture-handler in package.json",
+        "react-native-screens in package.json",
+        "react-native-safe-area-context in package.json"
+      ]
+    },
+    {
+      "id": "SETUP-006",
+      "category": "setup",
+      "priority": 1,
+      "description": "Icon library installed (lucide-react-native)",
+      "passes": true,
+      "acceptance_criteria": [
+        "lucide-react-native in package.json",
+        "Icons render correctly in tabs and screens"
+      ]
+    },
+    {
+      "id": "SETUP-007",
+      "category": "setup",
+      "priority": 1,
+      "description": "Color constants defined for coffee theme",
+      "passes": true,
+      "acceptance_criteria": [
+        "constants/colors.ts exports CoffeeColors object",
+        "Light/dark theme tint colors defined",
+        "At least 8 named colors (cream, latte, espresso, foam, pink, mint, peach, etc.)"
+      ]
+    },
+    {
+      "id": "SETUP-008",
+      "category": "setup",
+      "priority": 1,
+      "description": "Folder structure established (app, components, constants, contexts, lib, backend, assets)",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/ directory with Expo Router screens",
+        "components/ directory",
+        "constants/ directory",
+        "contexts/ directory",
+        "lib/ directory",
+        "backend/ directory",
+        "assets/ directory"
+      ]
+    },
+    {
+      "id": "SETUP-009",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create .env.example with all required environment variables",
+      "passes": true,
+      "acceptance_criteria": [
+        "EXPO_PUBLIC_SUPABASE_URL placeholder",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY placeholder",
+        "EXPO_PUBLIC_POSTHOG_KEY placeholder",
+        "File documents each variable's purpose"
+      ]
+    },
+    {
+      "id": "SETUP-010",
+      "category": "setup",
+      "priority": 1,
+      "description": "Jest/testing infrastructure configured for unit and integration tests",
+      "passes": true,
+      "acceptance_criteria": [
+        "jest or vitest in devDependencies",
+        "Test config file exists (jest.config.js or vitest.config.ts)",
+        "Test script in package.json",
+        "Can run test command without errors",
+        "React Native testing library installed"
+      ]
+    },
+    {
+      "id": "SETUP-011",
+      "category": "setup",
+      "priority": 2,
+      "description": "Create constants/config.ts with app configuration and feature flags",
+      "passes": true,
+      "acceptance_criteria": [
+        "APP_NAME and APP_SLUG constants",
+        "DEV_MODE flag",
+        "Feature flag definitions (e.g., ENABLE_CLOUD_SYNC, ENABLE_SOCIAL_SHARING)",
+        "Subscription tier configuration"
+      ]
+    },
+    {
+      "id": "SETUP-012",
+      "category": "setup",
+      "priority": 2,
+      "description": "Create utils/storage.ts typed AsyncStorage wrapper",
+      "passes": true,
+      "acceptance_criteria": [
+        "getItem<T> with JSON parsing",
+        "setItem<T> with JSON serialization",
+        "removeItem function",
+        "Error handling with fallback values"
+      ]
+    },
+    {
+      "id": "SETUP-013",
+      "category": "setup",
+      "priority": 3,
+      "description": "Create utils/formatting.ts with date, time, and number formatters",
+      "passes": true,
+      "acceptance_criteria": [
+        "formatDuration(seconds) returns MM:SS or HH:MM:SS",
+        "formatDate for brew history timestamps",
+        "formatNumber for points display",
+        "Locale-aware formatting"
+      ]
+    },
+    {
+      "id": "NAV-001",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Root layout with provider stack (tRPC, QueryClient, Pomodoro, GestureHandler)",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/_layout.tsx renders provider hierarchy",
+        "trpc.Provider wraps app",
+        "QueryClientProvider wraps app",
+        "PomodoroProvider wraps app",
+        "GestureHandlerRootView wraps navigation",
+        "SplashScreen auto-hide on mount"
+      ]
+    },
+    {
+      "id": "NAV-002",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Tab navigation with Timer, Shop, and Settings tabs",
+      "passes": true,
+      "acceptance_criteria": [
+        "3 tabs rendered: Timer, Shop, Settings",
+        "Each tab has correct icon (Coffee, ShoppingBag, Settings)",
+        "Active/inactive colors match theme",
+        "Tab bar styled with cream background and brown border"
+      ]
+    },
+    {
+      "id": "NAV-003",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Tab navigation dynamically themed based on selected theme",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tab bar colors update when theme changes",
+        "Active tint uses theme primary color",
+        "Inactive tint uses theme secondary color"
+      ]
+    },
+    {
+      "id": "NAV-004",
+      "category": "navigation",
+      "priority": 1,
+      "description": "404 Not Found screen for unknown routes",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/+not-found.tsx exists",
+        "Displays appropriate message for unknown routes"
+      ]
+    },
+    {
+      "id": "TIMER-001",
+      "category": "timer",
+      "priority": 1,
+      "description": "Pomodoro timer with work/break modes and countdown",
+      "passes": true,
+      "acceptance_criteria": [
+        "Timer displays remaining time in MM:SS format",
+        "Default work duration is 25 minutes",
+        "Default break duration is 5 minutes",
+        "Timer counts down by 1 second intervals when running"
+      ]
+    },
+    {
+      "id": "TIMER-002",
+      "category": "timer",
+      "priority": 1,
+      "description": "Timer play/pause functionality",
+      "passes": true,
+      "acceptance_criteria": [
+        "Play button starts countdown",
+        "Pause button stops countdown",
+        "Button icon toggles between Play and Pause",
+        "testID='play-pause-button' is present"
+      ]
+    },
+    {
+      "id": "TIMER-003",
+      "category": "timer",
+      "priority": 1,
+      "description": "Timer reset functionality",
+      "passes": true,
+      "acceptance_criteria": [
+        "Reset button stops timer and restores duration to full",
+        "Reset in work mode restores focus duration",
+        "Reset in break mode restores break duration",
+        "testID='reset-button' is present"
+      ]
+    },
+    {
+      "id": "TIMER-004",
+      "category": "timer",
+      "priority": 1,
+      "description": "Skip to break functionality during work mode",
+      "passes": true,
+      "acceptance_criteria": [
+        "Skip button visible only during work mode",
+        "Pressing skip switches to break mode",
+        "Break timer starts at full break duration",
+        "testID='skip-button' is present"
+      ]
+    },
+    {
+      "id": "TIMER-005",
+      "category": "timer",
+      "priority": 1,
+      "description": "Automatic mode switching when timer completes",
+      "passes": true,
+      "acceptance_criteria": [
+        "When work timer reaches 0, switches to break mode",
+        "When break timer reaches 0, switches to work mode",
+        "Timer stops running on completion",
+        "New mode starts with correct duration"
+      ]
+    },
+    {
+      "id": "TIMER-006",
+      "category": "timer",
+      "priority": 1,
+      "description": "Mode display shows Focus Time or Break Time",
+      "passes": true,
+      "acceptance_criteria": [
+        "Shows 'Focus Time' with coffee emoji during work",
+        "Shows 'Break Time' with sparkle emoji during break",
+        "Label below timer changes ('Time to focus!' / 'Take a break!')"
+      ]
+    },
+    {
+      "id": "TIMER-007",
+      "category": "timer",
+      "priority": 1,
+      "description": "Timer progress calculation for visual feedback",
+      "passes": true,
+      "acceptance_criteria": [
+        "getProgress() returns value from 0 to 1",
+        "Progress is 0 at start, 1 at completion",
+        "Progress is passed to LatteCup component"
+      ]
+    },
+    {
+      "id": "TIMER-008",
+      "category": "timer",
+      "priority": 1,
+      "description": "Haptic feedback on timer actions (native only)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Light haptic on start/pause",
+        "Medium haptic on reset/skip",
+        "Success notification haptic on timer completion",
+        "Haptics disabled on web platform",
+        "Haptics respect soundEnabled setting"
+      ]
+    },
+    {
+      "id": "TIMER-009",
+      "category": "timer",
+      "priority": 2,
+      "description": "Points display in timer screen header",
+      "passes": true,
+      "acceptance_criteria": [
+        "Points shown with Coffee icon",
+        "Format: '[coffee icon] X pts'",
+        "White semi-transparent background pill"
+      ]
+    },
+    {
+      "id": "TIMER-010",
+      "category": "timer",
+      "priority": 2,
+      "description": "Break game modal shows when switching to break mode",
+      "passes": true,
+      "acceptance_criteria": [
+        "Modal opens when timer completes work session",
+        "BubbleGame component rendered inside modal",
+        "Modal can be closed via onClose callback",
+        "showBreakGame state controls modal visibility"
+      ]
+    },
+    {
+      "id": "TIMER-011",
+      "category": "timer",
+      "priority": 2,
+      "description": "Implement multi-step brew timer engine with configurable steps",
+      "passes": true,
+      "acceptance_criteria": [
+        "BrewMethod type with array of timed steps",
+        "Timer progresses through steps sequentially",
+        "Each step has name, duration, and instructions",
+        "Visual indicator of current step and remaining steps",
+        "Audio/haptic notification between steps"
+      ]
+    },
+    {
+      "id": "TIMER-012",
+      "category": "timer",
+      "priority": 2,
+      "description": "Preset brew methods (Pour-over, French Press, AeroPress, Espresso, Cold Brew)",
+      "passes": true,
+      "acceptance_criteria": [
+        "At least 5 preset brew methods defined",
+        "Each has name, total time, and step breakdown",
+        "User can select a brew method before starting",
+        "Method details shown on timer screen"
+      ]
+    },
+    {
+      "id": "TIMER-013",
+      "category": "timer",
+      "priority": 2,
+      "description": "Water ratio calculator per brew method",
+      "passes": true,
+      "acceptance_criteria": [
+        "Input for coffee weight in grams",
+        "Calculates water amount based on method ratio",
+        "Displays ratio (e.g., 1:15 for pour-over)",
+        "Updates dynamically as user changes coffee amount"
+      ]
+    },
+    {
+      "id": "TIMER-014",
+      "category": "timer",
+      "priority": 3,
+      "description": "Pour-over pattern timer with pour intervals",
+      "passes": true,
+      "acceptance_criteria": [
+        "Bloom phase (30s) with pour indicator",
+        "Multiple pour intervals with wait times",
+        "Visual pour/wait animation",
+        "Configurable total brew volume"
+      ]
+    },
+    {
+      "id": "TIMER-015",
+      "category": "timer",
+      "priority": 3,
+      "description": "Grind size guide per brew method",
+      "passes": true,
+      "acceptance_criteria": [
+        "Visual grind size scale (extra fine to extra coarse)",
+        "Recommended grind for each brew method",
+        "Description of grind texture",
+        "Links to current brew method selection"
+      ]
+    },
+    {
+      "id": "CUP-001",
+      "category": "cup-animation",
+      "priority": 1,
+      "description": "Animated latte cup component with progress-based fill level",
+      "passes": true,
+      "acceptance_criteria": [
+        "LatteCup component renders SVG/View-based cup",
+        "Coffee level animates based on progress prop (0-1)",
+        "Spring animation for smooth level changes",
+        "Cup displays foam on top of coffee"
+      ]
+    },
+    {
+      "id": "CUP-002",
+      "category": "cup-animation",
+      "priority": 1,
+      "description": "Kawaii face on cup with expressions based on progress",
+      "passes": true,
+      "acceptance_criteria": [
+        "Cup shows kawaii face with eyes and mouth",
+        "Face expression changes based on timer progress",
+        "Eyes blink animation when near completion",
+        "At least 4 different eye expressions"
+      ]
+    },
+    {
+      "id": "CUP-003",
+      "category": "cup-animation",
+      "priority": 1,
+      "description": "Cup color customization via selectedCupColor prop",
+      "passes": true,
+      "acceptance_criteria": [
+        "Cup renders in the color specified by cupColor prop",
+        "Default color is white (#FFFFFF)",
+        "Color changes reflected immediately"
+      ]
+    },
+    {
+      "id": "CUP-004",
+      "category": "cup-animation",
+      "priority": 2,
+      "description": "Accessory emoji displayed on cup",
+      "passes": true,
+      "acceptance_criteria": [
+        "Accessory emoji rendered above/on cup when selected",
+        "Null accessory shows no emoji",
+        "Accessory updates dynamically from context"
+      ]
+    },
+    {
+      "id": "CUP-005",
+      "category": "cup-animation",
+      "priority": 2,
+      "description": "Ice cubes rendered inside cup",
+      "passes": true,
+      "acceptance_criteria": [
+        "Small ice cube shapes visible inside cup",
+        "Ice cubes positioned below foam layer"
+      ]
+    },
+    {
+      "id": "CUP-006",
+      "category": "cup-animation",
+      "priority": 3,
+      "description": "Kawaii character animations during brew (steam, wiggle, celebration)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Steam animation rises from cup when timer is running",
+        "Cup wiggle animation on timer start",
+        "Celebration animation (confetti/sparkle) on timer completion",
+        "Animations respect reduced motion accessibility settings"
+      ]
+    },
+    {
+      "id": "BG-001",
+      "category": "background",
+      "priority": 2,
+      "description": "Japanese cafe SVG background on timer screen",
+      "passes": true,
+      "acceptance_criteria": [
+        "JapaneseCafeBackground component renders SVG decorations",
+        "Background is positioned behind timer content",
+        "Kawaii aesthetic with cafe elements"
+      ]
+    },
+    {
+      "id": "BG-002",
+      "category": "background",
+      "priority": 1,
+      "description": "Gradient background on all screens",
+      "passes": true,
+      "acceptance_criteria": [
+        "LinearGradient used as screen background",
+        "Timer screen: cream to peach to pink gradient",
+        "Shop screen: cream to peach gradient",
+        "Settings screen: cream to peach gradient"
+      ]
+    },
+    {
+      "id": "SHOP-001",
+      "category": "shop",
+      "priority": 1,
+      "description": "Shop screen with grid of purchasable items",
+      "passes": true,
+      "acceptance_criteria": [
+        "Shop screen renders ScrollView with item grid",
+        "Points balance displayed in header",
+        "Items organized in sections (Cup Colors, Accessories, Themes)"
+      ]
+    },
+    {
+      "id": "SHOP-002",
+      "category": "shop",
+      "priority": 1,
+      "description": "Cup color items (5 colors: Classic, Pink, Mint, Peach, Lavender)",
+      "passes": true,
+      "acceptance_criteria": [
+        "5 color items displayed in grid",
+        "Classic White is free (cost: 0)",
+        "Other colors cost 100-150 points",
+        "Color preview circle shows actual color"
+      ]
+    },
+    {
+      "id": "SHOP-003",
+      "category": "shop",
+      "priority": 1,
+      "description": "Accessory items (4 accessories: Bow, Sparkles, Heart, Star)",
+      "passes": true,
+      "acceptance_criteria": [
+        "4 accessory items displayed in grid",
+        "Accessories cost 200-300 points",
+        "Emoji preview shown when unlocked",
+        "Lock icon shown when locked"
+      ]
+    },
+    {
+      "id": "SHOP-004",
+      "category": "shop",
+      "priority": 1,
+      "description": "Theme color items (5 themes: Classic, Sakura, Matcha, Lavender, Sunset)",
+      "passes": true,
+      "acceptance_criteria": [
+        "5 theme items displayed in grid",
+        "Classic Coffee is free (cost: 0)",
+        "Other themes cost 300-400 points",
+        "Theme preview shows 3 color circles (primary, secondary, accent)"
+      ]
+    },
+    {
+      "id": "SHOP-005",
+      "category": "shop",
+      "priority": 1,
+      "description": "Item purchase flow with points deduction",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping locked item triggers purchase",
+        "Alert shown if not enough points",
+        "Points deducted on successful purchase",
+        "Item added to unlockedItems",
+        "Success alert shown on purchase"
+      ]
+    },
+    {
+      "id": "SHOP-006",
+      "category": "shop",
+      "priority": 1,
+      "description": "Item selection/equip flow",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping unlocked item equips it",
+        "Selected item shows green border and checkmark",
+        "Equipping color updates selectedCupColor",
+        "Equipping accessory updates selectedAccessory (toggle on/off)",
+        "Equipping theme updates selectedTheme"
+      ]
+    },
+    {
+      "id": "SHOP-007",
+      "category": "shop",
+      "priority": 2,
+      "description": "Shop item status badges (Equipped, Tap to Equip, cost)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Locked items show cost badge",
+        "Unlocked unselected items show 'Tap to Equip'",
+        "Selected items show 'Equipped'"
+      ]
+    },
+    {
+      "id": "SHOP-008",
+      "category": "shop",
+      "priority": 3,
+      "description": "Premium themes shop section (gated by subscription)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Premium themes section in shop",
+        "Premium badge on subscription-only themes",
+        "Tapping premium theme shows upgrade prompt",
+        "Pro subscribers can access premium themes"
+      ]
+    },
+    {
+      "id": "POINTS-001",
+      "category": "points",
+      "priority": 1,
+      "description": "Points earned from completing focus sessions",
+      "passes": true,
+      "acceptance_criteria": [
+        "addPoints function in PomodoroContext",
+        "Points saved to AsyncStorage",
+        "Success haptic on point earn",
+        "Points displayed on timer and shop screens"
+      ]
+    },
+    {
+      "id": "POINTS-002",
+      "category": "points",
+      "priority": 1,
+      "description": "Points deducted when purchasing shop items",
+      "passes": true,
+      "acceptance_criteria": [
+        "unlockItem deducts cost from totalPoints",
+        "Purchase rejected if insufficient points",
+        "Updated points saved to AsyncStorage"
+      ]
+    },
+    {
+      "id": "POINTS-003",
+      "category": "points",
+      "priority": 2,
+      "description": "Points earned from break game (BubbleGame)",
+      "passes": true,
+      "acceptance_criteria": [
+        "BubbleGame component awards points",
+        "Points added via addPoints from context",
+        "Game appears during break time"
+      ]
+    },
+    {
+      "id": "GAME-001",
+      "category": "break-game",
+      "priority": 2,
+      "description": "Bubble popping mini-game during breaks",
+      "passes": true,
+      "acceptance_criteria": [
+        "BubbleGame component renders interactive game",
+        "Bubbles appear that can be tapped/popped",
+        "Points awarded for popping bubbles",
+        "Close button to dismiss game"
+      ]
+    },
+    {
+      "id": "SETTINGS-001",
+      "category": "settings",
+      "priority": 1,
+      "description": "Focus duration setting with picker (0-100 minutes)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping focus duration opens modal picker",
+        "Picker shows 0-100 minute options",
+        "Selected value updates focusDuration",
+        "Timer updates when not running in work mode",
+        "testID='focus-duration-button' present"
+      ]
+    },
+    {
+      "id": "SETTINGS-002",
+      "category": "settings",
+      "priority": 1,
+      "description": "Break duration setting with picker (0-100 minutes)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping break duration opens modal picker",
+        "Picker shows 0-100 minute options",
+        "Selected value updates breakDuration",
+        "Timer updates when not running in break mode",
+        "testID='break-duration-button' present"
+      ]
+    },
+    {
+      "id": "SETTINGS-003",
+      "category": "settings",
+      "priority": 1,
+      "description": "Sound/haptic toggle in settings",
+      "passes": true,
+      "acceptance_criteria": [
+        "Toggle switch for notification sounds",
+        "Shows Enabled/Disabled text",
+        "Volume icon changes when toggled",
+        "Persisted to AsyncStorage",
+        "testID='sound-toggle-button' present"
+      ]
+    },
+    {
+      "id": "SETTINGS-004",
+      "category": "settings",
+      "priority": 1,
+      "description": "Reset all data with confirmation dialog",
+      "passes": true,
+      "acceptance_criteria": [
+        "Reset button with trash icon",
+        "Confirmation Alert before reset",
+        "Clears all points, unlocked items, customizations",
+        "Resets timer to defaults",
+        "testID='reset-data-button' present"
+      ]
+    },
+    {
+      "id": "SETTINGS-005",
+      "category": "settings",
+      "priority": 2,
+      "description": "About section with app version info",
+      "passes": true,
+      "acceptance_criteria": [
+        "About section in settings",
+        "Shows app name and version",
+        "Info icon present"
+      ]
+    },
+    {
+      "id": "SETTINGS-006",
+      "category": "settings",
+      "priority": 2,
+      "description": "Total points earned display in Account section",
+      "passes": true,
+      "acceptance_criteria": [
+        "Account section shows total points",
+        "Large formatted number display",
+        "Label 'Total Points Earned'"
+      ]
+    },
+    {
+      "id": "STATE-001",
+      "category": "state",
+      "priority": 1,
+      "description": "PomodoroContext with full state management",
+      "passes": true,
+      "acceptance_criteria": [
+        "Context provides timer state (timeRemaining, isRunning, mode)",
+        "Context provides customization state (cupColor, accessory, theme)",
+        "Context provides settings (focusDuration, breakDuration, soundEnabled)",
+        "Context provides points and unlocked items",
+        "All state exposed via usePomodoro hook"
+      ]
+    },
+    {
+      "id": "STATE-002",
+      "category": "state",
+      "priority": 1,
+      "description": "State persistence to AsyncStorage",
+      "passes": true,
+      "acceptance_criteria": [
+        "State loaded from AsyncStorage on app mount",
+        "State saved on every mutation (points, customizations, settings)",
+        "Handles missing/corrupted storage gracefully",
+        "Default values used when no stored state"
+      ]
+    },
+    {
+      "id": "STATE-003",
+      "category": "state",
+      "priority": 1,
+      "description": "Timer interval management with proper cleanup",
+      "passes": true,
+      "acceptance_criteria": [
+        "setInterval created when isRunning becomes true",
+        "Interval cleared when isRunning becomes false",
+        "Interval cleared on component unmount (useEffect cleanup)",
+        "No memory leaks from dangling intervals"
+      ]
+    },
+    {
+      "id": "THEME-001",
+      "category": "theming",
+      "priority": 1,
+      "description": "Dynamic theme system with primary/secondary/accent colors",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each theme defines primary, secondary, accent colors",
+        "Theme colors applied to text, buttons, icons across all screens",
+        "useMemo used for theme calculation to prevent re-renders",
+        "Fallback theme colors when theme not found"
+      ]
+    },
+    {
+      "id": "THEME-002",
+      "category": "theming",
+      "priority": 1,
+      "description": "5 built-in themes (Classic Coffee, Sakura, Matcha, Lavender, Sunset)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Classic Coffee theme with brown tones",
+        "Sakura Blossom theme with pink tones",
+        "Matcha Green theme with green tones",
+        "Lavender Dreams theme with purple tones",
+        "Sunset Peach theme with orange tones"
+      ]
+    },
+    {
+      "id": "CUSTOM-001",
+      "category": "customization",
+      "priority": 1,
+      "description": "Cup customization data model (CupCustomization type)",
+      "passes": true,
+      "acceptance_criteria": [
+        "CupCustomization type with id, name, type, cost, description",
+        "Optional color field for color items",
+        "Optional emoji field for accessory items",
+        "Optional themeColors field for theme items",
+        "cupCustomizations array with all items exported"
+      ]
+    },
+    {
+      "id": "BACKEND-001",
+      "category": "backend",
+      "priority": 1,
+      "description": "tRPC + Hono server setup with health check",
+      "passes": true,
+      "acceptance_criteria": [
+        "backend/hono.ts creates Hono app",
+        "CORS enabled",
+        "Health check endpoint at GET /",
+        "tRPC mounted at /api/trpc"
+      ]
+    },
+    {
+      "id": "BACKEND-002",
+      "category": "backend",
+      "priority": 1,
+      "description": "tRPC client configured in lib/trpc.ts",
+      "passes": true,
+      "acceptance_criteria": [
+        "HTTP link configured to API base URL",
+        "SuperJSON transformer for serialization",
+        "React Query integration via createTRPCReact",
+        "Type-safe client exported"
+      ]
+    },
+    {
+      "id": "BACKEND-003",
+      "category": "backend",
+      "priority": 1,
+      "description": "tRPC router structure with context and procedures",
+      "passes": true,
+      "acceptance_criteria": [
+        "create-context.ts defines context creation",
+        "app-router.ts exports combined router",
+        "Example route demonstrates pattern",
+        "Public and protected procedure types defined"
+      ]
+    },
+    {
+      "id": "DB-001",
+      "category": "database",
+      "priority": 1,
+      "description": "Install @supabase/supabase-js and create lib/supabase.ts client",
+      "passes": true,
+      "acceptance_criteria": [
+        "@supabase/supabase-js in package.json",
+        "lib/supabase.ts creates and exports client singleton",
+        "Uses EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY",
+        "Auth helpers configured for React Native"
+      ]
+    },
+    {
+      "id": "DB-002",
+      "category": "database",
+      "priority": 1,
+      "description": "Create brew_methods table migration with schema and RLS",
+      "passes": true,
+      "acceptance_criteria": [
+        "SQL migration file for brew_methods table",
+        "Columns: id, user_id, name, description, steps (JSONB), default_ratio, grind_size, total_time_seconds",
+        "RLS enabled with user-owned data policies",
+        "Timestamps (created_at, updated_at)"
+      ]
+    },
+    {
+      "id": "DB-003",
+      "category": "database",
+      "priority": 1,
+      "description": "Create brew_sessions table migration with schema and RLS",
+      "passes": true,
+      "acceptance_criteria": [
+        "SQL migration file for brew_sessions table",
+        "Columns: id, user_id, brew_method_id (FK), coffee_bean_id (FK), duration_seconds, rating, notes",
+        "RLS enabled with user-owned data policies",
+        "Timestamps (created_at, updated_at)"
+      ]
+    },
+    {
+      "id": "DB-004",
+      "category": "database",
+      "priority": 1,
+      "description": "Create coffee_beans table migration with schema and RLS",
+      "passes": true,
+      "acceptance_criteria": [
+        "SQL migration file for coffee_beans table",
+        "Columns: id, user_id, name, roaster, origin, roast_level, flavor_notes (JSONB), grind_size",
+        "RLS enabled with user-owned data policies",
+        "Timestamps (created_at, updated_at)"
+      ]
+    },
+    {
+      "id": "DB-005",
+      "category": "database",
+      "priority": 2,
+      "description": "Create achievements table migration with schema and RLS",
+      "passes": true,
+      "acceptance_criteria": [
+        "SQL migration file for achievements table",
+        "Columns: id, user_id, achievement_type, title, description, icon, unlocked_at",
+        "RLS enabled with user-owned data policies",
+        "Predefined achievement types"
+      ]
+    },
+    {
+      "id": "DB-006",
+      "category": "database",
+      "priority": 2,
+      "description": "Create user_preferences table migration",
+      "passes": true,
+      "acceptance_criteria": [
+        "SQL migration for user_preferences",
+        "Columns: user_id (FK), theme, cup_color, accessory, unlocked_items (JSONB), total_points",
+        "RLS policies for own-data access",
+        "Upsert support"
+      ]
+    },
+    {
+      "id": "DB-007",
+      "category": "database",
+      "priority": 1,
+      "description": "Create types/database.ts with Supabase generated types",
+      "passes": true,
+      "acceptance_criteria": [
+        "TypeScript types for all database tables",
+        "Row, Insert, and Update types for each table",
+        "Exported Database type for Supabase client typing"
+      ]
+    },
+    {
+      "id": "DB-008",
+      "category": "database",
+      "priority": 2,
+      "description": "Create database indexes for query performance",
+      "passes": true,
+      "acceptance_criteria": [
+        "Index on brew_sessions.user_id",
+        "Index on brew_sessions.created_at",
+        "Index on coffee_beans.user_id",
+        "Index on achievements.user_id"
+      ]
+    },
+    {
+      "id": "AUTH-001",
+      "category": "auth",
+      "priority": 2,
+      "description": "Create AuthProvider with Supabase Auth integration",
+      "passes": true,
+      "acceptance_criteria": [
+        "AuthProvider component wraps app",
+        "useAuth hook exposes user, session, loading state",
+        "Session persistence across app restarts",
+        "Token refresh on expiry",
+        "onAuthStateChange listener"
+      ]
+    },
+    {
+      "id": "AUTH-002",
+      "category": "auth",
+      "priority": 2,
+      "description": "Sign-in screen with email/password",
+      "passes": true,
+      "acceptance_criteria": [
+        "Email input with validation",
+        "Password input with secure text entry",
+        "Sign in button calls Supabase auth",
+        "Error messages for invalid credentials",
+        "Links to sign-up and forgot password"
+      ]
+    },
+    {
+      "id": "AUTH-003",
+      "category": "auth",
+      "priority": 2,
+      "description": "Sign-up screen with registration",
+      "passes": true,
+      "acceptance_criteria": [
+        "Email, password, confirm password fields",
+        "Display name input",
+        "Password strength validation",
+        "Calls Supabase signUp",
+        "Redirects to verify email or main app"
+      ]
+    },
+    {
+      "id": "AUTH-004",
+      "category": "auth",
+      "priority": 2,
+      "description": "Forgot password flow",
+      "passes": true,
+      "acceptance_criteria": [
+        "Email input for reset",
+        "Calls Supabase resetPasswordForEmail",
+        "Success message displayed",
+        "Deep link handling for password reset"
+      ]
+    },
+    {
+      "id": "AUTH-005",
+      "category": "auth",
+      "priority": 2,
+      "description": "Auth navigation guard (redirect unauthenticated users)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Check auth state on app mount",
+        "Redirect to sign-in if no session",
+        "Loading spinner while checking auth",
+        "Allow unauthenticated access to timer (offline mode)"
+      ]
+    },
+    {
+      "id": "AUTH-006",
+      "category": "auth",
+      "priority": 3,
+      "description": "Google OAuth sign-in",
+      "passes": true,
+      "acceptance_criteria": [
+        "Google OAuth button on sign-in screen",
+        "Uses expo-auth-session for OAuth flow",
+        "Token exchange with Supabase",
+        "Profile data imported from Google"
+      ]
+    },
+    {
+      "id": "AUTH-007",
+      "category": "auth",
+      "priority": 3,
+      "description": "Apple Sign-In (iOS)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Apple Sign-In button on sign-in screen (iOS only)",
+        "Uses expo-apple-authentication",
+        "Token exchange with Supabase",
+        "Handles email relay"
+      ]
+    },
+    {
+      "id": "AUTH-008",
+      "category": "auth",
+      "priority": 3,
+      "description": "Account deletion flow",
+      "passes": true,
+      "acceptance_criteria": [
+        "Delete account button in settings",
+        "Confirmation dialog with re-authentication",
+        "Deletes user data from Supabase",
+        "Signs out and redirects to sign-in"
+      ]
+    },
+    {
+      "id": "SYNC-001",
+      "category": "cloud-sync",
+      "priority": 2,
+      "description": "Cloud sync for user preferences (theme, cup, points)",
+      "passes": true,
+      "acceptance_criteria": [
+        "On sign-in, fetch preferences from Supabase",
+        "On change, sync preferences to Supabase",
+        "Merge strategy for offline changes",
+        "Fallback to AsyncStorage when offline"
+      ]
+    },
+    {
+      "id": "SYNC-002",
+      "category": "cloud-sync",
+      "priority": 2,
+      "description": "Cloud sync for brew history",
+      "passes": true,
+      "acceptance_criteria": [
+        "Brew sessions saved to Supabase",
+        "Brew history fetched from Supabase on load",
+        "Offline sessions queued for sync",
+        "Conflict resolution for concurrent changes"
+      ]
+    },
+    {
+      "id": "SYNC-003",
+      "category": "cloud-sync",
+      "priority": 2,
+      "description": "Cloud sync for custom brew presets",
+      "passes": true,
+      "acceptance_criteria": [
+        "Custom presets saved to Supabase",
+        "Presets synced across devices",
+        "Offline-first with background sync"
+      ]
+    },
+    {
+      "id": "BREW-001",
+      "category": "brew-features",
+      "priority": 1,
+      "description": "Brew method data model with steps, ratios, and grind info",
+      "passes": true,
+      "acceptance_criteria": [
+        "TypeScript BrewMethod type defined",
+        "Fields: id, name, description, steps[], defaultRatio, grindSize, totalTime",
+        "BrewStep type: name, duration, instruction, pourAmount?",
+        "Exported from types/ directory"
+      ]
+    },
+    {
+      "id": "BREW-002",
+      "category": "brew-features",
+      "priority": 1,
+      "description": "Brew session data model for history tracking",
+      "passes": true,
+      "acceptance_criteria": [
+        "TypeScript BrewSession type defined",
+        "Fields: id, methodId, beanId?, startTime, endTime, rating, notes",
+        "Exported from types/ directory"
+      ]
+    },
+    {
+      "id": "BREW-003",
+      "category": "brew-features",
+      "priority": 1,
+      "description": "Coffee bean data model for bean library",
+      "passes": true,
+      "acceptance_criteria": [
+        "TypeScript CoffeeBean type defined",
+        "Fields: id, name, roaster, origin, roastLevel, flavorNotes[], grindSize",
+        "Exported from types/ directory"
+      ]
+    },
+    {
+      "id": "BREW-004",
+      "category": "brew-features",
+      "priority": 2,
+      "description": "Brew history list with session records",
+      "passes": true,
+      "acceptance_criteria": [
+        "History screen or tab showing past brew sessions",
+        "Each entry shows method, date, duration, rating",
+        "Sorted by most recent first",
+        "Pull-to-refresh for cloud-synced data"
+      ]
+    },
+    {
+      "id": "BREW-005",
+      "category": "brew-features",
+      "priority": 2,
+      "description": "Brew statistics calculation and display",
+      "passes": true,
+      "acceptance_criteria": [
+        "Total brews count",
+        "Total brew time",
+        "Average rating",
+        "Most used brew method",
+        "Brews this week/month chart",
+        "Caffeine estimate tracking"
+      ]
+    },
+    {
+      "id": "BREW-006",
+      "category": "brew-features",
+      "priority": 2,
+      "description": "Coffee bean library (add, view, edit beans)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Add new bean with name, roaster, origin, roast level, flavor notes",
+        "View list of saved beans",
+        "Edit existing beans",
+        "Associate beans with brew sessions"
+      ]
+    },
+    {
+      "id": "BREW-007",
+      "category": "brew-features",
+      "priority": 2,
+      "description": "Bean recommendation by brew method",
+      "passes": true,
+      "acceptance_criteria": [
+        "Given a brew method, suggest matching beans from library",
+        "Consider roast level and grind compatibility",
+        "Show recommendation reason"
+      ]
+    },
+    {
+      "id": "BREW-008",
+      "category": "brew-features",
+      "priority": 3,
+      "description": "Flavor wheel tasting notes input",
+      "passes": true,
+      "acceptance_criteria": [
+        "Visual flavor wheel component",
+        "User can select flavors (fruity, nutty, chocolatey, etc.)",
+        "Tasting notes saved with brew session",
+        "Flavor profile visualization"
+      ]
+    },
+    {
+      "id": "BREW-009",
+      "category": "brew-features",
+      "priority": 3,
+      "description": "Caffeine tracking per brew",
+      "passes": true,
+      "acceptance_criteria": [
+        "Estimated caffeine per brew method",
+        "Daily caffeine intake tracker",
+        "Visual caffeine level indicator",
+        "Configurable caffeine limit warning"
+      ]
+    },
+    {
+      "id": "BREW-010",
+      "category": "brew-features",
+      "priority": 3,
+      "description": "Bean origin world map visualization",
+      "passes": true,
+      "acceptance_criteria": [
+        "World map component showing bean origins",
+        "Pins on countries where user's beans originate",
+        "Tap pin to see beans from that origin"
+      ]
+    },
+    {
+      "id": "ACHIEVE-001",
+      "category": "achievements",
+      "priority": 2,
+      "description": "Achievement/badge definitions and unlock criteria",
+      "passes": true,
+      "acceptance_criteria": [
+        "At least 15 achievement definitions",
+        "Categories: brews, streaks, exploration, mastery",
+        "Each has title, description, icon, unlock criteria",
+        "TypeScript Achievement type defined"
+      ]
+    },
+    {
+      "id": "ACHIEVE-002",
+      "category": "achievements",
+      "priority": 2,
+      "description": "Achievement unlock engine (check conditions after each brew)",
+      "passes": true,
+      "acceptance_criteria": [
+        "After each brew session, check all unearned achievements",
+        "Unlock achievement when criteria met",
+        "Show celebratory notification/animation on unlock",
+        "Award bonus points for achievements"
+      ]
+    },
+    {
+      "id": "ACHIEVE-003",
+      "category": "achievements",
+      "priority": 2,
+      "description": "Achievements display screen",
+      "passes": true,
+      "acceptance_criteria": [
+        "Grid of all achievements",
+        "Earned achievements shown in full color",
+        "Unearned achievements greyed out with hints",
+        "Progress indicators for partial completion"
+      ]
+    },
+    {
+      "id": "ACHIEVE-004",
+      "category": "achievements",
+      "priority": 2,
+      "description": "Streak tracking with daily brew reminders",
+      "passes": true,
+      "acceptance_criteria": [
+        "Track consecutive days with at least one brew",
+        "Display current streak on dashboard",
+        "Streak-based achievements",
+        "Push notification reminder for streak maintenance"
+      ]
+    },
+    {
+      "id": "SOCIAL-001",
+      "category": "social",
+      "priority": 3,
+      "description": "Share card generation for brew results",
+      "passes": true,
+      "acceptance_criteria": [
+        "Generate shareable image card after brew",
+        "Card shows brew method, time, rating, kawaii art",
+        "Share via native share sheet",
+        "Card respects current theme"
+      ]
+    },
+    {
+      "id": "SOCIAL-002",
+      "category": "social",
+      "priority": 3,
+      "description": "Community preset sharing via generated links",
+      "passes": true,
+      "acceptance_criteria": [
+        "Generate shareable link for custom brew presets",
+        "Deep link opens app with preset import prompt",
+        "Preview of shared preset before importing"
+      ]
+    },
+    {
+      "id": "SUB-001",
+      "category": "subscription",
+      "priority": 2,
+      "description": "Subscription tier definitions (Free / Pro)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Free tier: basic timer, limited shop items, local storage only",
+        "Pro tier ($9.99/mo or $99.99/yr): cloud sync, unlimited themes, export, achievements",
+        "Tier configuration in constants",
+        "Feature gating utility function"
+      ]
+    },
+    {
+      "id": "SUB-002",
+      "category": "subscription",
+      "priority": 2,
+      "description": "Paywall screen with plan selection",
+      "passes": true,
+      "acceptance_criteria": [
+        "Paywall screen shows Free vs Pro comparison",
+        "Monthly and annual pricing toggle",
+        "Subscribe button initiates purchase",
+        "Restore purchases button"
+      ]
+    },
+    {
+      "id": "SUB-003",
+      "category": "subscription",
+      "priority": 2,
+      "description": "RevenueCat integration for iOS/Android in-app purchases",
+      "passes": true,
+      "acceptance_criteria": [
+        "RevenueCat SDK installed and configured",
+        "Products fetched from RevenueCat",
+        "Purchase flow works on iOS and Android",
+        "Subscription status checked on app launch"
+      ]
+    },
+    {
+      "id": "SUB-004",
+      "category": "subscription",
+      "priority": 3,
+      "description": "Stripe integration for web payments",
+      "passes": true,
+      "acceptance_criteria": [
+        "Stripe checkout session for web subscribers",
+        "Webhook handler for subscription events",
+        "Portal link for subscription management"
+      ]
+    },
+    {
+      "id": "ANALYTICS-001",
+      "category": "analytics",
+      "priority": 3,
+      "description": "PostHog analytics integration",
+      "passes": true,
+      "acceptance_criteria": [
+        "PostHog SDK installed",
+        "Initialized with EXPO_PUBLIC_POSTHOG_KEY",
+        "Screen view tracking",
+        "User identification on auth",
+        "Feature flag support"
+      ]
+    },
+    {
+      "id": "ANALYTICS-002",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Analytics event tracking for key actions",
+      "passes": true,
+      "acceptance_criteria": [
+        "Track: timer_started, timer_completed, timer_paused",
+        "Track: item_purchased, item_equipped",
+        "Track: brew_method_selected, brew_completed",
+        "Track: achievement_unlocked",
+        "User properties: subscription_tier, total_brews"
+      ]
+    },
+    {
+      "id": "NOTIF-001",
+      "category": "notifications",
+      "priority": 3,
+      "description": "Push notification setup with expo-notifications",
+      "passes": true,
+      "acceptance_criteria": [
+        "expo-notifications installed",
+        "Permission request on first launch",
+        "Push token registration with backend",
+        "Notification handlers configured"
+      ]
+    },
+    {
+      "id": "NOTIF-002",
+      "category": "notifications",
+      "priority": 3,
+      "description": "Local notification for timer completion",
+      "passes": true,
+      "acceptance_criteria": [
+        "Notification fires when timer reaches 0 (app backgrounded)",
+        "Notification shows brew method and completion message",
+        "Tapping notification opens timer screen"
+      ]
+    },
+    {
+      "id": "NOTIF-003",
+      "category": "notifications",
+      "priority": 3,
+      "description": "Daily brew reminder notification",
+      "passes": true,
+      "acceptance_criteria": [
+        "Configurable reminder time in settings",
+        "Recurring daily notification",
+        "Can be enabled/disabled in settings",
+        "Shows streak info in notification"
+      ]
+    },
+    {
+      "id": "EXPORT-001",
+      "category": "export",
+      "priority": 3,
+      "description": "Export brew history to JSON",
+      "passes": true,
+      "acceptance_criteria": [
+        "Export button in settings or history screen",
+        "Generates JSON with all brew sessions",
+        "Share via native share sheet",
+        "File named with timestamp"
+      ]
+    },
+    {
+      "id": "EXPORT-002",
+      "category": "export",
+      "priority": 3,
+      "description": "Export brew history to CSV",
+      "passes": true,
+      "acceptance_criteria": [
+        "Export to CSV option",
+        "Headers: date, method, bean, duration, rating, notes",
+        "Share via native share sheet"
+      ]
+    },
+    {
+      "id": "PROFILE-001",
+      "category": "profile",
+      "priority": 2,
+      "description": "User profile screen with avatar and stats",
+      "passes": true,
+      "acceptance_criteria": [
+        "Profile screen accessible from settings",
+        "Avatar display (from auth provider or custom upload)",
+        "Display name and email",
+        "Key stats: total brews, favorite method, current streak"
+      ]
+    },
+    {
+      "id": "PROFILE-002",
+      "category": "profile",
+      "priority": 3,
+      "description": "Profile editing (name, avatar upload)",
+      "passes": true,
+      "acceptance_criteria": [
+        "Edit display name",
+        "Upload avatar via expo-image-picker",
+        "Avatar stored in Supabase Storage",
+        "Changes synced to Supabase user profile"
+      ]
+    },
+    {
+      "id": "UI-001",
+      "category": "ui-polish",
+      "priority": 2,
+      "description": "Loading skeleton screens for data-dependent views",
+      "passes": true,
+      "acceptance_criteria": [
+        "Skeleton loader for brew history list",
+        "Skeleton loader for bean library",
+        "Skeleton loader for achievements grid",
+        "Animated shimmer effect"
+      ]
+    },
+    {
+      "id": "UI-002",
+      "category": "ui-polish",
+      "priority": 2,
+      "description": "Empty states for list screens",
+      "passes": true,
+      "acceptance_criteria": [
+        "Kawaii-themed empty state for no brew history",
+        "Empty state for no beans in library",
+        "Empty state for no achievements yet",
+        "CTA button in empty states"
+      ]
+    },
+    {
+      "id": "UI-003",
+      "category": "ui-polish",
+      "priority": 2,
+      "description": "Error boundary with kawaii error state",
+      "passes": true,
+      "acceptance_criteria": [
+        "ErrorBoundary component wrapping app",
+        "Kawaii-themed error display (sad coffee cup)",
+        "Retry button",
+        "Error reported to analytics"
+      ]
+    },
+    {
+      "id": "UI-004",
+      "category": "ui-polish",
+      "priority": 3,
+      "description": "Pull-to-refresh on list screens",
+      "passes": true,
+      "acceptance_criteria": [
+        "Pull-to-refresh on brew history",
+        "Pull-to-refresh on bean library",
+        "Refresh triggers cloud sync",
+        "Loading indicator during refresh"
+      ]
+    },
+    {
+      "id": "UI-005",
+      "category": "ui-polish",
+      "priority": 3,
+      "description": "Walkthrough/tutorial overlay for first-time users",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tutorial appears on first launch",
+        "Highlights key features: timer, shop, settings",
+        "Skippable with 'Got it' button",
+        "Marked as seen in AsyncStorage"
+      ]
+    },
+    {
+      "id": "UI-006",
+      "category": "ui-polish",
+      "priority": 3,
+      "description": "Offline mode indicator",
+      "passes": true,
+      "acceptance_criteria": [
+        "Banner/indicator when device is offline",
+        "Cached data still accessible",
+        "Auto-dismiss when connection restored",
+        "Queue operations for sync when online"
+      ]
+    },
+    {
+      "id": "A11Y-001",
+      "category": "accessibility",
+      "priority": 2,
+      "description": "Screen reader accessibility labels on interactive elements",
+      "passes": true,
+      "acceptance_criteria": [
+        "accessibilityLabel on all buttons",
+        "accessibilityRole on interactive elements",
+        "Timer announces time remaining",
+        "Shop items announce name, cost, unlock status"
+      ]
+    },
+    {
+      "id": "A11Y-002",
+      "category": "accessibility",
+      "priority": 2,
+      "description": "Sufficient color contrast ratios",
+      "passes": true,
+      "acceptance_criteria": [
+        "Text on backgrounds meets WCAG AA contrast ratio (4.5:1)",
+        "Interactive elements meet 3:1 contrast ratio",
+        "Tested across all themes"
+      ]
+    },
+    {
+      "id": "A11Y-003",
+      "category": "accessibility",
+      "priority": 3,
+      "description": "Reduced motion support",
+      "passes": true,
+      "acceptance_criteria": [
+        "Check AccessibilityInfo.isReduceMotionEnabled",
+        "Disable/simplify cup animation when enabled",
+        "Disable bubble game animations when enabled",
+        "Timer still functions without animations"
+      ]
+    },
+    {
+      "id": "PERF-001",
+      "category": "performance",
+      "priority": 2,
+      "description": "Memoized theme calculations across screens",
+      "passes": true,
+      "acceptance_criteria": [
+        "useMemo for themeColors in timer screen",
+        "useMemo for themeColors in shop screen",
+        "useMemo for themeColors in settings screen",
+        "useMemo for themeColors in tab layout",
+        "useCallback for event handlers in PomodoroContext"
+      ]
+    },
+    {
+      "id": "PERF-002",
+      "category": "performance",
+      "priority": 3,
+      "description": "App cold start time under 3 seconds",
+      "passes": true,
+      "acceptance_criteria": [
+        "Measure time from launch to interactive",
+        "Splash screen shown during load",
+        "AsyncStorage loaded asynchronously",
+        "No blocking operations in root layout"
+      ]
+    },
+    {
+      "id": "SECURITY-001",
+      "category": "security",
+      "priority": 2,
+      "description": "No secrets in source code or version control",
+      "passes": true,
+      "acceptance_criteria": [
+        ".env in .gitignore",
+        "No hardcoded API keys in source",
+        "Environment variables used for all secrets",
+        ".env.example with placeholder values"
+      ]
+    },
+    {
+      "id": "TEST-001",
+      "category": "testing",
+      "priority": 2,
+      "description": "Unit tests for PomodoroContext state management",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test timer start/pause/reset",
+        "Test mode switching (work -> break -> work)",
+        "Test points addition and deduction",
+        "Test item unlock with sufficient/insufficient points",
+        "Test state persistence load/save"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "category": "testing",
+      "priority": 2,
+      "description": "Unit tests for timer countdown logic",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test countdown decrements by 1 each second",
+        "Test timer stops at 0",
+        "Test mode switch on completion",
+        "Test progress calculation",
+        "Test custom durations"
+      ]
+    },
+    {
+      "id": "TEST-003",
+      "category": "testing",
+      "priority": 2,
+      "description": "Unit tests for shop purchase and equip logic",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test purchase with enough points",
+        "Test purchase rejected with insufficient points",
+        "Test equip color changes selectedCupColor",
+        "Test equip accessory toggles on/off",
+        "Test equip theme changes selectedTheme"
+      ]
+    },
+    {
+      "id": "TEST-004",
+      "category": "testing",
+      "priority": 2,
+      "description": "Unit tests for cupCustomizations data integrity",
+      "passes": true,
+      "acceptance_criteria": [
+        "All items have unique IDs",
+        "All items have non-negative costs",
+        "Color items have valid hex color strings",
+        "Theme items have themeColors with primary/secondary/accent",
+        "Accessory items have emoji field"
+      ]
+    },
+    {
+      "id": "TEST-005",
+      "category": "testing",
+      "priority": 3,
+      "description": "Component render tests for Timer, Shop, Settings screens",
+      "passes": true,
+      "acceptance_criteria": [
+        "Timer screen renders without errors",
+        "Shop screen renders all customization items",
+        "Settings screen renders all settings controls",
+        "Components respond to context state changes"
+      ]
+    },
+    {
+      "id": "TEST-006",
+      "category": "testing",
+      "priority": 3,
+      "description": "Unit tests for brew method data model and validation",
+      "passes": true,
+      "acceptance_criteria": [
+        "BrewMethod type validation",
+        "Step duration sum equals total time",
+        "Ratio format validation",
+        "Required fields present"
+      ]
+    },
+    {
+      "id": "TEST-007",
+      "category": "testing",
+      "priority": 3,
+      "description": "Integration tests for auth flow",
+      "passes": true,
+      "acceptance_criteria": [
+        "Sign-in flow test",
+        "Sign-up flow test",
+        "Sign-out flow test",
+        "Session persistence test"
+      ]
+    },
+    {
+      "id": "TEST-008",
+      "category": "testing",
+      "priority": 3,
+      "description": "Integration tests for cloud sync",
+      "passes": true,
+      "acceptance_criteria": [
+        "Preferences sync up test",
+        "Preferences sync down test",
+        "Offline queue test",
+        "Conflict resolution test"
+      ]
+    }
+  ]
+}

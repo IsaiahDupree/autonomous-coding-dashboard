@@ -1,0 +1,2114 @@
+{
+  "project": "AI Video Platform",
+  "description": "AI video generation platform with voice cloning, static ad studio, and Apple product page builder",
+  "version": "1.0",
+  "totalFeatures": 120,
+  "completedFeatures": 123,
+  "phases": {
+    "phase1_foundation": "Remotion setup, content briefs, basic TTS",
+    "phase2_voice_cloning": "Modal deployment, IndexTTS, ElevenLabs integration",
+    "phase3_image_generation": "DALL-E, Gemini, character consistency",
+    "phase4_text_to_video": "T2V models, avatar generation, Modal deployment",
+    "phase5_static_ads": "Remotion Static Ad Studio with templates and batch rendering",
+    "phase6_apple_pages": "App Store product page builder with CPP and PPO"
+  },
+  "features": [
+    {
+      "id": "VID-001",
+      "name": "Content Brief Schema",
+      "description": "JSON-based video definition system with settings, style, sections, and audio",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "src/types/brief.ts",
+        "data/briefs/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VID-002",
+      "name": "Remotion Project Setup",
+      "description": "Initialize Remotion with BriefComposition and basic scene components",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "8pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "src/compositions/",
+        "remotion.config.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VID-003",
+      "name": "Topic Scene Component",
+      "description": "Reusable scene for heading, body text, and image display",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "src/scenes/TopicScene.tsx"
+      ],
+      "dependencies": [
+        "VID-002"
+      ]
+    },
+    {
+      "id": "VID-004",
+      "name": "Theme System",
+      "description": "Dark/light themes with configurable colors and typography",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "src/styles/theme.ts"
+      ],
+      "dependencies": [
+        "VID-002"
+      ]
+    },
+    {
+      "id": "VID-005",
+      "name": "OpenAI TTS Integration",
+      "description": "Text-to-speech using OpenAI API with voice selection",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "audio",
+      "files": [
+        "scripts/generate-tts.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VID-006",
+      "name": "Audio Component Integration",
+      "description": "Remotion Audio component for voiceover playback in compositions",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "audio",
+      "files": [
+        "src/compositions/BriefComposition.tsx"
+      ],
+      "dependencies": [
+        "VID-002",
+        "VID-005"
+      ]
+    },
+    {
+      "id": "VID-007",
+      "name": "DALL-E Image Generation",
+      "description": "Scene and character image generation using DALL-E API",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "image-gen",
+      "files": [
+        "scripts/generate-images.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VID-008",
+      "name": "Video Render CLI",
+      "description": "Command-line interface for rendering videos from briefs",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "5pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "scripts/render-video.ts"
+      ],
+      "dependencies": [
+        "VID-002",
+        "VID-003"
+      ]
+    },
+    {
+      "id": "VID-009",
+      "name": "Asset Directory Structure",
+      "description": "Organized public/assets folder for audio, images, scenes, voices",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "public/assets/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VID-010",
+      "name": "Brief Validation",
+      "description": "JSON schema validation for content briefs with helpful error messages",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "3pts",
+      "passes": true,
+      "category": "video-core",
+      "files": [
+        "src/utils/validateBrief.ts"
+      ],
+      "dependencies": [
+        "VID-001"
+      ]
+    },
+    {
+      "id": "VC-001",
+      "name": "Modal Voice Clone Service",
+      "description": "Deploy IndexTTS voice cloning to Modal with API endpoint",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "8pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "scripts/modal_voice_clone.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VC-002",
+      "name": "ElevenLabs Reference Generation",
+      "description": "Generate voice reference audio using ElevenLabs TTS",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "scripts/generate-voice-with-elevenlabs.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VC-003",
+      "name": "Voice Clone API Client",
+      "description": "TypeScript client for calling Modal voice clone endpoint",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "src/services/voiceClone.ts"
+      ],
+      "dependencies": [
+        "VC-001"
+      ]
+    },
+    {
+      "id": "VC-004",
+      "name": "Full Voice Pipeline",
+      "description": "End-to-end: ElevenLabs reference → IndexTTS clone → output",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "8pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "scripts/generate-voice-with-elevenlabs.ts"
+      ],
+      "dependencies": [
+        "VC-001",
+        "VC-002",
+        "VC-003"
+      ]
+    },
+    {
+      "id": "VC-005",
+      "name": "Voice Reference Management",
+      "description": "Store and organize voice reference files with metadata",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "public/assets/voices/"
+      ],
+      "dependencies": [
+        "VC-002"
+      ]
+    },
+    {
+      "id": "VC-006",
+      "name": "Batch Voiceover Generation",
+      "description": "Generate voiceovers for multiple sections in batch",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "scripts/generate-appkit-voiceover.ts"
+      ],
+      "dependencies": [
+        "VC-004"
+      ]
+    },
+    {
+      "id": "VC-007",
+      "name": "ElevenLabs SFX Integration",
+      "description": "Sound effects generation using ElevenLabs",
+      "priority": "P2",
+      "phase": 2,
+      "effort": "5pts",
+      "passes": true,
+      "category": "audio",
+      "files": [
+        "scripts/generate-sfx.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "VC-008",
+      "name": "Modal Cost Management",
+      "description": "Auto-scale to zero, status checking, stop commands",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "3pts",
+      "passes": true,
+      "category": "voice-clone",
+      "files": [
+        "scripts/modal-manage.sh"
+      ],
+      "dependencies": [
+        "VC-001"
+      ]
+    },
+    {
+      "id": "IMG-001",
+      "name": "Gemini Image Generation",
+      "description": "Alternative image generation using Google Gemini API",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "5pts",
+      "passes": true,
+      "category": "image-gen",
+      "files": [
+        "scripts/remix-character-gemini.ts"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "IMG-002",
+      "name": "Character Consistency Script",
+      "description": "Remix script for consistent character generation with DALL-E",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "8pts",
+      "passes": true,
+      "category": "image-gen",
+      "files": [
+        "scripts/remix-character.ts"
+      ],
+      "dependencies": [
+        "VID-007"
+      ]
+    },
+    {
+      "id": "IMG-003",
+      "name": "Sticker Generation",
+      "description": "Background removal for overlay stickers",
+      "priority": "P2",
+      "phase": 3,
+      "effort": "5pts",
+      "passes": true,
+      "category": "image-gen",
+      "files": [
+        "scripts/generate-stickers.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "IMG-004",
+      "name": "Scene Image Library",
+      "description": "Organized storage for generated scene images",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "3pts",
+      "passes": true,
+      "category": "image-gen",
+      "files": [
+        "public/assets/scenes/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "IMG-005",
+      "name": "Image Prompt Templates",
+      "description": "Reusable prompt templates for consistent image generation",
+      "priority": "P2",
+      "phase": 3,
+      "effort": "3pts",
+      "passes": true,
+      "category": "image-gen",
+      "files": [
+        "data/prompts/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-001",
+      "name": "LTX-Video Modal Deployment",
+      "description": "Deploy LTX-Video model to Modal for fast T2V generation",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "13pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_ltx_video.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-002",
+      "name": "Mochi Model Integration",
+      "description": "Deploy Genmo Mochi 10B model to Modal",
+      "priority": "P2",
+      "phase": 4,
+      "effort": "13pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_mochi.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-003",
+      "name": "HunyuanVideo Integration",
+      "description": "Deploy Tencent HunyuanVideo 13B to Modal",
+      "priority": "P2",
+      "phase": 4,
+      "effort": "13pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_hunyuan.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-004",
+      "name": "Wan2.2 Model Integration",
+      "description": "Deploy Alibaba Wan2.2 MoE model to Modal",
+      "priority": "P2",
+      "phase": 4,
+      "effort": "13pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_wan.py"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-005",
+      "name": "LongCat Avatar Integration",
+      "description": "Audio-driven talking head video generation",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "13pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_longcat_avatar.py",
+        "scripts/generate-avatar.ts",
+        "docs/T2V-005-LONGCAT-AVATAR.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-006",
+      "name": "T2V API Router",
+      "description": "Unified API to route requests to different T2V models",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "8pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "src/services/textToVideo.ts",
+        "scripts/test-t2v-router.ts",
+        "docs/T2V-006-API-ROUTER.md"
+      ],
+      "dependencies": [
+        "T2V-001"
+      ]
+    },
+    {
+      "id": "T2V-007",
+      "name": "Model Weight Caching",
+      "description": "Modal volume for caching HuggingFace model weights",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "5pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_*.py",
+        "docs/T2V-007-MODEL-CACHING.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "T2V-008",
+      "name": "T2V Web Endpoint",
+      "description": "FastAPI endpoint for T2V generation requests",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "8pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/modal_ltx_video.py",
+        "scripts/test-t2v-web-endpoint.ts",
+        "docs/T2V-008-WEB-ENDPOINT.md"
+      ],
+      "dependencies": [
+        "T2V-001"
+      ]
+    },
+    {
+      "id": "T2V-009",
+      "name": "T2V CLI Interface",
+      "description": "Command-line interface for T2V generation",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "5pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "scripts/generate-t2v.ts",
+        "docs/T2V-009-CLI-INTERFACE.md"
+      ],
+      "dependencies": [
+        "T2V-006"
+      ]
+    },
+    {
+      "id": "T2V-010",
+      "name": "Video Output Pipeline",
+      "description": "Export T2V output to MP4 with proper encoding",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "5pts",
+      "passes": true,
+      "category": "text-to-video",
+      "files": [
+        "src/utils/videoExport.ts",
+        "scripts/test-video-export.ts",
+        "docs/T2V-010-VIDEO-OUTPUT.md"
+      ],
+      "dependencies": [
+        "T2V-001"
+      ]
+    },
+    {
+      "id": "ADS-001",
+      "name": "Static Ad Template System",
+      "description": "Remotion Still compositions for ad templates",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/compositions/ads/",
+        "src/types/adTemplate.ts",
+        "data/ads/"
+      ],
+      "dependencies": [
+        "VID-002"
+      ]
+    },
+    {
+      "id": "ADS-002",
+      "name": "Starter Template Library",
+      "description": "10-20 pre-built ad templates for common formats",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "13pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/templates/ads/",
+        "src/templates/README.md"
+      ],
+      "dependencies": [
+        "ADS-001"
+      ]
+    },
+    {
+      "id": "ADS-003",
+      "name": "Brand Kit System",
+      "description": "Upload logos, define colors, fonts, spacing per workspace",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/types/brandKit.ts",
+        "src/services/brandKit.ts",
+        "scripts/manage-brand-kits.ts",
+        "data/brand-kits/",
+        "docs/ADS-003-BRAND-KIT-SYSTEM.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ADS-004",
+      "name": "Ad Editor UI",
+      "description": "Form-driven editor with live preview for ad customization",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "13pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/app/ads/editor/",
+        "src/app/layout.tsx",
+        "src/app/globals.css",
+        "src/app/page.tsx",
+        "next.config.js",
+        "docs/ADS-004-AD-EDITOR-UI.md"
+      ],
+      "dependencies": [
+        "ADS-001",
+        "ADS-003"
+      ]
+    },
+    {
+      "id": "ADS-005",
+      "name": "Auto-fit Text",
+      "description": "Shrink-to-fit, line clamp, safe-area handling",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/components/AutoFitText.tsx",
+        "src/app/ads/autofit-demo/page.tsx",
+        "src/compositions/ads/AutoFitAdTemplate.tsx",
+        "scripts/test-autofit-text.ts",
+        "docs/ADS-005-AUTO-FIT-TEXT.md"
+      ],
+      "dependencies": [
+        "ADS-001"
+      ]
+    },
+    {
+      "id": "ADS-006",
+      "name": "Image Positioning Controls",
+      "description": "Cover/contain, focal point, rounded corners for images",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/components/AdImage.tsx",
+        "src/app/ads/image-demo/page.tsx",
+        "src/compositions/ads/ImagePositioningDemo.tsx",
+        "scripts/test-ad-image.ts",
+        "docs/ADS-006-IMAGE-POSITIONING.md"
+      ],
+      "dependencies": [
+        "ADS-001"
+      ]
+    },
+    {
+      "id": "ADS-007",
+      "name": "renderStill Service",
+      "description": "Node service using @remotion/renderer for PNG/JPG/WebP output",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/renderStill.ts",
+        "scripts/test-render-still.ts"
+      ],
+      "dependencies": [
+        "ADS-001"
+      ]
+    },
+    {
+      "id": "ADS-008",
+      "name": "Size Presets",
+      "description": "Standard sizes: 1080x1080, 1080x1920, 1200x628, etc.",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "3pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/config/adSizes.ts",
+        "src/app/ads/editor/components/SizeSelector.tsx",
+        "scripts/test-ad-sizes.ts",
+        "docs/ADS-008-SIZE-PRESETS.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ADS-009",
+      "name": "Render Job Queue",
+      "description": "BullMQ/Redis queue for managing render jobs",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/renderQueue.ts",
+        "scripts/test-render-queue.ts",
+        "docs/ADS-009-RENDER-JOB-QUEUE.md"
+      ],
+      "dependencies": [
+        "ADS-007"
+      ]
+    },
+    {
+      "id": "ADS-010",
+      "name": "ZIP Export with Manifest",
+      "description": "Download ZIP organized by variant/size with manifest.json",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/exportZip.ts",
+        "scripts/test-export-zip.ts",
+        "docs/ADS-010-ZIP-EXPORT.md"
+      ],
+      "dependencies": [
+        "ADS-007"
+      ]
+    },
+    {
+      "id": "ADS-011",
+      "name": "Campaign Pack Generator",
+      "description": "Generate all sizes for a campaign with copy variants",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/types/campaign.ts",
+        "src/services/campaignGenerator.ts",
+        "src/app/ads/campaign/page.tsx",
+        "src/app/ads/campaign/campaign.module.css",
+        "scripts/test-campaign-generator.ts",
+        "docs/ADS-011-CAMPAIGN-PACK-GENERATOR.md"
+      ],
+      "dependencies": [
+        "ADS-007",
+        "ADS-008"
+      ]
+    },
+    {
+      "id": "ADS-012",
+      "name": "CSV/Feed Batch Import",
+      "description": "Upload CSV to generate 50-500 creatives from product feed",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/csvImport.ts",
+        "scripts/test-csv-import.ts"
+      ],
+      "dependencies": [
+        "ADS-007"
+      ]
+    },
+    {
+      "id": "ADS-013",
+      "name": "Column Mapping UI",
+      "description": "Map CSV columns to template fields",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/app/ads/batch/"
+      ],
+      "dependencies": [
+        "ADS-012"
+      ]
+    },
+    {
+      "id": "ADS-014",
+      "name": "Workspace Auth",
+      "description": "Role-based access: Owner/Admin/Editor/Viewer",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/types/workspace.ts",
+        "src/services/auth.ts",
+        "src/middleware/authMiddleware.ts",
+        "scripts/manage-workspaces.ts",
+        "scripts/test-workspace-auth.ts",
+        "docs/ADS-014-WORKSPACE-AUTH.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ADS-015",
+      "name": "AI Variant Generator",
+      "description": "Generate 10 headline rewrites using AI",
+      "priority": "P2",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/aiVariants.ts",
+        "src/app/api/ads/generate-variants/route.ts",
+        "src/app/ads/editor/components/VariantGenerator.tsx",
+        "src/app/ads/editor/components/VariantGenerator.module.css",
+        "scripts/test-ai-variants.ts",
+        "scripts/verify-ai-variants.ts",
+        "docs/ADS-015-AI-VARIANT-GENERATOR.md"
+      ],
+      "dependencies": [
+        "ADS-004"
+      ]
+    },
+    {
+      "id": "ADS-016",
+      "name": "Approval Workflow",
+      "description": "Draft → In Review → Approved status with comments",
+      "priority": "P2",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/app/ads/review/",
+        "src/types/approval.ts",
+        "src/services/approvalService.ts",
+        "scripts/test-approval-workflow.ts",
+        "docs/ADS-016-APPROVAL-WORKFLOW.md"
+      ],
+      "dependencies": [
+        "ADS-014"
+      ]
+    },
+    {
+      "id": "ADS-017",
+      "name": "Render Complete Webhook",
+      "description": "Webhook notification when render job completes",
+      "priority": "P2",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/webhooks.ts",
+        "src/services/renderQueueWithWebhooks.ts",
+        "scripts/test-webhooks.ts",
+        "docs/ADS-017-WEBHOOK-NOTIFICATIONS.md"
+      ],
+      "dependencies": [
+        "ADS-009"
+      ]
+    },
+    {
+      "id": "ADS-018",
+      "name": "S3/R2 Upload Integration",
+      "description": "Push rendered assets to cloud storage",
+      "priority": "P2",
+      "phase": 5,
+      "effort": "5pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/storage.ts",
+        "scripts/test-storage.ts",
+        "docs/ADS-018-S3-R2-UPLOAD.md"
+      ],
+      "dependencies": [
+        "ADS-007"
+      ]
+    },
+    {
+      "id": "ADS-019",
+      "name": "Creative QA Checks",
+      "description": "Contrast warnings, text overflow, logo size validation",
+      "priority": "P2",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/services/creativeQA.ts",
+        "src/app/ads/editor/components/QAPanel.tsx",
+        "src/app/ads/editor/components/QAPanel.module.css",
+        "scripts/test-creative-qa.ts",
+        "docs/ADS-019-CREATIVE-QA-CHECKS.md"
+      ],
+      "dependencies": [
+        "ADS-004"
+      ]
+    },
+    {
+      "id": "ADS-020",
+      "name": "Multi-language Localization",
+      "description": "Per-creative language variants",
+      "priority": "P2",
+      "phase": 5,
+      "effort": "8pts",
+      "passes": true,
+      "category": "static-ads",
+      "files": [
+        "src/types/localization.ts",
+        "src/services/localization.ts",
+        "src/app/ads/localize/page.tsx",
+        "src/app/ads/localize/localize.module.css",
+        "scripts/test-localization.ts",
+        "docs/ADS-020-MULTI-LANGUAGE-LOCALIZATION.md"
+      ],
+      "dependencies": [
+        "ADS-004"
+      ]
+    },
+    {
+      "id": "APP-001",
+      "name": "Screenshot Device Frames",
+      "description": "Device frame templates for iPhone, iPad, Watch, Mac",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/components/DeviceFrame.tsx",
+        "src/types/deviceFrame.ts",
+        "src/config/deviceFrames.ts",
+        "src/app/screenshots/page.tsx",
+        "src/app/screenshots/screenshots.module.css",
+        "scripts/test-device-frames.ts",
+        "docs/APP-001-SCREENSHOT-DEVICE-FRAMES.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-002",
+      "name": "Caption Overlay System",
+      "description": "Text overlays with position, style, and localization",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/captionOverlay.ts",
+        "src/components/CaptionOverlay.tsx",
+        "src/app/screenshots/captions/page.tsx",
+        "src/app/screenshots/captions/captions.module.css",
+        "scripts/test-caption-overlay.ts",
+        "docs/APP-002-CAPTION-OVERLAY-SYSTEM.md"
+      ],
+      "dependencies": [
+        "APP-001"
+      ]
+    },
+    {
+      "id": "APP-003",
+      "name": "Screenshot Size Generator",
+      "description": "Batch resize to all required App Store dimensions",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/screenshotResize.ts",
+        "src/config/screenshotSizes.ts",
+        "src/services/screenshotResize.ts",
+        "src/app/screenshots/resize/page.tsx",
+        "src/app/screenshots/resize/resize.module.css",
+        "scripts/test-screenshot-resize.ts",
+        "docs/APP-003-SCREENSHOT-SIZE-GENERATOR.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-004",
+      "name": "Locale-organized Export",
+      "description": "Export ZIP organized by locale and device type",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/localeExport.ts",
+        "src/services/localeExport.ts",
+        "scripts/test-locale-export.ts",
+        "docs/APP-004-LOCALE-ORGANIZED-EXPORT.md"
+      ],
+      "dependencies": [
+        "APP-003"
+      ]
+    },
+    {
+      "id": "APP-005",
+      "name": "Asset Library",
+      "description": "Per-app asset management with version history",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/assetLibrary.ts",
+        "src/services/assetLibrary.ts",
+        "src/app/assets/page.tsx",
+        "src/app/assets/assets.module.css",
+        "scripts/test-asset-library.ts",
+        "docs/APP-005-ASSET-LIBRARY.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-006",
+      "name": "App Store Connect OAuth",
+      "description": "OAuth integration with App Store Connect API",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascAuth.ts",
+        "src/services/ascAuth.ts",
+        "scripts/test-asc-auth.ts",
+        "scripts/manage-asc-credentials.ts",
+        "docs/APP-006-APP-STORE-CONNECT-OAUTH.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-007",
+      "name": "App List Fetcher",
+      "description": "Fetch and display apps from App Store Connect",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascApps.ts",
+        "src/services/ascApps.ts",
+        "scripts/test-asc-apps.ts"
+      ],
+      "dependencies": [
+        "APP-006"
+      ]
+    },
+    {
+      "id": "APP-008",
+      "name": "Screenshot Upload API",
+      "description": "Upload screenshots to App Store Connect",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascScreenshots.ts",
+        "src/services/ascScreenshots.ts",
+        "scripts/test-asc-screenshots.ts",
+        "docs/APP-008-SCREENSHOT-UPLOAD-API.md"
+      ],
+      "dependencies": [
+        "APP-006"
+      ]
+    },
+    {
+      "id": "APP-009",
+      "name": "App Preview Upload API",
+      "description": "Upload app preview videos to App Store Connect",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascPreviews.ts",
+        "src/services/ascPreviews.ts",
+        "scripts/test-asc-previews.ts"
+      ],
+      "dependencies": [
+        "APP-006"
+      ]
+    },
+    {
+      "id": "APP-010",
+      "name": "Custom Product Page Creator",
+      "description": "Create CPP with custom screenshots and promotional text",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "13pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascCustomProductPages.ts",
+        "src/services/ascCustomProductPages.ts",
+        "src/app/cpp/page.tsx",
+        "src/app/cpp/cpp.module.css",
+        "scripts/test-asc-custom-product-pages.ts",
+        "docs/APP-010-CUSTOM-PRODUCT-PAGE-CREATOR.md"
+      ],
+      "dependencies": [
+        "APP-006",
+        "APP-008"
+      ]
+    },
+    {
+      "id": "APP-011",
+      "name": "CPP List & Management",
+      "description": "List, edit, and manage existing Custom Product Pages",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/app/cpp/list/",
+        "src/app/cpp/edit/[id]/",
+        "src/app/api/cpp/list/route.ts",
+        "src/app/api/cpp/[id]/route.ts",
+        "scripts/test-cpp-list-management.ts",
+        "docs/APP-011-CPP-LIST-MANAGEMENT.md"
+      ],
+      "dependencies": [
+        "APP-010"
+      ]
+    },
+    {
+      "id": "APP-012",
+      "name": "Device Mockup Preview",
+      "description": "Preview screenshots in device mockups",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/components/DeviceMockup.tsx",
+        "src/app/screenshots/mockup/page.tsx",
+        "src/app/screenshots/mockup/mockup.module.css",
+        "scripts/test-device-mockup.ts",
+        "docs/APP-012-DEVICE-MOCKUP-PREVIEW.md"
+      ],
+      "dependencies": [
+        "APP-001"
+      ]
+    },
+    {
+      "id": "APP-013",
+      "name": "Locale Comparison View",
+      "description": "Side-by-side comparison of screenshots across locales",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/app/compare/page.tsx",
+        "src/app/compare/compare.module.css",
+        "scripts/test-locale-comparison.ts",
+        "docs/APP-013-LOCALE-COMPARISON-VIEW.md"
+      ],
+      "dependencies": [
+        "APP-005"
+      ]
+    },
+    {
+      "id": "APP-014",
+      "name": "PPO Test Configuration",
+      "description": "Create Product Page Optimization test with treatments",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "13pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascPPO.ts",
+        "src/services/ascPPO.ts",
+        "src/app/ppo/page.tsx",
+        "src/app/ppo/ppo.module.css",
+        "scripts/test-asc-ppo.ts",
+        "docs/APP-014-PPO-TEST-CONFIGURATION.md"
+      ],
+      "dependencies": [
+        "APP-006"
+      ]
+    },
+    {
+      "id": "APP-015",
+      "name": "PPO Test Submission",
+      "description": "Submit PPO tests via App Store Connect API",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/services/ascPPO.ts",
+        "src/app/ppo/page.tsx",
+        "src/app/ppo/ppo.module.css",
+        "scripts/test-asc-ppo-submission.ts",
+        "docs/APP-015-PPO-TEST-SUBMISSION.md"
+      ],
+      "dependencies": [
+        "APP-006",
+        "APP-014"
+      ]
+    },
+    {
+      "id": "APP-016",
+      "name": "PPO Results Dashboard",
+      "description": "Fetch and display PPO test results with winner detection",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/app/ppo/results/",
+        "src/services/ascPPO.ts",
+        "scripts/test-asc-ppo-results.ts",
+        "docs/APP-016-PPO-RESULTS-DASHBOARD.md"
+      ],
+      "dependencies": [
+        "APP-015"
+      ]
+    },
+    {
+      "id": "APP-017",
+      "name": "Apply Winning Treatment",
+      "description": "One-click apply PPO winner to default product page",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/ascPPO.ts",
+        "src/services/ascPPO.ts",
+        "src/app/ppo/results/page.tsx",
+        "src/app/ppo/results/results.module.css",
+        "scripts/test-asc-ppo-apply.ts",
+        "docs/APP-017-APPLY-WINNING-TREATMENT.md"
+      ],
+      "dependencies": [
+        "APP-016"
+      ]
+    },
+    {
+      "id": "APP-018",
+      "name": "Figma Import Integration",
+      "description": "Import frames from Figma and auto-detect sizes",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "13pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/figmaImport.ts",
+        "src/services/figmaImport.ts",
+        "scripts/test-figma-import.ts",
+        "docs/APP-018-FIGMA-IMPORT-INTEGRATION.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-019",
+      "name": "Translation Memory",
+      "description": "Store and reuse translations across locales",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/services/translations.ts",
+        "scripts/test-translation-memory.ts",
+        "docs/APP-019-TRANSLATION-MEMORY.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-020",
+      "name": "AI Translation Suggestions",
+      "description": "GPT-powered translation suggestions for captions",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "5pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/services/aiTranslation.ts",
+        "scripts/test-ai-translation.ts",
+        "scripts/verify-ai-translation.ts"
+      ],
+      "dependencies": [
+        "APP-019"
+      ]
+    },
+    {
+      "id": "APP-021",
+      "name": "Multi-user Approval Workflow",
+      "description": "Review and approve states with comments",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/app/review/",
+        "src/types/appleApproval.ts",
+        "src/services/appleApprovalService.ts",
+        "src/app/api/review/apple/",
+        "scripts/test-apple-approval-workflow.ts",
+        "docs/APP-021-MULTI-USER-APPROVAL-WORKFLOW.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "APP-022",
+      "name": "Screenshot Template Library",
+      "description": "Pre-built templates for common screenshot styles",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/screenshotTemplate.ts",
+        "src/templates/screenshots/index.ts",
+        "src/templates/screenshots/README.md",
+        "src/templates/screenshots/*.json",
+        "src/app/screenshots/templates/page.tsx",
+        "src/app/screenshots/templates/templates.module.css",
+        "scripts/test-screenshot-templates.ts",
+        "docs/APP-022-SCREENSHOT-TEMPLATE-LIBRARY.md"
+      ],
+      "dependencies": [
+        "APP-001"
+      ]
+    },
+    {
+      "id": "APP-023",
+      "name": "App Preview Video Generator",
+      "description": "Create app preview videos with captions/overlays",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "13pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/appPreview.ts",
+        "src/compositions/appPreview/AppPreviewComposition.tsx",
+        "src/compositions/appPreview/index.ts",
+        "data/appPreviews/example-app-preview.json",
+        "scripts/test-app-preview.ts",
+        "docs/APP-023-APP-PREVIEW-VIDEO-GENERATOR.md"
+      ],
+      "dependencies": [
+        "VID-002",
+        "APP-001",
+        "APP-002"
+      ]
+    },
+    {
+      "id": "APP-024",
+      "name": "CPP Analytics Dashboard",
+      "description": "Conversion rate tracking and CPP performance comparison",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "8pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/types/cppAnalytics.ts",
+        "src/services/cppAnalytics.ts",
+        "src/app/analytics/page.tsx",
+        "src/app/analytics/analytics.module.css",
+        "scripts/test-cpp-analytics.ts",
+        "docs/APP-024-CPP-ANALYTICS-DASHBOARD.md"
+      ],
+      "dependencies": [
+        "APP-010"
+      ]
+    },
+    {
+      "id": "APP-025",
+      "name": "Screenshot Editor UI",
+      "description": "Visual editor for positioning screenshots and captions",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "13pts",
+      "passes": true,
+      "category": "apple-pages",
+      "files": [
+        "src/app/screenshots/editor/"
+      ],
+      "dependencies": [
+        "APP-001",
+        "APP-002"
+      ]
+    },
+    {
+      "id": "TRACK-001",
+      "name": "Tracking SDK Integration",
+      "description": "Integrate user event tracking SDK for analytics",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "src/types/tracking.ts",
+        "src/services/tracking.ts",
+        "src/services/trackingServer.ts",
+        "src/components/TrackingProvider.tsx",
+        "scripts/test-tracking.ts",
+        "docs/TRACK-001-TRACKING-SDK-INTEGRATION.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TRACK-002",
+      "name": "Acquisition Event Tracking",
+      "description": "Track landing_view, signup_started, signup_completed events",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "src/app/layout.tsx",
+        "src/app/page.tsx",
+        "src/app/signup/page.tsx",
+        "scripts/test-acquisition-tracking.ts",
+        "docs/TRACK-002-ACQUISITION-EVENT-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-003",
+      "name": "Activation Event Tracking",
+      "description": "Track first_video_created, first_render_completed events",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "src/app/ads/editor/page.tsx",
+        "src/app/api/render/route.ts",
+        "src/services/renderStill.ts",
+        "src/services/renderQueue.ts",
+        "scripts/test-activation-tracking.ts",
+        "docs/TRACK-003-ACTIVATION-EVENT-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-004",
+      "name": "Core Value Event Tracking",
+      "description": "Track video_rendered, batch_completed, export_downloaded events",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "phase": 7,
+      "effort": "5pts",
+      "files": [
+        "src/services/renderStill.ts",
+        "src/services/renderQueue.ts",
+        "src/services/exportZip.ts",
+        "src/services/campaignGenerator.ts",
+        "scripts/test-core-value-tracking.ts",
+        "docs/TRACK-004-CORE-VALUE-EVENT-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-005",
+      "name": "Monetization Event Tracking",
+      "description": "Track checkout_started, purchase_completed events",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true,
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "src/app/pricing/page.tsx",
+        "src/app/pricing/pricing.module.css",
+        "src/app/checkout/page.tsx",
+        "src/app/checkout/checkout.module.css",
+        "src/app/checkout/success/page.tsx",
+        "src/app/checkout/success/success.module.css",
+        "scripts/test-monetization-tracking.ts",
+        "docs/TRACK-005-MONETIZATION-EVENT-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-006",
+      "name": "Retention Event Tracking",
+      "description": "Track return_visit, feature_discovery events",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true,
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "src/services/retentionTracking.ts",
+        "src/components/TrackingProvider.tsx",
+        "src/app/ads/editor/page.tsx",
+        "src/app/ads/campaign/page.tsx",
+        "src/app/ads/batch/page.tsx",
+        "scripts/test-retention-tracking.ts",
+        "docs/TRACK-006-RETENTION-EVENT-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-007",
+      "name": "Feature Usage Tracking",
+      "description": "Track template_used, voice_cloned, ad_generated events",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true,
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "src/services/featureUsageTracking.ts",
+        "src/app/ads/editor/page.tsx",
+        "src/services/campaignGenerator.ts",
+        "src/services/renderStill.ts",
+        "src/services/csvImport.ts",
+        "scripts/test-feature-usage-tracking.ts",
+        "scripts/test-feature-usage-manual.ts",
+        "docs/TRACK-007-FEATURE-USAGE-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "TRACK-008",
+      "name": "Error & Performance Tracking",
+      "description": "Track render_failed, api_error, slow_render events",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true,
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "src/services/errorPerformanceTracking.ts",
+        "src/services/renderStill.ts",
+        "src/app/api/render/route.ts",
+        "src/app/api/ads/generate-variants/route.ts",
+        "scripts/test-error-performance-tracking.ts",
+        "docs/TRACK-008-ERROR-PERFORMANCE-TRACKING.md"
+      ],
+      "dependencies": [
+        "TRACK-001"
+      ]
+    },
+    {
+      "id": "META-001",
+      "name": "Meta Pixel Installation",
+      "description": "Install Meta Pixel base code on all pages",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "5pts",
+      "passes": true,
+      "files": [
+        "src/components/MetaPixel.tsx",
+        "src/app/layout.tsx",
+        ".env.example",
+        "scripts/test-meta-pixel.ts",
+        "scripts/verify-meta-pixel.ts",
+        "docs/META-001-META-PIXEL-INSTALLATION.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "META-002",
+      "name": "PageView Tracking",
+      "description": "Track PageView on all page loads",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "5pts",
+      "passes": true,
+      "files": [
+        "src/components/MetaPixel.tsx",
+        "scripts/test-meta-pageview.ts",
+        "docs/META-002-PAGEVIEW-TRACKING.md"
+      ],
+      "dependencies": [
+        "META-001"
+      ]
+    },
+    {
+      "id": "META-003",
+      "name": "Standard Events Mapping",
+      "description": "Map app events to Meta standard events (Lead, Purchase, etc)",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "5pts",
+      "passes": true,
+      "files": [
+        "src/services/metaEvents.ts",
+        "src/services/tracking.ts",
+        "scripts/test-meta-standard-events.ts",
+        "docs/META-003-STANDARD-EVENTS-MAPPING.md"
+      ],
+      "dependencies": [
+        "META-001",
+        "META-002"
+      ]
+    },
+    {
+      "id": "META-004",
+      "name": "CAPI Server-Side Events",
+      "description": "Send conversion events via Conversions API",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "8pts",
+      "passes": true,
+      "files": [
+        "src/types/metaCapi.ts",
+        "src/services/metaCapi.ts",
+        "src/services/trackingServer.ts",
+        "scripts/test-meta-capi.ts",
+        "docs/META-004-CAPI-SERVER-SIDE-EVENTS.md"
+      ],
+      "dependencies": [
+        "META-001",
+        "META-002",
+        "META-003"
+      ]
+    },
+    {
+      "id": "META-005",
+      "name": "Event Deduplication",
+      "description": "Use matching event_id for Pixel and CAPI dedup",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "5pts",
+      "passes": true,
+      "files": [
+        "src/components/MetaPixel.tsx",
+        "src/services/metaEvents.ts",
+        "src/services/metaCapi.ts",
+        "scripts/test-meta-event-dedup.ts",
+        "docs/META-005-EVENT-DEDUPLICATION.md"
+      ],
+      "dependencies": [
+        "META-001",
+        "META-002",
+        "META-003",
+        "META-004"
+      ]
+    },
+    {
+      "id": "META-006",
+      "name": "User Data Hashing",
+      "description": "SHA256 hash PII for CAPI events",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "5pts",
+      "passes": true,
+      "files": [
+        "src/utils/hashUserData.ts",
+        "src/services/metaCapi.ts",
+        "src/app/api/meta/hash-user-data/route.ts",
+        "scripts/test-user-data-hashing.ts",
+        "docs/META-006-USER-DATA-HASHING.md"
+      ],
+      "dependencies": [
+        "META-001",
+        "META-004"
+      ]
+    },
+    {
+      "id": "META-007",
+      "name": "Custom Audiences Setup",
+      "description": "Configure custom audiences based on events",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "META-008",
+      "name": "Conversion Optimization",
+      "description": "Optimize for video render and purchase events",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "GDP-001",
+      "name": "Supabase Schema Setup",
+      "description": "Create person, identity_link, event, subscription tables",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "13pts",
+      "passes": true,
+      "files": [
+        "supabase/migrations/20260129000001_create_person_tables.sql",
+        "supabase/migrations/20260129000002_create_event_table.sql",
+        "supabase/migrations/20260129000003_create_subscription_table.sql",
+        "supabase/migrations/20260129000004_create_helper_functions.sql",
+        "src/types/growthDataPlane.ts",
+        "src/services/supabase.ts",
+        "src/services/growthDataPlane.ts",
+        "scripts/test-growth-data-plane.ts",
+        "docs/GDP-001-SUPABASE-SCHEMA-SETUP.md",
+        ".env.example"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "GDP-002",
+      "name": "Person & Identity Tables",
+      "description": "Canonical person table with identity links",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "0pts",
+      "passes": true,
+      "files": [
+        "supabase/migrations/20260129000001_create_person_tables.sql"
+      ],
+      "dependencies": [
+        "GDP-001"
+      ]
+    },
+    {
+      "id": "GDP-003",
+      "name": "Unified Events Table",
+      "description": "Normalized events from all sources",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "0pts",
+      "passes": true,
+      "files": [
+        "supabase/migrations/20260129000002_create_event_table.sql"
+      ],
+      "dependencies": [
+        "GDP-001"
+      ]
+    },
+    {
+      "id": "GDP-004",
+      "name": "Resend Webhook Edge Function",
+      "description": "Verify and store email events from Resend webhooks",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "8pts",
+      "passes": true,
+      "files": [
+        "src/types/resendWebhook.ts",
+        "src/utils/resendWebhookVerify.ts",
+        "src/services/resendWebhookProcessor.ts",
+        "src/app/api/webhooks/resend/route.ts",
+        "scripts/test-resend-webhook.ts",
+        "scripts/test-resend-webhook-unit.ts",
+        "scripts/verify-resend-webhook.ts",
+        "docs/GDP-004-RESEND-WEBHOOK.md",
+        ".env.example"
+      ],
+      "dependencies": [
+        "GDP-001",
+        "GDP-002",
+        "GDP-003"
+      ]
+    },
+    {
+      "id": "GDP-005",
+      "name": "Email Event Tracking",
+      "description": "Track delivered/opened/clicked events",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "8pts",
+      "passes": true,
+      "files": [
+        "src/types/emailTracking.ts",
+        "src/services/emailTracking.ts",
+        "scripts/test-email-tracking.ts",
+        "scripts/test-email-tracking-unit.ts",
+        "scripts/verify-email-tracking.ts",
+        "docs/GDP-005-EMAIL-EVENT-TRACKING.md"
+      ],
+      "dependencies": [
+        "GDP-001",
+        "GDP-002",
+        "GDP-003",
+        "GDP-004"
+      ]
+    },
+    {
+      "id": "GDP-006",
+      "name": "Click Redirect Tracker",
+      "description": "Attribution spine for email → click → conversion",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "phase": 7,
+      "effort": "8pts",
+      "files": [
+        "src/types/clickRedirect.ts",
+        "src/services/clickRedirect.ts",
+        "src/app/api/redirect/click/route.ts",
+        "scripts/test-click-redirect.ts",
+        "docs/GDP-006-CLICK-REDIRECT-TRACKER.md"
+      ],
+      "dependencies": [
+        "GDP-001",
+        "GDP-002",
+        "GDP-003",
+        "GDP-004",
+        "GDP-005"
+      ]
+    },
+    {
+      "id": "GDP-007",
+      "name": "Stripe Webhook Integration",
+      "description": "Handle subscription events from Stripe",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-008",
+      "name": "Subscription Snapshot",
+      "description": "Store subscription status and MRR",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-009",
+      "name": "PostHog Identity Stitching",
+      "description": "Call posthog.identify on login/signup",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-010",
+      "name": "Meta Pixel + CAPI Dedup",
+      "description": "Match Pixel eventID with CAPI event_id",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-011",
+      "name": "Person Features Computation",
+      "description": "Compute active_days, renders, pricing_views from events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "GDP-012",
+      "name": "Segment Engine",
+      "description": "Evaluate segment membership and trigger automations",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "PERF-001",
+      "name": "Render Queue Priority System",
+      "description": "Priority-based render queue with paid users getting faster processing",
+      "category": "performance",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/services/renderQueuePriority.ts",
+        "scripts/test-render-queue-priority.ts",
+        "docs/PERF-001-RENDER-QUEUE-PRIORITY-SYSTEM.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PERF-002",
+      "name": "Render Caching for Identical Briefs",
+      "description": "Cache rendered outputs and return cached version for duplicate briefs",
+      "category": "performance",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/services/renderCache.ts",
+        "scripts/test-render-cache.ts",
+        "docs/PERF-002-RENDER-CACHING.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "PERF-003",
+      "name": "CDN Distribution for Rendered Assets",
+      "description": "Auto-upload rendered videos to R2/CloudFront with signed URLs",
+      "category": "performance",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/services/cdnDistribution.ts",
+        "docs/PERF-003-CDN-DISTRIBUTION.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "API-001",
+      "name": "Public REST API for Video Generation",
+      "description": "API key authenticated endpoints for external integrations to submit briefs and poll render status",
+      "category": "api",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/services/publicAPI.ts",
+        "docs/API-001-PUBLIC-REST-API.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "API-002",
+      "name": "Webhook Notifications on Render Complete",
+      "description": "POST webhook to customer URL when render finishes with download link",
+      "category": "api",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/services/publicAPI.ts",
+        "docs/API-002-WEBHOOK-NOTIFICATIONS.md"
+      ],
+      "dependencies": [
+        "API-001"
+      ]
+    },
+    {
+      "id": "API-003",
+      "name": "Rate Limiting and Usage Quotas",
+      "description": "Per-API-key rate limiting with monthly render quotas by plan tier",
+      "category": "api",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/services/publicAPI.ts",
+        "docs/API-003-RATE-LIMITING.md"
+      ],
+      "dependencies": [
+        "API-001"
+      ]
+    },
+    {
+      "id": "ADMIN-001",
+      "name": "Admin Dashboard with Render Analytics",
+      "description": "Admin panel showing total renders, queue depth, error rates, and revenue",
+      "category": "admin",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/app/admin/dashboard/page.tsx",
+        "docs/ADMIN-001-ADMIN-DASHBOARD.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ADMIN-002",
+      "name": "User Management and Plan Assignment",
+      "description": "Admin CRUD for users, plan upgrades/downgrades, and quota overrides",
+      "category": "admin",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/app/admin/users/page.tsx",
+        "src/services/adminUserManagement.ts",
+        "docs/ADMIN-002-USER-MANAGEMENT.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEST-001",
+      "name": "Unit Tests for Brief Schema Validation",
+      "description": "Test all brief field validations, defaults, and edge cases",
+      "category": "testing",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "scripts/test-brief-validation.ts",
+        "docs/TEST-001-BRIEF-VALIDATION.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEST-002",
+      "name": "Integration Tests for Render Pipeline",
+      "description": "End-to-end render tests with test briefs across all template types",
+      "category": "testing",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "scripts/test-render-pipeline-integration.ts",
+        "docs/TEST-002-RENDER-PIPELINE.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "TEST-003",
+      "name": "E2E Tests for Static Ad Studio",
+      "description": "Playwright tests for template selection, customization, and batch render flow",
+      "category": "testing",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "scripts/test-e2e-ad-studio.ts",
+        "docs/TEST-003-E2E-TESTS.md"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "SEC-001",
+      "name": "Signed Download URLs with Expiry",
+      "description": "All rendered video URLs are signed with 24h expiry for access control",
+      "category": "security",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "SEC-002",
+      "name": "Input Sanitization for Brief Content",
+      "description": "Sanitize all user-provided text in briefs to prevent XSS in rendered output",
+      "category": "security",
+      "priority": "P0",
+      "passes": true
+    },
+    {
+      "id": "EXPORT-001",
+      "name": "Multi-Format Export (MP4, WebM, GIF)",
+      "description": "Export rendered videos in multiple formats optimized for different platforms",
+      "category": "export",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "NOMOCK-001",
+      "name": "Replace TODO Stubs in CPP Page with Real API Calls",
+      "description": "Replace 5 TODO stubs in src/app/cpp/page.tsx with real Supabase/API calls for creative production pipeline operations",
+      "priority": "P0",
+      "category": "api",
+      "passes": true,
+      "files": [
+        "src/app/cpp/page.tsx"
+      ],
+      "acceptance": [
+        "All TODO: Replace with actual API call comments removed",
+        "Real Supabase queries for CRUD operations",
+        "Loading and error states implemented",
+        "grep -n 'TODO.*Replace' src/app/cpp/page.tsx returns zero"
+      ],
+      "notes": "Already completed - all API calls use real endpoints"
+    },
+    {
+      "id": "NOMOCK-002",
+      "name": "Replace TODO Stubs and Fake Data in Review Pages",
+      "description": "Replace TODO stubs and hardcoded fake emails (john@example.com, jane@example.com) in src/app/ads/review/ and src/app/review/ with real API calls and actual user data from auth context",
+      "priority": "P0",
+      "category": "api",
+      "passes": true,
+      "files": [
+        "src/app/ads/review/page.tsx",
+        "src/app/ads/review/components/ReviewItemCard.tsx",
+        "src/app/review/page.tsx"
+      ],
+      "acceptance": [
+        "All TODO: Replace with actual API call comments removed",
+        "No hardcoded email addresses in production code",
+        "Review items fetched from Supabase",
+        "User emails from auth context, not hardcoded",
+        "grep -n 'example.com' src/app/ads/review/ returns zero",
+        "grep -n 'example.com' src/app/review/ returns zero"
+      ],
+      "notes": "Already completed - all API calls use real endpoints, no hardcoded emails found"
+    },
+    {
+      "id": "NOMOCK-003",
+      "name": "Replace Placeholder URLs in Screenshots Pages",
+      "description": "Replace via.placeholder.com URLs in screenshot pages with proper empty state UI or real screenshot data from storage",
+      "priority": "P1",
+      "category": "ui",
+      "passes": true,
+      "files": [
+        "src/app/screenshots/page.tsx",
+        "src/app/screenshots/captions/page.tsx",
+        "src/app/screenshots/editor/page.tsx"
+      ],
+      "acceptance": [
+        "No via.placeholder.com URLs in production code",
+        "Empty state with upload prompt when no screenshots",
+        "Real screenshots loaded from Supabase Storage",
+        "grep -rn 'via.placeholder' src/ returns zero"
+      ],
+      "notes": "Already completed - all pages use proper empty state UI, no placeholder URLs found"
+    }
+  ]
+}

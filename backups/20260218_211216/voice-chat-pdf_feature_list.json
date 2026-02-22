@@ -1,0 +1,1196 @@
+{
+  "version": "3.0",
+  "project": "voice-chat-pdf",
+  "description": "Voice-based chat interface for interacting with PDF documents using AI (RAG + TTS + STT)",
+  "notes": "All features start as passes:false. Agents mark passes:true only after verifiable implementation. Mock code in production is prohibited.",
+  "features": [
+    {
+      "id": "SETUP-001",
+      "category": "setup",
+      "priority": 1,
+      "description": "TypeScript strict mode compiles with zero errors",
+      "passes": true,
+      "test": "npx tsc --noEmit exits with code 0",
+      "acceptance_criteria": [
+        "tsconfig.json has strict:true",
+        "All .ts/.tsx files compile",
+        "No implicit any errors"
+      ]
+    },
+    {
+      "id": "SETUP-002",
+      "category": "setup",
+      "priority": 1,
+      "description": "ESLint passes with zero errors on all source files",
+      "passes": true,
+      "test": "npx expo lint exits with code 0",
+      "acceptance_criteria": [
+        "eslint.config.js present and valid",
+        "No lint errors in app/, lib/, hooks/, components/, types/"
+      ]
+    },
+    {
+      "id": "SETUP-003",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create .env.example with all required environment variables documented",
+      "passes": true,
+      "test": "File .env.example exists with all required keys listed",
+      "acceptance_criteria": [
+        "EXPO_PUBLIC_OPENAI_API_KEY documented",
+        "All optional keys (PINECONE_API_KEY, etc.) documented",
+        "Comments explain each variable"
+      ]
+    },
+    {
+      "id": "SETUP-004",
+      "category": "setup",
+      "priority": 1,
+      "description": "Expo web build compiles successfully",
+      "passes": true,
+      "test": "npx expo export --platform web exits with code 0",
+      "acceptance_criteria": [
+        "Web bundle generated",
+        "No build errors",
+        "All imports resolve"
+      ]
+    },
+    {
+      "id": "SETUP-005",
+      "category": "setup",
+      "priority": 1,
+      "description": "No mock code exists in production source files (lib/, hooks/, components/, app/)",
+      "passes": true,
+      "test": "grep -r 'mock\\|Mock\\|MOCK' lib/ hooks/ components/ app/ returns zero results outside test files",
+      "acceptance_criteria": [
+        "lib/adapters/mock-adapter.ts removed or moved to tests/",
+        "lib/pdf-highlighter.ts mock implementations replaced with real code or error throws",
+        "lib/pdf-processor.ts generateMockPDFContent removed",
+        "lib/pdf-processor.ts generateMockEmbedding removed",
+        "lib/file-import.ts mock PDF page counting replaced"
+      ]
+    },
+    {
+      "id": "SETUP-006",
+      "category": "setup",
+      "priority": 1,
+      "description": "Path aliases (@/) resolve correctly in all imports",
+      "passes": true,
+      "test": "All @/ imports resolve to correct files during tsc --noEmit",
+      "acceptance_criteria": [
+        "tsconfig.json paths configured",
+        "All @/ imports work",
+        "No circular dependencies"
+      ]
+    },
+    {
+      "id": "SETUP-007",
+      "category": "setup",
+      "priority": 2,
+      "description": "App icons and splash screen assets exist and are valid",
+      "passes": true,
+      "test": "All image files referenced in app.json exist",
+      "acceptance_criteria": [
+        "assets/images/icon.png exists",
+        "assets/images/splash-icon.png exists",
+        "assets/images/adaptive-icon.png exists",
+        "assets/images/favicon.png exists"
+      ]
+    },
+    {
+      "id": "CORE-001",
+      "category": "pdf-processing",
+      "priority": 1,
+      "description": "PDF text extraction works on web platform using PDF.js",
+      "passes": true,
+      "test": "processDocument() extracts text with page numbers from a real PDF file on web",
+      "acceptance_criteria": [
+        "PDF.js loads and parses PDF",
+        "Text extracted page by page",
+        "Page numbers accurately tracked",
+        "Returns concatenated text with page markers"
+      ]
+    },
+    {
+      "id": "CORE-002",
+      "category": "pdf-processing",
+      "priority": 1,
+      "description": "PDF text chunking produces properly-sized chunks with page references",
+      "passes": true,
+      "test": "chunkText() produces chunks of ~500 characters each with correct page_start/page_end",
+      "acceptance_criteria": [
+        "Chunks are 300-700 characters",
+        "Page boundaries tracked correctly",
+        "Sentence boundaries respected",
+        "No text lost between chunks"
+      ]
+    },
+    {
+      "id": "CORE-003",
+      "category": "pdf-processing",
+      "priority": 1,
+      "description": "PDF text extraction has proper mobile fallback (not mock data)",
+      "passes": true,
+      "test": "On mobile (Expo Go), extraction either uses a real native module or throws clear error with instructions",
+      "acceptance_criteria": [
+        "No mock/fake content generation on mobile",
+        "Clear error message if native PDF parsing unavailable",
+        "Suggests building custom dev client for native PDF support"
+      ]
+    },
+    {
+      "id": "CORE-004",
+      "category": "embeddings",
+      "priority": 1,
+      "description": "OpenAI embeddings API integration works with real API key",
+      "passes": true,
+      "test": "embed_query() returns 1536-dimension vector from OpenAI text-embedding-3-small",
+      "acceptance_criteria": [
+        "API key read from EXPO_PUBLIC_OPENAI_API_KEY",
+        "Returns correct 1536-dim vector",
+        "Rate limiting (1s between calls) works",
+        "Error handling for invalid/missing API key"
+      ]
+    },
+    {
+      "id": "CORE-005",
+      "category": "embeddings",
+      "priority": 1,
+      "description": "OpenAI adapter upserts chunks and performs cosine similarity search",
+      "passes": true,
+      "test": "upsert_chunks() stores items, search() returns ranked results by cosine similarity",
+      "acceptance_criteria": [
+        "Chunks stored in memory Map",
+        "Cosine similarity calculated correctly",
+        "Results sorted by score descending",
+        "top_k parameter respected"
+      ]
+    },
+    {
+      "id": "CORE-006",
+      "category": "embeddings",
+      "priority": 2,
+      "description": "Embedding cache prevents duplicate API calls for same text",
+      "passes": true,
+      "test": "Calling embed_query() twice with same text only makes one API call",
+      "acceptance_criteria": [
+        "Cache key based on text content",
+        "Cached embeddings returned without API call",
+        "Cache size bounded"
+      ]
+    },
+    {
+      "id": "CORE-007",
+      "category": "rag",
+      "priority": 1,
+      "description": "RAG query flow retrieves relevant chunks and generates answer with citations",
+      "passes": true,
+      "test": "answer_with_citations() returns answer string with page references",
+      "acceptance_criteria": [
+        "Query embedded via OpenAI",
+        "Top-k chunks retrieved from adapter",
+        "Context sent to LLM API (toolkit.rork.com/text/llm/)",
+        "Citations include page numbers",
+        "Graceful fallback on API errors"
+      ]
+    },
+    {
+      "id": "CORE-008",
+      "category": "rag",
+      "priority": 1,
+      "description": "RetrievalService initializes adapter and QueryFlow as singletons",
+      "passes": true,
+      "test": "getAdapter() and getQueryFlow() return same instances across calls",
+      "acceptance_criteria": [
+        "Singleton pattern for adapter",
+        "Rate limiting configured",
+        "Error handling with user-friendly messages"
+      ]
+    },
+    {
+      "id": "CORE-009",
+      "category": "voice",
+      "priority": 1,
+      "description": "Speech-to-text records audio and transcribes via STT API",
+      "passes": true,
+      "test": "Recording audio and sending to toolkit.rork.com/stt/transcribe/ returns transcription text",
+      "acceptance_criteria": [
+        "Audio recording via expo-av (mobile) or MediaRecorder (web)",
+        "Recording sent as FormData to STT API",
+        "Transcribed text returned",
+        "Recording state managed (isRecording flag)"
+      ]
+    },
+    {
+      "id": "CORE-010",
+      "category": "voice",
+      "priority": 1,
+      "description": "Text-to-speech converts AI response to audio via OpenAI TTS API",
+      "passes": true,
+      "test": "textToSpeechOpenAI() returns blob URL for audio playback",
+      "acceptance_criteria": [
+        "OpenAI TTS API called with text",
+        "Audio blob returned as URL",
+        "Rate limit errors handled gracefully",
+        "Fallback to expo-speech on error"
+      ]
+    },
+    {
+      "id": "CORE-011",
+      "category": "voice",
+      "priority": 1,
+      "description": "Barge-in controller allows interrupting TTS playback with voice",
+      "passes": true,
+      "test": "BargeInController detects speech during playback and triggers interrupt",
+      "acceptance_criteria": [
+        "Monitors audio input during TTS playback",
+        "Detects speech above threshold",
+        "Stops current TTS playback",
+        "Transcribes interrupt speech",
+        "Cleanup on component unmount"
+      ]
+    },
+    {
+      "id": "CORE-012",
+      "category": "voice",
+      "priority": 2,
+      "description": "Voice chat continuous mode auto-records after response finishes",
+      "passes": true,
+      "test": "After TTS playback completes, recording automatically starts for next question",
+      "acceptance_criteria": [
+        "Auto-detect speech end",
+        "Seamless transition between listening and speaking",
+        "Manual stop button works"
+      ]
+    },
+    {
+      "id": "UI-001",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Root layout wraps app with all required context providers",
+      "passes": true,
+      "test": "App renders with UserProvider, CollectionsProvider, PDFProvider, ChatProvider, RealtimeProvider",
+      "acceptance_criteria": [
+        "All providers in correct nesting order",
+        "QueryClientProvider wraps everything",
+        "GestureHandlerRootView at root",
+        "Splash screen managed"
+      ]
+    },
+    {
+      "id": "UI-002",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Tab navigation has Home, Collections, and Settings tabs with icons",
+      "passes": true,
+      "test": "Three tabs render with correct icons (Home, FolderOpen, Settings)",
+      "acceptance_criteria": [
+        "Tab bar visible at bottom",
+        "Active tab highlighted with #8B5CF6",
+        "Icons from lucide-react-native",
+        "Dark theme background"
+      ]
+    },
+    {
+      "id": "UI-003",
+      "category": "screens",
+      "priority": 1,
+      "description": "Home screen displays hero section and recent documents",
+      "passes": true,
+      "test": "Home tab shows gradient hero, voice chat CTA, and recent PDFs list",
+      "acceptance_criteria": [
+        "Gradient background hero",
+        "Voice chat quick start button",
+        "Recent documents section",
+        "Upload button navigates to upload screen"
+      ]
+    },
+    {
+      "id": "UI-004",
+      "category": "screens",
+      "priority": 1,
+      "description": "Upload screen allows picking PDF files from device",
+      "passes": true,
+      "test": "Upload screen opens document picker, validates PDF, and stores file",
+      "acceptance_criteria": [
+        "Document picker opens for PDF files",
+        "File validation (type, size <= 50MB)",
+        "Duplicate detection by hash",
+        "Progress indicator during upload",
+        "Success/error feedback"
+      ]
+    },
+    {
+      "id": "UI-005",
+      "category": "screens",
+      "priority": 1,
+      "description": "Text chat screen displays message history and accepts text input",
+      "passes": true,
+      "test": "Chat screen at /chat/[pdfId] shows messages and processes new queries",
+      "acceptance_criteria": [
+        "Message list with user/assistant roles",
+        "Text input with send button",
+        "Messages styled by role",
+        "Loading indicator during AI response",
+        "Citations displayed with page numbers"
+      ]
+    },
+    {
+      "id": "UI-006",
+      "category": "screens",
+      "priority": 1,
+      "description": "Voice chat screen records audio, transcribes, and plays responses",
+      "passes": true,
+      "test": "Voice chat at /voice-chat/[pdfId] records, transcribes, queries RAG, plays TTS",
+      "acceptance_criteria": [
+        "Mic button starts/stops recording",
+        "Transcription displayed in real-time",
+        "AI response played as audio",
+        "Barge-in support",
+        "Session state managed"
+      ]
+    },
+    {
+      "id": "UI-007",
+      "category": "screens",
+      "priority": 1,
+      "description": "PDF viewer displays document pages with navigation",
+      "passes": true,
+      "test": "PDF viewer at /pdf/[pdfId] renders pages with prev/next controls",
+      "acceptance_criteria": [
+        "PDF pages rendered",
+        "Page navigation (prev/next)",
+        "Current page indicator",
+        "Zoom/pan support"
+      ]
+    },
+    {
+      "id": "UI-008",
+      "category": "screens",
+      "priority": 1,
+      "description": "Collections screen lists collections with document counts",
+      "passes": true,
+      "test": "Collections tab shows list of collections with names and document counts",
+      "acceptance_criteria": [
+        "Collections list rendered",
+        "Document count per collection",
+        "Create new collection",
+        "Navigate to collection detail"
+      ]
+    },
+    {
+      "id": "UI-009",
+      "category": "screens",
+      "priority": 1,
+      "description": "Settings screen shows user profile and app settings",
+      "passes": true,
+      "test": "Settings tab displays profile info, theme toggle, and sign out",
+      "acceptance_criteria": [
+        "User name/email displayed",
+        "Theme toggle (light/dark)",
+        "Sign out button",
+        "App version displayed"
+      ]
+    },
+    {
+      "id": "UI-010",
+      "category": "screens",
+      "priority": 2,
+      "description": "Collection detail screen shows documents in a collection",
+      "passes": true,
+      "test": "Collection detail at /collection-detail lists PDFs in the collection",
+      "acceptance_criteria": [
+        "Collection name/description displayed",
+        "Document list with metadata",
+        "Add document to collection",
+        "Navigate to chat/voice-chat from document"
+      ]
+    },
+    {
+      "id": "UI-011",
+      "category": "pdf-viewer",
+      "priority": 2,
+      "description": "PDF viewer highlights citations from chat responses",
+      "passes": true,
+      "test": "When chat returns citations, tapping them navigates to PDF page with highlight",
+      "acceptance_criteria": [
+        "Citation tap navigates to PDF viewer",
+        "Correct page displayed",
+        "Relevant text highlighted",
+        "Highlight color consistent"
+      ]
+    },
+    {
+      "id": "UI-012",
+      "category": "pdf-viewer",
+      "priority": 2,
+      "description": "PDFHighlighter uses real text position finding (no mock data)",
+      "passes": true,
+      "test": "findTextPositions() uses PDF.js text layer on web (not random coordinates)",
+      "acceptance_criteria": [
+        "Web: PDF.js text layer used for real positions",
+        "iOS/Android: throws unsupported error or uses real native method",
+        "No Math.random() in position calculation",
+        "searchTextInPDF returns real search results"
+      ]
+    },
+    {
+      "id": "STATE-001",
+      "category": "state",
+      "priority": 1,
+      "description": "ChatContext persists message history per PDF in AsyncStorage",
+      "passes": true,
+      "test": "Messages added via addMessage() survive app restart for same pdfId",
+      "acceptance_criteria": [
+        "Messages stored per pdfId key",
+        "AsyncStorage persistence",
+        "getMessages(pdfId) returns correct history",
+        "clearMessages(pdfId) removes history"
+      ]
+    },
+    {
+      "id": "STATE-002",
+      "category": "state",
+      "priority": 1,
+      "description": "PDFContext tracks PDF metadata and updates lastOpened",
+      "passes": true,
+      "test": "addPDF() stores metadata, updateLastOpened() updates timestamp",
+      "acceptance_criteria": [
+        "PDF objects stored with id, title, pageCount, tags",
+        "removePDF() deletes entry",
+        "updateLastOpened() sets new timestamp",
+        "List retrieval works"
+      ]
+    },
+    {
+      "id": "STATE-003",
+      "category": "state",
+      "priority": 1,
+      "description": "CollectionsContext manages collections and documents",
+      "passes": true,
+      "test": "Collections CRUD operations work, documents linked to collections",
+      "acceptance_criteria": [
+        "Create/read/update/delete collections",
+        "Default 'My Documents' collection exists",
+        "Documents linked by collection_id",
+        "Document CRUD operations work"
+      ]
+    },
+    {
+      "id": "STATE-004",
+      "category": "state",
+      "priority": 1,
+      "description": "RealtimeContext manages voice chat session lifecycle",
+      "passes": true,
+      "test": "startSession() creates session, manages recording/playback states",
+      "acceptance_criteria": [
+        "Session created with unique ID",
+        "isRecording state tracks recording",
+        "isPlaying state tracks TTS playback",
+        "Messages accumulated in session",
+        "Session cleanup on end"
+      ]
+    },
+    {
+      "id": "STATE-005",
+      "category": "state",
+      "priority": 1,
+      "description": "UserContext manages user profile and subscription status",
+      "passes": true,
+      "test": "signIn/signOut work, subscription status tracked with trial dates",
+      "acceptance_criteria": [
+        "UserProfile with id, email, name, avatar",
+        "SubscriptionStatus with plan, isActive, trial dates",
+        "7-day trial duration",
+        "updateProfile() persists changes"
+      ]
+    },
+    {
+      "id": "IMPORT-001",
+      "category": "file-import",
+      "priority": 1,
+      "description": "FileImportManager picks PDF files via document picker",
+      "passes": true,
+      "test": "importFile() opens expo-document-picker with PDF filter",
+      "acceptance_criteria": [
+        "Document picker opens for application/pdf",
+        "Selected file info returned (name, size, uri)",
+        "Cancelled selection handled gracefully"
+      ]
+    },
+    {
+      "id": "IMPORT-002",
+      "category": "file-import",
+      "priority": 1,
+      "description": "FileImportManager validates file type and size (max 50MB)",
+      "passes": true,
+      "test": "Files > 50MB rejected, non-PDF files rejected",
+      "acceptance_criteria": [
+        "PDF MIME type validation",
+        "50MB size limit enforced",
+        "Clear error messages for invalid files"
+      ]
+    },
+    {
+      "id": "IMPORT-003",
+      "category": "file-import",
+      "priority": 1,
+      "description": "FileImportManager detects duplicate PDFs by content hash",
+      "passes": true,
+      "test": "Importing same file twice detected as duplicate",
+      "acceptance_criteria": [
+        "File hash computed",
+        "Hash compared against existing documents",
+        "User warned about duplicate",
+        "Option to skip or re-import"
+      ]
+    },
+    {
+      "id": "IMPORT-004",
+      "category": "file-import",
+      "priority": 1,
+      "description": "PDF page count determined using real PDF parsing (not mock)",
+      "passes": true,
+      "test": "Imported PDF has correct pageCount without mock estimation",
+      "acceptance_criteria": [
+        "PDF.js used on web to get numPages",
+        "No mock page counting (fileSize/3000)",
+        "Accurate page count stored in metadata"
+      ]
+    },
+    {
+      "id": "IMPORT-005",
+      "category": "file-import",
+      "priority": 1,
+      "description": "After import, PDF is processed (extracted, chunked, embedded) and ready for chat",
+      "passes": true,
+      "test": "After importFile(), document text is extracted, chunked, embedded, and searchable",
+      "acceptance_criteria": [
+        "processDocument() called after import",
+        "Text extracted from PDF",
+        "Chunks created with page references",
+        "Embeddings generated via OpenAI",
+        "Chunks stored in retrieval adapter"
+      ]
+    },
+    {
+      "id": "TEST-001",
+      "category": "testing",
+      "priority": 1,
+      "description": "Golden set test runner executes and reports recall metrics",
+      "passes": true,
+      "test": "bun run scripts/test-golden.ts produces recall@k results",
+      "acceptance_criteria": [
+        "Test loads golden_sets/contracts_small.yaml",
+        "Synthetic chunks created",
+        "Queries executed against adapter",
+        "Recall@k metrics calculated",
+        "Results printed to console"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "category": "testing",
+      "priority": 2,
+      "description": "TypeScript type coverage is complete for all exported functions",
+      "passes": true,
+      "test": "No 'any' types in exported function signatures across lib/, hooks/, types/",
+      "acceptance_criteria": [
+        "All exported functions have typed parameters",
+        "All exported functions have return types",
+        "No explicit 'any' in public APIs"
+      ]
+    },
+    {
+      "id": "PERF-001",
+      "category": "performance",
+      "priority": 2,
+      "description": "Embedding API calls are rate-limited to prevent 429 errors",
+      "passes": true,
+      "test": "Rapid calls to embed_query() are throttled with 1s minimum interval",
+      "acceptance_criteria": [
+        "Rate limiter enforces 1s between API calls",
+        "Queued calls execute in order",
+        "No 429 errors during bulk processing"
+      ]
+    },
+    {
+      "id": "PERF-002",
+      "category": "performance",
+      "priority": 2,
+      "description": "PDF processing shows progress updates during long operations",
+      "passes": true,
+      "test": "processDocument() emits progress updates (extraction, chunking, embedding stages)",
+      "acceptance_criteria": [
+        "Progress callback for extraction stage",
+        "Progress callback for chunking stage",
+        "Progress callback for embedding stage",
+        "UI shows progress bar or percentage"
+      ]
+    },
+    {
+      "id": "PERF-003",
+      "category": "performance",
+      "priority": 3,
+      "description": "Large PDFs (100+ pages) process without timeout or memory issues",
+      "passes": true,
+      "test": "A 100-page PDF successfully extracts, chunks, and embeds within 5 minutes",
+      "acceptance_criteria": [
+        "Batch processing for large documents",
+        "Memory-efficient chunking",
+        "No UI freeze during processing",
+        "Cancellation support"
+      ]
+    },
+    {
+      "id": "ERR-001",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Missing API key shows clear error message to user",
+      "passes": true,
+      "test": "When EXPO_PUBLIC_OPENAI_API_KEY is missing, user sees setup instructions",
+      "acceptance_criteria": [
+        "Error detected on first API call attempt",
+        "User-friendly message displayed",
+        "Instructions to add API key",
+        "App doesn't crash"
+      ]
+    },
+    {
+      "id": "ERR-002",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Network errors during API calls show retry option",
+      "passes": true,
+      "test": "When API call fails due to network, user can retry",
+      "acceptance_criteria": [
+        "Network error caught",
+        "User-friendly error message",
+        "Retry button displayed",
+        "Previous state preserved"
+      ]
+    },
+    {
+      "id": "ERR-003",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Audio recording permission denied shows settings redirect",
+      "passes": true,
+      "test": "When mic permission denied, user guided to settings",
+      "acceptance_criteria": [
+        "Permission check before recording",
+        "Denied state detected",
+        "Instructions to enable in settings",
+        "Deep link to app settings if possible"
+      ]
+    },
+    {
+      "id": "ERR-004",
+      "category": "error-handling",
+      "priority": 2,
+      "description": "PDF parsing failures show specific error and suggestions",
+      "passes": true,
+      "test": "Corrupted/encrypted PDF shows clear error (not crash)",
+      "acceptance_criteria": [
+        "Corrupted PDF detected",
+        "Encrypted PDF detected",
+        "Password-protected PDF detected",
+        "User-friendly error message",
+        "Suggestion to try different file"
+      ]
+    },
+    {
+      "id": "AUTH-001",
+      "category": "auth",
+      "priority": 2,
+      "description": "User profile stored and accessible from UserContext",
+      "passes": true,
+      "test": "UserContext provides user profile with id, email, name",
+      "acceptance_criteria": [
+        "UserProfile type defined",
+        "Default guest profile available",
+        "Profile updates persist",
+        "signOut clears profile"
+      ]
+    },
+    {
+      "id": "AUTH-002",
+      "category": "auth",
+      "priority": 3,
+      "description": "Supabase auth integration for email/password sign-in",
+      "passes": true,
+      "test": "signIn() with email/password authenticates via Supabase",
+      "acceptance_criteria": [
+        "Supabase client configured",
+        "signInWithPassword works",
+        "Session persisted",
+        "Token refresh handled"
+      ]
+    },
+    {
+      "id": "AUTH-003",
+      "category": "auth",
+      "priority": 3,
+      "description": "Supabase auth sign-up with email verification",
+      "passes": true,
+      "test": "signUp() creates account and sends verification email",
+      "acceptance_criteria": [
+        "signUp with email/password",
+        "Verification email sent",
+        "User redirected to verify screen",
+        "Account activated after verification"
+      ]
+    },
+    {
+      "id": "SUB-001",
+      "category": "subscription",
+      "priority": 2,
+      "description": "Free trial starts on first launch and lasts 7 days",
+      "passes": true,
+      "test": "New user gets free_trial plan with 7-day duration",
+      "acceptance_criteria": [
+        "Trial start date set on first launch",
+        "Trial end date = start + 7 days",
+        "isActive true during trial",
+        "Plan becomes 'expired' after 7 days"
+      ]
+    },
+    {
+      "id": "SUB-002",
+      "category": "subscription",
+      "priority": 3,
+      "description": "Subscription status determines feature access levels",
+      "passes": true,
+      "test": "Free tier has limited uploads/messages, premium tier is unlimited",
+      "acceptance_criteria": [
+        "canAccess(feature) checks subscription tier",
+        "Upload limit enforced for free tier",
+        "Message limit enforced for free tier",
+        "Premium tier bypasses limits"
+      ]
+    },
+    {
+      "id": "STORE-001",
+      "category": "storage",
+      "priority": 2,
+      "description": "PDF files stored locally via expo-file-system",
+      "passes": true,
+      "test": "Imported PDF files saved to app's document directory",
+      "acceptance_criteria": [
+        "File copied to app storage",
+        "File path stored in document metadata",
+        "File accessible for re-processing",
+        "File deleted when document removed"
+      ]
+    },
+    {
+      "id": "STORE-002",
+      "category": "storage",
+      "priority": 3,
+      "description": "Supabase Storage configured for cloud PDF uploads",
+      "passes": true,
+      "test": "PDF files upload to Supabase Storage bucket with signed URLs",
+      "acceptance_criteria": [
+        "Storage bucket created",
+        "RLS policies for user-owned files",
+        "Upload with progress callback",
+        "Signed URL generation for download"
+      ]
+    },
+    {
+      "id": "A11Y-001",
+      "category": "accessibility",
+      "priority": 2,
+      "description": "All interactive elements have accessibility labels",
+      "passes": true,
+      "test": "Every TouchableOpacity/Pressable has accessibilityLabel",
+      "acceptance_criteria": [
+        "Buttons have descriptive labels",
+        "Input fields have labels",
+        "Tab bar items have labels",
+        "Voice chat mic button labeled"
+      ]
+    },
+    {
+      "id": "A11Y-002",
+      "category": "accessibility",
+      "priority": 2,
+      "description": "Voice chat announces state changes for screen readers",
+      "passes": true,
+      "test": "Recording start/stop, transcription, and response announced via accessibilityLiveRegion",
+      "acceptance_criteria": [
+        "Recording state announced",
+        "Transcription result announced",
+        "AI response text announced",
+        "Error states announced"
+      ]
+    },
+    {
+      "id": "THEME-001",
+      "category": "theming",
+      "priority": 2,
+      "description": "Dark theme applied consistently across all screens",
+      "passes": true,
+      "test": "All screens use dark background (#0A0A0B) and consistent text colors",
+      "acceptance_criteria": [
+        "Background color consistent",
+        "Text colors readable on dark background",
+        "Tab bar styled for dark theme",
+        "Chat bubbles have appropriate contrast"
+      ]
+    },
+    {
+      "id": "THEME-002",
+      "category": "theming",
+      "priority": 3,
+      "description": "Light theme available as alternative with proper contrast",
+      "passes": true,
+      "test": "Settings toggle switches between dark and light themes",
+      "acceptance_criteria": [
+        "Light theme colors defined",
+        "Toggle in settings works",
+        "All screens adapt to theme",
+        "Preference persisted"
+      ]
+    },
+    {
+      "id": "CHAT-001",
+      "category": "chat-features",
+      "priority": 1,
+      "description": "Chat messages display with correct role styling (user vs assistant)",
+      "passes": true,
+      "test": "User messages right-aligned, assistant messages left-aligned with different colors",
+      "acceptance_criteria": [
+        "User messages styled distinctly",
+        "Assistant messages styled distinctly",
+        "Timestamp displayed",
+        "Message order chronological"
+      ]
+    },
+    {
+      "id": "CHAT-002",
+      "category": "chat-features",
+      "priority": 1,
+      "description": "Chat citations are tappable and link to PDF page",
+      "passes": true,
+      "test": "Citation references in responses navigate to correct PDF page",
+      "acceptance_criteria": [
+        "Citations rendered as tappable links",
+        "Tap navigates to PDF viewer",
+        "Correct page displayed",
+        "Visual indicator for citation"
+      ]
+    },
+    {
+      "id": "CHAT-003",
+      "category": "chat-features",
+      "priority": 2,
+      "description": "Chat supports TTS playback of assistant responses",
+      "passes": true,
+      "test": "Play button on assistant messages triggers TTS audio playback",
+      "acceptance_criteria": [
+        "Play button visible on assistant messages",
+        "OpenAI TTS API called",
+        "Audio plays back",
+        "Stop/pause control available"
+      ]
+    },
+    {
+      "id": "CHAT-004",
+      "category": "chat-features",
+      "priority": 2,
+      "description": "Chat history clearable per PDF document",
+      "passes": true,
+      "test": "Clear chat action removes all messages for a specific PDF",
+      "acceptance_criteria": [
+        "Clear button/action available",
+        "Confirmation prompt before clear",
+        "All messages for PDF removed",
+        "AsyncStorage cleared for that key"
+      ]
+    },
+    {
+      "id": "CHAT-005",
+      "category": "chat-features",
+      "priority": 3,
+      "description": "Chat history exportable as text/JSON",
+      "passes": true,
+      "test": "Export chat action generates shareable text or JSON file",
+      "acceptance_criteria": [
+        "Export action available",
+        "Format includes questions and answers",
+        "Citations included in export",
+        "Share sheet or download triggered"
+      ]
+    },
+    {
+      "id": "COLL-001",
+      "category": "collections",
+      "priority": 2,
+      "description": "Create new collection with name and description",
+      "passes": true,
+      "test": "New collection appears in collections list after creation",
+      "acceptance_criteria": [
+        "Create form with name/description fields",
+        "Validation (name required)",
+        "Collection added to context",
+        "Appears in collections list"
+      ]
+    },
+    {
+      "id": "COLL-002",
+      "category": "collections",
+      "priority": 2,
+      "description": "Move documents between collections",
+      "passes": true,
+      "test": "Document moved from one collection to another",
+      "acceptance_criteria": [
+        "Collection picker for document",
+        "Document's collection_id updated",
+        "Previous collection count decremented",
+        "New collection count incremented"
+      ]
+    },
+    {
+      "id": "COLL-003",
+      "category": "collections",
+      "priority": 2,
+      "description": "Delete collection moves documents to default collection",
+      "passes": true,
+      "test": "Deleting a collection doesn't lose its documents",
+      "acceptance_criteria": [
+        "Confirmation before delete",
+        "Documents moved to 'My Documents'",
+        "Collection removed from list",
+        "No orphaned documents"
+      ]
+    },
+    {
+      "id": "SEC-001",
+      "category": "security",
+      "priority": 1,
+      "description": "No API keys or secrets hardcoded in source code",
+      "passes": true,
+      "test": "grep for sk-, key=, secret, password in source files returns zero results",
+      "acceptance_criteria": [
+        "All secrets from environment variables",
+        "No hardcoded API keys",
+        ".env in .gitignore",
+        "Only EXPO_PUBLIC_ prefix keys accessible client-side"
+      ]
+    },
+    {
+      "id": "SEC-002",
+      "category": "security",
+      "priority": 2,
+      "description": "File upload validates content type to prevent malicious files",
+      "passes": true,
+      "test": "Non-PDF files with spoofed extension are rejected",
+      "acceptance_criteria": [
+        "MIME type checked",
+        "File header/magic bytes validated",
+        "Size limit enforced",
+        "Clear rejection message"
+      ]
+    },
+    {
+      "id": "PLAT-001",
+      "category": "platform",
+      "priority": 1,
+      "description": "App runs on web (Expo Web) with full chat functionality",
+      "passes": true,
+      "test": "npx expo start --web launches app with working text chat",
+      "acceptance_criteria": [
+        "Web build compiles",
+        "Home screen renders",
+        "PDF import works",
+        "Text chat functional",
+        "PDF viewer renders"
+      ]
+    },
+    {
+      "id": "PLAT-002",
+      "category": "platform",
+      "priority": 1,
+      "description": "App runs on iOS simulator with core navigation",
+      "passes": true,
+      "test": "npx expo start --ios launches app with tab navigation",
+      "acceptance_criteria": [
+        "App launches in simulator",
+        "Tab navigation works",
+        "No crash on launch",
+        "Safe areas respected"
+      ]
+    },
+    {
+      "id": "PLAT-003",
+      "category": "platform",
+      "priority": 2,
+      "description": "Voice recording works on web using MediaRecorder API",
+      "passes": true,
+      "test": "Voice chat records and transcribes on web browser",
+      "acceptance_criteria": [
+        "Microphone permission requested",
+        "MediaRecorder captures audio",
+        "Audio sent to STT API",
+        "Transcription returned"
+      ]
+    },
+    {
+      "id": "PLAT-004",
+      "category": "platform",
+      "priority": 2,
+      "description": "Voice recording works on iOS using expo-av",
+      "passes": true,
+      "test": "Voice chat records and transcribes on iOS",
+      "acceptance_criteria": [
+        "Microphone permission requested",
+        "expo-av Audio.Recording captures audio",
+        "Audio sent to STT API",
+        "Transcription returned"
+      ]
+    },
+    {
+      "id": "DATA-001",
+      "category": "data-persistence",
+      "priority": 1,
+      "description": "All context data persists across app restarts via AsyncStorage",
+      "passes": true,
+      "test": "PDFs, collections, chat history, user profile survive app restart",
+      "acceptance_criteria": [
+        "PDFContext loads from AsyncStorage on mount",
+        "CollectionsContext loads from AsyncStorage on mount",
+        "ChatContext loads per-PDF from AsyncStorage",
+        "UserContext loads profile from AsyncStorage"
+      ]
+    },
+    {
+      "id": "DATA-002",
+      "category": "data-persistence",
+      "priority": 2,
+      "description": "Embedded chunks persist across app restarts (not just in memory)",
+      "passes": true,
+      "test": "After processing a PDF and restarting, chunks are still searchable",
+      "acceptance_criteria": [
+        "Chunks serialized to persistent storage",
+        "Loaded on app restart",
+        "No need to re-embed after restart",
+        "Storage size manageable"
+      ]
+    },
+    {
+      "id": "QUALITY-001",
+      "category": "code-quality",
+      "priority": 2,
+      "description": "No console.log statements in production code (use proper logging)",
+      "passes": true,
+      "test": "grep for console.log in lib/ and hooks/ returns zero results (or uses logger)",
+      "acceptance_criteria": [
+        "console.log replaced with structured logger",
+        "Logger has levels (debug, info, warn, error)",
+        "Debug logs disabled in production",
+        "Critical errors logged"
+      ]
+    },
+    {
+      "id": "QUALITY-002",
+      "category": "code-quality",
+      "priority": 2,
+      "description": "All async operations handle errors without unhandled promise rejections",
+      "passes": true,
+      "test": "No unhandled promise rejections in any user flow",
+      "acceptance_criteria": [
+        "All async/await wrapped in try/catch",
+        "Promise rejections caught",
+        "Errors displayed to user",
+        "App remains functional after errors"
+      ]
+    },
+    {
+      "id": "QUALITY-003",
+      "category": "code-quality",
+      "priority": 2,
+      "description": "Components clean up subscriptions and timers on unmount",
+      "passes": true,
+      "test": "No memory leaks from audio recording, timers, or subscriptions",
+      "acceptance_criteria": [
+        "Audio recording stopped on unmount",
+        "Timers cleared on unmount",
+        "Event listeners removed on unmount",
+        "Barge-in controller cleaned up"
+      ]
+    },
+    {
+      "id": "UX-001",
+      "category": "ux",
+      "priority": 2,
+      "description": "Loading states shown during all async operations",
+      "passes": true,
+      "test": "PDF processing, chat responses, and voice transcription show loading indicators",
+      "acceptance_criteria": [
+        "Spinner during PDF processing",
+        "Typing indicator during chat response",
+        "Recording indicator during voice input",
+        "Skeleton loading for lists"
+      ]
+    },
+    {
+      "id": "UX-002",
+      "category": "ux",
+      "priority": 2,
+      "description": "Empty states displayed when no PDFs, no collections, or no chat history",
+      "passes": true,
+      "test": "Helpful empty state with CTA shown when lists are empty",
+      "acceptance_criteria": [
+        "Home screen: 'Upload your first PDF' prompt",
+        "Collections: 'Create a collection' prompt",
+        "Chat: 'Ask a question' prompt",
+        "Action button in empty state"
+      ]
+    },
+    {
+      "id": "UX-003",
+      "category": "ux",
+      "priority": 3,
+      "description": "Haptic feedback on key interactions (upload, send, record)",
+      "passes": true,
+      "test": "expo-haptics triggers on button presses and state changes",
+      "acceptance_criteria": [
+        "Light haptic on button press",
+        "Medium haptic on record start/stop",
+        "Success haptic on upload complete",
+        "Error haptic on failure"
+      ]
+    },
+    {
+      "id": "DOC-001",
+      "category": "documentation",
+      "priority": 2,
+      "description": "README.md documents setup, running, and architecture",
+      "passes": true,
+      "test": "README has prerequisites, install steps, run commands, and architecture overview",
+      "acceptance_criteria": [
+        "Prerequisites listed (Node, Bun, Expo CLI)",
+        "Install steps (bun install)",
+        "Run commands for each platform",
+        "Environment variable setup",
+        "Architecture overview with data flow"
+      ]
+    },
+    {
+      "id": "DOC-002",
+      "category": "documentation",
+      "priority": 3,
+      "description": "API integration points documented with expected request/response formats",
+      "passes": true,
+      "test": "Documentation exists for OpenAI, STT, and LLM API integrations",
+      "acceptance_criteria": [
+        "OpenAI embeddings API format documented",
+        "OpenAI TTS API format documented",
+        "toolkit.rork.com STT API format documented",
+        "toolkit.rork.com LLM API format documented",
+        "Error response formats documented"
+      ]
+    }
+  ]
+}

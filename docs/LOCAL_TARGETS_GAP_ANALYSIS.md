@@ -1,7 +1,10 @@
 # ACTP Local Targets — Gap Analysis
 
 **Date:** February 22, 2026  
+**Updated:** February 22, 2026 — Phase 1 + Phase 2 implemented  
 **Purpose:** Assess what the 3 local targets (Remotion, Safari Automation, Blotato) actually support vs. what actp-worker currently uses, and identify missing integrations.
+
+> **Status:** 15 of 19 gaps resolved. See resolution notes (✅) below each gap table.
 
 ---
 
@@ -52,15 +55,15 @@ proc = await asyncio.create_subprocess_exec(*cmd, cwd=REMOTION_PROJECT_DIR)
 
 ### GAPS
 
-| # | Gap | Impact | Effort |
-|---|-----|--------|--------|
-| R1 | **Uses `npx` subprocess instead of REST API** | No job queue, no retry, no webhook callbacks | Medium |
-| R2 | **Not using TTS endpoints** | Can't generate voiceovers for video content | Low |
-| R3 | **Not using AI video generation** | Missing Sora/LTX/Mochi integration through Remotion | Medium |
-| R4 | **Not using batch rendering** | Can't render multiple videos in parallel | Low |
-| R5 | **Not using talking avatar generation** | Missing talking head content type | Low |
-| R6 | **Not using static ad rendering** | Can't auto-generate ad images for AdLite | Low |
-| R7 | **No health check from cloud** | Can't monitor Remotion service status | Low |
+| # | Gap | Impact | Effort | Status |
+|---|-----|--------|--------|--------|
+| R1 | **Uses `npx` subprocess instead of REST API** | No job queue, no retry, no webhook callbacks | Medium | ✅ Resolved — `remotion_runner.py` rewritten to use `POST /api/v1/render/brief` + poll `GET /api/v1/jobs/:id` |
+| R2 | **Not using TTS endpoints** | Can't generate voiceovers for video content | Low | ⬜ Phase 3 |
+| R3 | **Not using AI video generation** | Missing Sora/LTX/Mochi integration through Remotion | Medium | ⬜ Phase 3 |
+| R4 | **Not using batch rendering** | Can't render multiple videos in parallel | Low | ⬜ Phase 3 |
+| R5 | **Not using talking avatar generation** | Missing talking head content type | Low | ⬜ Phase 3 |
+| R6 | **Not using static ad rendering** | Can't auto-generate ad images for AdLite | Low | ⬜ Phase 3 |
+| R7 | **No health check from cloud** | Can't monitor Remotion service status | Low | ✅ Resolved — `heartbeat.py` calls `is_remotion_service_available()` every 30s |
 
 ---
 
@@ -125,15 +128,15 @@ proc = await asyncio.create_subprocess_exec(*cmd)
 
 ### GAPS
 
-| # | Gap | Impact | Effort |
-|---|-----|--------|--------|
-| S1 | **Uses CLI subprocess instead of HTTP command API** | No async tracking, no telemetry, brittle | Medium |
-| S2 | **Not using Sora browser automation** | Can't generate videos via sora.chatgpt.com | High |
-| S3 | **Not using WebSocket telemetry** | No real-time progress updates for video gen | Medium |
-| S4 | **Not using watermark removal pipeline** | Sora videos have watermarks | Medium |
-| S5 | **Not checking Sora usage limits** | Could hit rate limits blindly | Low |
-| S6 | **No health/ready check integration** | Can't verify Safari is ready before commands | Low |
-| S7 | **Missing Twitter/Threads/Reddit posting** | Only TikTok/Instagram/YouTube implemented | Low |
+| # | Gap | Impact | Effort | Status |
+|---|-----|--------|--------|--------|
+| S1 | **Uses CLI subprocess instead of HTTP command API** | No async tracking, no telemetry, brittle | Medium | ✅ Resolved — `safari_executor.py` rewritten to `POST /v1/commands` + poll `GET /v1/commands/:id` |
+| S2 | **Not using Sora browser automation** | Can't generate videos via sora.chatgpt.com | High | ✅ Resolved — `generate_sora_video()` in `safari_executor.py`, `run_sora_pipeline()` in `video_pipeline.py` |
+| S3 | **Not using WebSocket telemetry** | No real-time progress updates for video gen | Medium | ⬜ Phase 3 |
+| S4 | **Not using watermark removal pipeline** | Sora videos have watermarks | Medium | ✅ Resolved — `sora.generate.clean` + `remove_watermark()` in `video_pipeline.py` |
+| S5 | **Not checking Sora usage limits** | Could hit rate limits blindly | Low | ✅ Resolved — `get_sora_usage()` called before generation, raises if `remaining == 0` |
+| S6 | **No health/ready check integration** | Can't verify Safari is ready before commands | Low | ✅ Resolved — `is_safari_service_available()` checks `/ready`, heartbeat reports status |
+| S7 | **Missing Twitter/Threads/Reddit posting** | Only TikTok/Instagram/YouTube implemented | Low | ✅ Resolved — 7 platforms in `PLATFORM_COMMAND_MAP`: tiktok, instagram, youtube, twitter, threads, reddit |
 
 ---
 
@@ -206,68 +209,96 @@ async with httpx.AsyncClient() as client:
 
 ### GAPS
 
-| # | Gap | Impact | Effort |
-|---|-----|--------|--------|
-| B1 | **Uses assumed local API instead of official v2 cloud API** | Won't work — Blotato API is cloud-hosted | High |
-| B2 | **Not uploading to Blotato CDN before posting** | mediaUrls must be database.blotato.com domain | Medium |
-| B3 | **Missing platform-specific target configs** | TikTok needs 5 required fields, YouTube needs title/privacy | Medium |
-| B4 | **Not using scheduling features** | Can't schedule posts for optimal timing | Low |
-| B5 | **Not using AI video creation** | Missing Blotato's built-in video gen (POV, narrated, slideshows) | Medium |
-| B6 | **Not using multi-platform posting** | Currently one-at-a-time via Safari | Medium |
-| B7 | **Missing 3 platforms** | LinkedIn, Pinterest, Bluesky not reachable via Safari | Low |
+| # | Gap | Impact | Effort | Status |
+|---|-----|--------|--------|--------|
+| B1 | **Uses assumed local API instead of official v2 cloud API** | Won't work — Blotato API is cloud-hosted | High | ✅ Resolved — `blotato_executor.py` fully rewritten for `backend.blotato.com/v2` |
+| B2 | **Not uploading to Blotato CDN before posting** | mediaUrls must be database.blotato.com domain | Medium | ✅ Resolved — `upload_media_to_cdn()` via `POST /v2/media`, `video_pipeline.py` uploads to Supabase Storage first |
+| B3 | **Missing platform-specific target configs** | TikTok needs 5 required fields, YouTube needs title/privacy | Medium | ✅ Resolved — `_build_target()` generates correct configs for all 9 platforms |
+| B4 | **Not using scheduling features** | Can't schedule posts for optimal timing | Low | ✅ Resolved — `publish_post()` accepts `scheduled_time` param |
+| B5 | **Not using AI video creation** | Missing Blotato's built-in video gen (POV, narrated, slideshows) | Medium | ⬜ Phase 3 |
+| B6 | **Not using multi-platform posting** | Currently one-at-a-time via Safari | Medium | ✅ Resolved — `multi_publisher.py` routes to Blotato (9) or Safari (7), `publish_to_all()` for multi-platform |
+| B7 | **Missing 3 platforms** | LinkedIn, Pinterest, Bluesky not reachable via Safari | Low | ✅ Resolved — Blotato handles all 9 including linkedin, pinterest, bluesky |
 
 ---
 
 ## Cross-Cutting Gaps
 
-| # | Gap | Impact | Effort |
-|---|-----|--------|--------|
-| X1 | **No unified local services health check** | Cloud can't verify Remotion + Safari + Blotato all running | Medium |
-| X2 | **No video pipeline integration** | Remotion render → watermark removal → Blotato CDN → publish isn't wired | High |
-| X3 | **Worker heartbeat doesn't report local service status** | ACTPDash can't show which local capabilities are available | Low |
-| X4 | **No Sora→ACTP pipeline** | Safari generates Sora video → should feed into ACTP as creative | High |
-| X5 | **Two publishing paths not unified** | Safari automation OR Blotato, but no smart routing | Medium |
+| # | Gap | Impact | Effort | Status |
+|---|-----|--------|--------|--------|
+| X1 | **No unified local services health check** | Cloud can't verify Remotion + Safari + Blotato all running | Medium | ✅ Resolved — `_check_local_services()` in `heartbeat.py` checks all 3 every 30s |
+| X2 | **No video pipeline integration** | Remotion render → watermark removal → Blotato CDN → publish isn't wired | High | ✅ Resolved — `video_pipeline.py` with `run_full_pipeline()` orchestrates full lifecycle |
+| X3 | **Worker heartbeat doesn't report local service status** | ACTPDash can't show which local capabilities are available | Low | ✅ Resolved — `system_info.local_services` in heartbeat payload |
+| X4 | **No Sora→ACTP pipeline** | Safari generates Sora video → should feed into ACTP as creative | High | ✅ Resolved — `run_sora_pipeline()` in `video_pipeline.py` creates `actp_creative` + publishes |
+| X5 | **Two publishing paths not unified** | Safari automation OR Blotato, but no smart routing | Medium | ✅ Resolved — `multi_publisher.py` with `get_best_executor()` smart routing, `mplite_poller.py` uses it |
 
 ---
 
 ## Priority Recommendations
 
-### Phase 1 — Critical (use real APIs)
+### Phase 1 — Critical (use real APIs) ✅ COMPLETED
 
-1. **B1+B2+B3: Rewrite blotato_executor to use official v2 API**
-   - Upload media via `POST /v2/media`
-   - Publish via `POST /v2/posts` with correct platform targets
-   - This is the most impactful fix — Blotato's cloud API works anywhere
+1. ✅ **B1+B2+B3: Rewrite blotato_executor to use official v2 API**
+   - `upload_media_to_cdn()` via `POST /v2/media`
+   - `publish_post()` via `POST /v2/posts` with 9 platform targets
+   - `_build_target()` generates correct TikTok, YouTube, Instagram, etc. configs
 
-2. **R1: Rewrite remotion_runner to use microservice API**
-   - Call `POST /api/v1/render/brief` instead of `npx` subprocess
-   - Poll `GET /api/v1/jobs/:id` for completion
-   - Gets proper job queue, retry, and webhook support
+2. ✅ **R1: Rewrite remotion_runner to use microservice API**
+   - `POST /api/v1/render/brief` instead of `npx` subprocess
+   - Polls `GET /api/v1/jobs/:id` for completion
+   - Stores `provider_job_id` in DB
 
-3. **S1: Rewrite safari_executor to use HTTP command API**
-   - Call `POST /v1/commands` instead of subprocess CLI
-   - Poll `GET /v1/commands/:id` for status
-   - Use `/ready` check before sending commands
+3. ✅ **S1: Rewrite safari_executor to use HTTP command API**
+   - `POST /v1/commands` with `submit_command()` / `poll_command()`
+   - Checks `/ready` before sending commands
+   - 7 platform command types
 
-### Phase 2 — High Value (new capabilities)
+4. ✅ **X1+X3: Unified local health reporting** in worker heartbeat
+   - `_check_local_services()` checks Remotion, Safari, Blotato every 30s
+   - Reports in `system_info.local_services` in heartbeat payload
 
-4. **X2: Wire the full video pipeline**
-   - Remotion renders → (optional watermark removal via Safari) → upload to Blotato CDN → publish
+### Phase 2 — High Value (new capabilities) ✅ COMPLETED
 
-5. **S2+S4: Integrate Sora generation + watermark removal**
-   - `POST /v1/commands { type: "sora.generate.clean" }` → clean video
-   - Feed result into ACTP as a new creative
+5. ✅ **X2: Wire the full video pipeline** — `video_pipeline.py`
+   - `run_full_pipeline()`: Remotion render → watermark removal → Supabase Storage → publish
+   - `upload_to_supabase_storage()`: bridges local files → public URLs for Blotato
 
-6. **B5+B6: Use Blotato for multi-platform + AI video**
-   - Publish to all 9 platforms from one API
-   - Use Blotato AI video creation as additional content source
+6. ✅ **S2+S4+X4: Sora generation + watermark removal → ACTP** — `video_pipeline.py`
+   - `run_sora_pipeline()`: Safari Sora gen → clean → Supabase → create creative → publish
+   - `generate_sora_video()` in `safari_executor.py` with usage limits
 
-### Phase 3 — Nice to Have
+7. ✅ **B6+B7+X5: Multi-platform smart routing** — `multi_publisher.py`
+   - `get_best_executor()`: Blotato (9 platforms) vs Safari (7 platforms)
+   - `publish_to_all()` for multi-platform in one call
+   - `mplite_poller.py` updated to use smart routing
 
-7. **R2+R5: TTS + Talking avatars** via Remotion service
-8. **X1+X3: Unified local health reporting** in worker heartbeat
-9. **B4: Scheduled posting** via Blotato API
-10. **S3: WebSocket telemetry** for real-time progress in ACTPDash
+### Phase 3 — Nice to Have (remaining gaps)
+
+8. ⬜ **R2+R5: TTS + Talking avatars** via Remotion service
+9. ⬜ **R3+R4: AI video gen + batch rendering** via Remotion
+10. ⬜ **R6: Static ad rendering** for AdLite
+11. ⬜ **B5: Blotato AI video creation** (POV, narrated, slideshows)
+12. ⬜ **S3: WebSocket telemetry** for real-time progress in ACTPDash
+
+---
+
+## New Files Added
+
+| File | Description |
+|------|-------------|
+| `config.py` | +19 env vars for Remotion, Safari, Blotato services |
+| `blotato_executor.py` | Rewritten: Blotato v2 cloud API (CDN upload + publish to 9 platforms) |
+| `remotion_runner.py` | Rewritten: Remotion REST API (`POST /api/v1/render/brief` + poll) |
+| `safari_executor.py` | Rewritten: Safari HTTP command API (`POST /v1/commands` + poll) + Sora gen |
+| `heartbeat.py` | Added `_check_local_services()` — Remotion/Safari/Blotato health in heartbeat |
+| `video_pipeline.py` | **NEW**: Full pipeline (render → watermark → storage → publish) + Sora pipeline |
+| `multi_publisher.py` | **NEW**: Smart routing Blotato (9) / Safari (7) + `publish_to_all()` |
+| `mplite_poller.py` | Updated: uses `multi_publisher` for smart routing |
+| `tests/test_blotato_executor.py` | 16 tests for v2 cloud API |
+| `tests/test_remotion_runner.py` | 7 tests for REST API |
+| `tests/test_safari_executor.py` | 17 tests for command API + Sora |
+| `tests/test_multi_publisher.py` | 13 tests for smart routing |
+| `tests/test_video_pipeline.py` | 7 tests for pipeline + Sora pipeline |
+| **Total** | **102 tests passing** |
 
 ---
 

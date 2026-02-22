@@ -1,0 +1,1190 @@
+{
+  "project": "WaitlistLab - Social Automation Demand Engine",
+  "description": "Demand-validated automation tools platform with Meta Lead Ads, Remotion ad creation, Ads Autopilot, and competitive intelligence",
+  "version": "1.0",
+  "totalFeatures": 125,
+  "completedFeatures": 5,
+  "lastUpdated": "2026-02-05",
+  "prds": [
+    "PRD.md",
+    "MASTER_PRD_PART1_STRATEGY.md",
+    "MASTER_PRD_PART2_IMPLEMENTATION.md",
+    "MASTER_PRD_PART3_PRODUCTS.md",
+    "MASTER_PRD_PART4_AD_CREATION.md",
+    "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+    "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+    "MASTER_PRD_PART7_ADS_AUTOPILOT.md",
+    "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+    "PRODUCTIZABLE_SOFTWARE_INVENTORY.md",
+    "waitlist-lab/docs/DEMAND_DISCOVERY_FORMS.md",
+    "waitlist-lab/docs/META_LEAD_FORMS.md",
+    "waitlist-lab/docs/PRODUCT_PORTFOLIO.md",
+    "waitlist-lab/PRD_GAP_ANALYSIS.md",
+    "waitlist-lab/src/lib/ads-autopilot/API.md",
+    "waitlist-lab/SERVICES.md"
+  ],
+  "phases": {
+    "phase1_lead_capture": "Meta Lead Ads + Lead Form + Scoring",
+    "phase2_email_nurture": "Resend email sequences + automation",
+    "phase3_ad_creation": "Remotion ad templates + human approval",
+    "phase4_ads_autopilot": "Meta Marketing API + AI decision engine",
+    "phase5_ad_intelligence": "Competitive ad monitoring + trend detection",
+    "phase6_landing_pages": "Micro-startup page templates",
+    "phase7_products": "Social automation tool delivery",
+    "phase8_analytics": "Attribution + measurement stack"
+  },
+  "features": [
+    {
+      "id": "LEAD-001",
+      "name": "Meta Leadgen Webhook",
+      "description": "Receive and process Meta lead ad submissions via webhook",
+      "category": "lead-capture",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "LEAD-002",
+      "name": "Lead Data Fetch (Graph API)",
+      "description": "Fetch full lead details from Meta Graph API after webhook",
+      "category": "lead-capture",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "LEAD-003",
+      "name": "Lead Storage (Supabase)",
+      "description": "Store leads in Supabase with platform, package, goal, timeline, budget fields",
+      "category": "lead-capture",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "LEAD-004",
+      "name": "Lead Scoring Algorithm",
+      "description": "Calculate lead score based on timeline, budget, volume, and engagement",
+      "category": "lead-capture",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "LEAD-005",
+      "name": "Lead Segmentation",
+      "description": "Segment leads by platform, package, urgency, and budget tier",
+      "category": "lead-capture",
+      "priority": "P1",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "LEAD-006",
+      "name": "Meta Instant Form Builder",
+      "description": "Configure and manage Meta Instant Forms with custom questions",
+      "category": "lead-capture",
+      "priority": "P1",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "LEAD-007",
+      "name": "Thank You Screen Config",
+      "description": "Customize post-submission screen with CTA and follow link",
+      "category": "lead-capture",
+      "priority": "P2",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-001",
+      "name": "Resend Integration",
+      "description": "Connect Resend for transactional email delivery",
+      "category": "email-nurture",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-002",
+      "name": "Welcome Email (Immediate)",
+      "description": "Send welcome email within 1-5 minutes of signup",
+      "category": "email-nurture",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-003",
+      "name": "Sample Output Email",
+      "description": "Send screenshot/preview of what user will get",
+      "category": "email-nurture",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-004",
+      "name": "Roadmap + Vote Email",
+      "description": "Ask user to vote on which feature ships first",
+      "category": "email-nurture",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-005",
+      "name": "Beta Invite Email",
+      "description": "Invite high-intent leads to beta test program",
+      "category": "email-nurture",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-006",
+      "name": "Pricing Lock-in Email",
+      "description": "Offer early-bird pricing lock for Phase B leads",
+      "category": "email-nurture",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-007",
+      "name": "Product Delivery Email",
+      "description": "Auto-deliver product access when ready (15-60 min promise)",
+      "category": "email-nurture",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "EMAIL-008",
+      "name": "Resend Webhook Handler",
+      "description": "Track email opens, clicks, bounces via Resend webhooks",
+      "category": "email-nurture",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-001",
+      "name": "Remotion Ads Service",
+      "description": "Express server on port 8686 for rendering video/static ads",
+      "category": "ad-creation",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-002",
+      "name": "Video Ad Template (15-25s)",
+      "description": "Pattern break + outcome + proof hint + CTA video template",
+      "category": "ad-creation",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-003",
+      "name": "Static Ad Template",
+      "description": "Headline + subtext + screenshot + CTA static image template",
+      "category": "ad-creation",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-004",
+      "name": "Creative CRUD API",
+      "description": "/api/ads/creatives endpoints for create, read, update, delete",
+      "category": "ad-creation",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-005",
+      "name": "Human Approval Queue",
+      "description": "Review queue for approving/rejecting creatives before publish",
+      "category": "ad-creation",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-006",
+      "name": "Creative Duplication",
+      "description": "Clone existing ad creative with modifications",
+      "category": "ad-creation",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-007",
+      "name": "Batch Render API",
+      "description": "Generate multiple ad creatives in one request",
+      "category": "ad-creation",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-008",
+      "name": "Approval Audit Trail",
+      "description": "Log all approval actions with timestamp and reviewer",
+      "category": "ad-creation",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-009",
+      "name": "AI Copywriting Integration",
+      "description": "Generate ad copy variations using GPT-4",
+      "category": "ad-creation",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "ADCR-010",
+      "name": "Sora Video Integration",
+      "description": "Generate video clips using Sora API for ad creatives",
+      "category": "ad-creation",
+      "priority": "P2",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-001",
+      "name": "Meta Marketing API Client",
+      "description": "Client for Meta Marketing API (campaigns, adsets, ads)",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-002",
+      "name": "Campaign Creation API",
+      "description": "Create campaigns with objectives, budget, schedule",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-003",
+      "name": "Ad Set Creation API",
+      "description": "Create ad sets with targeting, placements, optimization",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-004",
+      "name": "Ad Creative Upload",
+      "description": "Upload rendered assets to Ad Account for use in ads",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-005",
+      "name": "Ad Creation API",
+      "description": "Create ads linking creative to ad set",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-006",
+      "name": "Performance Metrics Fetch",
+      "description": "Pull CPC, CPL, CVR, CTR, ROAS from Meta Insights API",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-007",
+      "name": "Rules Engine (Pause/Scale)",
+      "description": "Auto pause losers and scale winners based on rules",
+      "category": "ads-autopilot",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-008",
+      "name": "AI Decision Engine",
+      "description": "GPT-4 analysis of performance with recommendations",
+      "category": "ads-autopilot",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-009",
+      "name": "Budget Allocation Optimizer",
+      "description": "Automatically reallocate budget to winners",
+      "category": "ads-autopilot",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-010",
+      "name": "Creative Iteration Generator",
+      "description": "Generate next CreativeSpecs based on winning patterns",
+      "category": "ads-autopilot",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-011",
+      "name": "Dynamic Creative Testing",
+      "description": "Support Meta Dynamic Creative Optimization",
+      "category": "ads-autopilot",
+      "priority": "P2",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "AUTO-012",
+      "name": "A/B Split Testing",
+      "description": "Structured split tests with statistical significance",
+      "category": "ads-autopilot",
+      "priority": "P2",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-001",
+      "name": "Meta Ad Library Scraper",
+      "description": "Search and collect ads from Meta Ad Library",
+      "category": "ad-intelligence",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-002",
+      "name": "TikTok Commercial Center Scraper",
+      "description": "Collect ads from TikTok Commercial Center",
+      "category": "ad-intelligence",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-003",
+      "name": "Winner Detection Algorithm",
+      "description": "Identify ads running 30+ days as winners",
+      "category": "ad-intelligence",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-004",
+      "name": "Competitor Tracker",
+      "description": "Monitor specific brands' ad activity over time",
+      "category": "ad-intelligence",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-005",
+      "name": "Change Detection",
+      "description": "Detect new campaigns, stopped ads, strategy shifts",
+      "category": "ad-intelligence",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-006",
+      "name": "Trend Detection Engine",
+      "description": "Identify emerging niches from ad spend patterns",
+      "category": "ad-intelligence",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-007",
+      "name": "UX Teardown Analyzer",
+      "description": "Analyze competitor landing pages for patterns",
+      "category": "ad-intelligence",
+      "priority": "P2",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-008",
+      "name": "AI Strategy Briefs",
+      "description": "Generate recommendations from competitor analysis",
+      "category": "ad-intelligence",
+      "priority": "P2",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-009",
+      "name": "Ad Creative Database",
+      "description": "Store and search 68M+ collected ad creatives",
+      "category": "ad-intelligence",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "INTEL-010",
+      "name": "Winning Pattern Extraction",
+      "description": "Extract messaging angles, hooks, formats from winners",
+      "category": "ad-intelligence",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-001",
+      "name": "Landing Page Template System",
+      "description": "Standardized micro-startup page template",
+      "category": "landing-pages",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-002",
+      "name": "Headline Generator",
+      "description": "Generate headlines using outcome + time + pain removal formulas",
+      "category": "landing-pages",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-003",
+      "name": "Core Promise Bullets",
+      "description": "3 benefit \u2192 mechanism \u2192 proof hint bullets",
+      "category": "landing-pages",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-004",
+      "name": "Proof Demo Section",
+      "description": "Sample output preview, Loom, or Figma embed",
+      "category": "landing-pages",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-005",
+      "name": "Waitlist CTA with Intent Question",
+      "description": "Email + qualifying question + micro-commitment checkbox",
+      "category": "landing-pages",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-006",
+      "name": "Progress Tracker Display",
+      "description": "Visual milestone tracker with dates",
+      "category": "landing-pages",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-007",
+      "name": "Pricing Anchor Section",
+      "description": "Soft pricing (Phase A) or real pricing (Phase B)",
+      "category": "landing-pages",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LAND-008",
+      "name": "You're In Page",
+      "description": "Post-signup page with poll, beta apply, pricing lock",
+      "category": "landing-pages",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-001",
+      "name": "DM Follow-up Assistant",
+      "description": "Auto-DM sequences, inbox triage, reply drafting for IG/TikTok/X/Threads",
+      "category": "products",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-002",
+      "name": "Auto-Comment Assistant",
+      "description": "AI-powered contextual comments with scheduling",
+      "category": "products",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-003",
+      "name": "Inbox Triage + Reply Drafting",
+      "description": "Priority sorting, template responses, AI suggestions",
+      "category": "products",
+      "priority": "P1",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-004",
+      "name": "Lead Tracker + Follow-up Sequences",
+      "description": "Lead scoring, automated nurture, CRM sync",
+      "category": "products",
+      "priority": "P1",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-005",
+      "name": "Custom Dashboard Delivery",
+      "description": "Primary product delivery via custom dashboard",
+      "category": "products",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-006",
+      "name": "Skool Community Delivery",
+      "description": "Product delivery via Skool community access",
+      "category": "products",
+      "priority": "P2",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "PROD-007",
+      "name": "Whop Storefront Delivery",
+      "description": "Product delivery via Whop storefront",
+      "category": "products",
+      "priority": "P2",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-001",
+      "name": "Meta Pixel Integration",
+      "description": "Track page views, signups, conversions with Meta Pixel",
+      "category": "analytics",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-002",
+      "name": "Conversions API (CAPI)",
+      "description": "Server-side event tracking for attribution accuracy",
+      "category": "analytics",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-003",
+      "name": "PostHog Integration",
+      "description": "Product analytics for user behavior tracking",
+      "category": "analytics",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-004",
+      "name": "UTM Tracking System",
+      "description": "utm_campaign, utm_content, utm_term for attribution",
+      "category": "analytics",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-005",
+      "name": "Event Tracking (Core Events)",
+      "description": "page_view, waitlist_submit, poll_vote, pricing_click, beta_apply",
+      "category": "analytics",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-006",
+      "name": "FBP/FBC Cookie Capture",
+      "description": "Store _fbp, _fbc, fbclid for attribution",
+      "category": "analytics",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-007",
+      "name": "End-to-End Attribution",
+      "description": "Trace creative \u2192 ad \u2192 lead \u2192 purchase chain",
+      "category": "analytics",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-008",
+      "name": "Funnel Metrics Dashboard",
+      "description": "CPC, LPV Rate, CVR, CPL, High-Intent Rate visualization",
+      "category": "analytics",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANLY-009",
+      "name": "Results Sheet Export",
+      "description": "Export idea, spend, clicks, LPVs, signups, CPL, notes",
+      "category": "analytics",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCORE-001",
+      "name": "Two-Pass Winner System",
+      "description": "Threshold check + weighted score for idea ranking",
+      "category": "scoring",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCORE-002",
+      "name": "Minimum Thresholds Check",
+      "description": "Auto-disqualify ideas below signup/intent/CPL thresholds",
+      "category": "scoring",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCORE-003",
+      "name": "Weighted Score Calculator",
+      "description": "CPL (40%) + CVR (30%) + Intent (20%) + Qualitative (10%)",
+      "category": "scoring",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCORE-004",
+      "name": "Implied CAC Calculator",
+      "description": "Calculate implied CAC from CPL and conversion assumptions",
+      "category": "scoring",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCORE-005",
+      "name": "Intent Ladder Tracking",
+      "description": "Track Level 1-4 (Click \u2192 Signup \u2192 Intent \u2192 Commit)",
+      "category": "scoring",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PHASE-001",
+      "name": "Phase A: Broad Demand Scan",
+      "description": "Rank top 2-3 from 5-10 ideas with soft pricing",
+      "category": "phases",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PHASE-002",
+      "name": "Phase B: Intent Verification",
+      "description": "Real pricing, beta apps, deposits for top ideas",
+      "category": "phases",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PHASE-003",
+      "name": "Phase C: Build Winner",
+      "description": "Build only validated winner with warm list",
+      "category": "phases",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DB-001",
+      "name": "Leads Table Schema",
+      "description": "leads table with email, platform, package, goal, timeline, budget",
+      "category": "database",
+      "priority": "P0",
+      "prd": "PRD_SOCIAL_AUTOMATION_TOOLS.md",
+      "passes": true
+    },
+    {
+      "id": "DB-002",
+      "name": "Creatives Table Schema",
+      "description": "ad_creatives table with specs, status, render paths",
+      "category": "database",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "DB-003",
+      "name": "Campaigns Table Schema",
+      "description": "campaigns table linked to Meta campaign objects",
+      "category": "database",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "DB-004",
+      "name": "Ad Sets Table Schema",
+      "description": "ad_sets table with targeting and placements",
+      "category": "database",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "DB-005",
+      "name": "Ads Table Schema",
+      "description": "ads table linking creatives to ad sets",
+      "category": "database",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "DB-006",
+      "name": "Performance Metrics Table",
+      "description": "ad_metrics table for daily performance snapshots",
+      "category": "database",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "DB-007",
+      "name": "Competitor Ads Table",
+      "description": "competitor_ads table for intelligence collection",
+      "category": "database",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART6_AD_INTELLIGENCE.md",
+      "passes": true
+    },
+    {
+      "id": "DB-008",
+      "name": "Approval Actions Table",
+      "description": "approval_actions audit log for human review",
+      "category": "database",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "FORM-001",
+      "name": "Lead Form CRUD API",
+      "description": "Create, read, update, delete lead forms via /api/v1/lead-forms",
+      "category": "lead-forms",
+      "priority": "P0",
+      "prd": "waitlist-lab/docs/META_LEAD_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "FORM-002",
+      "name": "Form Duplication API",
+      "description": "POST /api/v1/lead-forms/{id}/duplicate to clone forms with new questions",
+      "category": "lead-forms",
+      "priority": "P1",
+      "prd": "waitlist-lab/docs/META_LEAD_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "FORM-003",
+      "name": "Question Presets Library",
+      "description": "Pre-built question sets: waitlist_basic, saas_qualification, creator_dm_tool, agency_lead",
+      "category": "lead-forms",
+      "priority": "P1",
+      "prd": "waitlist-lab/docs/META_LEAD_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "FORM-004",
+      "name": "Meta Form Linking",
+      "description": "Link internal forms to Meta Instant Form IDs for webhook routing",
+      "category": "lead-forms",
+      "priority": "P0",
+      "prd": "waitlist-lab/docs/META_LEAD_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "FORM-005",
+      "name": "Question Scoring Rules",
+      "description": "Per-question scoring rules for automatic lead qualification",
+      "category": "lead-forms",
+      "priority": "P0",
+      "prd": "waitlist-lab/docs/META_LEAD_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "DEMAND-001",
+      "name": "Product Demand Discovery Form",
+      "description": "Multi-product interest form measuring demand across 8+ products",
+      "category": "demand-discovery",
+      "priority": "P0",
+      "prd": "waitlist-lab/docs/DEMAND_DISCOVERY_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "DEMAND-002",
+      "name": "Instagram Redirect Strategy",
+      "description": "Post-signup redirect to Instagram for relationship building",
+      "category": "demand-discovery",
+      "priority": "P1",
+      "prd": "waitlist-lab/docs/DEMAND_DISCOVERY_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "DEMAND-003",
+      "name": "Demand Analytics Queries",
+      "description": "SQL queries for product interest breakdown, hot leads, ready-to-buy",
+      "category": "demand-discovery",
+      "priority": "P1",
+      "prd": "waitlist-lab/docs/DEMAND_DISCOVERY_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "DEMAND-004",
+      "name": "MicroStartupTemplate Component",
+      "description": "Reusable landing page template for product-specific pages",
+      "category": "demand-discovery",
+      "priority": "P0",
+      "prd": "waitlist-lab/docs/DEMAND_DISCOVERY_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "DEMAND-005",
+      "name": "ProductDemandForm Component",
+      "description": "React component with customizable IG handle, accent color, callbacks",
+      "category": "demand-discovery",
+      "priority": "P0",
+      "prd": "waitlist-lab/docs/DEMAND_DISCOVERY_FORMS.md",
+      "passes": true
+    },
+    {
+      "id": "API-001",
+      "name": "Autopilot Status Endpoint",
+      "description": "GET /ads-autopilot?action=status - check system status and config",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-002",
+      "name": "Token Verification Endpoint",
+      "description": "GET /ads-autopilot?action=verify-token - verify Meta API scopes",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-003",
+      "name": "Fatigue Report Endpoint",
+      "description": "GET /ads-autopilot?action=fatigue-report - ad fatigue analysis",
+      "category": "api",
+      "priority": "P1",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-004",
+      "name": "Sync Insights Endpoint",
+      "description": "POST /ads-autopilot?action=sync-insights - sync Meta performance data",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-005",
+      "name": "Run Rules Endpoint",
+      "description": "POST /ads-autopilot?action=run-rules - evaluate autopilot rules",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-006",
+      "name": "Generate Creatives Endpoint",
+      "description": "POST /ads-autopilot?action=generate-creatives - AI creative specs",
+      "category": "api",
+      "priority": "P1",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-007",
+      "name": "Dashboard Overview Endpoint",
+      "description": "GET /ads-autopilot/dashboard?view=overview - metrics summary",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-008",
+      "name": "Dashboard Performance Endpoint",
+      "description": "GET /ads-autopilot/dashboard?view=performance - daily performance",
+      "category": "api",
+      "priority": "P1",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-009",
+      "name": "Review Queue Endpoint",
+      "description": "GET/POST /ads-autopilot/dashboard?view=review-queue - approve/reject",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-010",
+      "name": "Experiments CRUD Endpoints",
+      "description": "GET/POST /experiments - create, list, and analyze A/B tests",
+      "category": "api",
+      "priority": "P1",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-011",
+      "name": "Health Check Endpoint",
+      "description": "GET /ads-autopilot/health - system health with Supabase/Meta/OpenAI status",
+      "category": "api",
+      "priority": "P0",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "API-012",
+      "name": "Cron Endpoints",
+      "description": "GET /cron?type=hourly - scheduled job execution",
+      "category": "api",
+      "priority": "P1",
+      "prd": "waitlist-lab/src/lib/ads-autopilot/API.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-001",
+      "name": "OpenAI Integration",
+      "description": "GPT-4 for creative generation, ad copywriting, campaign planning",
+      "category": "services",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-002",
+      "name": "Meta Ads API Integration",
+      "description": "Campaign management, ad creation, performance sync via Marketing API",
+      "category": "services",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-003",
+      "name": "Supabase Database",
+      "description": "Data persistence, user auth, real-time subscriptions",
+      "category": "services",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-004",
+      "name": "Resend Email Service",
+      "description": "Transactional emails, waitlist notifications",
+      "category": "services",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-005",
+      "name": "Instagram Graph API",
+      "description": "Organic posting and content sync",
+      "category": "services",
+      "priority": "P1",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-006",
+      "name": "Autopilot Configuration",
+      "description": "Guardrails: max daily/monthly spend, CPA thresholds, auto-sync flags",
+      "category": "services",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-007",
+      "name": "TikTok Publishing API",
+      "description": "TikTok content posting and analytics retrieval",
+      "category": "services",
+      "priority": "P2",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SVC-008",
+      "name": "Webhook Event Ingestion",
+      "description": "Generic webhook receiver for Meta, Stripe, Resend events with signature verification",
+      "category": "services",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "DASH-001",
+      "name": "Campaign Performance Dashboard",
+      "description": "Real-time dashboard showing ad spend, CPA, ROAS, and funnel metrics per campaign",
+      "category": "dashboard",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "DASH-002",
+      "name": "Lead Pipeline Visualization",
+      "description": "Visual funnel showing lead \u2192 MQL \u2192 SQL \u2192 customer conversion rates",
+      "category": "dashboard",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "DASH-003",
+      "name": "Ad Creative A/B Test Results",
+      "description": "Side-by-side creative comparison with CTR, CPC, and conversion data",
+      "category": "dashboard",
+      "priority": "P1",
+      "prd": "MASTER_PRD_PART4_AD_CREATION.md",
+      "passes": true
+    },
+    {
+      "id": "SEC-001",
+      "name": "API Rate Limiting",
+      "description": "Per-endpoint rate limiting with Redis token bucket and 429 responses",
+      "category": "security",
+      "priority": "P0",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "SEC-002",
+      "name": "Meta Token Refresh Automation",
+      "description": "Automatic refresh of Meta long-lived tokens before expiry with alerting on failure",
+      "category": "security",
+      "priority": "P0",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "TEST-001",
+      "name": "Integration Test Suite for Meta API",
+      "description": "Automated tests for campaign CRUD, insights fetch, and CAPI events against sandbox",
+      "category": "testing",
+      "priority": "P1",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "TEST-002",
+      "name": "Lead Scoring Regression Tests",
+      "description": "Unit tests for scoring algorithm with edge cases and threshold validation",
+      "category": "testing",
+      "priority": "P1",
+      "prd": "waitlist-lab/SERVICES.md",
+      "passes": true
+    },
+    {
+      "id": "DASH-004",
+      "name": "Multi-product Funnel Comparison",
+      "description": "Compare conversion funnels across all WaitlistLab-managed products side by side",
+      "category": "dashboard",
+      "priority": "P2",
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "passes": true
+    },
+    {
+      "id": "NOMOCK-001",
+      "name": "Replace Dashboard TODO with Real Facebook API Data",
+      "description": "Replace TODO stub in waitlist-lab/src/app/dashboard/page-old.tsx that says 'Fetch real data from Facebook API' with actual Meta Marketing API calls or remove the old dashboard page entirely",
+      "priority": "P1",
+      "category": "dashboard",
+      "passes": true,
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "acceptance": [
+        "Dashboard data fetched from real Facebook API or page removed",
+        "No TODO.*Fetch real data stubs remain"
+      ]
+    },
+    {
+      "id": "NOMOCK-002",
+      "name": "Implement Real Twitter/X API v2 Platform Manager",
+      "description": "Replace 2 TODO stubs in waitlist-lab/src/lib/amd/platform-manager.ts with real Twitter API v2 posting and metrics fetching implementations",
+      "priority": "P1",
+      "category": "api",
+      "passes": true,
+      "prd": "MASTER_PRD_PART5_ADS_AUTOPILOT.md",
+      "acceptance": [
+        "Twitter posting uses real API v2",
+        "Twitter metrics fetching uses real API v2",
+        "No TODO.*Implement Twitter stubs remain in platform-manager.ts"
+      ]
+    }
+  ]
+}

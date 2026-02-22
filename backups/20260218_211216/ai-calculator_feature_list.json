@@ -1,0 +1,1438 @@
+{
+  "version": "3.0",
+  "project": "AI Calculator Builder",
+  "generated": "2026-02-18",
+  "summary": {
+    "total_features": 110,
+    "passes": 110,
+    "fails": 0,
+    "note": "Counts auto-updated by harness script"
+  },
+  "features": [
+    {
+      "id": "SETUP-001",
+      "category": "setup",
+      "priority": 1,
+      "description": "Project has valid package.json with all required dependencies",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "package.json exists and is valid JSON",
+        "All dependencies from package.json can be resolved",
+        "expo, react, react-native are listed as dependencies"
+      ]
+    },
+    {
+      "id": "SETUP-002",
+      "category": "setup",
+      "priority": 1,
+      "description": "TypeScript configured with strict mode and path aliases",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "tsconfig.json exists with strict: true",
+        "Path alias @/* maps to ./*",
+        "Extends expo/tsconfig.base"
+      ]
+    },
+    {
+      "id": "SETUP-003",
+      "category": "setup",
+      "priority": 1,
+      "description": "app.json configured with correct app name, slug, bundle identifiers",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "App name is 'AI Calculator Builder'",
+        "iOS bundleIdentifier is set",
+        "Android package is set",
+        "Typed routes experiment enabled"
+      ]
+    },
+    {
+      "id": "SETUP-004",
+      "category": "setup",
+      "priority": 1,
+      "description": "ESLint configured for the project",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "eslint.config.js or .eslintrc exists",
+        "expo lint config extended",
+        "lint script in package.json"
+      ]
+    },
+    {
+      "id": "SETUP-005",
+      "category": "setup",
+      "priority": 1,
+      "description": "Project directory structure follows conventions (app/, contexts/, constants/, types/, hooks/, services/, utils/)",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/ directory exists with Expo Router screens",
+        "contexts/ directory exists",
+        "constants/ directory exists",
+        "types/ directory exists with shared type definitions",
+        "hooks/ directory exists",
+        "services/ directory exists",
+        "utils/ directory exists"
+      ]
+    },
+    {
+      "id": "SETUP-006",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create .env.example with all required environment variable placeholders",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        ".env.example file exists",
+        "Contains EXPO_PUBLIC_SUPABASE_URL placeholder",
+        "Contains EXPO_PUBLIC_SUPABASE_ANON_KEY placeholder"
+      ]
+    },
+    {
+      "id": "SETUP-007",
+      "category": "setup",
+      "priority": 1,
+      "description": "Color constants defined with full theme palette",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "constants/colors.ts exports a Colors object",
+        "Primary, secondary, background, text, border colors defined",
+        "Semantic colors (success, warning, error, info) defined"
+      ]
+    },
+    {
+      "id": "SETUP-008",
+      "category": "setup",
+      "priority": 2,
+      "description": "Shared TypeScript types extracted to types/ directory",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "types/calculator.ts defines Calculator and CalculatorVariable types",
+        "Types are imported from types/ rather than duplicated across files"
+      ]
+    },
+    {
+      "id": "NAV-001",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Root layout renders with providers (CalculatorProvider, GestureHandler)",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/_layout.tsx exports a default component",
+        "CalculatorProvider wraps the app",
+        "GestureHandlerRootView wraps the app",
+        "SplashScreen is hidden on mount"
+      ]
+    },
+    {
+      "id": "NAV-002",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Tab navigation with 4 tabs: Create, Library, Explore, Profile",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/(tabs)/_layout.tsx defines a Tabs navigator",
+        "Four tab screens registered: (home), library, explore, profile",
+        "Each tab has an icon from lucide-react-native",
+        "Active/inactive tab colors are applied"
+      ]
+    },
+    {
+      "id": "NAV-003",
+      "category": "navigation",
+      "priority": 1,
+      "description": "Stack navigation for generate and calculator detail screens",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "generate screen is registered as a stack screen",
+        "calculator/[id] screen is registered as a stack screen with dynamic routing",
+        "Navigation from home to generate works with idea param"
+      ]
+    },
+    {
+      "id": "NAV-004",
+      "category": "navigation",
+      "priority": 2,
+      "description": "404 Not Found screen displays for invalid routes",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/+not-found.tsx exists and exports a component",
+        "Shows error icon, title, and description",
+        "Has a link to go back to home"
+      ]
+    },
+    {
+      "id": "HOME-001",
+      "category": "home-screen",
+      "priority": 1,
+      "description": "Home screen renders with idea text input",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "TextInput is rendered for describing calculator idea",
+        "Multiline input with placeholder text",
+        "Input value is stored in component state"
+      ]
+    },
+    {
+      "id": "HOME-002",
+      "category": "home-screen",
+      "priority": 1,
+      "description": "Generate Calculator button navigates to /generate with idea param",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Button is rendered with 'Generate Calculator' text",
+        "Button is disabled when input is empty",
+        "Pressing button navigates to /generate with idea as search param"
+      ]
+    },
+    {
+      "id": "HOME-003",
+      "category": "home-screen",
+      "priority": 2,
+      "description": "Quick Start Ideas section with pre-filled templates",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "At least 3 quick idea cards are displayed",
+        "Each card has a title and subtitle",
+        "Tapping a card pre-fills the text input with the idea"
+      ]
+    },
+    {
+      "id": "HOME-004",
+      "category": "home-screen",
+      "priority": 2,
+      "description": "Stats card showing calculator count from context",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Displays number of calculators from CalculatorContext",
+        "Count updates when calculators are added or deleted"
+      ]
+    },
+    {
+      "id": "HOME-005",
+      "category": "home-screen",
+      "priority": 3,
+      "description": "Home screen uses safe area insets instead of hardcoded padding",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Uses SafeAreaView or useSafeAreaInsets()",
+        "No hardcoded paddingTop for status bar avoidance"
+      ]
+    },
+    {
+      "id": "GEN-001",
+      "category": "ai-generation",
+      "priority": 1,
+      "description": "Generate screen receives idea param from navigation",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/generate.tsx exports a default component",
+        "Reads 'idea' from route search params",
+        "Displays the idea on the screen"
+      ]
+    },
+    {
+      "id": "GEN-002",
+      "category": "ai-generation",
+      "priority": 1,
+      "description": "AI generation uses Rork toolkit SDK with createCalculator tool",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "useRorkAgent hook is called with proper configuration",
+        "createCalculator tool is defined with Zod schema",
+        "Tool schema includes name, description, category, variables, formula, code, documentation"
+      ]
+    },
+    {
+      "id": "GEN-003",
+      "category": "ai-generation",
+      "priority": 1,
+      "description": "Generation progress UI shows multi-step progress",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "At least 3 progress steps are displayed",
+        "Active step shows a loading indicator",
+        "Completed steps show a checkmark"
+      ]
+    },
+    {
+      "id": "GEN-004",
+      "category": "ai-generation",
+      "priority": 1,
+      "description": "On successful generation, calculator is saved to context",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "createCalculator tool execute function calls addCalculator",
+        "Generated calculator appears in library after creation",
+        "Calculator has valid id, name, description, category, variables, code"
+      ]
+    },
+    {
+      "id": "GEN-005",
+      "category": "ai-generation",
+      "priority": 1,
+      "description": "Success state shows calculator preview with View and Create Another buttons",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "After generation completes, preview card shows calculator name, description, category",
+        "View Calculator button navigates to /calculator/[id]",
+        "Create Another button navigates back to home"
+      ]
+    },
+    {
+      "id": "GEN-006",
+      "category": "ai-generation",
+      "priority": 2,
+      "description": "Generation screen handles errors gracefully with retry option",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "If AI generation fails, an error message is displayed",
+        "A retry button is available to attempt generation again",
+        "Error state does not leave the user stuck with no action"
+      ]
+    },
+    {
+      "id": "GEN-007",
+      "category": "ai-generation",
+      "priority": 3,
+      "description": "Generation screen has a cancel/back button to abort generation",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "A back or cancel button is accessible during generation",
+        "Pressing it navigates the user away from the generation screen"
+      ]
+    },
+    {
+      "id": "CALC-001",
+      "category": "calculator-detail",
+      "priority": 1,
+      "description": "Calculator detail screen loads calculator by ID from route params",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/calculator/[id].tsx exports a default component",
+        "Reads id from route params",
+        "Finds matching calculator from CalculatorContext",
+        "Shows error state if calculator not found"
+      ]
+    },
+    {
+      "id": "CALC-002",
+      "category": "calculator-detail",
+      "priority": 1,
+      "description": "Calculator detail renders input fields for each input variable",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each variable with type 'input' renders a TextInput",
+        "Input fields have numeric keyboard type",
+        "Labels and units are displayed for each input",
+        "Default values are pre-filled when available"
+      ]
+    },
+    {
+      "id": "CALC-003",
+      "category": "calculator-detail",
+      "priority": 1,
+      "description": "Calculator detail executes formula code and displays output variables",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculator code is executed with input values",
+        "Output variables are displayed with computed results",
+        "Results update when inputs change"
+      ]
+    },
+    {
+      "id": "CALC-004",
+      "category": "calculator-detail",
+      "priority": 2,
+      "description": "Calculator detail shows toggleable documentation section",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Documentation section is collapsible/expandable",
+        "Shows AI-generated documentation when expanded",
+        "Toggle button is clearly visible"
+      ]
+    },
+    {
+      "id": "CALC-005",
+      "category": "calculator-detail",
+      "priority": 2,
+      "description": "Calculator detail displays formula and metadata in footer",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Formula text is displayed",
+        "Usage count is displayed",
+        "Category is displayed"
+      ]
+    },
+    {
+      "id": "CALC-006",
+      "category": "calculator-detail",
+      "priority": 2,
+      "description": "Calculator detail handles calculation errors gracefully",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "If formula code throws an error, user sees an error message in the UI",
+        "Error does not crash the app",
+        "User can still modify inputs after an error"
+      ]
+    },
+    {
+      "id": "CALC-007",
+      "category": "calculator-detail",
+      "priority": 2,
+      "description": "Input validation prevents invalid values (NaN, empty, etc.)",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Empty inputs are handled without crashing",
+        "Non-numeric input is rejected or handled",
+        "NaN and Infinity results display a meaningful message"
+      ]
+    },
+    {
+      "id": "CALC-008",
+      "category": "calculator-detail",
+      "priority": 3,
+      "description": "Calculator detail increments usage count on view without infinite loop",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Usage count increments once when calculator is opened",
+        "No infinite re-render loop from incrementUsage in useEffect",
+        "Usage count persists after incrementing"
+      ]
+    },
+    {
+      "id": "LIB-001",
+      "category": "library",
+      "priority": 1,
+      "description": "Library screen lists all calculators from context",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "All calculators from CalculatorContext are displayed",
+        "Each card shows name, description, category",
+        "Each card shows creation date formatted as locale date string"
+      ]
+    },
+    {
+      "id": "LIB-002",
+      "category": "library",
+      "priority": 1,
+      "description": "Library search filters calculators by name, description, or category",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Search input is rendered at the top of the library",
+        "Typing filters the calculator list in real-time",
+        "Matching is case-insensitive across name, description, and category"
+      ]
+    },
+    {
+      "id": "LIB-003",
+      "category": "library",
+      "priority": 1,
+      "description": "Library calculator cards are tappable and navigate to calculator detail",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each calculator card is wrapped in a Pressable or TouchableOpacity",
+        "Tapping navigates to /calculator/[id] with the correct ID"
+      ]
+    },
+    {
+      "id": "LIB-004",
+      "category": "library",
+      "priority": 1,
+      "description": "Library allows deleting a calculator",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Delete button/icon is visible on each calculator card",
+        "Pressing delete removes the calculator from the list",
+        "Calculator is removed from AsyncStorage"
+      ]
+    },
+    {
+      "id": "LIB-005",
+      "category": "library",
+      "priority": 2,
+      "description": "Library delete has confirmation dialog before removing calculator",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Pressing delete shows an Alert or modal asking for confirmation",
+        "User must confirm before the calculator is actually deleted",
+        "Cancel option dismisses the dialog without deleting"
+      ]
+    },
+    {
+      "id": "LIB-006",
+      "category": "library",
+      "priority": 2,
+      "description": "Library shows empty state when no calculators exist",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "When calculator list is empty, a friendly empty state is shown",
+        "Empty state has an icon or illustration",
+        "A button navigates to the home/create screen"
+      ]
+    },
+    {
+      "id": "LIB-007",
+      "category": "library",
+      "priority": 2,
+      "description": "Library shows empty state when search returns no results",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "When search query matches no calculators, a search-specific empty state appears",
+        "Message indicates no results for the current query"
+      ]
+    },
+    {
+      "id": "LIB-008",
+      "category": "library",
+      "priority": 3,
+      "description": "Library uses safe area insets instead of hardcoded padding",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Uses SafeAreaView or useSafeAreaInsets()",
+        "No hardcoded paddingTop for status bar avoidance"
+      ]
+    },
+    {
+      "id": "CTX-001",
+      "category": "data-context",
+      "priority": 1,
+      "description": "CalculatorContext provides addCalculator function",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "addCalculator function is exposed via context",
+        "Accepts calculator data and generates an ID",
+        "New calculator is persisted to AsyncStorage"
+      ]
+    },
+    {
+      "id": "CTX-002",
+      "category": "data-context",
+      "priority": 1,
+      "description": "CalculatorContext provides deleteCalculator function",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "deleteCalculator function is exposed via context",
+        "Removes calculator by ID from state and AsyncStorage"
+      ]
+    },
+    {
+      "id": "CTX-003",
+      "category": "data-context",
+      "priority": 1,
+      "description": "CalculatorContext persists calculators to AsyncStorage",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculators are saved to AsyncStorage on every change",
+        "Calculators are loaded from AsyncStorage on app startup",
+        "isLoading state tracks the initial load"
+      ]
+    },
+    {
+      "id": "CTX-004",
+      "category": "data-context",
+      "priority": 1,
+      "description": "CalculatorContext provides updateCalculator function",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "updateCalculator function is exposed via context",
+        "Updates a calculator by ID with new data",
+        "Changes are persisted to AsyncStorage"
+      ]
+    },
+    {
+      "id": "CTX-005",
+      "category": "data-context",
+      "priority": 2,
+      "description": "CalculatorContext provides incrementUsage function",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "incrementUsage function is exposed via context",
+        "Increments the usageCount of a calculator by ID",
+        "Change is persisted to AsyncStorage"
+      ]
+    },
+    {
+      "id": "CTX-006",
+      "category": "data-context",
+      "priority": 2,
+      "description": "CalculatorContext uses functional state updates to avoid stale closures",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "State updates use the functional updater pattern: setCalculators(prev => ...)",
+        "Rapid successive operations do not overwrite each other",
+        "No stale closure bugs in addCalculator, deleteCalculator, updateCalculator, incrementUsage"
+      ]
+    },
+    {
+      "id": "CTX-007",
+      "category": "data-context",
+      "priority": 1,
+      "description": "Calculator and CalculatorVariable types are properly defined",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculator type includes: id, name, description, category, variables, formula, code, documentation, createdAt, isPublic, usageCount",
+        "CalculatorVariable type includes: name, label, unit, type (input|output), defaultValue"
+      ]
+    },
+    {
+      "id": "EXPLORE-001",
+      "category": "explore",
+      "priority": 2,
+      "description": "Explore screen renders with header and content sections",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "app/(tabs)/explore/index.tsx exports a default component",
+        "Header section is displayed with title",
+        "Content scrolls properly"
+      ]
+    },
+    {
+      "id": "EXPLORE-002",
+      "category": "explore",
+      "priority": 3,
+      "description": "Explore screen shows community stats section",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Stats section displays calculator count, creator count, and usage count",
+        "Stats are derived from real data (not hardcoded fake numbers)"
+      ]
+    },
+    {
+      "id": "EXPLORE-003",
+      "category": "explore",
+      "priority": 3,
+      "description": "Explore screen shows trending/featured calculators section",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "A section displays featured or trending calculators",
+        "Each entry shows name, description, category, and author",
+        "Entries are tappable (navigate to detail or show info)"
+      ]
+    },
+    {
+      "id": "EXPLORE-004",
+      "category": "explore",
+      "priority": 3,
+      "description": "Explore screen shows marketplace coming soon section",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "A 'Coming Soon' or marketplace section is visible",
+        "User is informed that community sharing is upcoming"
+      ]
+    },
+    {
+      "id": "PROFILE-001",
+      "category": "profile",
+      "priority": 2,
+      "description": "Profile screen renders user info card",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Profile section displays user name and email",
+        "Avatar icon is shown",
+        "Content is displayed in a styled card"
+      ]
+    },
+    {
+      "id": "PROFILE-002",
+      "category": "profile",
+      "priority": 2,
+      "description": "Profile screen shows user stats from real data",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculator count is derived from CalculatorContext",
+        "Total uses is computed by summing usageCount across all calculators",
+        "Public count is computed by filtering isPublic calculators"
+      ]
+    },
+    {
+      "id": "PROFILE-003",
+      "category": "profile",
+      "priority": 3,
+      "description": "Profile screen displays subscription tier information",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Subscription tiers (Free, Pro, Business) are displayed",
+        "Each tier lists its features",
+        "Current tier is indicated"
+      ]
+    },
+    {
+      "id": "PROFILE-004",
+      "category": "profile",
+      "priority": 3,
+      "description": "Profile screen uses safe area insets instead of hardcoded padding",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Uses SafeAreaView or useSafeAreaInsets()",
+        "No hardcoded paddingTop for status bar avoidance"
+      ]
+    },
+    {
+      "id": "STYLE-001",
+      "category": "styling",
+      "priority": 2,
+      "description": "All screens use consistent color palette from constants/colors.ts",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Background colors reference Colors constant",
+        "Text colors reference Colors constant",
+        "No hardcoded color hex values outside of colors.ts (except in StyleSheet)"
+      ]
+    },
+    {
+      "id": "STYLE-002",
+      "category": "styling",
+      "priority": 2,
+      "description": "Tab bar has custom styling with proper colors and borders",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tab bar background color is set",
+        "Tab bar border is styled",
+        "Active/inactive icon tint colors use Colors constants"
+      ]
+    },
+    {
+      "id": "STYLE-003",
+      "category": "styling",
+      "priority": 3,
+      "description": "Cards and surfaces have consistent border radius and shadows",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculator cards use consistent border radius",
+        "Cards have subtle shadow or elevation",
+        "Surface colors are consistent"
+      ]
+    },
+    {
+      "id": "SHARE-001",
+      "category": "sharing",
+      "priority": 2,
+      "description": "Calculator detail share button triggers native share dialog",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Share button on calculator detail has an onPress handler",
+        "Pressing share opens the native Share sheet",
+        "Shared content includes calculator name and description"
+      ]
+    },
+    {
+      "id": "SHARE-002",
+      "category": "sharing",
+      "priority": 3,
+      "description": "Calculator isPublic flag can be toggled",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "A toggle or switch exists to mark a calculator as public/private",
+        "Toggling updates the calculator via updateCalculator",
+        "State persists after toggling"
+      ]
+    },
+    {
+      "id": "UX-001",
+      "category": "user-experience",
+      "priority": 2,
+      "description": "All screens use SafeAreaView or useSafeAreaInsets for proper layout",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "No hardcoded paddingTop: 60 or similar values",
+        "Content respects device notch and status bar",
+        "Works correctly on devices with varying safe area sizes"
+      ]
+    },
+    {
+      "id": "UX-002",
+      "category": "user-experience",
+      "priority": 2,
+      "description": "Loading states shown while data is being fetched from AsyncStorage",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "isLoading from context is checked on library screen",
+        "A loading indicator is shown while calculators are loading",
+        "Content appears after loading completes"
+      ]
+    },
+    {
+      "id": "UX-003",
+      "category": "user-experience",
+      "priority": 3,
+      "description": "Haptic feedback on important user interactions",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Haptic feedback triggers on button presses (generate, delete, etc.)",
+        "Uses expo-haptics for cross-platform support"
+      ]
+    },
+    {
+      "id": "UX-004",
+      "category": "user-experience",
+      "priority": 3,
+      "description": "Keyboard dismisses on scroll or tap outside input",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Scrolling a ScrollView dismisses the keyboard",
+        "Tapping outside an input field dismisses the keyboard"
+      ]
+    },
+    {
+      "id": "BUG-001",
+      "category": "bug-fix",
+      "priority": 1,
+      "description": "Fix stale closure bug in CalculatorContext state updates",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "addCalculator uses functional state updater: setCalculators(prev => ...)",
+        "deleteCalculator uses functional state updater",
+        "updateCalculator uses functional state updater",
+        "incrementUsage uses functional state updater",
+        "No dependency on calculators variable in the updater logic"
+      ]
+    },
+    {
+      "id": "BUG-002",
+      "category": "bug-fix",
+      "priority": 1,
+      "description": "Fix potential infinite loop in calculator/[id] incrementUsage useEffect",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "incrementUsage is called only once on mount (not on every calculator change)",
+        "useEffect dependency array prevents re-triggering",
+        "No infinite render loop when viewing a calculator"
+      ]
+    },
+    {
+      "id": "BUG-003",
+      "category": "bug-fix",
+      "priority": 2,
+      "description": "Explore page should not display fabricated community stats",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Stats section does not show hardcoded fake numbers (12.5K, 8.2K, 1.5M)",
+        "Stats are derived from real data or explicitly labeled as example/placeholder",
+        "No misleading impression of existing community"
+      ]
+    },
+    {
+      "id": "BUG-004",
+      "category": "bug-fix",
+      "priority": 2,
+      "description": "Profile page buttons (Upgrade, Contact Sales) should not be non-functional without indication",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Buttons either have functional onPress handlers OR are disabled/styled to indicate unavailability",
+        "No buttons that appear clickable but do absolutely nothing"
+      ]
+    },
+    {
+      "id": "BUG-005",
+      "category": "bug-fix",
+      "priority": 2,
+      "description": "Calculator detail calculation errors should display in UI, not just console.error",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculation errors are caught and displayed to the user",
+        "Error message is visible in the output area",
+        "User can still interact with inputs after an error"
+      ]
+    },
+    {
+      "id": "AUTH-001",
+      "category": "authentication",
+      "priority": 2,
+      "description": "Supabase client configured in lib/supabase.ts",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "lib/supabase.ts or services/supabase.ts exports a Supabase client",
+        "Client is initialized with environment variables",
+        "Auth helpers are configured for React Native"
+      ]
+    },
+    {
+      "id": "AUTH-002",
+      "category": "authentication",
+      "priority": 2,
+      "description": "Authentication context/provider manages user session state",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Auth context or Zustand store tracks user session",
+        "Provides login, logout, signup functions",
+        "Session is restored on app launch"
+      ]
+    },
+    {
+      "id": "AUTH-003",
+      "category": "authentication",
+      "priority": 2,
+      "description": "Login screen with email/password authentication",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Login screen exists with email and password inputs",
+        "Submit button calls Supabase auth signInWithPassword",
+        "Error messages displayed for invalid credentials"
+      ]
+    },
+    {
+      "id": "AUTH-004",
+      "category": "authentication",
+      "priority": 2,
+      "description": "Signup screen with email/password registration",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Signup screen exists with email, password, and confirm password",
+        "Submit button calls Supabase auth signUp",
+        "Validation for password match and minimum length"
+      ]
+    },
+    {
+      "id": "AUTH-005",
+      "category": "authentication",
+      "priority": 3,
+      "description": "Profile screen shows actual authenticated user data",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "User name from auth/profile is displayed instead of hardcoded value",
+        "User email from auth is displayed instead of hardcoded value",
+        "Logout button is functional"
+      ]
+    },
+    {
+      "id": "DB-001",
+      "category": "database",
+      "priority": 2,
+      "description": "Supabase calculators table schema defined",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "SQL migration or schema file defines calculators table",
+        "Table includes: id, user_id, name, description, category, variables, formula, code, documentation, is_public, usage_count, created_at",
+        "Row-level security policies defined"
+      ]
+    },
+    {
+      "id": "DB-002",
+      "category": "database",
+      "priority": 2,
+      "description": "Calculator CRUD operations work with Supabase",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Service layer functions for create, read, update, delete operations",
+        "Operations use Supabase client with proper error handling",
+        "User ID is associated with calculators"
+      ]
+    },
+    {
+      "id": "DB-003",
+      "category": "database",
+      "priority": 3,
+      "description": "Cloud sync between local AsyncStorage and Supabase",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculators sync from local storage to cloud when online",
+        "Calculators sync from cloud to local on app launch",
+        "Conflict resolution strategy for simultaneous edits"
+      ]
+    },
+    {
+      "id": "HIST-001",
+      "category": "history",
+      "priority": 3,
+      "description": "Calculation history tracks previous calculations per calculator",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each calculation stores input values, output values, and timestamp",
+        "History is accessible from the calculator detail screen",
+        "History persists in storage"
+      ]
+    },
+    {
+      "id": "HIST-002",
+      "category": "history",
+      "priority": 3,
+      "description": "History entries can be tapped to restore input values",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping a history entry fills the input fields with the stored values",
+        "Output recalculates with the restored values"
+      ]
+    },
+    {
+      "id": "UNIT-001",
+      "category": "unit-conversion",
+      "priority": 3,
+      "description": "Unit conversion support for common measurement types",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Unit conversion utilities exist for length, mass, temperature, volume, etc.",
+        "Calculator variables with units can convert between compatible units",
+        "Unit selector dropdown available on input fields"
+      ]
+    },
+    {
+      "id": "EXPORT-001",
+      "category": "export",
+      "priority": 3,
+      "description": "Export calculator results to shareable format",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Export button available on calculator detail",
+        "Results can be exported as text or structured data",
+        "Export triggers native share dialog"
+      ]
+    },
+    {
+      "id": "PERF-001",
+      "category": "performance",
+      "priority": 2,
+      "description": "Calculator list uses FlatList or FlashList for efficient rendering",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Library screen uses FlatList or FlashList instead of mapping inside ScrollView",
+        "Large lists render efficiently without lag",
+        "Proper keyExtractor is defined"
+      ]
+    },
+    {
+      "id": "PERF-002",
+      "category": "performance",
+      "priority": 3,
+      "description": "Context consumers are memoized to prevent unnecessary re-renders",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculator context value is memoized with useMemo",
+        "Callback functions are wrapped with useCallback",
+        "Child components do not re-render when unrelated state changes"
+      ]
+    },
+    {
+      "id": "A11Y-001",
+      "category": "accessibility",
+      "priority": 3,
+      "description": "Interactive elements have accessibility labels",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Buttons have accessibilityLabel props",
+        "Icons have accessibilityLabel or are marked as decorative",
+        "TextInputs have accessible names"
+      ]
+    },
+    {
+      "id": "A11Y-002",
+      "category": "accessibility",
+      "priority": 3,
+      "description": "Screen reader can navigate through calculator detail screen",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Logical reading order for screen readers",
+        "Input labels are associated with their fields",
+        "Output values are announced when they change"
+      ]
+    },
+    {
+      "id": "ERR-001",
+      "category": "error-handling",
+      "priority": 2,
+      "description": "Root layout includes an error boundary",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Error boundary component wraps the app",
+        "Uncaught errors show a friendly error screen",
+        "Error screen has a retry/reload option"
+      ]
+    },
+    {
+      "id": "ERR-002",
+      "category": "error-handling",
+      "priority": 2,
+      "description": "AsyncStorage operations have error handling",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "try/catch blocks around AsyncStorage.getItem and setItem",
+        "Errors are logged and do not crash the app",
+        "Fallback behavior when storage fails (e.g., empty array)"
+      ]
+    },
+    {
+      "id": "STORE-001",
+      "category": "state-management",
+      "priority": 3,
+      "description": "Zustand store for app-wide settings and preferences",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Zustand store created for settings/preferences",
+        "Store persists to AsyncStorage",
+        "Settings accessible across the app"
+      ]
+    },
+    {
+      "id": "STORE-002",
+      "category": "state-management",
+      "priority": 3,
+      "description": "Zustand store or context for user authentication state",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Auth state (user, session, isAuthenticated) managed in store",
+        "Store provides login, logout, refreshSession actions",
+        "State updates trigger re-renders in consuming components"
+      ]
+    },
+    {
+      "id": "BUILDER-001",
+      "category": "custom-builder",
+      "priority": 3,
+      "description": "Custom calculator builder UI for manual formula creation",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "A screen or modal exists for manually building calculators",
+        "User can add input and output variables with names, labels, units",
+        "User can write or select formulas"
+      ]
+    },
+    {
+      "id": "BUILDER-002",
+      "category": "custom-builder",
+      "priority": 3,
+      "description": "Custom builder allows adding and removing variables",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Add variable button creates a new variable row",
+        "Remove variable button deletes a variable row",
+        "At least one input and one output variable required"
+      ]
+    },
+    {
+      "id": "BUILDER-003",
+      "category": "custom-builder",
+      "priority": 3,
+      "description": "Custom builder validates and saves the calculator",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Validation ensures name, formula, and at least one input/output exist",
+        "Save button persists the calculator to context/storage",
+        "New calculator appears in the library"
+      ]
+    },
+    {
+      "id": "DARK-001",
+      "category": "theming",
+      "priority": 3,
+      "description": "Dark mode color palette defined in colors.ts",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Colors constant exports both light and dark color sets",
+        "Dark mode has appropriate contrast ratios",
+        "Background, text, border, and semantic colors all have dark variants"
+      ]
+    },
+    {
+      "id": "DARK-002",
+      "category": "theming",
+      "priority": 3,
+      "description": "App responds to system dark mode preference",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "useColorScheme or Appearance API is used to detect system theme",
+        "Colors change when system dark mode toggles",
+        "All screens render correctly in dark mode"
+      ]
+    },
+    {
+      "id": "NOTIFY-001",
+      "category": "notifications",
+      "priority": 3,
+      "description": "Push notification permissions and token registration",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Notification permissions requested from user",
+        "Push token obtained and stored",
+        "Uses expo-notifications"
+      ]
+    },
+    {
+      "id": "ANALYTICS-001",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Analytics tracking initialized (PostHog or similar)",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Analytics SDK initialized with project key",
+        "Screen views are tracked",
+        "Key events (calculator created, deleted) are tracked"
+      ]
+    },
+    {
+      "id": "SUB-001",
+      "category": "subscriptions",
+      "priority": 3,
+      "description": "Subscription tier logic gates premium features",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "User's subscription tier is tracked in state",
+        "Free tier has limits (e.g., max calculators, no export)",
+        "Pro tier unlocks additional features"
+      ]
+    },
+    {
+      "id": "SUB-002",
+      "category": "subscriptions",
+      "priority": 3,
+      "description": "Paywall or upgrade screen for subscription management",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Paywall screen shows available plans with pricing",
+        "Subscribe button initiates payment flow",
+        "Uses RevenueCat or Stripe for payment processing"
+      ]
+    },
+    {
+      "id": "TEST-001",
+      "category": "testing",
+      "priority": 2,
+      "description": "Test infrastructure set up with Jest and React Native Testing Library",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "jest.config.js or jest config in package.json exists",
+        "@testing-library/react-native installed",
+        "Test script in package.json runs tests"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "category": "testing",
+      "priority": 2,
+      "description": "Feature validation harness script exists and runs",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "scripts/validate-features.ts or .js exists",
+        "Reads feature_list.json and runs validation checks",
+        "Outputs results to harness-output.log and harness-status.json"
+      ]
+    },
+    {
+      "id": "TEST-003",
+      "category": "testing",
+      "priority": 3,
+      "description": "Unit tests exist for CalculatorContext CRUD operations",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test file for CalculatorContext exists",
+        "Tests addCalculator, deleteCalculator, updateCalculator",
+        "Tests persistence to/from AsyncStorage"
+      ]
+    },
+    {
+      "id": "TEST-004",
+      "category": "testing",
+      "priority": 3,
+      "description": "Unit tests exist for calculator code execution",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test file for calculator execution logic",
+        "Tests valid formula execution with inputs and outputs",
+        "Tests error handling for invalid formulas"
+      ]
+    },
+    {
+      "id": "SEC-001",
+      "category": "security",
+      "priority": 2,
+      "description": "Calculator code execution is sandboxed or has safety checks",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "new Function() execution has try/catch error handling",
+        "Some form of input sanitization or safety validation",
+        "Execution timeout or resource limits considered"
+      ]
+    },
+    {
+      "id": "SEC-002",
+      "category": "security",
+      "priority": 2,
+      "description": "Environment variables not hardcoded in source code",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "No API keys, secrets, or credentials in source files",
+        ".env files are in .gitignore",
+        "Environment variables accessed via process.env or Constants.expoConfig"
+      ]
+    },
+    {
+      "id": "SEC-003",
+      "category": "security",
+      "priority": 3,
+      "description": "Supabase Row Level Security policies defined for calculator table",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "RLS enabled on calculators table",
+        "Users can only read/write their own calculators",
+        "Public calculators are readable by all authenticated users"
+      ]
+    },
+    {
+      "id": "SORT-001",
+      "category": "library-enhancements",
+      "priority": 3,
+      "description": "Library supports sorting calculators by different criteria",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Sort options available (by date, name, usage count)",
+        "Selected sort order is applied to the calculator list",
+        "Default sort is by creation date (newest first)"
+      ]
+    },
+    {
+      "id": "SORT-002",
+      "category": "library-enhancements",
+      "priority": 3,
+      "description": "Library supports filtering by category",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Category filter tabs or dropdown",
+        "Selecting a category filters the list",
+        "All categories option shows all calculators"
+      ]
+    },
+    {
+      "id": "OFFLINE-001",
+      "category": "offline",
+      "priority": 3,
+      "description": "App works offline with local data",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Calculators load from AsyncStorage when offline",
+        "Calculator execution works offline",
+        "No crash or blank screen when network is unavailable"
+      ]
+    },
+    {
+      "id": "SETTINGS-001",
+      "category": "settings",
+      "priority": 3,
+      "description": "Settings screen accessible from profile",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Settings button or link on profile screen",
+        "Settings screen exists with navigation",
+        "At minimum shows app version"
+      ]
+    },
+    {
+      "id": "SETTINGS-002",
+      "category": "settings",
+      "priority": 3,
+      "description": "Settings includes option for decimal precision",
+      "status": "done",
+      "passes": true,
+      "acceptance_criteria": [
+        "Decimal precision setting (e.g., 2, 4, 6 decimal places)",
+        "Setting persists across app sessions",
+        "Calculator outputs respect the precision setting"
+      ]
+    }
+  ]
+}

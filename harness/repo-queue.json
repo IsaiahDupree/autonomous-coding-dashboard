@@ -84,6 +84,111 @@
   },
   "repos": [
     {
+      "id": "metricslite",
+      "path": "/Users/isaiahdupree/Documents/Software/metricslite",
+      "prompt": "harness/prompts/metricslite.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/metricslite/feature_list.json",
+      "priority": -5,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "vercel",
+        "nextjs",
+        "cron"
+      ]
+    },
+    {
+      "id": "genlite",
+      "path": "/Users/isaiahdupree/Documents/Software/genlite",
+      "prompt": "harness/prompts/genlite.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/genlite/feature_list.json",
+      "priority": -4,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "vercel",
+        "nextjs",
+        "ai-video"
+      ]
+    },
+    {
+      "id": "adlite",
+      "path": "/Users/isaiahdupree/Documents/Software/adlite",
+      "prompt": "harness/prompts/adlite.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/adlite/feature_list.json",
+      "priority": -3,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "vercel",
+        "nextjs",
+        "ads"
+      ]
+    },
+    {
+      "id": "actpdash",
+      "path": "/Users/isaiahdupree/Documents/Software/actpdash",
+      "prompt": "harness/prompts/actpdash.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/actpdash/feature_list.json",
+      "priority": -2,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "vercel",
+        "nextjs",
+        "dashboard"
+      ]
+    },
+    {
+      "id": "actp-worker",
+      "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
+      "prompt": "harness/prompts/actp-worker.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/feature_list.json",
+      "priority": -1,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "python",
+        "local",
+        "daemon"
+      ]
+    },
+    {
+      "id": "hooklite",
+      "path": "/Users/isaiahdupree/Documents/Software/hooklite",
+      "prompt": "harness/prompts/hooklite.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/hooklite/feature_list.json",
+      "priority": -6,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "vercel",
+        "nextjs",
+        "webhooks"
+      ]
+    },
+    {
+      "id": "mediaposter-lite",
+      "path": "/Users/isaiahdupree/Documents/Software/mediaposter-lite",
+      "prompt": "harness/prompts/mplite.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/mediaposter-lite/feature_list.json",
+      "priority": -7,
+      "enabled": true,
+      "complexity": "high",
+      "tags": [
+        "actp-lite",
+        "vercel",
+        "nextjs",
+        "publishing"
+      ]
+    },
+    {
       "id": "mediaposter",
       "name": "MediaPoster",
       "path": "/Users/isaiahdupree/Documents/Software/MediaPoster",
@@ -661,6 +766,19 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
+    },
+    {
+      "id": "creative-testing-pipeline",
+      "name": "Ad Creative Testing Pipeline (ACTP)",
+      "path": "/Users/isaiahdupree/Documents/Software/MediaPoster/Backend",
+      "prompt": "prompts/creative-testing-pipeline.md",
+      "prd": "/Users/isaiahdupree/Documents/Software/MediaPoster/Backend/services/creative_testing_pipeline/PRD.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/MediaPoster/Backend/services/creative_testing_pipeline/feature_list.json",
+      "priority": 16,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "critical",
+      "focus": "Cross-system orchestrator: Remotion video gen + MediaPoster publishing + ad testing + WaitlistLab offers. Build DB schema first, then orchestrator, creative engine, publishers, analytics, winner selector, ad deployer, iteration engine."
     }
   ]
 }

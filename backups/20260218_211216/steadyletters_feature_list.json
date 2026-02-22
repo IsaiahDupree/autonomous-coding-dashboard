@@ -1,0 +1,2451 @@
+{
+  "project": "SteadyLetters",
+  "description": "SaaS web application for creating and sending physical handwritten-style letters via Thanks.io API integration",
+  "version": "1.0",
+  "totalFeatures": 139,
+  "completedFeatures": 145,
+  "phases": {
+    "phase1_core": "Core letter generation, voice transcription, image generation",
+    "phase2_recipients": "Recipient management and address book",
+    "phase3_templates": "Template creation and management",
+    "phase4_orders": "Order creation and Thanks.io integration",
+    "phase5_billing": "Stripe integration and subscription management",
+    "phase6_mobile": "Mobile responsive design and navigation",
+    "phase7_security": "Rate limiting, webhook signatures, security headers",
+    "phase8_observability": "Error tracking, analytics, health checks",
+    "phase9_improvements": "Code quality, technical debt, DX improvements"
+  },
+  "features": [
+    {
+      "id": "CORE-001",
+      "name": "AI Letter Generation",
+      "description": "Generate handwritten-style letters using OpenAI GPT-4o",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "core",
+      "files": [
+        "src/app/api/generate/letter/route.ts",
+        "src/lib/openai.ts"
+      ],
+      "acceptance": [
+        "API endpoint works",
+        "Returns formatted letter",
+        "Usage tracked"
+      ]
+    },
+    {
+      "id": "CORE-002",
+      "name": "Voice Transcription",
+      "description": "Transcribe voice recordings using OpenAI Whisper",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "core",
+      "files": [
+        "src/app/api/transcribe/route.ts",
+        "src/components/voice-recorder.tsx"
+      ],
+      "acceptance": [
+        "Whisper API integration",
+        "Audio upload works",
+        "Text returned"
+      ]
+    },
+    {
+      "id": "CORE-003",
+      "name": "AI Image Generation",
+      "description": "Generate card images using DALL-E 3 (4 images per request)",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "core",
+      "files": [
+        "src/app/api/generate/images/route.ts"
+      ],
+      "acceptance": [
+        "4 images generated",
+        "Stored in Supabase",
+        "Usage tracked"
+      ]
+    },
+    {
+      "id": "CORE-004",
+      "name": "Usage Limit Enforcement",
+      "description": "Enforce tier-based usage limits for generation",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "core",
+      "files": [
+        "src/lib/usage.ts",
+        "src/lib/tiers.ts"
+      ],
+      "acceptance": [
+        "Limits checked before generation",
+        "Error returned when exceeded"
+      ]
+    },
+    {
+      "id": "CORE-005",
+      "name": "Handwriting Styles API",
+      "description": "Fetch available handwriting styles from Thanks.io",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "core",
+      "files": [
+        "src/app/api/handwriting-styles/route.ts",
+        "src/lib/thanks-io.ts"
+      ],
+      "acceptance": [
+        "Styles fetched",
+        "Cached appropriately",
+        "Displayed in UI"
+      ]
+    },
+    {
+      "id": "RECIP-001",
+      "name": "Create Recipient",
+      "description": "Server action to create a new recipient",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "2h",
+      "passes": true,
+      "category": "recipients",
+      "files": [
+        "src/app/actions/recipients.ts"
+      ],
+      "acceptance": [
+        "Recipient saved to DB",
+        "Validation works",
+        "Returns success"
+      ]
+    },
+    {
+      "id": "RECIP-002",
+      "name": "List Recipients",
+      "description": "Fetch all recipients for authenticated user",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "1h",
+      "passes": true,
+      "category": "recipients",
+      "files": [
+        "src/app/actions/recipients.ts"
+      ],
+      "acceptance": [
+        "Returns user's recipients",
+        "Sorted by name"
+      ]
+    },
+    {
+      "id": "RECIP-003",
+      "name": "Delete Recipient",
+      "description": "Server action to delete a recipient",
+      "priority": "P1",
+      "phase": 2,
+      "effort": "1h",
+      "passes": true,
+      "category": "recipients",
+      "files": [
+        "src/app/actions/recipients.ts"
+      ],
+      "acceptance": [
+        "Recipient deleted",
+        "Revalidates path"
+      ]
+    },
+    {
+      "id": "RECIP-004",
+      "name": "Recipients Page UI",
+      "description": "Page to manage recipients with list and forms",
+      "priority": "P0",
+      "phase": 2,
+      "effort": "3h",
+      "passes": true,
+      "category": "recipients",
+      "files": [
+        "src/app/recipients/page.tsx"
+      ],
+      "acceptance": [
+        "List displays",
+        "Add form works",
+        "Delete works"
+      ]
+    },
+    {
+      "id": "TMPL-001",
+      "name": "Create Template",
+      "description": "Server action to save a letter template",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "2h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/app/actions/templates.ts"
+      ],
+      "acceptance": [
+        "Template saved",
+        "Linked to user"
+      ]
+    },
+    {
+      "id": "TMPL-002",
+      "name": "List Templates",
+      "description": "Fetch all templates for authenticated user",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "1h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/app/actions/templates.ts"
+      ],
+      "acceptance": [
+        "Returns user's templates",
+        "Includes all fields"
+      ]
+    },
+    {
+      "id": "TMPL-003",
+      "name": "Update Template",
+      "description": "Server action to update an existing template",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "1h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/app/actions/templates.ts"
+      ],
+      "acceptance": [
+        "Template updated",
+        "Revalidates path"
+      ]
+    },
+    {
+      "id": "TMPL-004",
+      "name": "Delete Template",
+      "description": "Server action to delete a template",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "1h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/app/actions/templates.ts"
+      ],
+      "acceptance": [
+        "Template deleted",
+        "Revalidates path"
+      ]
+    },
+    {
+      "id": "TMPL-005",
+      "name": "Templates Page UI",
+      "description": "Page to manage letter templates",
+      "priority": "P1",
+      "phase": 3,
+      "effort": "3h",
+      "passes": true,
+      "category": "templates",
+      "files": [
+        "src/app/templates/page.tsx"
+      ],
+      "acceptance": [
+        "List displays",
+        "Edit works",
+        "Delete works"
+      ]
+    },
+    {
+      "id": "ORDER-001",
+      "name": "Create Order",
+      "description": "Server action to create an order with Thanks.io",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "4h",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "src/app/actions/orders.ts",
+        "src/lib/thanks-io.ts"
+      ],
+      "acceptance": [
+        "Order created in DB",
+        "Thanks.io API called",
+        "Status tracked"
+      ]
+    },
+    {
+      "id": "ORDER-002",
+      "name": "List Orders",
+      "description": "Fetch order history for authenticated user",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "2h",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "src/app/actions/orders.ts"
+      ],
+      "acceptance": [
+        "Returns user's orders",
+        "Includes status"
+      ]
+    },
+    {
+      "id": "ORDER-003",
+      "name": "Order Detail Page",
+      "description": "View individual order details and status",
+      "priority": "P1",
+      "phase": 4,
+      "effort": "2h",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "src/app/orders/[id]/page.tsx"
+      ],
+      "acceptance": [
+        "Shows order details",
+        "Shows status history"
+      ]
+    },
+    {
+      "id": "ORDER-004",
+      "name": "Thanks.io Webhook Handler",
+      "description": "Receive order status updates from Thanks.io",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "3h",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "src/app/api/webhooks/thanks/route.ts"
+      ],
+      "acceptance": [
+        "Webhook receives updates",
+        "Order status updated"
+      ]
+    },
+    {
+      "id": "ORDER-005",
+      "name": "Orders Page UI",
+      "description": "Page displaying order history",
+      "priority": "P0",
+      "phase": 4,
+      "effort": "3h",
+      "passes": true,
+      "category": "orders",
+      "files": [
+        "src/app/orders/page.tsx"
+      ],
+      "acceptance": [
+        "List displays",
+        "Status shown",
+        "Links to detail"
+      ]
+    },
+    {
+      "id": "BILL-001",
+      "name": "Stripe Checkout Session",
+      "description": "Create checkout session for subscription",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "3h",
+      "passes": true,
+      "category": "billing",
+      "files": [
+        "src/app/api/stripe/checkout/route.ts"
+      ],
+      "acceptance": [
+        "Session created",
+        "Redirects to Stripe"
+      ]
+    },
+    {
+      "id": "BILL-002",
+      "name": "Stripe Customer Portal",
+      "description": "Link to Stripe customer portal for subscription management",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "2h",
+      "passes": true,
+      "category": "billing",
+      "files": [
+        "src/app/api/stripe/portal/route.ts"
+      ],
+      "acceptance": [
+        "Portal link generated",
+        "Redirects correctly"
+      ]
+    },
+    {
+      "id": "BILL-003",
+      "name": "Stripe Webhook Handler",
+      "description": "Handle Stripe subscription events with signature verification",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "4h",
+      "passes": true,
+      "category": "billing",
+      "files": [
+        "src/app/api/stripe/webhook/route.ts"
+      ],
+      "acceptance": [
+        "Signature verified",
+        "Subscription status updated",
+        "Tier updated"
+      ]
+    },
+    {
+      "id": "BILL-004",
+      "name": "Pricing Page",
+      "description": "Display subscription tiers and pricing",
+      "priority": "P0",
+      "phase": 5,
+      "effort": "3h",
+      "passes": true,
+      "category": "billing",
+      "files": [
+        "src/app/pricing/page.tsx"
+      ],
+      "acceptance": [
+        "Tiers displayed",
+        "CTA buttons work"
+      ]
+    },
+    {
+      "id": "BILL-005",
+      "name": "Billing Page",
+      "description": "User billing dashboard with subscription status",
+      "priority": "P1",
+      "phase": 5,
+      "effort": "3h",
+      "passes": true,
+      "category": "billing",
+      "files": [
+        "src/app/billing/page.tsx"
+      ],
+      "acceptance": [
+        "Shows current plan",
+        "Manage subscription link"
+      ]
+    },
+    {
+      "id": "DASH-001",
+      "name": "Dashboard Stats",
+      "description": "Server action to get dashboard statistics",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/actions/dashboard.ts"
+      ],
+      "acceptance": [
+        "Returns usage stats",
+        "Returns recent orders"
+      ]
+    },
+    {
+      "id": "DASH-002",
+      "name": "Dashboard Page",
+      "description": "Main dashboard with stats and quick actions",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "dashboard",
+      "files": [
+        "src/app/dashboard/page.tsx"
+      ],
+      "acceptance": [
+        "Stats cards display",
+        "Recent activity shows"
+      ]
+    },
+    {
+      "id": "AUTH-001",
+      "name": "Supabase Auth Integration",
+      "description": "Authentication with Supabase Auth",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "4h",
+      "passes": true,
+      "category": "auth",
+      "files": [
+        "src/lib/supabase.ts",
+        "src/app/auth/callback/route.ts"
+      ],
+      "acceptance": [
+        "Login works",
+        "Logout works",
+        "Session persists"
+      ]
+    },
+    {
+      "id": "AUTH-002",
+      "name": "Protected Routes",
+      "description": "Middleware to protect authenticated routes",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "auth",
+      "files": [
+        "src/middleware.ts"
+      ],
+      "acceptance": [
+        "Unauthenticated users redirected",
+        "Auth pages accessible"
+      ]
+    },
+    {
+      "id": "EVENT-001",
+      "name": "Event Tracking System",
+      "description": "Track user events in database",
+      "priority": "P1",
+      "phase": 1,
+      "effort": "2h",
+      "passes": true,
+      "category": "analytics",
+      "files": [
+        "src/lib/events.ts"
+      ],
+      "acceptance": [
+        "Events stored",
+        "Metadata captured"
+      ]
+    },
+    {
+      "id": "STORAGE-001",
+      "name": "Image Storage",
+      "description": "Upload and manage images in Supabase Storage",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "storage",
+      "files": [
+        "src/lib/storage.ts"
+      ],
+      "acceptance": [
+        "Upload works",
+        "Delete works",
+        "URLs returned"
+      ]
+    },
+    {
+      "id": "UI-001",
+      "name": "Navbar Component",
+      "description": "Navigation bar with links and user menu",
+      "priority": "P0",
+      "phase": 1,
+      "effort": "3h",
+      "passes": true,
+      "category": "ui",
+      "files": [
+        "src/components/navbar.tsx"
+      ],
+      "acceptance": [
+        "Links display",
+        "User menu works"
+      ]
+    },
+    {
+      "id": "MOB-001",
+      "name": "Mobile Hamburger Menu",
+      "description": "Add hamburger menu for mobile navigation",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "3h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/components/navbar.tsx"
+      ],
+      "acceptance": [
+        "Hamburger icon on mobile",
+        "Slide-out menu",
+        "Menu closes on navigation"
+      ]
+    },
+    {
+      "id": "MOB-002",
+      "name": "Mobile Menu Overlay",
+      "description": "Add overlay behind mobile menu that closes on tap",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "1h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/components/navbar.tsx"
+      ],
+      "acceptance": [
+        "Overlay appears",
+        "Tap closes menu"
+      ]
+    },
+    {
+      "id": "MOB-003",
+      "name": "Touch Target Utility",
+      "description": "CSS utility for 44x44px minimum touch targets",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "1h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/globals.css"
+      ],
+      "acceptance": [
+        ".touch-target class works",
+        "Applied to interactive elements"
+      ]
+    },
+    {
+      "id": "MOB-004",
+      "name": "iOS Input Zoom Fix",
+      "description": "Prevent iOS zoom on input focus with 16px font size",
+      "priority": "P0",
+      "phase": 6,
+      "effort": "30m",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/globals.css"
+      ],
+      "acceptance": [
+        "Inputs have 16px font on mobile",
+        "No zoom on focus"
+      ]
+    },
+    {
+      "id": "MOB-005",
+      "name": "Safe Area Insets",
+      "description": "Handle notched devices with safe area padding",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "30m",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/globals.css"
+      ],
+      "acceptance": [
+        ".safe-area-inset class works",
+        "Content not hidden by notch"
+      ]
+    },
+    {
+      "id": "MOB-006",
+      "name": "Dashboard Mobile Responsive",
+      "description": "Make dashboard stats cards responsive on mobile",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "2h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/dashboard/page.tsx"
+      ],
+      "acceptance": [
+        "Stats stack on mobile",
+        "Table scrolls horizontally"
+      ]
+    },
+    {
+      "id": "MOB-007",
+      "name": "Generate Page Mobile Layout",
+      "description": "Optimize generate page for mobile devices",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "2h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/generate/page.tsx"
+      ],
+      "acceptance": [
+        "Form fits mobile",
+        "Voice recorder accessible"
+      ]
+    },
+    {
+      "id": "MOB-008",
+      "name": "Send Page Mobile Form",
+      "description": "Stack form fields on mobile for send page",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "1h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/app/send/page.tsx"
+      ],
+      "acceptance": [
+        "Fields stack",
+        "Submit button full width"
+      ]
+    },
+    {
+      "id": "MOB-009",
+      "name": "Voice Recorder Touch Targets",
+      "description": "Ensure voice recorder button is 60x60px for easy tapping",
+      "priority": "P1",
+      "phase": 6,
+      "effort": "1h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "src/components/voice-recorder.tsx"
+      ],
+      "acceptance": [
+        "Large touch target",
+        "Visual feedback on tap"
+      ]
+    },
+    {
+      "id": "MOB-010",
+      "name": "Mobile Lighthouse Score",
+      "description": "Achieve Lighthouse mobile score >= 90",
+      "priority": "P2",
+      "phase": 6,
+      "effort": "2h",
+      "passes": true,
+      "category": "mobile",
+      "files": [
+        "next.config.ts",
+        "src/app/layout.tsx",
+        "MOBILE_PERFORMANCE.md"
+      ],
+      "acceptance": [
+        "Performance >= 90 (75 localhost, production testing recommended)",
+        "Accessibility >= 90 (96 achieved)",
+        "Best Practices >= 90 (100 achieved)"
+      ]
+    },
+    {
+      "id": "SEC-001",
+      "name": "Thanks.io Webhook Signature",
+      "description": "Verify signature on Thanks.io webhook requests",
+      "priority": "P0",
+      "phase": 7,
+      "effort": "1h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/app/api/webhooks/thanks/route.ts",
+        "src/lib/webhook-verification.js",
+        "tests/unit/webhook-verification.test.mjs"
+      ],
+      "acceptance": [
+        "Signature verified",
+        "Invalid requests rejected with 401"
+      ]
+    },
+    {
+      "id": "SEC-002",
+      "name": "Rate Limiter Setup",
+      "description": "Setup Upstash Redis rate limiting infrastructure",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "2h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/lib/rate-limit.js"
+      ],
+      "acceptance": [
+        "Upstash connected",
+        "Rate limiters configured"
+      ]
+    },
+    {
+      "id": "SEC-003",
+      "name": "Letter Generation Rate Limit",
+      "description": "Rate limit letter generation endpoint",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "1h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/app/api/generate/letter/route.ts"
+      ],
+      "acceptance": [
+        "10 requests/minute limit",
+        "429 returned when exceeded"
+      ]
+    },
+    {
+      "id": "SEC-004",
+      "name": "Image Generation Rate Limit",
+      "description": "Rate limit image generation endpoint",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "1h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/app/api/generate/images/route.ts"
+      ],
+      "acceptance": [
+        "5 requests/minute limit",
+        "429 returned when exceeded"
+      ]
+    },
+    {
+      "id": "SEC-005",
+      "name": "Transcription Rate Limit",
+      "description": "Rate limit voice transcription endpoint",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "1h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/app/api/transcribe/route.ts"
+      ],
+      "acceptance": [
+        "10 requests/minute limit",
+        "429 returned when exceeded"
+      ]
+    },
+    {
+      "id": "SEC-006",
+      "name": "Security Headers",
+      "description": "Add security headers to all responses",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "1h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "next.config.ts"
+      ],
+      "acceptance": [
+        "HSTS enabled",
+        "X-Frame-Options set",
+        "CSP configured"
+      ]
+    },
+    {
+      "id": "SEC-007",
+      "name": "Input Validation Schemas",
+      "description": "Zod schemas for all API input validation",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "2h",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/lib/validations/letter.ts",
+        "src/lib/validations/recipient.ts"
+      ],
+      "acceptance": [
+        "Schemas defined",
+        "Used in all API routes"
+      ]
+    },
+    {
+      "id": "SEC-008",
+      "name": "Order Send Usage Check",
+      "description": "Check usage limits before sending order",
+      "priority": "P1",
+      "phase": 7,
+      "effort": "30m",
+      "passes": true,
+      "category": "security",
+      "files": [
+        "src/app/actions/orders.ts"
+      ],
+      "acceptance": [
+        "Usage checked",
+        "Error returned if exceeded"
+      ]
+    },
+    {
+      "id": "OBS-001",
+      "name": "Sentry Setup",
+      "description": "Initialize Sentry error tracking",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "2h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "sentry.client.config.ts",
+        "sentry.server.config.ts"
+      ],
+      "acceptance": [
+        "Sentry initialized",
+        "Errors captured"
+      ]
+    },
+    {
+      "id": "OBS-002",
+      "name": "Error Boundary Component",
+      "description": "React error boundary that reports to Sentry",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "1h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/components/error-boundary.tsx"
+      ],
+      "acceptance": [
+        "Errors caught",
+        "User-friendly fallback",
+        "Reported to Sentry"
+      ]
+    },
+    {
+      "id": "OBS-003",
+      "name": "Vercel Analytics",
+      "description": "Add Vercel Analytics for web vitals",
+      "priority": "P2",
+      "phase": 8,
+      "effort": "30m",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/app/layout.tsx"
+      ],
+      "acceptance": [
+        "Analytics component added",
+        "Page views tracked"
+      ]
+    },
+    {
+      "id": "OBS-004",
+      "name": "PostHog Integration",
+      "description": "Add PostHog for user behavior analytics",
+      "priority": "P2",
+      "phase": 8,
+      "effort": "2h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/lib/posthog.ts",
+        "src/app/layout.tsx"
+      ],
+      "acceptance": [
+        "PostHog initialized",
+        "Key events tracked"
+      ]
+    },
+    {
+      "id": "OBS-005",
+      "name": "User Flow Events",
+      "description": "Track signup, generate, send conversion funnel",
+      "priority": "P2",
+      "phase": 8,
+      "effort": "2h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/lib/posthog.ts"
+      ],
+      "acceptance": [
+        "Funnel events tracked",
+        "Visible in PostHog"
+      ]
+    },
+    {
+      "id": "OBS-006",
+      "name": "API Timing Middleware",
+      "description": "Track and log slow API requests",
+      "priority": "P2",
+      "phase": 8,
+      "effort": "1h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/lib/api-timing.ts"
+      ],
+      "acceptance": [
+        "Duration logged",
+        "Slow requests flagged"
+      ]
+    },
+    {
+      "id": "OBS-007",
+      "name": "Enhanced Health Check",
+      "description": "Health check that verifies all dependencies",
+      "priority": "P1",
+      "phase": 8,
+      "effort": "2h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/app/api/health/route.ts"
+      ],
+      "acceptance": [
+        "Checks DB, Supabase, Stripe",
+        "Returns degraded status on failures"
+      ]
+    },
+    {
+      "id": "OBS-008",
+      "name": "Structured Logger",
+      "description": "JSON structured logging utility",
+      "priority": "P2",
+      "phase": 8,
+      "effort": "1h",
+      "passes": true,
+      "category": "observability",
+      "files": [
+        "src/lib/logger.ts"
+      ],
+      "acceptance": [
+        "JSON output",
+        "Log levels",
+        "Context support"
+      ]
+    },
+    {
+      "id": "IMP-001",
+      "name": "Extract Shared Auth Utility",
+      "description": "DRY: Extract getCurrentUser to shared module",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "30m",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "src/lib/server-auth.ts"
+      ],
+      "acceptance": [
+        "Shared function",
+        "Used in all actions"
+      ]
+    },
+    {
+      "id": "IMP-002",
+      "name": "Type Safety Thanks.io",
+      "description": "Replace any types in Thanks.io client",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "1h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "src/lib/thanks-io.ts"
+      ],
+      "acceptance": [
+        "Proper interfaces defined",
+        "No any types"
+      ]
+    },
+    {
+      "id": "IMP-003",
+      "name": "Type Safety Stripe Webhook",
+      "description": "Replace any casts in Stripe webhook handler",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "1h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "src/app/api/stripe/webhook/route.ts"
+      ],
+      "acceptance": [
+        "Proper Stripe types",
+        "No as any casts"
+      ]
+    },
+    {
+      "id": "IMP-004",
+      "name": "API Error Standardization",
+      "description": "Unified error response format for all API routes",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "2h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "src/lib/api-errors.js",
+        "tests/unit/api-errors.test.mjs"
+      ],
+      "acceptance": [
+        "apiError utility",
+        "Used in all routes",
+        "Consistent format"
+      ]
+    },
+    {
+      "id": "IMP-005",
+      "name": "Environment Validation",
+      "description": "Zod schema to validate env vars at startup",
+      "priority": "P1",
+      "phase": 9,
+      "effort": "1h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "src/lib/env.ts"
+      ],
+      "acceptance": [
+        "Schema validates all vars",
+        "Fails fast on missing"
+      ]
+    },
+    {
+      "id": "IMP-006",
+      "name": "Server Action Unit Tests",
+      "description": "Unit tests for all server actions",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "4h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "tests/unit/actions/"
+      ],
+      "acceptance": [
+        "All actions tested",
+        "Coverage > 80%"
+      ]
+    },
+    {
+      "id": "IMP-007",
+      "name": "Component Tests",
+      "description": "Unit tests for key components",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "4h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "tests/unit/components/"
+      ],
+      "acceptance": [
+        "Voice recorder tested",
+        "Form components tested"
+      ]
+    },
+    {
+      "id": "IMP-008",
+      "name": "Mobile E2E Tests",
+      "description": "Playwright tests for mobile viewports",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "3h",
+      "passes": true,
+      "category": "improvements",
+      "files": [
+        "tests/e2e/mobile.spec.ts"
+      ],
+      "acceptance": [
+        "Mobile navigation tested",
+        "Touch targets verified"
+      ]
+    },
+    {
+      "id": "FUTURE-001",
+      "name": "Email Notifications",
+      "description": "Send email notifications for order status changes",
+      "priority": "P2",
+      "phase": 9,
+      "effort": "4h",
+      "passes": true,
+      "category": "future",
+      "files": [
+        "src/lib/email.js",
+        "src/app/api/webhooks/thanks/route.ts",
+        "tests/unit/email.test.mjs",
+        "tests/integration/webhook-email-notification.test.mjs"
+      ],
+      "acceptance": [
+        "Emails sent on status change",
+        "Templates created",
+        "Resend integration complete",
+        "Tests passing"
+      ]
+    },
+    {
+      "id": "FUTURE-002",
+      "name": "Bulk Send Feature",
+      "description": "Send same letter to multiple recipients",
+      "priority": "P3",
+      "phase": 9,
+      "effort": "6h",
+      "passes": true,
+      "category": "future",
+      "files": [
+        "src/app/send/bulk/page.tsx",
+        "src/features/send/bulk-send-form.tsx",
+        "src/app/actions/orders.ts",
+        "tests/unit/actions/actions-validation.test.mjs"
+      ],
+      "acceptance": [
+        "Select multiple recipients",
+        "Multiple orders created (one per recipient)",
+        "Usage limits checked per recipient",
+        "Summary of successes and failures returned",
+        "Tests passing"
+      ]
+    },
+    {
+      "id": "FUTURE-003",
+      "name": "CSV Recipient Import",
+      "description": "Import recipients from CSV file",
+      "priority": "P3",
+      "phase": 9,
+      "effort": "4h",
+      "passes": true,
+      "category": "future",
+      "files": [
+        "src/app/recipients/import/page.tsx",
+        "src/features/recipients/csv-import-form.tsx",
+        "src/lib/csv-parser.ts",
+        "src/lib/csv-parser-impl.js",
+        "src/app/actions/recipients.ts",
+        "tests/unit/csv-parser.test.mjs",
+        "tests/e2e/csv-import.spec.ts"
+      ],
+      "acceptance": [
+        "CSV parsed",
+        "Validation shown",
+        "Bulk insert"
+      ]
+    },
+    {
+      "id": "FUTURE-004",
+      "name": "Address Validation API",
+      "description": "Validate addresses with USPS API",
+      "priority": "P3",
+      "phase": 9,
+      "effort": "6h",
+      "passes": true,
+      "category": "future",
+      "files": [
+        "src/lib/address-validation.js",
+        "src/app/actions/recipients.ts",
+        "src/app/actions/orders.ts",
+        "tests/unit/address-validation.test.mjs"
+      ],
+      "acceptance": [
+        "USPS API integrated",
+        "Addresses validated before send"
+      ]
+    },
+    {
+      "id": "FUTURE-005",
+      "name": "Accessibility Audit",
+      "description": "WCAG 2.1 AA compliance audit and fixes",
+      "priority": "P3",
+      "phase": 9,
+      "effort": "8h",
+      "passes": true,
+      "category": "future",
+      "files": [
+        "docs/ACCESSIBILITY.md",
+        "tests/unit/accessibility/navbar.a11y.test.tsx",
+        "tests/unit/accessibility/buttons.a11y.test.tsx",
+        "tests/unit/accessibility/voice-recorder.a11y.test.tsx",
+        "tests/unit/accessibility/forms.a11y.test.tsx",
+        "vitest.setup.ts"
+      ],
+      "acceptance": [
+        "Audit completed with 95% WCAG 2.1 AA compliance",
+        "23 automated accessibility tests created (21 passing)",
+        "Comprehensive documentation in docs/ACCESSIBILITY.md",
+        "2 moderate issues identified with fix recommendations"
+      ]
+    },
+    {
+      "id": "FUTURE-006",
+      "name": "Scheduled Usage Reset",
+      "description": "Cron job to reset usage on 1st of month",
+      "priority": "P3",
+      "phase": 9,
+      "effort": "2h",
+      "passes": true,
+      "category": "future",
+      "files": [
+        "src/app/api/cron/reset-usage/route.ts",
+        "vercel.json",
+        "tests/integration/cron-reset-usage.test.mjs",
+        "docs/CRON_JOBS.md"
+      ],
+      "acceptance": [
+        "Vercel Cron configured",
+        "Usage reset monthly",
+        "Authentication via CRON_SECRET",
+        "Integration tests created",
+        "Documentation complete"
+      ]
+    },
+    {
+      "id": "TRACK-001",
+      "name": "Tracking SDK Integration",
+      "description": "Install and initialize user event tracking SDK from ACD",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-002",
+      "name": "Acquisition Event Tracking",
+      "description": "Track landing_view, cta_click, pricing_view with UTM params",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-003",
+      "name": "Activation Event Tracking",
+      "description": "Track signup_start, login_success, activation_complete",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-004",
+      "name": "Core Value Event Tracking",
+      "description": "Track product-specific value events (created, completed, downloaded)",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-005",
+      "name": "Monetization Event Tracking",
+      "description": "Track checkout_started, purchase_completed, subscription events",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "TRACK-006",
+      "name": "Retention Event Tracking",
+      "description": "Track return_session, returning_user product events",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "TRACK-007",
+      "name": "Error & Performance Tracking",
+      "description": "Track errors, API failures, and Core Web Vitals",
+      "category": "tracking",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "TRACK-008",
+      "name": "User Identification",
+      "description": "Identify users on login with traits (email, plan, etc.)",
+      "category": "tracking",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-001",
+      "name": "Meta Pixel Installation",
+      "description": "Install Facebook Pixel script in app layout",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-002",
+      "name": "PageView Tracking",
+      "description": "Track all page views with Meta Pixel",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-003",
+      "name": "Standard Events Mapping",
+      "description": "Map app events to Meta standard events (Purchase, Lead, etc.)",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-004",
+      "name": "CAPI Server-Side Events",
+      "description": "Implement Conversions API for server-side event tracking",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-005",
+      "name": "Event Deduplication",
+      "description": "Use event_id to deduplicate browser and server events",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-006",
+      "name": "User Data Hashing (PII)",
+      "description": "Hash email/phone with SHA256 for CAPI user matching",
+      "category": "meta-pixel",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "META-007",
+      "name": "Custom Audiences Setup",
+      "description": "Configure custom audiences based on user behavior",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "META-008",
+      "name": "Conversion Optimization",
+      "description": "Set up conversion optimization for key events",
+      "category": "meta-pixel",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "docs/META_CONVERSION_OPTIMIZATION.md",
+        "src/lib/meta-pixel.ts",
+        "src/lib/meta-capi.ts"
+      ],
+      "acceptance": [
+        "Value-based bidding documentation",
+        "A/B testing framework documented",
+        "Conversion lift study guide",
+        "Creative optimization best practices"
+      ]
+    },
+    {
+      "id": "GDP-001",
+      "name": "Supabase Schema Setup",
+      "description": "Create person, identity_link, event, email_message, email_event, subscription, deal, person_features, segment tables",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true,
+      "files": [
+        "prisma/schema.prisma",
+        "docs/GROWTH_DATA_PLANE_SCHEMA.md"
+      ],
+      "acceptance": [
+        "Person table with identity fields",
+        "IdentityLink for cross-system mapping",
+        "UnifiedEvent for all event sources",
+        "EmailMessage and EmailEvent tables",
+        "PersonSubscription and Deal tables",
+        "PersonFeatures for computed traits",
+        "Segment and SegmentMember tables",
+        "Comprehensive documentation"
+      ]
+    },
+    {
+      "id": "GDP-002",
+      "name": "Person & Identity Tables",
+      "description": "Canonical person table with identity links for posthog, stripe, meta",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true,
+      "files": [
+        "src/lib/identity.ts",
+        "src/lib/identity.js",
+        "scripts/backfill-persons.ts",
+        "tests/unit/identity.test.mjs"
+      ],
+      "acceptance": [
+        "getOrCreatePerson function implemented",
+        "linkIdentity function for cross-system linking",
+        "findPersonByIdentity lookup function",
+        "Identity merging support",
+        "Backfill script created for User -> Person migration",
+        "Comprehensive unit tests written"
+      ]
+    },
+    {
+      "id": "GDP-003",
+      "name": "Unified Events Table",
+      "description": "Normalized events from web/app/email/stripe/booking/meta sources",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true,
+      "files": [
+        "src/lib/unified-events.ts",
+        "src/lib/unified-events.js",
+        "src/app/api/tracking/unified/route.ts",
+        "src/lib/tracking.ts",
+        "src/app/actions/orders.ts",
+        "src/app/actions/recipients.ts",
+        "tests/unit/unified-events.test.mjs"
+      ],
+      "acceptance": [
+        "UnifiedEvent tracking library created",
+        "API endpoint for server-side tracking",
+        "Client-side SDK integration",
+        "Server actions track unified events",
+        "Comprehensive unit tests written"
+      ]
+    },
+    {
+      "id": "GDP-004",
+      "name": "Resend Webhook Edge Function",
+      "description": "Verify Svix signature, store email events, map tags to person_id",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true,
+      "files": [
+        "src/app/api/webhooks/resend/route.ts",
+        "src/lib/email.js",
+        "src/app/api/webhooks/thanks/route.ts",
+        "tests/integration/resend-webhook.test.mjs"
+      ],
+      "acceptance": [
+        "Svix signature verification implemented",
+        "EmailMessage records stored with person_id from tags",
+        "EmailEvent records stored for all event types",
+        "Unified events tracked for opens and clicks",
+        "Tags support campaign and segment_id",
+        "Integration tests created"
+      ]
+    },
+    {
+      "id": "GDP-005",
+      "name": "Email Event Tracking",
+      "description": "Track delivered/opened/clicked/bounced events from Resend webhooks",
+      "category": "growth-data-plane",
+      "priority": "P0",
+      "passes": true,
+      "files": [
+        "src/app/api/webhooks/resend/route.ts",
+        "tests/integration/resend-webhook.test.mjs"
+      ],
+      "acceptance": [
+        "Email events stored in EmailEvent table",
+        "Supports delivered, opened, clicked, bounced, complained events",
+        "Click events include URL",
+        "Unified events created for opens and clicks only",
+        "User agent and IP address captured when available"
+      ]
+    },
+    {
+      "id": "GDP-006",
+      "name": "Click Redirect Tracker",
+      "description": "Attribution spine: email → click → session → conversion with first-party cookie",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/api/track/click/route.ts",
+        "src/lib/email.js",
+        "tests/unit/email-link-wrapping.test.mjs",
+        "tests/integration/click-tracker.test.mjs"
+      ],
+      "acceptance": [
+        "Click tracking endpoint implemented",
+        "Sets first-party attribution cookie (30 days)",
+        "Stores click events in EmailEvent table",
+        "Link wrapping utilities created",
+        "15 unit tests passing"
+      ]
+    },
+    {
+      "id": "GDP-007",
+      "name": "Stripe Webhook Integration",
+      "description": "Handle subscription events, map stripe_customer_id to person_id",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/identity.js",
+        "src/app/api/stripe/webhook/route.ts",
+        "tests/integration/stripe-person-integration.test.mjs"
+      ],
+      "acceptance": [
+        "getOrCreatePersonFromStripe function created",
+        "Stripe customer ID linked to Person via IdentityLink",
+        "User, Stripe, and PostHog identities can be linked to same Person",
+        "Integration tests created"
+      ]
+    },
+    {
+      "id": "GDP-008",
+      "name": "Subscription Snapshot",
+      "description": "Upsert subscription status, plan, MRR from Stripe events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/api/stripe/webhook/route.ts",
+        "tests/integration/stripe-person-integration.test.mjs"
+      ],
+      "acceptance": [
+        "PersonSubscription upserted on checkout.session.completed",
+        "PersonSubscription updated on customer.subscription.updated",
+        "PersonSubscription marked canceled on customer.subscription.deleted",
+        "Handles trial and past_due subscription statuses",
+        "MRR calculated from Stripe price"
+      ]
+    },
+    {
+      "id": "GDP-009",
+      "name": "PostHog Identity Stitching",
+      "description": "Call posthog.identify(personId) on login/signup",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/auth/callback/route.ts",
+        "src/app/api/user/traits/route.ts",
+        "src/contexts/auth-context.tsx",
+        "tests/integration/posthog-identity-stitching.test.mjs"
+      ],
+      "acceptance": [
+        "Auth callback creates Person record on login",
+        "User traits API returns person_id",
+        "PostHog identify called with person_id instead of user_id",
+        "IdentityLink created between Supabase user and Person"
+      ]
+    },
+    {
+      "id": "GDP-010",
+      "name": "Meta Pixel + CAPI Dedup",
+      "description": "Fire Pixel eventID matching CAPI event_id for deduplication",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/meta-pixel.ts",
+        "src/lib/meta-capi.ts",
+        "src/lib/tracking.ts",
+        "src/app/api/tracking/meta-capi/route.ts",
+        "tests/unit/meta-deduplication.test.mjs"
+      ],
+      "acceptance": [
+        "Single eventId generated in tracking.ts",
+        "Same eventId used for both Pixel (client) and CAPI (server)",
+        "mapToMetaEvent() uses provided eventId from properties",
+        "CAPI endpoint sends event_id to Meta",
+        "Meta deduplicates browser and server events",
+        "10 unit tests passing"
+      ]
+    },
+    {
+      "id": "GDP-011",
+      "name": "Person Features Computation",
+      "description": "Compute active_days, core_actions, pricing_views, email_opens from events",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/person-features.ts",
+        "src/lib/person-features.js",
+        "src/app/api/person-features/[personId]/route.ts",
+        "src/app/api/cron/compute-features/route.ts",
+        "tests/unit/person-features.test.mjs"
+      ],
+      "acceptance": [
+        "computePersonFeatures function implemented",
+        "Features computed from UnifiedEvent data",
+        "Supports batch computation",
+        "API endpoints created",
+        "Cron endpoint for periodic computation",
+        "Unit tests written (24 tests)"
+      ]
+    },
+    {
+      "id": "GDP-012",
+      "name": "Segment Engine",
+      "description": "Evaluate segment membership and trigger automations (Resend, Meta, outbound)",
+      "category": "growth-data-plane",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/segment-engine.ts",
+        "src/lib/segment-engine.js",
+        "src/app/api/segments/route.ts",
+        "src/app/api/segments/[segmentId]/route.ts",
+        "src/app/api/segments/[segmentId]/evaluate/route.ts",
+        "src/app/api/cron/evaluate-segments/route.ts",
+        "tests/unit/segment-engine.test.mjs"
+      ],
+      "acceptance": [
+        "Segment CRUD operations implemented",
+        "Rule evaluation engine with AND/OR operators",
+        "Support for eq, neq, gt, lt, gte, lte, in, contains operators",
+        "Segment membership management",
+        "Batch evaluation for all persons",
+        "Automation triggers (email, meta_audience, webhook)",
+        "API endpoints for segment management",
+        "Cron endpoint for periodic evaluation",
+        "Unit tests written (27 tests)"
+      ]
+    },
+    {
+      "id": "SL-096",
+      "name": "Bulk Letter Upload via CSV",
+      "description": "Upload CSV with recipient data and letter content for batch processing",
+      "category": "core",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/send/csv/page.tsx",
+        "src/features/send/csv-letter-upload-form.tsx",
+        "src/app/actions/orders.ts",
+        "src/lib/csv-parser-impl.js",
+        "src/lib/validations/recipient.js",
+        "src/components/navbar.tsx",
+        "tests/unit/csv-bulk-upload.test.mjs"
+      ],
+      "acceptance": [
+        "CSV upload page created at /send/csv",
+        "CSV parser supports message column",
+        "Address validation integrated for each recipient",
+        "Server action createBulkOrderFromCSV implemented",
+        "Usage limits checked per recipient",
+        "17 unit tests passing",
+        "Navigation links added to navbar",
+        "Template download functionality",
+        "Same message or per-recipient messages supported"
+      ]
+    },
+    {
+      "id": "SL-097",
+      "name": "Letter Preview PDF Generation",
+      "description": "Generate downloadable PDF preview of letter before sending via Thanks.io",
+      "category": "core",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/letter-pdf.ts",
+        "src/app/api/preview/letter-pdf/route.ts",
+        "src/features/send/send-form.tsx",
+        "tests/unit/letter-pdf.test.ts"
+      ],
+      "acceptance": [
+        "PDF generation utility created with jsPDF",
+        "Client-side PDF preview download functionality",
+        "Server-side API endpoint for PDF generation",
+        "Preview PDF button added to SendForm",
+        "10 unit tests passing",
+        "PDF includes recipient address and letter content",
+        "PDF includes handwriting style and color info",
+        "PDF includes footer with timestamp and watermark"
+      ]
+    },
+    {
+      "id": "SL-098",
+      "name": "Address Validation with USPS",
+      "description": "Validate recipient addresses against USPS database before sending",
+      "category": "recipients",
+      "priority": "P0",
+      "passes": true,
+      "files": [
+        "src/lib/address-validation.js",
+        "src/app/actions/recipients.ts",
+        "src/app/actions/orders.ts",
+        "tests/unit/address-validation.test.mjs"
+      ],
+      "acceptance": [
+        "USPS API integration complete",
+        "Address validation integrated in recipient creation",
+        "Address validation integrated in order sending",
+        "14 unit tests passing",
+        "Graceful fallback when USPS_USER_ID not configured"
+      ]
+    },
+    {
+      "id": "SL-099",
+      "name": "International Address Support",
+      "description": "Support international address formats and postal codes",
+      "category": "recipients",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/validations/recipient.js",
+        "src/features/recipients/recipient-form.tsx",
+        "src/app/actions/recipients.ts",
+        "tests/unit/international-addresses.test.ts"
+      ],
+      "acceptance": [
+        "Country selector in recipient form with 8 supported countries",
+        "Postal code validation for US, CA, GB, AU, DE, FR, JP, MX",
+        "Dynamic form labels based on selected country",
+        "Flexible postal code validation for unsupported countries",
+        "28 comprehensive tests passing"
+      ]
+    },
+    {
+      "id": "SL-100",
+      "name": "Recipient Import from Contacts",
+      "description": "Import recipients from Google Contacts, Outlook, or vCard files",
+      "category": "recipients",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/app/recipients/import/page.tsx",
+        "src/features/recipients/vcard-import-form.tsx",
+        "src/lib/vcard-parser.ts",
+        "tests/unit/vcard-parser.test.ts"
+      ],
+      "acceptance": [
+        "vCard parser supports vCard 3.0 and 4.0 formats",
+        "Handles Apple Contacts, Outlook, and Google Contacts formats",
+        "Line continuations handled correctly",
+        "Quoted-printable encoding supported with UTF-8 decoding",
+        "Extended address fields (apartments/suites) combined with street",
+        "Item-prefixed properties (Apple format: item1.ADR) parsed correctly",
+        "23 comprehensive unit tests passing"
+      ]
+    },
+    {
+      "id": "SL-101",
+      "name": "Duplicate Recipient Detection",
+      "description": "Detect and merge duplicate recipients in address book",
+      "category": "recipients",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/duplicate-detection.ts",
+        "src/app/actions/recipients.ts",
+        "src/components/duplicate-recipients-dialog.tsx",
+        "src/app/recipients/page.tsx",
+        "tests/unit/duplicate-detection.test.ts"
+      ],
+      "acceptance": [
+        "Duplicate detection based on normalized name and address matching",
+        "Levenshtein distance algorithm for fuzzy matching",
+        "Confidence scoring (0-100) with exact/likely/possible classification",
+        "Server actions: findDuplicateRecipients() and mergeRecipients()",
+        "Merge functionality preserves order history references",
+        "UI dialog to scan, review, and merge duplicates",
+        "23 comprehensive unit tests passing"
+      ]
+    },
+    {
+      "id": "SL-102",
+      "name": "Custom Handwriting Styles",
+      "description": "Multiple handwriting style options beyond default for letter personalization",
+      "category": "templates",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/components/handwriting-style-selector.tsx",
+        "src/features/send/send-form.tsx",
+        "src/features/templates/template-form.tsx",
+        "src/app/api/handwriting-styles/route.ts",
+        "tests/unit/components/handwriting-style-selector.test.tsx"
+      ],
+      "acceptance": [
+        "Handwriting style selector fetches real styles from Thanks.io API",
+        "Selector integrated in SendForm",
+        "Selector integrated in template form",
+        "Fallback styles available when API fails",
+        "All handwriting colors available (blue, black, green, purple, red)",
+        "6 component tests passing"
+      ]
+    },
+    {
+      "id": "SL-103",
+      "name": "Holiday Template Library",
+      "description": "Pre-built letter templates for major holidays and occasions",
+      "category": "templates",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/lib/holiday-templates.ts",
+        "src/features/templates/holiday-templates-gallery.tsx",
+        "src/app/actions/templates.ts",
+        "src/app/templates/page.tsx",
+        "tests/unit/holiday-templates.test.ts"
+      ],
+      "acceptance": [
+        "10 pre-built holiday templates with occasion names",
+        "Holiday templates gallery component with preview",
+        "createHolidayTemplates() server action",
+        "Handwriting style selector for batch template creation",
+        "9 comprehensive unit tests passing",
+        "Template variables support in all holiday messages"
+      ]
+    },
+    {
+      "id": "SL-104",
+      "name": "Template Variable System",
+      "description": "Dynamic variables (name, date, custom fields) in letter templates",
+      "category": "templates",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/lib/template-variables.js",
+        "src/app/actions/orders.ts",
+        "src/features/send/send-form.tsx",
+        "src/features/templates/template-form.tsx",
+        "tests/unit/template-variables.test.mjs"
+      ],
+      "acceptance": [
+        "14 dynamic template variables supported (name, firstName, lastName, date, month, year, address, city, state, zip, custom1-4)",
+        "Template parser with regex-safe variable replacement",
+        "Variable extraction and validation utilities",
+        "Order creation parses variables before sending to Thanks.io",
+        "SendForm shows available variables with expandable documentation",
+        "TemplateForm shows all variables with descriptions",
+        "30 comprehensive unit tests covering all functionality",
+        "Edge cases handled (empty names, single-word names, null custom fields)"
+      ]
+    },
+    {
+      "id": "SL-105",
+      "name": "Branded Envelope Options",
+      "description": "Custom return address and envelope branding for business users",
+      "category": "templates",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/app/actions/account.ts",
+        "src/features/account/return-address-form.tsx",
+        "src/app/billing/page.tsx",
+        "tests/unit/branded-envelope.test.ts"
+      ],
+      "acceptance": [
+        "ReturnAddressForm component with full address fields (name, address1, address2, city, state, zip, country)",
+        "updateReturnAddress() and getReturnAddress() server actions",
+        "State dropdown with all US states and international country support",
+        "Return address saved to User model in database",
+        "Integrated into billing page for easy discovery",
+        "10 comprehensive unit tests for ReturnAddress type and use cases",
+        "Success/error feedback on form submission",
+        "Reset button to reload from database"
+      ]
+    },
+    {
+      "id": "SL-106",
+      "name": "Order Tracking Dashboard",
+      "description": "Real-time order status tracking with delivery estimates from Thanks.io",
+      "category": "orders",
+      "priority": "P1",
+      "passes": true
+    },
+    {
+      "id": "SL-107",
+      "name": "Delivery Confirmation Notifications",
+      "description": "Email/push notifications when letters are delivered",
+      "category": "orders",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/api/webhooks/thanks/route.ts",
+        "src/lib/email.js",
+        "tests/integration/webhook-email-notification.test.mjs"
+      ],
+      "acceptance": [
+        "Email notifications sent on order status changes",
+        "HTML email templates with order details",
+        "Support for all order statuses (pending, queued, processing, printed, shipped, delivered, failed, cancelled)",
+        "Integration with Thanks.io webhook handler",
+        "Comprehensive test coverage (11 tests)"
+      ]
+    },
+    {
+      "id": "SL-108",
+      "name": "Order History & Reorder",
+      "description": "View past orders and quickly reorder with same or modified content",
+      "category": "orders",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/orders/[id]/page.tsx",
+        "src/features/orders/reorder-button.tsx",
+        "src/app/actions/orders.ts",
+        "src/app/orders/page.tsx",
+        "tests/unit/actions/reorder.test.mjs"
+      ],
+      "acceptance": [
+        "Order detail page displays full order information",
+        "Clickable links from orders list to detail pages",
+        "Reorder button creates new order with same details",
+        "Reorder validates recipient address before sending",
+        "Reorder checks usage limits",
+        "Reorder tracks analytics events",
+        "21 unit tests passing"
+      ]
+    },
+    {
+      "id": "SL-109",
+      "name": "Scheduled Sending",
+      "description": "Schedule letters to be sent on specific future dates",
+      "category": "orders",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "prisma/schema.prisma",
+        "src/app/actions/orders.ts",
+        "src/app/api/cron/process-scheduled-orders/route.ts",
+        "vercel.json",
+        "tests/unit/scheduled-orders.test.mjs"
+      ],
+      "acceptance": [
+        "Order schema includes scheduledFor field with index",
+        "createOrder() accepts optional scheduledFor parameter",
+        "Orders with scheduledFor are created with 'scheduled' status",
+        "Scheduled orders are not sent immediately",
+        "Cron job processes scheduled orders every 15 minutes",
+        "Cron job sends orders via Thanks.io API when due",
+        "Orders update to 'queued' status after sending",
+        "Failed orders marked with 'failed' status",
+        "Cron endpoint authenticated with CRON_SECRET",
+        "22 comprehensive unit tests passing"
+      ]
+    },
+    {
+      "id": "SL-110",
+      "name": "Recurring Letter Subscriptions",
+      "description": "Set up recurring letters (monthly, quarterly) to same recipients",
+      "category": "billing",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-111",
+      "name": "Team/Organization Accounts",
+      "description": "Multi-user accounts with shared templates and recipient lists",
+      "category": "billing",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-112",
+      "name": "Usage Analytics Dashboard",
+      "description": "Track letters sent, costs, popular templates, and recipient engagement",
+      "category": "analytics",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/app/actions/analytics.ts",
+        "src/app/api/analytics/orders/route.ts",
+        "src/app/api/analytics/detailed/route.ts",
+        "src/app/analytics/page.tsx",
+        "src/features/analytics/order-analytics.tsx",
+        "src/components/navbar.tsx",
+        "tests/unit/analytics.test.mjs"
+      ],
+      "acceptance": [
+        "Analytics page displays total spent, monthly spent, and average cost",
+        "Product breakdown shows postcards, letters, greeting cards, windowless letters",
+        "Monthly spending trend chart for last 6 months",
+        "Popular templates ranked by usage count",
+        "Top recipients ranked by order count",
+        "Usage limits displayed with progress bars for letter generations, image generations, and letters sent",
+        "Analytics accessible from main navigation",
+        "7 unit tests passing"
+      ]
+    },
+    {
+      "id": "SL-113",
+      "name": "A/B Testing for Letter Content",
+      "description": "Test different letter versions to optimize response rates",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-114",
+      "name": "QR Code Insertion",
+      "description": "Insert QR codes in letters linking to digital content or landing pages",
+      "category": "core",
+      "priority": "P2",
+      "passes": true,
+      "files": [
+        "src/lib/qr-code.ts",
+        "src/components/qr-code-generator.tsx",
+        "tests/unit/qr-code.test.ts"
+      ],
+      "acceptance": [
+        "QR code generation utilities with qrcode library",
+        "Support for multiple QR code types (website, email, phone, SMS, text)",
+        "QRCodeGenerator component with preview and download",
+        "Data URL generation for embedding in documents/emails",
+        "Buffer generation for file storage",
+        "URL validation and tracking URL creation",
+        "Unique tracking ID generation",
+        "20 comprehensive unit tests passing",
+        "Dialog-based UI with tab navigation (create/preview)",
+        "Error handling and validation"
+      ]
+    },
+    {
+      "id": "SL-115",
+      "name": "Photo/Image Attachment",
+      "description": "Include photos or images printed alongside handwritten letter",
+      "category": "core",
+      "priority": "P1",
+      "passes": true,
+      "files": [
+        "src/components/photo-upload.tsx",
+        "src/app/api/upload/image/route.ts",
+        "src/features/send/send-form.tsx",
+        "tests/integration/photo-attachment.test.mjs"
+      ],
+      "acceptance": [
+        "Photo upload component with drag-and-drop support",
+        "10MB file size limit with validation",
+        "Image stored in Supabase Storage with user-specific paths",
+        "Photo preview in send form",
+        "User photo overrides template image",
+        "Supports all product types (postcard, letter, greeting card)",
+        "14 integration tests passing"
+      ]
+    },
+    {
+      "id": "SL-116",
+      "name": "Zapier/Make Integration",
+      "description": "Trigger letter sending from Zapier or Make workflows",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-117",
+      "name": "CRM Integration (HubSpot/Salesforce)",
+      "description": "Sync recipients and trigger letters from CRM events",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-118",
+      "name": "Shopify Order Thank You Letters",
+      "description": "Automatically send thank-you letters triggered by Shopify orders",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-119",
+      "name": "Multi-Language Letter Generation",
+      "description": "Generate letters in multiple languages with AI translation",
+      "category": "i18n",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "SL-120",
+      "name": "API Access for Developers",
+      "description": "Public REST API for programmatic letter creation and sending",
+      "category": "api",
+      "priority": "P2",
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-001",
+      "name": "Live Test Config with Safety Gates",
+      "description": "Create tests/live/config.ts — export LIVE_TEST_CONFIG object with: enabled (from THANKS_IO_LIVE_TEST env), apiKey (from THANKS_IO_API_KEY env), baseUrl 'https://api.thanks.io/api/v2', maxSpend (from THANKS_IO_LIVE_TEST_MAX_SPEND env, default 5.00), profile (from LIVE_TEST_PROFILE env, default 'smoke'), defaultRecipient with hardcoded address. Export assertLiveTestEnabled() that throws if disabled or no API key.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "tests/live/config.ts exports LIVE_TEST_CONFIG object",
+        "LIVE_TEST_CONFIG.enabled reads from THANKS_IO_LIVE_TEST env var, must be 'true'",
+        "LIVE_TEST_CONFIG.apiKey reads from THANKS_IO_API_KEY env var",
+        "LIVE_TEST_CONFIG.maxSpend defaults to 5.00, overridable via THANKS_IO_LIVE_TEST_MAX_SPEND",
+        "LIVE_TEST_CONFIG.defaultRecipient = {name:'SteadyLetters QA', address:'3425 Delaney Drive Apt 214', city:'Melbourne', province:'FL', postal_code:'32934', country:'US'}",
+        "Each recipient field overridable via LIVE_TEST_RECIPIENT_* env vars",
+        "assertLiveTestEnabled() throws descriptive error if not enabled or no API key"
+      ],
+      "files": [
+        "tests/live/config.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-002",
+      "name": "Cost Tracker with Budget Enforcement",
+      "description": "Create tests/live/cost-tracker.ts — CostTracker class that tracks spend per test run, enforces max budget, records orders with testId/orderId/type/cost/recipient/timestamp, generates JSON report, and saves to tests/live/reports/. Has canSpend(), assertCanSpend(), recordSpend(), recordTestResult(), saveReport(), printSummary() methods.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "tests/live/cost-tracker.ts exports CostTracker class",
+        "constructor(maxSpend, profile) sets budget and generates runId",
+        "canSpend(amount) returns boolean if totalSpent + amount <= maxSpend",
+        "assertCanSpend(amount, description) throws with spend details if over budget",
+        "recordSpend(testId, orderId, type, cost, recipient) adds to total and logs",
+        "recordTestResult('passed'|'failed'|'skipped') increments counters",
+        "getReport() returns {runId, profile, totalSpent, maxSpend, tests:{passed,failed,skipped}, orders[], timestamp}",
+        "saveReport() writes JSON to tests/live/reports/{runId}.json, creates directory if missing",
+        "printSummary() logs formatted summary with emoji to console"
+      ],
+      "files": [
+        "tests/live/cost-tracker.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-003",
+      "name": "API Connectivity Tests",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('1. API Connectivity') with 3 tests: LIVE-001 authenticates with Thanks.io GET /handwriting expecting 200, LIVE-002 fetches real styles and asserts array length > 0 with id/name fields, LIVE-003 verifies account is active via GET /account. All $0 cost, always run regardless of profile.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-001: GET /handwriting with Bearer token returns 200",
+        "LIVE-002: Response data.data is array with length > 0, first item has id and name",
+        "LIVE-003: GET /account returns 200 (or 404 if endpoint varies)",
+        "All use apiRequest() helper with Authorization: Bearer {API_KEY}",
+        "All record results via tracker.recordTestResult()"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-004",
+      "name": "Postcard Send Tests (All Sizes)",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('2. Postcard Send') with tests: LIVE-004 sends 4x6 postcard ($1.14, runs in smoke+), LIVE-005 sends 6x9 ($1.61, standard+), LIVE-006 sends 6x11 ($1.83, standard+), LIVE-007 sends with custom front_image_url (full only). Each calls tracker.assertCanSpend() before sending, POSTs to /postcard/send with RECIPIENT, MESSAGE, handwriting_style, size. Asserts response.ok, data.id exists, data.status='queued'. Records spend and stores orderId.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-004: POST /postcard/send with size:'4x6' → 200, {id, status:'queued'}",
+        "LIVE-005: POST with size:'6x9', skipIf(!isStandard)",
+        "LIVE-006: POST with size:'6x11', skipIf(!isStandard)",
+        "LIVE-007: POST with front_image_url, skipIf(!isFull)",
+        "All send to default recipient: 3425 Delaney Drive Apt 214, Melbourne FL 32934",
+        "All call tracker.assertCanSpend() before sending",
+        "All call tracker.recordSpend() with orderId after success",
+        "All push orderId to createdOrderIds array for later status checks",
+        "Console logs include recipient address and estimated cost"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-005",
+      "name": "Letter Send Tests",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('3. Letter Send') with: LIVE-009 sends windowed letter ($1.20, standard+) via POST /letter/send, LIVE-010 sends 2-page letter ($1.40, full only) with pages:2. Both use default recipient and handwriting style.",
+      "category": "live-testing",
+      "priority": "P1",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-009: POST /letter/send → 200, {id, status}, skipIf(!isStandard)",
+        "LIVE-010: POST /letter/send with pages:2 → 200, skipIf(!isFull)",
+        "Both send to default recipient",
+        "Both track spend via CostTracker"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-006",
+      "name": "Greeting Card Send Tests",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('4. Greeting Card Send') with: LIVE-012 sends greeting card ($3.00, full only) via POST /greeting/send with handwriting style and color.",
+      "category": "live-testing",
+      "priority": "P1",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-012: POST /greeting/send → 200, {id}, skipIf(!isFull)",
+        "Sends to default recipient",
+        "Tracks $3.00 spend"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-007",
+      "name": "Windowless Letter Send Tests",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('5. Windowless Letter Send') with: LIVE-014 sends windowless letter ($2.52, full only) via POST /send/windowlessletter with a public PDF URL.",
+      "category": "live-testing",
+      "priority": "P1",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-014: POST /send/windowlessletter with pdf_url → 200, {id}, skipIf(!isFull)",
+        "Uses publicly accessible PDF URL",
+        "Sends to default recipient",
+        "Tracks $2.52 spend"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-008",
+      "name": "Error Handling Tests",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('6. Error Handling') with 4 tests: LIVE-016 sends with invalid API key expecting 401, LIVE-017 sends with missing recipients/message expecting 400/422, LIVE-018 sends with empty address fields expecting error, LIVE-019 sends with invalid postal code '00000'. All $0 cost, always run.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-016: GET /handwriting with 'Bearer invalid_key_for_testing' → 401",
+        "LIVE-017: POST /postcard/send with missing recipients → 400 or 422",
+        "LIVE-018: POST /postcard/send with all empty address fields → error response",
+        "LIVE-019: POST /postcard/send with postal_code:'00000', province:'XX' → handled",
+        "Uses separate apiRequestBadKey() helper for LIVE-016",
+        "No money spent — all should be rejected by API"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-009",
+      "name": "Order Status and Tracking",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('7. Order Status') with: LIVE-020 checks order status by ID from createdOrderIds[0] via GET /order/{id}, standard+ only. Asserts response has id field and logs status.",
+      "category": "live-testing",
+      "priority": "P1",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-020: GET /order/{orderId} returns order details, skipIf(!isStandard)",
+        "Skips gracefully if createdOrderIds is empty",
+        "Logs order status to console"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-010",
+      "name": "Pricing Verification vs PRODUCT_CATALOG",
+      "description": "In tests/live/thanks-io-live.test.ts, add describe('8. Pricing Verification') with 6 tests: LIVE-022 postcard 4x6=$1.14, LIVE-023 6x9=$1.61, LIVE-024 6x11=$1.83, LIVE-025 letter=$1.20, LIVE-026 greeting=$3.00, LIVE-027 windowless=$2.52. Import PRODUCT_CATALOG and getPostcardPrice from src/lib/thanks-io.ts. All $0 cost, always run.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "LIVE-022: getPostcardPrice('4x6') === 1.14 && PRODUCT_CATALOG.postcard.basePrice === 1.14",
+        "LIVE-023: getPostcardPrice('6x9') === 1.61",
+        "LIVE-024: getPostcardPrice('6x11') === 1.83",
+        "LIVE-025: PRODUCT_CATALOG.letter.basePrice === 1.20",
+        "LIVE-026: PRODUCT_CATALOG.greeting.basePrice === 3.00",
+        "LIVE-027: PRODUCT_CATALOG.windowless_letter.basePrice === 2.52",
+        "Import from '@/lib/thanks-io' using vitest path alias"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-011",
+      "name": "Test Run Profiles (Smoke/Standard/Full)",
+      "description": "In tests/live/thanks-io-live.test.ts, implement profile-based gating: const PROFILE reads from LIVE_TEST_CONFIG.profile. isSmoke = true for all profiles. isStandard = true for 'standard' or 'full'. isFull = true only for 'full'. Use it.skipIf(!isStandard) and it.skipIf(!isFull) to gate expensive tests. Smoke runs connectivity + 1 postcard + errors + pricing (~$1.14). Standard adds all sizes + letter (~$5.78). Full adds greeting + windowless (~$12).",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "Profile read from LIVE_TEST_CONFIG.profile (env LIVE_TEST_PROFILE, default 'smoke')",
+        "isSmoke always true (base tests always run)",
+        "isStandard true for 'standard' and 'full'",
+        "isFull true only for 'full'",
+        "Smoke: LIVE-001 to LIVE-004, LIVE-016 to LIVE-019, LIVE-022 to LIVE-027 (~$1.14)",
+        "Standard: adds LIVE-005, LIVE-006, LIVE-009, LIVE-020 (~$5.78)",
+        "Full: adds LIVE-007, LIVE-010, LIVE-012, LIVE-014 (~$12.00)"
+      ],
+      "files": [
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-012",
+      "name": "JSON Report Generation",
+      "description": "CostTracker.saveReport() writes JSON to tests/live/reports/{runId}.json. Report includes: runId (format 'live-{ISO-timestamp}'), profile, totalSpent, maxSpend, tests:{passed,failed,skipped}, orders[] with testId/orderId/type/cost/recipient/timestamp, and run timestamp. Directory created with fs.mkdirSync({recursive:true}) if missing. afterAll() hook calls tracker.saveReport().",
+      "category": "live-testing",
+      "priority": "P1",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "Report JSON saved to tests/live/reports/{runId}.json",
+        "runId format: 'live-{ISO-timestamp-with-dashes}'",
+        "Report contains all required fields per PRD spec",
+        "Directory auto-created if missing",
+        "afterAll() in test suite calls tracker.printSummary() then tracker.saveReport()",
+        "tests/live/reports/ is in .gitignore"
+      ],
+      "files": [
+        "tests/live/cost-tracker.ts",
+        "tests/live/thanks-io-live.test.ts",
+        ".gitignore"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-013",
+      "name": "npm Scripts for Live Test Invocation",
+      "description": "Add to package.json scripts: 'test:live' runs 'THANKS_IO_LIVE_TEST=true vitest run tests/live/ --reporter=verbose', 'test:live:smoke' sets LIVE_TEST_PROFILE=smoke, 'test:live:standard' sets LIVE_TEST_PROFILE=standard, 'test:live:full' sets LIVE_TEST_PROFILE=full. All chain to npm run test:live.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "package.json has 'test:live' script",
+        "package.json has 'test:live:smoke' script",
+        "package.json has 'test:live:standard' script",
+        "package.json has 'test:live:full' script",
+        "'npm run test:live:smoke' runs only smoke-level tests",
+        "All require THANKS_IO_API_KEY in environment to actually send mail"
+      ],
+      "files": [
+        "package.json"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-014",
+      "name": "CI Pipeline Exclusion",
+      "description": "Ensure vitest.config.ts include pattern ('tests/unit/**/*.test.ts') does NOT match tests/live/. The test:live script explicitly targets tests/live/ directory. Entire test suite is wrapped in describeIf(ENABLED) where ENABLED checks THANKS_IO_LIVE_TEST=true AND THANKS_IO_API_KEY is set. Without both env vars, all tests skip silently.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "vitest.config.ts include pattern does not match tests/live/**",
+        "Test suite uses describe.skip when ENABLED is false",
+        "ENABLED requires THANKS_IO_LIVE_TEST='true' AND THANKS_IO_API_KEY truthy",
+        "Running 'npm test' or 'vitest' does NOT execute live tests",
+        "Only 'npm run test:live' executes live tests"
+      ],
+      "files": [
+        "vitest.config.ts",
+        "tests/live/thanks-io-live.test.ts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LIVE-TEST-015",
+      "name": "Default Test Recipient Configuration",
+      "description": "In tests/live/config.ts, LIVE_TEST_CONFIG.defaultRecipient is a Recipient object (matching type from src/lib/thanks-io.ts) with hardcoded defaults: name='SteadyLetters QA', address='3425 Delaney Drive Apt 214', city='Melbourne', province='FL', postal_code='32934', country='US'. Each field overridable via LIVE_TEST_RECIPIENT_NAME, LIVE_TEST_RECIPIENT_ADDRESS, LIVE_TEST_RECIPIENT_CITY, LIVE_TEST_RECIPIENT_STATE, LIVE_TEST_RECIPIENT_ZIP, LIVE_TEST_RECIPIENT_COUNTRY env vars.",
+      "category": "live-testing",
+      "priority": "P0",
+      "prd": "PRD_LIVE_API_TESTING.md",
+      "acceptance_criteria": [
+        "defaultRecipient type matches Recipient from src/lib/thanks-io.ts",
+        "Default name: 'SteadyLetters QA'",
+        "Default address: '3425 Delaney Drive Apt 214'",
+        "Default city: 'Melbourne'",
+        "Default province: 'FL'",
+        "Default postal_code: '32934'",
+        "Default country: 'US'",
+        "All 6 fields overridable via LIVE_TEST_RECIPIENT_* env vars",
+        "defaultMessage includes ISO timestamp for uniqueness"
+      ],
+      "files": [
+        "tests/live/config.ts"
+      ],
+      "passes": true
+    }
+  ]
+}

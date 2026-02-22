@@ -1,0 +1,1103 @@
+{
+  "project": "ShortsLinker",
+  "description": "Local desktop tool that scans YouTube channels, matches Shorts to long-form videos, and bulk-inserts links into descriptions",
+  "version": "1.0",
+  "totalFeatures": 120,
+  "completedFeatures": 71,
+  "lastUpdated": "2026-02-10",
+  "prds": [
+    "PRD.md"
+  ],
+  "phases": {
+    "phase1_auth": "OAuth + Channel Connection",
+    "phase2_scan": "Channel Scanning + Indexing",
+    "phase3_classify": "Shorts Classification (Heuristic)",
+    "phase4_match": "Matching Engine",
+    "phase5_review": "Review UI",
+    "phase6_apply": "Safe Update + Batch Apply",
+    "phase7_rollback": "Logs + Rollback",
+    "phase8_packaging": "Licensing + Distribution"
+  },
+  "features": [
+    {
+      "id": "AUTH-001",
+      "name": "Google OAuth Integration",
+      "description": "User signs in with Google OAuth (local loopback) to grant read/update video metadata permissions",
+      "category": "auth",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "AUTH-002",
+      "name": "Secure Token Storage",
+      "description": "Store OAuth tokens locally using OS keychain or encrypted file",
+      "category": "auth",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "AUTH-003",
+      "name": "Multi-Channel Support",
+      "description": "Support 'switch channel' if account manages multiple channels",
+      "category": "auth",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "AUTH-004",
+      "name": "Token Persistence",
+      "description": "Tokens persist across app restarts securely",
+      "category": "auth",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-001",
+      "name": "Channel Upload Scan",
+      "description": "Pull uploads list with videoId, title, description, publish date, duration",
+      "category": "scan",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-002",
+      "name": "Existing Link Detection",
+      "description": "Detect any existing links already in video descriptions",
+      "category": "scan",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-003",
+      "name": "Incremental Scanning",
+      "description": "Full scan first time, then 'scan new since last run' option",
+      "category": "scan",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-004",
+      "name": "Scan Progress Indicator",
+      "description": "Progress bar updates during pagination with videos scanned / total",
+      "category": "scan",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-005",
+      "name": "Large Channel Support",
+      "description": "Handle 5k-50k videos with pagination + incremental indexing",
+      "category": "scan",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "CLASS-001",
+      "name": "Duration-Based Classification",
+      "description": "Classify videos ≤60 seconds as likely Shorts",
+      "category": "classification",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "CLASS-002",
+      "name": "Hashtag Detection",
+      "description": "Detect #shorts in title/description for stronger Short signal",
+      "category": "classification",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "CLASS-003",
+      "name": "Ambiguous Bucket",
+      "description": "Handle edge cases: ≤60s without #shorts, slightly >60s with Short patterns",
+      "category": "classification",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "CLASS-004",
+      "name": "Manual Override",
+      "description": "User can override classification in review UI, persists through rescans",
+      "category": "classification",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "CLASS-005",
+      "name": "Classification Summary",
+      "description": "Display stats tiles: Likely Shorts / Likely Long / Needs Review",
+      "category": "classification",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-001",
+      "name": "Title Similarity Scoring",
+      "description": "Score matches based on title similarity (0-40 points)",
+      "category": "matching",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-002",
+      "name": "Keyword Overlap Scoring",
+      "description": "Score matches based on keyword overlap from title/description (0-20 points)",
+      "category": "matching",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-003",
+      "name": "Publish Proximity Scoring",
+      "description": "Score matches based on publish date proximity (0-25 points)",
+      "category": "matching",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-004",
+      "name": "Existing Link Detection",
+      "description": "Negative score (-20) if already linked to avoid duplicates",
+      "category": "matching",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-005",
+      "name": "Confidence Threshold",
+      "description": "Configurable threshold (default 70) for auto-approve vs needs review",
+      "category": "matching",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-006",
+      "name": "Multiple Candidates",
+      "description": "Show top candidate + 2-3 alternates per Short",
+      "category": "matching",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-007",
+      "name": "Publish Window Filter",
+      "description": "Option to match only within N days (default 14)",
+      "category": "matching",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "REVIEW-001",
+      "name": "Match Review Table",
+      "description": "Table with Short title, Matched long video, Confidence, Status, Action columns",
+      "category": "review",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "REVIEW-002",
+      "name": "Bulk Approve/Reject",
+      "description": "Bulk approve all matches ≥ threshold, bulk reject selected",
+      "category": "review",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "REVIEW-003",
+      "name": "Manual Match Selection",
+      "description": "Per-row manual select of different long video from dropdown",
+      "category": "review",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "REVIEW-004",
+      "name": "Search and Filter",
+      "description": "Search by title/ID, filter by confidence, date, status",
+      "category": "review",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "REVIEW-005",
+      "name": "Export Matches CSV",
+      "description": "Export current matches to CSV for external review",
+      "category": "review",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LINK-001",
+      "name": "Short Description Link Strategy",
+      "description": "Insert long-form link into Short description via videos.update (MVP)",
+      "category": "link-strategy",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LINK-002",
+      "name": "Long Description Highlights",
+      "description": "Add Shorts 'Highlights' links into long-form descriptions (Pro)",
+      "category": "link-strategy",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LINK-003",
+      "name": "Playlist Creation",
+      "description": "Create playlist per long video and add matched Shorts (Pro)",
+      "category": "link-strategy",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LINK-004",
+      "name": "Template Editor",
+      "description": "Customizable link template with variables: {LONG_URL}, {LONG_TITLE}",
+      "category": "link-strategy",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-001",
+      "name": "Safe Update Algorithm",
+      "description": "Fetch existing snippet, modify only description, include required fields in update",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-002",
+      "name": "Required Fields Handling",
+      "description": "Include id, snippet.title, snippet.categoryId in update request",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-003",
+      "name": "Batch Processing",
+      "description": "Apply changes in batches of N (default 10-25)",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-004",
+      "name": "Retry with Backoff",
+      "description": "Retry transient failures with exponential backoff",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-005",
+      "name": "Quota Handling",
+      "description": "Pause on 'forbidden' or quota exhaustion, show warning",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-006",
+      "name": "Progress Tracking",
+      "description": "Show progress + success/fail counters + per-item log",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-007",
+      "name": "Pause/Resume",
+      "description": "User can pause and resume batch apply job",
+      "category": "apply",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "APPLY-008",
+      "name": "Preview Before Apply",
+      "description": "Show before → after for 5 random videos before applying",
+      "category": "apply",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LOG-001",
+      "name": "Before/After Logging",
+      "description": "Log before_description and after_description for each change",
+      "category": "logging",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LOG-002",
+      "name": "Export Report CSV",
+      "description": "Export shortId, longId, confidence, action taken, timestamp",
+      "category": "logging",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LOG-003",
+      "name": "Rollback JSON Export",
+      "description": "Export videoId → original description + metadata for revert",
+      "category": "logging",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LOG-004",
+      "name": "Rollback Execution",
+      "description": "One-click revert using rollback file to restore descriptions",
+      "category": "logging",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DB-001",
+      "name": "Videos Table",
+      "description": "Store video_id, title, description, published_at, duration_seconds, inferred_type",
+      "category": "database",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DB-002",
+      "name": "Matches Table",
+      "description": "Store short_id, long_id, confidence, status, reason_json",
+      "category": "database",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DB-003",
+      "name": "Jobs Table",
+      "description": "Store job_id, type, status, started_at, ended_at, counters_json",
+      "category": "database",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DB-004",
+      "name": "Change Log Table",
+      "description": "Store change_id, video_id, before/after description, result, error_json",
+      "category": "database",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-001",
+      "name": "Wizard Flow",
+      "description": "11-screen wizard: Welcome → Connect → Scan → Classify → Match → Review → Strategy → Preview → Apply → Done",
+      "category": "ui",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-002",
+      "name": "Desktop App Shell",
+      "description": "Electron or Tauri app with React + TypeScript + TailwindCSS",
+      "category": "ui",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-003",
+      "name": "Diff Viewer",
+      "description": "Before → after description diff viewer component",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LICENSE-001",
+      "name": "License Key Validation",
+      "description": "License key entry + local-first validation",
+      "category": "licensing",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LICENSE-002",
+      "name": "Trial Mode",
+      "description": "Trial mode works without activation with limited features",
+      "category": "licensing",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "LICENSE-003",
+      "name": "Auto Updates",
+      "description": "App auto-updates check and install (optional)",
+      "category": "licensing",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-001",
+      "name": "Link Performance Dashboard",
+      "description": "Dashboard showing click-through rates from Shorts to linked long-form videos",
+      "category": "analytics",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-002",
+      "name": "Channel Growth Metrics",
+      "description": "Track subscriber growth and view count changes after linking",
+      "category": "analytics",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-003",
+      "name": "Revenue Impact Tracking",
+      "description": "Estimate ad revenue impact of redirecting Short viewers to long-form content",
+      "category": "analytics",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-004",
+      "name": "Export Analytics CSV",
+      "description": "Export analytics data as CSV for external analysis",
+      "category": "analytics",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ANALYTICS-005",
+      "name": "Weekly Email Summary",
+      "description": "Automated weekly email with linking stats and recommendations",
+      "category": "analytics",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-EXT-001",
+      "name": "AI Transcript Matching",
+      "description": "Use AI to compare Short and long-form transcripts for semantic matching",
+      "category": "matching",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-EXT-002",
+      "name": "Thumbnail Visual Similarity",
+      "description": "Compare thumbnails using image embeddings to suggest matches",
+      "category": "matching",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-EXT-003",
+      "name": "Tag-Based Matching",
+      "description": "Match Shorts to long-form videos based on shared tags and keywords",
+      "category": "matching",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-EXT-004",
+      "name": "Match Confidence Score",
+      "description": "Display confidence percentage for each suggested match",
+      "category": "matching",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-EXT-005",
+      "name": "Manual Match Override",
+      "description": "Allow user to manually link any Short to any long-form video",
+      "category": "matching",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MATCH-EXT-006",
+      "name": "Batch Match Approval",
+      "description": "Select multiple suggested matches and approve them in one action",
+      "category": "matching",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-EXT-001",
+      "name": "Incremental Channel Scan",
+      "description": "Only scan new videos since last scan instead of full channel rescan",
+      "category": "scanning",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-EXT-002",
+      "name": "Multi-Channel Support",
+      "description": "Manage and scan multiple YouTube channels from one account",
+      "category": "scanning",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-EXT-003",
+      "name": "Scheduled Auto-Scan",
+      "description": "Configure automatic scans on a daily/weekly schedule",
+      "category": "scanning",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-EXT-004",
+      "name": "Scan Progress Indicator",
+      "description": "Real-time progress bar showing scan status with video count",
+      "category": "scanning",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SCAN-EXT-005",
+      "name": "Playlist-Based Scanning",
+      "description": "Scan specific playlists instead of entire channel",
+      "category": "scanning",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-001",
+      "name": "Video Preview Thumbnails",
+      "description": "Show video thumbnails in match review UI for visual identification",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-002",
+      "name": "Drag-Drop Match Reordering",
+      "description": "Reorder match priority via drag-and-drop in review list",
+      "category": "ui",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-003",
+      "name": "Filter by Match Status",
+      "description": "Filter Shorts by linked, unlinked, pending review status",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-004",
+      "name": "Search Videos by Title",
+      "description": "Search and filter videos by title or description keywords",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-005",
+      "name": "Video Stats Display",
+      "description": "Show view count, likes, and publish date for each video in UI",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-006",
+      "name": "Bulk Select All Unlinked",
+      "description": "One-click select all unlinked Shorts for batch operations",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-007",
+      "name": "Settings Preferences Panel",
+      "description": "User preferences for default matching algorithm, scan interval, theme",
+      "category": "ui",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "UI-EXT-008",
+      "name": "System Tray Integration",
+      "description": "Minimize to system tray with notification badge for completed scans",
+      "category": "ui",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SAFE-EXT-001",
+      "name": "Dry Run Preview",
+      "description": "Preview all description changes before applying without modifying YouTube",
+      "category": "safety",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SAFE-EXT-002",
+      "name": "Rate Limit Respect",
+      "description": "Automatically respect YouTube API rate limits with exponential backoff",
+      "category": "safety",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SAFE-EXT-003",
+      "name": "Description Backup Before Edit",
+      "description": "Store full original description locally before any modification",
+      "category": "safety",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SAFE-EXT-004",
+      "name": "Undo Last Batch",
+      "description": "One-click undo to revert the most recent batch of description updates",
+      "category": "safety",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SAFE-EXT-005",
+      "name": "Conflict Detection",
+      "description": "Detect if a video description was modified externally since last scan",
+      "category": "safety",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEMPLATE-001",
+      "name": "Link Placement Templates",
+      "description": "Configurable templates for where/how links are inserted in descriptions",
+      "category": "templates",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEMPLATE-002",
+      "name": "Custom Call-to-Action Text",
+      "description": "Customizable CTA text around inserted links (e.g., 'Watch full video:')",
+      "category": "templates",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEMPLATE-003",
+      "name": "Timestamp Deep Links",
+      "description": "Link to specific timestamps in long-form videos matching Short content",
+      "category": "templates",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEMPLATE-004",
+      "name": "Multi-Link Support",
+      "description": "Insert multiple related long-form video links per Short",
+      "category": "templates",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PERF-001",
+      "name": "Local SQLite Database",
+      "description": "Store all video metadata and match history in local SQLite database",
+      "category": "performance",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PERF-002",
+      "name": "Caching Layer for API Calls",
+      "description": "Cache YouTube API responses to minimize quota usage",
+      "category": "performance",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PERF-003",
+      "name": "Background Processing",
+      "description": "Run scans and batch updates in background threads without freezing UI",
+      "category": "performance",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "PERF-004",
+      "name": "Pagination for Large Channels",
+      "description": "Handle channels with 1000+ videos using pagination",
+      "category": "performance",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EXPORT-001",
+      "name": "Export Match Report",
+      "description": "Export complete match report as PDF or HTML",
+      "category": "export",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EXPORT-002",
+      "name": "Export Video Inventory",
+      "description": "Export full video inventory (Shorts + long-form) as CSV",
+      "category": "export",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "EXPORT-003",
+      "name": "Import Previous Matches",
+      "description": "Import match data from CSV to restore or migrate between machines",
+      "category": "export",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-001",
+      "name": "Desktop Notifications",
+      "description": "Native OS notifications for scan completion and new unlinked Shorts",
+      "category": "notifications",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-002",
+      "name": "New Upload Detection Alert",
+      "description": "Alert when new Shorts are detected that need linking",
+      "category": "notifications",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "NOTIFY-003",
+      "name": "Error Alert System",
+      "description": "Alert on API errors, quota exhaustion, or failed updates",
+      "category": "notifications",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEST-001",
+      "name": "Unit Tests for Matching Engine",
+      "description": "Comprehensive unit tests for all matching algorithms",
+      "category": "testing",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEST-002",
+      "name": "Integration Tests for YouTube API",
+      "description": "Mocked integration tests for YouTube Data API v3 calls",
+      "category": "testing",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEST-003",
+      "name": "E2E Test Suite",
+      "description": "End-to-end tests covering full scan → match → apply workflow",
+      "category": "testing",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "TEST-004",
+      "name": "Rollback Verification Tests",
+      "description": "Tests verifying rollback correctly restores original descriptions",
+      "category": "testing",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MULTI-001",
+      "name": "Multi-Language Description Support",
+      "description": "Handle video descriptions in multiple languages when inserting links",
+      "category": "i18n",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "MULTI-002",
+      "name": "RTL Language Support",
+      "description": "Proper link insertion for right-to-left language descriptions",
+      "category": "i18n",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SEC-001",
+      "name": "Encrypted Token Storage",
+      "description": "Store OAuth tokens encrypted at rest using OS keychain",
+      "category": "security",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SEC-002",
+      "name": "Token Refresh Flow",
+      "description": "Automatic token refresh without requiring re-authentication",
+      "category": "security",
+      "priority": "P0",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "SEC-003",
+      "name": "Audit Log",
+      "description": "Local audit log of all description modifications with timestamps",
+      "category": "security",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "QUOTA-001",
+      "name": "YouTube API Quota Tracker",
+      "description": "Real-time display of YouTube API quota usage and remaining budget",
+      "category": "quota",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "QUOTA-002",
+      "name": "Quota-Aware Batch Sizing",
+      "description": "Automatically adjust batch size based on remaining API quota",
+      "category": "quota",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "QUOTA-003",
+      "name": "Quota Reset Countdown",
+      "description": "Display countdown to next quota reset with queue management",
+      "category": "quota",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "BUILD-001",
+      "name": "Cross-Platform Build",
+      "description": "Build installers for Windows, macOS, and Linux",
+      "category": "build",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "BUILD-002",
+      "name": "Code Signing",
+      "description": "Sign app binaries for macOS and Windows to avoid security warnings",
+      "category": "build",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "BUILD-003",
+      "name": "CI/CD Pipeline",
+      "description": "GitHub Actions pipeline for automated builds and releases",
+      "category": "build",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DOC-001",
+      "name": "User Guide",
+      "description": "In-app user guide with step-by-step linking workflow",
+      "category": "documentation",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DOC-002",
+      "name": "FAQ and Troubleshooting",
+      "description": "Built-in FAQ covering common issues like quota limits and auth errors",
+      "category": "documentation",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "DOC-003",
+      "name": "API Documentation",
+      "description": "Developer documentation for extending matching algorithms",
+      "category": "documentation",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "A11Y-001",
+      "name": "Keyboard Navigation",
+      "description": "Full keyboard navigation support for all UI actions",
+      "category": "accessibility",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "A11Y-002",
+      "name": "Screen Reader Support",
+      "description": "ARIA labels and screen reader compatible UI components",
+      "category": "accessibility",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "A11Y-003",
+      "name": "High Contrast Mode",
+      "description": "High contrast theme option for visually impaired users",
+      "category": "accessibility",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ONBOARD-001",
+      "name": "First-Run Wizard",
+      "description": "Step-by-step setup wizard on first launch covering OAuth and channel selection",
+      "category": "onboarding",
+      "priority": "P1",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ONBOARD-002",
+      "name": "Sample Data Mode",
+      "description": "Demo mode with sample data for exploring features before connecting YouTube",
+      "category": "onboarding",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ONBOARD-003",
+      "name": "Tooltip Guided Tour",
+      "description": "Interactive tooltip tour highlighting key features on first use",
+      "category": "onboarding",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    },
+    {
+      "id": "ONBOARD-004",
+      "name": "Video Tutorial Library",
+      "description": "Embedded video tutorials for key workflows like scanning and batch linking",
+      "category": "onboarding",
+      "priority": "P2",
+      "prd": "PRD.md",
+      "passes": true
+    }
+  ]
+}

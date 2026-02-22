@@ -1,0 +1,2131 @@
+{
+  "version": "2.0",
+  "metadata": {
+    "project": "YouTube Quiz Generator",
+    "framework": "React Native + Expo",
+    "generated_at": "2026-02-18",
+    "total_features": 149,
+    "categories": [
+      "setup",
+      "database",
+      "auth",
+      "types",
+      "services",
+      "state",
+      "ui",
+      "payments",
+      "offline",
+      "gamification",
+      "sharing",
+      "quality",
+      "testing"
+    ]
+  },
+  "features": [
+    {
+      "id": "SETUP-001",
+      "category": "setup",
+      "priority": 1,
+      "description": "Install @supabase/supabase-js client library and configure initialization in lib/supabase.ts",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "@supabase/supabase-js is listed in package.json dependencies",
+        "lib/supabase.ts exports a configured Supabase client instance",
+        "Supabase client connects using environment variables for URL and anon key"
+      ]
+    },
+    {
+      "id": "SETUP-002",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create .env.example with all required environment variables for Supabase, OpenAI, Stripe, RevenueCat, and PostHog",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        ".env.example exists at project root",
+        "Contains EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY",
+        "Contains OPENAI_API_KEY or CLAUDE_API_KEY",
+        "Contains STRIPE_PUBLISHABLE_KEY and REVENUECAT_API_KEY",
+        "Contains EXPO_PUBLIC_POSTHOG_KEY",
+        "All values are placeholder strings, no real secrets committed"
+      ]
+    },
+    {
+      "id": "SETUP-003",
+      "category": "setup",
+      "priority": 1,
+      "description": "Install Jest and React Native Testing Library as dev dependencies",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "jest is listed in devDependencies",
+        "@testing-library/react-native is listed in devDependencies",
+        "@testing-library/jest-native is listed in devDependencies",
+        "jest-expo is listed in devDependencies"
+      ]
+    },
+    {
+      "id": "SETUP-004",
+      "category": "setup",
+      "priority": 1,
+      "description": "Configure Jest with jest.config.js or jest field in package.json for React Native + Expo",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Jest config uses jest-expo preset",
+        "Transform includes TypeScript and TSX files",
+        "Module name mapper resolves @/ path alias",
+        "Running 'npx jest' does not crash with config errors"
+      ]
+    },
+    {
+      "id": "SETUP-005",
+      "category": "setup",
+      "priority": 1,
+      "description": "Add test and test:coverage scripts to package.json",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "package.json contains a 'test' script that runs jest",
+        "package.json contains a 'test:coverage' script that runs jest --coverage"
+      ]
+    },
+    {
+      "id": "SETUP-006",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create project directory structure: services/, types/, hooks/, utils/, constants/, __tests__/",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "services/ directory exists at project root",
+        "types/ directory exists at project root",
+        "hooks/ directory exists at project root",
+        "utils/ directory exists at project root",
+        "constants/ directory exists at project root",
+        "__tests__/ directory exists at project root"
+      ]
+    },
+    {
+      "id": "SETUP-007",
+      "category": "setup",
+      "priority": 1,
+      "description": "Install expo-secure-store for secure token storage on device",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "expo-secure-store is listed in package.json dependencies",
+        "Package installs without errors"
+      ]
+    },
+    {
+      "id": "SETUP-008",
+      "category": "setup",
+      "priority": 1,
+      "description": "Configure Babel for test environment with module resolver for @/ alias",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "babel.config.js includes module-resolver plugin with @/ alias mapping",
+        "Tests can import from @/ paths without resolution errors"
+      ]
+    },
+    {
+      "id": "SETUP-009",
+      "category": "setup",
+      "priority": 1,
+      "description": "Install zustand persist middleware dependencies for state persistence",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "zustand is already installed (verified in package.json)",
+        "Zustand persist middleware can be imported and used with AsyncStorage"
+      ]
+    },
+    {
+      "id": "SETUP-010",
+      "category": "setup",
+      "priority": 1,
+      "description": "Install react-native-url-polyfill for Supabase compatibility in React Native",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "react-native-url-polyfill is listed in package.json dependencies",
+        "Polyfill is imported at app entry point before Supabase client initialization"
+      ]
+    },
+    {
+      "id": "SETUP-011",
+      "category": "setup",
+      "priority": 1,
+      "description": "Add .env to .gitignore to prevent secret leakage",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        ".gitignore contains .env entry",
+        ".gitignore contains .env.local entry",
+        ".env file is not tracked by git"
+      ]
+    },
+    {
+      "id": "SETUP-012",
+      "category": "setup",
+      "priority": 1,
+      "description": "Install posthog-react-native for analytics tracking",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "posthog-react-native is listed in package.json dependencies",
+        "Package installs without errors"
+      ]
+    },
+    {
+      "id": "SETUP-013",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create lib/ directory and add skeleton files for supabase.ts, openai.ts, posthog.ts",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "lib/ directory exists",
+        "lib/supabase.ts exists with Supabase client setup skeleton",
+        "lib/openai.ts exists with OpenAI client setup skeleton",
+        "lib/posthog.ts exists with PostHog client setup skeleton"
+      ]
+    },
+    {
+      "id": "SETUP-014",
+      "category": "setup",
+      "priority": 1,
+      "description": "Create constants/config.ts with app-wide configuration constants (API URLs, tier limits, feature flags)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "constants/config.ts exports FREE_TIER_QUIZ_LIMIT as number",
+        "constants/config.ts exports TRIAL_DURATION_DAYS as number",
+        "constants/config.ts exports MAX_QUESTIONS_PER_QUIZ as number",
+        "constants/config.ts exports SUPPORTED_DIFFICULTIES array"
+      ]
+    },
+    {
+      "id": "DB-001",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for profiles table extending auth.users (id, username, display_name, avatar_url, role, xp, level, streak_count, created_at, updated_at)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Migration file exists in supabase/migrations/",
+        "profiles table has id column referencing auth.users(id)",
+        "profiles table has username, display_name, avatar_url, role, xp, level, streak_count columns",
+        "profiles table has created_at and updated_at timestamp columns with defaults",
+        "Migration runs without errors on a fresh Supabase instance"
+      ]
+    },
+    {
+      "id": "DB-002",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for quizzes table (id, user_id, title, video_url, video_id, thumbnail_url, transcript, difficulty, question_count, created_at, updated_at)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "quizzes table has UUID primary key with default gen_random_uuid()",
+        "quizzes table has user_id foreign key referencing profiles(id)",
+        "quizzes table has title (text, not null), video_url (text, not null), video_id (text), thumbnail_url (text)",
+        "quizzes table has transcript (text), difficulty (text), question_count (integer)",
+        "quizzes table has created_at and updated_at timestamps with defaults"
+      ]
+    },
+    {
+      "id": "DB-003",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for questions table (id, quiz_id, type, text, options, correct_answer, explanation, order_index)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "questions table has UUID primary key",
+        "questions table has quiz_id foreign key referencing quizzes(id) with ON DELETE CASCADE",
+        "questions table has type (text, not null), text (text, not null)",
+        "questions table has options (jsonb), correct_answer (text, not null), explanation (text)",
+        "questions table has order_index (integer, not null)"
+      ]
+    },
+    {
+      "id": "DB-004",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for user_progress table (id, user_id, quiz_id, score, total_questions, accuracy, time_spent_seconds, xp_earned, completed_at)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "user_progress table has UUID primary key",
+        "user_progress table has user_id foreign key referencing profiles(id)",
+        "user_progress table has quiz_id foreign key referencing quizzes(id)",
+        "user_progress table has score (integer), total_questions (integer), accuracy (numeric)",
+        "user_progress table has time_spent_seconds (integer), xp_earned (integer), completed_at (timestamptz)"
+      ]
+    },
+    {
+      "id": "DB-005",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for learning_paths table (id, title, description, difficulty, estimated_hours, thumbnail_url, is_premium, created_at)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "learning_paths table has UUID primary key",
+        "learning_paths table has title (text, not null), description (text)",
+        "learning_paths table has difficulty (text), estimated_hours (numeric), thumbnail_url (text)",
+        "learning_paths table has is_premium (boolean, default false), created_at (timestamptz)"
+      ]
+    },
+    {
+      "id": "DB-006",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for learning_path_quizzes junction table (id, path_id, quiz_id, order_index)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "learning_path_quizzes table has UUID primary key",
+        "learning_path_quizzes table has path_id foreign key referencing learning_paths(id) ON DELETE CASCADE",
+        "learning_path_quizzes table has quiz_id foreign key referencing quizzes(id) ON DELETE CASCADE",
+        "learning_path_quizzes table has order_index (integer, not null)",
+        "Unique constraint on (path_id, quiz_id) prevents duplicate entries"
+      ]
+    },
+    {
+      "id": "DB-007",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for achievements table (id, key, title, description, icon, xp_reward, criteria_type, criteria_value)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "achievements table has UUID primary key",
+        "achievements table has key (text, unique, not null) for programmatic lookup",
+        "achievements table has title (text, not null), description (text), icon (text)",
+        "achievements table has xp_reward (integer, default 0), criteria_type (text), criteria_value (integer)"
+      ]
+    },
+    {
+      "id": "DB-008",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for user_achievements table (id, user_id, achievement_id, unlocked_at)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "user_achievements table has UUID primary key",
+        "user_achievements table has user_id foreign key referencing profiles(id)",
+        "user_achievements table has achievement_id foreign key referencing achievements(id)",
+        "user_achievements table has unlocked_at (timestamptz, default now())",
+        "Unique constraint on (user_id, achievement_id) prevents duplicate unlocks"
+      ]
+    },
+    {
+      "id": "DB-009",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for leaderboard_entries table (id, user_id, period, score, rank, calculated_at)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "leaderboard_entries table has UUID primary key",
+        "leaderboard_entries table has user_id foreign key referencing profiles(id)",
+        "leaderboard_entries table has period (text, not null) for weekly/monthly/all-time",
+        "leaderboard_entries table has score (integer, not null), rank (integer)",
+        "leaderboard_entries table has calculated_at (timestamptz, default now())"
+      ]
+    },
+    {
+      "id": "DB-010",
+      "category": "database",
+      "priority": 1,
+      "description": "Create Supabase SQL migration for user_subscriptions table (id, user_id, tier, stripe_customer_id, revenuecat_id, started_at, expires_at, is_active)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "user_subscriptions table has UUID primary key",
+        "user_subscriptions table has user_id foreign key referencing profiles(id)",
+        "user_subscriptions table has tier (text, not null, default 'free')",
+        "user_subscriptions table has stripe_customer_id (text), revenuecat_id (text)",
+        "user_subscriptions table has started_at, expires_at (timestamptz), is_active (boolean, default true)"
+      ]
+    },
+    {
+      "id": "DB-011",
+      "category": "database",
+      "priority": 1,
+      "description": "Set up Row Level Security (RLS) policies for profiles table: users can only read/update their own profile",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "RLS is enabled on profiles table",
+        "SELECT policy allows users to read their own profile (auth.uid() = id)",
+        "UPDATE policy allows users to update their own profile (auth.uid() = id)",
+        "INSERT policy allows users to insert their own profile on signup",
+        "Anonymous users cannot read or modify any profiles"
+      ]
+    },
+    {
+      "id": "DB-012",
+      "category": "database",
+      "priority": 1,
+      "description": "Set up RLS policies for quizzes table: users can CRUD their own quizzes, read public quizzes",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "RLS is enabled on quizzes table",
+        "SELECT policy allows users to read their own quizzes",
+        "INSERT policy allows authenticated users to create quizzes with their user_id",
+        "UPDATE policy allows users to update only their own quizzes",
+        "DELETE policy allows users to delete only their own quizzes"
+      ]
+    },
+    {
+      "id": "DB-013",
+      "category": "database",
+      "priority": 1,
+      "description": "Set up RLS policies for questions, user_progress, user_achievements, and user_subscriptions tables",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "RLS is enabled on all four tables",
+        "Users can read questions for quizzes they own or have access to",
+        "Users can read/write only their own user_progress records",
+        "Users can read only their own user_achievements records",
+        "Users can read only their own user_subscriptions records"
+      ]
+    },
+    {
+      "id": "DB-014",
+      "category": "database",
+      "priority": 1,
+      "description": "Create database indexes for frequently queried columns (user_id on quizzes, quiz_id on questions, user_id on user_progress)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Index exists on quizzes(user_id)",
+        "Index exists on questions(quiz_id)",
+        "Index exists on user_progress(user_id)",
+        "Index exists on user_progress(quiz_id)",
+        "Index exists on leaderboard_entries(period, score DESC)"
+      ]
+    },
+    {
+      "id": "DB-015",
+      "category": "database",
+      "priority": 1,
+      "description": "Create database trigger to auto-create a profile row when a new auth.users row is inserted",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "A trigger function handle_new_user() exists",
+        "Trigger fires AFTER INSERT on auth.users",
+        "New profile row is created with id matching auth.users.id",
+        "Default values are set for xp (0), level (1), streak_count (0)"
+      ]
+    },
+    {
+      "id": "DB-016",
+      "category": "database",
+      "priority": 1,
+      "description": "Create database function to calculate and update user XP and level after quiz completion",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Function calculate_xp(score, total_questions, difficulty) returns integer XP value",
+        "Function update_user_level(user_id) updates the level column based on total XP",
+        "XP formula accounts for difficulty multiplier and accuracy bonus"
+      ]
+    },
+    {
+      "id": "DB-017",
+      "category": "database",
+      "priority": 1,
+      "description": "Create database trigger to update updated_at timestamp on quizzes and profiles when rows are modified",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Trigger function set_updated_at() exists",
+        "Trigger fires BEFORE UPDATE on quizzes table",
+        "Trigger fires BEFORE UPDATE on profiles table",
+        "updated_at column is set to now() on every update"
+      ]
+    },
+    {
+      "id": "DB-018",
+      "category": "database",
+      "priority": 1,
+      "description": "Seed achievements table with initial achievement definitions (first_quiz, quick_learner, knowledge_seeker, perfect_score, streak_master, path_pioneer)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Seed script or migration inserts at least 6 achievement rows",
+        "Each achievement has a unique key, title, description, and xp_reward",
+        "criteria_type and criteria_value are set for each achievement"
+      ]
+    },
+    {
+      "id": "AUTH-001",
+      "category": "auth",
+      "priority": 1,
+      "description": "Create lib/supabase.ts with initialized Supabase client using expo-secure-store for session persistence",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "lib/supabase.ts exports a createClient instance",
+        "Custom storage adapter uses expo-secure-store for getItem/setItem/removeItem",
+        "Supabase URL and anon key are read from environment variables",
+        "Client auto-refreshes tokens on app foreground"
+      ]
+    },
+    {
+      "id": "AUTH-002",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement email/password sign up with Supabase auth.signUp()",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "signUp function accepts email and password parameters",
+        "On success, returns the created user object",
+        "On failure, returns a descriptive error message",
+        "Profile row is auto-created via database trigger"
+      ]
+    },
+    {
+      "id": "AUTH-003",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement email/password sign in with Supabase auth.signInWithPassword()",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "signIn function accepts email and password parameters",
+        "On success, session is stored securely and user state is updated",
+        "On failure, returns a descriptive error message (invalid credentials, email not confirmed)",
+        "Session tokens are persisted in expo-secure-store"
+      ]
+    },
+    {
+      "id": "AUTH-004",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement Google OAuth sign in using Supabase auth.signInWithOAuth() with expo-web-browser",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Google sign-in opens a web browser for OAuth flow",
+        "On successful auth, user is redirected back to the app",
+        "Session is stored and user state is updated",
+        "Google provider is configured in Supabase dashboard"
+      ]
+    },
+    {
+      "id": "AUTH-005",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement Apple sign in using Supabase auth.signInWithOAuth() for iOS",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Apple sign-in is available on iOS devices",
+        "Uses native Apple authentication where available",
+        "On successful auth, session is stored and user state is updated",
+        "Apple provider is configured in Supabase dashboard"
+      ]
+    },
+    {
+      "id": "AUTH-006",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement password reset flow with Supabase auth.resetPasswordForEmail()",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "resetPassword function accepts an email parameter",
+        "Supabase sends a password reset email to the user",
+        "Success and error states are communicated to the UI",
+        "Deep link handles the password reset callback"
+      ]
+    },
+    {
+      "id": "AUTH-007",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement email verification status check and resend verification email",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "App checks if user email is confirmed on sign in",
+        "If not confirmed, shows a verification prompt",
+        "resendVerification function triggers a new verification email",
+        "UI updates when email is successfully verified"
+      ]
+    },
+    {
+      "id": "AUTH-008",
+      "category": "auth",
+      "priority": 1,
+      "description": "Create auth state management store using Zustand replacing mock AuthProvider",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Zustand store exports useAuthStore hook",
+        "Store holds user, session, isLoading, and isAuthenticated state",
+        "Store provides signIn, signUp, signOut, resetPassword actions",
+        "Store subscribes to Supabase onAuthStateChange events",
+        "Old mock AuthProvider is fully replaced"
+      ]
+    },
+    {
+      "id": "AUTH-009",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement protected route middleware that redirects unauthenticated users to sign-in screen",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Unauthenticated users are redirected to a login/onboarding screen",
+        "Authenticated users can access all tab screens",
+        "Auth state is checked on app launch before rendering protected routes",
+        "Loading spinner shown while auth state is being determined"
+      ]
+    },
+    {
+      "id": "AUTH-010",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement automatic session refresh when access token expires",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Supabase client auto-refreshes tokens using stored refresh token",
+        "On token refresh failure, user is signed out gracefully",
+        "Session refresh happens in background without UI interruption"
+      ]
+    },
+    {
+      "id": "AUTH-011",
+      "category": "auth",
+      "priority": 1,
+      "description": "Implement sign out functionality that clears session and navigates to auth screen",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "signOut calls supabase.auth.signOut()",
+        "Session tokens are removed from expo-secure-store",
+        "All local cached data related to user is cleared",
+        "User is navigated to login/onboarding screen"
+      ]
+    },
+    {
+      "id": "AUTH-012",
+      "category": "auth",
+      "priority": 1,
+      "description": "Handle auth errors gracefully with user-friendly error messages for all auth flows",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Invalid email format shows 'Please enter a valid email address'",
+        "Wrong password shows 'Invalid email or password'",
+        "Email already registered shows 'An account with this email already exists'",
+        "Network error shows 'Unable to connect. Please check your internet connection'",
+        "Rate limit error shows appropriate message"
+      ]
+    },
+    {
+      "id": "AUTH-013",
+      "category": "auth",
+      "priority": 1,
+      "description": "Create sign-in and sign-up UI screens with email/password and social login buttons",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Sign-in screen has email input, password input, and submit button",
+        "Sign-in screen has 'Sign in with Google' and 'Sign in with Apple' buttons",
+        "Sign-up screen has email, password, confirm password inputs",
+        "Both screens have navigation links to switch between sign-in and sign-up",
+        "Form validation runs before submission"
+      ]
+    },
+    {
+      "id": "TYPE-001",
+      "category": "types",
+      "priority": 1,
+      "description": "Define Quiz TypeScript interface in types/quiz.ts matching the Supabase quizzes table schema",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Quiz interface has id: string, userId: string, title: string",
+        "Quiz interface has videoUrl: string, videoId: string, thumbnailUrl: string | null",
+        "Quiz interface has transcript: string | null, difficulty: Difficulty",
+        "Quiz interface has questionCount: number, createdAt: string, updatedAt: string",
+        "Interface is exported from types/quiz.ts"
+      ]
+    },
+    {
+      "id": "TYPE-002",
+      "category": "types",
+      "priority": 1,
+      "description": "Define Question TypeScript interface in types/question.ts matching the questions table schema",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Question interface has id: string, quizId: string, type: QuestionType",
+        "Question interface has text: string, options: string[] | null, correctAnswer: string",
+        "Question interface has explanation: string | null, orderIndex: number",
+        "Interface is exported from types/question.ts"
+      ]
+    },
+    {
+      "id": "TYPE-003",
+      "category": "types",
+      "priority": 1,
+      "description": "Define User/Profile TypeScript interface in types/user.ts matching the profiles table schema",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Profile interface has id: string, username: string | null, displayName: string | null",
+        "Profile interface has avatarUrl: string | null, role: string | null",
+        "Profile interface has xp: number, level: number, streakCount: number",
+        "Profile interface has createdAt: string, updatedAt: string"
+      ]
+    },
+    {
+      "id": "TYPE-004",
+      "category": "types",
+      "priority": 1,
+      "description": "Define UserProgress TypeScript interface in types/progress.ts matching the user_progress table",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "UserProgress interface has id: string, userId: string, quizId: string",
+        "UserProgress interface has score: number, totalQuestions: number, accuracy: number",
+        "UserProgress interface has timeSpentSeconds: number, xpEarned: number, completedAt: string"
+      ]
+    },
+    {
+      "id": "TYPE-005",
+      "category": "types",
+      "priority": 1,
+      "description": "Define LearningPath TypeScript interface in types/learning-path.ts",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "LearningPath interface has id: string, title: string, description: string | null",
+        "LearningPath interface has difficulty: string, estimatedHours: number, thumbnailUrl: string | null",
+        "LearningPath interface has isPremium: boolean, createdAt: string",
+        "LearningPathQuiz interface has id: string, pathId: string, quizId: string, orderIndex: number"
+      ]
+    },
+    {
+      "id": "TYPE-006",
+      "category": "types",
+      "priority": 1,
+      "description": "Define Achievement and UserAchievement TypeScript interfaces in types/achievement.ts",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Achievement interface has id: string, key: string, title: string, description: string",
+        "Achievement interface has icon: string, xpReward: number, criteriaType: string, criteriaValue: number",
+        "UserAchievement interface has id: string, userId: string, achievementId: string, unlockedAt: string"
+      ]
+    },
+    {
+      "id": "TYPE-007",
+      "category": "types",
+      "priority": 1,
+      "description": "Define API response wrapper types in types/api.ts for consistent error handling",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "ApiResponse<T> generic type has data: T | null, error: string | null, status: number",
+        "PaginatedResponse<T> extends ApiResponse with page: number, pageSize: number, total: number",
+        "Types are exported from types/api.ts"
+      ]
+    },
+    {
+      "id": "TYPE-008",
+      "category": "types",
+      "priority": 1,
+      "description": "Define navigation parameter types in types/navigation.ts for type-safe routing",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "RootStackParamList defines all route names and their params",
+        "QuizParams has id: string",
+        "ResultsParams has id: string",
+        "GenerateParams is defined (may be empty object)"
+      ]
+    },
+    {
+      "id": "TYPE-009",
+      "category": "types",
+      "priority": 1,
+      "description": "Create shared enum types in types/enums.ts (QuestionType, Difficulty, SubscriptionTier, AchievementCriteria)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "QuestionType enum has MULTIPLE_CHOICE, TRUE_FALSE, SHORT_ANSWER values",
+        "Difficulty enum has EASY, MEDIUM, HARD values",
+        "SubscriptionTier enum has FREE, TRIAL, PRO values",
+        "All enums are exported from types/enums.ts"
+      ]
+    },
+    {
+      "id": "TYPE-010",
+      "category": "types",
+      "priority": 1,
+      "description": "Create types/index.ts barrel file that re-exports all types for convenient imports",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "types/index.ts re-exports all interfaces from quiz.ts, question.ts, user.ts, progress.ts",
+        "types/index.ts re-exports all interfaces from learning-path.ts, achievement.ts, api.ts",
+        "types/index.ts re-exports all enums from enums.ts",
+        "Consumers can import any type from '@/types'"
+      ]
+    },
+    {
+      "id": "SVC-001",
+      "category": "services",
+      "priority": 1,
+      "description": "Create YouTube service in services/youtube.ts that extracts video ID from URL and fetches transcript via API",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "extractVideoId() parses youtube.com/watch?v=, youtu.be/, and youtube.com/embed/ URL formats",
+        "extractVideoId() returns null for invalid URLs",
+        "fetchTranscript(videoId) calls a transcript API and returns the transcript text",
+        "fetchTranscript handles errors (no captions available, video not found) gracefully",
+        "getVideoMetadata(videoId) returns title and thumbnail URL"
+      ]
+    },
+    {
+      "id": "SVC-002",
+      "category": "services",
+      "priority": 1,
+      "description": "Create AI quiz generation service in services/ai-quiz.ts that sends transcript to OpenAI/Claude and returns structured questions",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "generateQuestions(transcript, count, difficulty) returns an array of Question objects",
+        "Prompt instructs AI to generate questions in JSON format with type, text, options, correctAnswer, explanation",
+        "Service handles API rate limits and token limits gracefully",
+        "Service validates AI response structure before returning",
+        "Supports multiple-choice, true-false, and short-answer question types"
+      ]
+    },
+    {
+      "id": "SVC-003",
+      "category": "services",
+      "priority": 1,
+      "description": "Create quiz CRUD service in services/quiz.ts using Supabase client for all quiz database operations",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "createQuiz(data) inserts a quiz row and returns the created quiz",
+        "getQuizById(id) fetches a quiz with its questions",
+        "getUserQuizzes(userId) fetches all quizzes for a user ordered by createdAt desc",
+        "updateQuiz(id, data) updates a quiz row",
+        "deleteQuiz(id) deletes a quiz and cascading questions",
+        "All functions handle Supabase errors and return typed responses"
+      ]
+    },
+    {
+      "id": "SVC-004",
+      "category": "services",
+      "priority": 2,
+      "description": "Create user progress service in services/progress.ts for recording and querying quiz results",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "saveQuizResult(data) inserts a user_progress row and updates user XP",
+        "getUserProgress(userId) returns all progress records for a user",
+        "getQuizProgress(userId, quizId) returns progress for a specific quiz",
+        "getUserStats(userId) returns aggregated stats (total quizzes, avg accuracy, total XP)"
+      ]
+    },
+    {
+      "id": "SVC-005",
+      "category": "services",
+      "priority": 2,
+      "description": "Create learning path service in services/learning-path.ts for fetching and managing learning paths",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "getAllPaths() fetches all learning paths with quiz counts",
+        "getPathById(id) fetches a path with its ordered quizzes",
+        "getUserPathProgress(userId, pathId) calculates completion percentage",
+        "createPath(data) creates a new learning path (admin or user-created)"
+      ]
+    },
+    {
+      "id": "SVC-006",
+      "category": "services",
+      "priority": 2,
+      "description": "Create achievement service in services/achievement.ts for checking and unlocking achievements",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "getAllAchievements() fetches all achievement definitions",
+        "getUserAchievements(userId) fetches achievements unlocked by a user",
+        "checkAndUnlock(userId) evaluates all criteria and unlocks newly earned achievements",
+        "unlockAchievement(userId, achievementId) creates a user_achievement row and awards XP"
+      ]
+    },
+    {
+      "id": "SVC-007",
+      "category": "services",
+      "priority": 2,
+      "description": "Create leaderboard service in services/leaderboard.ts for ranking users by XP and quiz performance",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "getLeaderboard(period) returns top users for weekly/monthly/all-time",
+        "getUserRank(userId, period) returns the user's current rank",
+        "Leaderboard entries include username, avatar_url, xp, level, and rank"
+      ]
+    },
+    {
+      "id": "SVC-008",
+      "category": "services",
+      "priority": 2,
+      "description": "Create subscription service in services/subscription.ts for managing user subscription status",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "getSubscription(userId) returns current subscription tier and status",
+        "updateSubscription(userId, tier, externalId) updates the subscription record",
+        "isFeatureAvailable(userId, feature) checks if user's tier allows access",
+        "getRemainingQuota(userId) returns remaining quiz generations for free tier"
+      ]
+    },
+    {
+      "id": "SVC-009",
+      "category": "services",
+      "priority": 2,
+      "description": "Create analytics service in services/analytics.ts wrapping PostHog for event tracking",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "trackEvent(name, properties) sends an event to PostHog",
+        "identifyUser(userId, traits) identifies the user in PostHog",
+        "trackQuizGenerated(quizId, videoUrl) tracks quiz creation events",
+        "trackQuizCompleted(quizId, score, accuracy) tracks quiz completion events",
+        "Service gracefully degrades if PostHog is unavailable"
+      ]
+    },
+    {
+      "id": "SVC-010",
+      "category": "services",
+      "priority": 3,
+      "description": "Create offline sync service in services/offline-sync.ts for queuing and syncing operations when offline",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "queueOperation(type, data) stores a pending operation in AsyncStorage",
+        "syncPendingOperations() replays queued operations when online",
+        "isOnline() checks current network connectivity",
+        "Service registers a listener for connectivity changes"
+      ]
+    },
+    {
+      "id": "SVC-011",
+      "category": "services",
+      "priority": 3,
+      "description": "Create notification service in services/notifications.ts for scheduling local quiz reminders",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "scheduleReminder(title, body, triggerDate) schedules a local notification",
+        "cancelAllReminders() clears all scheduled notifications",
+        "requestPermission() prompts user for notification permission",
+        "Service uses expo-notifications"
+      ]
+    },
+    {
+      "id": "STATE-001",
+      "category": "state",
+      "priority": 2,
+      "description": "Refactor AuthProvider to use real Supabase auth instead of mock AsyncStorage-based auth",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "AuthProvider or useAuthStore uses supabase.auth methods instead of AsyncStorage mocks",
+        "User state is derived from Supabase session, not locally generated IDs",
+        "onAuthStateChange listener updates state on sign in, sign out, token refresh",
+        "All existing screens that import useAuth still function correctly"
+      ]
+    },
+    {
+      "id": "STATE-002",
+      "category": "state",
+      "priority": 2,
+      "description": "Refactor QuizProvider to use real Supabase data instead of hardcoded demo quizzes",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "quizzes state is fetched from Supabase quizzes table, not AsyncStorage",
+        "generateQuiz calls YouTube service and AI service instead of returning mock data",
+        "getQuiz fetches real quiz with questions from Supabase",
+        "submitQuiz saves real results to user_progress table",
+        "getQuizResults returns real calculated results from Supabase"
+      ]
+    },
+    {
+      "id": "STATE-003",
+      "category": "state",
+      "priority": 2,
+      "description": "Create UserProgressStore with Zustand for managing real user progress and stats",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Store holds totalQuizzes, averageAccuracy, totalXP, currentStreak, level",
+        "Store fetches data from progress service on initialization",
+        "Store updates after each quiz completion",
+        "Store provides computed getters for dashboard stats"
+      ]
+    },
+    {
+      "id": "STATE-004",
+      "category": "state",
+      "priority": 2,
+      "description": "Create SubscriptionStore with Zustand backed by RevenueCat for subscription state management",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Store holds current tier, isActive, expiresAt, quizzesRemaining",
+        "Store initializes by checking RevenueCat customer info",
+        "Store listens for subscription status changes",
+        "Store provides canGenerateQuiz computed property"
+      ]
+    },
+    {
+      "id": "STATE-005",
+      "category": "state",
+      "priority": 2,
+      "description": "Remove all mock/demo data from providers and replace with empty initial states",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "QuizProvider no longer contains demoQuizzes array",
+        "QuizProvider no longer contains generateMockQuestions function",
+        "AuthProvider no longer creates a default 'Local User' without real auth",
+        "Achievements screen no longer has hardcoded achievement arrays",
+        "Learning screen no longer has hardcoded learningPaths array"
+      ]
+    },
+    {
+      "id": "STATE-006",
+      "category": "state",
+      "priority": 2,
+      "description": "Implement proper error states in all providers/stores with error messages and retry capability",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each store has an error: string | null state field",
+        "Each store has a clearError() action",
+        "Failed API calls set the error state with a descriptive message",
+        "Stores expose a retry action that clears error and re-fetches"
+      ]
+    },
+    {
+      "id": "STATE-007",
+      "category": "state",
+      "priority": 2,
+      "description": "Add loading states for all async operations in stores (isLoading, isSubmitting, isGenerating)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Quiz store has isLoading (for fetches) and isGenerating (for quiz creation) states",
+        "Auth store has isLoading and isSubmitting states",
+        "Progress store has isLoading state",
+        "UI components show spinners or skeletons based on loading states"
+      ]
+    },
+    {
+      "id": "UI-001",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Dashboard screen to display real quizzes fetched from Supabase instead of mock data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Dashboard fetches quizzes from quiz service on mount",
+        "Quiz cards show real title, thumbnail, and question count from database",
+        "Empty state is shown when user has no quizzes",
+        "Pull-to-refresh triggers a fresh fetch from Supabase"
+      ]
+    },
+    {
+      "id": "UI-002",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Dashboard to show real user stats (total quizzes, accuracy, XP) from Supabase",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Stats section shows real quiz count from user's progress records",
+        "Remaining quizzes reflects actual subscription quota",
+        "Stats update after completing a new quiz without manual refresh"
+      ]
+    },
+    {
+      "id": "UI-003",
+      "category": "ui",
+      "priority": 3,
+      "description": "Implement real search functionality on Dashboard that filters quizzes by title from Supabase",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Search input triggers a debounced query to Supabase",
+        "Results are filtered by quiz title using ilike search",
+        "Empty search shows all quizzes",
+        "No results state is shown when search has no matches"
+      ]
+    },
+    {
+      "id": "UI-004",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Generate Quiz screen to validate YouTube URL using real YouTube service",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "URL validation extracts video ID using extractVideoId()",
+        "Invalid URLs show specific error message",
+        "Valid URLs show video title/thumbnail preview fetched from YouTube API",
+        "Loading state shown while validating URL"
+      ]
+    },
+    {
+      "id": "UI-005",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Generate Quiz screen to use real AI quiz generation pipeline (transcript extraction + AI generation)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Pressing Generate calls fetchTranscript then generateQuestions",
+        "Progress indicator shows generation stages (extracting transcript, generating questions)",
+        "Generated quiz is saved to Supabase and user is navigated to quiz screen",
+        "Error handling shows specific messages for transcript/AI failures"
+      ]
+    },
+    {
+      "id": "UI-006",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Generate Quiz screen to show real remaining quiz count from subscription store",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Remaining count badge reads from subscription store",
+        "Generate button is disabled and shows upgrade prompt when quota is 0",
+        "Count decrements after successful quiz generation",
+        "Pro users see 'Unlimited' instead of a number"
+      ]
+    },
+    {
+      "id": "UI-007",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Quiz Taking screen to load real questions from Supabase by quiz ID",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Questions are fetched from Supabase using quiz ID from route params",
+        "Loading state is shown while fetching questions",
+        "Error state is shown if quiz or questions are not found",
+        "Questions are displayed in order_index order"
+      ]
+    },
+    {
+      "id": "UI-008",
+      "category": "ui",
+      "priority": 2,
+      "description": "Implement proper answer validation in Quiz Taking screen comparing user answers to correct answers",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Multiple-choice answers are compared by exact string match",
+        "True-false answers are compared by exact string match",
+        "Short-answer validation uses case-insensitive comparison or AI-based matching",
+        "Score is calculated as count of correct answers / total questions"
+      ]
+    },
+    {
+      "id": "UI-009",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Quiz Taking screen to save progress and results to Supabase user_progress table on submit",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "On quiz submit, results are calculated and saved to user_progress table",
+        "XP earned is calculated based on score and difficulty",
+        "User's total XP and level are updated in profiles table",
+        "Achievement check runs after saving progress"
+      ]
+    },
+    {
+      "id": "UI-010",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Results screen to display real calculated results from Supabase instead of mock data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Results screen fetches user_progress record by quiz ID",
+        "Score, accuracy, time spent, and XP earned reflect real values",
+        "Question review shows actual user answers vs correct answers",
+        "Explanation text comes from the questions table"
+      ]
+    },
+    {
+      "id": "UI-011",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Results screen to save results to user_progress table and trigger XP/level update",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Results are persisted before navigating to results screen",
+        "Profile XP and level are updated after results save",
+        "Newly unlocked achievements are displayed on results screen",
+        "Results are not duplicated on page refresh"
+      ]
+    },
+    {
+      "id": "UI-012",
+      "category": "ui",
+      "priority": 3,
+      "description": "Implement share functionality on Results screen using react-native Share API",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Share button opens native share sheet",
+        "Shared content includes score, accuracy, and quiz title",
+        "Shared content includes a deep link back to the quiz",
+        "Share works on both iOS and Android"
+      ]
+    },
+    {
+      "id": "UI-013",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Learning Plans screen to load real learning paths from Supabase instead of hardcoded data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Learning paths are fetched from learning_paths table on mount",
+        "Each path shows real title, description, quiz count, and estimated time",
+        "Progress percentage is calculated from user_progress records",
+        "Locked paths are determined by is_premium flag and subscription status"
+      ]
+    },
+    {
+      "id": "UI-014",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Learning Plans screen to track real quiz completion progress within each path",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Progress bar shows completed quizzes / total quizzes in the path",
+        "Completing a quiz within a path updates the progress in real time",
+        "Path completion triggers an achievement check",
+        "Stats row shows real counts for active paths, total time, and completed paths"
+      ]
+    },
+    {
+      "id": "UI-015",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Achievements screen to display real achievements from Supabase instead of hardcoded data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Achievements are fetched from achievements table with user_achievements join",
+        "Completed achievements show with full color and checkmark",
+        "Locked achievements show progress toward criteria (e.g., 7/10 quizzes)",
+        "Stats section shows real total XP, current streak, quizzes completed, accuracy"
+      ]
+    },
+    {
+      "id": "UI-016",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Achievements screen to calculate real XP, levels, and weekly goals from user data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Level and XP progress bar reflect real profile xp and level values",
+        "XP to next level is calculated using a defined progression formula",
+        "Weekly goals are calculated from user_progress records in the current week",
+        "Stats update after completing a quiz without manual refresh"
+      ]
+    },
+    {
+      "id": "UI-017",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Profile screen to show real user data from Supabase profile (name, email, avatar, stats)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Profile name and email come from Supabase auth user and profile table",
+        "Avatar image loads from profile avatar_url",
+        "Stats (quizzes, paths, accuracy) are calculated from real user_progress data",
+        "Subscription status reflects real subscription from user_subscriptions table"
+      ]
+    },
+    {
+      "id": "UI-018",
+      "category": "ui",
+      "priority": 3,
+      "description": "Implement avatar upload on Profile screen using expo-image-picker and Supabase Storage",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping avatar opens image picker",
+        "Selected image is uploaded to Supabase Storage avatars bucket",
+        "Profile avatar_url is updated with the public URL",
+        "Avatar displays immediately after upload"
+      ]
+    },
+    {
+      "id": "UI-019",
+      "category": "ui",
+      "priority": 2,
+      "description": "Wire Settings screen cloud sync to use real Supabase auth instead of simulated sync",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Enable Cloud Sync triggers real Supabase sign up or sign in",
+        "Sync Now triggers real data sync to Supabase",
+        "Disable Sync signs out from Supabase but keeps local data",
+        "Last synced date reflects actual Supabase sync timestamp"
+      ]
+    },
+    {
+      "id": "UI-020",
+      "category": "ui",
+      "priority": 3,
+      "description": "Wire Onboarding screen to save user preferences (name, role) to Supabase profile on completion",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "User name entered during onboarding is saved to profiles.display_name",
+        "User role selection is saved to profiles.role",
+        "Onboarding completion is tracked (user is not shown onboarding again)",
+        "Skipping onboarding still creates a minimal profile"
+      ]
+    },
+    {
+      "id": "PAY-001",
+      "category": "payments",
+      "priority": 2,
+      "description": "Install and configure react-native-purchases (RevenueCat) SDK for iOS and Android",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "react-native-purchases is listed in package.json dependencies",
+        "RevenueCat is configured with API key in app initialization",
+        "SDK initializes without errors on app launch",
+        "RevenueCat project has products configured (monthly and annual subscriptions)"
+      ]
+    },
+    {
+      "id": "PAY-002",
+      "category": "payments",
+      "priority": 2,
+      "description": "Create a paywall/upgrade screen showing subscription plans with pricing and features",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Paywall screen displays Pro plan with monthly and annual pricing",
+        "Feature comparison shows Free vs Pro tier benefits",
+        "Pricing is fetched from RevenueCat offerings (not hardcoded)",
+        "Screen has prominent CTA button for subscription"
+      ]
+    },
+    {
+      "id": "PAY-003",
+      "category": "payments",
+      "priority": 2,
+      "description": "Implement subscription purchase flow using RevenueCat purchasePackage",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Tapping subscribe triggers RevenueCat purchase flow",
+        "Native payment sheet appears for iOS (App Store) and Android (Play Store)",
+        "On successful purchase, subscription status updates immediately",
+        "User's quiz generation quota becomes unlimited"
+      ]
+    },
+    {
+      "id": "PAY-004",
+      "category": "payments",
+      "priority": 2,
+      "description": "Implement subscription restoration using RevenueCat restorePurchases",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Restore Purchases button exists on paywall and settings screens",
+        "Restore triggers RevenueCat.restorePurchases()",
+        "On successful restore, subscription status updates immediately",
+        "If no purchases found, shows informative message"
+      ]
+    },
+    {
+      "id": "PAY-005",
+      "category": "payments",
+      "priority": 2,
+      "description": "Handle subscription status changes with RevenueCat listener (upgrade, downgrade, cancellation, expiry)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "App listens for customerInfo updates from RevenueCat",
+        "On subscription expiry, user is downgraded to free tier",
+        "On renewal, subscription status stays active",
+        "Subscription status is synced to user_subscriptions table in Supabase"
+      ]
+    },
+    {
+      "id": "PAY-006",
+      "category": "payments",
+      "priority": 2,
+      "description": "Implement free tier limits that restrict quiz generation to a configurable monthly quota",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Free tier users are limited to N quiz generations per month",
+        "Quota resets on the 1st of each month",
+        "Attempting to generate a quiz at quota limit shows upgrade prompt",
+        "Quiz count for current month is tracked in Supabase"
+      ]
+    },
+    {
+      "id": "PAY-007",
+      "category": "payments",
+      "priority": 2,
+      "description": "Implement pro tier access that unlocks unlimited quiz generation and premium features",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Pro users can generate unlimited quizzes",
+        "Pro users can access premium learning paths (is_premium = true)",
+        "Pro users see no upgrade prompts or usage limits",
+        "Pro badge is displayed on profile screen"
+      ]
+    },
+    {
+      "id": "PAY-008",
+      "category": "payments",
+      "priority": 2,
+      "description": "Implement receipt validation by syncing RevenueCat customer ID with Supabase user",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "On auth, RevenueCat customer is identified with Supabase user ID",
+        "Subscription status in Supabase matches RevenueCat entitlements",
+        "Server-side webhook (optional) updates subscription on RevenueCat events"
+      ]
+    },
+    {
+      "id": "PAY-009",
+      "category": "payments",
+      "priority": 3,
+      "description": "Create contextual upgrade prompts that appear when free users hit limits in various screens",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Upgrade prompt appears when free user tries to generate quiz at limit",
+        "Upgrade prompt appears when free user tries to access premium learning path",
+        "Upgrade prompt includes quick action to navigate to paywall",
+        "Prompts are dismissible and not shown again for current session"
+      ]
+    },
+    {
+      "id": "OFF-001",
+      "category": "offline",
+      "priority": 3,
+      "description": "Implement offline quiz storage using AsyncStorage to cache generated quizzes locally",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "When a quiz is loaded from Supabase, it is cached in AsyncStorage",
+        "If network is unavailable, cached quizzes are served from AsyncStorage",
+        "Cache has a TTL and is invalidated when data is updated on server"
+      ]
+    },
+    {
+      "id": "OFF-002",
+      "category": "offline",
+      "priority": 3,
+      "description": "Implement offline quiz submission queue that stores results when offline",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Quiz results are saved to AsyncStorage when network is unavailable",
+        "Queued results include all data needed for user_progress insert",
+        "Queue is persisted across app restarts"
+      ]
+    },
+    {
+      "id": "OFF-003",
+      "category": "offline",
+      "priority": 3,
+      "description": "Implement automatic sync when network connection is restored",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "App detects network connectivity changes using NetInfo",
+        "When connectivity restored, pending queue is processed automatically",
+        "Successfully synced items are removed from queue",
+        "Failed syncs remain in queue for next attempt"
+      ]
+    },
+    {
+      "id": "OFF-004",
+      "category": "offline",
+      "priority": 3,
+      "description": "Show offline indicator banner when network is unavailable",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "A banner or toast appears at the top of the screen when offline",
+        "Banner shows 'You are offline. Changes will sync when connection is restored'",
+        "Banner disappears when connectivity is restored",
+        "Banner does not block user interactions"
+      ]
+    },
+    {
+      "id": "OFF-005",
+      "category": "offline",
+      "priority": 3,
+      "description": "Cache quiz data locally for previously accessed quizzes so they can be retaken offline",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Quiz questions are cached after first load",
+        "Cached quizzes are playable without network",
+        "Cache size is limited to prevent excessive storage usage",
+        "User can manually clear cache from settings"
+      ]
+    },
+    {
+      "id": "GAME-001",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement XP calculation system based on quiz score, difficulty, and completion time",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Base XP = score_percentage * base_points_per_quiz",
+        "Difficulty multiplier: easy=1x, medium=1.5x, hard=2x",
+        "Speed bonus: completing under par time adds 10-25% bonus XP",
+        "Perfect score bonus: 100% accuracy adds 50% bonus XP",
+        "XP formula is documented and testable"
+      ]
+    },
+    {
+      "id": "GAME-002",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement level progression system with increasing XP thresholds per level",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Level 1 starts at 0 XP, Level 2 at 100 XP, with increasing thresholds",
+        "Level up threshold formula is defined (e.g., level * 100 * 1.2^level)",
+        "User's level is recalculated and stored after every XP gain",
+        "Level up triggers a celebration UI and notification"
+      ]
+    },
+    {
+      "id": "GAME-003",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement daily learning streak tracking that increments on consecutive days of quiz activity",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Streak increments when user completes at least one quiz in a calendar day",
+        "Streak resets to 0 if user misses a day",
+        "Current streak is stored in profiles.streak_count",
+        "Streak milestones (7, 30, 100 days) trigger achievement checks"
+      ]
+    },
+    {
+      "id": "GAME-004",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement achievement unlocking logic that evaluates criteria after each quiz completion",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "After quiz submission, all achievement criteria are evaluated",
+        "Newly met criteria trigger achievement unlock",
+        "Unlocked achievement awards XP from achievement.xp_reward",
+        "User is notified of newly unlocked achievements"
+      ]
+    },
+    {
+      "id": "GAME-005",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement weekly goals system with configurable targets for quizzes and learning time",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Users have weekly goals (e.g., complete 5 quizzes, learn for 2 hours)",
+        "Progress is tracked from Monday to Sunday each week",
+        "Goals reset at the start of each week",
+        "Meeting weekly goals awards bonus XP"
+      ]
+    },
+    {
+      "id": "GAME-006",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement leaderboard rankings with weekly, monthly, and all-time periods",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Leaderboard shows top users ranked by XP for the selected period",
+        "Current user's rank is highlighted",
+        "Leaderboard updates after each quiz completion",
+        "Users can switch between weekly, monthly, and all-time views"
+      ]
+    },
+    {
+      "id": "GAME-007",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Implement spaced repetition algorithm that schedules quiz reviews based on performance",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "After completing a quiz, next review date is calculated using SM-2 or similar algorithm",
+        "Review intervals increase for correct answers, decrease for incorrect",
+        "Dashboard shows quizzes due for review",
+        "User can see upcoming review schedule"
+      ]
+    },
+    {
+      "id": "GAME-008",
+      "category": "gamification",
+      "priority": 3,
+      "description": "Track and display quiz accuracy trends over time with historical data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Accuracy is calculated per quiz, per topic, and overall",
+        "Historical accuracy data is queryable from user_progress table",
+        "Profile or achievements screen shows accuracy trend",
+        "Improvement milestones trigger achievement checks"
+      ]
+    },
+    {
+      "id": "SHARE-001",
+      "category": "sharing",
+      "priority": 3,
+      "description": "Implement quiz result sharing via native Share API with score and quiz details",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Share button on results screen opens native share sheet",
+        "Shared text includes quiz title, score percentage, and accuracy",
+        "Shared content includes a deep link URL to the quiz",
+        "Works on both iOS and Android platforms"
+      ]
+    },
+    {
+      "id": "SHARE-002",
+      "category": "sharing",
+      "priority": 3,
+      "description": "Implement deep linking to quizzes using expo-linking and app URL scheme",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "App handles deep links in format myapp://quiz/{quizId}",
+        "Opening deep link navigates directly to the quiz screen",
+        "If user is not authenticated, deep link is handled after sign in",
+        "Invalid quiz IDs show appropriate error"
+      ]
+    },
+    {
+      "id": "SHARE-003",
+      "category": "sharing",
+      "priority": 3,
+      "description": "Create shareable quiz URLs that can be opened in browser and redirect to app",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each quiz has a shareable URL (e.g., https://app.domain/quiz/{id})",
+        "Web URL redirects to app via universal link or falls back to app store",
+        "Shared quiz is accessible to the recipient (public read access)",
+        "URL is generated and copyable from the quiz detail screen"
+      ]
+    },
+    {
+      "id": "SHARE-004",
+      "category": "sharing",
+      "priority": 3,
+      "description": "Implement social sharing with formatted share cards for quiz results",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Share formats content for common platforms (Twitter, Instagram, WhatsApp)",
+        "Share text includes emoji-formatted score summary",
+        "Image card can be generated showing quiz results visually",
+        "Native share sheet is used for platform selection"
+      ]
+    },
+    {
+      "id": "SHARE-005",
+      "category": "sharing",
+      "priority": 3,
+      "description": "Create invite friends functionality that lets users share the app with a referral link",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Profile or settings screen has an 'Invite Friends' button",
+        "Invite generates a unique referral link",
+        "Referral link opens native share sheet with pre-formatted message",
+        "Referral tracking can attribute new signups to inviter"
+      ]
+    },
+    {
+      "id": "QA-001",
+      "category": "quality",
+      "priority": 2,
+      "description": "Add React error boundaries to all tab screens to catch and display render errors gracefully",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "ErrorBoundary component exists and wraps each tab screen",
+        "Caught errors display a user-friendly fallback UI with retry button",
+        "Errors are logged to analytics service",
+        "App does not crash on render errors in child components"
+      ]
+    },
+    {
+      "id": "QA-002",
+      "category": "quality",
+      "priority": 2,
+      "description": "Implement loading skeletons for Dashboard, Achievements, Learning, and Profile screens",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Each screen shows a skeleton placeholder while data is loading",
+        "Skeletons match the layout of the actual content",
+        "Skeletons animate with a shimmer effect",
+        "Skeletons are replaced by real content when loading completes"
+      ]
+    },
+    {
+      "id": "QA-003",
+      "category": "quality",
+      "priority": 3,
+      "description": "Add pull-to-refresh on Dashboard, Achievements, and Learning list screens",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "ScrollView/FlatList has RefreshControl component",
+        "Pull-to-refresh triggers a fresh data fetch from Supabase",
+        "Refresh indicator shows while fetching",
+        "Content updates after refresh completes"
+      ]
+    },
+    {
+      "id": "QA-004",
+      "category": "quality",
+      "priority": 2,
+      "description": "Implement proper form validation on all input screens (Generate Quiz, Settings, Auth)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "YouTube URL input validates format before submission",
+        "Email inputs validate email format",
+        "Password inputs enforce minimum length and complexity",
+        "Validation errors appear inline below the input field",
+        "Submit buttons are disabled while validation errors exist"
+      ]
+    },
+    {
+      "id": "QA-005",
+      "category": "quality",
+      "priority": 3,
+      "description": "Add haptic feedback for key interactions (answer selection, quiz submission, achievement unlock)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Answer selection in quiz triggers light haptic impact",
+        "Quiz submission triggers medium haptic impact",
+        "Achievement unlock triggers success haptic notification",
+        "Haptic feedback uses expo-haptics which is already installed",
+        "Haptics are disabled on web platform"
+      ]
+    },
+    {
+      "id": "QA-006",
+      "category": "quality",
+      "priority": 2,
+      "description": "Implement proper keyboard handling with KeyboardAvoidingView on all screens with text inputs",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Text inputs are not hidden by the keyboard on any screen",
+        "KeyboardAvoidingView behavior is 'padding' on iOS, 'height' on Android",
+        "ScrollView scrolls to focused input when keyboard opens",
+        "Keyboard dismiss on tap outside input area"
+      ]
+    },
+    {
+      "id": "QA-007",
+      "category": "quality",
+      "priority": 3,
+      "description": "Add accessibility labels and roles to all interactive components",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "All TouchableOpacity components have accessibilityLabel",
+        "All TextInput components have accessibilityLabel",
+        "Navigation tabs have accessibilityRole='tab'",
+        "Images have accessibilityLabel with descriptive text",
+        "Progress bars have accessibilityValue with current/max values"
+      ]
+    },
+    {
+      "id": "QA-008",
+      "category": "quality",
+      "priority": 3,
+      "description": "Implement proper screen transitions and animations for navigation",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Modal screens slide up from bottom",
+        "Stack screens push from right",
+        "Tab switches have no visible transition jank",
+        "Quiz question navigation has smooth horizontal slide"
+      ]
+    },
+    {
+      "id": "QA-009",
+      "category": "quality",
+      "priority": 3,
+      "description": "Add empty state illustrations and messaging for screens with no data",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Dashboard shows illustration and CTA when no quizzes exist",
+        "Achievements screen shows message when no achievements are unlocked",
+        "Learning paths shows message when no paths are available",
+        "Search results show message when no matches found"
+      ]
+    },
+    {
+      "id": "QA-010",
+      "category": "quality",
+      "priority": 2,
+      "description": "Handle network errors gracefully across all screens with retry options",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Network errors show a user-friendly message (not raw error text)",
+        "Error screens include a 'Retry' button that re-attempts the failed operation",
+        "Timeout errors show 'Request timed out. Please try again'",
+        "HTTP 500 errors show 'Something went wrong on our end'"
+      ]
+    },
+    {
+      "id": "QA-011",
+      "category": "quality",
+      "priority": 2,
+      "description": "Implement proper timer accuracy in Quiz Taking screen using Date-based tracking instead of setInterval",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Timer uses start time reference and calculates elapsed from Date.now()",
+        "Timer does not drift due to JavaScript setInterval inaccuracy",
+        "Timer pauses when app goes to background",
+        "Time spent is accurately recorded in user_progress"
+      ]
+    },
+    {
+      "id": "QA-012",
+      "category": "quality",
+      "priority": 3,
+      "description": "Implement proper scroll position management for quiz question navigation",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Navigating to next/previous question scrolls to top of question",
+        "Question indicator touch scrolls to appropriate question",
+        "ScrollView position resets when navigating between questions"
+      ]
+    },
+    {
+      "id": "TEST-001",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write unit tests for YouTube service (extractVideoId, fetchTranscript, getVideoMetadata)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test extractVideoId with youtube.com/watch?v=, youtu.be/, and embed/ URLs",
+        "Test extractVideoId returns null for invalid URLs",
+        "Test fetchTranscript mocks API call and returns expected transcript",
+        "Test fetchTranscript handles error cases (404, no captions)",
+        "All tests pass when running jest"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write unit tests for AI quiz generation service (prompt construction, response parsing, validation)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test generateQuestions constructs correct prompt with transcript and parameters",
+        "Test response parser extracts questions from AI JSON response",
+        "Test validation rejects malformed AI responses",
+        "Test handles API errors (rate limit, token limit, network)",
+        "All tests pass when running jest"
+      ]
+    },
+    {
+      "id": "TEST-003",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write unit tests for quiz CRUD service (create, read, update, delete operations)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test createQuiz calls Supabase insert with correct data",
+        "Test getQuizById returns quiz with questions joined",
+        "Test getUserQuizzes returns quizzes filtered by user_id",
+        "Test deleteQuiz calls Supabase delete with correct id",
+        "Supabase client is mocked in all tests"
+      ]
+    },
+    {
+      "id": "TEST-004",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write unit tests for auth service (signUp, signIn, signOut, resetPassword)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test signUp calls supabase.auth.signUp with correct params",
+        "Test signIn calls supabase.auth.signInWithPassword with correct params",
+        "Test signOut calls supabase.auth.signOut",
+        "Test error handling for invalid credentials",
+        "Supabase auth is mocked in all tests"
+      ]
+    },
+    {
+      "id": "TEST-005",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write unit tests for user progress calculations (XP formula, level calculation, accuracy)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test XP calculation with various score/difficulty combinations",
+        "Test level calculation at XP boundary values",
+        "Test accuracy calculation rounds correctly",
+        "Test streak increment and reset logic",
+        "All edge cases are covered (0 score, perfect score, first quiz)"
+      ]
+    },
+    {
+      "id": "TEST-006",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write unit tests for spaced repetition algorithm (interval calculation, review scheduling)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test initial interval for first review",
+        "Test interval increase after correct answers",
+        "Test interval decrease after incorrect answers",
+        "Test review date calculation from current date and interval",
+        "Test edge cases (very long intervals, very low performance)"
+      ]
+    },
+    {
+      "id": "TEST-007",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write integration tests for the complete quiz generation flow (URL input to saved quiz)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test validates YouTube URL, fetches transcript, generates questions, and saves quiz",
+        "Test mocks external APIs (YouTube, OpenAI) but tests internal service integration",
+        "Test verifies quiz and questions are saved to Supabase",
+        "Test verifies error propagation through the pipeline"
+      ]
+    },
+    {
+      "id": "TEST-008",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write integration tests for the auth flow (sign up, sign in, session persistence, sign out)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test sign up creates user and profile",
+        "Test sign in returns session and updates auth state",
+        "Test session persists across simulated app restart",
+        "Test sign out clears session and auth state",
+        "Supabase is mocked at the client level"
+      ]
+    },
+    {
+      "id": "TEST-009",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write component tests for Quiz Taking screen (question rendering, answer selection, navigation)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test renders multiple-choice question with all options",
+        "Test renders true-false question with two options",
+        "Test renders short-answer question with text input",
+        "Test answer selection updates state correctly",
+        "Test next/previous navigation changes displayed question"
+      ]
+    },
+    {
+      "id": "TEST-010",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write component tests for Results screen (score display, answer review, action buttons)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test renders score percentage correctly",
+        "Test renders correct/incorrect badges for each question",
+        "Test renders explanation text for questions that have it",
+        "Test retake button navigates to quiz screen",
+        "Test back to dashboard button navigates to home"
+      ]
+    },
+    {
+      "id": "TEST-011",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write component tests for Dashboard screen (quiz list, stats, empty state, search)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test renders quiz cards when quizzes exist",
+        "Test renders empty state when no quizzes exist",
+        "Test renders loading indicator while fetching",
+        "Test generate button navigates to generate screen",
+        "Test search input filters displayed quizzes"
+      ]
+    },
+    {
+      "id": "TEST-012",
+      "category": "testing",
+      "priority": 2,
+      "description": "Write component tests for Onboarding screen (page navigation, input, skip functionality)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test renders first onboarding page on mount",
+        "Test Continue button advances to next page",
+        "Test name input and role selection on profile page",
+        "Test Skip button navigates to dashboard",
+        "Test final page Start Learning button navigates to dashboard"
+      ]
+    },
+    {
+      "id": "TEST-013",
+      "category": "testing",
+      "priority": 3,
+      "description": "Write E2E test for complete quiz flow: generate quiz from URL, take quiz, view results",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test navigates to generate screen and enters a YouTube URL",
+        "Test selects question count and difficulty then generates quiz",
+        "Test answers all questions in the quiz",
+        "Test submits quiz and verifies results screen shows correct data",
+        "Test runs end-to-end without manual intervention"
+      ]
+    },
+    {
+      "id": "TEST-014",
+      "category": "testing",
+      "priority": 3,
+      "description": "Write E2E test for sign up and sign in flow: create account, verify session, sign out",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test navigates to sign up screen and creates an account",
+        "Test verifies user is signed in and can access protected routes",
+        "Test signs out and verifies redirect to auth screen",
+        "Test signs in with the created account",
+        "Test runs end-to-end without manual intervention"
+      ]
+    },
+    {
+      "id": "TEST-015",
+      "category": "testing",
+      "priority": 3,
+      "description": "Write E2E test for quiz generation from a real YouTube URL end-to-end",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Test uses a known YouTube URL with available captions",
+        "Test verifies transcript is extracted successfully",
+        "Test verifies AI generates valid questions from transcript",
+        "Test verifies quiz is saved and retrievable from database",
+        "Test may use mocked external APIs for reliability"
+      ]
+    },
+    {
+      "id": "TEST-016",
+      "category": "testing",
+      "priority": 2,
+      "description": "Configure test coverage reporting with minimum thresholds for critical services",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "Jest is configured with collectCoverage: true",
+        "Coverage report generates in lcov and text format",
+        "Services directory has minimum 70% line coverage threshold",
+        "Coverage report is generated when running 'npm run test:coverage'"
+      ]
+    },
+    {
+      "id": "TEST-017",
+      "category": "testing",
+      "priority": 2,
+      "description": "Create test utilities and mocks (mock Supabase client, mock navigation, mock providers)",
+      "status": "pending",
+      "passes": true,
+      "acceptance_criteria": [
+        "__tests__/mocks/supabase.ts exports a mocked Supabase client",
+        "__tests__/mocks/navigation.ts exports mocked router and navigation functions",
+        "__tests__/utils/render.tsx exports a custom render function with test providers",
+        "Test helpers are reusable across all test files"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1565 @@
+{
+  "project": "SteadyLetters iOS",
+  "platform": "ios",
+  "framework": "expo-router",
+  "version": "1.0.0",
+  "total_features": 192,
+  "categories": [
+    "auth",
+    "letter-generation",
+    "send-flow",
+    "recipients",
+    "orders",
+    "templates",
+    "settings",
+    "navigation",
+    "services",
+    "billing",
+    "analytics",
+    "notifications",
+    "polish",
+    "accessibility",
+    "security",
+    "performance",
+    "testing",
+    "config"
+  ],
+  "features": [
+    {
+      "id": "IOS-AUTH-001",
+      "name": "Sign In Screen Renders",
+      "category": "auth",
+      "description": "Sign-in screen renders with email input, password input, and sign-in button",
+      "file": "app/(auth)/sign-in.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-002",
+      "name": "Sign In Supabase Integration",
+      "category": "auth",
+      "description": "signIn() calls supabase.auth.signInWithPassword with email and password",
+      "file": "providers/AuthProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-003",
+      "name": "Sign In Error Handling",
+      "category": "auth",
+      "description": "Sign-in displays error message on invalid credentials and does not crash",
+      "file": "app/(auth)/sign-in.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-004",
+      "name": "Sign In Loading State",
+      "category": "auth",
+      "description": "Sign-in button shows loading indicator while authentication is in progress",
+      "file": "app/(auth)/sign-in.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-005",
+      "name": "Sign In Navigation Links",
+      "category": "auth",
+      "description": "Sign-in screen has links to navigate to sign-up and forgot-password screens",
+      "file": "app/(auth)/sign-in.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-006",
+      "name": "Sign Up Screen Renders",
+      "category": "auth",
+      "description": "Sign-up screen renders with full name, email, password, confirm password inputs and create account button",
+      "file": "app/(auth)/sign-up.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-007",
+      "name": "Sign Up Supabase Integration",
+      "category": "auth",
+      "description": "signUp() calls supabase.auth.signUp with email, password, and full_name metadata",
+      "file": "providers/AuthProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-008",
+      "name": "Sign Up Password Validation",
+      "category": "auth",
+      "description": "Sign-up validates password minimum 8 characters and confirms passwords match",
+      "file": "app/(auth)/sign-up.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-009",
+      "name": "Sign Up Email Verification Message",
+      "category": "auth",
+      "description": "After successful sign-up, shows message to check email for verification link",
+      "file": "app/(auth)/sign-up.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-010",
+      "name": "Forgot Password Screen Renders",
+      "category": "auth",
+      "description": "Forgot password screen renders with email input and reset button",
+      "file": "app/(auth)/forgot-password.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-011",
+      "name": "Forgot Password Supabase Integration",
+      "category": "auth",
+      "description": "resetPassword() calls supabase.auth.resetPasswordForEmail with provided email",
+      "file": "providers/AuthProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-012",
+      "name": "Forgot Password Confirmation",
+      "category": "auth",
+      "description": "After successful reset request, shows confirmation message about reset email sent",
+      "file": "app/(auth)/forgot-password.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-013",
+      "name": "Auth Provider Context",
+      "category": "auth",
+      "description": "AuthProvider creates React context exposing session, user, isLoading, signIn, signUp, signOut, resetPassword",
+      "file": "providers/AuthProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-014",
+      "name": "Auth Session Persistence",
+      "category": "auth",
+      "description": "Auth provider uses expo-secure-store for session token persistence across app restarts",
+      "file": "services/supabase.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-015",
+      "name": "Auth State Change Listener",
+      "category": "auth",
+      "description": "Auth provider listens for onAuthStateChange events to update session/user state reactively",
+      "file": "providers/AuthProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-016",
+      "name": "Protected Route Guard",
+      "category": "auth",
+      "description": "Tab layout redirects unauthenticated users (no session) to sign-in screen",
+      "file": "app/(tabs)/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-017",
+      "name": "Sign Out Functionality",
+      "category": "auth",
+      "description": "signOut() calls supabase.auth.signOut, clears session, and redirects to auth screens",
+      "file": "providers/AuthProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-AUTH-018",
+      "name": "Auth Stack Layout",
+      "category": "auth",
+      "description": "Auth stack groups sign-in, sign-up, forgot-password screens with proper header configuration",
+      "file": "app/(auth)/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-001",
+      "name": "Create Screen Renders",
+      "category": "letter-generation",
+      "description": "Create tab renders with occasion picker, tone picker, key points input, recipient context input, and generate button",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-002",
+      "name": "Occasion Selection",
+      "category": "letter-generation",
+      "description": "Create screen provides occasion options: thank_you, birthday, congratulations, thinking_of_you, sympathy, holiday, business, custom",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-003",
+      "name": "Tone Selection",
+      "category": "letter-generation",
+      "description": "Create screen provides tone options: warm, professional, casual, formal, heartfelt",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-004",
+      "name": "Generate Letter API Call",
+      "category": "letter-generation",
+      "description": "Generate button calls openai.generateLetter() with occasion, tone, keyPoints, recipientContext, senderName",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-005",
+      "name": "Letter Variations Display",
+      "category": "letter-generation",
+      "description": "After generation, displays 3 letter variations for user to choose from",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-006",
+      "name": "Letter Selection to Send",
+      "category": "letter-generation",
+      "description": "Selecting a letter variation navigates to send screen with the chosen letter text",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-007",
+      "name": "Generate Loading State",
+      "category": "letter-generation",
+      "description": "Shows loading indicator while GPT-4o generates letter variations",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-008",
+      "name": "Generate Error Handling",
+      "category": "letter-generation",
+      "description": "Displays user-friendly error if letter generation fails",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-009",
+      "name": "Voice Recorder Screen Renders",
+      "category": "letter-generation",
+      "description": "Voice recorder modal renders with record button, timer, and transcription area",
+      "file": "app/voice-recorder.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-010",
+      "name": "Microphone Permission Request",
+      "category": "letter-generation",
+      "description": "Voice recorder requests microphone permission via expo-av before recording",
+      "file": "app/voice-recorder.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-011",
+      "name": "Audio Recording with expo-av",
+      "category": "letter-generation",
+      "description": "Records audio using expo-av Audio.Recording, tracks recording duration with timer",
+      "file": "app/voice-recorder.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-012",
+      "name": "Audio Transcription via Whisper",
+      "category": "letter-generation",
+      "description": "After recording, sends audio to openai.transcribeAudio() using Whisper model and displays transcription",
+      "file": "app/voice-recorder.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-013",
+      "name": "Transcription Return to Create",
+      "category": "letter-generation",
+      "description": "Use transcription button passes transcribed text back to create screen via route params",
+      "file": "app/voice-recorder.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-014",
+      "name": "Recording State Management",
+      "category": "letter-generation",
+      "description": "Voice recorder manages states: idle, recording, recorded, transcribing with appropriate UI for each",
+      "file": "app/voice-recorder.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-015",
+      "name": "Templates Screen Renders",
+      "category": "letter-generation",
+      "description": "Templates tab renders list of saved templates with occasion, tone, and preview text",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-016",
+      "name": "Templates Fetch from Supabase",
+      "category": "letter-generation",
+      "description": "Templates screen fetches templates via api.getTemplates() from Supabase on mount",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-017",
+      "name": "Template Tap to Prefill",
+      "category": "letter-generation",
+      "description": "Tapping a template navigates to create screen with template content prefilled",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-LETTER-018",
+      "name": "Templates Loading State",
+      "category": "letter-generation",
+      "description": "Templates screen shows loading indicator while fetching from API",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-001",
+      "name": "Send Screen Renders",
+      "category": "send-flow",
+      "description": "Send modal renders with product type selector, recipient picker, handwriting style picker, message editor, and send button",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-002",
+      "name": "Product Type Selection",
+      "category": "send-flow",
+      "description": "Send screen allows choosing between postcard, letter, and greeting card with price display for each",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-003",
+      "name": "Recipient Dropdown Picker",
+      "category": "send-flow",
+      "description": "Send screen loads recipients from Supabase and displays as selectable dropdown with address preview",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-004",
+      "name": "Handwriting Style Picker",
+      "category": "send-flow",
+      "description": "Send screen fetches handwriting styles from Thanks.io API and displays as selectable options",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-005",
+      "name": "Message Editor",
+      "category": "send-flow",
+      "description": "Send screen has editable text area for letter message, pre-filled from create screen if navigated from there",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-006",
+      "name": "Send Postcard via Thanks.io",
+      "category": "send-flow",
+      "description": "When product type is postcard, sends via thanksIo.sendPostcard() with message, recipient, and handwriting style",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-007",
+      "name": "Send Letter via Thanks.io",
+      "category": "send-flow",
+      "description": "When product type is letter, sends via thanksIo.sendLetter() with message, recipient, and handwriting style",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-008",
+      "name": "Send Greeting Card via Thanks.io",
+      "category": "send-flow",
+      "description": "When product type is greeting card, sends via thanksIo.sendGreetingCard() with message, recipient, and style",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-009",
+      "name": "Order Record Creation",
+      "category": "send-flow",
+      "description": "After successful send, creates order record in Supabase via api.createOrder() with order details",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-010",
+      "name": "Usage Increment After Send",
+      "category": "send-flow",
+      "description": "After successful send, increments usage stats via api.incrementUsage()",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-011",
+      "name": "Send Confirmation Dialog",
+      "category": "send-flow",
+      "description": "Shows confirmation dialog with order ID after successful send",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-012",
+      "name": "Send Loading State",
+      "category": "send-flow",
+      "description": "Send button shows loading indicator while API request is in progress",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-013",
+      "name": "Send Error Handling",
+      "category": "send-flow",
+      "description": "Displays user-friendly error alert if Thanks.io send fails",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-014",
+      "name": "Price Display per Product",
+      "category": "send-flow",
+      "description": "Send screen shows correct pricing: postcard $1.14, letter $1.20, greeting card $3.00",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-001",
+      "name": "Recipients Screen Renders",
+      "category": "recipients",
+      "description": "Recipients tab renders list of recipients with name, address, city, and add button in header",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-002",
+      "name": "Recipients Fetch from Supabase",
+      "category": "recipients",
+      "description": "Recipients screen fetches recipients via api.getRecipients() from Supabase on mount",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-003",
+      "name": "Recipients Search Filter",
+      "category": "recipients",
+      "description": "Recipients screen has search input that filters recipients list by name or address",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-004",
+      "name": "Delete Recipient with Confirmation",
+      "category": "recipients",
+      "description": "Deleting a recipient shows confirmation alert, then calls api.deleteRecipient() on confirm",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-005",
+      "name": "Recipients Loading State",
+      "category": "recipients",
+      "description": "Recipients screen shows loading indicator while fetching from API",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-006",
+      "name": "Add Recipient Screen Renders",
+      "category": "recipients",
+      "description": "Add recipient modal renders form with name, address, address2, city, province, postal_code, country fields",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-007",
+      "name": "Add Recipient Form Validation",
+      "category": "recipients",
+      "description": "Add recipient form validates required fields (name, address, city, province, postal_code) before submission",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-008",
+      "name": "Add Recipient Supabase Save",
+      "category": "recipients",
+      "description": "Save button calls api.createRecipient() with form data and navigates back on success",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-RECIP-009",
+      "name": "Add Recipient Loading State",
+      "category": "recipients",
+      "description": "Save button shows loading indicator while saving to Supabase",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-001",
+      "name": "Orders Screen Renders",
+      "category": "orders",
+      "description": "Orders tab renders list of orders with status badge, product type, recipient, cost, and date",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-002",
+      "name": "Orders Fetch from Supabase",
+      "category": "orders",
+      "description": "Orders screen fetches orders via api.getOrders() from Supabase on mount",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-003",
+      "name": "Order Status Badges",
+      "category": "orders",
+      "description": "Orders display color-coded status badges for real Thanks.io statuses: reviewing, printing, printed, fulfilled, shipped, delivered, cancelled, error",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-004",
+      "name": "Pull-to-Refresh Orders",
+      "category": "orders",
+      "description": "Orders list supports pull-to-refresh to reload orders from Supabase",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-005",
+      "name": "Order Detail Navigation",
+      "category": "orders",
+      "description": "Tapping an order navigates to order-detail screen with status timeline, recipient info, message preview, and reorder button",
+      "file": "app/order-detail.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-006",
+      "name": "Orders Loading State",
+      "category": "orders",
+      "description": "Orders screen shows loading indicator while fetching from API",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-007",
+      "name": "Order Cost Display",
+      "category": "orders",
+      "description": "Each order displays the cost formatted as currency (e.g., $1.14)",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-008",
+      "name": "Order Date Display",
+      "category": "orders",
+      "description": "Each order displays the creation date in human-readable format",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-TMPL-001",
+      "name": "Save Letter as Template",
+      "category": "templates",
+      "description": "After generating a letter, user can save it as a reusable template via api.saveTemplate()",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-TMPL-002",
+      "name": "System Templates Available",
+      "category": "templates",
+      "description": "Templates screen shows both system-provided and user-created templates",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-TMPL-003",
+      "name": "Template Occasion Filter",
+      "category": "templates",
+      "description": "Templates can be filtered by occasion type",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-001",
+      "name": "Settings Screen Renders",
+      "category": "settings",
+      "description": "Settings tab renders with profile section, theme section, and account actions",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-002",
+      "name": "User Email Display",
+      "category": "settings",
+      "description": "Settings screen displays authenticated user's email from auth context",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-003",
+      "name": "Theme Toggle Light/Dark/System",
+      "category": "settings",
+      "description": "Settings provides toggle between light, dark, and system theme modes",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-004",
+      "name": "Theme Persistence",
+      "category": "settings",
+      "description": "Selected theme preference persists across app restarts via SecureStore",
+      "file": "providers/ThemeProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-005",
+      "name": "System Theme Detection",
+      "category": "settings",
+      "description": "When set to system, theme auto-detects device light/dark mode via useColorScheme()",
+      "file": "providers/ThemeProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-006",
+      "name": "Sign Out with Confirmation",
+      "category": "settings",
+      "description": "Sign out button shows confirmation alert before calling signOut()",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-007",
+      "name": "Subscription Plan Display",
+      "category": "settings",
+      "description": "Settings shows current subscription tier (Free/Pro/Business) and manage subscription link",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-008",
+      "name": "Notifications Settings Section",
+      "category": "settings",
+      "description": "Settings has notifications section with toggle or navigation to notification preferences",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-009",
+      "name": "Privacy Policy Link",
+      "category": "settings",
+      "description": "Settings has privacy policy link that opens external URL or in-app web view",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-010",
+      "name": "Help & FAQ Section",
+      "category": "settings",
+      "description": "Settings has help/FAQ section with support information or link",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-001",
+      "name": "Five-Tab Navigation",
+      "category": "navigation",
+      "description": "Bottom tab navigation with 5 tabs: Create, Recipients, Templates, Orders, Settings with icons",
+      "file": "app/(tabs)/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-002",
+      "name": "Tab Icons from Lucide",
+      "category": "navigation",
+      "description": "Each tab has appropriate lucide-react-native icon (PenLine, Users, FileText, Package, Settings)",
+      "file": "app/(tabs)/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-003",
+      "name": "Modal Stack for Send",
+      "category": "navigation",
+      "description": "Send screen presents as modal with presentation: 'modal' in stack configuration",
+      "file": "app/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-004",
+      "name": "Modal Stack for Voice Recorder",
+      "category": "navigation",
+      "description": "Voice recorder screen presents as modal with presentation: 'modal'",
+      "file": "app/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-005",
+      "name": "Modal Stack for Add Recipient",
+      "category": "navigation",
+      "description": "Add recipient screen presents as modal with presentation: 'modal'",
+      "file": "app/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-006",
+      "name": "Splash Screen Configuration",
+      "category": "navigation",
+      "description": "App shows splash screen on launch and hides after layout is loaded via expo-splash-screen",
+      "file": "app/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-007",
+      "name": "Root Layout Provider Wrapping",
+      "category": "navigation",
+      "description": "Root layout wraps app with AuthProvider and ThemeProvider in correct order",
+      "file": "app/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NAV-008",
+      "name": "Status Bar Configuration",
+      "category": "navigation",
+      "description": "Status bar style adapts to current theme (light/dark)",
+      "file": "app/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-001",
+      "name": "Supabase Client Initialization",
+      "category": "services",
+      "description": "Supabase client created with createClient() using env vars and SecureStore storage adapter",
+      "file": "services/supabase.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-002",
+      "name": "Supabase SecureStore Adapter",
+      "category": "services",
+      "description": "Custom storage adapter using expo-secure-store for getItem, setItem, removeItem on auth tokens",
+      "file": "services/supabase.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-003",
+      "name": "Supabase Auto-Refresh Tokens",
+      "category": "services",
+      "description": "Supabase client configured with autoRefreshToken: true and persistSession: true",
+      "file": "services/supabase.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-004",
+      "name": "API getRecipients()",
+      "category": "services",
+      "description": "api.getRecipients() queries Supabase recipients table filtered by authenticated user_id",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-005",
+      "name": "API createRecipient()",
+      "category": "services",
+      "description": "api.createRecipient() inserts recipient record with user_id into Supabase",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-006",
+      "name": "API updateRecipient()",
+      "category": "services",
+      "description": "api.updateRecipient() updates existing recipient record in Supabase by id",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-007",
+      "name": "API deleteRecipient()",
+      "category": "services",
+      "description": "api.deleteRecipient() deletes recipient record from Supabase by id",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-008",
+      "name": "API getOrders()",
+      "category": "services",
+      "description": "api.getOrders() queries Supabase orders table filtered by user_id, ordered by created_at desc",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-009",
+      "name": "API createOrder()",
+      "category": "services",
+      "description": "api.createOrder() inserts order record with user_id, recipient, product_type, cost, thanks_io_id",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-010",
+      "name": "API getTemplates()",
+      "category": "services",
+      "description": "api.getTemplates() queries templates from Supabase, including system templates and user templates",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-011",
+      "name": "API saveTemplate()",
+      "category": "services",
+      "description": "api.saveTemplate() inserts template record with content, occasion, tone, user_id into Supabase",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-012",
+      "name": "API getUsageStats()",
+      "category": "services",
+      "description": "api.getUsageStats() fetches user usage counters (letterGenerations, imageGenerations, lettersSent) from Supabase",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-013",
+      "name": "API incrementUsage()",
+      "category": "services",
+      "description": "api.incrementUsage() atomically increments usage counter field via Supabase RPC",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-014",
+      "name": "OpenAI generateLetter()",
+      "category": "services",
+      "description": "openai.generateLetter() calls GPT-4o with system prompt, returns array of 3 letter variations",
+      "file": "services/openai.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-015",
+      "name": "OpenAI transcribeAudio()",
+      "category": "services",
+      "description": "openai.transcribeAudio() sends audio file to Whisper-1 model via FormData, returns transcription text",
+      "file": "services/openai.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-016",
+      "name": "OpenAI generateImages()",
+      "category": "services",
+      "description": "openai.generateImages() calls DALL-E 3 for card front images",
+      "file": "services/openai.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-017",
+      "name": "OpenAI extractAddress()",
+      "category": "services",
+      "description": "openai.extractAddress() uses GPT-4o with temperature 0 to parse text into structured address object",
+      "file": "services/openai.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-018",
+      "name": "Thanks.io getHandwritingStyles()",
+      "category": "services",
+      "description": "thanksIo.getHandwritingStyles() fetches available handwriting styles from Thanks.io API",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-019",
+      "name": "Thanks.io sendPostcard()",
+      "category": "services",
+      "description": "thanksIo.sendPostcard() sends postcard via Thanks.io API with message, recipient, handwriting style",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-020",
+      "name": "Thanks.io sendLetter()",
+      "category": "services",
+      "description": "thanksIo.sendLetter() sends handwritten letter via Thanks.io API",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-021",
+      "name": "Thanks.io sendGreetingCard()",
+      "category": "services",
+      "description": "thanksIo.sendGreetingCard() sends greeting card via Thanks.io API with envelope style",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-022",
+      "name": "Thanks.io sendWindowlessLetter()",
+      "category": "services",
+      "description": "thanksIo.sendWindowlessLetter() sends PDF-based letter via Thanks.io API",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-023",
+      "name": "Thanks.io Order Status (Webhook-based)",
+      "category": "services",
+      "description": "getOrderStatus() returns null — Thanks.io has no polling endpoint; status updates arrive via webhooks and are stored locally",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-024",
+      "name": "Thanks.io Product Catalog",
+      "category": "services",
+      "description": "PRODUCT_CATALOG constant defines all products with correct prices: postcard $1.14, letter $1.20, greeting $3.00, windowless $2.52",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-025",
+      "name": "Thanks.io Tier-Based Product Access",
+      "category": "services",
+      "description": "getProductsForTier() returns correct products per subscription tier (free=postcard, pro=+letter+greeting, business=all)",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-026",
+      "name": "Thanks.io Bearer Token Auth",
+      "category": "services",
+      "description": "All Thanks.io API calls use Bearer token authentication via THANKS_IO_API_KEY",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-027",
+      "name": "OpenAI Bearer Token Auth",
+      "category": "services",
+      "description": "All OpenAI API calls use Bearer token authentication via OPENAI_API_KEY",
+      "file": "services/openai.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-THEME-001",
+      "name": "Theme Provider Context",
+      "category": "settings",
+      "description": "ThemeProvider creates React context exposing theme, colors, isDark, setTheme",
+      "file": "providers/ThemeProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-THEME-002",
+      "name": "Light Theme Colors",
+      "category": "settings",
+      "description": "Light theme defines complete color palette: primary, background, surface, text, error, success, warning, info colors",
+      "file": "constants/colors.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-THEME-003",
+      "name": "Dark Theme Colors",
+      "category": "settings",
+      "description": "Dark theme defines complete color palette matching all light theme color tokens with dark variants",
+      "file": "constants/colors.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-THEME-004",
+      "name": "useTheme Hook",
+      "category": "settings",
+      "description": "useTheme() custom hook provides access to theme state and colors from any component",
+      "file": "providers/ThemeProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-001",
+      "name": "Environment Variables Configuration",
+      "category": "config",
+      "description": "config.ts exports all API keys from EXPO_PUBLIC_* environment variables with empty string fallbacks",
+      "file": "constants/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-002",
+      "name": "Tier Definitions",
+      "category": "config",
+      "description": "TIERS constant defines free, pro, business tiers with letterGenerations, imageGenerations, lettersSent limits and product arrays",
+      "file": "constants/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-003",
+      "name": "TierName Type Export",
+      "category": "config",
+      "description": "TierName type exported as keyof typeof TIERS for type-safe tier references",
+      "file": "constants/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-004",
+      "name": "App JSON Configuration",
+      "category": "config",
+      "description": "app.json configured with name, slug, bundleIdentifier, iOS permissions, plugins, typed routes",
+      "file": "app.json",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-005",
+      "name": "TypeScript Configuration",
+      "category": "config",
+      "description": "tsconfig.json extends expo/tsconfig.base with strict mode and @/* path alias",
+      "file": "tsconfig.json",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-006",
+      "name": "Package Scripts",
+      "category": "config",
+      "description": "package.json has scripts for start, ios, android, web, lint, test, test:live variants",
+      "file": "package.json",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-007",
+      "name": "Env Example File",
+      "category": "config",
+      "description": ".env.example documents all required environment variables for project setup",
+      "file": ".env.example",
+      "passes": true
+    },
+    {
+      "id": "IOS-CONFIG-008",
+      "name": "Typography Constants",
+      "category": "config",
+      "description": "typography.ts defines platform-specific font families, font sizes (xs-3xl), weights, and line heights",
+      "file": "constants/typography.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-001",
+      "name": "RevenueCat SDK Initialization",
+      "category": "billing",
+      "description": "Initialize RevenueCat Purchases SDK with REVENUECAT_API_KEY on app startup",
+      "file": "providers/BillingProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-002",
+      "name": "RevenueCat User Identification",
+      "category": "billing",
+      "description": "Identify RevenueCat user with Supabase user ID after authentication",
+      "file": "providers/BillingProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-003",
+      "name": "Subscription Paywall Screen",
+      "category": "billing",
+      "description": "Paywall screen displays Free, Pro ($29/mo), Business ($99/mo) tiers with feature comparison",
+      "file": "app/paywall.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-004",
+      "name": "In-App Purchase Flow",
+      "category": "billing",
+      "description": "Tapping a tier initiates RevenueCat purchase flow via Purchases.purchasePackage()",
+      "file": "app/paywall.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-005",
+      "name": "Entitlement Checking",
+      "category": "billing",
+      "description": "Check user entitlements via RevenueCat to determine active subscription tier",
+      "file": "providers/BillingProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-006",
+      "name": "Premium Feature Gating",
+      "category": "billing",
+      "description": "Gate product types and usage limits based on subscription tier from RevenueCat entitlements",
+      "file": "providers/BillingProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-007",
+      "name": "Upgrade Prompt on Limit",
+      "category": "billing",
+      "description": "Show upgrade prompt when user hits free tier limit (e.g., max letter generations)",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-BILLING-008",
+      "name": "Restore Purchases",
+      "category": "billing",
+      "description": "Settings or paywall screen has restore purchases button that calls Purchases.restorePurchases()",
+      "file": "app/paywall.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-001",
+      "name": "PostHog SDK Initialization",
+      "category": "analytics",
+      "description": "Initialize PostHog React Native SDK with POSTHOG_API_KEY and POSTHOG_HOST on app startup",
+      "file": "providers/AnalyticsProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-002",
+      "name": "PostHog User Identification",
+      "category": "analytics",
+      "description": "Identify PostHog user with Supabase user ID and email after authentication",
+      "file": "providers/AnalyticsProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-003",
+      "name": "Track letter_created Event",
+      "category": "analytics",
+      "description": "Capture PostHog event when user generates a letter with occasion and tone properties",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-004",
+      "name": "Track letter_sent Event",
+      "category": "analytics",
+      "description": "Capture PostHog event when user sends a letter with product_type and cost properties",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-005",
+      "name": "Track recipient_added Event",
+      "category": "analytics",
+      "description": "Capture PostHog event when user adds a new recipient",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-006",
+      "name": "Track template_used Event",
+      "category": "analytics",
+      "description": "Capture PostHog event when user selects a template to use",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ANALYTICS-007",
+      "name": "PostHog Session Recording",
+      "category": "analytics",
+      "description": "Enable PostHog session replay for mobile debugging and UX analysis",
+      "file": "providers/AnalyticsProvider.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-NOTIF-001",
+      "name": "Push Notification Permission Request",
+      "category": "notifications",
+      "description": "Request push notification permissions via expo-notifications on first launch or settings",
+      "file": "services/notifications.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-NOTIF-002",
+      "name": "Push Token Registration",
+      "category": "notifications",
+      "description": "Register device push token with backend (Supabase) for targeting notifications",
+      "file": "services/notifications.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-NOTIF-003",
+      "name": "Notification Handler Setup",
+      "category": "notifications",
+      "description": "Configure notification received and response handlers via expo-notifications",
+      "file": "services/notifications.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-NOTIF-004",
+      "name": "Order Delivered Notification",
+      "category": "notifications",
+      "description": "Send local or push notification when order status changes to delivered",
+      "file": "services/notifications.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-NOTIF-005",
+      "name": "Notification Deep Link to Order",
+      "category": "notifications",
+      "description": "Tapping order notification deep links to the orders tab with specific order highlighted",
+      "file": "services/notifications.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-001",
+      "name": "Global Error Boundary",
+      "category": "polish",
+      "description": "ErrorBoundary component wraps app with user-friendly fallback UI on unhandled errors",
+      "file": "components/ErrorBoundary.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-002",
+      "name": "Error Boundary Retry Button",
+      "category": "polish",
+      "description": "Error boundary fallback UI includes retry/reload button to recover from errors",
+      "file": "components/ErrorBoundary.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-003",
+      "name": "Recipients Loading Skeleton",
+      "category": "polish",
+      "description": "Recipients list shows skeleton placeholder UI while loading data",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-004",
+      "name": "Orders Loading Skeleton",
+      "category": "polish",
+      "description": "Orders list shows skeleton placeholder UI while loading data",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-005",
+      "name": "Templates Loading Skeleton",
+      "category": "polish",
+      "description": "Templates list shows skeleton placeholder UI while loading data",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-006",
+      "name": "Haptic Feedback on Send",
+      "category": "polish",
+      "description": "Trigger success haptic feedback via expo-haptics when letter is sent successfully",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-007",
+      "name": "Haptic Feedback on Button Press",
+      "category": "polish",
+      "description": "Trigger light haptic feedback on primary button presses throughout the app",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-008",
+      "name": "Empty State - No Recipients",
+      "category": "polish",
+      "description": "Recipients screen shows illustrated empty state with CTA when no recipients exist",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-009",
+      "name": "Empty State - No Orders",
+      "category": "polish",
+      "description": "Orders screen shows illustrated empty state with CTA when no orders exist",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-010",
+      "name": "Empty State - No Templates",
+      "category": "polish",
+      "description": "Templates screen shows illustrated empty state with CTA when no templates exist",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-011",
+      "name": "Keyboard Avoidance on Forms",
+      "category": "polish",
+      "description": "All form screens (sign-in, sign-up, add-recipient, send) properly avoid keyboard overlap",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-012",
+      "name": "Keyboard Dismiss on Tap Outside",
+      "category": "polish",
+      "description": "Tapping outside text inputs dismisses keyboard on all form screens",
+      "file": "app/(tabs)/index.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-013",
+      "name": "Pull-to-Refresh on Recipients",
+      "category": "polish",
+      "description": "Recipients list supports pull-to-refresh to reload from Supabase",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-POLISH-014",
+      "name": "Pull-to-Refresh on Templates",
+      "category": "polish",
+      "description": "Templates list supports pull-to-refresh to reload from Supabase",
+      "file": "app/(tabs)/templates.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-A11Y-001",
+      "name": "Screen Reader Labels on Tabs",
+      "category": "accessibility",
+      "description": "Tab navigation items have accessibilityLabel for VoiceOver support",
+      "file": "app/(tabs)/_layout.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-A11Y-002",
+      "name": "Form Input Labels",
+      "category": "accessibility",
+      "description": "All form inputs have accessibilityLabel or associated label text for screen readers",
+      "file": "app/(auth)/sign-in.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-A11Y-003",
+      "name": "Button Accessibility Labels",
+      "category": "accessibility",
+      "description": "All interactive buttons have accessibilityLabel and accessibilityRole='button'",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-A11Y-004",
+      "name": "Status Badge Accessibility",
+      "category": "accessibility",
+      "description": "Order status badges have accessibilityLabel describing the status (not just color)",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEC-001",
+      "name": "No Hardcoded API Keys",
+      "category": "security",
+      "description": "No API keys are hardcoded in source files; all use environment variables from config.ts",
+      "file": "constants/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEC-002",
+      "name": "SecureStore for Tokens",
+      "category": "security",
+      "description": "Auth tokens stored in expo-secure-store (encrypted), not AsyncStorage (plaintext)",
+      "file": "services/supabase.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEC-003",
+      "name": "No Sensitive Data in Logs",
+      "category": "security",
+      "description": "No console.log statements that output API keys, tokens, passwords, or other sensitive data",
+      "file": "services/openai.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEC-004",
+      "name": "Input Sanitization on Forms",
+      "category": "security",
+      "description": "User inputs are trimmed and validated before being sent to APIs",
+      "file": "app/add-recipient.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEC-005",
+      "name": "HTTPS Only API Calls",
+      "category": "security",
+      "description": "All API base URLs use https:// protocol (Supabase, Thanks.io, OpenAI)",
+      "file": "services/thanks-io.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEC-006",
+      "name": "No Mock Data in Production Code",
+      "category": "security",
+      "description": "No mock data, fake API responses, or placeholder implementations in production source files",
+      "file": "services/api.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-PERF-001",
+      "name": "FlatList for Long Lists",
+      "category": "performance",
+      "description": "Recipients, orders, and templates screens use FlatList (not ScrollView) for virtualized rendering",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-PERF-002",
+      "name": "Memoized List Items",
+      "category": "performance",
+      "description": "List item components use React.memo() to prevent unnecessary re-renders",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-PERF-003",
+      "name": "useCallback for Event Handlers",
+      "category": "performance",
+      "description": "Event handlers passed to list items wrapped in useCallback to maintain referential stability",
+      "file": "app/(tabs)/recipients.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-PERF-004",
+      "name": "Lazy Loading on Tab Switch",
+      "category": "performance",
+      "description": "Tab screens lazy-load their data on focus rather than loading all tabs at once",
+      "file": "app/(tabs)/orders.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-001",
+      "name": "Live Test Configuration",
+      "category": "testing",
+      "description": "tests/live/config.ts defines LiveTestConfig with enabled flag, API key, base URL, profiles, default recipient",
+      "file": "tests/live/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-002",
+      "name": "Live Test Guard",
+      "category": "testing",
+      "description": "assertLiveTestEnabled() throws if THANKS_IO_LIVE_TEST is not set or API key is missing",
+      "file": "tests/live/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-003",
+      "name": "Live Postcard Send Test",
+      "category": "testing",
+      "description": "Integration test sends actual postcard via Thanks.io API and verifies success response",
+      "file": "tests/live/send-postcard.test.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-004",
+      "name": "Live Letter Send Test",
+      "category": "testing",
+      "description": "Integration test sends actual letter via Thanks.io API and verifies success response",
+      "file": "tests/live/send-letter.test.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-005",
+      "name": "Live Greeting Card Send Test",
+      "category": "testing",
+      "description": "Integration test sends actual greeting card via Thanks.io API and verifies success response",
+      "file": "tests/live/send-greeting-card.test.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-006",
+      "name": "Handwriting Styles Fetch Test",
+      "category": "testing",
+      "description": "Integration test retrieves handwriting styles from Thanks.io and verifies non-empty array",
+      "file": "tests/live/send-postcard.test.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-007",
+      "name": "Order Status Check Test",
+      "category": "testing",
+      "description": "Integration test checks order status after sending and verifies valid status response",
+      "file": "tests/live/send-postcard.test.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-008",
+      "name": "Jest Configuration",
+      "category": "testing",
+      "description": "tests/live/jest.config.ts configures Jest with ts-jest preset for TypeScript test execution",
+      "file": "tests/live/jest.config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-TEST-009",
+      "name": "Test Spend Limit Guard",
+      "category": "testing",
+      "description": "Live test config enforces maxSpend limit ($15 default) to prevent runaway test costs",
+      "file": "tests/live/config.ts",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-009",
+      "name": "Order Detail Screen",
+      "category": "orders",
+      "description": "Dedicated order detail screen with status hero card, 6-step status timeline, order details card, recipient info, message preview, and reorder button",
+      "file": "app/order-detail.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-ORDER-010",
+      "name": "Order Detail Status Timeline",
+      "category": "orders",
+      "description": "Order detail shows visual timeline: reviewing → printing → printed → fulfilled → shipped → delivered with active/inactive states",
+      "file": "app/order-detail.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-011",
+      "name": "Usage Stats Display",
+      "category": "settings",
+      "description": "Settings screen displays usage progress bars for letters generated, images generated, and letters sent with current/limit counts",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SETTINGS-012",
+      "name": "Dynamic Tier Name in Subscription",
+      "category": "settings",
+      "description": "Settings subscription row shows actual tier name from BillingProvider instead of hardcoded 'Free'",
+      "file": "app/(tabs)/settings.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-015",
+      "name": "Tier Restriction on Product Types",
+      "category": "send-flow",
+      "description": "Send screen checks canUseProduct() before allowing product selection; shows lock icon and upgrade prompt for restricted products",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-016",
+      "name": "Add Recipient from Send Screen",
+      "category": "send-flow",
+      "description": "Send screen recipient dropdown includes 'Add New Recipient' option that navigates to add-recipient modal",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SEND-017",
+      "name": "Front Image URL for Postcards",
+      "category": "send-flow",
+      "description": "Send screen includes default front_image_url in all send requests (required by Thanks.io for postcards/notecards)",
+      "file": "app/send.tsx",
+      "passes": true
+    },
+    {
+      "id": "IOS-SVC-028",
+      "name": "DALL-E 3 Parallel Image Generation",
+      "category": "services",
+      "description": "generateImages() makes parallel n=1 requests since DALL-E 3 only supports single image per call",
+      "file": "services/openai.ts",
+      "passes": true
+    }
+  ]
+}

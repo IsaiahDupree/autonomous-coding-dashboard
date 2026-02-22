@@ -1,0 +1,1254 @@
+{
+  "project": "Programmatic Creative Testing System",
+  "created": "2025-01-01T00:00:00Z",
+  "description": "Systematic Facebook ad creative testing through structured parameters - USPs, marketing angles, messaging frameworks, awareness levels, and market sophistication",
+  "total_features": 120,
+  "features": [
+    {
+      "id": "PCT-001",
+      "category": "context",
+      "priority": 1,
+      "description": "Brand profile management with name, description, voice, and values",
+      "acceptance_criteria": [
+        "Form to create/edit brand profiles",
+        "Brand voice tone selector",
+        "Multi-brand support with switching"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-002",
+      "category": "context",
+      "priority": 1,
+      "description": "Product catalog with features, benefits, and target audience",
+      "acceptance_criteria": [
+        "Product entry form with all fields",
+        "Product image upload",
+        "Product-to-brand linking"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-003",
+      "category": "context",
+      "priority": 1,
+      "description": "Voice of Customer (VoC) gold nugget collection",
+      "acceptance_criteria": [
+        "Manual gold nugget entry form",
+        "Source tracking (Amazon, Reddit, forums)",
+        "Pain point and desire categorization"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-004",
+      "category": "usp",
+      "priority": 1,
+      "description": "USP management with manual entry and AI generation",
+      "acceptance_criteria": [
+        "Manual USP entry and editing",
+        "AI-powered USP generation from context",
+        "USP-to-product linking"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-005",
+      "category": "usp",
+      "priority": 1,
+      "description": "Marketing angle generation from selected USP",
+      "acceptance_criteria": [
+        "Generate 5-10 angles per USP",
+        "Angle categorization (emotional, functional, social proof)",
+        "Angle approval workflow"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-006",
+      "category": "parameters",
+      "priority": 1,
+      "description": "Messaging framework selector with pre-built options",
+      "acceptance_criteria": [
+        "Punchy, Bold, Desire, Question-based frameworks",
+        "Framework examples and previews",
+        "Custom framework creation"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-007",
+      "category": "parameters",
+      "priority": 1,
+      "description": "Customer awareness level selector (Eugene Schwartz)",
+      "acceptance_criteria": [
+        "Visual awareness funnel display",
+        "5 levels with descriptions (Unaware to Most Aware)",
+        "Multi-level selection for batch generation"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-008",
+      "category": "parameters",
+      "priority": 1,
+      "description": "Market sophistication level selector",
+      "acceptance_criteria": [
+        "5 sophistication levels with strategies",
+        "Level-specific messaging guidance",
+        "Industry-specific defaults"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-009",
+      "category": "hooks",
+      "priority": 1,
+      "description": "Single hook generation with parameter preview",
+      "acceptance_criteria": [
+        "Generate hook from selected USP + angle + parameters",
+        "Show source parameters with output",
+        "Regenerate option"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-010",
+      "category": "hooks",
+      "priority": 1,
+      "description": "Batch hook generation (10, 25, 50, 100)",
+      "acceptance_criteria": [
+        "Batch size selector",
+        "Progress indicator during generation",
+        "Parameter combination matrix support"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-011",
+      "category": "hooks",
+      "priority": 1,
+      "description": "Hook review interface with approve/reject",
+      "acceptance_criteria": [
+        "Card-based hook display",
+        "Approve/reject toggle per hook",
+        "Inline editing capability"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-012",
+      "category": "hooks",
+      "priority": 2,
+      "description": "Hook filtering and sorting",
+      "acceptance_criteria": [
+        "Filter by USP, angle, framework",
+        "Sort by newest, rating, parameter",
+        "Bulk selection tools"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-013",
+      "category": "hooks",
+      "priority": 2,
+      "description": "Hook library with persistent storage",
+      "acceptance_criteria": [
+        "All hooks saved to database",
+        "Search and filtering",
+        "Export selected hooks (CSV, JSON)"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-014",
+      "category": "templates",
+      "priority": 2,
+      "description": "Template upload interface",
+      "acceptance_criteria": [
+        "Image upload for templates",
+        "Template preview",
+        "Template library organization"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-015",
+      "category": "templates",
+      "priority": 2,
+      "description": "Text zone definition tool",
+      "acceptance_criteria": [
+        "Drag-and-drop zone definition",
+        "Font configuration per zone",
+        "Preview with sample text"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-016",
+      "category": "templates",
+      "priority": 2,
+      "description": "Ad size management",
+      "acceptance_criteria": [
+        "Standard sizes (1080x1080, 1080x1350, 1080x1920)",
+        "Custom size definition",
+        "Multi-size generation from single template"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-017",
+      "category": "images",
+      "priority": 2,
+      "description": "Hook-to-template image generation",
+      "acceptance_criteria": [
+        "Apply selected hooks to templates",
+        "Auto-fit text sizing",
+        "Text overflow handling"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-018",
+      "category": "images",
+      "priority": 2,
+      "description": "Batch image generation",
+      "acceptance_criteria": [
+        "Generate all hook × template combinations",
+        "Progress indicator",
+        "Download all as ZIP"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-019",
+      "category": "images",
+      "priority": 2,
+      "description": "Image review gallery",
+      "acceptance_criteria": [
+        "Gallery view of generated ads",
+        "Approve/reject per image",
+        "Side-by-side comparison"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-020",
+      "category": "deployment",
+      "priority": 3,
+      "description": "Meta Business account OAuth connection",
+      "acceptance_criteria": [
+        "OAuth flow for Meta connection",
+        "Ad account selection",
+        "Permission verification"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-021",
+      "category": "deployment",
+      "priority": 3,
+      "description": "Campaign and Ad Set browser",
+      "acceptance_criteria": [
+        "List existing campaigns",
+        "List ad sets within campaigns",
+        "Select target ad set for deployment"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-022",
+      "category": "deployment",
+      "priority": 3,
+      "description": "Ad push with rate limiting",
+      "acceptance_criteria": [
+        "Batch ad creation via API",
+        "Rate limiting to avoid throttling",
+        "Queue management for large batches"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-023",
+      "category": "deployment",
+      "priority": 3,
+      "description": "Ad status tracking and sync",
+      "acceptance_criteria": [
+        "Pull ad status from Meta",
+        "Display review status",
+        "Link to live ad preview"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-024",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Performance data import",
+      "acceptance_criteria": [
+        "Import metrics from Meta (CTR, CPC, ROAS)",
+        "Link performance to source parameters",
+        "Automatic refresh on schedule"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-025",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Winner identification",
+      "acceptance_criteria": [
+        "Algorithm to identify top performers",
+        "Threshold configuration",
+        "Winner tagging and highlighting"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-026",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Insights dashboard",
+      "acceptance_criteria": [
+        "Top performing USPs display",
+        "Top performing angles display",
+        "Best messaging frameworks chart"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-027",
+      "category": "iteration",
+      "priority": 3,
+      "description": "Create more like winner workflow",
+      "acceptance_criteria": [
+        "Button to generate variations of winner",
+        "Copy winning parameters",
+        "Generate new hooks with same angle"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-028",
+      "category": "iteration",
+      "priority": 3,
+      "description": "Winning angle expansion",
+      "acceptance_criteria": [
+        "Identify winning angles",
+        "Generate more hooks for that angle",
+        "Test new images with proven hooks"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-029",
+      "category": "video",
+      "priority": 4,
+      "description": "Video script generation from hook",
+      "acceptance_criteria": [
+        "Generate full script from winning hook",
+        "Structure: Hook → Lid → Body → CTA",
+        "Duration targeting (30s, 60s, 90s)"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-030",
+      "category": "video",
+      "priority": 4,
+      "description": "Script editor with sections",
+      "acceptance_criteria": [
+        "Section-by-section editing",
+        "Word count and reading time",
+        "Export to Google Docs"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-031",
+      "category": "video",
+      "priority": 4,
+      "description": "Advanced script parameters",
+      "acceptance_criteria": [
+        "Psychological trigger selector",
+        "Emotion targeting",
+        "Copywriter style reference"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-032",
+      "category": "integration",
+      "priority": 2,
+      "description": "Claude/OpenAI API integration",
+      "acceptance_criteria": [
+        "API key configuration",
+        "Model selection (Claude, GPT-4)",
+        "Error handling and retries"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-033",
+      "category": "integration",
+      "priority": 2,
+      "description": "Image generation API integration",
+      "acceptance_criteria": [
+        "Templated.io or similar API",
+        "Text overlay rendering",
+        "Multiple output formats"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-034",
+      "category": "integration",
+      "priority": 3,
+      "description": "Meta Marketing API integration",
+      "acceptance_criteria": [
+        "Campaign CRUD operations",
+        "Ad creation endpoint",
+        "Performance data retrieval"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-035",
+      "category": "integration",
+      "priority": 4,
+      "description": "Webhook endpoints for automation",
+      "acceptance_criteria": [
+        "Incoming webhooks for triggers",
+        "Outgoing webhooks for notifications",
+        "Make.com/Zapier compatibility"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-036",
+      "category": "database",
+      "priority": 1,
+      "description": "Brand and Product tables",
+      "acceptance_criteria": [
+        "Brand table with all fields",
+        "Product table with foreign key to Brand",
+        "Proper indexing"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-037",
+      "category": "database",
+      "priority": 1,
+      "description": "USP and MarketingAngle tables",
+      "acceptance_criteria": [
+        "USP table linked to Product",
+        "MarketingAngle table linked to USP",
+        "Status and approval fields"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-038",
+      "category": "database",
+      "priority": 1,
+      "description": "Hook table with parameter tracking",
+      "acceptance_criteria": [
+        "Hook text and metadata",
+        "Links to USP, Angle, Framework, Awareness, Sophistication",
+        "Approval status and rating"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-039",
+      "category": "database",
+      "priority": 2,
+      "description": "Template and GeneratedAd tables",
+      "acceptance_criteria": [
+        "Template storage with zone config",
+        "GeneratedAd linking Hook and Template",
+        "Image URL storage"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-040",
+      "category": "database",
+      "priority": 3,
+      "description": "Meta mirror tables (Campaign, AdSet, Ad)",
+      "acceptance_criteria": [
+        "Store Meta IDs and status",
+        "Link to GeneratedAd",
+        "Sync timestamp tracking"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-041",
+      "category": "ui",
+      "priority": 1,
+      "description": "Main dashboard layout",
+      "acceptance_criteria": [
+        "Navigation between modules",
+        "Brand/Product selector",
+        "Quick stats overview"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-042",
+      "category": "ui",
+      "priority": 1,
+      "description": "Context input wizard",
+      "acceptance_criteria": [
+        "Step-by-step onboarding",
+        "Brand → Product → VoC flow",
+        "Progress indicator"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-043",
+      "category": "ui",
+      "priority": 2,
+      "description": "Hook generation workspace",
+      "acceptance_criteria": [
+        "Parameter sidebar",
+        "Generated hooks main area",
+        "Actions toolbar"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-044",
+      "category": "ui",
+      "priority": 2,
+      "description": "Creative studio for ad preview",
+      "acceptance_criteria": [
+        "Template + Hook combination view",
+        "Multiple size previews",
+        "Batch selection interface"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-045",
+      "category": "ui",
+      "priority": 3,
+      "description": "Deployment manager",
+      "acceptance_criteria": [
+        "Campaign tree view",
+        "Ad queue with status",
+        "Push controls"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-046",
+      "category": "ui",
+      "priority": 3,
+      "description": "Analytics and insights view",
+      "acceptance_criteria": [
+        "Performance charts",
+        "Winner highlights",
+        "Parameter correlation display"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-047",
+      "category": "settings",
+      "priority": 2,
+      "description": "API key management",
+      "acceptance_criteria": [
+        "Secure API key storage",
+        "Connection testing",
+        "Key rotation support"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-048",
+      "category": "settings",
+      "priority": 3,
+      "description": "Default parameter presets",
+      "acceptance_criteria": [
+        "Save favorite parameter combinations",
+        "Quick-apply presets",
+        "Share presets across team"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-049",
+      "category": "voc",
+      "priority": 1,
+      "description": "Voice Mining Framework integration for automated customer insight gathering",
+      "acceptance_criteria": [
+        "AI agents scan Reddit, forums, Amazon reviews",
+        "Auto-extract pain points and desires",
+        "Categorize insights by topic and sentiment",
+        "Gold nugget auto-tagging"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-050",
+      "category": "generation",
+      "priority": 2,
+      "description": "Performing hooks as AI examples for improved generation",
+      "acceptance_criteria": [
+        "Feed winning hooks back to AI as examples",
+        "Generate more like this workflow",
+        "Track which example hooks improve output quality"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-051",
+      "category": "video",
+      "priority": 4,
+      "description": "Mini VSSL text-based video ad generation",
+      "acceptance_criteria": [
+        "Generate longer text ads from winning hooks",
+        "AI voiceover generation",
+        "Simple text-on-screen video format"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-052",
+      "category": "video",
+      "priority": 4,
+      "description": "B-roll matching and video assembly (Icon integration)",
+      "acceptance_criteria": [
+        "Upload B-roll footage library",
+        "AI segments script into sentences",
+        "Auto-match B-roll to script segments",
+        "Export assembled video"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-053",
+      "category": "parameters",
+      "priority": 2,
+      "description": "Psychological trigger selector for ad generation",
+      "acceptance_criteria": [
+        "Trigger options: curiosity, challenge beliefs, fear, greed, desire",
+        "Inject trigger into AI prompts",
+        "Track trigger performance"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-054",
+      "category": "parameters",
+      "priority": 2,
+      "description": "Copywriter style reference selector",
+      "acceptance_criteria": [
+        "Style options: David Ogilvy, Eugene Schwartz, Gary Halbert",
+        "Style-specific prompt templates",
+        "Preview expected output tone"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-055",
+      "category": "images",
+      "priority": 2,
+      "description": "Templated.io API integration for dynamic image generation",
+      "acceptance_criteria": [
+        "Connect to Templated.io account",
+        "Sync available templates",
+        "Auto-fit text sizing on render",
+        "Batch rendering support"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-056",
+      "category": "deployment",
+      "priority": 3,
+      "description": "Ad creation queue with rate limiting for Meta API",
+      "acceptance_criteria": [
+        "Queue ads for creation one-by-one",
+        "Configurable rate limit (default 1/second)",
+        "Progress indicator for batch deployments",
+        "Retry failed pushes automatically"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-057",
+      "category": "iteration",
+      "priority": 3,
+      "description": "New images for winning hooks workflow",
+      "acceptance_criteria": [
+        "Select winning hooks from analytics",
+        "Generate new image variations",
+        "A/B test new images against original"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-058",
+      "category": "iteration",
+      "priority": 3,
+      "description": "New hooks for winning angles workflow",
+      "acceptance_criteria": [
+        "Identify winning marketing angles",
+        "Generate fresh hooks for same angle",
+        "Maintain angle-to-hook performance tracking"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-059",
+      "category": "analytics",
+      "priority": 3,
+      "description": "Parameter-to-performance correlation analysis",
+      "acceptance_criteria": [
+        "Correlate USP performance across ads",
+        "Correlate angle performance",
+        "Correlate messaging framework effectiveness",
+        "Correlate awareness level targeting"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-060",
+      "category": "integration",
+      "priority": 2,
+      "description": "WaitlistLab Meta OAuth bridge for shared authentication",
+      "acceptance_criteria": [
+        "Use WaitlistLab's existing Meta connection",
+        "Shared ad account access",
+        "Unified campaign management"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-061",
+      "category": "integration",
+      "priority": 4,
+      "description": "Remotion video rendering integration for scaled video ads",
+      "acceptance_criteria": [
+        "Connect to Remotion rendering service",
+        "Template-based video generation",
+        "Batch video rendering queue"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-062",
+      "category": "automation",
+      "priority": 3,
+      "description": "Make.com/Zapier webhook compatibility layer",
+      "acceptance_criteria": [
+        "Incoming webhook endpoints for triggers",
+        "Outgoing webhooks for notifications",
+        "Compatible with Make.com scenarios",
+        "Webhook authentication and logging"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-063",
+      "category": "generation",
+      "priority": 1,
+      "description": "Performing hooks example database for AI-assisted generation",
+      "acceptance_criteria": [
+        "Database of hundreds of proven performing hooks",
+        "Hooks categorized by messaging framework",
+        "Industry and niche tagging",
+        "Auto-inject relevant examples into AI prompts",
+        "Feedback loop: winners auto-added to examples"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-064",
+      "category": "database",
+      "priority": 1,
+      "description": "Hook examples table for AI learning",
+      "acceptance_criteria": [
+        "pct_hook_examples table with hook_text, framework_id, industry",
+        "Source tracking (internal_winner, swipe_file, competitor)",
+        "Active/inactive status for curation",
+        "Seed with initial 100+ examples"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-065",
+      "category": "voc",
+      "priority": 1,
+      "description": "Gold nugget extraction from customer reviews",
+      "acceptance_criteria": [
+        "AI-powered quote extraction from raw reviews",
+        "Pain point categorization",
+        "Desire/benefit categorization",
+        "Exact customer wording preservation",
+        "Source URL tracking"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-066",
+      "category": "generation",
+      "priority": 2,
+      "description": "Narrator/spokesperson style selector for video scripts",
+      "acceptance_criteria": [
+        "Brand spokesperson option",
+        "Third-party expert option",
+        "Customer testimonial style option",
+        "Style injected into script generation prompts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-067",
+      "category": "generation",
+      "priority": 2,
+      "description": "Ad inspiration reference for script generation",
+      "acceptance_criteria": [
+        "Upload or link reference ads",
+        "AI analyzes structure of reference",
+        "Generate new scripts following reference pattern",
+        "Track which references produce best results"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-068",
+      "category": "templates",
+      "priority": 2,
+      "description": "Product image masking for template creation",
+      "acceptance_criteria": [
+        "Upload existing product images",
+        "Mask/hide existing text areas",
+        "Define new text placeholder zones",
+        "Save as reusable template"
+      ],
+      "passes": true
+    },
+    {
+      "id": "PCT-069",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Real-time ad performance dashboard with key metrics",
+      "acceptance_criteria": ["CTR, CPC, ROAS display", "Time-series charts", "Comparison to benchmarks"],
+      "passes": true
+    },
+    {
+      "id": "PCT-070",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Creative fatigue detection and alerting",
+      "acceptance_criteria": ["Declining CTR detection", "Auto-alert when creative fatigues", "Suggested refresh actions"],
+      "passes": true
+    },
+    {
+      "id": "PCT-071",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Winner/loser classification with statistical significance",
+      "acceptance_criteria": ["Auto-classify based on p-value", "Confidence interval display", "Sample size calculator"],
+      "passes": true
+    },
+    {
+      "id": "PCT-072",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Cross-campaign performance comparison",
+      "acceptance_criteria": ["Compare multiple campaigns", "Normalize by spend", "Export comparison reports"],
+      "passes": true
+    },
+    {
+      "id": "PCT-073",
+      "category": "generation",
+      "priority": 1,
+      "description": "AI-powered headline variations generator",
+      "acceptance_criteria": ["Generate 10+ headline variations", "Tone/style customization", "A/B test recommendations"],
+      "passes": true
+    },
+    {
+      "id": "PCT-074",
+      "category": "generation",
+      "priority": 1,
+      "description": "Dynamic text overlay for video ads",
+      "acceptance_criteria": ["Text animation presets", "Font and color customization", "Export ready for Meta"],
+      "passes": true
+    },
+    {
+      "id": "PCT-075",
+      "category": "generation",
+      "priority": 1,
+      "description": "Competitor ad library scraper integration",
+      "acceptance_criteria": ["Search competitor ads", "Save to swipe file", "Extract hooks and CTAs"],
+      "passes": true
+    },
+    {
+      "id": "PCT-076",
+      "category": "audience",
+      "priority": 1,
+      "description": "Lookalike audience builder from VoC data",
+      "acceptance_criteria": ["Build audiences from customer profiles", "Export to Meta", "Track audience performance"],
+      "passes": true
+    },
+    {
+      "id": "PCT-077",
+      "category": "audience",
+      "priority": 1,
+      "description": "Interest targeting recommendations engine",
+      "acceptance_criteria": ["AI-suggested interests", "Overlap analysis", "Budget recommendations"],
+      "passes": true
+    },
+    {
+      "id": "PCT-078",
+      "category": "audience",
+      "priority": 1,
+      "description": "Custom audience sync with CRM",
+      "acceptance_criteria": ["Import from CRM", "Auto-refresh schedules", "Segment by purchase history"],
+      "passes": true
+    },
+    {
+      "id": "PCT-079",
+      "category": "budget",
+      "priority": 1,
+      "description": "Budget allocation optimizer across ad sets",
+      "acceptance_criteria": ["Auto-shift budget to winners", "Min/max budget constraints", "Scheduling rules"],
+      "passes": true
+    },
+    {
+      "id": "PCT-080",
+      "category": "budget",
+      "priority": 1,
+      "description": "ROAS-based bid strategy recommendations",
+      "acceptance_criteria": ["Target ROAS input", "Bid cap suggestions", "Historical performance analysis"],
+      "passes": true
+    },
+    {
+      "id": "PCT-081",
+      "category": "budget",
+      "priority": 1,
+      "description": "Spend pacing alerts and forecasting",
+      "acceptance_criteria": ["Daily spend tracking", "Over/under pace alerts", "Month-end forecast"],
+      "passes": true
+    },
+    {
+      "id": "PCT-082",
+      "category": "creative",
+      "priority": 1,
+      "description": "UGC-style video template generator",
+      "acceptance_criteria": ["iPhone selfie aesthetic", "Authentic backgrounds", "Caption overlays"],
+      "passes": true
+    },
+    {
+      "id": "PCT-083",
+      "category": "creative",
+      "priority": 1,
+      "description": "Before/after comparison image generator",
+      "acceptance_criteria": ["Side-by-side layout", "Slider animation option", "Text overlay zones"],
+      "passes": true
+    },
+    {
+      "id": "PCT-084",
+      "category": "creative",
+      "priority": 1,
+      "description": "Testimonial card generator from reviews",
+      "acceptance_criteria": ["Pull from VoC database", "Star rating display", "Profile photo placeholder"],
+      "passes": true
+    },
+    {
+      "id": "PCT-085",
+      "category": "creative",
+      "priority": 1,
+      "description": "Product showcase carousel builder",
+      "acceptance_criteria": ["Multi-image carousel", "Auto-crop to platform specs", "Price overlay option"],
+      "passes": true
+    },
+    {
+      "id": "PCT-086",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Ad policy compliance checker",
+      "acceptance_criteria": ["Scan for prohibited claims", "Flag risky wording", "Suggest compliant alternatives"],
+      "passes": true
+    },
+    {
+      "id": "PCT-087",
+      "category": "compliance",
+      "priority": 1,
+      "description": "Disclosure requirements manager",
+      "acceptance_criteria": ["Auto-add required disclosures", "Industry-specific rules", "Placement guidelines"],
+      "passes": true
+    },
+    {
+      "id": "PCT-088",
+      "category": "compliance",
+      "priority": 2,
+      "description": "Landing page consistency checker",
+      "acceptance_criteria": ["Compare ad to landing page", "Flag mismatches", "Screenshot comparison"],
+      "passes": true
+    },
+    {
+      "id": "PCT-089",
+      "category": "testing",
+      "priority": 1,
+      "description": "Multivariate test planner",
+      "acceptance_criteria": ["Define variables to test", "Calculate sample size needs", "Generate test matrix"],
+      "passes": true
+    },
+    {
+      "id": "PCT-090",
+      "category": "testing",
+      "priority": 1,
+      "description": "Sequential testing framework",
+      "acceptance_criteria": ["Phase 1: hooks, Phase 2: body, Phase 3: CTA", "Auto-advance winners", "Learning documentation"],
+      "passes": true
+    },
+    {
+      "id": "PCT-091",
+      "category": "testing",
+      "priority": 1,
+      "description": "Geographic split test manager",
+      "acceptance_criteria": ["Holdout region selection", "Lift measurement", "Statistical comparison"],
+      "passes": true
+    },
+    {
+      "id": "PCT-092",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Weekly performance report generator",
+      "acceptance_criteria": ["Auto-generate PDF reports", "Key metrics summary", "Top/bottom performers"],
+      "passes": true
+    },
+    {
+      "id": "PCT-093",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Creative leaderboard with rankings",
+      "acceptance_criteria": ["Rank by ROAS/CTR/CPA", "Time period filtering", "Export to CSV"],
+      "passes": true
+    },
+    {
+      "id": "PCT-094",
+      "category": "reporting",
+      "priority": 1,
+      "description": "Attribution model comparison tool",
+      "acceptance_criteria": ["Last-click vs first-click vs linear", "Compare outcomes", "Recommendations"],
+      "passes": true
+    },
+    {
+      "id": "PCT-095",
+      "category": "automation",
+      "priority": 1,
+      "description": "Auto-pause underperforming ads rule engine",
+      "acceptance_criteria": ["Define pause thresholds", "Grace period settings", "Notification on pause"],
+      "passes": true
+    },
+    {
+      "id": "PCT-096",
+      "category": "automation",
+      "priority": 1,
+      "description": "Auto-scale winning ads budget rule",
+      "acceptance_criteria": ["Scale triggers", "Max budget caps", "Gradual vs immediate scale"],
+      "passes": true
+    },
+    {
+      "id": "PCT-097",
+      "category": "automation",
+      "priority": 1,
+      "description": "Scheduled ad activation/deactivation",
+      "acceptance_criteria": ["Calendar-based scheduling", "Day-parting support", "Timezone handling"],
+      "passes": true
+    },
+    {
+      "id": "PCT-098",
+      "category": "integration",
+      "priority": 1,
+      "description": "Google Ads connector for cross-platform testing",
+      "acceptance_criteria": ["OAuth connection", "Campaign sync", "Unified reporting"],
+      "passes": true
+    },
+    {
+      "id": "PCT-099",
+      "category": "integration",
+      "priority": 1,
+      "description": "TikTok Ads connector",
+      "acceptance_criteria": ["API integration", "Creative format adaptation", "Performance import"],
+      "passes": true
+    },
+    {
+      "id": "PCT-100",
+      "category": "integration",
+      "priority": 1,
+      "description": "Shopify/WooCommerce conversion tracking",
+      "acceptance_criteria": ["Order import", "Revenue attribution", "Product-level ROAS"],
+      "passes": true
+    },
+    {
+      "id": "PCT-101",
+      "category": "ai",
+      "priority": 1,
+      "description": "GPT-4 powered ad copy refinement",
+      "acceptance_criteria": ["Suggest improvements", "Tone adjustment", "Length optimization"],
+      "passes": true
+    },
+    {
+      "id": "PCT-102",
+      "category": "ai",
+      "priority": 1,
+      "description": "Image-to-ad-copy AI generator",
+      "acceptance_criteria": ["Analyze product images", "Generate matching copy", "Multiple variations"],
+      "passes": true
+    },
+    {
+      "id": "PCT-103",
+      "category": "ai",
+      "priority": 1,
+      "description": "Predictive performance scoring for new creatives",
+      "acceptance_criteria": ["Score before launch", "Historical pattern matching", "Confidence level"],
+      "passes": true
+    },
+    {
+      "id": "PCT-104",
+      "category": "ai",
+      "priority": 1,
+      "description": "Auto-generated A/B test hypotheses",
+      "acceptance_criteria": ["Suggest what to test next", "Based on performance gaps", "Prioritize by impact"],
+      "passes": true
+    },
+    {
+      "id": "PCT-105",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Creative brief template builder",
+      "acceptance_criteria": ["Reusable brief templates", "Auto-populate from context", "Share with team"],
+      "passes": true
+    },
+    {
+      "id": "PCT-106",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Approval workflow with stakeholder roles",
+      "acceptance_criteria": ["Submit for approval", "Role-based permissions", "Audit trail"],
+      "passes": true
+    },
+    {
+      "id": "PCT-107",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Creative asset version control",
+      "acceptance_criteria": ["Track all versions", "Rollback capability", "Diff comparison"],
+      "passes": true
+    },
+    {
+      "id": "PCT-108",
+      "category": "workflow",
+      "priority": 1,
+      "description": "Team collaboration with comments and @mentions",
+      "acceptance_criteria": ["Comment on creatives", "@mention team members", "Notification system"],
+      "passes": true
+    },
+    {
+      "id": "PCT-109",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Mobile-responsive dashboard",
+      "acceptance_criteria": ["Works on phone/tablet", "Touch-friendly controls", "Key metrics visible"],
+      "passes": true
+    },
+    {
+      "id": "PCT-110",
+      "category": "mobile",
+      "priority": 2,
+      "description": "Push notifications for ad alerts",
+      "acceptance_criteria": ["Performance alerts", "Approval requests", "Configurable thresholds"],
+      "passes": true
+    },
+    {
+      "id": "PCT-111",
+      "category": "data",
+      "priority": 1,
+      "description": "Historical data import from existing accounts",
+      "acceptance_criteria": ["Bulk import past campaigns", "Preserve metrics", "Backfill analytics"],
+      "passes": true
+    },
+    {
+      "id": "PCT-112",
+      "category": "data",
+      "priority": 1,
+      "description": "Data export in multiple formats",
+      "acceptance_criteria": ["CSV, JSON, Excel export", "Custom date ranges", "Filter by campaign"],
+      "passes": true
+    },
+    {
+      "id": "PCT-113",
+      "category": "data",
+      "priority": 2,
+      "description": "API for external tool integration",
+      "acceptance_criteria": ["REST API endpoints", "Authentication", "Rate limiting"],
+      "passes": true
+    },
+    {
+      "id": "PCT-114",
+      "category": "ui",
+      "priority": 1,
+      "description": "Dark mode support",
+      "acceptance_criteria": ["Toggle dark/light", "Persist preference", "All components styled"],
+      "passes": true
+    },
+    {
+      "id": "PCT-115",
+      "category": "ui",
+      "priority": 1,
+      "description": "Customizable dashboard widgets",
+      "acceptance_criteria": ["Drag-and-drop layout", "Add/remove widgets", "Save configurations"],
+      "passes": true
+    },
+    {
+      "id": "PCT-116",
+      "category": "ui",
+      "priority": 2,
+      "description": "Keyboard shortcuts for power users",
+      "acceptance_criteria": ["Common actions mapped", "Shortcut reference modal", "Customizable bindings"],
+      "passes": true
+    },
+    {
+      "id": "PCT-117",
+      "category": "security",
+      "priority": 1,
+      "description": "Role-based access control (RBAC)",
+      "acceptance_criteria": ["Admin, Editor, Viewer roles", "Granular permissions", "Audit logging"],
+      "passes": true
+    },
+    {
+      "id": "PCT-118",
+      "category": "security",
+      "priority": 1,
+      "description": "Two-factor authentication support",
+      "acceptance_criteria": ["TOTP support", "Recovery codes", "Enforce for admins"],
+      "passes": true
+    },
+    {
+      "id": "PCT-119",
+      "category": "security",
+      "priority": 2,
+      "description": "SSO integration (Google, Microsoft)",
+      "acceptance_criteria": ["OAuth2 flow", "Auto-provision users", "Domain restrictions"],
+      "passes": true
+    },
+    {
+      "id": "PCT-120",
+      "category": "performance",
+      "priority": 1,
+      "description": "Caching layer for fast dashboard loads",
+      "acceptance_criteria": ["Redis caching", "Cache invalidation", "Sub-second page loads"],
+      "passes": true
+    }
+  ]
+}

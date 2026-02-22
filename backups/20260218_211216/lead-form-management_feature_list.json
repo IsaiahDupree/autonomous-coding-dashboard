@@ -1,0 +1,1510 @@
+{
+  "project": "Lead Form Management",
+  "description": "Reliable Meta Lead Form creation with preflight validation, error handling, and form reuse - Extension to WaitlistLab Ads Autopilot",
+  "version": "1.0",
+  "created": "2026-02-05",
+  "total_features": 120,
+  "features": [
+    {
+      "id": "LF-001",
+      "category": "database",
+      "priority": 1,
+      "description": "Create lead_form_templates table migration",
+      "acceptance_criteria": [
+        "Form configuration fields",
+        "Questions JSONB",
+        "Meta sync fields",
+        "Privacy policy URL required"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-002",
+      "category": "database",
+      "priority": 1,
+      "description": "Create lead_form_usage tracking table migration",
+      "acceptance_criteria": [
+        "FK to templates",
+        "Track which ads use which forms",
+        "Campaign/ad IDs"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-003",
+      "category": "database",
+      "priority": 2,
+      "description": "Create lead_form_creation_log table migration",
+      "acceptance_criteria": [
+        "Request/response logging",
+        "Error codes and subcodes",
+        "fbtrace_id storage"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-004",
+      "category": "database",
+      "priority": 2,
+      "description": "Create preflight_checks table migration",
+      "acceptance_criteria": [
+        "Check type and target",
+        "Pass/fail status",
+        "Errors and warnings JSONB"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-005",
+      "category": "validation",
+      "priority": 1,
+      "description": "Implement Page Lead Ads Terms check",
+      "acceptance_criteria": [
+        "API call to verify terms accepted",
+        "Clear error message if not",
+        "Remediation URL provided"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-006",
+      "category": "validation",
+      "priority": 1,
+      "description": "Implement Privacy Policy URL validation",
+      "acceptance_criteria": [
+        "HTTP GET to verify accessible",
+        "Check returns 200",
+        "Validate is HTTPS"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-007",
+      "category": "validation",
+      "priority": 1,
+      "description": "Implement Campaign Objective validation",
+      "acceptance_criteria": [
+        "Check objective is OUTCOME_LEADS",
+        "Reject legacy LEAD_GENERATION",
+        "Clear error message"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-008",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/lead-forms/preflight - run all validation checks",
+      "acceptance_criteria": [
+        "Run all preflight checks",
+        "Return canProceed boolean",
+        "Return all errors and warnings",
+        "Log check results"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-009",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement GET /api/lead-forms - list form templates",
+      "acceptance_criteria": [
+        "Return all templates",
+        "Include meta_form_id if synced",
+        "Filter by offer/status"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-010",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/lead-forms - create form template",
+      "acceptance_criteria": [
+        "Validate required fields",
+        "Store template locally",
+        "Do NOT create in Meta yet"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-011",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/lead-forms/:id/sync - create form in Meta",
+      "acceptance_criteria": [
+        "Run preflight first",
+        "POST to /{page_id}/leadgen_forms",
+        "Store meta_form_id on success",
+        "Log attempt and result"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-012",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement form payload construction with only POST-allowed fields",
+      "acceptance_criteria": [
+        "Include name, locale, questions, privacy_policy",
+        "Exclude read-only fields (id, status, created_time)",
+        "Proper question schema format"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-013",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Implement error_subcode parsing and resolution lookup",
+      "acceptance_criteria": [
+        "Parse error response for subcode",
+        "Lookup known resolutions",
+        "Return canAutoFix and remediation"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-014",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Handle subcode 1487390 - Legal content missing",
+      "acceptance_criteria": [
+        "Auto-fix by adding privacy_policy object",
+        "Retry creation",
+        "Log resolution"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-015",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Handle subcode 200 - Permissions/Terms error",
+      "acceptance_criteria": [
+        "Cannot auto-fix",
+        "Return clear remediation steps",
+        "Link to terms acceptance page"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-016",
+      "category": "asset",
+      "priority": 1,
+      "description": "Implement asset readiness polling for videos",
+      "acceptance_criteria": [
+        "Poll asset status endpoint",
+        "Wait until READY status",
+        "Timeout after 5 minutes",
+        "Return error if processing fails"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-017",
+      "category": "asset",
+      "priority": 1,
+      "description": "Integrate asset readiness into ad creation flow",
+      "acceptance_criteria": [
+        "Check all assets before creating ad",
+        "Wait for videos to process",
+        "Fail early if asset errors"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-018",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement GET /api/lead-forms/:id/usage - get ads using form",
+      "acceptance_criteria": [
+        "Return all ads referencing this form",
+        "Include campaign and ad set info",
+        "Performance summary if available"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-019",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement GET /api/lead-forms/:id/leads - get leads from form",
+      "acceptance_criteria": [
+        "Pull leads from Meta API",
+        "Store locally for access",
+        "Pagination support"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-020",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create lead form template list page",
+      "acceptance_criteria": [
+        "Table of templates",
+        "Sync status indicator",
+        "Usage count",
+        "Create/edit actions"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-021",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create lead form template editor",
+      "acceptance_criteria": [
+        "All template fields",
+        "Question builder",
+        "Privacy policy URL input",
+        "Preview of form"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-022",
+      "category": "ui",
+      "priority": 2,
+      "description": "Create preflight check UI component",
+      "acceptance_criteria": [
+        "Show all checks with status",
+        "Green/red indicators",
+        "Remediation links for failures",
+        "Block sync if not passed"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-023",
+      "category": "integration",
+      "priority": 1,
+      "description": "Integrate preflight into Ads Autopilot ad creation flow",
+      "acceptance_criteria": [
+        "Run preflight before any lead ad creation",
+        "Block creation if fails",
+        "Show errors in UI"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-024",
+      "category": "integration",
+      "priority": 2,
+      "description": "Integrate form reuse into Ads Autopilot",
+      "acceptance_criteria": [
+        "Lookup existing form by offer",
+        "Reuse meta_form_id instead of creating new",
+        "Track usage"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-025",
+      "category": "monitoring",
+      "priority": 3,
+      "description": "Create form creation success rate dashboard",
+      "acceptance_criteria": [
+        "Success/failure counts",
+        "Common error codes",
+        "Resolution effectiveness"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-026",
+      "category": "validation",
+      "priority": 1,
+      "description": "Validate question count within Meta limits (1-15 questions)",
+      "acceptance_criteria": [
+        "Reject if >15 questions",
+        "Warn if <1 question",
+        "Show limit in UI"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-027",
+      "category": "validation",
+      "priority": 1,
+      "description": "Validate question field types match Meta enum",
+      "acceptance_criteria": [
+        "Only allowed types: FULL_NAME, EMAIL, PHONE_NUMBER, etc.",
+        "Reject unknown types",
+        "Map friendly names to Meta enums"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-028",
+      "category": "validation",
+      "priority": 2,
+      "description": "Validate custom disclaimer text length and content",
+      "acceptance_criteria": [
+        "Max 500 chars",
+        "No prohibited words",
+        "Link format validation"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-029",
+      "category": "validation",
+      "priority": 2,
+      "description": "Validate thank you page URL and CTA button",
+      "acceptance_criteria": [
+        "URL must be HTTPS and reachable",
+        "CTA text max 30 chars",
+        "Button type must be valid enum"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-030",
+      "category": "validation",
+      "priority": 2,
+      "description": "Validate context card configuration",
+      "acceptance_criteria": [
+        "Title max 60 chars",
+        "Content max 480 chars",
+        "Style must be paragraph_style or list_style"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-031",
+      "category": "validation",
+      "priority": 1,
+      "description": "Validate page has published status before form creation",
+      "acceptance_criteria": [
+        "Check page.is_published",
+        "Reject unpublished pages",
+        "Clear error message"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-032",
+      "category": "validation",
+      "priority": 1,
+      "description": "Validate Meta Business Manager access level",
+      "acceptance_criteria": [
+        "Check user has admin or advertiser role",
+        "Reject if insufficient permissions",
+        "Link to BM settings"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-033",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Handle subcode 1487366 - Duplicate form name",
+      "acceptance_criteria": [
+        "Auto-append timestamp to name",
+        "Retry creation",
+        "Log resolution"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-034",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Handle subcode 100 - Invalid parameter",
+      "acceptance_criteria": [
+        "Parse which parameter failed",
+        "Map to form field",
+        "Highlight in UI"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-035",
+      "category": "error-handling",
+      "priority": 1,
+      "description": "Handle subcode 190 - Access token expired",
+      "acceptance_criteria": [
+        "Detect expired token",
+        "Trigger token refresh flow",
+        "Retry after refresh"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-036",
+      "category": "error-handling",
+      "priority": 2,
+      "description": "Handle subcode 2446079 - Page rate limit",
+      "acceptance_criteria": [
+        "Detect rate limit error",
+        "Queue for retry with backoff",
+        "Show wait time to user"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-037",
+      "category": "error-handling",
+      "priority": 2,
+      "description": "Handle network timeout errors with retry",
+      "acceptance_criteria": [
+        "Detect timeout after 30s",
+        "Retry up to 3 times",
+        "Exponential backoff",
+        "Log all attempts"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-038",
+      "category": "error-handling",
+      "priority": 2,
+      "description": "Handle partial success - form created but not linked to ad",
+      "acceptance_criteria": [
+        "Detect orphaned forms",
+        "Offer to link manually",
+        "Cleanup option"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-039",
+      "category": "error-handling",
+      "priority": 3,
+      "description": "Error classification engine - categorize errors as fixable vs blocking",
+      "acceptance_criteria": [
+        "canAutoFix flag per error type",
+        "Priority ranking of fixes",
+        "Suggested resolution per category"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: ERROR_RESOLUTIONS lookup table in src/lib/lead-form-manager.ts with canAutoFix, action, and message per error code"
+    },
+    {
+      "id": "LF-040",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement PUT /api/lead-forms/:id - update form template",
+      "acceptance_criteria": [
+        "Update local template",
+        "Mark as needs_sync if meta_form_id exists",
+        "Validate changes"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-041",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement DELETE /api/lead-forms/:id - archive form template",
+      "acceptance_criteria": [
+        "Soft delete with archived_at",
+        "Cannot delete if in active use",
+        "Warn about linked ads"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-042",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement POST /api/lead-forms/:id/clone - duplicate a template",
+      "acceptance_criteria": [
+        "Copy all fields except meta_form_id",
+        "Append '(Copy)' to name",
+        "Return new template"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-043",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement GET /api/lead-forms/meta/sync-status - check all forms against Meta",
+      "acceptance_criteria": [
+        "Compare local vs Meta state",
+        "Flag out-of-sync forms",
+        "Show last sync time"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-044",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement POST /api/lead-forms/import - import existing Meta forms",
+      "acceptance_criteria": [
+        "Fetch forms from /{page_id}/leadgen_forms",
+        "Create local templates",
+        "Map questions to schema"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-045",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement GET /api/lead-forms/:id/performance - form conversion metrics",
+      "acceptance_criteria": [
+        "Leads per form",
+        "Cost per lead",
+        "Form completion rate",
+        "Drop-off by question"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-046",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement POST /api/lead-forms/bulk-sync - sync multiple forms",
+      "acceptance_criteria": [
+        "Accept array of template IDs",
+        "Run preflight per form",
+        "Return batch results"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-047",
+      "category": "ui",
+      "priority": 1,
+      "description": "Lead form question builder with drag-and-drop reordering",
+      "acceptance_criteria": [
+        "Add/remove questions",
+        "Drag to reorder",
+        "Type selector per question",
+        "Preview"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-048",
+      "category": "ui",
+      "priority": 1,
+      "description": "Form preview matching Meta Lead Ad appearance",
+      "acceptance_criteria": [
+        "Mobile frame mockup",
+        "Accurate question rendering",
+        "Context card preview",
+        "Thank you page preview"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-049",
+      "category": "ui",
+      "priority": 1,
+      "description": "Sync status badge on form cards (synced/needs-sync/error)",
+      "acceptance_criteria": [
+        "Green badge = synced",
+        "Yellow = local changes",
+        "Red = sync error",
+        "Click for details"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-050",
+      "category": "ui",
+      "priority": 2,
+      "description": "Error resolution wizard with step-by-step fix guidance",
+      "acceptance_criteria": [
+        "Show error explanation",
+        "Step-by-step fix instructions",
+        "Auto-fix button if canAutoFix",
+        "Remediation links"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-051",
+      "category": "ui",
+      "priority": 2,
+      "description": "Form template gallery with starter templates",
+      "acceptance_criteria": [
+        "5+ starter templates by industry",
+        "One-click clone",
+        "Preview before use"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/components/lead-forms/form-template-gallery.tsx - 6 industry templates (SaaS, Real Estate, E-Commerce, B2B, Education, Consulting) with preview and one-click clone into wizard"
+    },
+    {
+      "id": "LF-052",
+      "category": "ui",
+      "priority": 2,
+      "description": "Form A/B testing configuration UI",
+      "acceptance_criteria": [
+        "Create variant forms",
+        "Traffic split selector",
+        "Winner criteria (CPL, completion rate)"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/components/lead-forms/ab-test-config.tsx + API routes /api/lead-forms/variants (GET/POST) and /api/lead-forms/variants/[id] (GET/PUT/DELETE). Auto-clones parent, supports traffic weighting, status management, winner declaration"
+    },
+    {
+      "id": "LF-053",
+      "category": "ui",
+      "priority": 2,
+      "description": "Lead form creation log viewer with filtering",
+      "acceptance_criteria": [
+        "Table of all sync attempts",
+        "Filter by status/date/form",
+        "Expandable error details"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-054",
+      "category": "ui",
+      "priority": 3,
+      "description": "Form performance comparison view",
+      "acceptance_criteria": [
+        "Side-by-side metrics",
+        "Winning form highlighted",
+        "Date range selector"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: GET /api/lead-forms/compare (ids, period params) + src/components/lead-forms/form-performance-comparison.tsx - side-by-side table, winner badges, CPL delta vs average, 7/30/90d date range"
+    },
+    {
+      "id": "LF-055",
+      "category": "integration",
+      "priority": 1,
+      "description": "Auto-select best performing form for new ads",
+      "acceptance_criteria": [
+        "Rank forms by CPL",
+        "Suggest top form when creating ad",
+        "Override option"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-056",
+      "category": "integration",
+      "priority": 1,
+      "description": "Lead webhook receiver for real-time lead capture",
+      "acceptance_criteria": [
+        "Subscribe to Meta webhooks",
+        "Verify webhook signature",
+        "Store lead data immediately"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-057",
+      "category": "integration",
+      "priority": 1,
+      "description": "Lead data sync to shared person table",
+      "acceptance_criteria": [
+        "Map Meta lead fields to person schema",
+        "Upsert on email match",
+        "Preserve UTM attribution"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-058",
+      "category": "integration",
+      "priority": 2,
+      "description": "CRM integration - push leads to EverReach",
+      "acceptance_criteria": [
+        "Auto-create contact in CRM",
+        "Map custom fields",
+        "Set initial warmth score"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-059",
+      "category": "integration",
+      "priority": 2,
+      "description": "Email sequence trigger on new lead",
+      "acceptance_criteria": [
+        "Fire Resend welcome email",
+        "Include lead form answers",
+        "Tag with source campaign"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-060",
+      "category": "integration",
+      "priority": 2,
+      "description": "Slack notification on new lead",
+      "acceptance_criteria": [
+        "Post to configurable channel",
+        "Include lead name, email, source",
+        "Link to lead detail"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-061",
+      "category": "integration",
+      "priority": 3,
+      "description": "Google Sheets export for leads",
+      "acceptance_criteria": [
+        "Auto-append new leads to sheet",
+        "Column mapping configuration",
+        "Manual sync trigger"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/lib/google-sheets-export.ts - exportLeadsToSheets() with configurable column mapping, auto-header row creation, sheet tab creation. incrementalSheetsSync() tracks last_exported_at for delta exports. API: POST/GET /api/lead-forms/export-sheets (manual export + incremental sync). Uses googleapis v171 service account auth. Default 10-column mapping, configurable per call."
+    },
+    {
+      "id": "LF-062",
+      "category": "testing",
+      "priority": 1,
+      "description": "Unit tests for preflight validation functions",
+      "acceptance_criteria": [
+        "Test each check individually",
+        "Mock Meta API responses",
+        "Edge cases for each validation"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-063",
+      "category": "testing",
+      "priority": 1,
+      "description": "Unit tests for form payload construction",
+      "acceptance_criteria": [
+        "Verify only POST-allowed fields included",
+        "Question schema format correct",
+        "Privacy policy always present"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-064",
+      "category": "testing",
+      "priority": 1,
+      "description": "Unit tests for error_subcode parsing",
+      "acceptance_criteria": [
+        "All known subcodes have resolutions",
+        "Unknown subcodes handled gracefully",
+        "canAutoFix flags correct"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-065",
+      "category": "testing",
+      "priority": 1,
+      "description": "Integration tests for form CRUD API endpoints",
+      "acceptance_criteria": [
+        "Create, read, update, delete, clone",
+        "Validation errors returned correctly",
+        "Auth required"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-066",
+      "category": "testing",
+      "priority": 2,
+      "description": "Integration tests for Meta sync flow",
+      "acceptance_criteria": [
+        "Mock Meta API responses",
+        "Preflight → create → store ID",
+        "Error handling flow"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/__tests__/lib/meta-sync-integration.test.ts - 16 integration tests"
+    },
+    {
+      "id": "LF-067",
+      "category": "testing",
+      "priority": 2,
+      "description": "Integration tests for lead webhook ingestion",
+      "acceptance_criteria": [
+        "Signature verification",
+        "Lead data parsing",
+        "Person table upsert"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/__tests__/api/leadgen-webhook.test.ts - 11 tests covering signature verification, lead data parsing, multi-entry handling, and error cases"
+    },
+    {
+      "id": "LF-068",
+      "category": "testing",
+      "priority": 2,
+      "description": "E2E tests for form template editor UI",
+      "acceptance_criteria": [
+        "Create template flow",
+        "Question builder",
+        "Preview rendering",
+        "Sync button"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: e2e/form-template-editor.spec.ts - 18 tests covering list page, create flow, question builder, editor, sync button, and API endpoint validation (CRUD, clone, usage, stats)"
+    },
+    {
+      "id": "LF-069",
+      "category": "testing",
+      "priority": 2,
+      "description": "E2E tests for preflight check UI",
+      "acceptance_criteria": [
+        "All checks shown",
+        "Pass/fail indicators",
+        "Remediation links work"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: e2e/preflight-check.spec.ts - 18 tests covering API preflight endpoint (required field validation, objective mismatch, privacy URL, camelCase params, remediation steps), UI component checks, wizard step 4 preflight, settings page"
+    },
+    {
+      "id": "LF-070",
+      "category": "testing",
+      "priority": 3,
+      "description": "Load test for concurrent form sync operations",
+      "acceptance_criteria": [
+        "10 forms synced simultaneously",
+        "No race conditions",
+        "All succeed or fail cleanly"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/__tests__/lib/concurrent-sync-load.test.ts - 8 tests covering: 10 concurrent syncs with random API latency, unique meta_form_id per form (no cross-contamination), atomic DB updates per template, exactly-once Meta API calls, zero-failure happy path, mixed already-synced/new forms, partial-failure clean handling, and cross-contamination assertion under load."
+    },
+    {
+      "id": "LF-071",
+      "category": "database",
+      "priority": 1,
+      "description": "Create leads table for captured lead data",
+      "acceptance_criteria": [
+        "All Meta lead fields stored",
+        "FK to form template",
+        "FK to person table",
+        "Campaign/ad attribution"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-072",
+      "category": "database",
+      "priority": 1,
+      "description": "Create form_variants table for A/B testing",
+      "acceptance_criteria": [
+        "Parent form reference",
+        "Variant label",
+        "Traffic weight",
+        "Performance metrics"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-073",
+      "category": "database",
+      "priority": 2,
+      "description": "Create form_analytics_daily table",
+      "acceptance_criteria": [
+        "Daily snapshots of form performance",
+        "Impressions, starts, completions, CPL",
+        "Auto-populated by cron"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-074",
+      "category": "database",
+      "priority": 2,
+      "description": "RLS policies for all lead form tables",
+      "acceptance_criteria": [
+        "Only form owner can CRUD",
+        "Service role bypass",
+        "Shared team access"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-075",
+      "category": "database",
+      "priority": 3,
+      "description": "Database indexes for form query performance",
+      "acceptance_criteria": [
+        "Index on offer_id",
+        "Index on meta_form_id",
+        "Index on created_at",
+        "Explain plan verification"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-076",
+      "category": "asset",
+      "priority": 1,
+      "description": "Form cover image upload and Meta sync",
+      "acceptance_criteria": [
+        "Upload cover image to Supabase Storage",
+        "Sync to Meta ad account",
+        "Attach to lead form"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: POST /api/v1/meta-lead-forms/[id]/image - upload to Supabase Storage"
+    },
+    {
+      "id": "LF-077",
+      "category": "asset",
+      "priority": 2,
+      "description": "Form thank you page video support",
+      "acceptance_criteria": [
+        "Upload video asset",
+        "Wait for Meta processing",
+        "Attach to thank you screen"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: DB migration 20260218000007_thank_you_video_support.sql adds thank_you_video_asset_id + thank_you_video_status columns. API: GET/POST/DELETE /api/v1/meta-lead-forms/[id]/thank-you-video - supports file upload to Meta AdVideos endpoint and referencing existing asset IDs. AssetReadinessManager polls until READY. constructPayload() in lead-form-manager.ts includes video_id in thank_you_page only when status=READY."
+    },
+    {
+      "id": "LF-078",
+      "category": "asset",
+      "priority": 2,
+      "description": "Form background image for context card",
+      "acceptance_criteria": [
+        "Image upload with crop",
+        "Correct dimensions for Meta",
+        "Preview in editor"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/components/lead-forms/form-image-uploader.tsx - drag-and-drop upload, 1.91:1 aspect ratio preview at Meta recommended 1200x628px, dimension validation warning for small images, uses existing POST /api/v1/meta-lead-forms/:id/image (LF-076)"
+    },
+    {
+      "id": "LF-079",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Real-time lead count notification",
+      "acceptance_criteria": [
+        "Badge with new lead count",
+        "Auto-refresh every 60s",
+        "Sound alert option"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: useLeadCount hook + LeadCountBadge + /api/v1/meta-lead-forms/leads/count"
+    },
+    {
+      "id": "LF-080",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Form sync failure alerting",
+      "acceptance_criteria": [
+        "Alert on 3+ consecutive failures",
+        "Email notification",
+        "Slack integration"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-081",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Lead quality scoring from form responses",
+      "acceptance_criteria": [
+        "Score based on answer completeness",
+        "Custom scoring rules per question",
+        "Auto-tag high/low quality"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-082",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Form abandonment rate tracking",
+      "acceptance_criteria": [
+        "Track form starts vs completions",
+        "Identify drop-off question",
+        "Compare across forms"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-083",
+      "category": "monitoring",
+      "priority": 3,
+      "description": "Weekly form performance digest email",
+      "acceptance_criteria": [
+        "Summary of all form metrics",
+        "Top/bottom performing forms",
+        "Recommendations"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/lib/weekly-digest.ts - collectWeeklyDigestData() aggregates leads, CPL, sync errors; sendWeeklyDigest() renders HTML email and sends via Resend; getDigestRecipients() reads from lead_form_settings.digest_recipients or DIGEST_EMAIL_RECIPIENTS env. Cron: GET /api/cron/weekly-digest. Responsive HTML email with stats cards, top-3 performers table, new forms badge, sync error alerts, dashboard CTA."
+    },
+    {
+      "id": "LF-084",
+      "category": "api",
+      "priority": 1,
+      "description": "Implement GET /api/lead-forms/stats - aggregate stats across all forms",
+      "acceptance_criteria": [
+        "Total leads this week/month",
+        "Average CPL",
+        "Best performing form",
+        "Trend vs last period"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-085",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement POST /api/lead-forms/:id/test - send test lead",
+      "acceptance_criteria": [
+        "Create test lead in form",
+        "Trigger full webhook flow",
+        "Verify data stored correctly"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-086",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement GET /api/lead-forms/health - system health check",
+      "acceptance_criteria": [
+        "Meta API connectivity",
+        "Webhook subscription status",
+        "Token expiry check",
+        "DB connectivity"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-087",
+      "category": "ui",
+      "priority": 1,
+      "description": "Lead inbox with real-time updates",
+      "acceptance_criteria": [
+        "List of captured leads",
+        "Filter by form/date/quality",
+        "Click to view full answers"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-088",
+      "category": "ui",
+      "priority": 1,
+      "description": "Lead detail view with full form answers",
+      "acceptance_criteria": [
+        "All question/answer pairs",
+        "Contact info highlighted",
+        "Action buttons (email, add to CRM)"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-089",
+      "category": "ui",
+      "priority": 2,
+      "description": "Bulk lead export to CSV",
+      "acceptance_criteria": [
+        "Select date range",
+        "Choose fields to include",
+        "Download CSV file"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: GET /api/v1/meta-lead-forms/leads/export - CSV with field selection"
+    },
+    {
+      "id": "LF-090",
+      "category": "ui",
+      "priority": 2,
+      "description": "Lead form analytics charts",
+      "acceptance_criteria": [
+        "Leads over time chart",
+        "CPL trend chart",
+        "Form completion funnel",
+        "Quality distribution"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: GET /api/v1/meta-lead-forms/analytics + LeadFormAnalytics chart component"
+    },
+    {
+      "id": "LF-091",
+      "category": "ui",
+      "priority": 2,
+      "description": "Form template version history",
+      "acceptance_criteria": [
+        "Track changes to templates",
+        "Diff view between versions",
+        "Rollback option"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: DB migration 20260218000005_form_version_history.sql + API routes /api/lead-forms/[id]/versions (GET/POST) and /api/lead-forms/[id]/versions/rollback (POST) + UI component src/components/lead-forms/version-history.tsx with diff view and rollback"
+    },
+    {
+      "id": "LF-092",
+      "category": "ui",
+      "priority": 3,
+      "description": "Form builder AI assistant - generate questions from product description",
+      "acceptance_criteria": [
+        "Input product/offer description",
+        "AI generates relevant questions",
+        "Edit before saving"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: POST /api/lead-forms/generate-questions - accepts description, offer_type, target_audience, max_questions. Uses GPT-4o-mini to generate Meta-schema-compliant questions. Always includes EMAIL first. Validates/sanitizes all returned types. CUSTOM questions include label, key, optional options array. Returns JSON array ready for direct use in form template."
+    },
+    {
+      "id": "LF-093",
+      "category": "validation",
+      "priority": 1,
+      "description": "Validate locale matches target audience country",
+      "acceptance_criteria": [
+        "Check locale against campaign targeting",
+        "Warn on mismatch",
+        "Suggest correct locale"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-094",
+      "category": "validation",
+      "priority": 2,
+      "description": "Validate conditional question logic",
+      "acceptance_criteria": [
+        "If question A = X, show question B",
+        "Validate branching is valid",
+        "No circular references"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: validateConditionalQuestionLogic() in preflight-validator.ts with circular dep detection"
+    },
+    {
+      "id": "LF-095",
+      "category": "validation",
+      "priority": 2,
+      "description": "Validate form name uniqueness within account",
+      "acceptance_criteria": [
+        "Check against existing Meta forms",
+        "Warn before sync",
+        "Auto-suggest unique name"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-096",
+      "category": "integration",
+      "priority": 1,
+      "description": "Autopilot form rotation - cycle through forms for freshness",
+      "acceptance_criteria": [
+        "Configure rotation interval",
+        "Auto-swap forms on ads",
+        "Track performance per rotation"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: form-rotation.ts + /api/v1/meta-lead-forms/rotate with 3 strategies"
+    },
+    {
+      "id": "LF-097",
+      "category": "integration",
+      "priority": 2,
+      "description": "Dynamic form fields from offer data",
+      "acceptance_criteria": [
+        "Pull product name, price from offer",
+        "Auto-populate context card",
+        "Update when offer changes"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/lib/offer-form-sync.ts - syncOfferDataToTemplate() pulls offer name, promise, price, landing_url and populates headline, description, follow_up_action_url, thank_you_button_url, and context_card (LIST_STYLE). Non-destructive by default (force=false preserves existing values). previewOfferSync() returns diff without persisting. API: GET/POST /api/v1/meta-lead-forms/[id]/offer-sync with ?force=true support."
+    },
+    {
+      "id": "LF-098",
+      "category": "integration",
+      "priority": 2,
+      "description": "Lead scoring integration with Growth Data Plane",
+      "acceptance_criteria": [
+        "Push lead score to person_features",
+        "Update segment membership",
+        "Trigger CAPI event"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/lib/lead-score-integration.ts - scoreAndIntegrateLead() (1) calculates heuristic score, (2) persists quality_score to leads table, (3) upserts tier/tag segments to persons table (hot/warm/cold + source tags), (4) fires CAPI Lead event with SHA-256 hashed PII and score as custom_data, logs to attribution_events. batchScoreUnscoredLeads() for backfill. Webhook /api/webhooks/meta/leadgen/route.ts now calls scoreAndIntegrateLead() async after lead insert. API: POST /api/v1/meta-lead-forms/leads/score-batch (batch backfill + single-lead scoring)."
+    },
+    {
+      "id": "LF-099",
+      "category": "integration",
+      "priority": 3,
+      "description": "Zapier webhook for lead notifications",
+      "acceptance_criteria": [
+        "Configurable webhook URL",
+        "Send lead data on capture",
+        "Retry on failure"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/lib/zapier-integration.ts - sendToZapier() with 3-attempt exponential backoff, buildZapierPayload() with flat answer_<key> fields for Zapier field mapping, validateZapierUrl(), fireZapierWebhook() entry point. Integrated into lead-notifications.ts replacing sendCustomWebhook. URL configurable via ZAPIER_WEBHOOK_URL env var or lead_form_settings.webhook_url DB field."
+    },
+    {
+      "id": "LF-100",
+      "category": "security",
+      "priority": 1,
+      "description": "PII encryption at rest for lead data",
+      "acceptance_criteria": [
+        "Encrypt email, phone, name in DB",
+        "Decrypt only for authorized access",
+        "Key rotation support"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-101",
+      "category": "security",
+      "priority": 1,
+      "description": "Meta webhook signature verification",
+      "acceptance_criteria": [
+        "Verify X-Hub-Signature-256 header",
+        "Reject invalid signatures",
+        "Log verification failures"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-102",
+      "category": "security",
+      "priority": 2,
+      "description": "Lead data retention policy enforcement",
+      "acceptance_criteria": [
+        "Configurable retention period",
+        "Auto-delete expired leads",
+        "Audit log of deletions"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-103",
+      "category": "security",
+      "priority": 2,
+      "description": "GDPR data export for lead subjects",
+      "acceptance_criteria": [
+        "Export all data for a person",
+        "Include form answers, timestamps",
+        "Downloadable JSON/CSV"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-104",
+      "category": "security",
+      "priority": 2,
+      "description": "GDPR right to deletion for lead data",
+      "acceptance_criteria": [
+        "Delete all lead data for a person",
+        "Cascade to analytics",
+        "Confirmation required"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-105",
+      "category": "monitoring",
+      "priority": 1,
+      "description": "Meta API error rate monitoring with alerting",
+      "acceptance_criteria": [
+        "Track error rate over 1h windows",
+        "Alert if >10% failure rate",
+        "Dashboard widget"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-106",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Token health check cron job",
+      "acceptance_criteria": [
+        "Check token validity daily",
+        "Alert 7 days before expiry",
+        "Auto-refresh if possible"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-107",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Webhook delivery health monitoring",
+      "acceptance_criteria": [
+        "Track webhook receive rate",
+        "Alert on gaps >15 min",
+        "Compare with Meta delivery logs"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-108",
+      "category": "api",
+      "priority": 2,
+      "description": "Implement POST /api/lead-forms/:id/archive - archive with leads",
+      "acceptance_criteria": [
+        "Archive form and associated leads",
+        "Export before archive option",
+        "Cannot be synced after archive"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-109",
+      "category": "api",
+      "priority": 3,
+      "description": "Implement GET /api/lead-forms/recommendations - AI-suggested improvements",
+      "acceptance_criteria": [
+        "Analyze low-performing forms",
+        "Suggest question changes",
+        "Suggest context card improvements"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: GET /api/lead-forms/recommendations - two-tier analysis: (1) rule-based checks (question count, phone-without-email, missing context card, generic thank-you, sensitive data disclaimer), (2) GPT-4o-mini analysis for low-performers (weekLeads<3, CPL>$50, completion<30%). Returns structured suggestions with type, priority (high/medium/low), issue, and suggestion. Supports template_id, min_cpl, ai=false params."
+    },
+    {
+      "id": "LF-110",
+      "category": "ui",
+      "priority": 1,
+      "description": "Lead form settings page (defaults, notifications, integrations)",
+      "acceptance_criteria": [
+        "Default privacy policy URL",
+        "Default locale",
+        "Notification preferences",
+        "Integration toggles"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: /dashboard/lead-forms/settings/page.tsx"
+    },
+    {
+      "id": "LF-111",
+      "category": "ui",
+      "priority": 2,
+      "description": "Multi-form comparison chart overlay",
+      "acceptance_criteria": [
+        "Select 2-5 forms",
+        "Overlay CPL and leads charts",
+        "Date range aligned"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/components/lead-forms/form-comparison-chart.tsx - Recharts-based overlaid CPL and lead volume charts. Supports 2-5 forms, period selector (7/30/90 days), winner highlighting by lowest CPL"
+    },
+    {
+      "id": "LF-112",
+      "category": "ui",
+      "priority": 3,
+      "description": "Form creation wizard with step-by-step flow",
+      "acceptance_criteria": [
+        "Step 1: Basic info",
+        "Step 2: Questions",
+        "Step 3: Thank you page",
+        "Step 4: Preview + Preflight",
+        "Step 5: Sync"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/components/lead-forms/form-creation-wizard.tsx - Full 5-step wizard: Basic Info → Questions → Thank You → Preview → Save/Sync. Integrates with gallery templates and supports optional immediate Meta sync"
+    },
+    {
+      "id": "LF-113",
+      "category": "testing",
+      "priority": 1,
+      "description": "Snapshot tests for form payload construction",
+      "acceptance_criteria": [
+        "Snapshot all valid payload shapes",
+        "Detect unexpected changes",
+        "Update snapshots on schema change"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-114",
+      "category": "testing",
+      "priority": 2,
+      "description": "Fuzz testing for form validation inputs",
+      "acceptance_criteria": [
+        "Random strings for all fields",
+        "Unicode edge cases",
+        "Max length boundaries"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/__tests__/lib/form-validation-fuzz.test.ts - 6 describe blocks covering privacy URL, form name, locale, questions array, custom disclaimer, and thank-you button text. Tests: 14 unicode strings (CJK, Arabic, Greek, emoji, null bytes, XSS/SQL/path-traversal attempts), 14 max-length boundaries, 100+ random string iterations per field, adversarial inputs (prototype pollution, 100k-char strings, non-array types)."
+    },
+    {
+      "id": "LF-115",
+      "category": "testing",
+      "priority": 3,
+      "description": "Chaos testing for Meta API failures",
+      "acceptance_criteria": [
+        "Simulate timeouts",
+        "Simulate 500 errors",
+        "Simulate rate limits",
+        "Verify graceful handling"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/__tests__/lib/meta-api-chaos.test.ts - 20 tests in 7 describe blocks: Network Timeout (throws after retries, retries at least once, succeeds on retry, never marks synced on failure), HTTP 500 (retries on code-1, recovers from transient 500, retries on 503), Rate Limits (code 4, subcode 2446079, recovery after limit clears), Non-Retryable (no retry on permissions/294, marks sync_status='error'), Auto-Fix (1487390 legal content, 1487366 duplicate name), Malformed Responses (no id, null, no synced state on bad response), Gauntlet (timeout→500→rate-limit→success sequence, all-retries-exhausted)."
+    },
+    {
+      "id": "LF-116",
+      "category": "database",
+      "priority": 2,
+      "description": "Create form_question_performance table",
+      "acceptance_criteria": [
+        "Per-question drop-off rates",
+        "Time spent per question",
+        "Auto-populated from Meta insights"
+      ],
+      "passes": true
+    },
+    {
+      "id": "LF-117",
+      "category": "database",
+      "priority": 3,
+      "description": "Create form_ab_test_results table",
+      "acceptance_criteria": [
+        "Test ID, variant IDs",
+        "Statistical significance calc",
+        "Winner declaration"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: supabase/migrations/20260218000006_form_ab_test_results.sql - daily/final snapshot types, JSONB variant_results array, statistical_significance, sample_size_adequate flag, winner_improvement_pct, snapshot_ab_test_results() RPC function, latest_ab_test_results view, RLS policies"
+    },
+    {
+      "id": "LF-118",
+      "category": "integration",
+      "priority": 2,
+      "description": "Auto-create retargeting audience from form non-completers",
+      "acceptance_criteria": [
+        "Track form opens without completion",
+        "Push to Meta Custom Audience",
+        "Use for retargeting ads"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: DB migration 20260218000008_retargeting_audience.sql adds retargeting_audience_id to lead_form_templates. src/lib/retargeting-audience.ts - createNonCompleterAudience() uses Meta's native ENGAGEMENT subtype with lead_generation_form_opened ∖ lead_generation_form_submitted rule (primary path); falls back to CUSTOM audience with session_hash EXTERN_ID upload from form_abandonment_events table. getRetargetingAudienceStatus() fetches live size estimate. API: GET/POST/DELETE /api/v1/meta-lead-forms/[id]/retargeting-audience with lookback_days and force params."
+    },
+    {
+      "id": "LF-119",
+      "category": "integration",
+      "priority": 3,
+      "description": "Multi-page form support with conditional routing",
+      "acceptance_criteria": [
+        "Form sections as pages",
+        "Conditional next-page logic",
+        "Progress indicator"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/components/lead-forms/multi-page-form-builder.tsx - MultiPageFormBuilder component. Features: collapsible page editors with drag-reorder (up/down), per-page question assignment from global pool, conditional routing UI (showIf: questionKey + equals/not_equals/contains operator + value), circular dependency detection and warning, live progress indicator preview with page navigation, unassigned questions warning. FormPage type exported for template schema."
+    },
+    {
+      "id": "LF-120",
+      "category": "monitoring",
+      "priority": 2,
+      "description": "Lead quality trend analysis with anomaly detection",
+      "acceptance_criteria": [
+        "Track quality scores over time",
+        "Alert on sudden drops",
+        "Correlate with form changes"
+      ],
+      "passes": true,
+      "implementation_note": "Implemented: src/lib/lead-quality-trends.ts - analyzeLeadQualityTrends() with Z-score anomaly detection (baseline mean+stddev, |Z|>=2 warning, |Z|>=3 critical), rolling 7d/30d averages, trend direction (improving/declining/stable), form change correlation. checkAndAlertQualityAnomalies() for cron use. API: GET/POST /api/lead-forms/quality-trends with template_id and period params."
+    }
+  ],
+  "last_updated": "2026-02-17T23:59:00.000Z",
+  "total_passing": 120,
+  "total_failing": 0
+}

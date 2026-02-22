@@ -1,0 +1,1748 @@
+{
+  "project": "EverReach App Kit",
+  "description": "Production-ready starter kit: iOS (React Native/Expo), Backend (Next.js API), Web (Next.js)",
+  "version": "1.1",
+  "total_features": 135,
+  "features": [
+    {
+      "id": "IOS-001",
+      "category": "setup",
+      "priority": 0,
+      "description": "React Native + Expo project scaffold",
+      "acceptance_criteria": [
+        "Expo project created",
+        "TypeScript configured",
+        "Path aliases"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-002",
+      "category": "setup",
+      "priority": 0,
+      "description": "Expo Router navigation setup",
+      "acceptance_criteria": [
+        "Tab navigation",
+        "Stack navigation",
+        "Deep linking"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-003",
+      "category": "setup",
+      "priority": 0,
+      "description": "Supabase client configuration",
+      "acceptance_criteria": [
+        "lib/supabase.ts",
+        "Auth helpers",
+        "Env vars"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-004",
+      "category": "setup",
+      "priority": 0,
+      "description": "TypeScript strict mode configuration",
+      "acceptance_criteria": [
+        "tsconfig strict",
+        "No implicit any",
+        "Path aliases"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-005",
+      "category": "setup",
+      "priority": 1,
+      "description": "Core Expo dependencies",
+      "acceptance_criteria": [
+        "expo-constants",
+        "expo-font",
+        "expo-image"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-006",
+      "category": "setup",
+      "priority": 1,
+      "description": "Environment variables template",
+      "acceptance_criteria": [
+        ".env.example",
+        "All required keys",
+        "Documentation"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-007",
+      "category": "auth",
+      "priority": 0,
+      "description": "AuthProvider with session management",
+      "acceptance_criteria": [
+        "AuthContext",
+        "useAuth hook",
+        "Session persistence"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-008",
+      "category": "auth",
+      "priority": 0,
+      "description": "Email/password sign-in screen",
+      "acceptance_criteria": [
+        "Form validation",
+        "Error display",
+        "Loading state"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-009",
+      "category": "auth",
+      "priority": 0,
+      "description": "Sign-up screen with registration",
+      "acceptance_criteria": [
+        "Email/password/confirm",
+        "Terms checkbox",
+        "Validation"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-010",
+      "category": "auth",
+      "priority": 0,
+      "description": "Forgot password flow",
+      "acceptance_criteria": [
+        "Email input",
+        "Reset link",
+        "Success message"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-011",
+      "category": "auth",
+      "priority": 1,
+      "description": "Google OAuth integration",
+      "acceptance_criteria": [
+        "expo-auth-session",
+        "Token exchange",
+        "Profile import"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-012",
+      "category": "auth",
+      "priority": 1,
+      "description": "Apple Sign-In integration",
+      "acceptance_criteria": [
+        "Apple auth config",
+        "Credential exchange",
+        "iOS guard"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-013",
+      "category": "auth",
+      "priority": 1,
+      "description": "Auth navigation guard",
+      "acceptance_criteria": [
+        "Redirect unauthenticated",
+        "Loading state",
+        "Deep link support"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-014",
+      "category": "auth",
+      "priority": 1,
+      "description": "Biometric authentication",
+      "acceptance_criteria": [
+        "FaceID/TouchID",
+        "Fallback PIN",
+        "Toggle setting"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-015",
+      "category": "payments",
+      "priority": 0,
+      "description": "RevenueCat subscription setup",
+      "acceptance_criteria": [
+        "react-native-purchases",
+        "API key config",
+        "Sandbox"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-016",
+      "category": "payments",
+      "priority": 0,
+      "description": "Paywall screen",
+      "acceptance_criteria": [
+        "Monthly/yearly toggle",
+        "Feature comparison",
+        "Purchase button"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-017",
+      "category": "payments",
+      "priority": 0,
+      "description": "Purchase flow implementation",
+      "acceptance_criteria": [
+        "Fetch offerings",
+        "Handle purchase",
+        "Update state"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-018",
+      "category": "payments",
+      "priority": 1,
+      "description": "Purchase restoration",
+      "acceptance_criteria": [
+        "Restore button",
+        "Sync with RevenueCat",
+        "Update local"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-019",
+      "category": "payments",
+      "priority": 1,
+      "description": "Subscription management screen",
+      "acceptance_criteria": [
+        "Current plan",
+        "Upgrade/downgrade",
+        "Cancel"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-020",
+      "category": "payments",
+      "priority": 1,
+      "description": "Free tier limits enforcement",
+      "acceptance_criteria": [
+        "Check tier",
+        "Upgrade prompt",
+        "Usage tracking"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-021",
+      "category": "ui",
+      "priority": 0,
+      "description": "Tab navigation layout",
+      "acceptance_criteria": [
+        "Tab bar icons",
+        "Active states",
+        "Badge support"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-022",
+      "category": "ui",
+      "priority": 0,
+      "description": "Settings screen template",
+      "acceptance_criteria": [
+        "Account section",
+        "Preferences",
+        "Support",
+        "Logout"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-023",
+      "category": "ui",
+      "priority": 0,
+      "description": "Profile screen",
+      "acceptance_criteria": [
+        "Avatar upload",
+        "Name edit",
+        "Email display"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-024",
+      "category": "ui",
+      "priority": 1,
+      "description": "Dark mode support",
+      "acceptance_criteria": [
+        "ThemeProvider",
+        "System preference",
+        "Persist choice"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-025",
+      "category": "ui",
+      "priority": 1,
+      "description": "Button component variants",
+      "acceptance_criteria": [
+        "Primary/secondary/ghost",
+        "Sizes",
+        "Loading",
+        "Icon"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-026",
+      "category": "ui",
+      "priority": 1,
+      "description": "Input component with validation",
+      "acceptance_criteria": [
+        "Label/placeholder",
+        "Error state",
+        "Password toggle"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-027",
+      "category": "ui",
+      "priority": 1,
+      "description": "Card container component",
+      "acceptance_criteria": [
+        "Rounded/shadow",
+        "Pressable variant",
+        "Skeleton"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-028",
+      "category": "ui",
+      "priority": 1,
+      "description": "Toast notification component",
+      "acceptance_criteria": [
+        "Success/error/warning",
+        "Auto-dismiss",
+        "Swipe"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-029",
+      "category": "ui",
+      "priority": 1,
+      "description": "Loading spinner component",
+      "acceptance_criteria": [
+        "Size variants",
+        "Full screen overlay",
+        "Inline"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-030",
+      "category": "ui",
+      "priority": 1,
+      "description": "Empty state component",
+      "acceptance_criteria": [
+        "Icon",
+        "Title/description",
+        "Action button"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-031",
+      "category": "ui",
+      "priority": 2,
+      "description": "Modal bottom sheet",
+      "acceptance_criteria": [
+        "Drag handle",
+        "Backdrop",
+        "Close button"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-032",
+      "category": "ui",
+      "priority": 2,
+      "description": "Avatar with fallback",
+      "acceptance_criteria": [
+        "Image source",
+        "Initials fallback",
+        "Sizes"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-033",
+      "category": "notifications",
+      "priority": 1,
+      "description": "Push notification setup",
+      "acceptance_criteria": [
+        "expo-notifications",
+        "Permission request",
+        "Channels"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-034",
+      "category": "notifications",
+      "priority": 1,
+      "description": "Push token registration",
+      "acceptance_criteria": [
+        "Store in Supabase",
+        "Device info",
+        "Cleanup"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-035",
+      "category": "notifications",
+      "priority": 1,
+      "description": "Foreground notification display",
+      "acceptance_criteria": [
+        "In-app banner",
+        "Auto-dismiss",
+        "Navigate"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-036",
+      "category": "analytics",
+      "priority": 1,
+      "description": "PostHog analytics integration",
+      "acceptance_criteria": [
+        "posthog-react-native",
+        "Screen tracking",
+        "Events"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-037",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Key event tracking",
+      "acceptance_criteria": [
+        "Sign up/in",
+        "Purchases",
+        "Feature usage"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-038",
+      "category": "quality",
+      "priority": 1,
+      "description": "ErrorBoundary component",
+      "acceptance_criteria": [
+        "Catch render errors",
+        "Fallback UI",
+        "Report"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-039",
+      "category": "quality",
+      "priority": 1,
+      "description": "Offline detection banner",
+      "acceptance_criteria": [
+        "NetInfo check",
+        "Persistent banner",
+        "Queue"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-040",
+      "category": "quality",
+      "priority": 2,
+      "description": "Keyboard avoiding on forms",
+      "acceptance_criteria": [
+        "KeyboardAvoidingView",
+        "Platform behavior"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-041",
+      "category": "screens",
+      "priority": 1,
+      "description": "Onboarding welcome screens",
+      "acceptance_criteria": [
+        "3-4 slides",
+        "Skip/Get Started",
+        "First launch"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-042",
+      "category": "screens",
+      "priority": 2,
+      "description": "Privacy policy screen",
+      "acceptance_criteria": [
+        "Policy content",
+        "Formatted display"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-043",
+      "category": "screens",
+      "priority": 2,
+      "description": "Terms of service screen",
+      "acceptance_criteria": [
+        "Terms content",
+        "Formatted display"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-044",
+      "category": "screens",
+      "priority": 2,
+      "description": "Help/FAQ screen",
+      "acceptance_criteria": [
+        "FAQ accordion",
+        "Contact support"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "IOS-045",
+      "category": "a11y",
+      "priority": 2,
+      "description": "DevModeOverlay for customization",
+      "acceptance_criteria": [
+        "Visual overlay",
+        "Configuration hints",
+        "Toggle"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-001",
+      "category": "setup",
+      "priority": 0,
+      "description": "Next.js API Routes project scaffold",
+      "acceptance_criteria": [
+        "App Router",
+        "TypeScript",
+        "Vercel config"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-002",
+      "category": "setup",
+      "priority": 0,
+      "description": "Supabase server client configuration",
+      "acceptance_criteria": [
+        "Service role key",
+        "Admin client",
+        "RLS bypass"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-003",
+      "category": "setup",
+      "priority": 0,
+      "description": "Environment variables and secrets",
+      "acceptance_criteria": [
+        ".env.local",
+        "Vercel env",
+        "Documentation"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-004",
+      "category": "auth",
+      "priority": 0,
+      "description": "JWT authentication middleware",
+      "acceptance_criteria": [
+        "Verify Supabase JWT",
+        "Extract user",
+        "Guard routes"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-005",
+      "category": "auth",
+      "priority": 0,
+      "description": "Auth endpoints",
+      "acceptance_criteria": [
+        "POST /auth/signup",
+        "POST /auth/signin",
+        "POST /auth/refresh"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-006",
+      "category": "auth",
+      "priority": 1,
+      "description": "OAuth callback handlers",
+      "acceptance_criteria": [
+        "Google callback",
+        "Apple callback",
+        "Token exchange"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-007",
+      "category": "database",
+      "priority": 0,
+      "description": "Users table migration",
+      "acceptance_criteria": [
+        "id UUID PK",
+        "email, full_name",
+        "subscription_tier"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-008",
+      "category": "database",
+      "priority": 0,
+      "description": "Subscriptions table migration",
+      "acceptance_criteria": [
+        "user_id FK",
+        "tier, status",
+        "period dates"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-009",
+      "category": "database",
+      "priority": 0,
+      "description": "RLS policies for all tables",
+      "acceptance_criteria": [
+        "SELECT own",
+        "INSERT own",
+        "UPDATE own"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-010",
+      "category": "database",
+      "priority": 1,
+      "description": "Items/entities CRUD table",
+      "acceptance_criteria": [
+        "Generic entity table",
+        "user_id FK",
+        "JSONB metadata"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-011",
+      "category": "api",
+      "priority": 0,
+      "description": "RESTful CRUD endpoints",
+      "acceptance_criteria": [
+        "GET/POST/PUT/DELETE",
+        "Pagination",
+        "Filtering"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-012",
+      "category": "api",
+      "priority": 0,
+      "description": "Input validation with Zod",
+      "acceptance_criteria": [
+        "Request body schemas",
+        "Query param validation",
+        "Error messages"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-013",
+      "category": "api",
+      "priority": 0,
+      "description": "Error handling middleware",
+      "acceptance_criteria": [
+        "Consistent error format",
+        "Status codes",
+        "Logging"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-014",
+      "category": "api",
+      "priority": 1,
+      "description": "Rate limiting",
+      "acceptance_criteria": [
+        "Per-user limits",
+        "IP-based fallback",
+        "429 responses"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-015",
+      "category": "api",
+      "priority": 1,
+      "description": "CORS configuration",
+      "acceptance_criteria": [
+        "Allowed origins",
+        "Credentials",
+        "Methods"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-016",
+      "category": "payments",
+      "priority": 0,
+      "description": "Stripe webhook handler",
+      "acceptance_criteria": [
+        "Verify signature",
+        "checkout.session.completed",
+        "Update DB"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-017",
+      "category": "payments",
+      "priority": 0,
+      "description": "RevenueCat webhook handler",
+      "acceptance_criteria": [
+        "Verify auth",
+        "Purchase/renewal events",
+        "Update DB"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-018",
+      "category": "payments",
+      "priority": 0,
+      "description": "Stripe Checkout session creation",
+      "acceptance_criteria": [
+        "Price IDs",
+        "Success/cancel URLs",
+        "Customer"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-019",
+      "category": "payments",
+      "priority": 1,
+      "description": "Subscription sync endpoint",
+      "acceptance_criteria": [
+        "Compare RC/Stripe with DB",
+        "Resolve conflicts"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-020",
+      "category": "payments",
+      "priority": 1,
+      "description": "Subscription status checking",
+      "acceptance_criteria": [
+        "Tier verification",
+        "Expiry handling",
+        "Grace period"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-021",
+      "category": "api",
+      "priority": 1,
+      "description": "File upload endpoint",
+      "acceptance_criteria": [
+        "Supabase Storage",
+        "Size limits",
+        "Type validation"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-022",
+      "category": "api",
+      "priority": 1,
+      "description": "Profile update endpoint",
+      "acceptance_criteria": [
+        "Avatar, name, preferences",
+        "Validation",
+        "Return updated"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-023",
+      "category": "api",
+      "priority": 2,
+      "description": "Search endpoint with pagination",
+      "acceptance_criteria": [
+        "Full-text search",
+        "Cursor pagination",
+        "Filters"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-024",
+      "category": "notifications",
+      "priority": 1,
+      "description": "Push notification send endpoint",
+      "acceptance_criteria": [
+        "Accept user_id + message",
+        "Fetch token",
+        "Expo Push API"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-025",
+      "category": "security",
+      "priority": 0,
+      "description": "API key management",
+      "acceptance_criteria": [
+        "No secrets in responses",
+        "Anon key only client-side"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-026",
+      "category": "security",
+      "priority": 1,
+      "description": "Input sanitization",
+      "acceptance_criteria": [
+        "Trim whitespace",
+        "Strip HTML",
+        "Length limits"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-027",
+      "category": "quality",
+      "priority": 1,
+      "description": "Health check endpoint",
+      "acceptance_criteria": [
+        "GET /health",
+        "DB connectivity",
+        "Dependencies"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-028",
+      "category": "quality",
+      "priority": 1,
+      "description": "Structured logging",
+      "acceptance_criteria": [
+        "Request/response logging",
+        "Error tracking",
+        "Performance"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-029",
+      "category": "quality",
+      "priority": 2,
+      "description": "API documentation",
+      "acceptance_criteria": [
+        "Endpoint listing",
+        "Request/response examples"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-030",
+      "category": "database",
+      "priority": 1,
+      "description": "Database indexes for performance",
+      "acceptance_criteria": [
+        "user_id indexes",
+        "created_at indexes"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-031",
+      "category": "database",
+      "priority": 1,
+      "description": "Soft delete pattern",
+      "acceptance_criteria": [
+        "deleted_at column",
+        "Filter in queries",
+        "Restore"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-032",
+      "category": "setup",
+      "priority": 1,
+      "description": "Vercel deployment configuration",
+      "acceptance_criteria": [
+        "vercel.json",
+        "Env vars",
+        "Serverless config"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-033",
+      "category": "setup",
+      "priority": 1,
+      "description": "Render deployment configuration",
+      "acceptance_criteria": [
+        "Dockerfile",
+        "render.yaml",
+        "Start script"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-034",
+      "category": "api",
+      "priority": 1,
+      "description": "Webhook retry handling",
+      "acceptance_criteria": [
+        "Idempotency keys",
+        "Retry detection",
+        "Dedup"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-035",
+      "category": "testing",
+      "priority": 1,
+      "description": "API endpoint tests",
+      "acceptance_criteria": [
+        "Auth flow tests",
+        "CRUD tests",
+        "Error case tests"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-036",
+      "category": "testing",
+      "priority": 2,
+      "description": "Webhook handler tests",
+      "acceptance_criteria": [
+        "Stripe event simulation",
+        "RC event simulation"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-037",
+      "category": "api",
+      "priority": 2,
+      "description": "Batch operations endpoint",
+      "acceptance_criteria": [
+        "Bulk create/update",
+        "Transaction wrapping"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-038",
+      "category": "database",
+      "priority": 2,
+      "description": "Database seed script",
+      "acceptance_criteria": [
+        "Test accounts",
+        "Sample data",
+        "Idempotent"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-039",
+      "category": "quality",
+      "priority": 2,
+      "description": "Request timing middleware",
+      "acceptance_criteria": [
+        "Measure duration",
+        "Log slow queries"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-040",
+      "category": "api",
+      "priority": 2,
+      "description": "Data export endpoint",
+      "acceptance_criteria": [
+        "JSON/CSV export",
+        "Filtered export",
+        "Download"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-041",
+      "category": "lib",
+      "priority": 0,
+      "description": "Backend-kit lib templates",
+      "acceptance_criteria": [
+        "Subscription types",
+        "Auth helpers",
+        "DB utilities"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-042",
+      "category": "lib",
+      "priority": 1,
+      "description": "EWMA warmth scoring utilities",
+      "acceptance_criteria": [
+        "Warmth calculation",
+        "Decay functions",
+        "Unification"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-043",
+      "category": "lib",
+      "priority": 1,
+      "description": "Typed Supabase client helpers",
+      "acceptance_criteria": [
+        "Row types",
+        "Insert types",
+        "Query builders"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-044",
+      "category": "docs",
+      "priority": 1,
+      "description": "Architecture documentation update",
+      "acceptance_criteria": [
+        "Database schema",
+        "Payment flow",
+        "Analytics"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "API-045",
+      "category": "docs",
+      "priority": 2,
+      "description": "Backport changelog from EverReach",
+      "acceptance_criteria": [
+        "v1.1.0 changes",
+        "Warmth EWMA",
+        "Migration notes"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-001",
+      "category": "setup",
+      "priority": 0,
+      "description": "Next.js 14 App Router project",
+      "acceptance_criteria": [
+        "App directory",
+        "TypeScript",
+        "Tailwind CSS"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-002",
+      "category": "setup",
+      "priority": 0,
+      "description": "shadcn/ui component library",
+      "acceptance_criteria": [
+        "Components installed",
+        "Theme configured"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-003",
+      "category": "setup",
+      "priority": 0,
+      "description": "Supabase client for web",
+      "acceptance_criteria": [
+        "createBrowserClient",
+        "Auth helpers",
+        "SSR support"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-004",
+      "category": "setup",
+      "priority": 1,
+      "description": "React Query (TanStack) setup",
+      "acceptance_criteria": [
+        "QueryClientProvider",
+        "Default config",
+        "DevTools"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-005",
+      "category": "auth",
+      "priority": 0,
+      "description": "Sign-in page",
+      "acceptance_criteria": [
+        "Email/password form",
+        "OAuth buttons",
+        "Validation"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-006",
+      "category": "auth",
+      "priority": 0,
+      "description": "Sign-up page",
+      "acceptance_criteria": [
+        "Registration form",
+        "Terms checkbox",
+        "Email verification"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-007",
+      "category": "auth",
+      "priority": 0,
+      "description": "Auth callback handler",
+      "acceptance_criteria": [
+        "/auth/callback route",
+        "Token exchange",
+        "Redirect"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-008",
+      "category": "auth",
+      "priority": 1,
+      "description": "Password reset flow",
+      "acceptance_criteria": [
+        "Forgot password page",
+        "Reset page",
+        "Success redirect"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-009",
+      "category": "auth",
+      "priority": 1,
+      "description": "Session management",
+      "acceptance_criteria": [
+        "Cookie-based",
+        "Refresh on SSR",
+        "Sign-out cleanup"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-010",
+      "category": "auth",
+      "priority": 1,
+      "description": "Protected route middleware",
+      "acceptance_criteria": [
+        "Auth check",
+        "Redirect to sign-in",
+        "Loading state"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-011",
+      "category": "payments",
+      "priority": 0,
+      "description": "Stripe Checkout integration",
+      "acceptance_criteria": [
+        "Checkout button",
+        "Success/cancel pages",
+        "Price display"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-012",
+      "category": "payments",
+      "priority": 0,
+      "description": "Pricing page",
+      "acceptance_criteria": [
+        "Tier comparison",
+        "Monthly/yearly toggle",
+        "CTA buttons"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-013",
+      "category": "payments",
+      "priority": 1,
+      "description": "Customer portal link",
+      "acceptance_criteria": [
+        "Stripe portal redirect",
+        "Manage subscription"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-014",
+      "category": "payments",
+      "priority": 1,
+      "description": "Subscription status display",
+      "acceptance_criteria": [
+        "Current plan badge",
+        "Expiry date",
+        "Upgrade prompt"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-015",
+      "category": "ui",
+      "priority": 0,
+      "description": "Dashboard layout",
+      "acceptance_criteria": [
+        "Sidebar navigation",
+        "Header",
+        "Main content area"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-016",
+      "category": "ui",
+      "priority": 0,
+      "description": "Landing page template",
+      "acceptance_criteria": [
+        "Hero section",
+        "Features grid",
+        "Pricing",
+        "CTA"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-017",
+      "category": "ui",
+      "priority": 1,
+      "description": "Settings page",
+      "acceptance_criteria": [
+        "Account settings",
+        "Preferences",
+        "Danger zone"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-018",
+      "category": "ui",
+      "priority": 1,
+      "description": "Profile page",
+      "acceptance_criteria": [
+        "Avatar upload",
+        "Name/email",
+        "Subscription info"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-019",
+      "category": "ui",
+      "priority": 1,
+      "description": "Data table component",
+      "acceptance_criteria": [
+        "Sortable columns",
+        "Pagination",
+        "Search"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-020",
+      "category": "ui",
+      "priority": 1,
+      "description": "Form components with validation",
+      "acceptance_criteria": [
+        "React Hook Form",
+        "Zod schemas",
+        "Error display"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-021",
+      "category": "ui",
+      "priority": 2,
+      "description": "Dark mode toggle",
+      "acceptance_criteria": [
+        "System preference",
+        "Manual toggle",
+        "Persist"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-022",
+      "category": "ui",
+      "priority": 2,
+      "description": "Breadcrumb navigation",
+      "acceptance_criteria": [
+        "Auto-generate",
+        "Clickable segments"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-023",
+      "category": "ui",
+      "priority": 2,
+      "description": "Command palette (Cmd+K)",
+      "acceptance_criteria": [
+        "Search actions",
+        "Navigation",
+        "Keyboard shortcuts"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-024",
+      "category": "ui",
+      "priority": 2,
+      "description": "Toast/notification system",
+      "acceptance_criteria": [
+        "Success/error/info",
+        "Auto-dismiss",
+        "Actions"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-025",
+      "category": "screens",
+      "priority": 0,
+      "description": "CRUD list page template",
+      "acceptance_criteria": [
+        "Data fetching",
+        "Table display",
+        "Actions"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-026",
+      "category": "screens",
+      "priority": 0,
+      "description": "CRUD detail/edit page template",
+      "acceptance_criteria": [
+        "Form fields",
+        "Save/cancel",
+        "Delete"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-027",
+      "category": "screens",
+      "priority": 1,
+      "description": "404 and error pages",
+      "acceptance_criteria": [
+        "Not found page",
+        "Error boundary",
+        "Retry"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-028",
+      "category": "screens",
+      "priority": 2,
+      "description": "Onboarding wizard",
+      "acceptance_criteria": [
+        "Multi-step form",
+        "Progress indicator",
+        "Skip"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-029",
+      "category": "quality",
+      "priority": 0,
+      "description": "SEO metadata configuration",
+      "acceptance_criteria": [
+        "Page titles",
+        "Open Graph",
+        "Sitemap"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-030",
+      "category": "quality",
+      "priority": 1,
+      "description": "Loading skeletons",
+      "acceptance_criteria": [
+        "Page-level skeleton",
+        "Component skeletons"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-031",
+      "category": "quality",
+      "priority": 1,
+      "description": "Error boundary with recovery",
+      "acceptance_criteria": [
+        "Catch errors",
+        "Retry button",
+        "Report"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-032",
+      "category": "quality",
+      "priority": 2,
+      "description": "Performance optimization",
+      "acceptance_criteria": [
+        "Image optimization",
+        "Code splitting",
+        "Lazy loading"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-033",
+      "category": "analytics",
+      "priority": 1,
+      "description": "PostHog web analytics",
+      "acceptance_criteria": [
+        "Script injection",
+        "Page views",
+        "Events"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-034",
+      "category": "analytics",
+      "priority": 1,
+      "description": "Conversion tracking",
+      "acceptance_criteria": [
+        "Sign-up events",
+        "Purchase events",
+        "Feature usage"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-035",
+      "category": "security",
+      "priority": 1,
+      "description": "CSP headers",
+      "acceptance_criteria": [
+        "Content-Security-Policy",
+        "Strict mode"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-036",
+      "category": "security",
+      "priority": 2,
+      "description": "CSRF protection",
+      "acceptance_criteria": [
+        "Token validation",
+        "SameSite cookies"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-037",
+      "category": "testing",
+      "priority": 1,
+      "description": "Component test setup",
+      "acceptance_criteria": [
+        "Jest + Testing Library",
+        "Mock providers"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-038",
+      "category": "testing",
+      "priority": 2,
+      "description": "E2E test setup",
+      "acceptance_criteria": [
+        "Playwright config",
+        "Auth helper",
+        "CI integration"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-039",
+      "category": "setup",
+      "priority": 1,
+      "description": "Vercel deployment config",
+      "acceptance_criteria": [
+        "vercel.json",
+        "Build settings",
+        "Env vars"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-040",
+      "category": "setup",
+      "priority": 2,
+      "description": "CI/CD pipeline",
+      "acceptance_criteria": [
+        "GitHub Actions",
+        "Lint + test",
+        "Auto-deploy"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-041",
+      "category": "docs",
+      "priority": 0,
+      "description": "Getting started guide",
+      "acceptance_criteria": [
+        "Installation",
+        "Configuration",
+        "First run"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-042",
+      "category": "docs",
+      "priority": 1,
+      "description": "Customization guide",
+      "acceptance_criteria": [
+        "Theming",
+        "Adding pages",
+        "Extending"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-043",
+      "category": "docs",
+      "priority": 1,
+      "description": "Deployment guide",
+      "acceptance_criteria": [
+        "Vercel setup",
+        "Env vars",
+        "Domain"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-044",
+      "category": "docs",
+      "priority": 2,
+      "description": "Troubleshooting guide",
+      "acceptance_criteria": [
+        "Common issues",
+        "FAQ",
+        "Support"
+      ],
+      "passes": true,
+      "status": "complete"
+    },
+    {
+      "id": "WEB-045",
+      "category": "docs",
+      "priority": 2,
+      "description": "Scaling guide",
+      "acceptance_criteria": [
+        "Performance tips",
+        "Caching",
+        "CDN"
+      ],
+      "passes": true,
+      "status": "complete"
+    }
+  ]
+}

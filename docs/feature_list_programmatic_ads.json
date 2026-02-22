@@ -214,7 +214,7 @@
       "priority": 2,
       "description": "Batch image generation",
       "acceptance_criteria": [
-        "Generate all hook × template combinations",
+        "Generate all hook \u00d7 template combinations",
         "Progress indicator",
         "Download all as ZIP"
       ],
@@ -347,7 +347,7 @@
       "description": "Video script generation from hook",
       "acceptance_criteria": [
         "Generate full script from winning hook",
-        "Structure: Hook → Lid → Body → CTA",
+        "Structure: Hook \u2192 Lid \u2192 Body \u2192 CTA",
         "Duration targeting (30s, 60s, 90s)"
       ],
       "passes": true
@@ -503,7 +503,7 @@
       "description": "Context input wizard",
       "acceptance_criteria": [
         "Step-by-step onboarding",
-        "Brand → Product → VoC flow",
+        "Brand \u2192 Product \u2192 VoC flow",
         "Progress indicator"
       ],
       "passes": true
@@ -839,7 +839,11 @@
       "category": "analytics",
       "priority": 1,
       "description": "Real-time ad performance dashboard with key metrics",
-      "acceptance_criteria": ["CTR, CPC, ROAS display", "Time-series charts", "Comparison to benchmarks"],
+      "acceptance_criteria": [
+        "CTR, CPC, ROAS display",
+        "Time-series charts",
+        "Comparison to benchmarks"
+      ],
       "passes": true
     },
     {
@@ -847,7 +851,11 @@
       "category": "analytics",
       "priority": 1,
       "description": "Creative fatigue detection and alerting",
-      "acceptance_criteria": ["Declining CTR detection", "Auto-alert when creative fatigues", "Suggested refresh actions"],
+      "acceptance_criteria": [
+        "Declining CTR detection",
+        "Auto-alert when creative fatigues",
+        "Suggested refresh actions"
+      ],
       "passes": true
     },
     {
@@ -855,7 +863,11 @@
       "category": "analytics",
       "priority": 1,
       "description": "Winner/loser classification with statistical significance",
-      "acceptance_criteria": ["Auto-classify based on p-value", "Confidence interval display", "Sample size calculator"],
+      "acceptance_criteria": [
+        "Auto-classify based on p-value",
+        "Confidence interval display",
+        "Sample size calculator"
+      ],
       "passes": true
     },
     {
@@ -863,7 +875,11 @@
       "category": "analytics",
       "priority": 1,
       "description": "Cross-campaign performance comparison",
-      "acceptance_criteria": ["Compare multiple campaigns", "Normalize by spend", "Export comparison reports"],
+      "acceptance_criteria": [
+        "Compare multiple campaigns",
+        "Normalize by spend",
+        "Export comparison reports"
+      ],
       "passes": true
     },
     {
@@ -871,7 +887,11 @@
       "category": "generation",
       "priority": 1,
       "description": "AI-powered headline variations generator",
-      "acceptance_criteria": ["Generate 10+ headline variations", "Tone/style customization", "A/B test recommendations"],
+      "acceptance_criteria": [
+        "Generate 10+ headline variations",
+        "Tone/style customization",
+        "A/B test recommendations"
+      ],
       "passes": true
     },
     {
@@ -879,7 +899,11 @@
       "category": "generation",
       "priority": 1,
       "description": "Dynamic text overlay for video ads",
-      "acceptance_criteria": ["Text animation presets", "Font and color customization", "Export ready for Meta"],
+      "acceptance_criteria": [
+        "Text animation presets",
+        "Font and color customization",
+        "Export ready for Meta"
+      ],
       "passes": true
     },
     {
@@ -887,7 +911,11 @@
       "category": "generation",
       "priority": 1,
       "description": "Competitor ad library scraper integration",
-      "acceptance_criteria": ["Search competitor ads", "Save to swipe file", "Extract hooks and CTAs"],
+      "acceptance_criteria": [
+        "Search competitor ads",
+        "Save to swipe file",
+        "Extract hooks and CTAs"
+      ],
       "passes": true
     },
     {
@@ -895,7 +923,11 @@
       "category": "audience",
       "priority": 1,
       "description": "Lookalike audience builder from VoC data",
-      "acceptance_criteria": ["Build audiences from customer profiles", "Export to Meta", "Track audience performance"],
+      "acceptance_criteria": [
+        "Build audiences from customer profiles",
+        "Export to Meta",
+        "Track audience performance"
+      ],
       "passes": true
     },
     {
@@ -903,7 +935,11 @@
       "category": "audience",
       "priority": 1,
       "description": "Interest targeting recommendations engine",
-      "acceptance_criteria": ["AI-suggested interests", "Overlap analysis", "Budget recommendations"],
+      "acceptance_criteria": [
+        "AI-suggested interests",
+        "Overlap analysis",
+        "Budget recommendations"
+      ],
       "passes": true
     },
     {
@@ -911,7 +947,11 @@
       "category": "audience",
       "priority": 1,
       "description": "Custom audience sync with CRM",
-      "acceptance_criteria": ["Import from CRM", "Auto-refresh schedules", "Segment by purchase history"],
+      "acceptance_criteria": [
+        "Import from CRM",
+        "Auto-refresh schedules",
+        "Segment by purchase history"
+      ],
       "passes": true
     },
     {
@@ -919,7 +959,11 @@
       "category": "budget",
       "priority": 1,
       "description": "Budget allocation optimizer across ad sets",
-      "acceptance_criteria": ["Auto-shift budget to winners", "Min/max budget constraints", "Scheduling rules"],
+      "acceptance_criteria": [
+        "Auto-shift budget to winners",
+        "Min/max budget constraints",
+        "Scheduling rules"
+      ],
       "passes": true
     },
     {
@@ -927,7 +971,11 @@
       "category": "budget",
       "priority": 1,
       "description": "ROAS-based bid strategy recommendations",
-      "acceptance_criteria": ["Target ROAS input", "Bid cap suggestions", "Historical performance analysis"],
+      "acceptance_criteria": [
+        "Target ROAS input",
+        "Bid cap suggestions",
+        "Historical performance analysis"
+      ],
       "passes": true
     },
     {
@@ -935,7 +983,11 @@
       "category": "budget",
       "priority": 1,
       "description": "Spend pacing alerts and forecasting",
-      "acceptance_criteria": ["Daily spend tracking", "Over/under pace alerts", "Month-end forecast"],
+      "acceptance_criteria": [
+        "Daily spend tracking",
+        "Over/under pace alerts",
+        "Month-end forecast"
+      ],
       "passes": true
     },
     {
@@ -943,7 +995,11 @@
       "category": "creative",
       "priority": 1,
       "description": "UGC-style video template generator",
-      "acceptance_criteria": ["iPhone selfie aesthetic", "Authentic backgrounds", "Caption overlays"],
+      "acceptance_criteria": [
+        "iPhone selfie aesthetic",
+        "Authentic backgrounds",
+        "Caption overlays"
+      ],
       "passes": true
     },
     {
@@ -951,7 +1007,11 @@
       "category": "creative",
       "priority": 1,
       "description": "Before/after comparison image generator",
-      "acceptance_criteria": ["Side-by-side layout", "Slider animation option", "Text overlay zones"],
+      "acceptance_criteria": [
+        "Side-by-side layout",
+        "Slider animation option",
+        "Text overlay zones"
+      ],
       "passes": true
     },
     {
@@ -959,7 +1019,11 @@
       "category": "creative",
       "priority": 1,
       "description": "Testimonial card generator from reviews",
-      "acceptance_criteria": ["Pull from VoC database", "Star rating display", "Profile photo placeholder"],
+      "acceptance_criteria": [
+        "Pull from VoC database",
+        "Star rating display",
+        "Profile photo placeholder"
+      ],
       "passes": true
     },
     {
@@ -967,7 +1031,11 @@
       "category": "creative",
       "priority": 1,
       "description": "Product showcase carousel builder",
-      "acceptance_criteria": ["Multi-image carousel", "Auto-crop to platform specs", "Price overlay option"],
+      "acceptance_criteria": [
+        "Multi-image carousel",
+        "Auto-crop to platform specs",
+        "Price overlay option"
+      ],
       "passes": true
     },
     {
@@ -975,7 +1043,11 @@
       "category": "compliance",
       "priority": 1,
       "description": "Ad policy compliance checker",
-      "acceptance_criteria": ["Scan for prohibited claims", "Flag risky wording", "Suggest compliant alternatives"],
+      "acceptance_criteria": [
+        "Scan for prohibited claims",
+        "Flag risky wording",
+        "Suggest compliant alternatives"
+      ],
       "passes": true
     },
     {
@@ -983,7 +1055,11 @@
       "category": "compliance",
       "priority": 1,
       "description": "Disclosure requirements manager",
-      "acceptance_criteria": ["Auto-add required disclosures", "Industry-specific rules", "Placement guidelines"],
+      "acceptance_criteria": [
+        "Auto-add required disclosures",
+        "Industry-specific rules",
+        "Placement guidelines"
+      ],
       "passes": true
     },
     {
@@ -991,7 +1067,11 @@
       "category": "compliance",
       "priority": 2,
       "description": "Landing page consistency checker",
-      "acceptance_criteria": ["Compare ad to landing page", "Flag mismatches", "Screenshot comparison"],
+      "acceptance_criteria": [
+        "Compare ad to landing page",
+        "Flag mismatches",
+        "Screenshot comparison"
+      ],
       "passes": true
     },
     {
@@ -999,7 +1079,11 @@
       "category": "testing",
       "priority": 1,
       "description": "Multivariate test planner",
-      "acceptance_criteria": ["Define variables to test", "Calculate sample size needs", "Generate test matrix"],
+      "acceptance_criteria": [
+        "Define variables to test",
+        "Calculate sample size needs",
+        "Generate test matrix"
+      ],
       "passes": true
     },
     {
@@ -1007,7 +1091,11 @@
       "category": "testing",
       "priority": 1,
       "description": "Sequential testing framework",
-      "acceptance_criteria": ["Phase 1: hooks, Phase 2: body, Phase 3: CTA", "Auto-advance winners", "Learning documentation"],
+      "acceptance_criteria": [
+        "Phase 1: hooks, Phase 2: body, Phase 3: CTA",
+        "Auto-advance winners",
+        "Learning documentation"
+      ],
       "passes": true
     },
     {
@@ -1015,7 +1103,11 @@
       "category": "testing",
       "priority": 1,
       "description": "Geographic split test manager",
-      "acceptance_criteria": ["Holdout region selection", "Lift measurement", "Statistical comparison"],
+      "acceptance_criteria": [
+        "Holdout region selection",
+        "Lift measurement",
+        "Statistical comparison"
+      ],
       "passes": true
     },
     {
@@ -1023,7 +1115,11 @@
       "category": "reporting",
       "priority": 1,
       "description": "Weekly performance report generator",
-      "acceptance_criteria": ["Auto-generate PDF reports", "Key metrics summary", "Top/bottom performers"],
+      "acceptance_criteria": [
+        "Auto-generate PDF reports",
+        "Key metrics summary",
+        "Top/bottom performers"
+      ],
       "passes": true
     },
     {
@@ -1031,7 +1127,11 @@
       "category": "reporting",
       "priority": 1,
       "description": "Creative leaderboard with rankings",
-      "acceptance_criteria": ["Rank by ROAS/CTR/CPA", "Time period filtering", "Export to CSV"],
+      "acceptance_criteria": [
+        "Rank by ROAS/CTR/CPA",
+        "Time period filtering",
+        "Export to CSV"
+      ],
       "passes": true
     },
     {
@@ -1039,7 +1139,11 @@
       "category": "reporting",
       "priority": 1,
       "description": "Attribution model comparison tool",
-      "acceptance_criteria": ["Last-click vs first-click vs linear", "Compare outcomes", "Recommendations"],
+      "acceptance_criteria": [
+        "Last-click vs first-click vs linear",
+        "Compare outcomes",
+        "Recommendations"
+      ],
       "passes": true
     },
     {
@@ -1047,7 +1151,11 @@
       "category": "automation",
       "priority": 1,
       "description": "Auto-pause underperforming ads rule engine",
-      "acceptance_criteria": ["Define pause thresholds", "Grace period settings", "Notification on pause"],
+      "acceptance_criteria": [
+        "Define pause thresholds",
+        "Grace period settings",
+        "Notification on pause"
+      ],
       "passes": true
     },
     {
@@ -1055,7 +1163,11 @@
       "category": "automation",
       "priority": 1,
       "description": "Auto-scale winning ads budget rule",
-      "acceptance_criteria": ["Scale triggers", "Max budget caps", "Gradual vs immediate scale"],
+      "acceptance_criteria": [
+        "Scale triggers",
+        "Max budget caps",
+        "Gradual vs immediate scale"
+      ],
       "passes": true
     },
     {
@@ -1063,7 +1175,11 @@
       "category": "automation",
       "priority": 1,
       "description": "Scheduled ad activation/deactivation",
-      "acceptance_criteria": ["Calendar-based scheduling", "Day-parting support", "Timezone handling"],
+      "acceptance_criteria": [
+        "Calendar-based scheduling",
+        "Day-parting support",
+        "Timezone handling"
+      ],
       "passes": true
     },
     {
@@ -1071,7 +1187,11 @@
       "category": "integration",
       "priority": 1,
       "description": "Google Ads connector for cross-platform testing",
-      "acceptance_criteria": ["OAuth connection", "Campaign sync", "Unified reporting"],
+      "acceptance_criteria": [
+        "OAuth connection",
+        "Campaign sync",
+        "Unified reporting"
+      ],
       "passes": true
     },
     {
@@ -1079,7 +1199,11 @@
       "category": "integration",
       "priority": 1,
       "description": "TikTok Ads connector",
-      "acceptance_criteria": ["API integration", "Creative format adaptation", "Performance import"],
+      "acceptance_criteria": [
+        "API integration",
+        "Creative format adaptation",
+        "Performance import"
+      ],
       "passes": true
     },
     {
@@ -1087,7 +1211,11 @@
       "category": "integration",
       "priority": 1,
       "description": "Shopify/WooCommerce conversion tracking",
-      "acceptance_criteria": ["Order import", "Revenue attribution", "Product-level ROAS"],
+      "acceptance_criteria": [
+        "Order import",
+        "Revenue attribution",
+        "Product-level ROAS"
+      ],
       "passes": true
     },
     {
@@ -1095,7 +1223,11 @@
       "category": "ai",
       "priority": 1,
       "description": "GPT-4 powered ad copy refinement",
-      "acceptance_criteria": ["Suggest improvements", "Tone adjustment", "Length optimization"],
+      "acceptance_criteria": [
+        "Suggest improvements",
+        "Tone adjustment",
+        "Length optimization"
+      ],
       "passes": true
     },
     {
@@ -1103,7 +1235,11 @@
       "category": "ai",
       "priority": 1,
       "description": "Image-to-ad-copy AI generator",
-      "acceptance_criteria": ["Analyze product images", "Generate matching copy", "Multiple variations"],
+      "acceptance_criteria": [
+        "Analyze product images",
+        "Generate matching copy",
+        "Multiple variations"
+      ],
       "passes": true
     },
     {
@@ -1111,7 +1247,11 @@
       "category": "ai",
       "priority": 1,
       "description": "Predictive performance scoring for new creatives",
-      "acceptance_criteria": ["Score before launch", "Historical pattern matching", "Confidence level"],
+      "acceptance_criteria": [
+        "Score before launch",
+        "Historical pattern matching",
+        "Confidence level"
+      ],
       "passes": true
     },
     {
@@ -1119,7 +1259,11 @@
       "category": "ai",
       "priority": 1,
       "description": "Auto-generated A/B test hypotheses",
-      "acceptance_criteria": ["Suggest what to test next", "Based on performance gaps", "Prioritize by impact"],
+      "acceptance_criteria": [
+        "Suggest what to test next",
+        "Based on performance gaps",
+        "Prioritize by impact"
+      ],
       "passes": true
     },
     {
@@ -1127,7 +1271,11 @@
       "category": "workflow",
       "priority": 1,
       "description": "Creative brief template builder",
-      "acceptance_criteria": ["Reusable brief templates", "Auto-populate from context", "Share with team"],
+      "acceptance_criteria": [
+        "Reusable brief templates",
+        "Auto-populate from context",
+        "Share with team"
+      ],
       "passes": true
     },
     {
@@ -1135,7 +1283,11 @@
       "category": "workflow",
       "priority": 1,
       "description": "Approval workflow with stakeholder roles",
-      "acceptance_criteria": ["Submit for approval", "Role-based permissions", "Audit trail"],
+      "acceptance_criteria": [
+        "Submit for approval",
+        "Role-based permissions",
+        "Audit trail"
+      ],
       "passes": true
     },
     {
@@ -1143,7 +1295,11 @@
       "category": "workflow",
       "priority": 1,
       "description": "Creative asset version control",
-      "acceptance_criteria": ["Track all versions", "Rollback capability", "Diff comparison"],
+      "acceptance_criteria": [
+        "Track all versions",
+        "Rollback capability",
+        "Diff comparison"
+      ],
       "passes": true
     },
     {
@@ -1151,7 +1307,11 @@
       "category": "workflow",
       "priority": 1,
       "description": "Team collaboration with comments and @mentions",
-      "acceptance_criteria": ["Comment on creatives", "@mention team members", "Notification system"],
+      "acceptance_criteria": [
+        "Comment on creatives",
+        "@mention team members",
+        "Notification system"
+      ],
       "passes": true
     },
     {
@@ -1159,7 +1319,11 @@
       "category": "mobile",
       "priority": 2,
       "description": "Mobile-responsive dashboard",
-      "acceptance_criteria": ["Works on phone/tablet", "Touch-friendly controls", "Key metrics visible"],
+      "acceptance_criteria": [
+        "Works on phone/tablet",
+        "Touch-friendly controls",
+        "Key metrics visible"
+      ],
       "passes": true
     },
     {
@@ -1167,7 +1331,11 @@
       "category": "mobile",
       "priority": 2,
       "description": "Push notifications for ad alerts",
-      "acceptance_criteria": ["Performance alerts", "Approval requests", "Configurable thresholds"],
+      "acceptance_criteria": [
+        "Performance alerts",
+        "Approval requests",
+        "Configurable thresholds"
+      ],
       "passes": true
     },
     {
@@ -1175,7 +1343,11 @@
       "category": "data",
       "priority": 1,
       "description": "Historical data import from existing accounts",
-      "acceptance_criteria": ["Bulk import past campaigns", "Preserve metrics", "Backfill analytics"],
+      "acceptance_criteria": [
+        "Bulk import past campaigns",
+        "Preserve metrics",
+        "Backfill analytics"
+      ],
       "passes": true
     },
     {
@@ -1183,7 +1355,11 @@
       "category": "data",
       "priority": 1,
       "description": "Data export in multiple formats",
-      "acceptance_criteria": ["CSV, JSON, Excel export", "Custom date ranges", "Filter by campaign"],
+      "acceptance_criteria": [
+        "CSV, JSON, Excel export",
+        "Custom date ranges",
+        "Filter by campaign"
+      ],
       "passes": true
     },
     {
@@ -1191,7 +1367,11 @@
       "category": "data",
       "priority": 2,
       "description": "API for external tool integration",
-      "acceptance_criteria": ["REST API endpoints", "Authentication", "Rate limiting"],
+      "acceptance_criteria": [
+        "REST API endpoints",
+        "Authentication",
+        "Rate limiting"
+      ],
       "passes": true
     },
     {
@@ -1199,7 +1379,11 @@
       "category": "ui",
       "priority": 1,
       "description": "Dark mode support",
-      "acceptance_criteria": ["Toggle dark/light", "Persist preference", "All components styled"],
+      "acceptance_criteria": [
+        "Toggle dark/light",
+        "Persist preference",
+        "All components styled"
+      ],
       "passes": true
     },
     {
@@ -1207,7 +1391,11 @@
       "category": "ui",
       "priority": 1,
       "description": "Customizable dashboard widgets",
-      "acceptance_criteria": ["Drag-and-drop layout", "Add/remove widgets", "Save configurations"],
+      "acceptance_criteria": [
+        "Drag-and-drop layout",
+        "Add/remove widgets",
+        "Save configurations"
+      ],
       "passes": true
     },
     {
@@ -1215,7 +1403,11 @@
       "category": "ui",
       "priority": 2,
       "description": "Keyboard shortcuts for power users",
-      "acceptance_criteria": ["Common actions mapped", "Shortcut reference modal", "Customizable bindings"],
+      "acceptance_criteria": [
+        "Common actions mapped",
+        "Shortcut reference modal",
+        "Customizable bindings"
+      ],
       "passes": true
     },
     {
@@ -1223,7 +1415,11 @@
       "category": "security",
       "priority": 1,
       "description": "Role-based access control (RBAC)",
-      "acceptance_criteria": ["Admin, Editor, Viewer roles", "Granular permissions", "Audit logging"],
+      "acceptance_criteria": [
+        "Admin, Editor, Viewer roles",
+        "Granular permissions",
+        "Audit logging"
+      ],
       "passes": true
     },
     {
@@ -1231,7 +1427,11 @@
       "category": "security",
       "priority": 1,
       "description": "Two-factor authentication support",
-      "acceptance_criteria": ["TOTP support", "Recovery codes", "Enforce for admins"],
+      "acceptance_criteria": [
+        "TOTP support",
+        "Recovery codes",
+        "Enforce for admins"
+      ],
       "passes": true
     },
     {
@@ -1239,7 +1439,11 @@
       "category": "security",
       "priority": 2,
       "description": "SSO integration (Google, Microsoft)",
-      "acceptance_criteria": ["OAuth2 flow", "Auto-provision users", "Domain restrictions"],
+      "acceptance_criteria": [
+        "OAuth2 flow",
+        "Auto-provision users",
+        "Domain restrictions"
+      ],
       "passes": true
     },
     {
@@ -1247,8 +1451,2539 @@
       "category": "performance",
       "priority": 1,
       "description": "Caching layer for fast dashboard loads",
-      "acceptance_criteria": ["Redis caching", "Cache invalidation", "Sub-second page loads"],
+      "acceptance_criteria": [
+        "Redis caching",
+        "Cache invalidation",
+        "Sub-second page loads"
+      ],
       "passes": true
+    },
+    {
+      "id": "PCT-WC-001",
+      "name": "Unit tests for auth flows",
+      "description": "Unit tests for sign-in, sign-up, password reset",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Sign-in",
+        "Sign-up",
+        "Reset",
+        "Session"
+      ]
+    },
+    {
+      "id": "PCT-WC-002",
+      "name": "Unit tests for API route handlers",
+      "description": "Unit tests for all API routes",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "All routes",
+        "Error cases",
+        "Auth middleware"
+      ]
+    },
+    {
+      "id": "PCT-WC-003",
+      "name": "Unit tests for database queries",
+      "description": "Unit tests for CRUD helpers",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Create/read/update/delete",
+        "Pagination",
+        "Search"
+      ]
+    },
+    {
+      "id": "PCT-WC-004",
+      "name": "Unit tests for form validation",
+      "description": "Unit tests for validation rules",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Required",
+        "Email",
+        "Password",
+        "Custom"
+      ]
+    },
+    {
+      "id": "PCT-WC-005",
+      "name": "Unit tests for utility functions",
+      "description": "Unit tests for formatting and helpers",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Date",
+        "Currency",
+        "String",
+        "Edge cases"
+      ]
+    },
+    {
+      "id": "PCT-WC-006",
+      "name": "Unit tests for state management",
+      "description": "Unit tests for stores/context",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Initial state",
+        "Actions",
+        "Selectors"
+      ]
+    },
+    {
+      "id": "PCT-WC-007",
+      "name": "Integration tests for primary workflow",
+      "description": "Full workflow: sign-up through core action",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Account",
+        "Onboard",
+        "Action",
+        "Verify"
+      ]
+    },
+    {
+      "id": "PCT-WC-008",
+      "name": "Integration tests for payment flow",
+      "description": "Stripe checkout and webhook test",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Checkout",
+        "Webhook",
+        "Subscription"
+      ]
+    },
+    {
+      "id": "PCT-WC-009",
+      "name": "Integration tests for import/export",
+      "description": "CSV/JSON import and export",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Upload",
+        "Map",
+        "Import",
+        "Export"
+      ]
+    },
+    {
+      "id": "PCT-WC-010",
+      "name": "Integration tests for search/filter",
+      "description": "Search, filter, and pagination",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Text search",
+        "Filters",
+        "Pagination"
+      ]
+    },
+    {
+      "id": "PCT-WC-011",
+      "name": "E2E tests for auth with Playwright",
+      "description": "Playwright auth tests",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Login",
+        "Signup",
+        "Protected routes"
+      ]
+    },
+    {
+      "id": "PCT-WC-012",
+      "name": "E2E tests for CRUD operations",
+      "description": "Playwright CRUD tests",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Create",
+        "View",
+        "Edit",
+        "Delete"
+      ]
+    },
+    {
+      "id": "PCT-WC-013",
+      "name": "E2E tests for settings",
+      "description": "Playwright settings tests",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Profile",
+        "Preferences",
+        "Persistence"
+      ]
+    },
+    {
+      "id": "PCT-WC-014",
+      "name": "E2E tests for responsive layouts",
+      "description": "Playwright breakpoint tests",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Mobile",
+        "Tablet",
+        "Desktop"
+      ]
+    },
+    {
+      "id": "PCT-WC-015",
+      "name": "E2E tests for error states",
+      "description": "Playwright error/edge tests",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "404",
+        "Error boundary",
+        "Empty state"
+      ]
+    },
+    {
+      "id": "PCT-WC-016",
+      "name": "Performance test: page load < 3s",
+      "description": "Page load optimization",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "LCP < 2.5s",
+        "FID < 100ms",
+        "CLS < 0.1"
+      ]
+    },
+    {
+      "id": "PCT-WC-017",
+      "name": "Performance test: API < 500ms",
+      "description": "API response times",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "List < 500ms",
+        "Detail < 300ms",
+        "Search < 500ms"
+      ]
+    },
+    {
+      "id": "PCT-WC-018",
+      "name": "Performance test: DB queries",
+      "description": "Query optimization",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "No seq scans",
+        "Indexes",
+        "Plans checked"
+      ]
+    },
+    {
+      "id": "PCT-WC-019",
+      "name": "Load test: concurrent users",
+      "description": "50+ concurrent user simulation",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "No errors",
+        "Response < 2x",
+        "No leaks"
+      ]
+    },
+    {
+      "id": "PCT-WC-020",
+      "name": "Accessibility audit with axe-core",
+      "description": "Automated a11y scan",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "No critical",
+        "No serious",
+        "ARIA correct"
+      ]
+    },
+    {
+      "id": "PCT-WC-021",
+      "name": "Visual regression tests",
+      "description": "Screenshot comparison",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Dashboard",
+        "Lists",
+        "Forms",
+        "Settings"
+      ]
+    },
+    {
+      "id": "PCT-WC-022",
+      "name": "API contract tests",
+      "description": "Response shape validation",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Shapes match",
+        "Errors typed",
+        "Pagination"
+      ]
+    },
+    {
+      "id": "PCT-WC-023",
+      "name": "Security test: auth bypass",
+      "description": "Unauthenticated rejection",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "401 on API",
+        "Redirect pages",
+        "No leaks"
+      ]
+    },
+    {
+      "id": "PCT-WC-024",
+      "name": "Security test: injection prevention",
+      "description": "XSS and SQL injection tests",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Script sanitized",
+        "SQL blocked"
+      ]
+    },
+    {
+      "id": "PCT-WC-025",
+      "name": "Test coverage reports",
+      "description": "Coverage config and thresholds",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Config",
+        "HTML report",
+        "Thresholds"
+      ]
+    },
+    {
+      "id": "PCT-WC-026",
+      "name": "Snapshot tests for components",
+      "description": "Snapshot critical components",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Dashboard",
+        "Forms",
+        "Modals"
+      ]
+    },
+    {
+      "id": "PCT-WC-027",
+      "name": "Test seed script",
+      "description": "Idempotent test data seeding",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Accounts",
+        "Entities",
+        "Relations"
+      ]
+    },
+    {
+      "id": "PCT-WC-028",
+      "name": "Mock service layer",
+      "description": "Mock external services",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Auth",
+        "DB",
+        "Payment",
+        "Email"
+      ]
+    },
+    {
+      "id": "PCT-WC-029",
+      "name": "CI test configuration",
+      "description": "Tests in CI pipeline",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Commands",
+        "Env vars",
+        "Parallel",
+        "Reports"
+      ]
+    },
+    {
+      "id": "PCT-WC-030",
+      "name": "Regression test suite",
+      "description": "Tests for fixed bugs",
+      "category": "testing",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Per-bug tests",
+        "Edge cases",
+        "Prevent regressions"
+      ]
+    },
+    {
+      "id": "PCT-WC-031",
+      "name": "CSRF protection on mutations",
+      "description": "CSRF tokens on POST/PUT/DELETE",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Token gen",
+        "Validation",
+        "Cookie"
+      ]
+    },
+    {
+      "id": "PCT-WC-032",
+      "name": "Rate limiting on auth endpoints",
+      "description": "Rate limit sign-in/up/reset",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Per-IP",
+        "Per-account",
+        "429",
+        "Backoff"
+      ]
+    },
+    {
+      "id": "PCT-WC-033",
+      "name": "Rate limiting on API endpoints",
+      "description": "Rate limit all APIs",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Per-user",
+        "Per-tier",
+        "Headers"
+      ]
+    },
+    {
+      "id": "PCT-WC-034",
+      "name": "Input sanitization",
+      "description": "Sanitize all user inputs",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Strip HTML",
+        "Escape chars",
+        "Trim",
+        "Length"
+      ]
+    },
+    {
+      "id": "PCT-WC-035",
+      "name": "SQL injection prevention audit",
+      "description": "Verify parameterized queries",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "No concatenation",
+        "Parameterized"
+      ]
+    },
+    {
+      "id": "PCT-WC-036",
+      "name": "Secure HTTP headers",
+      "description": "CSP, HSTS, X-Frame-Options",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "CSP",
+        "HSTS",
+        "X-Frame",
+        "X-Content-Type"
+      ]
+    },
+    {
+      "id": "PCT-WC-037",
+      "name": "Environment variable security",
+      "description": "No secrets in client bundles",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "No client secrets",
+        "No .env in git"
+      ]
+    },
+    {
+      "id": "PCT-WC-038",
+      "name": "Auth token security",
+      "description": "Secure token storage/rotation",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "HttpOnly",
+        "Secure",
+        "SameSite",
+        "Rotation"
+      ]
+    },
+    {
+      "id": "PCT-WC-039",
+      "name": "File upload security",
+      "description": "Validate uploads",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "MIME check",
+        "Size limit",
+        "Whitelist",
+        "Isolation"
+      ]
+    },
+    {
+      "id": "PCT-WC-040",
+      "name": "API authorization checks",
+      "description": "Auth on every endpoint",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Own data only",
+        "Admin protected",
+        "Role checks"
+      ]
+    },
+    {
+      "id": "PCT-WC-041",
+      "name": "Dependency vulnerability scanning",
+      "description": "Automated CVE scanning",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "npm audit",
+        "Dependabot",
+        "Alerts"
+      ]
+    },
+    {
+      "id": "PCT-WC-042",
+      "name": "Sensitive data encryption",
+      "description": "Encrypt PII at rest",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "PII identified",
+        "Encrypted",
+        "Key mgmt"
+      ]
+    },
+    {
+      "id": "PCT-WC-043",
+      "name": "Audit logging",
+      "description": "Log security-relevant actions",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Auth events",
+        "Data access",
+        "Admin actions"
+      ]
+    },
+    {
+      "id": "PCT-WC-044",
+      "name": "Session hardening",
+      "description": "Secure sessions with timeouts",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Timeout",
+        "Limits",
+        "Revocation"
+      ]
+    },
+    {
+      "id": "PCT-WC-045",
+      "name": "GDPR/privacy compliance",
+      "description": "Data export/deletion/consent",
+      "category": "security",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Export",
+        "Deletion",
+        "Consent"
+      ]
+    },
+    {
+      "id": "PCT-WC-046",
+      "name": "Server-side caching",
+      "description": "Cache expensive queries",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Headers",
+        "SWR",
+        "Invalidation"
+      ]
+    },
+    {
+      "id": "PCT-WC-047",
+      "name": "Client-side data caching",
+      "description": "React Query/SWR config",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Stale time",
+        "Persistence",
+        "Optimistic"
+      ]
+    },
+    {
+      "id": "PCT-WC-048",
+      "name": "Code splitting and lazy loading",
+      "description": "Split bundles per route",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Dynamic imports",
+        "Suspense"
+      ]
+    },
+    {
+      "id": "PCT-WC-049",
+      "name": "Image optimization",
+      "description": "next/image, WebP, responsive",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "next/image",
+        "WebP",
+        "Responsive"
+      ]
+    },
+    {
+      "id": "PCT-WC-050",
+      "name": "Database query optimization",
+      "description": "Indexes and pooling",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Indexes",
+        "Analysis",
+        "Pooling"
+      ]
+    },
+    {
+      "id": "PCT-WC-051",
+      "name": "API response compression",
+      "description": "gzip/brotli",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Compression",
+        "Negotiation",
+        "Threshold"
+      ]
+    },
+    {
+      "id": "PCT-WC-052",
+      "name": "Pagination on all lists",
+      "description": "Cursor/offset pagination",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Cursor",
+        "Size limits",
+        "Total count"
+      ]
+    },
+    {
+      "id": "PCT-WC-053",
+      "name": "Request deduplication",
+      "description": "Prevent duplicate calls",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Debounce",
+        "Cancel",
+        "Dedup"
+      ]
+    },
+    {
+      "id": "PCT-WC-054",
+      "name": "Static asset caching",
+      "description": "CDN with long-term cache",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Cache-Control",
+        "Hashing",
+        "CDN"
+      ]
+    },
+    {
+      "id": "PCT-WC-055",
+      "name": "Connection pooling",
+      "description": "DB connection pool config",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Pool size",
+        "Timeout",
+        "Recycling"
+      ]
+    },
+    {
+      "id": "PCT-WC-056",
+      "name": "Memory optimization",
+      "description": "Fix memory leaks",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "SSR leaks",
+        "Cleanup",
+        "Listeners"
+      ]
+    },
+    {
+      "id": "PCT-WC-057",
+      "name": "Bundle size monitoring",
+      "description": "Track bundle regressions",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Analyzer",
+        "Budgets",
+        "CI check"
+      ]
+    },
+    {
+      "id": "PCT-WC-058",
+      "name": "Navigation prefetching",
+      "description": "Prefetch routes/data",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Link prefetch",
+        "Data prefetch"
+      ]
+    },
+    {
+      "id": "PCT-WC-059",
+      "name": "Web vitals monitoring",
+      "description": "Track Core Web Vitals",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "LCP",
+        "FID",
+        "CLS",
+        "Dashboard"
+      ]
+    },
+    {
+      "id": "PCT-WC-060",
+      "name": "Streaming SSR",
+      "description": "React streaming for TTFB",
+      "category": "performance",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Suspense",
+        "Streaming",
+        "Progressive"
+      ]
+    },
+    {
+      "id": "PCT-WC-061",
+      "name": "Dynamic meta tags",
+      "description": "Title/desc/OG on all pages",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Titles",
+        "Descriptions",
+        "OG",
+        "Twitter"
+      ]
+    },
+    {
+      "id": "PCT-WC-062",
+      "name": "XML sitemap generation",
+      "description": "Auto-generate sitemap.xml",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "All routes",
+        "Priority",
+        "Auto-update"
+      ]
+    },
+    {
+      "id": "PCT-WC-063",
+      "name": "robots.txt configuration",
+      "description": "Proper robots.txt",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Allow public",
+        "Disallow admin"
+      ]
+    },
+    {
+      "id": "PCT-WC-064",
+      "name": "Structured data JSON-LD",
+      "description": "Schema.org rich results",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Organization",
+        "Product",
+        "Breadcrumbs"
+      ]
+    },
+    {
+      "id": "PCT-WC-065",
+      "name": "Canonical URLs",
+      "description": "Prevent duplicate content",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Canonical tags",
+        "Query params"
+      ]
+    },
+    {
+      "id": "PCT-WC-066",
+      "name": "OG image generation",
+      "description": "Dynamic social images",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Dynamic text",
+        "Branded",
+        "Cached"
+      ]
+    },
+    {
+      "id": "PCT-WC-067",
+      "name": "Error page SEO",
+      "description": "Proper status codes",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "404 status",
+        "Custom page",
+        "No-index"
+      ]
+    },
+    {
+      "id": "PCT-WC-068",
+      "name": "Breadcrumb navigation",
+      "description": "Breadcrumbs with structured data",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Visual",
+        "JSON-LD"
+      ]
+    },
+    {
+      "id": "PCT-WC-069",
+      "name": "PageSpeed > 90",
+      "description": "Google PageSpeed optimization",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Performance",
+        "A11y",
+        "Best practices"
+      ]
+    },
+    {
+      "id": "PCT-WC-070",
+      "name": "Social share preview testing",
+      "description": "Verify share previews",
+      "category": "seo",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Facebook",
+        "Twitter",
+        "LinkedIn"
+      ]
+    },
+    {
+      "id": "PCT-WC-071",
+      "name": "ARIA labels on interactives",
+      "description": "Proper ARIA attributes",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Buttons",
+        "Inputs",
+        "Icons",
+        "Roles"
+      ]
+    },
+    {
+      "id": "PCT-WC-072",
+      "name": "Keyboard navigation",
+      "description": "All features via keyboard",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Tab order",
+        "Focus visible",
+        "Escape"
+      ]
+    },
+    {
+      "id": "PCT-WC-073",
+      "name": "Focus management on routes",
+      "description": "Focus on route change",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Main content",
+        "Skip nav",
+        "Announce"
+      ]
+    },
+    {
+      "id": "PCT-WC-074",
+      "name": "Color contrast WCAG AA",
+      "description": "Meet contrast ratios",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Normal 4.5:1",
+        "Large 3:1",
+        "Both themes"
+      ]
+    },
+    {
+      "id": "PCT-WC-075",
+      "name": "Screen reader compatibility",
+      "description": "Readable by SR",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Alt text",
+        "Tables",
+        "Forms",
+        "Live regions"
+      ]
+    },
+    {
+      "id": "PCT-WC-076",
+      "name": "Responsive text scaling",
+      "description": "Support 200% zoom",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "No scroll",
+        "No overlap",
+        "No hidden"
+      ]
+    },
+    {
+      "id": "PCT-WC-077",
+      "name": "Form error announcements",
+      "description": "Announce validation errors",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Summary",
+        "Inline",
+        "Focus to first"
+      ]
+    },
+    {
+      "id": "PCT-WC-078",
+      "name": "Reduced motion support",
+      "description": "Respect prefers-reduced-motion",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Disable animations",
+        "Simplify"
+      ]
+    },
+    {
+      "id": "PCT-WC-079",
+      "name": "High contrast mode",
+      "description": "Usable in high contrast",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Borders",
+        "Focus indicators"
+      ]
+    },
+    {
+      "id": "PCT-WC-080",
+      "name": "Accessible data tables",
+      "description": "Proper table markup",
+      "category": "a11y",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Headers",
+        "Scope",
+        "Caption"
+      ]
+    },
+    {
+      "id": "PCT-WC-081",
+      "name": "Loading skeletons all pages",
+      "description": "Skeleton loading states",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Dashboard",
+        "List",
+        "Detail",
+        "Form"
+      ]
+    },
+    {
+      "id": "PCT-WC-082",
+      "name": "Empty states all lists",
+      "description": "Helpful empty states",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Component",
+        "Message",
+        "Action"
+      ]
+    },
+    {
+      "id": "PCT-WC-083",
+      "name": "Error boundary with recovery",
+      "description": "Global error UI",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Catch",
+        "Message",
+        "Retry",
+        "Report"
+      ]
+    },
+    {
+      "id": "PCT-WC-084",
+      "name": "Toast notification system",
+      "description": "Global toasts",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Variants",
+        "Auto-dismiss",
+        "Stack"
+      ]
+    },
+    {
+      "id": "PCT-WC-085",
+      "name": "Confirmation dialogs",
+      "description": "Confirm destructive actions",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Delete",
+        "Cancel",
+        "Clear"
+      ]
+    },
+    {
+      "id": "PCT-WC-086",
+      "name": "Responsive sidebar nav",
+      "description": "Collapsible sidebar",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Desktop",
+        "Mobile drawer",
+        "Toggle"
+      ]
+    },
+    {
+      "id": "PCT-WC-087",
+      "name": "Dark mode with system pref",
+      "description": "Light/dark/system theme",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Toggle",
+        "System",
+        "Persist"
+      ]
+    },
+    {
+      "id": "PCT-WC-088",
+      "name": "Form autosave with drafts",
+      "description": "Auto-save form progress",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Interval",
+        "Indicator",
+        "Restore"
+      ]
+    },
+    {
+      "id": "PCT-WC-089",
+      "name": "Infinite scroll",
+      "description": "Auto-load on scroll",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Auto-load",
+        "Spinner",
+        "End indicator"
+      ]
+    },
+    {
+      "id": "PCT-WC-090",
+      "name": "Keyboard shortcuts",
+      "description": "Power user shortcuts",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Cmd+/ help",
+        "Nav shortcuts",
+        "Actions"
+      ]
+    },
+    {
+      "id": "PCT-WC-091",
+      "name": "Breadcrumb component",
+      "description": "Navigation breadcrumbs",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Auto-generate",
+        "Clickable",
+        "Current"
+      ]
+    },
+    {
+      "id": "PCT-WC-092",
+      "name": "Responsive data tables",
+      "description": "Tables on mobile",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Desktop table",
+        "Mobile cards",
+        "Sort"
+      ]
+    },
+    {
+      "id": "PCT-WC-093",
+      "name": "Drag-and-drop upload",
+      "description": "File drag-drop zone",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Overlay",
+        "Validation",
+        "Progress"
+      ]
+    },
+    {
+      "id": "PCT-WC-094",
+      "name": "Command palette Cmd+K",
+      "description": "Quick search/nav",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Search",
+        "Navigate",
+        "Actions"
+      ]
+    },
+    {
+      "id": "PCT-WC-095",
+      "name": "Multi-step form wizard",
+      "description": "Stepped form with progress",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Steps",
+        "Back/next",
+        "Validation"
+      ]
+    },
+    {
+      "id": "PCT-WC-096",
+      "name": "Notification dropdown",
+      "description": "Bell with dropdown",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Badge",
+        "List",
+        "Mark read"
+      ]
+    },
+    {
+      "id": "PCT-WC-097",
+      "name": "Avatar with upload",
+      "description": "Avatar display and upload",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Image",
+        "Initials",
+        "Upload",
+        "Remove"
+      ]
+    },
+    {
+      "id": "PCT-WC-098",
+      "name": "Copy-to-clipboard",
+      "description": "Click-to-copy with feedback",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Copy button",
+        "Toast",
+        "Clipboard API"
+      ]
+    },
+    {
+      "id": "PCT-WC-099",
+      "name": "Bulk action toolbar",
+      "description": "Multi-select with actions",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Checkbox",
+        "Select all",
+        "Bulk ops"
+      ]
+    },
+    {
+      "id": "PCT-WC-100",
+      "name": "Print-friendly styles",
+      "description": "Print stylesheet",
+      "category": "ui",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Hide nav",
+        "Clean layout",
+        "Print button"
+      ]
+    },
+    {
+      "id": "PCT-WC-101",
+      "name": "CI/CD pipeline",
+      "description": "GitHub Actions for test/deploy",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Test on PR",
+        "Lint",
+        "Build",
+        "Deploy"
+      ]
+    },
+    {
+      "id": "PCT-WC-102",
+      "name": "Environment variable management",
+      "description": "Structured env with validation",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        ".env.example",
+        "Runtime check"
+      ]
+    },
+    {
+      "id": "PCT-WC-103",
+      "name": "Error monitoring Sentry",
+      "description": "Production error tracking",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "SDK",
+        "Source maps",
+        "Alerts"
+      ]
+    },
+    {
+      "id": "PCT-WC-104",
+      "name": "Database migrations workflow",
+      "description": "Migration system",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "CLI",
+        "Version tracking",
+        "Rollback"
+      ]
+    },
+    {
+      "id": "PCT-WC-105",
+      "name": "Staging environment",
+      "description": "Staging matching prod",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Staging DB",
+        "Staging env",
+        "Preview URLs"
+      ]
+    },
+    {
+      "id": "PCT-WC-106",
+      "name": "Automated backups",
+      "description": "DB backup with retention",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Daily",
+        "Retention",
+        "Restore tested"
+      ]
+    },
+    {
+      "id": "PCT-WC-107",
+      "name": "Log aggregation",
+      "description": "Centralized structured logging",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "JSON logs",
+        "Request ID",
+        "Levels"
+      ]
+    },
+    {
+      "id": "PCT-WC-108",
+      "name": "Health check endpoints",
+      "description": "Monitoring endpoints",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "/api/health",
+        "DB check",
+        "Dependencies"
+      ]
+    },
+    {
+      "id": "PCT-WC-109",
+      "name": "Feature flags system",
+      "description": "Remote feature flags",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Management",
+        "Targeting",
+        "Rollout"
+      ]
+    },
+    {
+      "id": "PCT-WC-110",
+      "name": "Automated dependency updates",
+      "description": "Dependabot/Renovate",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Config",
+        "Auto-merge patch"
+      ]
+    },
+    {
+      "id": "PCT-WC-111",
+      "name": "Docker containerization",
+      "description": "Dockerfile and compose",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Multi-stage",
+        "Compose",
+        "Optimized"
+      ]
+    },
+    {
+      "id": "PCT-WC-112",
+      "name": "API documentation generation",
+      "description": "Auto-gen API docs",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Endpoints",
+        "Schemas",
+        "Examples"
+      ]
+    },
+    {
+      "id": "PCT-WC-113",
+      "name": "Schema documentation",
+      "description": "DB schema docs",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "ER diagram",
+        "Descriptions",
+        "Relations"
+      ]
+    },
+    {
+      "id": "PCT-WC-114",
+      "name": "Uptime monitoring",
+      "description": "External uptime checks",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "HTTP checks",
+        "Alerts",
+        "Status page"
+      ]
+    },
+    {
+      "id": "PCT-WC-115",
+      "name": "Secrets rotation",
+      "description": "Key rotation procedure",
+      "category": "devops",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Procedure",
+        "Zero-downtime",
+        "Audit"
+      ]
+    },
+    {
+      "id": "PCT-WC-116",
+      "name": "Transactional email system",
+      "description": "Email via Resend/SendGrid",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Service",
+        "Templates",
+        "Retry"
+      ]
+    },
+    {
+      "id": "PCT-WC-117",
+      "name": "Welcome email on sign-up",
+      "description": "Branded welcome email",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Triggered",
+        "Template",
+        "Links"
+      ]
+    },
+    {
+      "id": "PCT-WC-118",
+      "name": "Password reset email",
+      "description": "Secure reset link",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Token",
+        "Expiry",
+        "Template"
+      ]
+    },
+    {
+      "id": "PCT-WC-119",
+      "name": "Email verification flow",
+      "description": "Verify email address",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Token",
+        "Confirm",
+        "Resend"
+      ]
+    },
+    {
+      "id": "PCT-WC-120",
+      "name": "Notification preferences",
+      "description": "User controls",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Per-type",
+        "Frequency",
+        "Persist"
+      ]
+    },
+    {
+      "id": "PCT-WC-121",
+      "name": "In-app notification center",
+      "description": "Notification list UI",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Model",
+        "Read/unread",
+        "Real-time"
+      ]
+    },
+    {
+      "id": "PCT-WC-122",
+      "name": "Email templates with branding",
+      "description": "Consistent branded emails",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Header",
+        "Footer",
+        "Responsive"
+      ]
+    },
+    {
+      "id": "PCT-WC-123",
+      "name": "Webhook notifications",
+      "description": "Webhooks for events",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Configurable",
+        "Selection",
+        "Retry"
+      ]
+    },
+    {
+      "id": "PCT-WC-124",
+      "name": "Digest summary emails",
+      "description": "Periodic summaries",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Daily/weekly",
+        "Summary",
+        "Unsubscribe"
+      ]
+    },
+    {
+      "id": "PCT-WC-125",
+      "name": "Bounce/complaint handling",
+      "description": "Handle bounced emails",
+      "category": "notifications",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Bounce hook",
+        "Complaint hook",
+        "Suppress"
+      ]
+    },
+    {
+      "id": "PCT-WC-126",
+      "name": "Analytics event tracking",
+      "description": "Track key events",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Page views",
+        "Features",
+        "Conversions"
+      ]
+    },
+    {
+      "id": "PCT-WC-127",
+      "name": "User behavior funnels",
+      "description": "Conversion funnels",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Onboarding",
+        "Purchase",
+        "Adoption"
+      ]
+    },
+    {
+      "id": "PCT-WC-128",
+      "name": "A/B testing framework",
+      "description": "Feature flag A/B tests",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Assignment",
+        "Tracking",
+        "Significance"
+      ]
+    },
+    {
+      "id": "PCT-WC-129",
+      "name": "Data export for users",
+      "description": "User data export JSON/CSV",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "All data",
+        "Format",
+        "Download"
+      ]
+    },
+    {
+      "id": "PCT-WC-130",
+      "name": "Admin analytics dashboard",
+      "description": "Admin metrics view",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Growth",
+        "Revenue",
+        "Usage",
+        "Errors"
+      ]
+    },
+    {
+      "id": "PCT-WC-131",
+      "name": "Data retention policies",
+      "description": "Automated cleanup",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Periods",
+        "Cleanup",
+        "Audit excluded"
+      ]
+    },
+    {
+      "id": "PCT-WC-132",
+      "name": "Usage tracking per tier",
+      "description": "Feature usage limits",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Counters",
+        "Enforcement",
+        "Upgrade prompt"
+      ]
+    },
+    {
+      "id": "PCT-WC-133",
+      "name": "Search analytics",
+      "description": "Track search queries",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Logging",
+        "No-result",
+        "Popular"
+      ]
+    },
+    {
+      "id": "PCT-WC-134",
+      "name": "Error rate monitoring",
+      "description": "Track error spikes",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Rate calc",
+        "Alerts",
+        "Categories"
+      ]
+    },
+    {
+      "id": "PCT-WC-135",
+      "name": "User feedback collection",
+      "description": "In-app feedback widget",
+      "category": "analytics",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Form",
+        "Categories",
+        "Screenshots"
+      ]
+    },
+    {
+      "id": "PCT-WC-136",
+      "name": "Comprehensive README",
+      "description": "Setup and architecture",
+      "category": "documentation",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Quick start",
+        "Architecture",
+        "Contributing"
+      ]
+    },
+    {
+      "id": "PCT-WC-137",
+      "name": "API documentation",
+      "description": "All endpoints documented",
+      "category": "documentation",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Endpoints",
+        "Examples",
+        "Auth"
+      ]
+    },
+    {
+      "id": "PCT-WC-138",
+      "name": "Database schema docs",
+      "description": "Schema with relationships",
+      "category": "documentation",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Tables",
+        "Columns",
+        "Relations"
+      ]
+    },
+    {
+      "id": "PCT-WC-139",
+      "name": "Deployment guide",
+      "description": "Step-by-step deploy",
+      "category": "documentation",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Prerequisites",
+        "Build",
+        "Deploy",
+        "Rollback"
+      ]
+    },
+    {
+      "id": "PCT-WC-140",
+      "name": "Testing strategy docs",
+      "description": "How to test",
+      "category": "documentation",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Categories",
+        "Commands",
+        "Writing tests"
+      ]
+    },
+    {
+      "id": "PCT-WC-141",
+      "name": "Stripe billing integration",
+      "description": "Subscriptions and payments",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Checkout",
+        "Webhooks",
+        "Sync"
+      ]
+    },
+    {
+      "id": "PCT-WC-142",
+      "name": "Supabase Edge Functions",
+      "description": "Server-side logic",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Auth verify",
+        "Business logic",
+        "CORS"
+      ]
+    },
+    {
+      "id": "PCT-WC-143",
+      "name": "File upload to Supabase Storage",
+      "description": "Upload with validation",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Upload",
+        "Type check",
+        "Signed URLs"
+      ]
+    },
+    {
+      "id": "PCT-WC-144",
+      "name": "Real-time subscriptions",
+      "description": "Live data updates",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Subscribe",
+        "Events",
+        "UI update"
+      ]
+    },
+    {
+      "id": "PCT-WC-145",
+      "name": "OpenAI/Claude AI integration",
+      "description": "LLM-powered features",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "API client",
+        "Prompts",
+        "Streaming"
+      ]
+    },
+    {
+      "id": "PCT-WC-146",
+      "name": "Social OAuth providers",
+      "description": "Google/GitHub OAuth",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Config",
+        "Callback",
+        "Profile import"
+      ]
+    },
+    {
+      "id": "PCT-WC-147",
+      "name": "CSV/Excel data import",
+      "description": "Import from spreadsheets",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Upload",
+        "Column map",
+        "Validate"
+      ]
+    },
+    {
+      "id": "PCT-WC-148",
+      "name": "PDF report generation",
+      "description": "Server-side PDF generation",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Templates",
+        "Data",
+        "Download"
+      ]
+    },
+    {
+      "id": "PCT-WC-149",
+      "name": "Slack/Discord notifications",
+      "description": "Team notification hooks",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Webhooks",
+        "Formatting",
+        "Events"
+      ]
+    },
+    {
+      "id": "PCT-WC-150",
+      "name": "Calendar integration",
+      "description": "Calendar sync",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Google Calendar",
+        "iCal export",
+        "Events"
+      ]
+    },
+    {
+      "id": "PCT-WC-151",
+      "name": "Email template system",
+      "description": "Branded transactional email",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Templates",
+        "Variables",
+        "Preview"
+      ]
+    },
+    {
+      "id": "PCT-WC-152",
+      "name": "Webhook incoming handler",
+      "description": "Process external webhooks",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Verify signature",
+        "Parse payload",
+        "Route"
+      ]
+    },
+    {
+      "id": "PCT-WC-153",
+      "name": "S3/Storage CDN for assets",
+      "description": "Asset delivery pipeline",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Upload",
+        "Transform",
+        "CDN serve"
+      ]
+    },
+    {
+      "id": "PCT-WC-154",
+      "name": "Search with Supabase FTS",
+      "description": "Full-text search implementation",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "tsvector",
+        "Ranking",
+        "Debounced"
+      ]
+    },
+    {
+      "id": "PCT-WC-155",
+      "name": "Cron/scheduled jobs",
+      "description": "Scheduled background tasks",
+      "category": "integrations",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Edge Function cron",
+        "Job queue",
+        "Retry"
+      ]
+    },
+    {
+      "id": "PCT-WC-156",
+      "name": "Database RLS policies audit",
+      "description": "Verify RLS on all tables",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "RLS enabled",
+        "Policies per table",
+        "Tested"
+      ]
+    },
+    {
+      "id": "PCT-WC-157",
+      "name": "Database indexes for performance",
+      "description": "Add indexes on FK and query columns",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "FK indexes",
+        "Status indexes",
+        "Composite"
+      ]
+    },
+    {
+      "id": "PCT-WC-158",
+      "name": "Soft delete pattern",
+      "description": "Status-based soft delete",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Status field",
+        "Filter queries",
+        "Restore"
+      ]
+    },
+    {
+      "id": "PCT-WC-159",
+      "name": "Audit trail table",
+      "description": "Track all data mutations",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Action type",
+        "Changed fields",
+        "User attribution"
+      ]
+    },
+    {
+      "id": "PCT-WC-160",
+      "name": "Database seed script",
+      "description": "Idempotent dev seed data",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Test accounts",
+        "Sample data",
+        "Idempotent"
+      ]
+    },
+    {
+      "id": "PCT-WC-161",
+      "name": "Optimistic locking",
+      "description": "Prevent concurrent overwrites",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Version field",
+        "Check on update",
+        "Conflict error"
+      ]
+    },
+    {
+      "id": "PCT-WC-162",
+      "name": "Full-text search columns",
+      "description": "tsvector columns on searchable tables",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "tsvector trigger",
+        "Index",
+        "Search function"
+      ]
+    },
+    {
+      "id": "PCT-WC-163",
+      "name": "JSON schema validation",
+      "description": "Validate JSONB columns",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": "Check constraint on JSONB fields"
+    },
+    {
+      "id": "PCT-WC-164",
+      "name": "Database backup strategy",
+      "description": "Backup and restore procedures",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "PITR config",
+        "Manual backup",
+        "Restore test"
+      ]
+    },
+    {
+      "id": "PCT-WC-165",
+      "name": "Multi-tenant data isolation",
+      "description": "Ensure tenant data separation",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "RLS per org",
+        "No cross-tenant",
+        "Tested"
+      ]
+    },
+    {
+      "id": "PCT-WC-166",
+      "name": "Database connection monitoring",
+      "description": "Monitor pool and connections",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Pool metrics",
+        "Slow query log",
+        "Alerts"
+      ]
+    },
+    {
+      "id": "PCT-WC-167",
+      "name": "Cascading delete policies",
+      "description": "Proper FK cascade rules",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "ON DELETE rules",
+        "Orphan prevention",
+        "Tested"
+      ]
+    },
+    {
+      "id": "PCT-WC-168",
+      "name": "Data migration versioning",
+      "description": "Track schema migrations",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Version table",
+        "Up/down scripts",
+        "CI check"
+      ]
+    },
+    {
+      "id": "PCT-WC-169",
+      "name": "Database type generation",
+      "description": "Auto-generate TS types from schema",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Supabase CLI types",
+        "Regenerate script"
+      ]
+    },
+    {
+      "id": "PCT-WC-170",
+      "name": "Read replica configuration",
+      "description": "Configure read replicas for performance",
+      "category": "database",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Replica setup",
+        "Read routing",
+        "Lag monitoring"
+      ]
+    },
+    {
+      "id": "PCT-WC-171",
+      "name": "Magic link authentication",
+      "description": "Passwordless email sign-in",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Send link",
+        "Verify token",
+        "Session create"
+      ]
+    },
+    {
+      "id": "PCT-WC-172",
+      "name": "Multi-factor authentication",
+      "description": "TOTP-based 2FA",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Enable/disable",
+        "QR setup",
+        "Verify code"
+      ]
+    },
+    {
+      "id": "PCT-WC-173",
+      "name": "OAuth account linking",
+      "description": "Link multiple OAuth providers",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Link flow",
+        "Unlink flow",
+        "Conflict handling"
+      ]
+    },
+    {
+      "id": "PCT-WC-174",
+      "name": "Role-based access control",
+      "description": "User roles and permissions",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Role model",
+        "Permission checks",
+        "Admin UI"
+      ]
+    },
+    {
+      "id": "PCT-WC-175",
+      "name": "API key management",
+      "description": "User-managed API keys",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Generate key",
+        "Revoke key",
+        "Rate limit per key"
+      ]
+    },
+    {
+      "id": "PCT-WC-176",
+      "name": "Impersonation for admin",
+      "description": "Admin can impersonate users",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Impersonate endpoint",
+        "Audit log",
+        "Exit flow"
+      ]
+    },
+    {
+      "id": "PCT-WC-177",
+      "name": "Password strength requirements",
+      "description": "Enforce password policy",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Min length",
+        "Complexity rules",
+        "Strength meter"
+      ]
+    },
+    {
+      "id": "PCT-WC-178",
+      "name": "Account lockout policy",
+      "description": "Lock after failed attempts",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Attempt tracking",
+        "Lockout duration",
+        "Unlock flow"
+      ]
+    },
+    {
+      "id": "PCT-WC-179",
+      "name": "Session management UI",
+      "description": "View and revoke sessions",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Active sessions list",
+        "Revoke button",
+        "Current indicator"
+      ]
+    },
+    {
+      "id": "PCT-WC-180",
+      "name": "Auth event webhooks",
+      "description": "Notify on auth events",
+      "category": "auth",
+      "priority": "P2",
+      "passes": false,
+      "effort": "4h",
+      "criteria": [
+        "Sign-up hook",
+        "Sign-in hook",
+        "Password change hook"
+      ]
     }
   ]
 }
