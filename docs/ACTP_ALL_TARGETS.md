@@ -357,12 +357,23 @@
 
 **Purpose:** Python daemon running 7 concurrent polling loops. Bridges cloud services with local-only capabilities (Remotion rendering, Safari browser automation, Blotato uploads). Also orchestrates cloud cron jobs.
 
+**Core Modules:**
+| Module | Purpose |
+|--------|--------|
+| `remotion_runner.py` | Renders video via Remotion REST API (`POST /api/v1/render/brief` + poll) |
+| `safari_executor.py` | Uploads via Safari HTTP command API (`POST /v1/commands` + poll), Sora gen |
+| `blotato_executor.py` | Publishes via Blotato v2 cloud API (CDN upload + `POST /v2/posts`) |
+| `video_pipeline.py` | Full lifecycle: render → watermark removal → Supabase Storage → publish |
+| `multi_publisher.py` | Smart routing: Blotato (9 platforms) vs Safari (7 platforms) |
+| `mplite_poller.py` | Polls MPLite queue, routes through `multi_publisher` |
+| `heartbeat.py` | Liveness + local service health (Remotion/Safari/Blotato) |
+
 **Polling Loops:**
 | Loop | Interval | What It Does |
 |------|----------|-------------|
-| Heartbeat | 30s | Writes liveness to `actp_worker_heartbeats` |
-| Remotion | 10s | Claims `actp_gen_jobs` (provider=remotion), runs local render |
-| MPLite | 15s | Polls MPLite `/api/queue/next`, uploads via Safari/Blotato |
+| Heartbeat | 30s | Writes liveness + local service health to `actp_worker_heartbeats` |
+| Remotion | 10s | Claims `actp_gen_jobs` (provider=remotion), renders via REST API |
+| MPLite | 15s | Polls MPLite `/api/queue/next`, publishes via multi_publisher |
 | Metrics | 5min | Triggers MetricsLite cron endpoints |
 | Research | 1hr | Triggers ResearchLite cron endpoints |
 | Scoring | 30min | Triggers MetricsLite scoring + winner archival |
@@ -371,15 +382,15 @@
 **Connections:**
 | Connects To | How | Purpose |
 |-------------|-----|---------|
-| Supabase | Direct DB (Python client) | Claim jobs, write heartbeats |
+| Supabase | Direct DB (Python client) | Claim jobs, write heartbeats, upload to Storage |
 | MPLite | HTTP (polling) | Poll/claim/complete queue items |
 | ResearchLite | HTTP (cron trigger) | Trigger collection crons |
 | MetricsLite | HTTP (cron trigger) | Trigger metric collection + scoring |
 | PublishLite | HTTP (cron trigger) | Trigger scheduled publishing |
 | ContentLite | HTTP (cron trigger) | Trigger variant generation |
-| Remotion Service | Local subprocess (currently) | Render videos |
-| Safari Automation | Local subprocess (currently) | Upload to TikTok/IG/YouTube |
-| Blotato | Local HTTP (currently) | Upload to 9 platforms |
+| Remotion Service | REST API (`localhost:3100`) | Render videos via `POST /api/v1/render/brief` |
+| Safari Automation | HTTP command API (`localhost:7070`) | Upload videos, Sora gen + watermark removal |
+| Blotato | Cloud API (`backend.blotato.com/v2`) | CDN upload + publish to 9 platforms |
 
 ---
 
@@ -411,7 +422,7 @@
 | `POST /api/v1/avatar/infinitetalk` | Talking head videos |
 | `GET /api/v1/jobs/:id` | Job status + result |
 
-**ACTP Connection:** actp-worker claims `actp_gen_jobs` with `provider=remotion` from Supabase, then calls Remotion to render. Currently uses `npx` subprocess — should use the REST API.
+**ACTP Connection:** actp-worker claims `actp_gen_jobs` with `provider=remotion` from Supabase, submits via `POST /api/v1/render/brief`, polls `GET /api/v1/jobs/:id` for completion. Health checked every 30s in heartbeat.
 
 ---
 
@@ -450,7 +461,7 @@
 | Reddit | `safari_reddit_poster.py` | Posts |
 | Sora | `sora_full_automation.py` | Video generation + watermark removal |
 
-**ACTP Connection:** actp-worker uses Safari to upload videos queued via MPLite. Currently uses CLI subprocess — should use the HTTP command API.
+**ACTP Connection:** actp-worker submits commands via `POST /v1/commands` and polls `GET /v1/commands/:id`. Supports 7 upload platforms + Sora video generation with watermark removal. Health/readiness checked every 30s via `/ready`.
 
 ---
 
@@ -475,7 +486,7 @@
 
 **9 Supported Platforms:** Twitter, Instagram, TikTok, YouTube, Facebook, LinkedIn, Pinterest, Threads, Bluesky
 
-**ACTP Connection:** actp-worker can use Blotato as an alternative to Safari for publishing. Especially valuable for LinkedIn, Pinterest, and Bluesky which Safari can't reach. Currently has a basic executor — needs rewrite to use the official v2 API.
+**ACTP Connection:** actp-worker uploads media to Blotato CDN via `POST /v2/media`, then publishes via `POST /v2/posts` with platform-specific target configs. Handles all 9 platforms including LinkedIn, Pinterest, Bluesky (which Safari can't reach). `multi_publisher.py` auto-routes to Blotato or Safari based on platform and availability.
 
 ---
 
