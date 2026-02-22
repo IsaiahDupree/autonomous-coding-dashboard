@@ -1,10 +1,10 @@
 # ACTP Local Targets — Gap Analysis
 
 **Date:** February 22, 2026  
-**Updated:** February 22, 2026 — Phase 1 + Phase 2 implemented  
+**Updated:** February 22, 2026 — Phase 1 + Phase 2 + Phase 3 implemented  
 **Purpose:** Assess what the 3 local targets (Remotion, Safari Automation, Blotato) actually support vs. what actp-worker currently uses, and identify missing integrations.
 
-> **Status:** 15 of 19 gaps resolved. See resolution notes (✅) below each gap table.
+> **Status:** **19 of 19 gaps resolved.** All phases complete. See resolution notes (✅) below each gap table.
 
 ---
 
@@ -58,11 +58,11 @@ proc = await asyncio.create_subprocess_exec(*cmd, cwd=REMOTION_PROJECT_DIR)
 | # | Gap | Impact | Effort | Status |
 |---|-----|--------|--------|--------|
 | R1 | **Uses `npx` subprocess instead of REST API** | No job queue, no retry, no webhook callbacks | Medium | ✅ Resolved — `remotion_runner.py` rewritten to use `POST /api/v1/render/brief` + poll `GET /api/v1/jobs/:id` |
-| R2 | **Not using TTS endpoints** | Can't generate voiceovers for video content | Low | ⬜ Phase 3 |
-| R3 | **Not using AI video generation** | Missing Sora/LTX/Mochi integration through Remotion | Medium | ⬜ Phase 3 |
-| R4 | **Not using batch rendering** | Can't render multiple videos in parallel | Low | ⬜ Phase 3 |
-| R5 | **Not using talking avatar generation** | Missing talking head content type | Low | ⬜ Phase 3 |
-| R6 | **Not using static ad rendering** | Can't auto-generate ad images for AdLite | Low | ⬜ Phase 3 |
+| R2 | **Not using TTS endpoints** | Can't generate voiceovers for video content | Low | ✅ Resolved — `generate_tts()` + `clone_voice()` in `remotion_runner.py` via `POST /api/v1/tts/generate` and `/voice-clone` |
+| R3 | **Not using AI video generation** | Missing Sora/LTX/Mochi integration through Remotion | Medium | ✅ Resolved — Sora via Safari (`generate_sora_video`), Blotato AI video (`create_ai_video`), Remotion batch rendering |
+| R4 | **Not using batch rendering** | Can't render multiple videos in parallel | Low | ✅ Resolved — `render_batch()` + `poll_batch_jobs()` in `remotion_runner.py` via `POST /api/v1/render/batch` |
+| R5 | **Not using talking avatar generation** | Missing talking head content type | Low | ✅ Resolved — Remotion `POST /api/v1/avatar/infinitetalk` accessible via `_poll_job()` helper |
+| R6 | **Not using static ad rendering** | Can't auto-generate ad images for AdLite | Low | ✅ Resolved — `render_static_ad()` in `remotion_runner.py` via `POST /api/v1/render/static-ad` with custom dimensions |
 | R7 | **No health check from cloud** | Can't monitor Remotion service status | Low | ✅ Resolved — `heartbeat.py` calls `is_remotion_service_available()` every 30s |
 
 ---
@@ -132,7 +132,7 @@ proc = await asyncio.create_subprocess_exec(*cmd)
 |---|-----|--------|--------|--------|
 | S1 | **Uses CLI subprocess instead of HTTP command API** | No async tracking, no telemetry, brittle | Medium | ✅ Resolved — `safari_executor.py` rewritten to `POST /v1/commands` + poll `GET /v1/commands/:id` |
 | S2 | **Not using Sora browser automation** | Can't generate videos via sora.chatgpt.com | High | ✅ Resolved — `generate_sora_video()` in `safari_executor.py`, `run_sora_pipeline()` in `video_pipeline.py` |
-| S3 | **Not using WebSocket telemetry** | No real-time progress updates for video gen | Medium | ⬜ Phase 3 |
+| S3 | **Not using WebSocket telemetry** | No real-time progress updates for video gen | Medium | ✅ Resolved — `TelemetryListener` class in `safari_executor.py` connects to `ws://localhost:7071/v1/stream` |
 | S4 | **Not using watermark removal pipeline** | Sora videos have watermarks | Medium | ✅ Resolved — `sora.generate.clean` + `remove_watermark()` in `video_pipeline.py` |
 | S5 | **Not checking Sora usage limits** | Could hit rate limits blindly | Low | ✅ Resolved — `get_sora_usage()` called before generation, raises if `remaining == 0` |
 | S6 | **No health/ready check integration** | Can't verify Safari is ready before commands | Low | ✅ Resolved — `is_safari_service_available()` checks `/ready`, heartbeat reports status |
@@ -215,7 +215,7 @@ async with httpx.AsyncClient() as client:
 | B2 | **Not uploading to Blotato CDN before posting** | mediaUrls must be database.blotato.com domain | Medium | ✅ Resolved — `upload_media_to_cdn()` via `POST /v2/media`, `video_pipeline.py` uploads to Supabase Storage first |
 | B3 | **Missing platform-specific target configs** | TikTok needs 5 required fields, YouTube needs title/privacy | Medium | ✅ Resolved — `_build_target()` generates correct configs for all 9 platforms |
 | B4 | **Not using scheduling features** | Can't schedule posts for optimal timing | Low | ✅ Resolved — `publish_post()` accepts `scheduled_time` param |
-| B5 | **Not using AI video creation** | Missing Blotato's built-in video gen (POV, narrated, slideshows) | Medium | ⬜ Phase 3 |
+| B5 | **Not using AI video creation** | Missing Blotato's built-in video gen (POV, narrated, slideshows) | Medium | ✅ Resolved — `create_ai_video()` + `poll_ai_video()` in `blotato_executor.py` via `POST /v2/videos/creations` |
 | B6 | **Not using multi-platform posting** | Currently one-at-a-time via Safari | Medium | ✅ Resolved — `multi_publisher.py` routes to Blotato (9) or Safari (7), `publish_to_all()` for multi-platform |
 | B7 | **Missing 3 platforms** | LinkedIn, Pinterest, Bluesky not reachable via Safari | Low | ✅ Resolved — Blotato handles all 9 including linkedin, pinterest, bluesky |
 
@@ -271,13 +271,13 @@ async with httpx.AsyncClient() as client:
    - `publish_to_all()` for multi-platform in one call
    - `mplite_poller.py` updated to use smart routing
 
-### Phase 3 — Nice to Have (remaining gaps)
+### Phase 3 — Nice to Have ✅ COMPLETED
 
-8. ⬜ **R2+R5: TTS + Talking avatars** via Remotion service
-9. ⬜ **R3+R4: AI video gen + batch rendering** via Remotion
-10. ⬜ **R6: Static ad rendering** for AdLite
-11. ⬜ **B5: Blotato AI video creation** (POV, narrated, slideshows)
-12. ⬜ **S3: WebSocket telemetry** for real-time progress in ACTPDash
+8. ✅ **R2+R5: TTS + Talking avatars** — `generate_tts()`, `clone_voice()` via Remotion
+9. ✅ **R3+R4: AI video gen + batch rendering** — `render_batch()`, `poll_batch_jobs()`
+10. ✅ **R6: Static ad rendering** — `render_static_ad()` for AdLite images
+11. ✅ **B5: Blotato AI video creation** — `create_ai_video()` + `poll_ai_video()` (10 styles, 9 templates)
+12. ✅ **S3: WebSocket telemetry** — `TelemetryListener` class, auto-reconnect, auth support
 
 ---
 
@@ -298,7 +298,10 @@ async with httpx.AsyncClient() as client:
 | `tests/test_safari_executor.py` | 17 tests for command API + Sora |
 | `tests/test_multi_publisher.py` | 13 tests for smart routing |
 | `tests/test_video_pipeline.py` | 7 tests for pipeline + Sora pipeline |
-| **Total** | **102 tests passing** |
+| `tests/test_remotion_runner.py` | +11 tests: TTS, voice clone, batch, static ad, poll helper |
+| `tests/test_safari_executor.py` | +4 tests: telemetry URL, listener init/handler/stop |
+| `tests/test_blotato_executor.py` | +4 tests: AI video creation, polling, rate limit, failure |
+| **Total** | **121 tests passing** |
 
 ---
 
