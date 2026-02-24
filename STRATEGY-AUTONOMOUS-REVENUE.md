@@ -176,9 +176,11 @@ actp-worker invoke memory.write_daily '{"content":"Day 1 results: ..."}'
 - [x] OpenClaw gateway: loopback-only binding (127.0.0.1)
 - [x] ACTP Worker: auth on all POST endpoints (Bearer WORKER_SECRET)
 - [x] No secrets in git (all .env files in .gitignore)
-- [ ] Approval gates for: paid ads, bulk DMs, code deployments
-- [ ] ACD: sandbox mode for coding agents
-- [ ] Daily security audit via `openclaw doctor`
+- [x] Approval gates for: paid ads, bulk DMs, code deployments (system.approval_gate — fail-closed)
+- [x] ACD delegation gated: system.delegate_to_acd checks approval before coding tasks
+- [x] Supabase table: actp_approval_queue tracks all risky action requests
+- [x] Telegram alerts for pending approvals (auto-notify)
+- [ ] Daily security audit via `openclaw doctor` + `system.self_test`
 
 ## 8. Daily Autonomous Routine (Once Built)
 
