@@ -99,6 +99,30 @@ python3 -m pytest tests/test_workflow_task_poller.py -v
 python3 -c "import asyncio; from workflow_task_poller import trigger_daily_content_generation; asyncio.run(trigger_daily_content_generation())"
 ```
 
+## CRITICAL: Feature Tracking
+
+After completing each task, update `prd-011-features.json` in the project root.
+Set `"passes": true` for each completed feature:
+
+```bash
+python3 -c "
+import json
+with open('prd-011-features.json') as f: data = json.load(f)
+for feat in data['features']:
+    if feat['id'] == 'PUB-001': feat['passes'] = True
+with open('prd-011-features.json', 'w') as f: json.dump(data, f, indent=2)
+"
+```
+
+Do this for EVERY feature you complete. The harness tracks progress via this file.
+
+## Git Workflow
+
+After each meaningful change, commit:
+```bash
+git add -A && git commit -m "feat(prd-011): <description>"
+```
+
 ## Constraints
 - Use Claude Haiku via CLI for generation (same as bot — no extra API key)
 - Start with ai_automation niche as pilot, enable others after 3 days

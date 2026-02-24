@@ -97,6 +97,30 @@ python3 -m pytest tests/ -v -k "revenue"
 python3 -c "import asyncio; from revenue_reporter import daily_revenue_snapshot; print(asyncio.run(daily_revenue_snapshot()))"
 ```
 
+## CRITICAL: Feature Tracking
+
+After completing each task, update `prd-012-features.json` in the project root.
+Set `"passes": true` for each completed feature:
+
+```bash
+python3 -c "
+import json
+with open('prd-012-features.json') as f: data = json.load(f)
+for feat in data['features']:
+    if feat['id'] == 'REV-001': feat['passes'] = True
+with open('prd-012-features.json', 'w') as f: json.dump(data, f, indent=2)
+"
+```
+
+Do this for EVERY feature you complete. The harness tracks progress via this file.
+
+## Git Workflow
+
+After each meaningful change, commit:
+```bash
+git add -A && git commit -m "feat(prd-012): <description>"
+```
+
 ## Constraints
 - Handle missing API keys gracefully (skip source, don't crash)
 - Cache responses for 1 hour (don't spam APIs)

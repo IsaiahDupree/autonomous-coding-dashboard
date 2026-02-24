@@ -60,8 +60,58 @@ python3 tests/telegram_live_test.py --test heartbeat
 - `health_server.py` (line 273: /api/test-prompt)
 - `tests/telegram_live_test.py` (full test harness)
 
+## CRITICAL: Feature Tracking
+
+After completing each task, update `prd-009-features.json` in the project root.
+Set `"passes": true` for each completed feature. Example:
+
+```bash
+# Read current feature list
+cat prd-009-features.json | python3 -m json.tool
+
+# After completing BOT-001, update it:
+python3 -c "
+import json
+with open('prd-009-features.json') as f: data = json.load(f)
+for feat in data['features']:
+    if feat['id'] == 'BOT-001': feat['passes'] = True
+with open('prd-009-features.json', 'w') as f: json.dump(data, f, indent=2)
+print('Updated BOT-001 to passes=true')
+"
+```
+
+Do this for EVERY feature you complete. The harness tracks progress via this file.
+
+## CRITICAL: Worker Startup
+
+Before testing, start the worker if not running:
+```bash
+cd /Users/isaiahdupree/Documents/Software/actp-worker
+python3 worker.py &
+sleep 5
+curl -s http://localhost:8765/health
+```
+
+## Git Workflow
+
+After each meaningful change, commit:
+```bash
+git add -A && git commit -m "feat(prd-009): <description>"
+```
+
 ## Constraints
 - Do NOT switch away from Claude CLI — it uses ACD's OAuth (no extra API key)
 - Model MUST be claude-haiku-4-5-20251001 (cheap, fast)
 - Do NOT break existing 135 unit tests
 - WORKER_SECRET required on /api/test-prompt endpoint
+
+## EasyClaw Integration (Inspiration)
+
+Reference EasyClaw API patterns for container management:
+- Session lifecycle: spawn → freeze → restore → kill
+- WebSocket terminal/gateway for real-time interaction
+- Credential management (encrypted API key storage)
+- Docs: https://docs.easyclaw.app/llms.txt
+- Base URL: https://api.easyclaw.app
+- Auth: Bearer token in Authorization header
+Use these patterns as inspiration for bot session management and credential handling.

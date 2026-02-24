@@ -98,6 +98,30 @@ python3 -m pytest tests/test_self_test_agent.py -v
 python3 -m pytest tests/ -v  # Full suite, verify no regressions
 ```
 
+## CRITICAL: Feature Tracking
+
+After completing each task, update `prd-013-features.json` in the project root.
+Set `"passes": true` for each completed feature:
+
+```bash
+python3 -c "
+import json
+with open('prd-013-features.json') as f: data = json.load(f)
+for feat in data['features']:
+    if feat['id'] == 'SEC-001': feat['passes'] = True
+with open('prd-013-features.json', 'w') as f: json.dump(data, f, indent=2)
+"
+```
+
+Do this for EVERY feature you complete. The harness tracks progress via this file.
+
+## Git Workflow
+
+After each meaningful change, commit:
+```bash
+git add -A && git commit -m "feat(prd-013): <description>"
+```
+
 ## Constraints
 - Fail-closed on approvals: no response = reject
 - Never auto-approve risky actions
