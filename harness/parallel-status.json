@@ -3,17 +3,32 @@
     "1": {
       "currentRepo": "prd-010-actp-pipeline",
       "currentName": "PRD-010: ACTP Pipeline (ContentLite)",
-      "startedAt": "2026-02-28T16:51:31.914Z"
+      "startedAt": "2026-02-28T16:54:49.159Z"
     },
     "2": {
       "currentRepo": "programmatic-ads",
       "currentName": "Programmatic Creative Testing",
-      "startedAt": "2026-02-28T16:51:31.915Z"
+      "startedAt": "2026-02-28T16:54:49.164Z"
     },
     "3": {
       "currentRepo": "content-factory",
       "currentName": "Content Factory",
-      "startedAt": "2026-02-28T16:51:31.916Z"
+      "startedAt": "2026-02-28T16:54:49.169Z"
+    },
+    "4": {
+      "currentRepo": "lead-form-management",
+      "currentName": "Lead Form Management",
+      "startedAt": "2026-02-28T16:54:49.173Z"
+    },
+    "5": {
+      "currentRepo": "cross-system-integration",
+      "currentName": "Cross-System Integration",
+      "startedAt": "2026-02-28T16:54:49.176Z"
+    },
+    "6": {
+      "currentRepo": "softwarehub-products",
+      "currentName": "SoftwareHub Products Suite",
+      "startedAt": "2026-02-28T16:54:49.180Z"
     }
   },
   "completedRepos": [],
