@@ -535,8 +535,16 @@ async function runSession(sessionNumber, modelOverride = null) {
     const startTime = Date.now();
     let output = '';
     
+    // Build env: always use Claude OAuth auth, never API key
+    const claudeEnv = { ...process.env };
+    delete claudeEnv.ANTHROPIC_API_KEY; // strip API key — force OAuth/Claude auth
+    if (process.env.CLAUDE_CODE_OAUTH_TOKEN) {
+      claudeEnv.CLAUDE_CODE_OAUTH_TOKEN = process.env.CLAUDE_CODE_OAUTH_TOKEN;
+    }
+
     const claude = spawn('claude', args, {
       cwd: PROJECT_ROOT,
+      env: claudeEnv,
       stdio: ['inherit', 'pipe', 'pipe']
     });
     
@@ -1103,10 +1111,29 @@ try {
   process.exit(1);
 }
 
-// Check for API key
-if (!process.env.ANTHROPIC_API_KEY && !process.env.CLAUDE_CODE_OAUTH_TOKEN) {
-  log('Warning: ANTHROPIC_API_KEY not set. Claude may fail to authenticate.', 'warning');
-  log('Set with: export ANTHROPIC_API_KEY=your-key-here', 'info');
+// ============================================================
+// STRICT AUTH ENFORCEMENT: Claude OAuth only — never API key
+// ============================================================
+if (process.env.ANTHROPIC_API_KEY) {
+  log('', 'error');
+  log('╔══════════════════════════════════════════════════════════╗', 'error');
+  log('║  FATAL: ANTHROPIC_API_KEY is set in environment          ║', 'error');
+  log('║  ACD must NEVER use Claude API key auth.                 ║', 'error');
+  log('║  This would incur direct API costs.                      ║', 'error');
+  log('║                                                          ║', 'error');
+  log('║  Fix: unset ANTHROPIC_API_KEY                            ║', 'error');
+  log('║  Auth: CLAUDE_CODE_OAUTH_TOKEN (Claude subscription)     ║', 'error');
+  log('╚══════════════════════════════════════════════════════════╝', 'error');
+  log('', 'error');
+  process.exit(2);
+}
+
+if (!process.env.CLAUDE_CODE_OAUTH_TOKEN) {
+  // No token in env — Claude Code may have auth stored locally, allow it but warn
+  log('Note: CLAUDE_CODE_OAUTH_TOKEN not in env — using Claude Code stored auth.', 'info');
+  log('If auth fails, run: claude auth login', 'info');
+} else {
+  log('Auth: Claude OAuth token confirmed — API key mode disabled.', 'info');
 }
 
 runHarness(options).catch(e => {

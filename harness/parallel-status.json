@@ -1,0 +1,21 @@
+{
+  "workers": {
+    "1": {
+      "currentRepo": "prd-010-actp-pipeline",
+      "currentName": "PRD-010: ACTP Pipeline (ContentLite)",
+      "startedAt": "2026-02-28T16:51:31.914Z"
+    },
+    "2": {
+      "currentRepo": "programmatic-ads",
+      "currentName": "Programmatic Creative Testing",
+      "startedAt": "2026-02-28T16:51:31.915Z"
+    },
+    "3": {
+      "currentRepo": "content-factory",
+      "currentName": "Content Factory",
+      "startedAt": "2026-02-28T16:51:31.916Z"
+    }
+  },
+  "completedRepos": [],
+  "startedAt": "2026-02-28T16:49:48.893Z"
+}

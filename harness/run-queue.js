@@ -16,6 +16,21 @@ import * as metricsDb from './metrics-db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// ============================================================
+// STRICT AUTH ENFORCEMENT: Claude OAuth only — never API key
+// ============================================================
+if (process.env.ANTHROPIC_API_KEY) {
+  console.error('\n╔══════════════════════════════════════════════════════════╗');
+  console.error('║  FATAL: ANTHROPIC_API_KEY is set in environment          ║');
+  console.error('║  ACD must NEVER use Claude API key auth.                 ║');
+  console.error('║  This would incur direct API costs.                      ║');
+  console.error('║                                                          ║');
+  console.error('║  Fix: unset ANTHROPIC_API_KEY                            ║');
+  console.error('║  Auth: CLAUDE_CODE_OAUTH_TOKEN (Claude subscription)     ║');
+  console.error('╚══════════════════════════════════════════════════════════╝\n');
+  process.exit(2);
+}
+
 // Configuration
 let QUEUE_FILE = path.join(__dirname, 'repo-queue.json');
 let GENERATE_FEATURES = false;

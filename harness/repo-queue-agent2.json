@@ -91,10 +91,16 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-009-OPENQUALLS-BOT-RELIABILITY.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-009-features.json",
       "priority": -20,
-      "enabled": true,
+      "enabled": false,
       "complexity": "critical",
       "focus": "Fix Claude CLI tool calling reliability, prompt optimization, conversation management",
-      "tags": ["prd", "bot", "telegram", "claude", "p0"]
+      "tags": [
+        "prd",
+        "bot",
+        "telegram",
+        "claude",
+        "p0"
+      ]
     },
     {
       "id": "prd-011-research-to-publish",
@@ -104,10 +110,16 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-011-RESEARCH-TO-PUBLISH-AUTOMATION.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-011-features.json",
       "priority": -19,
-      "enabled": true,
+      "enabled": false,
       "complexity": "critical",
-      "focus": "Wire research→generate→review→publish→feedback pipeline end-to-end",
-      "tags": ["prd", "pipeline", "research", "publish", "p0"]
+      "focus": "Wire research\u2192generate\u2192review\u2192publish\u2192feedback pipeline end-to-end",
+      "tags": [
+        "prd",
+        "pipeline",
+        "research",
+        "publish",
+        "p0"
+      ]
     },
     {
       "id": "prd-010-actp-pipeline",
@@ -117,10 +129,16 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-010-ACTP-END-TO-END-PIPELINE.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/contentlite/feature_list.json",
       "priority": -18,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "focus": "Implement real Claude generation in ContentLite cloud service",
-      "tags": ["prd", "contentlite", "generation", "cloud", "p0"]
+      "tags": [
+        "prd",
+        "contentlite",
+        "generation",
+        "cloud",
+        "p0"
+      ]
     },
     {
       "id": "prd-012-revenue-engine",
@@ -130,10 +148,16 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-012-AUTONOMOUS-REVENUE-ENGINE.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-012-features.json",
       "priority": -17,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "focus": "RevCat, Stripe, YouTube analytics integration + daily revenue reports",
-      "tags": ["prd", "revenue", "stripe", "revcat", "p1"]
+      "tags": [
+        "prd",
+        "revenue",
+        "stripe",
+        "revcat",
+        "p1"
+      ]
     },
     {
       "id": "prd-013-security-self-test",
@@ -143,10 +167,16 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-013-SECURITY-SELF-TEST-HARDENING.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-013-features.json",
       "priority": -16,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "focus": "Nightly self-test cron, ACD self-heal, approval gates, audit logging",
-      "tags": ["prd", "security", "self-test", "approval", "p1"]
+      "tags": [
+        "prd",
+        "security",
+        "self-test",
+        "approval",
+        "p1"
+      ]
     },
     {
       "id": "prd-020-chat-gateway",
@@ -156,10 +186,17 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-020-CHAT-GATEWAY-ROUTING.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-020-features.json",
       "priority": -15,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "focus": "Extend OpenQualls bot to Slack/Discord/Twilio/web with canonical event normalization, identity graph, and delivery adapters",
-      "tags": ["prd", "clawbot", "chat-gateway", "slack", "discord", "p1"]
+      "tags": [
+        "prd",
+        "clawbot",
+        "chat-gateway",
+        "slack",
+        "discord",
+        "p1"
+      ]
     },
     {
       "id": "prd-014-conversation-memory",
@@ -169,10 +206,16 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-014-CONVERSATION-MEMORY-SUBSYSTEM.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-014-features.json",
       "priority": -14,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "focus": "Persistent crash-safe conversation history with summarization, checkpoint/restore, and curated context injection",
-      "tags": ["prd", "actp", "memory", "conversation", "p1"]
+      "tags": [
+        "prd",
+        "actp",
+        "memory",
+        "conversation",
+        "p1"
+      ]
     },
     {
       "id": "prd-015-temporal-scheduler",
@@ -182,23 +225,35 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-015-TEMPORAL-ORCHESTRATION-SCHEDULER.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-015-features.json",
       "priority": -13,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "focus": "Durable unified scheduler replacing cron_definitions.py with missed-run recovery, startup reconciliation, and agent-proposable schedules",
-      "tags": ["prd", "actp", "scheduler", "cron", "p1"]
+      "tags": [
+        "prd",
+        "actp",
+        "scheduler",
+        "cron",
+        "p1"
+      ]
     },
     {
       "id": "prd-017-research-worker",
-      "name": "PRD-017: ResearchWorker — Staged Evidence Pipeline",
+      "name": "PRD-017: ResearchWorker \u2014 Staged Evidence Pipeline",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "prompts/prd-017-research-worker.md",
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-017-RESEARCH-WORKER.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/prd-017-features.json",
       "priority": -12,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
-      "focus": "6-stage evidence pipeline: plan→search→fetch→rank→synthesize→propose with caching, provenance, and memory integration",
-      "tags": ["prd", "actp", "research", "evidence", "p1"]
+      "focus": "6-stage evidence pipeline: plan\u2192search\u2192fetch\u2192rank\u2192synthesize\u2192propose with caching, provenance, and memory integration",
+      "tags": [
+        "prd",
+        "actp",
+        "research",
+        "evidence",
+        "p1"
+      ]
     },
     {
       "id": "metricslite",
@@ -206,7 +261,7 @@
       "prompt": "harness/prompts/metricslite.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/metricslite/feature_list.json",
       "priority": -5,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -221,7 +276,7 @@
       "prompt": "harness/prompts/genlite.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/genlite/feature_list.json",
       "priority": -4,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -236,7 +291,7 @@
       "prompt": "harness/prompts/adlite.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/adlite/feature_list.json",
       "priority": -3,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -251,7 +306,7 @@
       "prompt": "harness/prompts/actpdash.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actpdash/feature_list.json",
       "priority": -2,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -266,7 +321,7 @@
       "prompt": "harness/prompts/actp-worker.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/actp-worker/feature_list.json",
       "priority": -1,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -281,7 +336,7 @@
       "prompt": "harness/prompts/hooklite.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/hooklite/feature_list.json",
       "priority": -6,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -296,7 +351,7 @@
       "prompt": "harness/prompts/mplite.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/mediaposter-lite/feature_list.json",
       "priority": -7,
-      "enabled": true,
+      "enabled": false,
       "complexity": "high",
       "tags": [
         "actp-lite",
@@ -313,7 +368,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/MediaPoster/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/MediaPoster/feature_list.json",
       "priority": 1,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "System Architecture Integration (ARCH-001 to ARCH-008)"
@@ -326,7 +381,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/docs/PRD_GAPRADAR.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/WhatsCurrentlyInTheMarket/gap-radar/feature_list.json",
       "priority": 2,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium"
     },
@@ -338,7 +393,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/BlogCanvas/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/BlogCanvas/feature_list.json",
       "priority": 3,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "low"
     },
@@ -350,7 +405,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/Portal28/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/Portal28/feature_list.json",
       "priority": 4,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium"
     },
@@ -362,7 +417,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target/DEVELOPER_HANDOFF.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/YoutubeNewb-CanvasCast_2/CanvasCast-Target/feature_list.json",
       "priority": 5,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium"
     },
@@ -374,7 +429,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/DEVELOPER_HANDOFF.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/feature_list.json",
       "priority": 6,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium"
     },
@@ -386,7 +441,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/KindLetters/PRD_STEADYLETTERS.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/KindLetters/feature_list.json",
       "priority": 7,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "low"
     },
@@ -398,7 +453,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/KindLetters/PRD_STEADYLETTERS.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/KindLetters/ios/feature_list.json",
       "priority": 7,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "Expo Router iOS app: Auth, AI letter gen, voice-to-letter, Thanks.io send, recipients, orders, live tests"
@@ -411,7 +466,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/VelloPad/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/VelloPad/feature_list.json",
       "priority": 8,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium"
     },
@@ -423,7 +478,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/VelvetHold/PRD_DETAILED.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/VelvetHold/feature_list.json",
       "priority": 9,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "low"
     },
@@ -435,7 +490,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/ai-video-platform/docs/PRD-Video-Generation-Platform.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/ai-video-platform/feature_list.json",
       "priority": 10,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "low"
     },
@@ -447,7 +502,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/Remotion/docs/PRD-Video-Generation-Platform.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/Remotion/feature_list.json",
       "priority": 11,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "Video Generation Platform with Voice Cloning, SFX, and Static Ads"
@@ -460,7 +515,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/UNIFIED_PLATFORM_ARCHITECTURE.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/Remotion/feature_list.json",
       "priority": 19,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "critical",
       "focus": "REST API Gateway + Veo 3.1 + Nano Banana + Before/After Template (VEO-*, NANO-*, TEMPLATE-BA-*, API-*)",
@@ -474,7 +529,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/everreach_expo/rork-crm-superwall/docs/PRD_META_PIXEL_INTEGRATION.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/everreach_expo/rork-crm-superwall/feature_list.json",
       "priority": 12,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "Meta Pixel Integration with Events and CAPI"
@@ -487,7 +542,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/MASTER_PRD_PART5_ADS_AUTOPILOT.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/WaitlistLabapp/feature_list.json",
       "priority": 13,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "Lead Capture, Ads Autopilot, Ad Intelligence, Remotion Ad Creation"
@@ -500,7 +555,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/ShortsLinker/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/ShortsLinker/feature_list.json",
       "priority": 14,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "YouTube Shorts to Long-Form Video Linking Tool"
@@ -513,7 +568,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/SoftwareHub/docs/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/SoftwareHub/feature_list.json",
       "priority": 15,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "Course & Software Distribution Platform with Licensing - Cloned from Portal28"
@@ -605,7 +660,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/SnapMix/docs/PRD_SNAPMIX.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/SnapMix/feature_list.json",
       "priority": 25,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Snapchat-style producer track sharing: ephemeral snaps, real-time visual player, presence, reactions, DJ/producer networking",
@@ -619,7 +674,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-crm-superwall/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-crm-superwall/feature_list.json",
       "priority": 26,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -632,7 +687,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/kawaii-coffee-timer/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/kawaii-coffee-timer/feature_list.json",
       "priority": 27,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -645,7 +700,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-voice-chat-pdf/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-voice-chat-pdf/feature_list.json",
       "priority": 28,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -658,7 +713,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-youtube-quiz-generator/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-youtube-quiz-generator/feature_list.json",
       "priority": 29,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -671,7 +726,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-ai-calculator-builder/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-ai-calculator-builder/feature_list.json",
       "priority": 30,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -684,7 +739,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-client-portal-system/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-client-portal-system/feature_list.json",
       "priority": 31,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -697,7 +752,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-collaborative-ai-workos/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-collaborative-ai-workos/feature_list.json",
       "priority": 32,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -710,7 +765,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-couples-habit-tracker/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-couples-habit-tracker/feature_list.json",
       "priority": 33,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "low",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -723,7 +778,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-ig-research---lead-finder/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-ig-research---lead-finder/feature_list.json",
       "priority": 34,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -736,7 +791,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-learning-to-gigs-app/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-learning-to-gigs-app/feature_list.json",
       "priority": 35,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -749,7 +804,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-media-ai-schema---app/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-media-ai-schema---app/feature_list.json",
       "priority": 36,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -762,7 +817,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-meta-content-growth-hub/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-meta-content-growth-hub/feature_list.json",
       "priority": 37,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -775,7 +830,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-promap-rf-indoor-mapper/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-promap-rf-indoor-mapper/feature_list.json",
       "priority": 38,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -788,7 +843,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-pulselense/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-pulselense/feature_list.json",
       "priority": 39,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -801,7 +856,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-simulive---multistream-studio/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-simulive---multistream-studio/feature_list.json",
       "priority": 40,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -814,7 +869,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-social-media-campaign-manager/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-social-media-campaign-manager/feature_list.json",
       "priority": 41,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -827,7 +882,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-sora-watermark-remover/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-sora-watermark-remover/feature_list.json",
       "priority": 42,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "low",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -840,7 +895,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-strongface/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-strongface/feature_list.json",
       "priority": 43,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "high",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -853,7 +908,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-unified-media-gallery-app/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-unified-media-gallery-app/feature_list.json",
       "priority": 44,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -866,7 +921,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-vlogflow--plan---film/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-vlogflow--plan---film/feature_list.json",
       "priority": 45,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -879,7 +934,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/rork-voice-to-letter-love-notes/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/rork-voice-to-letter-love-notes/feature_list.json",
       "priority": 46,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "medium",
       "focus": "AppKit integration: Supabase auth, payments, analytics, then app-specific features"
@@ -892,7 +947,7 @@
       "prd": "/Users/isaiahdupree/Documents/Software/MediaPoster/Backend/services/creative_testing_pipeline/PRD.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/MediaPoster/Backend/services/creative_testing_pipeline/feature_list.json",
       "priority": 16,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Cross-system orchestrator: Remotion video gen + MediaPoster publishing + ad testing + WaitlistLab offers. Build DB schema first, then orchestrator, creative engine, publishers, analytics, winner selector, ad deployer, iteration engine."

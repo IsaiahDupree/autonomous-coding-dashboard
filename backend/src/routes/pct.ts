@@ -1464,19 +1464,29 @@ router.post('/video-scripts/generate', async (req: Request, res: Response) => {
       brandVoice: product.brand.voice || undefined,
     };
 
-    const durationMap: Record<string, '15s' | '30s' | '60s' | '90s'> = {
+    const enumToDisplay: Record<string, '15s' | '30s' | '60s' | '90s'> = {
       fifteen_seconds: '15s',
       thirty_seconds: '30s',
       sixty_seconds: '60s',
       ninety_seconds: '90s',
     };
+    const displayToEnum: Record<string, string> = {
+      '15s': 'fifteen_seconds',
+      '30s': 'thirty_seconds',
+      '60s': 'sixty_seconds',
+      '90s': 'ninety_seconds',
+    };
+
+    // Normalize duration to enum value for DB storage
+    const durationEnum = displayToEnum[duration] || (enumToDisplay[duration] ? duration : 'thirty_seconds');
+    const durationDisplay = enumToDisplay[durationEnum] || '30s';
 
     const scriptResult = await generateVideoScript({
       hookContent: hook.content,
       usp: hook.usp?.content,
       angle: hook.angle?.content,
       product: productContext,
-      duration: durationMap[duration] || '30s',
+      duration: durationDisplay,
       narratorStyle,
       psychologicalTriggers: Array.isArray(psychologicalTriggers) ? psychologicalTriggers : undefined,
       emotionArc: emotionArc || undefined,
@@ -1492,7 +1502,7 @@ router.post('/video-scripts/generate', async (req: Request, res: Response) => {
         body: scriptResult.body,
         cta: scriptResult.cta,
         fullScript: scriptResult.fullScript,
-        duration: duration || 'thirty_seconds',
+        duration: durationEnum as any,
         narratorStyle,
         wordCount: scriptResult.wordCount,
         isAiGenerated: true,
