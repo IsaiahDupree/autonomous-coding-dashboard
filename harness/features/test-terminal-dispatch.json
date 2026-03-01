@@ -1,0 +1,525 @@
+{
+  "meta": {
+    "prd": "TEST-TERMINAL-DISPATCH",
+    "title": "Main Terminal — Observe, Dispatch & Business Objectives Integration",
+    "description": "Tests the unified terminal (local: service_registry + agent-core CLI; cloud: CRMLite /api/agent/*) for observing Claude Code MCP agents, dispatching actions, and achieving all business objectives with full memory+data plane integration.",
+    "totalFeatures": 103
+  },
+  "features": [
+    {
+      "id": "T-TERM-001", "name": "service_registry: list_services returns all registered services",
+      "description": "dispatch('system.list_services') returns dict with >30 service keys including acd, crm, dm, research, memory, workflow",
+      "category": "service_registry", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-002", "name": "service_registry: list_topics for 'acd' service",
+      "description": "list_topics(service='acd') returns at least 9 topics: start_harness, stop_harness, harness_status, harness_logs, list_harnesses, list_projects, import_project, dashboard_stats, wake",
+      "category": "service_registry", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-003", "name": "service_registry: dispatch to unknown topic returns fuzzy suggestions",
+      "description": "dispatch('acd.typo_status') returns ok=False with suggestions list of similar valid topics",
+      "category": "service_registry", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-004", "name": "service_registry: dispatch returns structured envelope",
+      "description": "Every dispatch call returns {ok, topic, result, duration_ms} — no raw handler output",
+      "category": "service_registry", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-005", "name": "service_registry: all services have non-empty description",
+      "description": "Every entry in list_services() has a non-empty description string",
+      "category": "service_registry", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-006", "name": "service_registry: list_topics with tag filter",
+      "description": "list_topics(tag='info') returns only topics tagged 'info'; all results have that tag",
+      "category": "service_registry", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-007", "name": "service_registry: dispatch duration_ms is recorded",
+      "description": "Each dispatch envelope includes duration_ms > 0",
+      "category": "service_registry", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-008", "name": "service_registry: system.self_test passes all checks",
+      "description": "dispatch('system.self_test') returns ok=True and lists all tested components",
+      "category": "service_registry", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-009", "name": "service_registry: HTTP callable — POST /api/services/system/list_services",
+      "description": "HTTP POST to service_registry HTTP layer returns same result as local dispatch('system.list_services')",
+      "category": "service_registry", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-010", "name": "service_registry: CLI call mode — python -m service_registry call system.list_services",
+      "description": "CLI mode produces JSON output with services list without error",
+      "category": "service_registry", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-011", "name": "ACD observe: harness_status returns running state",
+      "description": "dispatch('acd.harness_status') returns status field ('running', 'stopped', or 'unknown') and lastUpdate",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-012", "name": "ACD observe: list_projects returns repo queue entries",
+      "description": "dispatch('acd.list_projects') returns array of projects with id, name, priority, enabled, and progress fields",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-013", "name": "ACD observe: dashboard_stats returns session totals",
+      "description": "dispatch('acd.dashboard_stats') returns totalSessions, totalCost, and active worker count",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-014", "name": "ACD observe: harness_logs returns recent log lines",
+      "description": "dispatch('acd.harness_logs', {lines: 20}) returns logs array with at least 1 entry",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-015", "name": "ACD observe: list_harnesses shows all worker processes",
+      "description": "dispatch('acd.list_harnesses') returns array of harness instances with pid, status, repoId",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-016", "name": "ACD observe: project feature progress visible in list_projects",
+      "description": "Each project in list_projects has passing, total, percent fields from the feature list JSON",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-017", "name": "ACD observe: parallel-status.json readable from terminal",
+      "description": "Terminal can read and parse /harness/parallel-status.json showing current worker assignments and serialGroups",
+      "category": "local_observe_acd", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-018", "name": "ACD observe: NL intent 'acd status' maps to acd.harness_status",
+      "description": "conversation_interpreter.interpret('acd status') → intent='acd', action_name='acd_status'",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-019", "name": "ACD observe: NL intent 'how many features left' maps to ACD",
+      "description": "interpret('how many features left') → intent='acd'",
+      "category": "local_observe_acd", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-020", "name": "ACD observe: agent-core CLI 'agent health' returns system state",
+      "description": "Running 'agent health --json' from terminal returns JSON with db, memory, tools health fields",
+      "category": "local_observe_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-021", "name": "ACD dispatch: start_harness successfully starts parallel runner",
+      "description": "dispatch('acd.start_harness', {workers: 2, dryRun: true}) returns ok=True and sessionId",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-022", "name": "ACD dispatch: stop_harness sends graceful shutdown signal",
+      "description": "dispatch('acd.stop_harness') returns ok=True with message confirming stop signal sent",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-023", "name": "ACD dispatch: wake resumes suspended harness",
+      "description": "dispatch('acd.wake') returns ok=True with message confirming harness was woken",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-024", "name": "ACD dispatch: import_project adds new repo to queue",
+      "description": "dispatch('acd.import_project', {id: 'test-import', path: '/tmp/test', priority: 99}) returns ok=True with projectId",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-025", "name": "ACD dispatch: NL 'start the acd' maps to acd.start_harness",
+      "description": "interpret('start the acd') → intent='acd', action_name='acd_start'",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-026", "name": "ACD dispatch: NL 'wake the acd' maps to acd.wake",
+      "description": "interpret('wake the acd') → intent='acd', action_name='acd_wake'",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-027", "name": "ACD dispatch: NL 'restart the harness' maps to acd.start_harness",
+      "description": "interpret('restart the harness') → intent='acd', action_name='acd_start'",
+      "category": "local_dispatch_acd", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-028", "name": "ACD dispatch: approval gate auto-approves for admin dispatch",
+      "description": "dispatch('system.approval_gate') with admin context returns approved=True without blocking",
+      "category": "local_dispatch_acd", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-029", "name": "ACD dispatch: agent-core CLI 'agent run' submits goal as ACD task",
+      "description": "'agent run \"implement feature X in safari-automation\" --mode dry_run' completes without error and returns job_id",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-030", "name": "ACD dispatch: agent-core CLI 'agent status <job_id>' returns job state",
+      "description": "After 'agent run', 'agent status <job_id> --json' returns status, steps, and elapsed_ms",
+      "category": "local_dispatch_acd", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-031", "name": "Data plane: system.heartbeat returns all service statuses",
+      "description": "dispatch('system.heartbeat') returns ok=True and a services dict with health per service (local + cloud)",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-032", "name": "Data plane: system.full_status aggregates all subsystems",
+      "description": "dispatch('system.full_status') returns crm, dm, outreach, content, revenue, safari, memory fields in single response",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-033", "name": "Data plane: research.platform returns market research data",
+      "description": "dispatch('research.platform', {platform: 'twitter', keyword: 'solopreneur'}) returns posts with author, engagement",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-034", "name": "Data plane: dm.health returns per-platform DM service status",
+      "description": "dispatch('dm.health') returns health status for instagram, twitter, tiktok DM services",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-035", "name": "Data plane: dm.conversations returns active DM threads",
+      "description": "dispatch('dm.conversations', {platform: 'twitter'}) returns list of conversation objects",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-036", "name": "Data plane: linkedin.status returns LinkedIn service health and rate limits",
+      "description": "dispatch('linkedin.status') returns healthy bool, rate_limit_remaining, and activeHours flag",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-037", "name": "Data plane: publish.auto routes content to correct platform",
+      "description": "dispatch('publish.auto', {content_type: 'video', platform: 'youtube'}) routes to correct publisher without error",
+      "category": "data_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-038", "name": "Data plane: crm.list_contacts returns paginated contacts",
+      "description": "dispatch('crm.list_contacts', {limit: 10}) returns array of contact objects with score, stage, platform fields",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-039", "name": "Data plane: workflow.list returns all workflow definitions",
+      "description": "dispatch('workflow.list') returns array of workflow slugs including 'research-to-publish'",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-040", "name": "Data plane: revenue.dashboard returns unified revenue metrics",
+      "description": "dispatch('revenue.dashboard') returns mrr, arr, subscriber_count, conversion_rate from RevenueCat + Stripe",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-041", "name": "Data plane: feedback.analysis returns strategy insights",
+      "description": "dispatch('feedback.analysis', {platform: 'twitter', niche: 'solopreneur'}) returns winning_patterns and prompt_guidelines",
+      "category": "data_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-042", "name": "Data plane: twitter.metrics returns engagement stats",
+      "description": "dispatch('twitter.metrics') returns impressions, likes, retweets, engagement_rate for recent posts",
+      "category": "data_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-043", "name": "Data plane: safari.health returns all Safari service ports",
+      "description": "dispatch('safari.health') returns health status for all 9 Safari automation services (ports 3001-3108)",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-044", "name": "Data plane: upwork.status returns job monitoring state",
+      "description": "dispatch('upwork.status') returns job_watches count, recent_proposals, and service health",
+      "category": "data_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-045", "name": "Data plane: social.metrics returns cross-platform engagement summary",
+      "description": "dispatch('social.metrics') returns per-platform engagement totals for instagram, twitter, tiktok, threads",
+      "category": "data_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-046", "name": "Memory plane: memory.write stores knowledge to vault",
+      "description": "dispatch('memory.write', {type: 'knowledge', content: 'test fact', tags: ['test']}) returns ok=True and memory_id",
+      "category": "memory_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-047", "name": "Memory plane: agent-core CLI 'agent memory search' finds written memories",
+      "description": "'agent memory search \"test fact\" --json' returns results including the previously written memory",
+      "category": "memory_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-048", "name": "Memory plane: agent-core conversation checkpoint created after run",
+      "description": "After 'agent run', a checkpoint exists for the job_id that can be listed via 'agent checkpoint list <job_id>'",
+      "category": "memory_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-049", "name": "Memory plane: cognitive.score_event rates business signals",
+      "description": "dispatch('cognitive.score_event', {event: 'new_lead', source: 'twitter'}) returns score 0-10 and routing decision",
+      "category": "memory_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-050", "name": "Memory plane: graph entities can be queried from terminal",
+      "description": "dispatch('graph.entities', {limit: 10}) returns entity records from the knowledge graph",
+      "category": "memory_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-051", "name": "Memory plane: chat.history returns recent conversation turns",
+      "description": "dispatch('chat.history', {session_id: 'main', limit: 5}) returns messages array with role and content",
+      "category": "memory_plane_local", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-052", "name": "Memory plane: lesson_store contains after-action review lessons",
+      "description": "agent-core LessonStore can be queried and returns at least 1 lesson with context and outcome fields",
+      "category": "memory_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-053", "name": "Memory plane: goal_registry lists active goals",
+      "description": "goal_registry.list_active() returns goals with id, title, status, and key_results fields",
+      "category": "memory_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-054", "name": "Memory plane: Supabase actp_agent_memory accessible via data plane",
+      "description": "DataPlane can query actp_agent_memory table and return recent memory rows",
+      "category": "memory_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-055", "name": "Memory plane: open_loop_tracker identifies unresolved goals",
+      "description": "open_loop_tracker.get_open_loops() returns list of goals with no confirmed completion",
+      "category": "memory_plane_local", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-056", "name": "Cloud terminal: CRMLite /api/agent/status returns unified observability",
+      "description": "GET /api/agent/status returns crm_stats, pipeline summary, worker health, and ACD integration status",
+      "category": "cloud_observe", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-057", "name": "Cloud terminal: CRMLite /api/agent/context returns full session init",
+      "description": "GET /api/agent/context returns contacts, unread messages, follow-ups, campaigns, and workflow state",
+      "category": "cloud_observe", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-058", "name": "Cloud terminal: CRMLite /api/agent/audit returns action history",
+      "description": "GET /api/agent/audit returns audit log entries with action, actor, timestamp, duration_ms fields",
+      "category": "cloud_observe", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-059", "name": "Cloud terminal: Workflow Engine /api/health returns running",
+      "description": "GET https://workflow-engine.vercel.app/api/health returns status=running",
+      "category": "cloud_observe", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-060", "name": "Cloud terminal: Workflow Engine /api/workflows returns definitions",
+      "description": "GET /api/workflows returns array including 'research-to-publish' definition with 6 steps",
+      "category": "cloud_observe", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-061", "name": "Cloud terminal: Workflow Engine /api/workflows/executions shows running jobs",
+      "description": "GET /api/workflows/executions returns executions array with status, startedAt fields",
+      "category": "cloud_observe", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-062", "name": "Cloud terminal: ACD dashboard /api/agent-status returns worker grid data",
+      "description": "GET http://localhost:3000/api/agent-status returns parallel workers array with robustness, features, health fields",
+      "category": "cloud_observe", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-063", "name": "Cloud terminal: dispatch 'crm.create_contact' via CRMLite action route",
+      "description": "POST /api/agent/action {action: 'crm.create_contact', params: {name: 'Test', platform: 'twitter'}} returns ok=True",
+      "category": "cloud_dispatch", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-064", "name": "Cloud terminal: dispatch 'workflow.start' via CRMLite action route",
+      "description": "POST /api/agent/action {action: 'workflow.start', params: {slug: 'research-to-publish'}} returns execution_id",
+      "category": "cloud_dispatch", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-065", "name": "Cloud terminal: dispatch 'crm.advance_pipeline' via CRMLite action route",
+      "description": "POST /api/agent/action {action: 'crm.advance_pipeline', params: {contact_id: X, stage: 'consideration'}} returns ok",
+      "category": "cloud_dispatch", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-066", "name": "Cloud terminal: dispatch 'agent.save_health_snapshot' stores state",
+      "description": "POST /api/agent/action {action: 'agent.save_health_snapshot'} writes row to actp_agent_health_snapshots",
+      "category": "cloud_dispatch", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-067", "name": "Cloud terminal: dispatch 'crm.search_contacts' via CRMLite action route",
+      "description": "POST /api/agent/action {action: 'crm.search_contacts', params: {query: 'solopreneur'}} returns matching contacts",
+      "category": "cloud_dispatch", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-068", "name": "Cloud terminal: all 14 CRMLite action types are registered and callable",
+      "description": "POST /api/agent/action with each of the 14 documented actions returns ok=True or structured error (not 404)",
+      "category": "cloud_dispatch", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-069", "name": "Business objective: outreach — dispatch DM to prospect from terminal",
+      "description": "dispatch('dm.send', {platform: 'twitter', username: 'IsaiahDupree7', text: 'Terminal dispatch test'}) returns success",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-070", "name": "Business objective: outreach — process pending DM queue",
+      "description": "dispatch('dm.process_outreach') drains pending outreach queue and returns sent_count, failed_count",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-071", "name": "Business objective: content — trigger content generation pipeline",
+      "description": "dispatch('orchestrator.research_to_publish', {niche: 'solopreneur', platform: 'twitter'}) returns job_id for the pipeline",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-072", "name": "Business objective: content — publish queued content via terminal",
+      "description": "dispatch('publish.lite', {account_id: '571', platform: 'twitter', text: 'Terminal test post'}) returns submission_id",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-073", "name": "Business objective: market research — run full sweep from terminal",
+      "description": "dispatch('research.keyword', {keyword: 'solopreneur'}) returns cross-platform results for all 4 platforms",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-074", "name": "Business objective: LinkedIn prospecting triggered from terminal",
+      "description": "dispatch('linkedin.prospect', {query: 'founder saas'}) returns prospect list with AI scores",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-075", "name": "Business objective: Upwork job scan triggered from terminal",
+      "description": "dispatch('upwork.scan') returns new_jobs_found count and top_job_score",
+      "category": "business_objectives", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-076", "name": "Business objective: revenue check — RevenueCat MRR from terminal",
+      "description": "dispatch('revcat.mrr') returns current_mrr, subscriber_count, and period",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-077", "name": "Business objective: YouTube analytics from terminal",
+      "description": "dispatch('youtube.analytics') returns views, subscribers, and watch_time_hours for last 30 days",
+      "category": "business_objectives", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-078", "name": "Business objective: feedback cycle triggered from terminal",
+      "description": "dispatch('feedback.twitter_cycle') runs check-backs → classify → strategy update and returns cycle_summary",
+      "category": "business_objectives", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-079", "name": "Business objective: Telegram notification dispatched from terminal",
+      "description": "dispatch('telegram.send', {message: 'Terminal dispatch test'}) delivers message to Telegram without error",
+      "category": "business_objectives", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-080", "name": "Business objective: Meta ads spend check from terminal",
+      "description": "dispatch('meta_ads.spend') returns today_spend, campaign_count, and top_roas_campaign",
+      "category": "business_objectives", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-081", "name": "Business objective: Sora video generation triggered from terminal",
+      "description": "dispatch('sora.generate', {prompt: 'test video', dry_run: true}) returns job_id without error",
+      "category": "business_objectives", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-082", "name": "Business objective: comments engagement dispatched from terminal",
+      "description": "dispatch('comments.threads_engage', {niche: 'solopreneur', dry_run: true}) returns planned_comments list",
+      "category": "business_objectives", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-083", "name": "Cross-integration: local dispatch syncs to cloud CRM",
+      "description": "dispatch('dm.sync') pushes new DM conversations to CRMLite and returns synced_count",
+      "category": "cross_integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-084", "name": "Cross-integration: memory written locally appears in cloud audit",
+      "description": "After dispatch('memory.write'), CRMLite /api/agent/audit shows the memory write action",
+      "category": "cross_integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-085", "name": "Cross-integration: workflow started from cloud terminal calls local task",
+      "description": "Workflow execution with step type 'local_task' creates entry in actp_workflow_tasks that local worker can claim",
+      "category": "cross_integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-086", "name": "Cross-integration: ACD feature progress visible in cloud CRM status",
+      "description": "CRMLite /api/agent/status includes acd_progress field showing total passing/total features across all repos",
+      "category": "cross_integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-087", "name": "Cross-integration: terminal can query Supabase feedback strategy",
+      "description": "DataPlane.feedback_strategy_latest(platform='twitter', niche='solopreneur') returns strategy from cloud Supabase",
+      "category": "cross_integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-088", "name": "Cross-integration: goal completion triggered from terminal updates cloud CRM pipeline",
+      "description": "Completing a goal via agent-core advances the linked CRM contact to next pipeline stage",
+      "category": "cross_integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-089", "name": "Cross-integration: cognitive.score_event output routed to memory and Telegram",
+      "description": "High-score event (>=8) is written to memory vault AND sends Telegram alert",
+      "category": "cross_integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-090", "name": "Cross-integration: local + cloud data merged in system.full_status",
+      "description": "system.full_status includes both local process data (pid, uptime) and cloud data (crm_count, workflow_runs)",
+      "category": "cross_integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-091", "name": "Audit: every dispatch call is logged in event bus",
+      "description": "After 10 dispatch calls, event_bus log contains entries for each with topic, duration_ms, ok fields",
+      "category": "audit_observability", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-092", "name": "Audit: CRMLite action endpoint writes to actp_agent_audit_log",
+      "description": "After POST /api/agent/action, Supabase actp_agent_audit_log contains new row with action_type and params",
+      "category": "audit_observability", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-093", "name": "Audit: parallel-output.log captures all worker activity",
+      "description": "parallel-output.log exists and contains timestamped entries for each worker session",
+      "category": "audit_observability", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-094", "name": "Audit: failed dispatch returns structured error with duration",
+      "description": "Any failed dispatch returns {ok: false, topic, error, duration_ms} — never an unhandled exception",
+      "category": "audit_observability", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-095", "name": "Audit: CRMLite /api/agent/audit supports filter by action_type",
+      "description": "GET /api/agent/audit?action_type=crm.create_contact returns only that action type in results",
+      "category": "audit_observability", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-096", "name": "Audit: agent-core CLI 'agent jobs' lists all recent jobs",
+      "description": "'agent jobs --recent 5 --json' returns 5 most recent jobs with status, goal, and started_at",
+      "category": "audit_observability", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-097", "name": "Audit: agent-core CLI 'agent explain <job_id>' returns step breakdown",
+      "description": "'agent explain <job_id>' returns list of steps with tool_name, action, ok, and duration_ms per step",
+      "category": "audit_observability", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-098", "name": "Reporting: test results written to tests/terminal_dispatch_results.json",
+      "description": "After all tests, results file exists with summary.total=103, summary.passed, summary.failed, runAt",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-099", "name": "Reporting: pytest collection >= 103 tests",
+      "description": "python -m pytest tests/test_terminal_dispatch_comprehensive.py --collect-only returns >= 103 test items",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-100", "name": "Reporting: all tests runnable without real credentials (mocked)",
+      "description": "pytest --mock-all completes without ImportError or MissingToken errors; real services mocked via fixtures",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-101", "name": "Reporting: integration-marked tests separated from unit tests",
+      "description": "Tests requiring live services are marked @pytest.mark.integration and skippable with -m 'not integration'",
+      "category": "reporting", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-102", "name": "Reporting: feature list updated with passes=true after each batch",
+      "description": "After every 10 tests written, test-terminal-dispatch.json features marked passes=true for completed tests",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    },
+    {
+      "id": "T-TERM-103", "name": "Reporting: git commit with pass rate",
+      "description": "git commit -m 'test(terminal): XX/103 terminal dispatch tests — observe+dispatch+memory+cloud' is executed",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-TERMINAL-DISPATCH", "notes": ""
+    }
+  ]
+}

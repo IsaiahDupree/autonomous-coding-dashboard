@@ -1550,14 +1550,15 @@
       "description": "Unit tests for sign-in, sign-up, password reset",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Sign-in",
         "Sign-up",
         "Reset",
         "Session"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-002",
@@ -1565,13 +1566,14 @@
       "description": "Unit tests for all API routes",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "All routes",
         "Error cases",
         "Auth middleware"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-003",
@@ -1579,13 +1581,14 @@
       "description": "Unit tests for CRUD helpers",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Create/read/update/delete",
         "Pagination",
         "Search"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-004",
@@ -1593,14 +1596,15 @@
       "description": "Unit tests for validation rules",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Required",
         "Email",
         "Password",
         "Custom"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-005",
@@ -1608,14 +1612,15 @@
       "description": "Unit tests for formatting and helpers",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Date",
         "Currency",
         "String",
         "Edge cases"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-006",
@@ -1623,13 +1628,14 @@
       "description": "Unit tests for stores/context",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Initial state",
         "Actions",
         "Selectors"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-007",
@@ -1637,14 +1643,15 @@
       "description": "Full workflow: sign-up through core action",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Account",
         "Onboard",
         "Action",
         "Verify"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-008",
@@ -1652,13 +1659,14 @@
       "description": "Stripe checkout and webhook test",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Checkout",
         "Webhook",
         "Subscription"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-009",
@@ -1666,14 +1674,15 @@
       "description": "CSV/JSON import and export",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Upload",
         "Map",
         "Import",
         "Export"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-010",
@@ -1681,13 +1690,14 @@
       "description": "Search, filter, and pagination",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Text search",
         "Filters",
         "Pagination"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-011",
@@ -1695,13 +1705,14 @@
       "description": "Playwright auth tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Login",
         "Signup",
         "Protected routes"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-012",
@@ -1709,14 +1720,15 @@
       "description": "Playwright CRUD tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Create",
         "View",
         "Edit",
         "Delete"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-013",
@@ -1724,13 +1736,14 @@
       "description": "Playwright settings tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Profile",
         "Preferences",
         "Persistence"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-014",
@@ -1738,13 +1751,14 @@
       "description": "Playwright breakpoint tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Mobile",
         "Tablet",
         "Desktop"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-015",
@@ -1752,13 +1766,14 @@
       "description": "Playwright error/edge tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "404",
         "Error boundary",
         "Empty state"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-016",
@@ -1766,13 +1781,14 @@
       "description": "Page load optimization",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "LCP < 2.5s",
         "FID < 100ms",
         "CLS < 0.1"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-017",
@@ -1780,13 +1796,14 @@
       "description": "API response times",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "List < 500ms",
         "Detail < 300ms",
         "Search < 500ms"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-018",
@@ -1794,13 +1811,14 @@
       "description": "Query optimization",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No seq scans",
         "Indexes",
         "Plans checked"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-019",
@@ -1808,13 +1826,14 @@
       "description": "50+ concurrent user simulation",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No errors",
         "Response < 2x",
         "No leaks"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-020",
@@ -1822,13 +1841,14 @@
       "description": "Automated a11y scan",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No critical",
         "No serious",
         "ARIA correct"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-021",
@@ -1836,14 +1856,15 @@
       "description": "Screenshot comparison",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dashboard",
         "Lists",
         "Forms",
         "Settings"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-022",
@@ -1851,13 +1872,14 @@
       "description": "Response shape validation",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Shapes match",
         "Errors typed",
         "Pagination"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-023",
@@ -1865,13 +1887,14 @@
       "description": "Unauthenticated rejection",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "401 on API",
         "Redirect pages",
         "No leaks"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-024",
@@ -1879,12 +1902,13 @@
       "description": "XSS and SQL injection tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Script sanitized",
         "SQL blocked"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-025",
@@ -1892,13 +1916,14 @@
       "description": "Coverage config and thresholds",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Config",
         "HTML report",
         "Thresholds"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-026",
@@ -1906,13 +1931,14 @@
       "description": "Snapshot critical components",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dashboard",
         "Forms",
         "Modals"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-027",
@@ -1920,13 +1946,14 @@
       "description": "Idempotent test data seeding",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Accounts",
         "Entities",
         "Relations"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-028",
@@ -1934,14 +1961,15 @@
       "description": "Mock external services",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auth",
         "DB",
         "Payment",
         "Email"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-029",
@@ -1949,14 +1977,15 @@
       "description": "Tests in CI pipeline",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Commands",
         "Env vars",
         "Parallel",
         "Reports"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-030",
@@ -1964,13 +1993,14 @@
       "description": "Tests for fixed bugs",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-bug tests",
         "Edge cases",
         "Prevent regressions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-031",
@@ -1978,13 +2008,14 @@
       "description": "CSRF tokens on POST/PUT/DELETE",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Token gen",
         "Validation",
         "Cookie"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-032",
@@ -1992,14 +2023,15 @@
       "description": "Rate limit sign-in/up/reset",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-IP",
         "Per-account",
         "429",
         "Backoff"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-033",
@@ -2007,13 +2039,14 @@
       "description": "Rate limit all APIs",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-user",
         "Per-tier",
         "Headers"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-034",
@@ -2021,14 +2054,15 @@
       "description": "Sanitize all user inputs",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Strip HTML",
         "Escape chars",
         "Trim",
         "Length"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-035",
@@ -2036,12 +2070,13 @@
       "description": "Verify parameterized queries",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No concatenation",
         "Parameterized"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-036",
@@ -2049,14 +2084,15 @@
       "description": "CSP, HSTS, X-Frame-Options",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "CSP",
         "HSTS",
         "X-Frame",
         "X-Content-Type"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-037",
@@ -2064,12 +2100,13 @@
       "description": "No secrets in client bundles",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No client secrets",
         "No .env in git"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-038",
@@ -2077,14 +2114,15 @@
       "description": "Secure token storage/rotation",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "HttpOnly",
         "Secure",
         "SameSite",
         "Rotation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-039",
@@ -2092,14 +2130,15 @@
       "description": "Validate uploads",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "MIME check",
         "Size limit",
         "Whitelist",
         "Isolation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-040",
@@ -2107,13 +2146,14 @@
       "description": "Auth on every endpoint",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Own data only",
         "Admin protected",
         "Role checks"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-041",
@@ -2121,13 +2161,14 @@
       "description": "Automated CVE scanning",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "npm audit",
         "Dependabot",
         "Alerts"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-042",
@@ -2135,13 +2176,14 @@
       "description": "Encrypt PII at rest",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "PII identified",
         "Encrypted",
         "Key mgmt"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-043",
@@ -2149,13 +2191,14 @@
       "description": "Log security-relevant actions",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auth events",
         "Data access",
         "Admin actions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-044",
@@ -2163,13 +2206,14 @@
       "description": "Secure sessions with timeouts",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Timeout",
         "Limits",
         "Revocation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-045",
@@ -2177,13 +2221,14 @@
       "description": "Data export/deletion/consent",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Export",
         "Deletion",
         "Consent"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-046",
@@ -2191,13 +2236,14 @@
       "description": "Cache expensive queries",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Headers",
         "SWR",
         "Invalidation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-047",
@@ -2205,13 +2251,14 @@
       "description": "React Query/SWR config",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Stale time",
         "Persistence",
         "Optimistic"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-048",
@@ -2219,12 +2266,13 @@
       "description": "Split bundles per route",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dynamic imports",
         "Suspense"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-049",
@@ -2232,13 +2280,14 @@
       "description": "next/image, WebP, responsive",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "next/image",
         "WebP",
         "Responsive"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-050",
@@ -2246,13 +2295,14 @@
       "description": "Indexes and pooling",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Indexes",
         "Analysis",
         "Pooling"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-051",
@@ -2260,13 +2310,14 @@
       "description": "gzip/brotli",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Compression",
         "Negotiation",
         "Threshold"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-052",
@@ -2274,13 +2325,14 @@
       "description": "Cursor/offset pagination",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Cursor",
         "Size limits",
         "Total count"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-053",
@@ -2288,13 +2340,14 @@
       "description": "Prevent duplicate calls",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Debounce",
         "Cancel",
         "Dedup"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-054",
@@ -2302,13 +2355,14 @@
       "description": "CDN with long-term cache",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Cache-Control",
         "Hashing",
         "CDN"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-055",
@@ -2316,13 +2370,14 @@
       "description": "DB connection pool config",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Pool size",
         "Timeout",
         "Recycling"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-056",
@@ -2330,13 +2385,14 @@
       "description": "Fix memory leaks",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "SSR leaks",
         "Cleanup",
         "Listeners"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-057",
@@ -2344,13 +2400,14 @@
       "description": "Track bundle regressions",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Analyzer",
         "Budgets",
         "CI check"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-058",
@@ -2358,12 +2415,13 @@
       "description": "Prefetch routes/data",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Link prefetch",
         "Data prefetch"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-059",
@@ -2371,14 +2429,15 @@
       "description": "Track Core Web Vitals",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "LCP",
         "FID",
         "CLS",
         "Dashboard"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-060",
@@ -2386,13 +2445,14 @@
       "description": "React streaming for TTFB",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Suspense",
         "Streaming",
         "Progressive"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-061",
@@ -2400,14 +2460,15 @@
       "description": "Title/desc/OG on all pages",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Titles",
         "Descriptions",
         "OG",
         "Twitter"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-062",
@@ -2415,13 +2476,14 @@
       "description": "Auto-generate sitemap.xml",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "All routes",
         "Priority",
         "Auto-update"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-063",
@@ -2429,12 +2491,13 @@
       "description": "Proper robots.txt",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Allow public",
         "Disallow admin"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-064",
@@ -2442,13 +2505,14 @@
       "description": "Schema.org rich results",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Organization",
         "Product",
         "Breadcrumbs"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-065",
@@ -2456,12 +2520,13 @@
       "description": "Prevent duplicate content",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Canonical tags",
         "Query params"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-066",
@@ -2469,13 +2534,14 @@
       "description": "Dynamic social images",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dynamic text",
         "Branded",
         "Cached"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-067",
@@ -2483,13 +2549,14 @@
       "description": "Proper status codes",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "404 status",
         "Custom page",
         "No-index"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-068",
@@ -2497,12 +2564,13 @@
       "description": "Breadcrumbs with structured data",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Visual",
         "JSON-LD"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-069",
@@ -2510,13 +2578,14 @@
       "description": "Google PageSpeed optimization",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Performance",
         "A11y",
         "Best practices"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-070",
@@ -2524,13 +2593,14 @@
       "description": "Verify share previews",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Facebook",
         "Twitter",
         "LinkedIn"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-071",
@@ -2538,14 +2608,15 @@
       "description": "Proper ARIA attributes",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Buttons",
         "Inputs",
         "Icons",
         "Roles"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-072",
@@ -2553,13 +2624,14 @@
       "description": "All features via keyboard",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Tab order",
         "Focus visible",
         "Escape"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-073",
@@ -2567,13 +2639,14 @@
       "description": "Focus on route change",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Main content",
         "Skip nav",
         "Announce"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-074",
@@ -2581,13 +2654,14 @@
       "description": "Meet contrast ratios",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Normal 4.5:1",
         "Large 3:1",
         "Both themes"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-075",
@@ -2595,14 +2669,15 @@
       "description": "Readable by SR",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Alt text",
         "Tables",
         "Forms",
         "Live regions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-076",
@@ -2610,13 +2685,14 @@
       "description": "Support 200% zoom",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No scroll",
         "No overlap",
         "No hidden"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-077",
@@ -2624,13 +2700,14 @@
       "description": "Announce validation errors",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Summary",
         "Inline",
         "Focus to first"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-078",
@@ -2638,12 +2715,13 @@
       "description": "Respect prefers-reduced-motion",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Disable animations",
         "Simplify"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-079",
@@ -2651,12 +2729,13 @@
       "description": "Usable in high contrast",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Borders",
         "Focus indicators"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-080",
@@ -2664,13 +2743,14 @@
       "description": "Proper table markup",
       "category": "a11y",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Headers",
         "Scope",
         "Caption"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-081",
@@ -2678,14 +2758,15 @@
       "description": "Skeleton loading states",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dashboard",
         "List",
         "Detail",
         "Form"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-082",
@@ -2693,13 +2774,14 @@
       "description": "Helpful empty states",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Component",
         "Message",
         "Action"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-083",
@@ -2707,14 +2789,15 @@
       "description": "Global error UI",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Catch",
         "Message",
         "Retry",
         "Report"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-084",
@@ -2722,13 +2805,14 @@
       "description": "Global toasts",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Variants",
         "Auto-dismiss",
         "Stack"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-085",
@@ -2736,13 +2820,14 @@
       "description": "Confirm destructive actions",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Delete",
         "Cancel",
         "Clear"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-086",
@@ -2750,13 +2835,14 @@
       "description": "Collapsible sidebar",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Desktop",
         "Mobile drawer",
         "Toggle"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-087",
@@ -2764,13 +2850,14 @@
       "description": "Light/dark/system theme",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Toggle",
         "System",
         "Persist"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-088",
@@ -2778,13 +2865,14 @@
       "description": "Auto-save form progress",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Interval",
         "Indicator",
         "Restore"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-089",
@@ -2792,13 +2880,14 @@
       "description": "Auto-load on scroll",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auto-load",
         "Spinner",
         "End indicator"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-090",
@@ -2806,13 +2895,14 @@
       "description": "Power user shortcuts",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Cmd+/ help",
         "Nav shortcuts",
         "Actions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-091",
@@ -2820,13 +2910,14 @@
       "description": "Navigation breadcrumbs",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auto-generate",
         "Clickable",
         "Current"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-092",
@@ -2834,13 +2925,14 @@
       "description": "Tables on mobile",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Desktop table",
         "Mobile cards",
         "Sort"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-093",
@@ -2848,13 +2940,14 @@
       "description": "File drag-drop zone",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Overlay",
         "Validation",
         "Progress"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-094",
@@ -2862,13 +2955,14 @@
       "description": "Quick search/nav",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Search",
         "Navigate",
         "Actions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-095",
@@ -2876,13 +2970,14 @@
       "description": "Stepped form with progress",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Steps",
         "Back/next",
         "Validation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-096",
@@ -2890,13 +2985,14 @@
       "description": "Bell with dropdown",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Badge",
         "List",
         "Mark read"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-097",
@@ -2904,14 +3000,15 @@
       "description": "Avatar display and upload",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Image",
         "Initials",
         "Upload",
         "Remove"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-098",
@@ -2919,13 +3016,14 @@
       "description": "Click-to-copy with feedback",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Copy button",
         "Toast",
         "Clipboard API"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-099",
@@ -2933,13 +3031,14 @@
       "description": "Multi-select with actions",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Checkbox",
         "Select all",
         "Bulk ops"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-100",
@@ -2947,13 +3046,14 @@
       "description": "Print stylesheet",
       "category": "ui",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Hide nav",
         "Clean layout",
         "Print button"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-101",
@@ -2961,14 +3061,15 @@
       "description": "GitHub Actions for test/deploy",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Test on PR",
         "Lint",
         "Build",
         "Deploy"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-102",
@@ -2976,12 +3077,13 @@
       "description": "Structured env with validation",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         ".env.example",
         "Runtime check"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-103",
@@ -2989,13 +3091,14 @@
       "description": "Production error tracking",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "SDK",
         "Source maps",
         "Alerts"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-104",
@@ -3003,13 +3106,14 @@
       "description": "Migration system",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "CLI",
         "Version tracking",
         "Rollback"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-105",
@@ -3017,13 +3121,14 @@
       "description": "Staging matching prod",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Staging DB",
         "Staging env",
         "Preview URLs"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-106",
@@ -3031,13 +3136,14 @@
       "description": "DB backup with retention",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Daily",
         "Retention",
         "Restore tested"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-107",
@@ -3045,13 +3151,14 @@
       "description": "Centralized structured logging",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "JSON logs",
         "Request ID",
         "Levels"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-108",
@@ -3059,13 +3166,14 @@
       "description": "Monitoring endpoints",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "/api/health",
         "DB check",
         "Dependencies"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-109",
@@ -3073,13 +3181,14 @@
       "description": "Remote feature flags",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Management",
         "Targeting",
         "Rollout"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-110",
@@ -3087,12 +3196,13 @@
       "description": "Dependabot/Renovate",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Config",
         "Auto-merge patch"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-111",
@@ -3100,13 +3210,14 @@
       "description": "Dockerfile and compose",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Multi-stage",
         "Compose",
         "Optimized"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-112",
@@ -3114,13 +3225,14 @@
       "description": "Auto-gen API docs",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Endpoints",
         "Schemas",
         "Examples"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-113",
@@ -3128,13 +3240,14 @@
       "description": "DB schema docs",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "ER diagram",
         "Descriptions",
         "Relations"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-114",
@@ -3142,13 +3255,14 @@
       "description": "External uptime checks",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "HTTP checks",
         "Alerts",
         "Status page"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-115",
@@ -3156,13 +3270,14 @@
       "description": "Key rotation procedure",
       "category": "devops",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Procedure",
         "Zero-downtime",
         "Audit"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-116",
@@ -3170,13 +3285,14 @@
       "description": "Email via Resend/SendGrid",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Service",
         "Templates",
         "Retry"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-117",
@@ -3184,13 +3300,14 @@
       "description": "Branded welcome email",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Triggered",
         "Template",
         "Links"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-118",
@@ -3198,13 +3315,14 @@
       "description": "Secure reset link",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Token",
         "Expiry",
         "Template"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-119",
@@ -3212,13 +3330,14 @@
       "description": "Verify email address",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Token",
         "Confirm",
         "Resend"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-120",
@@ -3226,13 +3345,14 @@
       "description": "User controls",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-type",
         "Frequency",
         "Persist"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-121",
@@ -3240,13 +3360,14 @@
       "description": "Notification list UI",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Model",
         "Read/unread",
         "Real-time"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-122",
@@ -3254,13 +3375,14 @@
       "description": "Consistent branded emails",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Header",
         "Footer",
         "Responsive"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-123",
@@ -3268,13 +3390,14 @@
       "description": "Webhooks for events",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Configurable",
         "Selection",
         "Retry"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-124",
@@ -3282,13 +3405,14 @@
       "description": "Periodic summaries",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Daily/weekly",
         "Summary",
         "Unsubscribe"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-125",
@@ -3296,13 +3420,14 @@
       "description": "Handle bounced emails",
       "category": "notifications",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Bounce hook",
         "Complaint hook",
         "Suppress"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-126",
@@ -3310,13 +3435,14 @@
       "description": "Track key events",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Page views",
         "Features",
         "Conversions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-127",
@@ -3324,13 +3450,14 @@
       "description": "Conversion funnels",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Onboarding",
         "Purchase",
         "Adoption"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-128",
@@ -3338,13 +3465,14 @@
       "description": "Feature flag A/B tests",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Assignment",
         "Tracking",
         "Significance"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-129",
@@ -3352,13 +3480,14 @@
       "description": "User data export JSON/CSV",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "All data",
         "Format",
         "Download"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-130",
@@ -3366,14 +3495,15 @@
       "description": "Admin metrics view",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Growth",
         "Revenue",
         "Usage",
         "Errors"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-131",
@@ -3381,13 +3511,14 @@
       "description": "Automated cleanup",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Periods",
         "Cleanup",
         "Audit excluded"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-132",
@@ -3395,13 +3526,14 @@
       "description": "Feature usage limits",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Counters",
         "Enforcement",
         "Upgrade prompt"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-133",
@@ -3409,13 +3541,14 @@
       "description": "Track search queries",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Logging",
         "No-result",
         "Popular"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-134",
@@ -3423,13 +3556,14 @@
       "description": "Track error spikes",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Rate calc",
         "Alerts",
         "Categories"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-135",
@@ -3437,13 +3571,14 @@
       "description": "In-app feedback widget",
       "category": "analytics",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Form",
         "Categories",
         "Screenshots"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-136",
@@ -3451,13 +3586,14 @@
       "description": "Setup and architecture",
       "category": "documentation",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Quick start",
         "Architecture",
         "Contributing"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-137",
@@ -3465,13 +3601,14 @@
       "description": "All endpoints documented",
       "category": "documentation",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Endpoints",
         "Examples",
         "Auth"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-138",
@@ -3479,13 +3616,14 @@
       "description": "Schema with relationships",
       "category": "documentation",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Tables",
         "Columns",
         "Relations"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-139",
@@ -3493,14 +3631,15 @@
       "description": "Step-by-step deploy",
       "category": "documentation",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Prerequisites",
         "Build",
         "Deploy",
         "Rollback"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-140",
@@ -3508,13 +3647,14 @@
       "description": "How to test",
       "category": "documentation",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Categories",
         "Commands",
         "Writing tests"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-141",
@@ -3522,13 +3662,14 @@
       "description": "Subscriptions and payments",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Checkout",
         "Webhooks",
         "Sync"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-142",
@@ -3536,13 +3677,14 @@
       "description": "Server-side logic",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auth verify",
         "Business logic",
         "CORS"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-143",
@@ -3550,13 +3692,14 @@
       "description": "Upload with validation",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Upload",
         "Type check",
         "Signed URLs"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-144",
@@ -3564,13 +3707,14 @@
       "description": "Live data updates",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Subscribe",
         "Events",
         "UI update"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-145",
@@ -3578,13 +3722,14 @@
       "description": "LLM-powered features",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "API client",
         "Prompts",
         "Streaming"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-146",
@@ -3592,13 +3737,14 @@
       "description": "Google/GitHub OAuth",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Config",
         "Callback",
         "Profile import"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-147",
@@ -3606,13 +3752,14 @@
       "description": "Import from spreadsheets",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Upload",
         "Column map",
         "Validate"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-148",
@@ -3620,13 +3767,14 @@
       "description": "Server-side PDF generation",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Templates",
         "Data",
         "Download"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-149",
@@ -3634,13 +3782,14 @@
       "description": "Team notification hooks",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Webhooks",
         "Formatting",
         "Events"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-150",
@@ -3648,13 +3797,14 @@
       "description": "Calendar sync",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Google Calendar",
         "iCal export",
         "Events"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-151",
@@ -3662,13 +3812,14 @@
       "description": "Branded transactional email",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Templates",
         "Variables",
         "Preview"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-152",
@@ -3676,13 +3827,14 @@
       "description": "Process external webhooks",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Verify signature",
         "Parse payload",
         "Route"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-153",
@@ -3690,13 +3842,14 @@
       "description": "Asset delivery pipeline",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Upload",
         "Transform",
         "CDN serve"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-154",
@@ -3704,13 +3857,14 @@
       "description": "Full-text search implementation",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "tsvector",
         "Ranking",
         "Debounced"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-155",
@@ -3718,13 +3872,14 @@
       "description": "Scheduled background tasks",
       "category": "integrations",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Edge Function cron",
         "Job queue",
         "Retry"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-156",
@@ -3732,13 +3887,14 @@
       "description": "Verify RLS on all tables",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "RLS enabled",
         "Policies per table",
         "Tested"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-157",
@@ -3746,13 +3902,14 @@
       "description": "Add indexes on FK and query columns",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "FK indexes",
         "Status indexes",
         "Composite"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-158",
@@ -3760,13 +3917,14 @@
       "description": "Status-based soft delete",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Status field",
         "Filter queries",
         "Restore"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-159",
@@ -3774,13 +3932,14 @@
       "description": "Track all data mutations",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Action type",
         "Changed fields",
         "User attribution"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-160",
@@ -3788,13 +3947,14 @@
       "description": "Idempotent dev seed data",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Test accounts",
         "Sample data",
         "Idempotent"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-161",
@@ -3802,13 +3962,14 @@
       "description": "Prevent concurrent overwrites",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Version field",
         "Check on update",
         "Conflict error"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-162",
@@ -3816,13 +3977,14 @@
       "description": "tsvector columns on searchable tables",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "tsvector trigger",
         "Index",
         "Search function"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-163",
@@ -3830,9 +3992,10 @@
       "description": "Validate JSONB columns",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
-      "criteria": "Check constraint on JSONB fields"
+      "criteria": "Check constraint on JSONB fields",
+      "status": "completed"
     },
     {
       "id": "CF-WC-164",
@@ -3840,13 +4003,14 @@
       "description": "Backup and restore procedures",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "PITR config",
         "Manual backup",
         "Restore test"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-165",
@@ -3854,13 +4018,14 @@
       "description": "Ensure tenant data separation",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "RLS per org",
         "No cross-tenant",
         "Tested"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-166",
@@ -3868,13 +4033,14 @@
       "description": "Monitor pool and connections",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Pool metrics",
         "Slow query log",
         "Alerts"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-167",
@@ -3882,13 +4048,14 @@
       "description": "Proper FK cascade rules",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "ON DELETE rules",
         "Orphan prevention",
         "Tested"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-168",
@@ -3896,13 +4063,14 @@
       "description": "Track schema migrations",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Version table",
         "Up/down scripts",
         "CI check"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-169",
@@ -3910,12 +4078,13 @@
       "description": "Auto-generate TS types from schema",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Supabase CLI types",
         "Regenerate script"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-170",
@@ -3923,13 +4092,14 @@
       "description": "Configure read replicas for performance",
       "category": "database",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Replica setup",
         "Read routing",
         "Lag monitoring"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-171",
@@ -3937,13 +4107,14 @@
       "description": "Passwordless email sign-in",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Send link",
         "Verify token",
         "Session create"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-172",
@@ -3951,13 +4122,14 @@
       "description": "TOTP-based 2FA",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Enable/disable",
         "QR setup",
         "Verify code"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-173",
@@ -3965,13 +4137,14 @@
       "description": "Link multiple OAuth providers",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Link flow",
         "Unlink flow",
         "Conflict handling"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-174",
@@ -3979,13 +4152,14 @@
       "description": "User roles and permissions",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Role model",
         "Permission checks",
         "Admin UI"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-175",
@@ -3993,13 +4167,14 @@
       "description": "User-managed API keys",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Generate key",
         "Revoke key",
         "Rate limit per key"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-176",
@@ -4007,13 +4182,14 @@
       "description": "Admin can impersonate users",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Impersonate endpoint",
         "Audit log",
         "Exit flow"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-177",
@@ -4021,13 +4197,14 @@
       "description": "Enforce password policy",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Min length",
         "Complexity rules",
         "Strength meter"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-178",
@@ -4035,13 +4212,14 @@
       "description": "Lock after failed attempts",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Attempt tracking",
         "Lockout duration",
         "Unlock flow"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-179",
@@ -4049,13 +4227,14 @@
       "description": "View and revoke sessions",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Active sessions list",
         "Revoke button",
         "Current indicator"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "CF-WC-180",
@@ -4063,13 +4242,14 @@
       "description": "Notify on auth events",
       "category": "auth",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Sign-up hook",
         "Sign-in hook",
         "Password change hook"
-      ]
+      ],
+      "status": "completed"
     }
   ]
 }

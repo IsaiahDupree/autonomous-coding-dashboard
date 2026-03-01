@@ -139,3 +139,44 @@ export type {
   OptimizationPlan,
   ImageOptimizerOptions,
 } from './performance/image-optimizer';
+
+// ── Web Performance (AUTH-WC-046 through AUTH-WC-060) ─────────────────────────
+export {
+  QueryCache,
+  REACT_QUERY_DEFAULTS,
+  SWR_DEFAULTS,
+  generateQueryKey,
+  NEXTJS_OPTIMIZATION_CONFIG,
+  IMAGE_BREAKPOINTS,
+  generateSrcSet,
+  generateSizes,
+  RECOMMENDED_INDEXES,
+  getPoolConfig,
+  getPrismaPoolUrl,
+  compressionConfig,
+  compressionHeaders,
+  parsePagination,
+  paginateResults,
+  requestDeduplication,
+  cacheControlHeaders,
+  MemoryLeakDetector,
+  BundleSizeTracker,
+  generatePrefetchHeaders,
+  prefetchMiddleware,
+  WEB_VITALS_THRESHOLDS,
+  rateWebVital,
+  getWebVitalsScript,
+  webVitalsCollector,
+  STREAMING_CONFIG,
+  streamingHeaders,
+} from './performance/web-performance';
+
+export type {
+  QueryCacheConfig,
+  ConnectionPoolConfig,
+  PaginationParams,
+  PaginatedResponse,
+  MemorySnapshot,
+  BundleReport,
+  WebVitalMetric,
+} from './performance/web-performance';

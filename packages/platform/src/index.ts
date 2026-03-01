@@ -317,3 +317,32 @@ export {
   type BulkOperationHandler,
   type CreateMigrationInput,
 } from './bulk-operations';
+
+// ── SEO (AUTH-WC-061 through AUTH-WC-065) ──────────────────────────────────
+export {
+  generateMetaTags,
+  toNextMetadata,
+  PRODUCT_METADATA,
+  generateSitemap,
+  generateSitemapIndex,
+  routesToSitemapEntries,
+  generateRobotsTxt,
+  generateJsonLd,
+  createOrganizationSchema,
+  createWebSiteSchema,
+  createCourseSchema,
+  createSoftwareSchema,
+  createBreadcrumbSchema,
+  createFAQSchema,
+  canonicalUrlMiddleware,
+  generateCanonicalLink,
+  duplicateContentRedirect,
+} from './seo';
+
+export type {
+  PageMetadata,
+  SitemapEntry,
+  RobotsTxtConfig,
+  SchemaType,
+  SchemaOrgData,
+} from './seo';

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Page not found - 404 Error">
+  <title>404 - Page Not Found | PCT System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Shared design system -->
+  <link rel="stylesheet" href="index.css">
+
+  <style>
+    .error-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: var(--space-lg);
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .error-container {
+      max-width: 600px;
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .error-code {
+      font-size: 120px;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1;
+      margin-bottom: var(--space-md);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .error-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-sm);
+    }
+
+    .error-message {
+      font-size: 1.125rem;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-lg);
+      line-height: 1.6;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .error-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .error-btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .error-btn-primary:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .error-btn-secondary {
+      background: var(--color-bg-secondary);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .error-btn-secondary:hover {
+      background: var(--color-bg-tertiary);
+      transform: translateY(-2px);
+    }
+
+    .error-suggestions {
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .error-suggestions-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .error-suggestions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .error-suggestions-list li {
+      margin-bottom: var(--space-xs);
+    }
+
+    .error-suggestions-list a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-size: 0.9375rem;
+    }
+
+    .error-suggestions-list a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .error-code {
+        font-size: 80px;
+      }
+
+      .error-title {
+        font-size: 1.5rem;
+      }
+
+      .error-message {
+        font-size: 1rem;
+      }
+
+      .error-actions {
+        flex-direction: column;
+      }
+
+      .error-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="error-page">
+    <div class="error-container">
+      <div class="error-code">404</div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-message">
+        Sorry, we couldn't find the page you're looking for. It may have been moved, deleted, or never existed.
+      </p>
+
+      <div class="error-actions">
+        <a href="index.html" class="error-btn error-btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 2L2 7h2v5h3V9h2v3h3V7h2L8 2z" fill="currentColor" />
+          </svg>
+          Go to Dashboard
+        </a>
+        <a href="pct.html" class="error-btn error-btn-secondary">
+          View PCT System
+        </a>
+      </div>
+
+      <div class="error-suggestions">
+        <div class="error-suggestions-title">You might be looking for:</div>
+        <ul class="error-suggestions-list">
+          <li><a href="index.html">Dashboard Home</a></li>
+          <li><a href="pct.html">Programmatic Creative Testing</a></li>
+          <li><a href="queue.html">Agent Queue</a></li>
+          <li><a href="control.html">Control Panel</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Log 404 error for analytics
+    console.error('[404] Page not found:', window.location.href);
+
+    // Send to analytics if available
+    if (window.gtag) {
+      gtag('event', 'page_not_found', {
+        page_path: window.location.pathname,
+        page_referrer: document.referrer,
+      });
+    }
+
+    // Update page title with attempted URL
+    if (window.location.pathname !== '/404.html') {
+      document.title = `404 - ${window.location.pathname} Not Found | PCT System`;
+    }
+  </script>
+</body>
+
+</html>

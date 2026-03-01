@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "prd": "PRD-201",
+    "title": "EverReach OS — Cloud Terminal + Auto-Scaling Agent Swarm",
+    "description": "Cloud-side layer of the hybrid architecture: Docker/Kubernetes deployment, 10+ AAG auto-scaling, external API integrations (Stripe, Blotato, Upwork, Hunter), AWS EventBridge cron, $400/month cost controls, and failover to local terminal.",
+    "totalFeatures": 50
+  },
+  "features": [
+    {
+      "id": "EOS-201-001", "name": "Dockerfile for cloud terminal service",
+      "description": "docker/Dockerfile.cloud: FROM python:3.12-slim, installs actp-worker + cloud dependencies, EXPOSE 8090, sets EVERREACH_ENV=cloud, CMD uvicorn cloud_server:app",
+      "category": "cloud_deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-002", "name": "cloud_server.py FastAPI on port 8090",
+      "description": "cloud_server.py: FastAPI app mirroring local_server.py — POST /dispatch, GET /health, GET /status, POST /batch — but all calls route through CloudExecutor only",
+      "category": "cloud_deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-003", "name": "Kubernetes Deployment manifest for cloud terminal",
+      "description": "k8s/cloud-terminal-deployment.yaml: Deployment with 2 replicas, image: everreach-os-cloud, env from Secret, readinessProbe on /health, resource limits (256m CPU, 512Mi RAM)",
+      "category": "cloud_deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-004", "name": "Kubernetes Service manifest",
+      "description": "k8s/cloud-terminal-service.yaml: ClusterIP Service exposing port 8090, plus optional LoadBalancer for external access",
+      "category": "cloud_deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-005", "name": "Kubernetes Secret for credentials",
+      "description": "k8s/cloud-secrets.yaml: Secret containing ANTHROPIC_API_KEY, STRIPE_KEY, BLOTATO_KEY, UPWORK_CLIENT_ID, HUNTER_API_KEY, EVERREACH_CLOUD_KEY",
+      "category": "cloud_deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-006", "name": "Kubernetes ConfigMap for non-secret config",
+      "description": "k8s/cloud-config.yaml: ConfigMap with EVERREACH_ENV=cloud, CLOUD_ENDPOINT, VECTOR_DB_URL, MONTHLY_COST_CAP=400",
+      "category": "cloud_deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-007", "name": "kubectl apply helper script",
+      "description": "scripts/deploy-cloud.sh: applies all k8s/ manifests in correct order (secrets, configmap, deployment, service, hpa), waits for rollout",
+      "category": "cloud_deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-008", "name": "Cloud health check returns env=cloud",
+      "description": "GET /health returns {env: 'cloud', replicas: int, actions_routed_today: int, cost_today_usd: float, uptime_sec: int}",
+      "category": "cloud_deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-009", "name": "AAGSwarm class: manages pool of Autonomous Acquisition Agents",
+      "description": "aag_swarm.py: AAGSwarm(max_agents=10) with spawn_agent(), terminate_agent(), list_active(), assign_task(agent_id, task). Each agent runs a prospect/dm/follow-up loop",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-010", "name": "AAG agent lifecycle: IDLE → RUNNING → COMPLETE → IDLE",
+      "description": "Each AAG has states: IDLE, RUNNING, WAITING, ERROR, COMPLETE. State transitions logged to Supabase actp_agent_runs. Max 10 concurrent",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-011", "name": "Kubernetes HPA for AAG swarm (auto-scale 2→10)",
+      "description": "k8s/aag-hpa.yaml: HorizontalPodAutoscaler targeting aag-worker Deployment, minReplicas=2, maxReplicas=10, CPU targetUtilization=70%",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-012", "name": "AAG worker Deployment manifest",
+      "description": "k8s/aag-worker-deployment.yaml: Deployment for AAG worker pods, image: everreach-aag-worker, env from same Secret, resource requests/limits defined",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-013", "name": "AAG task queue via Supabase actp_workflow_tasks",
+      "description": "AAG workers claim tasks from actp_workflow_tasks using claim_workflow_task() RPC (FOR UPDATE SKIP LOCKED). Each task specifies agent type (prospecting, dm, follow-up)",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-014", "name": "AAG prospecting agent: Upwork + LinkedIn search loop",
+      "description": "ProspectingAAG: calls upwork.search + linkedin.search on schedule, scores prospects via ICP scorer, upserts to CRM. Runs continuously in cloud",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-015", "name": "AAG DM agent: multi-platform outreach loop",
+      "description": "DmAAG: claims pending_outreach from CRM, dispatches dm.send across twitter/instagram/linkedin, logs to actp_agent_audit_log, marks contact as messaged",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-016", "name": "AAG follow-up agent: pipeline advancement loop",
+      "description": "FollowUpAAG: queries CRM for contacts due follow-up (3d, 7d, 14d), generates personalized follow-up via content.generate, dispatches via dm or email",
+      "category": "agent_swarm", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-017", "name": "Swarm coordinator: prevents agent conflicts",
+      "description": "SwarmCoordinator tracks which contacts are being worked by which agent. acquire_lock(contact_id, agent_id) prevents two agents messaging same person simultaneously",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-018", "name": "AAG swarm tests (6 tests)",
+      "description": "Test spawn/terminate, lifecycle state transitions, task claiming, lock acquisition, swarm scale-up trigger, DM agent mock dispatch",
+      "category": "agent_swarm", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-019", "name": "Stripe integration: revenue tracking via cloud terminal",
+      "description": "stripe_client.py: async get_mrr(), get_subscriptions(), get_recent_charges(). Called from revenue.dashboard route in cloud mode",
+      "category": "external_apis", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-020", "name": "Blotato/Ayrshare integration: social publishing endpoint",
+      "description": "publish.auto in cloud mode routes to Blotato API (existing blotato_client.py). Cloud terminal ensures all publish.* topics use cloud executor",
+      "category": "external_apis", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-021", "name": "Upwork API integration hardened for cloud",
+      "description": "upwork_client.py cloud mode: rate limit tracking (10 req/min), automatic job_watch creation when score > 0.8, proposal queuing via workflow engine",
+      "category": "external_apis", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-022", "name": "Hunter.io email finder integration",
+      "description": "hunter_client.py: async find_email(domain, first_name, last_name) → email + confidence. Integrated with CRM contact enrichment pipeline",
+      "category": "external_apis", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-023", "name": "RevenueCat cloud subscription sync",
+      "description": "revcat_sync.py: fetches RevenueCat subscriber events via webhook + polling, upserts to Supabase crm_revcat_events, updates MRR snapshot",
+      "category": "external_apis", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-024", "name": "External API health checks in cloud terminal /status",
+      "description": "GET /status returns per-API health: {stripe: ok, blotato: ok, upwork: ok, hunter: ok, revcat: ok, anthropic: ok}",
+      "category": "external_apis", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-025", "name": "External API tests (5 tests)",
+      "description": "Mock tests for Stripe MRR, Blotato publish, Upwork search+score, Hunter email find, RevenueCat sync — all using httpx mocks",
+      "category": "external_apis", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-026", "name": "AWS EventBridge cron rules (Terraform/YAML)",
+      "description": "infra/eventbridge.yaml: rules for daily_routine (cron 0 6 * * ? *), prospect_scan (0 11,15 * * 1-5 *), content_feedback (30 */6 * * ? *), revenue_snapshot (0 0 * * ? *)",
+      "category": "cron_scheduling", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-027", "name": "Cron → cloud terminal HTTP trigger",
+      "description": "Each EventBridge rule triggers POST to cloud terminal /cron/{job_name} endpoint which dispatches the corresponding service.topic chain",
+      "category": "cron_scheduling", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-028", "name": "06:00 daily_routine cron job definition",
+      "description": "/cron/daily_routine runs: system.heartbeat, revenue.dashboard, feedback.universal_cycle, linkedin.status, social.metrics — in sequence, results logged to Supabase",
+      "category": "cron_scheduling", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-029", "name": "Cron deduplication guard",
+      "description": "cron_guard.py: before firing, checks Supabase actp_cron_log for same job_name within past interval. Skips if already ran. Prevents double-fire on cloud restarts",
+      "category": "cron_scheduling", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-030", "name": "Local mirror cron via APScheduler",
+      "description": "local_cron.py mirrors all cloud cron schedules using APScheduler. If cloud cron fires, local sees it via SyncBus and skips. If cloud down, local fires independently",
+      "category": "cron_scheduling", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-031", "name": "Cron scheduling tests (4 tests)",
+      "description": "Test cron deduplication guard, local mirror fallback, daily_routine topic chain, EventBridge → /cron/daily_routine mock",
+      "category": "cron_scheduling", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-032", "name": "Local failover: detect cloud terminal down",
+      "description": "failover.py: FailoverWatcher pings cloud terminal /health every 60s. After 3 consecutive failures, sets CLOUD_FAILED=True and fires FAILOVER_TO_LOCAL event on SyncBus",
+      "category": "failover", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-033", "name": "Local failover: reroute all cloud actions",
+      "description": "When CLOUD_FAILED=True, HybridOrchestrator.route() sends ALL actions to LocalExecutor regardless of preferred_env setting",
+      "category": "failover", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-034", "name": "Local failover: Telegram alert on cloud failure",
+      "description": "When failover triggers, dispatch('telegram.send', {message: 'Cloud terminal DOWN — local failover active'}) to notify immediately",
+      "category": "failover", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-035", "name": "Local failover: auto-recovery when cloud comes back",
+      "description": "When cloud /health responds again, FailoverWatcher clears CLOUD_FAILED after 3 consecutive success pings, sends Telegram 'Cloud terminal RESTORED'",
+      "category": "failover", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-036", "name": "Failover tests (4 tests)",
+      "description": "Test: cloud-down detection after 3 pings, reroute to local, Telegram alert mock, auto-recovery after 3 success pings",
+      "category": "failover", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-037", "name": "Monthly cost tracker: Supabase actp_cost_log table",
+      "description": "SQL migration: actp_cost_log(id, service, action, cost_usd, env, created_at). Every cloud dispatch logs estimated cost. Queried for monthly total",
+      "category": "cost_controls", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-038", "name": "cost_guard.py: $400/month soft cap at $380",
+      "description": "get_monthly_cost() queries actp_cost_log for current calendar month total. Returns {total_usd, remaining_usd, cap_usd, warning: bool, exceeded: bool}",
+      "category": "cost_controls", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-039", "name": "Cost exceeded: block non-essential cloud calls",
+      "description": "When monthly cost >= $400, cloud executor raises CostCapExceeded for non-essential actions (research, content.gen). Essential actions (dm.sync, telegram) still pass",
+      "category": "cost_controls", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-040", "name": "Spot instance awareness: scale-down during off-peak",
+      "description": "k8s/aag-hpa-schedule.yaml: CronJob scales AAG replicas to 1 at 22:00 local and back to 3 at 08:00. Reduces spot instance costs during low-activity windows",
+      "category": "cost_controls", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-041", "name": "Daily cost report to Telegram",
+      "description": "Cost cron at 23:00: dispatches telegram.send with today's cloud cost breakdown by service, MTD total vs $400 cap",
+      "category": "cost_controls", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-042", "name": "Cost controls tests (4 tests)",
+      "description": "Test: cost log write, monthly total query, soft-cap block at $380, hard-cap block at $400, essential action bypass",
+      "category": "cost_controls", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-043", "name": "Month 1 simulation: cloud prospects, local generates",
+      "description": "Integration test simulating Month 1: ProspectingAAG finds 50 Upwork leads (mocked), DmAAG sends 20 DMs, ContentAAG batch-generates 10 pieces locally → publish.auto",
+      "category": "simulation", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-044", "name": "Month 1 goal tracking: $9.5K revenue target",
+      "description": "revenue_goal_tracker.py: tracks Stripe + RevenueCat revenue vs $9,500 Month 1 target. Exposes progress() → {target, actual, gap, on_track: bool}",
+      "category": "simulation", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-045", "name": "Follower growth tracker: 1M target",
+      "description": "follower_tracker.py: tracks cross-platform followers (twitter + instagram + tiktok + threads + youtube) daily. Logs to actp_growth_log. Reports progress vs 1M target",
+      "category": "simulation", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-046", "name": "Viral burst detection: scale AAG swarm on trending content",
+      "description": "When social.metrics returns post with >10K views in <2h, trigger scale_up_event() → increase AAG DM replicas to 8 for 4h engagement window",
+      "category": "simulation", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-047", "name": "Simulation tests (4 tests)",
+      "description": "Test Month 1 simulation pipeline, revenue goal tracker, follower tracker daily update, viral burst scale-up trigger",
+      "category": "simulation", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-048", "name": "Cloud terminal README and deployment guide",
+      "description": "docs/cloud-terminal.md: prerequisites, Kubernetes deploy steps, EventBridge setup, cost cap configuration, scaling tuning guide",
+      "category": "cloud_deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-049", "name": "GitHub Actions CI: build and push cloud Docker image",
+      "description": ".github/workflows/cloud-deploy.yml: on push to main, build Dockerfile.cloud, push to ECR/GHCR, trigger kubectl rollout restart",
+      "category": "cloud_deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    },
+    {
+      "id": "EOS-201-050", "name": "pytest: >=40 tests collected for PRD-201, all passing",
+      "description": "pytest tests/ -m 'prd201' --collect-only shows >=40 items; full run passes with 0 failures",
+      "category": "simulation", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-201", "notes": ""
+    }
+  ]
+}

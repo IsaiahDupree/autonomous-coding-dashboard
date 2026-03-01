@@ -1,0 +1,109 @@
+name: Bundle Size Check
+
+on:
+  pull_request:
+    branches: [master, main]
+  push:
+    branches: [master, main]
+
+jobs:
+  bundle-size:
+    name: Check Bundle Size
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Analyze bundle size
+        id: analyze
+        run: |
+          npm run analyze:bundle
+        continue-on-error: true
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: bundle-analysis
+          path: |
+            bundle-analysis.json
+            bundle-history.json
+          retention-days: 30
+
+      - name: Comment PR with results
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+
+            let analysis;
+            try {
+              analysis = JSON.parse(fs.readFileSync('bundle-analysis.json', 'utf-8'));
+            } catch (e) {
+              console.log('No analysis file found');
+              return;
+            }
+
+            const totalRaw = analysis.reduce((sum, r) => sum + (r.raw || 0), 0).toFixed(2);
+            const totalGzip = analysis.reduce((sum, r) => sum + (r.gzip || 0), 0).toFixed(2);
+
+            let table = '| File | Raw | Gzip | Budget | Status |\n';
+            table += '|------|-----|------|--------|--------|\n';
+
+            let hasErrors = false;
+            let hasWarnings = false;
+
+            analysis.forEach(r => {
+              if (!r.exists) return;
+
+              let status = '✅ OK';
+              if (r.overBudget) {
+                const percent = parseFloat(r.percentOver);
+                if (percent > 20) {
+                  status = `❌ +${r.percentOver}%`;
+                  hasErrors = true;
+                } else if (percent > 10) {
+                  status = `⚠️ +${r.percentOver}%`;
+                  hasWarnings = true;
+                }
+              }
+
+              table += `| ${r.file} | ${r.raw.toFixed(2)} KB | ${r.gzip ? r.gzip.toFixed(2) + ' KB' : '-'} | ${r.budget ? r.budget + ' KB' : '-'} | ${status} |\n`;
+            });
+
+            table += `| **TOTAL** | **${totalRaw} KB** | **${totalGzip} KB** | - | ${hasErrors ? '❌' : hasWarnings ? '⚠️' : '✅'} |\n`;
+
+            let summary = '## 📦 Bundle Size Analysis\n\n';
+            if (hasErrors) {
+              summary += '❌ **Bundle size budget exceeded!**\n\n';
+            } else if (hasWarnings) {
+              summary += '⚠️ **Bundle size approaching budget limit**\n\n';
+            } else {
+              summary += '✅ **All bundles within budget**\n\n';
+            }
+
+            summary += table;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+      - name: Fail if over budget
+        if: steps.analyze.outcome == 'failure'
+        run: exit 1

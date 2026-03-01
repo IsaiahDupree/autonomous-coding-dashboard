@@ -433,7 +433,7 @@
       "description": "Cross-platform content syndication",
       "target_project": "MediaPoster",
       "acceptance_criteria": [
-        "One content piece \u2192 multiple platforms",
+        "One content piece → multiple platforms",
         "Platform-specific formatting",
         "Scheduling"
       ],
@@ -443,7 +443,7 @@
       "id": "PUB-006",
       "category": "publishing",
       "priority": 2,
-      "description": "Content Factory \u2192 MediaPoster handoff",
+      "description": "Content Factory → MediaPoster handoff",
       "target_project": "Content Factory",
       "acceptance_criteria": [
         "Export content to MediaPoster",
@@ -489,7 +489,7 @@
       "target_project": "Portal28",
       "acceptance_criteria": [
         "User journey across products",
-        "Signup \u2192 Activation \u2192 Revenue",
+        "Signup → Activation → Revenue",
         "Cohort analysis"
       ],
       "passes": true
@@ -498,7 +498,7 @@
       "id": "AN-003",
       "category": "analytics",
       "priority": 2,
-      "description": "Creative performance tracking (Remotion \u2192 Meta)",
+      "description": "Creative performance tracking (Remotion → Meta)",
       "target_project": "WaitlistLab",
       "acceptance_criteria": [
         "Link Remotion asset_id to Meta ad_id",
@@ -906,7 +906,7 @@
       "acceptance_criteria": [
         "API endpoint for niche insights",
         "Content Factory uses for targeting",
-        "Reddit pain points \u2192 scripts"
+        "Reddit pain points → scripts"
       ],
       "passes": true
     },
@@ -1798,7 +1798,7 @@
       "description": "Multi-step content pipeline",
       "target_project": "Content Factory",
       "acceptance_criteria": [
-        "Image \u2192 Video \u2192 Assembly \u2192 Publish",
+        "Image → Video → Assembly → Publish",
         "Status tracking",
         "Rollback support"
       ],
@@ -1808,10 +1808,10 @@
       "id": "FLOW-003",
       "category": "publishing",
       "priority": 2,
-      "description": "PCT hook \u2192 ad pipeline",
+      "description": "PCT hook → ad pipeline",
       "target_project": "PCT",
       "acceptance_criteria": [
-        "Hook \u2192 Template \u2192 Image \u2192 Ad creation",
+        "Hook → Template → Image → Ad creation",
         "Batch processing",
         "Review checkpoint"
       ],
@@ -2863,7 +2863,7 @@
       "description": "PCT hook performance feedback",
       "target_project": "PCT",
       "acceptance_criteria": [
-        "Track hook \u2192 ad \u2192 performance",
+        "Track hook → ad → performance",
         "Identify winning hooks",
         "Auto-archive losers"
       ],
@@ -3061,7 +3061,7 @@
       "id": "GAP-002",
       "category": "meta-hub",
       "priority": 0,
-      "description": "Cross-product attribution via segment engine \u2192 CAPI",
+      "description": "Cross-product attribution via segment engine → CAPI",
       "target_project": "Growth Data Plane",
       "acceptance_criteria": [
         "Segment engine fires CAPI on conversion events",
@@ -3084,7 +3084,7 @@
         "shared.person table with email, phone, UTM, Meta fbp/fbc",
         "shared.identity_link for cross-system ID mapping",
         "RLS: service_role only",
-        "WaitlistLab lead form \u2192 person sync"
+        "WaitlistLab lead form → person sync"
       ],
       "passes": true,
       "disabled": true,
@@ -3152,14 +3152,14 @@
       "description": "Automated Custom Audience sync from segments",
       "target_project": "Growth Data Plane",
       "acceptance_criteria": [
-        "Segment \u2192 Meta Custom Audience mapping",
+        "Segment → Meta Custom Audience mapping",
         "PII hashing per Meta spec",
         "Audience replace on segment re-evaluation",
         "Supports: Activated Free Users, High Intent, Power Users, Win-Back, Lookalike seeds"
       ],
       "passes": true,
       "disabled": true,
-      "disabled_reason": "Requires META_CUSTOM_AUDIENCE_SYNC_ENABLED=true \u2014 highest risk, deploy last",
+      "disabled_reason": "Requires META_CUSTOM_AUDIENCE_SYNC_ENABLED=true — highest risk, deploy last",
       "prd": "PRD_META_CROSS_PRODUCT_INTEGRATION.md"
     },
     {
@@ -3168,14 +3168,15 @@
       "description": "Unit tests for sign-in, sign-up, password reset",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Sign-in",
         "Sign-up",
         "Reset",
         "Session"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-002",
@@ -3183,13 +3184,14 @@
       "description": "Unit tests for all API routes",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "All routes",
         "Error cases",
         "Auth middleware"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-003",
@@ -3197,13 +3199,14 @@
       "description": "Unit tests for CRUD helpers",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Create/read/update/delete",
         "Pagination",
         "Search"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-004",
@@ -3211,14 +3214,15 @@
       "description": "Unit tests for validation rules",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Required",
         "Email",
         "Password",
         "Custom"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-005",
@@ -3226,14 +3230,15 @@
       "description": "Unit tests for formatting and helpers",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Date",
         "Currency",
         "String",
         "Edge cases"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-006",
@@ -3241,13 +3246,14 @@
       "description": "Unit tests for stores/context",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Initial state",
         "Actions",
         "Selectors"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-007",
@@ -3255,14 +3261,15 @@
       "description": "Full workflow: sign-up through core action",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Account",
         "Onboard",
         "Action",
         "Verify"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-008",
@@ -3270,13 +3277,14 @@
       "description": "Stripe checkout and webhook test",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Checkout",
         "Webhook",
         "Subscription"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-009",
@@ -3284,14 +3292,15 @@
       "description": "CSV/JSON import and export",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Upload",
         "Map",
         "Import",
         "Export"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-010",
@@ -3299,13 +3308,14 @@
       "description": "Search, filter, and pagination",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Text search",
         "Filters",
         "Pagination"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-011",
@@ -3313,13 +3323,14 @@
       "description": "Playwright auth tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Login",
         "Signup",
         "Protected routes"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-012",
@@ -3327,14 +3338,15 @@
       "description": "Playwright CRUD tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Create",
         "View",
         "Edit",
         "Delete"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-013",
@@ -3342,13 +3354,14 @@
       "description": "Playwright settings tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Profile",
         "Preferences",
         "Persistence"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-014",
@@ -3356,13 +3369,14 @@
       "description": "Playwright breakpoint tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Mobile",
         "Tablet",
         "Desktop"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-015",
@@ -3370,13 +3384,14 @@
       "description": "Playwright error/edge tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "404",
         "Error boundary",
         "Empty state"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-016",
@@ -3384,13 +3399,14 @@
       "description": "Page load optimization",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "LCP < 2.5s",
         "FID < 100ms",
         "CLS < 0.1"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-017",
@@ -3398,13 +3414,14 @@
       "description": "API response times",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "List < 500ms",
         "Detail < 300ms",
         "Search < 500ms"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-018",
@@ -3412,13 +3429,14 @@
       "description": "Query optimization",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No seq scans",
         "Indexes",
         "Plans checked"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-019",
@@ -3426,13 +3444,14 @@
       "description": "50+ concurrent user simulation",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No errors",
         "Response < 2x",
         "No leaks"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-020",
@@ -3440,13 +3459,14 @@
       "description": "Automated a11y scan",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No critical",
         "No serious",
         "ARIA correct"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-021",
@@ -3454,14 +3474,15 @@
       "description": "Screenshot comparison",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dashboard",
         "Lists",
         "Forms",
         "Settings"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-022",
@@ -3469,13 +3490,14 @@
       "description": "Response shape validation",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Shapes match",
         "Errors typed",
         "Pagination"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-023",
@@ -3483,13 +3505,14 @@
       "description": "Unauthenticated rejection",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "401 on API",
         "Redirect pages",
         "No leaks"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-024",
@@ -3497,12 +3520,13 @@
       "description": "XSS and SQL injection tests",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Script sanitized",
         "SQL blocked"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-025",
@@ -3510,13 +3534,14 @@
       "description": "Coverage config and thresholds",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Config",
         "HTML report",
         "Thresholds"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-026",
@@ -3524,13 +3549,14 @@
       "description": "Snapshot critical components",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dashboard",
         "Forms",
         "Modals"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-027",
@@ -3538,13 +3564,14 @@
       "description": "Idempotent test data seeding",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Accounts",
         "Entities",
         "Relations"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-028",
@@ -3552,14 +3579,15 @@
       "description": "Mock external services",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auth",
         "DB",
         "Payment",
         "Email"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-029",
@@ -3567,14 +3595,15 @@
       "description": "Tests in CI pipeline",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Commands",
         "Env vars",
         "Parallel",
         "Reports"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-030",
@@ -3582,13 +3611,14 @@
       "description": "Tests for fixed bugs",
       "category": "testing",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-bug tests",
         "Edge cases",
         "Prevent regressions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-031",
@@ -3596,13 +3626,14 @@
       "description": "CSRF tokens on POST/PUT/DELETE",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Token gen",
         "Validation",
         "Cookie"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-032",
@@ -3610,14 +3641,15 @@
       "description": "Rate limit sign-in/up/reset",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-IP",
         "Per-account",
         "429",
         "Backoff"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-033",
@@ -3625,13 +3657,14 @@
       "description": "Rate limit all APIs",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Per-user",
         "Per-tier",
         "Headers"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-034",
@@ -3639,14 +3672,15 @@
       "description": "Sanitize all user inputs",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Strip HTML",
         "Escape chars",
         "Trim",
         "Length"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-035",
@@ -3654,12 +3688,13 @@
       "description": "Verify parameterized queries",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No concatenation",
         "Parameterized"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-036",
@@ -3667,14 +3702,15 @@
       "description": "CSP, HSTS, X-Frame-Options",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "CSP",
         "HSTS",
         "X-Frame",
         "X-Content-Type"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-037",
@@ -3682,12 +3718,13 @@
       "description": "No secrets in client bundles",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "No client secrets",
         "No .env in git"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-038",
@@ -3695,14 +3732,15 @@
       "description": "Secure token storage/rotation",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "HttpOnly",
         "Secure",
         "SameSite",
         "Rotation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-039",
@@ -3710,14 +3748,15 @@
       "description": "Validate uploads",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "MIME check",
         "Size limit",
         "Whitelist",
         "Isolation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-040",
@@ -3725,13 +3764,14 @@
       "description": "Auth on every endpoint",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Own data only",
         "Admin protected",
         "Role checks"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-041",
@@ -3739,13 +3779,14 @@
       "description": "Automated CVE scanning",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "npm audit",
         "Dependabot",
         "Alerts"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-042",
@@ -3753,13 +3794,14 @@
       "description": "Encrypt PII at rest",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "PII identified",
         "Encrypted",
         "Key mgmt"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-043",
@@ -3767,13 +3809,14 @@
       "description": "Log security-relevant actions",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Auth events",
         "Data access",
         "Admin actions"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-044",
@@ -3781,13 +3824,14 @@
       "description": "Secure sessions with timeouts",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Timeout",
         "Limits",
         "Revocation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-045",
@@ -3795,13 +3839,14 @@
       "description": "Data export/deletion/consent",
       "category": "security",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Export",
         "Deletion",
         "Consent"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-046",
@@ -3809,13 +3854,14 @@
       "description": "Cache expensive queries",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Headers",
         "SWR",
         "Invalidation"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-047",
@@ -3823,13 +3869,14 @@
       "description": "React Query/SWR config",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Stale time",
         "Persistence",
         "Optimistic"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-048",
@@ -3837,12 +3884,13 @@
       "description": "Split bundles per route",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Dynamic imports",
         "Suspense"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-049",
@@ -3850,13 +3898,14 @@
       "description": "next/image, WebP, responsive",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "next/image",
         "WebP",
         "Responsive"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-050",
@@ -3864,13 +3913,14 @@
       "description": "Indexes and pooling",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Indexes",
         "Analysis",
         "Pooling"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-051",
@@ -3878,13 +3928,14 @@
       "description": "gzip/brotli",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Compression",
         "Negotiation",
         "Threshold"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-052",
@@ -3892,13 +3943,14 @@
       "description": "Cursor/offset pagination",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Cursor",
         "Size limits",
         "Total count"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-053",
@@ -3906,13 +3958,14 @@
       "description": "Prevent duplicate calls",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Debounce",
         "Cancel",
         "Dedup"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-054",
@@ -3920,13 +3973,14 @@
       "description": "CDN with long-term cache",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Cache-Control",
         "Hashing",
         "CDN"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-055",
@@ -3934,13 +3988,14 @@
       "description": "DB connection pool config",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Pool size",
         "Timeout",
         "Recycling"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-056",
@@ -3948,13 +4003,14 @@
       "description": "Fix memory leaks",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "SSR leaks",
         "Cleanup",
         "Listeners"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-057",
@@ -3962,13 +4018,14 @@
       "description": "Track bundle regressions",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Analyzer",
         "Budgets",
         "CI check"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-058",
@@ -3976,12 +4033,13 @@
       "description": "Prefetch routes/data",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Link prefetch",
         "Data prefetch"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-059",
@@ -3989,14 +4047,15 @@
       "description": "Track Core Web Vitals",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "LCP",
         "FID",
         "CLS",
         "Dashboard"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-060",
@@ -4004,13 +4063,14 @@
       "description": "React streaming for TTFB",
       "category": "performance",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Suspense",
         "Streaming",
         "Progressive"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-061",
@@ -4018,14 +4078,15 @@
       "description": "Title/desc/OG on all pages",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Titles",
         "Descriptions",
         "OG",
         "Twitter"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-062",
@@ -4033,13 +4094,14 @@
       "description": "Auto-generate sitemap.xml",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "All routes",
         "Priority",
         "Auto-update"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-063",
@@ -4047,12 +4109,13 @@
       "description": "Proper robots.txt",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Allow public",
         "Disallow admin"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-064",
@@ -4060,13 +4123,14 @@
       "description": "Schema.org rich results",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Organization",
         "Product",
         "Breadcrumbs"
-      ]
+      ],
+      "status": "completed"
     },
     {
       "id": "AUTH-WC-065",
@@ -4074,12 +4138,13 @@
       "description": "Prevent duplicate content",
       "category": "seo",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "effort": "4h",
       "criteria": [
         "Canonical tags",
         "Query params"
-      ]
+      ],
+      "status": "completed"
     }
   ]
 }

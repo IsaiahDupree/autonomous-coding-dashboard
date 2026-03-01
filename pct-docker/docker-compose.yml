@@ -1,0 +1,92 @@
+# PCT-WC-111: Docker Compose for PCT System
+version: '3.8'
+
+services:
+  pct-app:
+    build:
+      context: ..
+      dockerfile: pct-docker/Dockerfile
+    container_name: pct-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgresql://pct:pct_password@pct-db:5432/pct
+      - REDIS_URL=redis://pct-redis:6379
+    env_file:
+      - ../.env
+    depends_on:
+      - pct-db
+      - pct-redis
+    networks:
+      - pct-network
+    volumes:
+      - pct-uploads:/app/uploads
+      - pct-logs:/app/logs
+
+  pct-db:
+    image: postgres:15-alpine
+    container_name: pct-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=pct
+      - POSTGRES_PASSWORD=pct_password
+      - POSTGRES_DB=pct
+    volumes:
+      - pct-db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - pct-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pct"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pct-redis:
+    image: redis:7-alpine
+    container_name: pct-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - pct-redis-data:/data
+    networks:
+      - pct-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # PCT-WC-106: Database backup service
+  pct-backup:
+    image: postgres:15-alpine
+    container_name: pct-backup
+    restart: unless-stopped
+    environment:
+      - PGHOST=pct-db
+      - PGUSER=pct
+      - PGPASSWORD=pct_password
+      - PGDATABASE=pct
+    volumes:
+      - pct-backups:/backups
+      - ./backup.sh:/backup.sh
+    entrypoint: /bin/sh
+    command: -c "while true; do sh /backup.sh; sleep 86400; done"
+    depends_on:
+      - pct-db
+    networks:
+      - pct-network
+
+networks:
+  pct-network:
+    driver: bridge
+
+volumes:
+  pct-db-data:
+  pct-redis-data:
+  pct-uploads:
+  pct-logs:
+  pct-backups:

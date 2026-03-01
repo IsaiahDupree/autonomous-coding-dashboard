@@ -1,0 +1,158 @@
+{
+  "features": [
+    {
+      "id": "F-050-001",
+      "name": "ContentAnalyzer class",
+      "description": "Analyze raw extracted content and return ContentAnalysis dataclass. Classify hook_style (question|stat|story|bold_claim|list), format_type, tone via single Claude Haiku prompt with structured JSON output. Word count + CTA detection via heuristics (no AI needed).",
+      "category": "core",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Implemented in content_recreation_agent.py with Claude Haiku integration"
+    },
+    {
+      "id": "F-050-002",
+      "name": "Strategy pattern matching from actp_feedback_strategy",
+      "description": "Query actp_feedback_strategy for target niche+platform. Inject winning_patterns into analysis dict. Compute niche_match_score 0-100 by comparing content tokens against niche keywords from actp_niche_config.",
+      "category": "intelligence",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Implemented in ContentAnalyzer._get_winning_patterns() with niche keyword matching"
+    },
+    {
+      "id": "F-050-003",
+      "name": "ContentRecreator class — Claude Sonnet recreation",
+      "description": "Claude Sonnet prompt that takes ContentAnalysis signals (hook_style, format_type, tone, winning_patterns, brand_voice, target_niche, target_platform, target_format) and returns 2-3 content variants. Include prompt_used in output. Support all 6 formats: thread, caption, short_script, hook_variants, long_form, email.",
+      "category": "core",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Implemented in ContentRecreator with Claude Sonnet, includes all signals in prompt"
+    },
+    {
+      "id": "F-050-004",
+      "name": "recreate_from_url() main entry point",
+      "description": "async def recreate_from_url(url, target_niche, target_platform, target_format, brand_voice=None) -> RecreationResult. Chains: browser_use_agent.browser_task(action='extract') -> ContentAnalyzer.analyze() -> strategy match -> ContentRecreator.recreate() -> INSERT both tables -> return result.",
+      "category": "core",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Complete pipeline: browser_extract -> analyze -> recreate -> DB insert"
+    },
+    {
+      "id": "F-050-005",
+      "name": "recreate_from_batch() for competitor analysis",
+      "description": "Given list of URLs (or keyword string), extract and analyze all in parallel, rank by niche_match_score, recreate only top N (default 3). Returns RecreationBatch with all analysis + recreations. If keyword given, use browser_use_agent search action to discover URLs first.",
+      "category": "feature",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Parallel extraction, ranking by niche_match_score, top-N selection implemented"
+    },
+    {
+      "id": "F-050-006",
+      "name": "Supabase migrations for analysis + recreation tables",
+      "description": "Create supabase/migrations/20260301000011_content_analysis.sql (actp_content_analysis table) and 20260301000012_recreated_content.sql (actp_recreated_content table with FK to analysis).",
+      "category": "database",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Both migrations created with indexes and view v_content_recreation_history"
+    },
+    {
+      "id": "F-050-007",
+      "name": "queue_for_production() — Remotion pipeline integration",
+      "description": "If target_format == 'short_script', INSERT into actp_gen_jobs (niche, platform, content, status='pending', source='content_recreation'). Set gen_job_id on the actp_recreated_content row. This triggers the existing Remotion pipeline.",
+      "category": "integration",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Implemented queue_for_production() with actp_gen_jobs INSERT and FK tracking"
+    },
+    {
+      "id": "F-050-008",
+      "name": "ContentRecreationExecutor workflow executor",
+      "description": "task_type='content_recreate'. Payload: {url, target_niche, target_platform, target_format, brand_voice?, queue_for_prod?}. Validate required fields. Call recreate_from_url(). Return result with variants, analysis summary, gen_job_id if queued. Register in init_executors().",
+      "category": "integration",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Added to workflow_executors.py and registered in init_executors()"
+    },
+    {
+      "id": "F-050-009",
+      "name": "CLI for manual testing",
+      "description": "if __name__ == '__main__' block with argparse. Args: --url, --niche, --platform, --format, --batch, --keyword, --top N, --queue-prod. Print result as formatted JSON. Example: python3 content_recreation_agent.py --url https://x.com/post --niche solopreneur --platform twitter --format thread",
+      "category": "utility",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Complete CLI with argparse supporting single URL, batch, keyword, and discover modes"
+    },
+    {
+      "id": "F-050-010",
+      "name": "Data plane methods",
+      "description": "Add to data_plane.py: content_analyze_url(url, niche, platform) -> ContentAnalysis, content_recreate(analysis_id, format, brand_voice) -> RecreationResult, content_recreation_history(limit=20) -> list, content_queue_for_prod(recreation_id) -> gen_job_id.",
+      "category": "integration",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "All 4 methods added to DataPlane class in data_plane.py"
+    },
+    {
+      "id": "F-050-011",
+      "name": "Seed content-recreate-research workflow definition",
+      "description": "INSERT into actp_workflow_definitions: name='content-recreate-research', steps=[{step=1, task_type='browser_use', payload_template={action:'extract',url:'{{url}}'}}, {step=2, task_type='content_recreate', payload_template={raw_content:'{{step1.data}}', target_niche:'{{niche}}', target_platform:'{{platform}}', target_format:'{{format}}'}}].",
+      "category": "workflow",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Migration 20260301000013_content_recreate_workflow.sql created with 2-step workflow"
+    },
+    {
+      "id": "F-050-012",
+      "name": "Unit tests",
+      "description": "tests/test_content_recreation_agent.py — mock browser_task and Claude API. Test: (a) hook_style correctly parsed from sample posts, (b) recreation prompt includes all analysis signals, (c) short_script triggers actp_gen_jobs INSERT, (d) off-niche content scores < 30, on-niche > 50, (e) batch mode ranks by niche_match_score.",
+      "category": "testing",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Comprehensive tests covering all 5 requirements (a-e) with mocking"
+    },
+    {
+      "id": "F-050-013",
+      "name": "Brand voice config from actp_niche_config",
+      "description": "In ContentRecreator, fetch brand_voice from actp_niche_config.prompt_guidelines for the target niche. Fall back to default: 'direct, educational, founder-to-founder, no fluff'. Cache per-session to avoid repeated DB reads.",
+      "category": "intelligence",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Implemented in ContentRecreator._get_brand_voice() with session cache"
+    },
+    {
+      "id": "F-050-014",
+      "name": "Trending content discovery mode (--discover flag)",
+      "description": "Use browser_use_agent search action with DuckDuckGo: query = '{niche} viral post site:x.com OR site:threads.net'. Extract top 5 result URLs. Run recreate_from_batch() on them. Surface top 3 recreated variants ready for review. Useful for daily content inspiration.",
+      "category": "feature",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-050",
+      "notes": "Integrated in recreate_from_batch() with keyword param and --discover CLI flag"
+    }
+  ]
+}

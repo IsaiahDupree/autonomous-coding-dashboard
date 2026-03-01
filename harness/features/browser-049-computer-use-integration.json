@@ -1,0 +1,136 @@
+{
+  "features": [
+    {
+      "id": "F-049-001",
+      "name": "BrowserUseExecutor class",
+      "description": "workflow_executors.py BrowserUseExecutor with task_type='browser_use'. Extends BaseExecutor. execute() maps payload to BrowserTask, calls browser_use_agent.browser_task(), maps BrowserResult to workflow completion dict.",
+      "category": "integration",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "BrowserUseExecutor added to workflow_executors.py lines 2358-2440"
+    },
+    {
+      "id": "F-049-002",
+      "name": "init_executors registration",
+      "description": "register_executor(BrowserUseExecutor()) added to init_executors() so the executor is available on daemon startup.",
+      "category": "integration",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Added to init_executors() after GmailExecutor"
+    },
+    {
+      "id": "F-049-003",
+      "name": "Payload → BrowserTask mapping with validation",
+      "description": "In BrowserUseExecutor.execute(), validate payload has required fields per action: navigate/extract/screenshot need url OR platform, evaluate needs url+expression, click/type need url+selector, type also needs text, search needs text. Return error result if validation fails.",
+      "category": "integration",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Added _validate_payload() with _REQUIRED_FIELDS dict. Validation returns error dict before dispatching if fields missing. Tests pass."
+    },
+    {
+      "id": "F-049-004",
+      "name": "BrowserResult → workflow complete_task mapping",
+      "description": "Map BrowserResult fields to workflow engine completion payload: {success, data, screenshot_b64, backend, latency_ms, fallback_used, error}. Include backend + fallback_used in task metadata for observability.",
+      "category": "integration",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Output now includes metadata dict with backend, fallback_used, latency_ms. screenshot_b64 is no longer truncated in output."
+    },
+    {
+      "id": "F-049-005",
+      "name": "actp_browser_tasks migration",
+      "description": "Create supabase/migrations/20260301000010_browser_tasks.sql with actp_browser_tasks table: id, task_id, action, url, platform, backend, fallback_used, success, latency_ms, result_preview, screenshot_stored, error_msg, created_at.",
+      "category": "database",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Migration created at supabase/migrations/20260301000010_browser_tasks.sql with indexes on task_id, created_at, action."
+    },
+    {
+      "id": "F-049-006",
+      "name": "Audit log write after each browser task",
+      "description": "After every BrowserUseExecutor.execute(), INSERT into actp_browser_tasks with result summary (first 500 chars of data, screenshot_stored bool, backend used, fallback_used, latency_ms). Use supabase client or data_plane method.",
+      "category": "observability",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "INSERT added to execute() after result mapping, wrapped in try/except. Uses db.get_db() Supabase client. Tests verify INSERT is called."
+    },
+    {
+      "id": "F-049-007",
+      "name": "browser_use_health data plane method",
+      "description": "Add browser_use_health() to data_plane.py that calls browser_use_agent.health_check() and returns dict with per-backend status. Used by workflow engine to verify backends before scheduling browser_use tasks.",
+      "category": "integration",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Added browser_use_health() to DataPlane class in data_plane.py. Delegates to browser_use_agent.health_check()."
+    },
+    {
+      "id": "F-049-008",
+      "name": "Capability registration for browser_use",
+      "description": "In workflow_registration.py, register 'browser_use' capability with metadata: {supported_actions: ['navigate','extract','screenshot','evaluate','click','type','search','health'], backends: ['safari_api','playwright','steipete'], version: '1.0'}.",
+      "category": "integration",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Added CAPABILITY_METADATA dict and register_capability_metadata() to workflow_registration.py. Updates actp_worker_registrations with capability_metadata."
+    },
+    {
+      "id": "F-049-009",
+      "name": "Seed browser-use-research workflow definition",
+      "description": "Insert into actp_workflow_definitions: name='browser-use-research', steps=[{step=1, task_type='browser_use', payload_template={action:'extract',url:'{{url}}'}},{step=2, task_type='save_content', payload_template={source:'browser_use',content:'{{step1.data}}'}}].",
+      "category": "workflow",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Seed migration at supabase/migrations/20260301000011_browser_use_research_workflow.sql with ON CONFLICT upsert."
+    },
+    {
+      "id": "F-049-010",
+      "name": "Integration test for BrowserUseExecutor",
+      "description": "tests/test_browser_use_executor.py — mock browser_use_agent.browser_task. Test: (a) navigate payload dispatches correctly. (b) Failed BrowserResult sets task as failed. (c) audit log INSERT is called. (d) result includes backend in metadata.",
+      "category": "testing",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "9 tests in tests/test_browser_use_executor.py: 4 dispatch tests (a-d) + 5 validation tests. All pass."
+    },
+    {
+      "id": "F-049-011",
+      "name": "blueprint-mcp setup script",
+      "description": "Create scripts/setup_blueprint_mcp.sh: (1) print link to Chrome Web Store extension. (2) Run node cli.js enable to connect extension. (3) Call tools/list to verify connection. (4) Print CONNECTED or FAILED with fix instructions.",
+      "category": "utility",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Created scripts/setup_blueprint_mcp.sh with 3-step flow: install prompt, enable connection, verify tools/list."
+    },
+    {
+      "id": "F-049-012",
+      "name": "ENV_CONFIG.md update for browser automation vars",
+      "description": "Document PLAYWRIGHT_BROWSERS_PATH, PLAYWRIGHT_MCP_CMD, STEIPETE_MCP_PATH, STEIPETE_KB_DIR, SAFARI_INSTAGRAM_DM_URL, SAFARI_TIKTOK_DM_URL, SAFARI_TWITTER_DM_URL, SAFARI_THREADS_DM_URL, SAFARI_LINKEDIN_URL, SAFARI_UPWORK_URL in ENV_CONFIG.md.",
+      "category": "documentation",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-049",
+      "notes": "Created ENV_CONFIG.md with tables for Playwright, Steipete, and Safari platform URL variables."
+    }
+  ]
+}

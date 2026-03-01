@@ -1,0 +1,32 @@
+# PCT-WC-063: robots.txt configuration
+# Robots.txt for Programmatic Creative Testing System
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /__tests__/
+Disallow: /node_modules/
+Disallow: /backend/
+Disallow: /scripts/
+Disallow: /.git/
+Disallow: /harness/
+Disallow: /*?*apiKey=
+Disallow: /*?*token=
+Disallow: /*?*session=
+
+# Sitemap
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
+
+# Allow common bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

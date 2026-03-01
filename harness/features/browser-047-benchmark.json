@@ -1,0 +1,92 @@
+{
+  "features": [
+    {
+      "id": "F-047-001",
+      "name": "Pre-flight check system",
+      "description": "Auto-detect which MCP servers are available before running tests. Call tools/list with 20s timeout. Return (ok, reason) tuple. Skip system gracefully if unreachable — generate zero-latency SKIPPED results for all actions.",
+      "category": "infrastructure",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "preflight_check() and PREFLIGHT_TIMEOUT=20.0 added to run_benchmark.py"
+    },
+    {
+      "id": "F-047-002",
+      "name": "Chromium auto-setup for playwright-mcp",
+      "description": "Detect Chromium revision required by bundled playwright version. Install via bundled CLI if missing. Set PLAYWRIGHT_BROWSERS_PATH=~/Library/Caches/ms-playwright for macOS in MCP_SERVERS env config.",
+      "category": "infrastructure",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "PLAYWRIGHT_BROWSERS_PATH added to playwright env config in MCP_SERVERS. Chromium r1212 installed via npx playwright CLI."
+    },
+    {
+      "id": "F-047-003",
+      "name": "blueprint-mcp skip/defer",
+      "description": "Detect blueprint-mcp requires Chrome extension WebSocket. Add skip_reason field to config. run_system checks skip_reason before spawning any subprocess — never hangs.",
+      "category": "infrastructure",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "skip_reason added to blueprint config. run_system checks it before preflight."
+    },
+    {
+      "id": "F-047-004",
+      "name": "ACTP HTTP API pre-flight",
+      "description": "HTTP GET /api/health or / with 3s timeout to check if instagram-dm service is running. Include base URL in skip message so agent knows how to fix it.",
+      "category": "infrastructure",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "preflight_check handles type=http with 3s timeout check"
+    },
+    {
+      "id": "F-047-005",
+      "name": "Benchmark report generation",
+      "description": "Write BENCHMARK_REPORT.md and benchmark_results.json after every run. Report includes: rankings table, per-action table (all systems × actions), error handling scores, per-action winner with preview text.",
+      "category": "output",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "report generation working, BENCHMARK_REPORT.md regenerated after each run"
+    },
+    {
+      "id": "F-047-006",
+      "name": "Re-run on schedule with --watch flag",
+      "description": "Add --watch N flag to re-run benchmark every N minutes and append results to benchmark_history.json. Print delta scores vs previous run.",
+      "category": "feature",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "Implemented --watch N flag with argparse. Added save_to_history() to track results in benchmark_history.json with delta calculations. Delta scores displayed with visual indicators (🔺🔻━)."
+    },
+    {
+      "id": "F-047-007",
+      "name": "Tier-2 action correctness scoring",
+      "description": "For playwright computer-use actions: check that snapshot/extract results contain real DOM content (not error messages about missing browser). Score result_useful=True only when content length >200 chars and does not contain 'is not installed'.",
+      "category": "scoring",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "Added result_useful property to TestResult that validates tier-2 actions. Checks for error indicators ('is not installed', 'browser not found', etc), requires >200 chars, and validates presence of DOM/HTML markers. Added 'TIER-2 ACTION CORRECTNESS' section to report output with useful_rate tracking."
+    },
+    {
+      "id": "F-047-008",
+      "name": "Benchmark CI integration",
+      "description": "Add Makefile target 'make benchmark' that runs the benchmark script. Add .github/workflows/benchmark.yml that runs on push to main and posts condensed results as workflow summary.",
+      "category": "ci",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-047",
+      "notes": "Created Makefile with 'benchmark', 'benchmark-watch', 'clean', and 'help' targets. Created .github/workflows/benchmark.yml that runs on push to main/master, sets up Python and Node.js, runs benchmark, validates outputs, posts condensed results to workflow summary, and uploads artifacts."
+    }
+  ]
+}

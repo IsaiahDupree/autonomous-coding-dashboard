@@ -1,0 +1,169 @@
+{
+  "features": [
+    {
+      "id": "F-048-001",
+      "name": "Safari API health check",
+      "description": "Fast 2s probe to /api/health or / before dispatching to platform-specific Safari API. Set fallback_used=True and skip to playwright if API is down.",
+      "category": "infrastructure",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "Implemented in _safari_api_available() in browser_use_agent.py"
+    },
+    {
+      "id": "F-048-002",
+      "name": "playwright-mcp navigate/snapshot",
+      "description": "browser_navigate + browser_snapshot MCP tool calls for page navigation and accessibility tree extraction. Returns text content of snapshot.",
+      "category": "feature",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_playwright_navigate() and _playwright_snapshot() implemented"
+    },
+    {
+      "id": "F-048-003",
+      "name": "playwright-mcp screenshot",
+      "description": "browser_take_screenshot MCP tool call (NOT browser_screenshot — correct tool name). Returns base64 PNG. Navigate to URL first if provided.",
+      "category": "feature",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_playwright_screenshot() uses browser_take_screenshot — tool name verified from MCP schema"
+    },
+    {
+      "id": "F-048-004",
+      "name": "playwright-mcp evaluate",
+      "description": "browser_evaluate MCP tool call for JS expression execution. Navigate to URL first if provided. Returns expression result as text.",
+      "category": "feature",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_playwright_evaluate() implemented"
+    },
+    {
+      "id": "F-048-005",
+      "name": "playwright-mcp click + type",
+      "description": "Extract domRef from snapshot. Then browser_click / browser_type using the ref. Used for form_fill and click_element workflow actions.",
+      "category": "feature",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_playwright_click() and _playwright_type() implemented with domRef extraction"
+    },
+    {
+      "id": "F-048-006",
+      "name": "playwright-mcp extract",
+      "description": "Navigate + snapshot → return accessibility tree as structured text for LLM consumption. Strip UI chrome, return readable content.",
+      "category": "feature",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_playwright_extract() implemented"
+    },
+    {
+      "id": "F-048-007",
+      "name": "DuckDuckGo web search action",
+      "description": "search action navigates to duckduckgo.com?q=URL-encoded-query and extracts results via snapshot. Returns top results as text.",
+      "category": "feature",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "Implemented via _playwright_extract with DDG URL"
+    },
+    {
+      "id": "F-048-008",
+      "name": "steipete AppleScript tertiary fallback",
+      "description": "For navigate and evaluate only: spawn steipete/macos-automator-mcp and use execute_script with tell application Safari to open location / do JavaScript. Last resort when both Safari API and playwright fail.",
+      "category": "feature",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_steipete_navigate() and _steipete_evaluate() implemented"
+    },
+    {
+      "id": "F-048-009",
+      "name": "macOS PLAYWRIGHT_BROWSERS_PATH fix",
+      "description": "Set PLAYWRIGHT_BROWSERS_PATH=~/Library/Caches/ms-playwright in env when spawning playwright MCP subprocess. Playwright on macOS uses ~/Library/Caches not ~/.cache.",
+      "category": "bugfix",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "_PLAYWRIGHT_BROWSERS_PATH set at module level, injected in _mcp_call env"
+    },
+    {
+      "id": "F-048-010",
+      "name": "health_check() utility",
+      "description": "Async function that checks all backends: playwright (browser_navigate to example.com), steipete (execute_script ping), and each Safari API platform (HTTP /api/health). Returns dict with per-backend status string.",
+      "category": "utility",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "health_check() implemented, returns dict keyed by backend name"
+    },
+    {
+      "id": "F-048-011",
+      "name": "CLI for manual testing",
+      "description": "python3 browser_use_agent.py --action navigate --url https://example.com runs the action and prints result. --action health prints all backend statuses. Used for quick validation without writing test code.",
+      "category": "utility",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "CLI implemented in __main__ block (lines 613-658) with full argparse support for all actions"
+    },
+    {
+      "id": "F-048-012",
+      "name": "Unit tests for fallback chain",
+      "description": "tests/test_browser_use_agent.py — use unittest.mock to patch _mcp_call and _safari_api_available. Test: (a) Safari API success skips playwright. (b) Safari API failure triggers playwright fallback. (c) playwright failure triggers steipete. (d) Correct tool name browser_take_screenshot used for screenshots.",
+      "category": "testing",
+      "priority": 1,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "Comprehensive test suite created with 7 tests covering all fallback scenarios. All tests pass."
+    },
+    {
+      "id": "F-048-013",
+      "name": "Retry on transient errors",
+      "description": "Add 1 retry with 1s delay for playwright actions that fail with 'timeout' or 'connection refused'. Do not retry on 'not installed' or permanent errors.",
+      "category": "reliability",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "Implemented _with_retry wrapper that retries transient errors once with 1s delay. Verified with unit tests."
+    },
+    {
+      "id": "F-048-014",
+      "name": "Persistent playwright session (PlaywrightSession context manager)",
+      "description": "Instead of spawning a new playwright-mcp process per call, keep a persistent subprocess alive for the duration of a task batch. Implement PlaywrightSession async context manager. Reduces per-call overhead from ~3s to ~100ms.",
+      "category": "performance",
+      "priority": 2,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "PlaywrightSession context manager implemented with persistent subprocess, initialize handling, and proper cleanup"
+    },
+    {
+      "id": "F-048-015",
+      "name": "Screenshot save to disk helper",
+      "description": "save_screenshot(result: BrowserResult, path: str) helper that writes screenshot_b64 to a PNG file. Useful for debugging agent failures.",
+      "category": "utility",
+      "priority": 3,
+      "status": "completed",
+      "passes": true,
+      "prd": "PRD-048",
+      "notes": "save_screenshot() helper implemented with base64 decoding and error handling. Verified with unit tests."
+    }
+  ]
+}

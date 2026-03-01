@@ -2047,4 +2047,86 @@ router.get('/integrations/status', (req: Request, res: Response) => {
   });
 });
 
+// ============================================
+// CF-WC-018: DB Performance Endpoints
+// ============================================
+
+router.get('/db/indexes', async (req: Request, res: Response) => {
+  try {
+    // Get indexes for Content Factory tables
+    const indexes = await prisma.$queryRaw`
+      SELECT
+        tablename,
+        indexname,
+        indexdef
+      FROM pg_indexes
+      WHERE schemaname = 'public'
+        AND tablename LIKE 'cf_%'
+      ORDER BY tablename, indexname;
+    `;
+
+    res.json({ indexes });
+  } catch (error: any) {
+    res.status(500).json({ error: { message: error.message } });
+  }
+});
+
+router.get('/db/explain', async (req: Request, res: Response) => {
+  try {
+    const { query } = req.query;
+
+    let queryPlan: any;
+
+    switch (query) {
+      case 'list_dossiers':
+        queryPlan = await prisma.$queryRaw`
+          EXPLAIN (FORMAT JSON, ANALYZE, BUFFERS)
+          SELECT * FROM cf_product_dossiers
+          ORDER BY created_at DESC
+          LIMIT 20;
+        `;
+        break;
+
+      case 'get_dossier_by_id':
+        queryPlan = await prisma.$queryRaw`
+          EXPLAIN (FORMAT JSON, ANALYZE, BUFFERS)
+          SELECT * FROM cf_product_dossiers
+          WHERE id = '00000000-0000-0000-0000-000000000000'
+          LIMIT 1;
+        `;
+        break;
+
+      case 'search_dossiers':
+        queryPlan = await prisma.$queryRaw`
+          EXPLAIN (FORMAT JSON, ANALYZE, BUFFERS)
+          SELECT * FROM cf_product_dossiers
+          WHERE name ILIKE '%test%'
+          LIMIT 20;
+        `;
+        break;
+
+      case 'dossiers_with_scripts':
+        queryPlan = await prisma.$queryRaw`
+          EXPLAIN (FORMAT JSON, ANALYZE, BUFFERS)
+          SELECT d.*, s.*
+          FROM cf_product_dossiers d
+          LEFT JOIN cf_scripts s ON s.dossier_id = d.id
+          LIMIT 20;
+        `;
+        break;
+
+      default:
+        res.status(400).json({ error: { message: 'Invalid query type' } });
+        return;
+    }
+
+    // Extract the plan from the result
+    const plan = Array.isArray(queryPlan) && queryPlan.length > 0 ? queryPlan[0] : queryPlan;
+
+    res.json({ plan, queryType: query });
+  } catch (error: any) {
+    res.status(500).json({ error: { message: error.message } });
+  }
+});
+
 export default router;

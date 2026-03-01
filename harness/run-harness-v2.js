@@ -41,16 +41,17 @@ const AVAILABLE_MODELS = [
 let currentModelIndex = 0;
 let modelRateLimitStatus = {}; // Track rate limit status per model
 
-function createConfig(projectRoot) {
+function createConfig(projectRoot, projectId) {
+  const ns = projectId && projectId !== 'default' && projectId !== path.basename(projectRoot) ? `-${projectId}` : '';
   return {
-    progressFile: path.join(projectRoot, 'claude-progress.txt'),
+    progressFile: path.join(projectRoot, `claude-progress${ns}.txt`),
     featureList: path.join(projectRoot, 'feature_list.json'),
     initScript: path.join(projectRoot, 'init.sh'),
     initializerPrompt: path.join(__dirname, 'prompts/initializer.md'),
     codingPrompt: path.join(__dirname, 'prompts/coding.md'),
-    statusFile: path.join(projectRoot, 'harness-status.json'),
-    metricsFile: path.join(projectRoot, 'harness-metrics.json'),
-    outputLog: path.join(projectRoot, 'harness-output.log'),
+    statusFile: path.join(projectRoot, `harness-status${ns}.json`),
+    metricsFile: path.join(projectRoot, `harness-metrics${ns}.json`),
+    outputLog: path.join(projectRoot, `harness-output${ns}.log`),
 
     // Session settings
     maxSessions: 100,
@@ -460,7 +461,19 @@ function getPrompt() {
     throw new Error(`Prompt file not found: ${promptFile}`);
   }
   
-  return fs.readFileSync(promptFile, 'utf-8');
+  let promptContent = fs.readFileSync(promptFile, 'utf-8');
+
+  // When using a custom feature list (not the project-root default), append
+  // tracking instructions so Claude knows the exact path and how to mark done.
+  const defaultFeatureList = path.join(PROJECT_ROOT, 'feature_list.json');
+  if (CONFIG.featureList !== defaultFeatureList && fs.existsSync(CONFIG.featureList)) {
+    const features = JSON.parse(fs.readFileSync(CONFIG.featureList, 'utf-8')).features || [];
+    const pending = features.filter(f => !f.passes);
+    const pendingIds = pending.map(f => f.id).join(', ');
+    promptContent += `\n\n---\n## Feature Tracking (REQUIRED)\n\nYour feature list is at:\n\`${CONFIG.featureList}\`\n\n**Pending feature IDs**: ${pendingIds || '(none — all done!)'}\n\nAfter implementing and testing each feature:\n1. Read the JSON at the path above\n2. Find the matching feature by \`id\`\n3. Set \`"passes": true\` and \`"status": "completed"\` on it\n4. Write the updated JSON back to that exact file path\n\nDo this for EVERY feature you complete in this session. The harness measures progress by counting \`passes: true\` entries in that file.\n`;
+  }
+
+  return promptContent;
 }
 
 function parseSessionOutput(output) {
@@ -966,11 +979,11 @@ function getArgValue(argv, name) {
 }
 
 const cliProjectRoot = getArgValue(args, '--path') || getArgValue(args, '--project-root') || process.env.PROJECT_ROOT;
+PROJECT_ID = getArgValue(args, '--project') || process.env.PROJECT_ID || path.basename(cliProjectRoot || PROJECT_ROOT);
 if (cliProjectRoot) {
   PROJECT_ROOT = path.resolve(cliProjectRoot);
-  CONFIG = createConfig(PROJECT_ROOT);
+  CONFIG = createConfig(PROJECT_ROOT, PROJECT_ID);
 }
-
 PROJECT_ID = getArgValue(args, '--project') || process.env.PROJECT_ID || path.basename(PROJECT_ROOT);
 PROMPT_OVERRIDE = getArgValue(args, '--prompt') || process.env.PROMPT_FILE || null;
 INITIALIZER_PROMPT_OVERRIDE = getArgValue(args, '--initializer-prompt') || null;

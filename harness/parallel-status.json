@@ -1,36 +1,31 @@
 {
-  "workers": {
-    "1": {
-      "currentRepo": "prd-010-actp-pipeline",
-      "currentName": "PRD-010: ACTP Pipeline (ContentLite)",
-      "startedAt": "2026-02-28T16:54:49.159Z"
-    },
-    "2": {
-      "currentRepo": "programmatic-ads",
-      "currentName": "Programmatic Creative Testing",
-      "startedAt": "2026-02-28T16:54:49.164Z"
-    },
-    "3": {
-      "currentRepo": "content-factory",
-      "currentName": "Content Factory",
-      "startedAt": "2026-02-28T16:54:49.169Z"
-    },
-    "4": {
-      "currentRepo": "lead-form-management",
-      "currentName": "Lead Form Management",
-      "startedAt": "2026-02-28T16:54:49.173Z"
-    },
-    "5": {
-      "currentRepo": "cross-system-integration",
-      "currentName": "Cross-System Integration",
-      "startedAt": "2026-02-28T16:54:49.176Z"
-    },
-    "6": {
-      "currentRepo": "softwarehub-products",
-      "currentName": "SoftwareHub Products Suite",
-      "startedAt": "2026-02-28T16:54:49.180Z"
-    }
-  },
-  "completedRepos": [],
+  "workers": {},
+  "completedRepos": [
+    "prd-107-crossplatform-adaptation",
+    "prd-101-agent-spawner",
+    "prd-102-content-generation-agent",
+    "prd-100-cognitive-orchestrator",
+    "prd-108-thumbnail-generator",
+    "prd-114-acquisition-domain-agent",
+    "prd-106-hookgate-integration",
+    "prd-115-revenue-analytics-domain-agent",
+    "prd-047-mcp-benchmark",
+    "prd-112-social-media-domain-agent",
+    "prd-110-content-consistency-dashboard",
+    "prd-113-content-creation-domain-agent",
+    "prd-105-renderer-volume-engine",
+    "prd-119-product-launch-agent",
+    "prd-120-cross-agent-goal-optimizer",
+    "prd-104-revenue-analytics-agent",
+    "prd-048-browser-use-agent",
+    "prd-121-mcp-registry-discovery",
+    "prd-049-computer-use-integration",
+    "prd-050-content-recreation",
+    "prd-122-claude-code-agent-launcher",
+    "prd-103-acquisition-agent",
+    "acd-live-dashboard",
+    "softwarehub-products",
+    "test-mcp-native-tool-calling"
+  ],
   "startedAt": "2026-02-28T16:49:48.893Z"
 }

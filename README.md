@@ -1,25 +1,53 @@
-# Autonomous Coding Dashboard (ACD)
+# Autonomous Coding Dashboard
 
 [![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)](https://github.com/IsaiahDupree/autonomous-coding-dashboard)
-[![Targets](https://img.shields.io/badge/Targets_Complete-9%2F16-blue?style=for-the-badge)](#-achievements)
 [![Features](https://img.shields.io/badge/Features-2%2C040%2B-purple?style=for-the-badge)](#-achievements)
+[![Systems](https://img.shields.io/badge/Systems-3-orange?style=for-the-badge)](#-systems)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-> **Building software autonomously with AI** - A production-grade system for managing, monitoring, and executing autonomous AI-powered software development across multiple projects.
+> **Autonomous AI-powered systems at scale** - A production-grade platform integrating autonomous software development, programmatic ad creative testing, and content factory pipelines.
+
+---
+
+## 📖 Table of Contents
+
+- [Overview](#-overview)
+- [Systems](#-systems)
+- [Quick Start](#-quick-start)
+- [Architecture](#-architecture)
+- [Technology Stack](#%EF%B8%8F-technology-stack)
+- [Documentation](#-documentation)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🎯 Overview
+
+This repository contains **three integrated autonomous systems** designed to automate complex business processes using AI agents powered by Claude:
+
+1. **Autonomous Coding Dashboard (ACD)** - Harness system for autonomous software development
+2. **Programmatic Creative Testing (PCT)** - Systematic Facebook ad creative generation and testing
+3. **Content Factory (CF)** - Multi-platform content production pipeline
+
+Each system leverages AI agents to automate workflows that traditionally require significant human effort, transforming manual processes into systematic, data-driven operations.
+
+---
 
 ## 🏆 Achievements
 
-As of **February 2026**, ACD has achieved remarkable milestones:
+As of **March 2026**:
 
 | Metric | Value |
 |--------|-------|
 | **Projects Completed** | 9 autonomous builds |
-| **Features Implemented** | 2,040+ features |
+| **Total Features** | 2,040+ features |
 | **Total Investment** | ~$390 |
 | **Success Rate** | 90.8% |
 | **Cost per Feature** | ~$0.19 |
+| **Active Systems** | 3 production systems |
 
-### Completed Projects
+### Completed Projects (ACD)
 - **MediaPoster** (538 features) - Social media management platform
 - **GapRadar** (328 features) - Market analysis tool
 - **CanvasCast** (175 features) - Creative collaboration
@@ -30,175 +58,490 @@ As of **February 2026**, ACD has achieved remarkable milestones:
 - **SteadyLetters** (99 features) - Newsletter management
 - **VelvetHold** (93 features) - Secure data management
 
-[View Full Achievements](docs/ACHIEVEMENTS.md) | [Architecture](docs/ARCHITECTURE.md) | [Metrics Guide](docs/METRICS_GUIDE.md)
+[View Full Achievements](docs/ACHIEVEMENTS.md) | [Architecture](docs/ARCHITECTURE.md)
 
 ---
 
-## 🎯 Features
+## 🚀 Systems
 
-### Real-Time Monitoring
-- **Live Session Tracking**: Monitor active coding sessions with real-time progress updates
-- **Feature Implementation Status**: Track all 200 test cases with pass/pending indicators
-- **Activity Timeline**: View recent work, commits, and command executions
-- **Progress Visualization**: Interactive charts showing feature completion over time
+### 1️⃣ Autonomous Coding Dashboard (ACD)
 
-### Analytics & Insights
-- **Usage Statistics**: API token consumption, session duration, and cost tracking
-- **Command Execution Logs**: Monitor all bash commands with security allowlist validation
-- **Git Commit History**: Track version control activity with detailed commit information
-- **Performance Metrics**: Average time per feature, success rates, and throughput analysis
+**Purpose**: Monitor and control autonomous AI agents that build entire software applications from feature specifications.
 
-### Visual Design
-- **Modern Dark Theme**: Sleek glassmorphism effects with vibrant accent colors
-- **Responsive Layout**: Fully responsive design that works on all devices
-- **Interactive Charts**: Chart.js visualizations for data analysis
-- **Smooth Animations**: Micro-interactions and transitions for enhanced UX
+**Key Features**:
+- 📊 **Real-time Session Monitoring** - Live agent progress tracking
+- 🎯 **Feature Management** - Track 2,000+ features across multiple projects
+- 🤖 **Multi-Agent Orchestration** - Initializer & coding agents working in tandem
+- 📈 **Analytics Dashboard** - Token usage, cost tracking, success rates
+- 🔄 **Continuous Execution** - Sessions run until all features pass
+- 🧪 **Automated Testing** - E2E tests with Playwright integration
+
+**Access**:
+- Dashboard: `index.html`
+- Control Panel: `control.html`
+- Queue Management: `queue.html`
+
+[📚 View ACD Documentation →](docs/ARCHITECTURE.md)
+
+---
+
+### 2️⃣ Programmatic Creative Testing (PCT)
+
+**Purpose**: Transform Facebook advertising from "creative guesswork" into a systematic, data-driven testing process.
+
+**Core Philosophy**: Instead of randomly creating ads and hoping they work, systematically test marketing parameters (USPs, angles, frameworks, awareness levels) to discover what resonates with customers.
+
+**Key Features**:
+- 🎨 **Brand & Product Management** - Organize campaigns by brand/product hierarchy
+- 💬 **Voice of Customer (VoC)** - Collect and analyze customer language
+- 🎯 **USP & Marketing Angles** - Generate strategic positioning from product features
+- ✍️ **Hook Generation** - AI-powered ad copy using proven frameworks
+- 🖼️ **Creative Templates** - Apply hooks to visual templates at scale
+- 🎬 **Video Scripts** - Generate Hook → Lid → Body → CTA video structures
+- 📊 **Meta Integration** - Deploy ads to Facebook via Marketing API
+- 📈 **Performance Tracking** - Sync metrics and identify winning creatives
+- 🔄 **Iteration Engine** - Double down on winners, kill losers
+
+**Frameworks**:
+- **Customer Awareness Levels** (Eugene Schwartz): Unaware → Problem Aware → Solution Aware → Product Aware → Most Aware
+- **Market Sophistication** (1-5): New category → Competition → Unique mechanism → Proof-based → Identification
+- **Messaging Styles**: Punchy, Bold Statements, Desire Future States, Question-Based, Problem-Agitation, Social Proof
+
+**Access**:
+- Dashboard: `pct.html`
+- API: `backend/src/routes/pct.ts`
+- Database Models: `backend/prisma/schema.prisma` (PctBrand, PctProduct, PctHook, etc.)
+
+[📚 View PCT Documentation →](docs/PRD-Programmatic-Creative-Testing.md)
+
+---
+
+### 3️⃣ Content Factory (CF)
+
+**Purpose**: Autonomous multi-platform content production system that generates, assembles, and publishes content at scale.
+
+**Key Features**:
+- 📝 **Product Dossiers** - Comprehensive product information repository
+- 🎥 **Script Generation** - Platform-specific content scripts (YouTube, TikTok, Instagram)
+- 🖼️ **Image Generation** - AI-generated visual assets
+- 🎬 **Video Production** - Automated video creation pipeline
+- 📦 **Content Assembly** - Combine scripts, visuals, and audio
+- 🚀 **Multi-Platform Publishing** - Deploy to YouTube, TikTok, Instagram, etc.
+- 📊 **Performance Analytics** - Track engagement across platforms
+- 🔄 **Angle Testing** - Test different marketing angles and messaging
+
+**Workflow**:
+```
+Product Dossier → Script Generation → Asset Creation → Assembly → Publishing → Analytics
+```
+
+**Access**:
+- API: `backend/src/routes/content-factory.ts`
+- Database Models: `backend/prisma/schema.prisma` (CfProductDossier, CfScript, etc.)
+
+[📚 View CF Documentation →](docs/CONTENT_FACTORY_README.md)
+
+---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Node.js (optional, for local development server)
+
+```bash
+# Required
+- Node.js 18+ (for backend)
+- PostgreSQL 14+ (for database)
+- Redis 7+ (for job queues)
+
+# Optional
+- Docker & Docker Compose (for containerized deployment)
+```
 
 ### Installation
 
-1. **Clone or download this repository**:
-   ```bash
-   cd /Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard
-   ```
+1. **Clone the repository**:
+```bash
+git clone https://github.com/IsaiahDupree/autonomous-coding-dashboard.git
+cd autonomous-coding-dashboard
+```
 
-2. **Open the dashboard**:
-   
-   **Option A: Direct File Access**
-   ```bash
-   open index.html
-   ```
-   
-   **Option B: Local Server (Recommended)**
-   ```bash
-   # Using npx (no installation required)
-   npx -y serve .
-   
-   # Or using Python
-   python3 -m http.server 3000
-   ```
+2. **Install dependencies**:
+```bash
+# Root dependencies
+npm install
 
-3. **Access the dashboard**:
-   - If using a server: http://localhost:3000
-   - If opening directly: The file will open in your default browser
+# Backend dependencies
+cd backend
+npm install
+cd ..
+```
 
-## 📊 Dashboard Components
+3. **Set up environment variables**:
+```bash
+# Copy example env files
+cp .env.example .env
+cp backend/.env.example backend/.env
 
-### Key Metrics Overview
-Four stat cards displaying:
-- Total features completed (142/200)
-- Active sessions count
-- Success rate percentage
-- API token usage and costs
+# Edit .env files with your configuration
+# Required: DATABASE_URL, ANTHROPIC_API_KEY, REDIS_URL
+```
 
-### Progress Tracking
-- **Current Session Progress Bar**: Visual indicator of feature completion
-- **Feature Completion Timeline**: Line chart showing progress over time
-- **Session Statistics**: Detailed metrics for the current coding session
+4. **Initialize the database**:
+```bash
+cd backend
+npx prisma migrate deploy
+npx prisma db seed
+cd ..
+```
 
-### Activity Monitoring
-- **Recent Activity Timeline**: Live feed of agent actions
-- **Feature Status Table**: Sortable/filterable list of all features
-- **Command Execution Log**: Real-time command monitoring with status indicators
+5. **Start the services**:
+```bash
+# Option A: Using the init script
+./init.sh
 
-### Usage Analytics
-- **API Token Usage Chart**: Bar chart showing input/output token consumption
-- **Command Execution Chart**: Doughnut chart of command frequency by type
+# Option B: Manual startup
+npm run dev              # Start frontend dev server
+cd backend && npm run dev  # Start backend API
+```
 
-### Session History
-- **All Sessions Overview**: Cards for each session with key metrics
-- **Git Commit Timeline**: Chronological view of all version control activity
+6. **Access the applications**:
+- **ACD Dashboard**: http://localhost:3000
+- **PCT System**: http://localhost:3000/pct.html
+- **Backend API**: http://localhost:4000
+- **API Docs**: http://localhost:4000/api-docs (if Swagger enabled)
 
-## 🎨 Customization
+### Docker Deployment
 
-### Modifying Mock Data
-Edit `mock-data.js` to customize the displayed data:
-- Change feature count (currently 200)
-- Update session information
-- Modify token usage statistics
-- Adjust command execution logs
+```bash
+# Build and start all services
+docker-compose up -d
 
-### Styling Changes
-Edit `index.css` to customize the appearance:
-- Color palette (lines 6-16)
-- Spacing and layout (lines 37-43)
-- Typography and fonts (lines 49-51)
+# View logs
+docker-compose logs -f
 
-### Adding Real Data
-To connect to a real autonomous coding agent:
+# Stop services
+docker-compose down
+```
 
-1. **Replace mock data** with API calls in `app.js`
-2. **Set up a backend** to serve agent data
-3. **Update data fetch functions** to pull from your API
-4. **Configure WebSocket** for real-time updates (optional)
+---
 
-## 📁 Project Structure
+## 🏗️ Architecture
+
+### System Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Frontend Layer                          │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+│  │    ACD      │  │     PCT     │  │      CF     │        │
+│  │  Dashboard  │  │   System    │  │  Content    │        │
+│  └─────────────┘  └─────────────┘  └─────────────┘        │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   Backend API (Express)                     │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
+│  │   Auth   │  │  Harness │  │   PCT    │  │    CF    │  │
+│  │  Routes  │  │  Routes  │  │  Routes  │  │  Routes  │  │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘  │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+┌────────────┐  ┌────────────┐  ┌────────────┐
+│ PostgreSQL │  │   Redis    │  │  External  │
+│  Database  │  │ Job Queue  │  │  Services  │
+│            │  │            │  │  (Meta,    │
+│  - Users   │  │  - BullMQ  │  │  Claude,   │
+│  - Orgs    │  │  - Workers │  │  etc.)     │
+│  - Features│  │  - Crons   │  │            │
+│  - Sessions│  │            │  │            │
+└────────────┘  └────────────┘  └────────────┘
+```
+
+### Project Structure
 
 ```
 autonomous-coding-dashboard/
-├── index.html          # Main HTML structure
-├── index.css           # Design system & styles
-├── app.js              # Application logic & chart setup
-├── mock-data.js        # Simulated agent data
-└── README.md           # This file
+├── frontend/              # React/Next.js frontend (if applicable)
+├── backend/              # Express.js API server
+│   ├── src/
+│   │   ├── auth.ts      # Authentication & authorization
+│   │   ├── index.ts     # Main server entry point
+│   │   ├── routes/      # API route handlers
+│   │   │   ├── content-factory.ts
+│   │   │   ├── pct.ts
+│   │   │   └── gdpr.ts
+│   │   ├── services/    # Business logic services
+│   │   │   ├── audit-logger.ts
+│   │   │   ├── cache-service.ts
+│   │   │   ├── session-manager.ts
+│   │   │   └── image-optimizer.ts
+│   │   ├── middleware/  # Express middleware
+│   │   ├── db/          # Database utilities
+│   │   └── utils/       # Helper functions
+│   ├── prisma/
+│   │   ├── schema.prisma   # Database schema
+│   │   └── migrations/     # Database migrations
+│   └── __tests__/       # Backend tests
+├── harness/             # Agent harness system
+│   ├── run-harness.js   # Main harness runner
+│   ├── prompts/         # Agent system prompts
+│   └── features/        # Feature specifications
+├── docs/                # Documentation
+│   ├── DATABASE_SCHEMA.md
+│   ├── CONTENT_FACTORY_API.md
+│   ├── PRD-Programmatic-Creative-Testing.md
+│   └── prd/            # Product requirement docs
+├── packages/            # Shared packages
+│   ├── auth/           # Authentication package
+│   ├── infrastructure/ # Infrastructure utilities
+│   └── platform/       # Platform integrations
+├── public/             # Static assets
+├── scripts/            # Utility scripts
+├── e2e/               # End-to-end tests
+├── index.html         # ACD Dashboard
+├── pct.html           # PCT Dashboard
+├── control.html       # Harness Control Panel
+├── queue.html         # Queue Management
+└── README.md          # This file
 ```
 
-## 🔒 Security Features
-
-The dashboard displays security-related information from the autonomous coding agent:
-- **Command Allowlist Monitoring**: Shows which commands are permitted
-- **Blocked Command Detection**: Highlights security violations
-- **Safe Mode Indicator**: Visual indicator of security status
+---
 
 ## 🛠️ Technology Stack
 
-- **HTML5**: Semantic markup
-- **CSS3**: Custom properties, grid, flexbox, animations
-- **Vanilla JavaScript**: No framework dependencies
-- **Chart.js**: Data visualization library
-- **Google Fonts**: Inter & JetBrains Mono
+### Frontend
+- **HTML5/CSS3** - Semantic markup & modern styling
+- **Vanilla JavaScript** - No framework dependencies for dashboards
+- **Chart.js** - Data visualization
+- **Inter & JetBrains Mono** - Typography
+- **Responsive Design** - Mobile-first approach
 
-## 📈 Data Points Tracked
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web application framework
+- **Prisma** - Database ORM
+- **PostgreSQL** - Primary database
+- **Redis** - Caching & job queues
+- **BullMQ** - Background job processing
+- **Socket.io** - Real-time communication
 
-- Features completed vs. pending (200 total)
-- Session count and duration
-- API token usage (input/output)
-- Command execution frequency
-- Git commits and file changes
-- Success/failure rates
-- Time per feature metrics
-- Cost analysis
+### AI & Integrations
+- **Anthropic Claude SDK** - AI agent capabilities
+- **Meta Marketing API** - Facebook ad deployment
+- **Remotion** - Video generation (future)
+- **Resend/SendGrid** - Transactional emails
+
+### DevOps & Testing
+- **Docker** - Containerization
+- **Vitest** - Unit testing
+- **Playwright** - E2E testing
+- **GitHub Actions** - CI/CD pipelines
+
+---
+
+## 📚 Documentation
+
+### Core Documentation
+- [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - System design and components
+- [**DATABASE_SCHEMA.md**](docs/DATABASE_SCHEMA.md) - Complete database schema with ER diagrams
+- [**ACHIEVEMENTS.md**](docs/ACHIEVEMENTS.md) - Project milestones and statistics
+
+### System-Specific Docs
+
+#### ACD (Autonomous Coding Dashboard)
+- [AUTONOMOUS_SYSTEM_MASTER.md](docs/AUTONOMOUS_SYSTEM_MASTER.md) - Master system overview
+- [ACTP_ARCHITECTURE.md](docs/ACTP_ARCHITECTURE.md) - Agent architecture
+- [HARNESS_DB_TRACKING.md](docs/HARNESS_DB_TRACKING.md) - Database tracking
+
+#### PCT (Programmatic Creative Testing)
+- [PRD-Programmatic-Creative-Testing.md](docs/PRD-Programmatic-Creative-Testing.md) - Product requirements
+- [FEATURES-Programmatic-Creative-Testing.md](docs/FEATURES-Programmatic-Creative-Testing.md) - Feature list
+- [IMPLEMENTATION_DECISION_PCT.md](docs/IMPLEMENTATION_DECISION_PCT.md) - Implementation decisions
+
+#### CF (Content Factory)
+- [CONTENT_FACTORY_README.md](docs/CONTENT_FACTORY_README.md) - System overview
+- [CONTENT_FACTORY_API.md](docs/CONTENT_FACTORY_API.md) - API documentation
+- [CONTENT_FACTORY_DATABASE_SCHEMA.md](docs/CONTENT_FACTORY_DATABASE_SCHEMA.md) - Database schema
+- [CONTENT_FACTORY_DEPLOYMENT.md](docs/CONTENT_FACTORY_DEPLOYMENT.md) - Deployment guide
+- [CONTENT_FACTORY_TESTING.md](docs/CONTENT_FACTORY_TESTING.md) - Testing strategy
+- [PRD-Content-Factory.md](docs/PRD-Content-Factory.md) - Product requirements
+
+### Integration & Business
+- [INTEGRATION_WAITLISTLAB_META.md](docs/INTEGRATION_WAITLISTLAB_META.md) - WaitlistLab integration
+- [UNIFIED_PLATFORM_ARCHITECTURE.md](docs/UNIFIED_PLATFORM_ARCHITECTURE.md) - Platform integration
+- [BUSINESS_OPERATIONS_GUIDE.md](docs/BUSINESS_OPERATIONS_GUIDE.md) - Business operations
+- [SERVICE_OFFERINGS.md](docs/SERVICE_OFFERINGS.md) - Service offerings guide
+
+### Additional Resources
+- [ENVIRONMENT_SECURITY.md](docs/ENVIRONMENT_SECURITY.md) - Security best practices
+- [INTEGRATION_TEST_CHECKLIST.md](docs/INTEGRATION_TEST_CHECKLIST.md) - Testing checklist
+- [PRDs (Product Requirements)](docs/prd/) - 46+ PRD documents
+
+---
+
+## 🧪 Testing
+
+### Run Tests
+
+```bash
+# Backend unit tests
+cd backend
+npm test
+
+# E2E tests
+npm run test:e2e
+
+# Coverage report
+npm run test:coverage
+```
+
+### Testing Strategy
+- **Unit Tests**: Services, utilities, database queries
+- **Integration Tests**: API endpoints, authentication flows
+- **E2E Tests**: Full user workflows with Playwright
+- **Load Tests**: Performance and scalability validation
+
+See [CONTENT_FACTORY_TESTING.md](docs/CONTENT_FACTORY_TESTING.md) for comprehensive testing documentation.
+
+---
+
+## 🚢 Deployment
+
+### Production Deployment
+
+```bash
+# Build for production
+npm run build
+
+# Start production server
+npm run start
+```
+
+### Environment Variables
+
+Required variables (see `.env.example`):
+
+```env
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/acd
+
+# Redis
+REDIS_URL=redis://localhost:6379
+
+# Authentication
+JWT_SECRET=your-secret-key
+SESSION_SECRET=your-session-secret
+
+# AI Services
+ANTHROPIC_API_KEY=your-anthropic-key
+
+# Meta/Facebook (for PCT)
+META_APP_ID=your-meta-app-id
+META_APP_SECRET=your-meta-app-secret
+
+# Email (optional)
+RESEND_API_KEY=your-resend-key
+```
+
+See [CONTENT_FACTORY_DEPLOYMENT.md](docs/CONTENT_FACTORY_DEPLOYMENT.md) for detailed deployment instructions.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Commit your changes**: `git commit -m 'Add amazing feature'`
+4. **Push to the branch**: `git push origin feature/amazing-feature`
+5. **Open a Pull Request**
+
+### Development Workflow
+
+1. Read relevant documentation in `docs/`
+2. Follow existing code patterns
+3. Write tests for new features
+4. Update documentation as needed
+5. Ensure all tests pass before submitting PR
+
+---
 
 ## 🎯 Use Cases
 
-1. **Development Monitoring**: Track agent progress during development
-2. **Performance Analysis**: Identify bottlenecks and optimization opportunities
-3. **Cost Management**: Monitor API token usage and associated costs
-4. **Quality Assurance**: Verify test passage rates and feature completion
-5. **Debugging**: Review command logs and error tracking
+### For Product Teams
+- **Rapid Prototyping**: Build MVPs in hours, not weeks
+- **Feature Development**: Autonomous implementation of feature backlogs
+- **Quality Assurance**: Automated testing and verification
+
+### For Marketing Teams
+- **Ad Creative Testing**: Systematic ad testing at scale (PCT)
+- **Content Production**: Multi-platform content pipelines (CF)
+- **Performance Optimization**: Data-driven creative decisions
+
+### For Developers
+- **Code Generation**: AI-powered feature implementation
+- **Technical Debt**: Automated refactoring and improvements
+- **Documentation**: Auto-generated docs and schemas
+
+---
+
+## 📊 Metrics & Analytics
+
+Track key metrics across all systems:
+
+- **Feature Completion Rate**: % of features successfully implemented
+- **Cost per Feature**: Total spend / features completed
+- **Session Success Rate**: % of successful autonomous sessions
+- **Token Efficiency**: Average tokens per completed feature
+- **Ad Performance** (PCT): CTR, CPC, ROAS, conversion rates
+- **Content Performance** (CF): Views, engagement, conversion rates
+
+Access analytics:
+- ACD: `index.html` → Analytics tab
+- PCT: `pct.html` → Analytics tab
+- Backend: `/api/metrics` endpoints
+
+---
+
+## 🔒 Security
+
+- **Row Level Security (RLS)**: Database-level tenant isolation
+- **JWT Authentication**: Secure API access
+- **Rate Limiting**: Prevent abuse
+- **Input Validation**: Zod schema validation
+- **GDPR Compliance**: Data export and deletion
+- **Audit Logging**: Track all data mutations
+
+See [ENVIRONMENT_SECURITY.md](docs/ENVIRONMENT_SECURITY.md) for security best practices.
+
+---
 
 ## 📝 License
 
 MIT License - Feel free to use and modify for your own projects.
 
-## � Documentation
-
-- [**ACHIEVEMENTS.md**](docs/ACHIEVEMENTS.md) - Full project milestones and statistics
-- [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - System design and components
-- [**METRICS_GUIDE.md**](docs/METRICS_GUIDE.md) - Understanding metrics and analytics
-- [**PRD_ENHANCED_METRICS.md**](docs/PRD_ENHANCED_METRICS.md) - Enhanced metrics specification
+---
 
 ## 🙏 Acknowledgments
 
-Built on [Anthropic's Claude](https://www.anthropic.com/) - powering the future of autonomous software development.
+- **Anthropic Claude** - Powering autonomous AI agents
+- **Meta Marketing API** - Ad deployment infrastructure
+- **Open Source Community** - Foundation libraries and tools
+
+---
+
+## 📞 Support
+
+- **Documentation**: See `docs/` directory
+- **Issues**: [GitHub Issues](https://github.com/IsaiahDupree/autonomous-coding-dashboard/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/IsaiahDupree/autonomous-coding-dashboard/discussions)
 
 ---
 
 **Made with 🤖 by the Autonomous Coding Dashboard**
 
-*"The future of software development is autonomous, and it's happening now."*
+*"The future of software development, marketing, and content creation is autonomous—and it's happening now."*

@@ -203,6 +203,30 @@ async function runRepoSession(repo, queue, workerId) {
   });
 }
 
+// ── Serial group enforcement ─────────────────────────────────────────────────
+// Finds and removes the first repo from sharedQueue whose serialGroup (if any)
+// is not already claimed by another active worker.  Returns null when nothing
+// is claimable (either queue empty or all remaining groups are busy).
+function claimNextRepo(sharedQueue, status) {
+  // Collect serialGroups that are currently in-flight
+  const activeGroups = new Set(
+    Object.values(status.workers)
+      .map(w => w.serialGroup)
+      .filter(Boolean)
+  );
+
+  for (let i = 0; i < sharedQueue.length; i++) {
+    const repo = sharedQueue[i];
+    const group = repo.serialGroup;
+    // No group → always claimable.  Group → only claimable when no one else holds it.
+    if (!group || !activeGroups.has(group)) {
+      sharedQueue.splice(i, 1);   // Remove from shared array (JS single-threaded — safe)
+      return repo;
+    }
+  }
+  return null;   // All remaining repos blocked by an active serial group
+}
+
 // ── Worker loop ───────────────────────────────────────────────────────────────
 async function workerLoop(workerId, sharedQueue, queue, status, startTime) {
   while (true) {
@@ -212,18 +236,25 @@ async function workerLoop(workerId, sharedQueue, queue, status, startTime) {
       break;
     }
 
-    // Atomically claim next repo (JS single-threaded shift is atomic)
-    const repo = sharedQueue.shift();
+    // Claim next repo, respecting serial groups
+    const repo = claimNextRepo(sharedQueue, status);
     if (!repo) {
+      if (sharedQueue.length > 0) {
+        // Repos remain but all are blocked — wait and retry (another worker will free a group)
+        log(`Serial group blocked — waiting for a slot (${sharedQueue.length} repos pending)`, 'pause', workerId);
+        await new Promise(r => setTimeout(r, 15_000));
+        continue;
+      }
       log('No more repos — worker idle', 'end', workerId);
       break;
     }
 
-    // Update status
+    // Update status — include serialGroup so claimNextRepo can detect conflicts
     status.workers[workerId] = {
       currentRepo:  repo.id,
       currentName:  repo.name,
       startedAt:    new Date().toISOString(),
+      ...(repo.serialGroup ? { serialGroup: repo.serialGroup } : {}),
     };
     saveStatus(status);
 
@@ -243,7 +274,7 @@ async function workerLoop(workerId, sharedQueue, queue, status, startTime) {
       gitCommit(repo.path, msg);
     }
 
-    status.workers[workerId] = { currentRepo: null, lastRepo: repo.id };
+    status.workers[workerId] = { currentRepo: null, lastRepo: repo.id, serialGroup: null };
     saveStatus(status);
 
     // Brief pause before grabbing next repo

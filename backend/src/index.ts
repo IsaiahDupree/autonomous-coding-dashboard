@@ -11,6 +11,7 @@
 
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { PrismaClient } from '@prisma/client';
@@ -30,6 +31,12 @@ import { getAnalytics } from './services/analytics';
 import { getScheduler } from './services/scheduler';
 import { getUserEventTracking } from './services/userEventTracking';
 import { getClaudeApiKey, isOAuthToken, getEnv, getEnvValue, validateEnvConfig } from './config/env-config';
+import { csrfProtection, getCSRFToken } from './middleware/csrf';
+import { createAuthRateLimiter, createAPIRateLimiter, userKeyGenerator } from './middleware/rate-limit';
+import { sanitizeAllInputs } from './middleware/sanitization';
+import { devSecurityHeaders, prodSecurityHeaders } from './middleware/security-headers';
+import { smartCompressionMiddleware, compressionStatsMiddleware } from './middleware/compression';
+import { getStaticOptions } from './middleware/static-cache';
 import pctRouter from './routes/pct';
 import cfRouter from './routes/content-factory';
 import * as targetSync from './services/target-sync';
@@ -81,22 +88,46 @@ app.use(cors({
   origin: ['http://localhost:3535', 'http://localhost:3000', 'http://127.0.0.1:3535'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token']
 }));
 app.use(express.json({ limit: '50mb' }));
+app.use(cookieParser());
 
-// Serve static files from project root (for pct.html, index.html, etc.)
+// API Response Compression (PCT-WC-051)
+// Must come after body parsing middleware
+app.use(smartCompressionMiddleware());
+if (process.env.DEBUG_COMPRESSION === 'true') {
+  app.use(compressionStatsMiddleware());
+}
+
+// Security Headers (PCT-WC-036)
+const isProduction = process.env.NODE_ENV === 'production';
+app.use(isProduction ? prodSecurityHeaders() : devSecurityHeaders());
+
+// Security Middleware (PCT-WC-031, PCT-WC-032, PCT-WC-033, PCT-WC-034, PCT-WC-036)
+// Initialize rate limiters
+const authRateLimiter = createAuthRateLimiter(redis);
+const apiRateLimiter = createAPIRateLimiter(redis);
+
+// Apply input sanitization to all routes
+app.use(sanitizeAllInputs());
+
+// Serve static files from project root with caching (PCT-WC-054)
 const projectRoot = path.resolve(__dirname, '..', '..');
-app.use(express.static(projectRoot, { index: false }));
+app.use(express.static(projectRoot, { ...getStaticOptions(86400), index: false }));
 
-// Auth routes
-app.use('/api/auth', authRouter);
+// Auth routes with strict rate limiting (PCT-WC-032)
+app.use('/api/auth', authRateLimiter.middleware(), authRouter);
 
-// Programmatic Creative Testing routes
-app.use('/api/pct', pctRouter);
+// API routes with CSRF protection and rate limiting (PCT-WC-031, PCT-WC-033)
+app.use('/api/pct', apiRateLimiter.middleware(), csrfProtection, pctRouter);
+app.use('/api/cf', apiRateLimiter.middleware(), csrfProtection, cfRouter);
 
-// Content Factory routes
-app.use('/api/cf', cfRouter);
+// CSRF token endpoint (PCT-WC-031)
+app.get('/api/csrf-token', (req: any, res) => {
+    const token = getCSRFToken(req);
+    res.json({ csrfToken: token });
+});
 
 // Root route
 app.get('/', (req, res) => {
@@ -108,6 +139,7 @@ app.get('/', (req, res) => {
             projects: '/api/projects',
             harnesses: '/api/harnesses',
             approvals: '/api/approvals',
+            csrfToken: '/api/csrf-token',
         },
         docs: 'See /api/health for status',
     });
@@ -116,6 +148,19 @@ app.get('/', (req, res) => {
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Memory health endpoint (for CF-WC-019 load testing)
+app.get('/api/health/memory', (req, res) => {
+    const memoryUsage = process.memoryUsage();
+    res.json({
+        heapUsed: memoryUsage.heapUsed,
+        heapTotal: memoryUsage.heapTotal,
+        rss: memoryUsage.rss,
+        external: memoryUsage.external,
+        arrayBuffers: memoryUsage.arrayBuffers,
+        timestamp: new Date().toISOString(),
+    });
 });
 
 // General harness status endpoint (for feat-010)

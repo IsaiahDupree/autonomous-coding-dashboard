@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "prd": "PRD-202",
+    "title": "EverReach OS — Shared Vector DB, Feedback Sync & Prometheus Monitoring",
+    "description": "Shared Chroma/pgvector database with cross-env sync, embedding pipeline for content/prospects/outcomes, unified feedback loops, data privacy (air-gapped local), and Prometheus monitoring with revenue/flop-rate/follower dashboards.",
+    "totalFeatures": 50
+  },
+  "features": [
+    {
+      "id": "EOS-202-001", "name": "Chroma vector DB client wrapper",
+      "description": "vector_db.py: VectorDB class wrapping chromadb.Client. Collections: content_embeddings, prospect_embeddings, outcome_embeddings, lesson_embeddings. Auto-connects to VECTOR_DB_URL",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-002", "name": "Content embedding pipeline",
+      "description": "embedder.py: embed_content(text, metadata) → upserts to content_embeddings collection. Uses text-embedding-3-small (local: cached, cloud: live). Returns embedding_id",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-003", "name": "Prospect embedding pipeline",
+      "description": "embed_prospect(contact_id, bio, niche, platform) → upserts to prospect_embeddings. Used for ICP similarity search and warm outreach targeting",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-004", "name": "Outcome embedding: viral classification results",
+      "description": "embed_outcome(post_id, metrics, classification) → upserts to outcome_embeddings with metadata: {platform, niche, viral: bool, engagement_score}. Drives feedback loops",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-005", "name": "Similarity search: find_similar_viral(text, platform, n=10)",
+      "description": "VectorDB.find_similar_viral(text, platform) queries outcome_embeddings for top-n similar posts that went viral. Returns [{post_id, score, metadata}]",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-006", "name": "Similarity search: find_similar_prospects(bio, n=20)",
+      "description": "VectorDB.find_similar_prospects(bio) returns top-n prospects most similar to a given bio. Used to find warm leads from existing ICP profiles",
+      "category": "vector_db", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-007", "name": "Lesson embedding: after-action reviews indexed",
+      "description": "embed_lesson(lesson_id, context, outcome, tags) → lesson_embeddings. Enables semantic recall of past decisions when planning new campaigns",
+      "category": "vector_db", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-008", "name": "Chroma persistence: Docker volume for local",
+      "description": "docker-compose mounts ./data/chroma:/chroma/chroma. Chroma starts with --path /chroma/chroma. Survives restarts. Cloud uses hosted Chroma or pgvector on Supabase",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-009", "name": "pgvector fallback on Supabase",
+      "description": "vector_db.py: if VECTOR_BACKEND=pgvector, routes to Supabase pgvector extension (table: vector_embeddings with HNSW index). Same interface as Chroma wrapper",
+      "category": "vector_db", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-010", "name": "Vector DB tests (6 tests)",
+      "description": "Test: embed_content, embed_prospect, embed_outcome, find_similar_viral, find_similar_prospects, Chroma↔pgvector interface parity",
+      "category": "vector_db", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-011", "name": "FeedbackSyncEngine: upserts outcomes to shared vector DB",
+      "description": "feedback_sync.py: FeedbackSyncEngine.record_outcome(post_id, platform, metrics) classifies viral/non-viral, embeds, upserts to Supabase actp_feedback_posts + Chroma",
+      "category": "feedback_sync", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-012", "name": "Cross-env feedback sync: local writes, cloud reads",
+      "description": "Local env writes new outcome embeddings to local Chroma. Sync job (every 15min) pushes delta to cloud Chroma/pgvector. Cloud reads for similarity search at query time",
+      "category": "feedback_sync", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-013", "name": "Delta sync: only push changed embeddings",
+      "description": "sync_job.py: tracks last_synced_at per collection. Queries Chroma for embeddings added after last_synced_at, batches and POSTs to cloud /api/sync/vectors endpoint",
+      "category": "feedback_sync", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-014", "name": "Feedback strategy update from vector search",
+      "description": "After 10 new outcome embeddings, strategy_builder.py runs find_similar_viral for current niche, extracts patterns, upserts new strategy to actp_feedback_strategy",
+      "category": "feedback_sync", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-015", "name": "Feedback loop: classify → embed → strategy update pipeline",
+      "description": "Full pipeline: new post → check_backs (1/4/24h) → classify → embed_outcome → if 10+ new → rebuild_strategy → update prompt_guidelines in Supabase",
+      "category": "feedback_sync", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-016", "name": "Cross-platform feedback aggregation",
+      "description": "aggregate_feedback(niche) collects outcome_embeddings for niche across all platforms, runs cross-platform pattern extraction, returns {best_format, best_hook, best_cta, best_platform}",
+      "category": "feedback_sync", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-017", "name": "Feedback sync conflict resolution: latest wins",
+      "description": "When cloud and local have conflicting strategy for same platform+niche, updated_at timestamp wins. Older record archived to actp_feedback_strategy_archive",
+      "category": "feedback_sync", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-018", "name": "Feedback sync test (6 tests)",
+      "description": "Test: record_outcome, delta sync, strategy rebuild trigger after 10 outcomes, cross-platform aggregation, conflict resolution, full pipeline mock",
+      "category": "feedback_sync", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-019", "name": "Prometheus metrics server on port 9090",
+      "description": "metrics_server.py: prometheus_client exposition server on :9090. Exposes all EverReach OS metrics via /metrics endpoint. Added to docker-compose as prometheus service",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-020", "name": "Revenue metric: everreach_mrr_usd gauge",
+      "description": "Gauge everreach_mrr_usd updated hourly from Stripe + RevenueCat. Labels: {source: 'stripe'|'revcat'|'total'}. Alerting rule: drop >10% in 24h",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-021", "name": "Content flop rate metric: everreach_flop_rate gauge",
+      "description": "Gauge everreach_flop_rate per platform+niche. Updated after each check_back cycle. flop_rate = posts_classified_flop / total_classified. Alert if > 0.7",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-022", "name": "Follower count metric: everreach_followers gauge",
+      "description": "Gauge everreach_followers with labels {platform: twitter|instagram|tiktok|threads|youtube}. Updated daily from social.metrics. Alert at key milestones (10K, 100K, 1M)",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-023", "name": "AAG swarm metrics: active agents + tasks/hour",
+      "description": "Gauges: everreach_aag_active (current running agents), everreach_aag_tasks_total (counter, tasks completed), everreach_aag_tasks_per_hour (rate)",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-024", "name": "Cloud cost metric: everreach_cloud_cost_usd counter",
+      "description": "Counter everreach_cloud_cost_usd incremented on every cloud dispatch by estimated cost. Labels: {service, action, env}. Alert at $380/month",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-025", "name": "Dispatch latency histogram: everreach_dispatch_duration_seconds",
+      "description": "Histogram with buckets [0.1, 0.5, 1, 5, 30] per service+action+env. Used to identify slow cloud routes that should shift to local",
+      "category": "monitoring", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-026", "name": "Outreach metrics: DMs sent + reply rate",
+      "description": "Counters: everreach_dms_sent_total (labels: platform), everreach_dm_replies_total. Gauge: everreach_dm_reply_rate per platform. Alert if reply_rate < 0.05",
+      "category": "monitoring", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-027", "name": "System health metrics: uptime + offline events",
+      "description": "Gauges: everreach_local_uptime_sec, everreach_cloud_uptime_sec. Counter: everreach_failover_events_total. Alert if >2 failovers in 24h",
+      "category": "monitoring", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-028", "name": "Prometheus alerting rules file",
+      "description": "prometheus/alerts.yml: AlertManager rules for MRR drop, flop_rate spike, cost cap approaching, cloud failover frequency, offline_mode duration > 1h",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-029", "name": "Grafana dashboard JSON: EverReach OS Overview",
+      "description": "grafana/everreach-overview.json: dashboard with panels for MRR trend, follower growth, flop rate by platform, AAG activity, cloud cost MTD, dispatch latency p95",
+      "category": "monitoring", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-030", "name": "Telegram alert integration for Prometheus AlertManager",
+      "description": "prometheus/alertmanager.yml: receiver 'telegram' that POSTs to service_registry /api/services/telegram/send when alerts fire. Includes severity + metric value in message",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-031", "name": "Monitoring tests (5 tests)",
+      "description": "Test: MRR gauge update, flop_rate calculation, cost counter increment, dispatch histogram record, alert rule evaluation mock",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-032", "name": "Air-gapped local data: prospect leads never leave local",
+      "description": "privacy_policy.py: LOCAL_ONLY_COLLECTIONS = ['prospect_embeddings', 'client_data']. delta_sync() skips these collections. Cloud sync only for content + outcomes",
+      "category": "data_privacy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-033", "name": "Encrypted MCP: TLS for local↔cloud vector sync",
+      "description": "sync_job.py: all HTTP requests to cloud /api/sync/vectors use HTTPS with certificate pinning. Payload encrypted with SYNC_ENCRYPTION_KEY (AES-256-GCM) before transit",
+      "category": "data_privacy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-034", "name": "Stripe/RevenueCat keys: local-only, never synced to cloud",
+      "description": "Stripe and RevenueCat API keys loaded only in LOCAL env config. Cloud terminal fetches revenue data via internal RPC to local, not directly via external API keys",
+      "category": "data_privacy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-035", "name": "PII scrubbing before cloud sync",
+      "description": "pii_scrubber.py: scrub(text) removes emails, phone numbers, full names from content before embedding to cloud. Applied to all cloud-bound embed calls",
+      "category": "data_privacy", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-036", "name": "Data retention policy: auto-purge old embeddings",
+      "description": "retention_job.py: weekly cron deletes embeddings older than 90 days from outcome_embeddings, older than 180 days from content_embeddings. Keeps prospect_embeddings indefinitely",
+      "category": "data_privacy", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-037", "name": "Data privacy tests (4 tests)",
+      "description": "Test: LOCAL_ONLY_COLLECTIONS not synced, PII scrubber removes email/phone, Stripe key not present in cloud config, encrypted sync payload",
+      "category": "data_privacy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-038", "name": "Month 1 simulation: research→generate→publish→prospect→track loop",
+      "description": "integration test: cloud research.platform (mocked) → local content.analyze_video → local embed_content → cloud publish.auto → cloud dm.send → record_outcome → strategy update",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-039", "name": "100K views/video scenario: viral outcome updates strategy",
+      "description": "Simulate post with 100K views: embed_outcome(viral=True) → find_similar_viral returns it as top result → next content gen uses updated strategy guidelines",
+      "category": "integration_tests", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-040", "name": "10+ AAG batch scenario: vector search guides targeting",
+      "description": "10 AAG prospecting agents each call find_similar_prospects(bio) for their assigned niche segment. Verify no duplicate prospect claims via SwarmCoordinator",
+      "category": "integration_tests", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-041", "name": "Feedback loop closed: strategy improves over 3 cycles",
+      "description": "Run 3 feedback cycles: cycle 1 baseline strategy, cycle 2 updated after 10 outcomes, cycle 3 shows measurable engagement_score improvement vs baseline",
+      "category": "integration_tests", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-042", "name": "Prometheus end-to-end: metric recorded → alert fires → Telegram notified",
+      "description": "Simulate flop_rate > 0.7: metric updated → alertmanager evaluates → Telegram receiver mock receives alert with correct platform + value",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-043", "name": "Offline vector search: local Chroma used when cloud unreachable",
+      "description": "With OFFLINE_MODE=True, find_similar_viral routes to local Chroma (may have fewer embeddings). Returns results with {source: 'local_chroma', freshness: 'stale'}",
+      "category": "integration_tests", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-044", "name": "Integration tests (5 tests)",
+      "description": "Test: full research→publish→outcome loop, viral strategy update, offline vector fallback, Prometheus alert chain, feedback cycle improvement",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-045", "name": "Prometheus docker-compose service",
+      "description": "docker-compose adds prometheus service: image prom/prometheus:latest, volumes ./prometheus:/etc/prometheus, ports 9090:9090, command --config.file=/etc/prometheus/prometheus.yml",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-046", "name": "prometheus.yml scrape config for all local services",
+      "description": "prometheus/prometheus.yml: scrape_configs for local-terminal:8080/metrics, aag-worker:8091/metrics, chroma:8000/metrics. interval: 15s",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-047", "name": "Grafana docker-compose service",
+      "description": "docker-compose adds grafana: image grafana/grafana:latest, port 3001:3000, volume ./grafana:/var/lib/grafana, env GF_SECURITY_ADMIN_PASSWORD",
+      "category": "monitoring", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-048", "name": "Metrics collection middleware for local FastAPI server",
+      "description": "local_server.py adds prometheus_fastapi_instrumentator middleware. Every request to /dispatch records duration, status, service label automatically",
+      "category": "monitoring", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-049", "name": "README: monitoring setup guide",
+      "description": "docs/monitoring.md: how to access Grafana (localhost:3001), import everreach-overview dashboard, configure Telegram alerting, read key metrics, set cost cap alert",
+      "category": "monitoring", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    },
+    {
+      "id": "EOS-202-050", "name": "pytest: >=40 tests collected for PRD-202, all passing",
+      "description": "pytest tests/ -m 'prd202' --collect-only shows >=40 items; full run passes with 0 failures",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-202", "notes": ""
+    }
+  ]
+}

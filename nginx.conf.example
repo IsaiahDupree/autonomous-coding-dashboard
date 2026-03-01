@@ -1,0 +1,67 @@
+# PCT System - Nginx Configuration Example
+# PCT-WC-067: Proper status codes for error pages
+#
+# Place this in your nginx site configuration
+
+server {
+    listen 80;
+    server_name pct.example.com;
+    root /var/www/pct;
+    index index.html;
+
+    # Custom 404 error page
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+
+    # Custom 500 error page (if needed)
+    # error_page 500 502 503 504 /500.html;
+    # location = /500.html {
+    #     internal;
+    # }
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml text/javascript application/json application/javascript application/xml+rss;
+
+    # Browser caching
+    location ~* \.(jpg|jpeg|png|gif|ico|svg|webp)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location ~* \.(css|js)$ {
+        expires 1M;
+        add_header Cache-Control "public";
+    }
+
+    location ~* \.(woff2|woff|ttf|otf)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location ~* \.html$ {
+        expires 1h;
+        add_header Cache-Control "public, must-revalidate";
+    }
+
+    # Try files, fallback to 404
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Force HTTPS (uncomment in production)
+    # if ($scheme != "https") {
+    #     return 301 https://$server_name$request_uri;
+    # }
+}

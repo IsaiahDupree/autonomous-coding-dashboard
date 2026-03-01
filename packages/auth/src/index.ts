@@ -137,3 +137,61 @@ export type {
   StripeEvent,
   SyncedEntitlement,
 } from './stripe';
+
+// ---------------------------------------------------------------------------
+// Security hardening (AUTH-WC-031 to AUTH-WC-045)
+// ---------------------------------------------------------------------------
+export {
+  authRateLimiter,
+  inputSanitizer,
+  sanitizeString,
+  sanitizeObject,
+  sqlInjectionGuard,
+  detectSqlInjection,
+  scanForSecrets,
+  validateUpload,
+  uploadValidationMiddleware,
+  requireAuthByDefault,
+  getCVEScanCommand,
+  parseCVEScanOutput,
+  encryptPII,
+  decryptPII,
+  encryptPIIFields,
+  decryptPIIFields,
+  PII_FIELDS,
+  SecurityLogger,
+  securityLoggingMiddleware,
+  SessionTimeoutManager,
+  hstsHeaders,
+} from './security-hardening';
+
+export type {
+  AuthRateLimitConfig,
+  UploadValidationConfig,
+  UploadValidationResult,
+  CVEScanConfig,
+  CVEScanResult,
+  SecretScanResult,
+  SecurityEventType,
+  SecurityLogEntry,
+  SessionTimeoutConfig,
+} from './security-hardening';
+
+// ---------------------------------------------------------------------------
+// GDPR/Privacy Compliance (AUTH-WC-045)
+// ---------------------------------------------------------------------------
+export {
+  exportUserData,
+  generateDataExportFile,
+  deleteUserData,
+  getConsentPreferences,
+  updateConsent,
+  hasConsent,
+} from './gdpr';
+
+export type {
+  UserDataExport,
+  ConsentPreferences,
+  DataDeletionResult,
+  ConsentUpdateResult,
+} from './gdpr';

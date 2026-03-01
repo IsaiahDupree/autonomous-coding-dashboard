@@ -5,6 +5,29 @@
 
 ---
 
+## Growth Goals (Added March 2026)
+
+| Goal | Target | Timeline |
+|------|--------|----------|
+| Followers — TikTok | 1,000,000 | 12 months |
+| Followers — Instagram | 1,000,000 | 12 months |
+| Followers — YouTube | 1,000,000 | 12 months |
+| Followers — Twitter/X | 1,000,000 | 12 months |
+| Followers — Threads | 1,000,000 | 12 months |
+| Video views per post | 100,000+ avg | Consistent |
+
+### What the content machine must produce to hit these numbers:
+
+- **Volume**: 2–3 posts/day per platform (14–21 pieces/week)
+- **Hook quality**: Top 5% hook score (HookLite rubric gate before publish)
+- **Format mix**: 70% short-form video (Remotion/Sora), 20% carousel/image, 10% text
+- **Feedback loop**: Every post checked at 1hr/4hr/24hr — only winning formats re-run
+- **Viral targeting**: Content calibrated to solopreneur + ai_automation niches (26.3M view market)
+- **Thumbnail/cover**: AI-optimized per platform before upload
+- **Posting time**: Thompson Sampling bandit (PublishLite) selects peak windows per platform
+
+---
+
 ## 1. Architecture: OpenClaw → ACTP → ACD Pipeline
 
 ```

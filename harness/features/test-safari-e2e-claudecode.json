@@ -1,0 +1,525 @@
+{
+  "meta": {
+    "prd": "TEST-SAFARI-E2E-CLAUDECODE",
+    "title": "Safari MCP Agents — Claude Code Native E2E Validation",
+    "description": "Final implementation validation: Claude Code uses its own native MCP tools (mcp6_safari_*, mcp7_safari_*) to call each Safari automation service one at a time, verifying real responses. Results written to scripts/tests/safari_e2e_results.json.",
+    "totalFeatures": 103
+  },
+  "features": [
+    {
+      "id": "T-SAFARI-E2E-001", "name": "Health check: all services via mcp6_safari_health_check",
+      "description": "Call mcp6_safari_health_check and verify every known service port is listed in the response",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-002", "name": "Health check: Instagram DM service (port 3001)",
+      "description": "mcp6_safari_health_check result includes instagram-dm with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-003", "name": "Health check: Twitter DM service (port 3003)",
+      "description": "mcp6_safari_health_check result includes twitter-dm with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-004", "name": "Health check: TikTok DM service (port 3102)",
+      "description": "mcp6_safari_health_check result includes tiktok-dm with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-005", "name": "Health check: LinkedIn automation service (port 3105)",
+      "description": "mcp6_safari_health_check result includes linkedin with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-006", "name": "Health check: Instagram Comments service (port 3005)",
+      "description": "mcp6_safari_health_check result includes instagram-comments with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-007", "name": "Health check: TikTok Comments service (port 3006)",
+      "description": "mcp6_safari_health_check result includes tiktok-comments with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-008", "name": "Health check: Twitter Comments service (port 3007)",
+      "description": "mcp6_safari_health_check result includes twitter-comments with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-009", "name": "Health check: Threads Comments service (port 3004)",
+      "description": "mcp6_safari_health_check result includes threads-comments with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-010", "name": "Health check: Market Research Hub (port 3106)",
+      "description": "mcp6_safari_health_check result includes market-research with healthy status",
+      "category": "health", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-011", "name": "Session ensure: Instagram tab lock",
+      "description": "mcp6_safari_session_ensure platform=instagram returns locked session without error",
+      "category": "session", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-012", "name": "Session status: Instagram — verify tracked tab",
+      "description": "mcp6_safari_session_status platform=instagram returns windowIndex, tabIndex, and url fields",
+      "category": "session", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-013", "name": "Session clear: Instagram — force re-scan on next call",
+      "description": "mcp6_safari_session_clear platform=instagram returns success without error",
+      "category": "session", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-014", "name": "Session ensure: Twitter tab lock",
+      "description": "mcp6_safari_session_ensure platform=twitter returns locked session without error",
+      "category": "session", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-015", "name": "Session status: Twitter — verify tracked tab",
+      "description": "mcp6_safari_session_status platform=twitter returns windowIndex, tabIndex, and url fields",
+      "category": "session", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-016", "name": "Session clear: Twitter — force re-scan on next call",
+      "description": "mcp6_safari_session_clear platform=twitter returns success without error",
+      "category": "session", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-017", "name": "Session ensure: TikTok tab lock",
+      "description": "mcp6_safari_session_ensure platform=tiktok returns locked session without error",
+      "category": "session", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-018", "name": "Session status: TikTok — verify tracked tab",
+      "description": "mcp6_safari_session_status platform=tiktok returns windowIndex, tabIndex, and url fields",
+      "category": "session", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-019", "name": "Session re-lock after clear: Instagram",
+      "description": "After session_clear, session_ensure re-locks the tab (re-scan self-healing)",
+      "category": "session", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-020", "name": "Navigate Instagram DM inbox via mcp6",
+      "description": "mcp6_safari_navigate_inbox platform=instagram returns success and inbox is visible",
+      "category": "instagram", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-021", "name": "Get Instagram DM conversations list",
+      "description": "mcp6_safari_get_conversations platform=instagram returns array with at least one conversation object",
+      "category": "instagram", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-022", "name": "Instagram conversation has required fields",
+      "description": "Each conversation from get_conversations has id, username, and lastMessage fields",
+      "category": "instagram", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-023", "name": "Send Instagram DM to test account (the_isaiah_dupree)",
+      "description": "mcp6_safari_send_dm platform=instagram username=the_isaiah_dupree text='E2E test ping' returns success=true",
+      "category": "instagram", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-024", "name": "Instagram DM response has verified=true",
+      "description": "send_dm response includes verified field confirming delivery",
+      "category": "instagram", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-025", "name": "Post Instagram comment via mcp6",
+      "description": "mcp6_safari_post_comment platform=instagram postUrl=TEST_IG_POST text='Great post!' returns success=true",
+      "category": "instagram", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-026", "name": "Instagram comment response includes commentId",
+      "description": "post_comment response contains commentId field confirming it was submitted",
+      "category": "instagram", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-027", "name": "Instagram session persists across operations",
+      "description": "session_status after navigate_inbox + get_conversations still shows the same tab locked",
+      "category": "instagram", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-028", "name": "Navigate Twitter DM inbox via mcp6",
+      "description": "mcp6_safari_navigate_inbox platform=twitter returns success and inbox is visible",
+      "category": "twitter", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-029", "name": "Get Twitter DM conversations list",
+      "description": "mcp6_safari_get_conversations platform=twitter returns array with conversation objects",
+      "category": "twitter", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-030", "name": "Twitter conversation has required fields",
+      "description": "Each Twitter conversation has id, username, lastMessage fields",
+      "category": "twitter", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-031", "name": "Send Twitter DM to test account",
+      "description": "mcp6_safari_send_dm platform=twitter username=IsaiahDupree7 text='E2E test ping' returns success=true",
+      "category": "twitter", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-032", "name": "Twitter DM uses correct fallback strategy",
+      "description": "send_dm response includes strategy field ('message_button' or 'inbox_compose')",
+      "category": "twitter", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-033", "name": "Post Twitter comment via mcp6 (no AI)",
+      "description": "mcp6_safari_post_comment platform=twitter postUrl=TEST_TWEET_URL text='Agreed!' useAI=false returns success=true",
+      "category": "twitter", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-034", "name": "Post Twitter comment via mcp6 with AI generation",
+      "description": "mcp6_safari_post_comment platform=twitter postUrl=TEST_TWEET_URL useAI=true returns success=true and generated text",
+      "category": "twitter", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-035", "name": "Twitter session persists across DM + comment operations",
+      "description": "session_status after multiple Twitter operations still shows the same window/tab locked",
+      "category": "twitter", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-036", "name": "Navigate TikTok DM inbox via mcp6",
+      "description": "mcp6_safari_navigate_inbox platform=tiktok returns success and inbox is visible",
+      "category": "tiktok", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-037", "name": "Get TikTok DM conversations list",
+      "description": "mcp6_safari_get_conversations platform=tiktok returns array with conversation objects",
+      "category": "tiktok", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-038", "name": "TikTok conversation has required fields",
+      "description": "Each TikTok conversation has id, username, lastMessage fields",
+      "category": "tiktok", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-039", "name": "Send TikTok DM to test account",
+      "description": "mcp6_safari_send_dm platform=tiktok username=isaiah_dupree text='E2E test ping' returns success=true",
+      "category": "tiktok", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-040", "name": "TikTok DM uses inbox-search or profile fallback",
+      "description": "send_dm response includes strategy field indicating which flow was used",
+      "category": "tiktok", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-041", "name": "Post TikTok comment on direct video URL",
+      "description": "mcp6_safari_post_comment platform=tiktok postUrl=https://www.tiktok.com/@test/video/1234567890 text='Nice!' returns success=true",
+      "category": "tiktok", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-042", "name": "TikTok comment requires /video/ URL format",
+      "description": "Confirm that short-link URLs are rejected and direct /video/ URLs are accepted",
+      "category": "tiktok", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-043", "name": "TikTok session persists across operations",
+      "description": "session_status after navigate_inbox + get_conversations still shows same tab locked",
+      "category": "tiktok", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-044", "name": "Post Threads comment via mcp6",
+      "description": "mcp6_safari_post_comment platform=threads postUrl=TEST_THREADS_POST text='Great thread!' returns success=true",
+      "category": "threads", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-045", "name": "Threads comment uses correct /api/threads/comments/post endpoint",
+      "description": "Verify response confirms the correct endpoint was hit (not /api/comments/post)",
+      "category": "threads", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-046", "name": "Threads 500 character limit enforced",
+      "description": "A comment >500 chars is truncated or rejected with a clear error before sending",
+      "category": "threads", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-047", "name": "Threads comment includes commentId in response",
+      "description": "post_comment response has commentId confirming submission",
+      "category": "threads", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-048", "name": "LinkedIn automation health via mcp6",
+      "description": "mcp6_safari_health_check includes linkedin service at port 3105",
+      "category": "linkedin", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-049", "name": "LinkedIn send DM to test contact",
+      "description": "mcp6_safari_send_dm platform=linkedin username=isaiah-dupree text='E2E test' returns success=true or rateLimitInfo",
+      "category": "linkedin", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-050", "name": "LinkedIn DM response includes strategy field",
+      "description": "send_dm response has strategy field indicating which send flow was used",
+      "category": "linkedin", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-051", "name": "LinkedIn DM response includes rateLimits object",
+      "description": "send_dm response has rateLimits with count and resetAt fields",
+      "category": "linkedin", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-052", "name": "Market Research: keyword search Instagram via mcp6",
+      "description": "mcp6_safari_market_research platform=instagram keyword=solopreneur returns posts array with count > 0",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-053", "name": "Market Research: Instagram post has required fields",
+      "description": "Each post in market_research instagram result has author, likes, url, text fields",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-054", "name": "Market Research: keyword search Twitter via mcp6",
+      "description": "mcp6_safari_market_research platform=twitter keyword=solopreneur returns posts array with count > 0",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-055", "name": "Market Research: Twitter post has required fields",
+      "description": "Each post in market_research twitter result has author, likes (or views), url, text fields",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-056", "name": "Market Research: keyword search TikTok via mcp6",
+      "description": "mcp6_safari_market_research platform=tiktok keyword=solopreneur returns posts array with count > 0",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-057", "name": "Market Research: TikTok post has required fields",
+      "description": "Each post in market_research tiktok result has author, views, url, text fields",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-058", "name": "Market Research: keyword search Threads via mcp6",
+      "description": "mcp6_safari_market_research platform=threads keyword=solopreneur returns posts array",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-059", "name": "Market Research: Threads post has required fields",
+      "description": "Each post in market_research threads result has author, likes, url, text fields",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-060", "name": "Market Research: competitor research job creation (Instagram)",
+      "description": "mcp6_safari_competitor_research platform=instagram niche=solopreneur returns a job_id or topCreators array",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-061", "name": "Market Research: competitor research returns topCreators with engagement",
+      "description": "competitor_research result includes topCreators array where each item has handle and totalEngagement",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-062", "name": "Market Research: competitor research Twitter",
+      "description": "mcp6_safari_competitor_research platform=twitter niche=ai_automation returns topCreators",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-063", "name": "Market Research: competitor research TikTok",
+      "description": "mcp6_safari_competitor_research platform=tiktok niche=content_creation returns topCreators",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-064", "name": "Market Research: search result count is > 0",
+      "description": "All four platform search results return at least 1 post (count > 0)",
+      "category": "market_research", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-065", "name": "Market Research: maxPosts parameter is respected",
+      "description": "Calling market_research with maxPosts=3 returns at most 3 posts in results",
+      "category": "market_research", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-066", "name": "Market Research: keyword search with content_creation niche",
+      "description": "mcp6_safari_market_research platform=twitter keyword=content_creation returns relevant posts",
+      "category": "market_research", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-067", "name": "Market Research: keyword search with ai_automation niche",
+      "description": "mcp6_safari_market_research platform=instagram keyword=ai_automation returns relevant posts",
+      "category": "market_research", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-068", "name": "mcp7 Safari Inspector: start session",
+      "description": "mcp7_safari_start_session sessionId=e2e-test returns session ID confirmed",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-069", "name": "mcp7 Safari Inspector: list active sessions",
+      "description": "mcp7_safari_list_sessions returns array including the e2e-test session",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-070", "name": "mcp7 Safari Inspector: navigate to URL",
+      "description": "mcp7_safari_navigate sessionId=e2e-test url=https://www.example.com returns success",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-071", "name": "mcp7 Safari Inspector: get page info",
+      "description": "mcp7_safari_get_page_info returns url and title matching the navigated page",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-072", "name": "mcp7 Safari Inspector: take screenshot",
+      "description": "mcp7_safari_take_screenshot sessionId=e2e-test returns a base64 image or file path",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-073", "name": "mcp7 Safari Inspector: execute JavaScript",
+      "description": "mcp7_safari_execute_script sessionId=e2e-test script='document.title' returns the page title string",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-074", "name": "mcp7 Safari Inspector: inspect element by CSS selector",
+      "description": "mcp7_safari_inspect_element sessionId=e2e-test selector=body returns element properties without error",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-075", "name": "mcp7 Safari Inspector: get console logs",
+      "description": "mcp7_safari_get_console_logs sessionId=e2e-test returns logs array (may be empty, must not error)",
+      "category": "safari_inspector", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-076", "name": "mcp7 Safari Inspector: get network logs",
+      "description": "mcp7_safari_get_network_logs sessionId=e2e-test returns network activity array without error",
+      "category": "safari_inspector", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-077", "name": "mcp7 Safari Inspector: clear console logs",
+      "description": "mcp7_safari_clear_console_logs sessionId=e2e-test returns success",
+      "category": "safari_inspector", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-078", "name": "mcp7 Safari Inspector: close session",
+      "description": "mcp7_safari_close_session sessionId=e2e-test returns success and session removed from list",
+      "category": "safari_inspector", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-079", "name": "Integration: health check → market research → DM pipeline",
+      "description": "Full flow: health_check → market_research twitter keyword=solopreneur → send_dm twitter to test account. All three succeed.",
+      "category": "integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-080", "name": "Integration: session lock survives platform switch",
+      "description": "session_ensure instagram → navigate_inbox instagram → session_ensure twitter → both sessions remain valid",
+      "category": "integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-081", "name": "Integration: market research → comment flow (Twitter)",
+      "description": "market_research twitter keyword=solopreneur → take top post URL → post_comment on that URL. Both succeed.",
+      "category": "integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-082", "name": "Integration: mcp6 + mcp7 combined — navigate then inspect",
+      "description": "session_ensure instagram → mcp7 start_session e2e-test2 → navigate to instagram.com → get_page_info matches instagram URL",
+      "category": "integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-083", "name": "Integration: error recovery — service down then health recheck",
+      "description": "If a service returns error, mcp6_safari_health_check is called again and reflects correct status",
+      "category": "integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-084", "name": "Integration: full 4-platform market research sweep",
+      "description": "market_research on instagram + twitter + tiktok + threads for the same keyword — all 4 return results",
+      "category": "integration", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-085", "name": "Rate limit: Instagram DM reports rateLimits field",
+      "description": "send_dm instagram response includes rateLimits object with remaining and resetAt",
+      "category": "rate_limits", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-086", "name": "Rate limit: Twitter DM reports rateLimits field",
+      "description": "send_dm twitter response includes rateLimits object",
+      "category": "rate_limits", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-087", "name": "Rate limit: TikTok DM reports rateLimits field",
+      "description": "send_dm tiktok response includes rateLimits object",
+      "category": "rate_limits", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-088", "name": "Rate limit: LinkedIn DM enforces 10 req/day cap",
+      "description": "After successful send, rateLimits.remaining is decremented from its previous value",
+      "category": "rate_limits", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-089", "name": "Error shape: invalid platform on send_dm",
+      "description": "Calling send_dm with platform=fakebook returns a structured error (not a crash)",
+      "category": "error_handling", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-090", "name": "Error shape: empty username on send_dm",
+      "description": "Calling send_dm with empty username returns error with message field describing the problem",
+      "category": "error_handling", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-091", "name": "Error shape: invalid postUrl on post_comment",
+      "description": "Calling post_comment with postUrl=notaurl returns success=false with error field",
+      "category": "error_handling", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-092", "name": "Error shape: TikTok comment with short-link URL",
+      "description": "Calling post_comment tiktok with a short vt.tiktok.com URL returns error requesting direct /video/ format",
+      "category": "error_handling", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-093", "name": "mcp6 execute_js: run simple JavaScript on Instagram",
+      "description": "mcp6_safari_execute_js platform=instagram script='document.title' returns a string result",
+      "category": "advanced", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-094", "name": "mcp6 execute_js: run JavaScript on Twitter",
+      "description": "mcp6_safari_execute_js platform=twitter script='window.location.href' returns twitter URL string",
+      "category": "advanced", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-095", "name": "mcp6 execute_js: run JavaScript on TikTok",
+      "description": "mcp6_safari_execute_js platform=tiktok script='document.readyState' returns 'complete' or 'interactive'",
+      "category": "advanced", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-096", "name": "Results file: JSON report written to scripts/tests/safari_e2e_results.json",
+      "description": "After all tests, a JSON results file exists with tested, passed, failed counts and per-feature outcomes",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-097", "name": "Results file: each entry has id, name, passed, error fields",
+      "description": "Every feature record in the results JSON has id, name, passed (bool), and error (string or null)",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-098", "name": "Results file: summary block with total/passed/failed counts",
+      "description": "Results JSON top-level includes summary.total, summary.passed, summary.failed fields",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-099", "name": "Results file: timestamp recorded in report",
+      "description": "Results JSON top-level includes runAt ISO timestamp",
+      "category": "reporting", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-100", "name": "Feature list JSON updated: all passing tests marked passes=true",
+      "description": "After running, features that passed have passes=true in test-safari-e2e-claudecode.json",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-101", "name": "Overall pass rate >= 80% across all services",
+      "description": "Summary shows >= 80 out of 103 features passing — all core services healthy",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-102", "name": "Git commit: results file committed with pass rate in message",
+      "description": "git commit -m 'test(safari-e2e): XX/103 features passing — final MCP validation' is executed",
+      "category": "reporting", "priority": 1, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    },
+    {
+      "id": "T-SAFARI-E2E-103", "name": "All Safari services restart-able: start script exists and works",
+      "description": "Verify that all 9 Safari automation services can be started with a single script if any fail health check",
+      "category": "integration", "priority": 2, "status": "pending", "passes": false, "prd": "TEST-SAFARI-E2E-CLAUDECODE", "notes": ""
+    }
+  ]
+}

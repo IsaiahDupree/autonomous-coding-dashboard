@@ -4,7 +4,32 @@
   "description": "A comprehensive, real-time monitoring dashboard for the [Claude Autonomous Coding Agent](https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding). This dashboard provides visual insights into agent sessions, feature implementation progress, usage analytics, and command execution logs.",
   "main": "agent-control.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "playwright test",
+    "test:auth": "playwright test auth.spec.ts",
+    "test:crud": "playwright test crud.spec.ts",
+    "test:settings": "playwright test settings.spec.ts",
+    "test:breakpoint": "playwright test breakpoint.spec.ts",
+    "test:edge": "playwright test edge.spec.ts",
+    "test:performance": "playwright test performance.spec.ts",
+    "test:accessibility": "playwright test accessibility.spec.ts",
+    "test:visual": "playwright test visual.spec.ts",
+    "test:snapshot": "playwright test snapshot.spec.ts",
+    "test:cf": "playwright test cf-*.spec.ts",
+    "test:cf:performance": "playwright test cf-performance.spec.ts",
+    "test:cf:db": "playwright test cf-db-performance.spec.ts",
+    "test:cf:load": "playwright test cf-load-testing.spec.ts",
+    "test:cf:a11y": "playwright test cf-accessibility.spec.ts",
+    "test:cf:visual": "playwright test cf-visual-regression.spec.ts",
+    "test:cf:api": "playwright test cf-api-contracts.spec.ts",
+    "test:cf:security": "playwright test cf-security.spec.ts",
+    "test:cf:coverage": "playwright test cf-coverage.spec.ts",
+    "test:cf:snapshot": "playwright test cf-snapshot.spec.ts",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "analyze:bundle": "node scripts/analyze-bundle.js",
+    "bundle:check": "npm run analyze:bundle",
+    "generate:sitemap": "node scripts/generate-sitemap.js"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +37,10 @@
   "type": "commonjs",
   "dependencies": {
     "puppeteer": "^24.34.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.58.2",
+    "playwright": "^1.58.2"
   }
 }

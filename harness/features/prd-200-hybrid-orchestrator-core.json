@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "prd": "PRD-200",
+    "title": "EverReach OS — Unified Hybrid Orchestrator Core",
+    "description": "Single orchestrator codebase (hybrid_orchestrator.py) that runs in both cloud and local environments. Env-aware dispatch routing, Docker local setup, offline fallback, inter-env messaging, and action routing (cloud=API-heavy, local=compute-heavy).",
+    "totalFeatures": 50
+  },
+  "features": [
+    {
+      "id": "EOS-200-001", "name": "HybridOrchestrator class with ENV detection",
+      "description": "hybrid_orchestrator.py: class HybridOrchestrator reads EVERREACH_ENV ('cloud'|'local'|'hybrid'), exposes route(action, params) method that selects executor based on env",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-002", "name": "ENV config loader with defaults",
+      "description": "config/hybrid_config.py: loads EVERREACH_ENV, CLOUD_ENDPOINT, LOCAL_ENDPOINT, VECTOR_DB_URL, SYNC_INTERVAL_SEC from .env with sane defaults; validates on startup",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-003", "name": "Cloud route registry",
+      "description": "cloud_routes.py: dict mapping action names to cloud endpoint URLs (e.g. 'research.platform' → CLOUD_ENDPOINT/api/services/research/platform). Used when EVERREACH_ENV='cloud'",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-004", "name": "Local route registry",
+      "description": "local_routes.py: dict mapping action names to local service_registry topic strings. Used when EVERREACH_ENV='local'",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-005", "name": "Compute-heavy vs API-heavy classification",
+      "description": "action_classifier.py: classify(action) returns 'compute' (local preferred) or 'api' (cloud preferred). Compute: content gen, evaluation, embedding. API: research, dm, publish, linkedin, upwork",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-006", "name": "Auto-routing in hybrid mode",
+      "description": "When EVERREACH_ENV='hybrid', route() calls action_classifier then directs compute-heavy to local and api-heavy to cloud automatically",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-007", "name": "ENV override per-call",
+      "description": "route(action, params, force_env='local'|'cloud') allows per-call env override regardless of global EVERREACH_ENV setting",
+      "category": "env_detection", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-008", "name": "ENV detection unit tests",
+      "description": "tests/test_hybrid_orchestrator.py: 8 tests covering ENV='cloud'/'local'/'hybrid', classify(), route() override, config validation",
+      "category": "env_detection", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-009", "name": "Local orchestrator: service_registry.dispatch() as primary executor",
+      "description": "LocalExecutor.execute(action, params) calls service_registry.dispatch() and returns structured {ok, result, source: 'local', duration_ms}",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-010", "name": "Local executor circuit breaker",
+      "description": "LocalExecutor tracks consecutive failures per action; after 3 fails, marks action as degraded and logs warning. Resets after 60s",
+      "category": "local_orchestrator", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-011", "name": "Offline detection and mode",
+      "description": "connectivity_check.py: async is_cloud_reachable() pings CLOUD_ENDPOINT/health every 30s. Sets OFFLINE_MODE=True if unreachable for 3 consecutive checks",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-012", "name": "Offline fallback for API-heavy actions",
+      "description": "When OFFLINE_MODE=True, api-heavy actions fall back to cached results (last known good response stored in SQLite) or return {ok: false, error: 'offline', cached: {...}}",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-013", "name": "Offline response cache (SQLite)",
+      "description": "offline_cache.py: SQLite table hybrid_cache(action, params_hash, response_json, cached_at). get(action, params) returns cached result if <1hr old",
+      "category": "local_orchestrator", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-014", "name": "Local batch processor: 10+ content pieces in single run",
+      "description": "local_batch.py: batch_execute(actions: list[dict], max_concurrent=3) runs content gen/evaluation actions locally with asyncio.gather, returns list of results",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-015", "name": "Local 06:00 daily routine trigger",
+      "description": "local_cron.py: uses APScheduler to fire daily_routine() at 06:00 local time. Runs: heartbeat, feedback.twitter_cycle, revenue.dashboard, system.heartbeat",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-016", "name": "Local terminal health endpoint",
+      "description": "GET http://localhost:8080/health returns {env: 'local', online: bool, offline_mode: bool, services: {...}, uptime_sec: int}",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-017", "name": "Local terminal FastAPI server",
+      "description": "local_server.py: FastAPI app on port 8080 with POST /dispatch, GET /health, GET /status, POST /batch. Runs as uvicorn process",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-018", "name": "Local executor tests (6 tests)",
+      "description": "Test local dispatch, circuit breaker, offline mode fallback, batch execute, 06:00 cron mock",
+      "category": "local_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-019", "name": "Cloud executor: routes to cloud via httpx",
+      "description": "CloudExecutor.execute(action, params) does POST to CLOUD_ENDPOINT/api/services/{service}/{topic} with MASTER_KEY auth header, returns structured envelope",
+      "category": "cloud_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-020", "name": "Cloud executor with retry + backoff",
+      "description": "CloudExecutor retries up to 3× on 5xx/timeout with exponential backoff (1s, 3s, 9s). Returns final error envelope after exhaustion",
+      "category": "cloud_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-021", "name": "Cloud executor timeout guard",
+      "description": "Each cloud call has configurable timeout (default 30s). On timeout, logs warning and returns {ok: false, error: 'timeout', duration_ms: 30000}",
+      "category": "cloud_orchestrator", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-022", "name": "Cloud executor fallback to local on failure",
+      "description": "When cloud call fails after retries and EVERREACH_ENV='hybrid', CloudExecutor falls back to LocalExecutor with source='local_fallback' in response",
+      "category": "cloud_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-023", "name": "Cloud executor auth: MASTER_KEY header injection",
+      "description": "All cloud requests include Authorization: Bearer {EVERREACH_CLOUD_KEY} header. Missing key raises ConfigError at startup",
+      "category": "cloud_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-024", "name": "Cloud executor tests (5 tests)",
+      "description": "Test cloud POST routing, retry logic, timeout handling, fallback to local, auth header injection via httpx mock",
+      "category": "cloud_orchestrator", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-025", "name": "Inter-env message bus: SyncBus class",
+      "description": "sync_bus.py: SyncBus with publish(topic, payload) and subscribe(topic, handler). Uses Redis pub/sub if available, else falls back to SQLite queue table",
+      "category": "inter_env_comms", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-026", "name": "SyncBus: SQLite fallback queue",
+      "description": "When Redis unavailable, SyncBus uses SQLite table hybrid_messages(id, topic, payload_json, created_at, consumed_at). Polling interval 5s",
+      "category": "inter_env_comms", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-027", "name": "State sync: local→cloud push on reconnect",
+      "description": "On OFFLINE_MODE→online transition, push_pending_sync() sends all queued local state changes to cloud endpoint /api/sync/state",
+      "category": "inter_env_comms", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-028", "name": "State sync: cloud→local pull on startup",
+      "description": "On local terminal startup, pull_cloud_state() fetches latest CRM stats, active workflows, and feedback strategy from cloud and caches locally",
+      "category": "inter_env_comms", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-029", "name": "Conflict resolution: cloud wins on data conflicts",
+      "description": "When local and cloud state conflict on sync, cloud data wins for CRM/pipeline data; local wins for batch-generated content pending publish",
+      "category": "inter_env_comms", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-030", "name": "Inter-env comms tests (5 tests)",
+      "description": "Test SyncBus publish/subscribe, SQLite fallback, reconnect push, startup pull, conflict resolution logic",
+      "category": "inter_env_comms", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-031", "name": "Action router: route_table.json maps actions to preferred env",
+      "description": "route_table.json lists every service.topic with preferred_env ('cloud'|'local'|'auto') and fallback_env. Loaded at startup",
+      "category": "action_routing", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-032", "name": "Local-preferred actions list",
+      "description": "content.analyze_video, content.youtube_payload, feedback.*, twitter.metrics, blotato.queue_summary — all route local by default (compute-heavy/cheap)",
+      "category": "action_routing", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-033", "name": "Cloud-preferred actions list",
+      "description": "research.platform, dm.send, linkedin.*, upwork.*, publish.*, safari.*, telegram.send — all route cloud by default (API-heavy/scalable)",
+      "category": "action_routing", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-034", "name": "Cost-aware routing: $400/month cap enforcement",
+      "description": "cost_guard.py: tracks cloud API call costs (per-service rates). When monthly total approaches $380, auto-shifts 'auto' actions to local",
+      "category": "action_routing", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-035", "name": "Cost guard: rate table for major services",
+      "description": "cost_rates.py: dict of estimated $/call for claude (0.01), research.platform (0.002), dm.send (0.001), linkedin.message (0.005), upwork.propose (0.003)",
+      "category": "action_routing", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-036", "name": "Action router tests (5 tests)",
+      "description": "Test route_table loading, local/cloud preferred routing, hybrid auto-route, cost guard threshold shift, per-call override",
+      "category": "action_routing", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-037", "name": "Dockerfile for local terminal",
+      "description": "docker/Dockerfile.local: FROM python:3.12-slim, installs actp-worker requirements, copies source, EXPOSE 8080, CMD uvicorn local_server:app",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-038", "name": "docker-compose.yml for full local stack",
+      "description": "docker/docker-compose.yml: services: local-terminal (port 8080), redis (pub/sub), chroma (vector DB port 8000), prometheus (port 9090). All networked on everreach-net",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-039", "name": ".env.example with all required vars",
+      "description": ".env.example documents: EVERREACH_ENV, CLOUD_ENDPOINT, EVERREACH_CLOUD_KEY, VECTOR_DB_URL, REDIS_URL, OPENAI_API_KEY, ANTHROPIC_API_KEY, MONTHLY_COST_CAP",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-040", "name": "Makefile with start/stop/status/build targets",
+      "description": "Makefile: make local-up (docker-compose up), make local-down, make local-status, make local-build, make test, make logs",
+      "category": "deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-041", "name": "Health check endpoint in docker-compose",
+      "description": "local-terminal service healthcheck: test curl -f http://localhost:8080/health, interval 30s, retries 3",
+      "category": "deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-042", "name": "Volume mounts for persistent local state",
+      "description": "docker-compose mounts ./data/sqlite:/app/data, ./data/chroma:/chroma/chroma so local state survives container restarts",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-043", "name": "Integration test: route() in cloud env",
+      "description": "With EVERREACH_ENV='cloud', route('dm.send', {...}) calls CloudExecutor; verify source='cloud' in response",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-044", "name": "Integration test: route() in local env",
+      "description": "With EVERREACH_ENV='local', route('content.analyze_video', {...}) calls LocalExecutor; verify source='local'",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-045", "name": "Integration test: hybrid auto-routing",
+      "description": "With EVERREACH_ENV='hybrid', api-heavy routes cloud and compute-heavy routes local; both return ok=True with correct source",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-046", "name": "Integration test: cloud down → local fallback",
+      "description": "Simulate cloud unreachable (OFFLINE_MODE=True), api-heavy actions fall back to cached/local; verify {source: 'local_fallback'}",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-047", "name": "Integration test: batch 10 content pieces locally",
+      "description": "batch_execute([{action:'content.analyze_video', params:{...}} × 10]) completes in <60s and returns 10 results",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-048", "name": "Integration test: cost guard redirects at threshold",
+      "description": "Simulate $380 cloud spend; next 'auto' action routes to local; verify source='local' and cost_guard_triggered=True in response",
+      "category": "integration_tests", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-049", "name": "README: hybrid orchestrator setup guide",
+      "description": "docs/hybrid-orchestrator.md: quickstart (cp .env.example, set EVERREACH_ENV, make local-up), architecture diagram ASCII, action routing table, FAQ",
+      "category": "deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    },
+    {
+      "id": "EOS-200-050", "name": "pytest: >=40 tests collected, all passing",
+      "description": "pytest tests/ -m 'prd200' --collect-only shows >=40 items; full run passes with 0 failures in unit mode",
+      "category": "integration_tests", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-200", "notes": ""
+    }
+  ]
+}

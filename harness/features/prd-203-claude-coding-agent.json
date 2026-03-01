@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "prd": "PRD-203",
+    "title": "EverReach OS — Claude Coding Agent (ECCA) with MCP Access",
+    "description": "Specialized Claude-based coding sub-agent spawned by the HybridOrchestrator for client code work ($2K/mo retainers, Upwork projects, 21 Rork Expo apps). Full MCP client-server stack: code-context, code-assistant, code-execution sandbox, vector DB code snippets, per-client scoped servers. Closed-loop: plan → retrieve → write → execute → test → evaluate → commit.",
+    "totalFeatures": 50
+  },
+  "features": [
+    {
+      "id": "EOS-203-001", "name": "CodingAgent base class",
+      "description": "coding_agent/agent.py: CodingAgent(name, domain, mcp_servers[]) extends base Agent. Attributes: task_queue, active_mcp_connections, code_history. async run(task) entry point",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-002", "name": "Claude 3.5 Sonnet planner + Haiku evaluator",
+      "description": "coding_agent/llm.py: plan_task(task) uses claude-3-5-sonnet-20241022 for planning/generation. evaluate_output(code, tests) uses claude-3-haiku-20240307 to reduce token cost on evals",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-003", "name": "Agent lifecycle: IDLE→PLANNING→CODING→TESTING→DELIVERING→IDLE",
+      "description": "State machine in CodingAgent. Each transition logged to Supabase actp_agent_runs. On error → ERROR state with Telegram alert. Max 3 retries then FAILED",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-004", "name": "Spawn from HybridOrchestrator",
+      "description": "hybrid_orchestrator.py: spawn_coding_agent(task, client_id) creates CodingAgent instance, connects required MCP servers for client_id, returns agent_id. Integrates with PRD-200",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-005", "name": "Task schema: CodeTask dataclass",
+      "description": "coding_agent/models.py: CodeTask(id, client_id, title, description, stack, deliverable, deadline, priority). Stored in Supabase actp_code_tasks table",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-006", "name": "Token budget enforcer",
+      "description": "coding_agent/budget.py: TokenBudget(max_tokens=100000). Tracks usage per task. Switches planner from Sonnet→Haiku when >70% used. Logs usage to actp_cost_log",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-007", "name": "Code history: rolling context window",
+      "description": "coding_agent/context.py: CodeContext stores last 20 code actions (write/edit/test/result) as messages for Claude. Summarizes older entries via Haiku to stay within token budget",
+      "category": "coding_agent_core", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-008", "name": "Coding agent core tests (5 tests)",
+      "description": "Test: CodingAgent init, state transitions, spawn_from_orchestrator, token budget switch, CodeTask schema validation",
+      "category": "coding_agent_core", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-009", "name": "MCPClientManager: connect/disconnect/list servers",
+      "description": "coding_agent/mcp_client.py: MCPClientManager.connect(server_name, config) opens MCP session, discovers tools/resources. disconnect(server_name), list_tools(), list_resources()",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-010", "name": "code-context-provider MCP server (Docker)",
+      "description": "mcp_servers/code_context/: Dockerized MCP server exposing tools: list_files(path), read_file(path), search_code(query), get_structure(repo_url). Read-only, safe for client repos",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-011", "name": "code-assistant MCP server (Docker)",
+      "description": "mcp_servers/code_assistant/: MCP server with tools: generate_diff(file, instruction), apply_diff(file, diff), create_file(path, content), refactor(file, target). Auth required",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-012", "name": "code-execution MCP server: sandboxed runner",
+      "description": "mcp_servers/code_execution/: MCP server with tools: run_python(code, timeout=30), run_node(code), run_bash(cmd, whitelist_only=True), get_output(). Isolated Docker container per call",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-013", "name": "vector-db MCP server: code snippet search",
+      "description": "mcp_servers/vector_code/: MCP server exposing vector DB tools: store_snippet(code, lang, tags, metadata), search_similar(query, lang, n=5), get_pattern(pattern_id). Uses PRD-202 VectorDB",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-014", "name": "linter MCP server: ESLint + Ruff wrapper",
+      "description": "mcp_servers/linter/: MCP server with tools: lint_js(code), lint_python(code), fix_lint(code, lang). Returns {issues: [], fixed_code: str, passed: bool}",
+      "category": "mcp_server_setup", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-015", "name": "Per-client scoped MCP server (GitHub OAuth)",
+      "description": "mcp_servers/client_github/: MCP server per client with OAuth token. Tools: clone_repo, list_branches, get_file, create_branch, commit_file, open_pr. Scoped read/write per client_id",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-016", "name": "MCP server registry: mcp_servers.json",
+      "description": "mcp_servers.json: maps server_name → {image, port, env_vars, auth_required, capabilities[]}. MCPClientManager reads this to spin up correct server for each task",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-017", "name": "MCP server K8s deployments for multi-client scale",
+      "description": "k8s/mcp-servers/: Deployment manifests for code-context, code-assistant, code-execution, vector-code. Each gets its own Service. Namespace: everreach-mcp",
+      "category": "mcp_server_setup", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-018", "name": "MCP setup tests (5 tests)",
+      "description": "Test: MCPClientManager connect/disconnect, tool discovery, code-context list_files mock, code-execution run_python mock, per-client server auth",
+      "category": "mcp_server_setup", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-019", "name": "Plan step: Claude reasons on task → subtasks",
+      "description": "coding_agent/steps/plan.py: plan_task(task) sends task to Claude Sonnet with system prompt 'expert coding agent'. Returns {subtasks: [], stack: str, approach: str, estimated_tokens: int}",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-020", "name": "Retrieve step: semantic search for similar code",
+      "description": "coding_agent/steps/retrieve.py: retrieve_context(task, stack) calls vector-db MCP search_similar for each subtask. Returns top-5 snippets per subtask as context for generation",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-021", "name": "Write step: Claude generates code with retrieved context",
+      "description": "coding_agent/steps/write.py: write_code(subtask, snippets, client_context) → Claude Sonnet prompt with retrieved snippets as few-shot examples. Returns {file_path, code, explanation}",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-022", "name": "Execute step: run code in sandbox via MCP",
+      "description": "coding_agent/steps/execute.py: execute_code(file_path, code) calls code-execution MCP run_python/run_node. Returns {stdout, stderr, exit_code, passed: bool}",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-023", "name": "Test step: auto-generate and run unit tests",
+      "description": "coding_agent/steps/test.py: generate_tests(code, stack) uses Claude Haiku to write pytest/jest tests. run_tests(tests) executes via code-execution MCP. Returns {tests_passed, tests_failed, coverage}",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-024", "name": "Lint step: auto-fix linting issues",
+      "description": "coding_agent/steps/lint.py: lint_and_fix(code, lang) calls linter MCP lint_python/lint_js, if issues → fix_lint. Max 3 lint-fix cycles. Returns {clean: bool, final_code}",
+      "category": "code_generation_loop", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-025", "name": "Evaluate step: classify output quality (Haiku)",
+      "description": "coding_agent/steps/evaluate.py: evaluate_output(code, test_results, lint_results) uses Claude Haiku. Returns {quality: 'excellent'|'good'|'needs_revision'|'failed', issues: [], score: 0-10}",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-026", "name": "Iterate: retry loop on needs_revision (max 3×)",
+      "description": "If evaluate returns 'needs_revision', agent re-enters write step with issues as additional context. Tracks iteration_count. After 3 failures → escalate to human via Telegram",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-027", "name": "Deliver step: commit via GitHub MCP or bundle",
+      "description": "coding_agent/steps/deliver.py: If client has GitHub MCP → create_branch + commit_file + open_pr. Else → bundle files as zip, upload to ClientPortal or Telegram DM",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-028", "name": "Store success: upsert snippet to vector DB",
+      "description": "After quality='excellent'|'good', store_snippet(code, lang, tags, metadata={client_id, task_id, stack}) via vector-db MCP for future retrieval",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-029", "name": "Full loop orchestrator: run_task() coordinates all steps",
+      "description": "CodingAgent.run_task(task): plan → retrieve → for each subtask: write → execute → lint → test → evaluate → iterate? → deliver → store. Returns TaskResult with full audit trail",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-030", "name": "Code generation loop tests (6 tests)",
+      "description": "Test: plan→subtasks, retrieve mock snippets, write with context, execute sandbox mock, evaluate quality classification, full run_task happy path",
+      "category": "code_generation_loop", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-031", "name": "Client onboarding: create_client_mcp_config()",
+      "description": "client_manager.py: create_client_mcp_config(client_id, github_token, repo_url) → saves to Supabase actp_client_mcp_configs. Spins dedicated client_github MCP server container",
+      "category": "client_integration", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-032", "name": "Supabase: actp_client_mcp_configs + actp_code_tasks tables",
+      "description": "Migration: actp_client_mcp_configs(client_id, github_token_encrypted, repo_url, mcp_server_port, active). actp_code_tasks(id, client_id, title, stack, status, deliverable_url, created_at)",
+      "category": "client_integration", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-033", "name": "Retainer task: $2K/mo content automation scenario",
+      "description": "retainer_tasks.py: ContentAutomationTask subclass of CodeTask. Pre-defined stack: Python + Blotato API. on_run: generates/refines content scripts for retainer client, commits weekly",
+      "category": "client_integration", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-034", "name": "Upwork task: webhook trigger on new contract",
+      "description": "upwork_webhook.py: POST /webhooks/upwork on new contract → parse job description → create CodeTask → spawn CodingAgent. Returns {agent_id, task_id, eta_hours}",
+      "category": "client_integration", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-035", "name": "Rork Expo apps: batch 21 app code generation",
+      "description": "rork_batch.py: batch_rork_apps(app_specs[21]) spawns up to 5 CodingAgents in parallel, each generating a React Native Expo app from spec. Progress tracked in actp_code_tasks",
+      "category": "client_integration", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-036", "name": "ClientPortal delivery: upload final bundle",
+      "description": "deliver.py: if no GitHub MCP, call clientportal.upload_deliverable(client_id, zip_path, task_id). Notifies client via Telegram or email with download link",
+      "category": "client_integration", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-037", "name": "Client integration tests (4 tests)",
+      "description": "Test: create_client_mcp_config, Upwork webhook→CodeTask creation, rork batch spawn (mock 3 agents), ClientPortal delivery mock",
+      "category": "client_integration", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-038", "name": "Code embeddings collection in VectorDB",
+      "description": "vector_code.py: embed_code_snippet(code, lang, tags) uses text-embedding-3-small on code. Stored in 'code_snippets' Chroma collection with metadata: {lang, tags, client_id, quality_score}",
+      "category": "vector_db_code", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-039", "name": "find_similar_code(query, lang, n=5)",
+      "description": "VectorDB.find_similar_code(query, lang) searches 'code_snippets' collection filtered by lang. Returns ranked snippets with similarity score and metadata for use as few-shot examples",
+      "category": "vector_db_code", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-040", "name": "Pattern library: reusable code patterns per stack",
+      "description": "pattern_library.py: get_patterns(stack) returns top-10 highest quality snippets for given stack (react-native, python, typescript). Used in retrieve step for every new task",
+      "category": "vector_db_code", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-041", "name": "Bug/fix library: store failed→fixed pairs",
+      "description": "When iteration_count > 0 and final quality='excellent', store both the buggy version and fixed version as a pair in 'code_fixes' collection. Powers future error recognition",
+      "category": "vector_db_code", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-042", "name": "Vector code tests (3 tests)",
+      "description": "Test: embed_code_snippet, find_similar_code returns ranked results, pattern_library get_patterns for react-native stack",
+      "category": "vector_db_code", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-043", "name": "Daily autonomy loop: process pending code tasks",
+      "description": "daily_code_loop.py: cron at 09:00 — queries actp_code_tasks for status='pending', spawns CodingAgent per task (max 3 concurrent), processes queue until empty",
+      "category": "autonomy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-044", "name": "Batch code generation: 10+ snippets in one Claude call",
+      "description": "batch_write.py: batch_generate(subtasks[]) sends all subtasks in single Claude Sonnet prompt (structured output list). Reduces API calls by ~80% vs one-at-a-time",
+      "category": "autonomy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-045", "name": "Prometheus metrics for coding agent",
+      "description": "Counters: everreach_code_tasks_total (labels: client_id, stack, quality), everreach_code_iterations_total. Gauges: everreach_code_agents_active, everreach_code_token_usage. Added to metrics_server.py",
+      "category": "autonomy", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-046", "name": "Autonomy tests (3 tests)",
+      "description": "Test: daily_code_loop claim+spawn, batch_generate returns N subtask results, Prometheus counter increments per task completion",
+      "category": "autonomy", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-047", "name": "docker-compose: add all MCP servers to local stack",
+      "description": "Extend docker-compose.yml (PRD-200) with services: code-context (port 8100), code-assistant (port 8101), code-execution (port 8102), vector-code (port 8103), linter (port 8104)",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-048", "name": "Security: code-execution sandbox isolation",
+      "description": "code-execution MCP server runs each code call in a fresh Docker container (docker run --rm --network=none --memory=256m --cpus=0.5). No host filesystem access. Killed after timeout",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-049", "name": "README: ECCA setup and client onboarding guide",
+      "description": "docs/claude-coding-agent.md: architecture diagram, quickstart, per-client MCP setup (GitHub OAuth steps), how to trigger Upwork webhook, how to run batch Rork apps, cost estimates",
+      "category": "deployment", "priority": 2, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    },
+    {
+      "id": "EOS-203-050", "name": "pytest: >=40 tests collected for PRD-203, all passing",
+      "description": "pytest tests/test_claude_coding_agent.py -m prd203 --collect-only shows >=40; full run passes 0 failures in mock mode",
+      "category": "deployment", "priority": 1, "status": "pending", "passes": false, "prd": "PRD-203", "notes": ""
+    }
+  ]
+}

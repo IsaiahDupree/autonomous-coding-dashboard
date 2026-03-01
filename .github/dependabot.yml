@@ -1,17 +1,108 @@
 version: 2
 updates:
+  # Root dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "09:00"
     open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     groups:
       security-updates:
         applies-to: "security-updates"
         patterns:
           - "*"
 
+  # Backend dependencies (critical for security)
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "security"
+      - "backend"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    # Ignore major version updates for stability
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # Auth package
+  - package-ecosystem: "npm"
+    directory: "/packages/auth"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "auth"
+
+  # Infrastructure package
+  - package-ecosystem: "npm"
+    directory: "/packages/infrastructure"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "infrastructure"
+
+  # Platform package
+  - package-ecosystem: "npm"
+    directory: "/packages/platform"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "platform"
+
+  # Dashboard (Next.js frontend) - CF-WC-110
+  - package-ecosystem: "npm"
+    directory: "/dashboard"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "dashboard"
+    commit-message:
+      prefix: "chore(dashboard)"
+      include: "scope"
+    groups:
+      react:
+        patterns:
+          - "react*"
+          - "next"
+      testing:
+        patterns:
+          - "@testing-library/*"
+          - "vitest"
+          - "playwright"
+
+  # GitHub Actions security updates
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "ci-cd"
+      - "security"
+    commit-message:
+      prefix: "chore(ci)"

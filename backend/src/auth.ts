@@ -9,6 +9,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
+import { getAuthToken, setAuthCookies, clearAuthCookies } from './middleware/auth-cookies';
 
 const prisma = new PrismaClient();
 
@@ -64,17 +65,18 @@ export async function comparePassword(password: string, hash: string): Promise<b
 
 /**
  * Require authentication for a route
+ * Now supports both cookie-based and header-based authentication (PCT-WC-038)
  */
 export function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-    const authHeader = req.headers.authorization;
+    // Get token from cookie or Authorization header
+    const token = getAuthToken(req);
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!token) {
         return res.status(401).json({
-            error: { code: 'UNAUTHORIZED', message: 'Missing or invalid authorization header' }
+            error: { code: 'UNAUTHORIZED', message: 'Missing or invalid authentication' }
         });
     }
 
-    const token = authHeader.slice(7);
     const payload = verifyToken(token);
 
     if (!payload) {
@@ -101,12 +103,12 @@ export function requireAuth(req: AuthenticatedRequest, res: Response, next: Next
 
 /**
  * Optional authentication - sets user if token present
+ * Now supports both cookie-based and header-based authentication (PCT-WC-038)
  */
 export function optionalAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-    const authHeader = req.headers.authorization;
+    const token = getAuthToken(req);
 
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        const token = authHeader.slice(7);
+    if (token) {
         const payload = verifyToken(token);
         if (payload) {
             req.user = payload;
@@ -285,9 +287,12 @@ authRouter.post('/login', async (req: Request, res: Response) => {
             organizationIds: user.memberships.map(m => m.orgId)
         });
 
+        // Set secure cookies (PCT-WC-038: HttpOnly, Secure, SameSite)
+        setAuthCookies(res, token);
+
         res.json({
             data: {
-                token,
+                token, // Still return token for API clients
                 user: { id: user.id, email: user.email, name: user.name },
                 organizations: user.memberships
             }
@@ -382,6 +387,52 @@ authRouter.delete('/tokens/:id', requireAuth, async (req: AuthenticatedRequest, 
         res.status(204).send();
     } catch (error) {
         res.status(500).json({ error: { code: 'SERVER_ERROR', message: 'Failed to delete token' } });
+    }
+});
+
+/**
+ * POST /auth/logout
+ * Logout user and clear authentication cookies (PCT-WC-038)
+ */
+authRouter.post('/logout', (req: Request, res: Response) => {
+    try {
+        // Clear authentication cookies
+        clearAuthCookies(res);
+
+        res.json({
+            data: { message: 'Logged out successfully' }
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({ error: { code: 'SERVER_ERROR', message: 'Logout failed' } });
+    }
+});
+
+/**
+ * POST /auth/refresh
+ * Refresh authentication token (PCT-WC-038 - Token Rotation)
+ */
+authRouter.post('/refresh', requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        // Generate new token with same payload
+        const newToken = generateToken({
+            userId: req.user!.userId,
+            email: req.user!.email,
+            organizationIds: req.user!.organizationIds
+        });
+
+        // Set new secure cookies
+        setAuthCookies(res, newToken);
+
+        res.json({
+            data: {
+                token: newToken,
+                message: 'Token refreshed successfully'
+            }
+        });
+    } catch (error) {
+        console.error('Token refresh error:', error);
+        res.status(500).json({ error: { code: 'SERVER_ERROR', message: 'Token refresh failed' } });
     }
 });
 
