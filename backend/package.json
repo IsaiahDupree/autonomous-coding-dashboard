@@ -19,7 +19,7 @@
     "security:audit:force": "npm audit fix --force"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
+    "@anthropic-ai/sdk": "^0.78.0",
     "@prisma/client": "^5.7.0",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.10",
