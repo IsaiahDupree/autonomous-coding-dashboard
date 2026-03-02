@@ -276,14 +276,31 @@ app.get('/api/harness/agents', async (req, res) => {
                         } catch {}
                     }
 
+                    // Check if the PID is still alive
+                    let pidAlive = false;
+                    if (d.pid) {
+                        try { process.kill(d.pid, 0); pidAlive = true; } catch {}
+                    }
+
+                    // Derive effective status: running but PID dead → 'dead'
+                    const staleMinutes = lastUpdated ? +((Date.now() - lastUpdated.getTime()) / 60000).toFixed(1) : null;
+                    let effectiveStatus = d.status;
+                    if (d.status === 'running' && !pidAlive) effectiveStatus = 'dead';
+
+                    // Skip completed agents that have no matching feature file (old clutter)
+                    if (d.status === 'completed' && total === 0) continue;
+
                     agents.push({
-                        id:          d.projectId,
-                        status:      d.status,
-                        model:       d.model,
-                        session:     d.currentSession ?? d.sessionNumber ?? 1,
-                        sessionType: d.sessionType,
-                        lastUpdated: d.lastUpdated,
-                        pid:         d.pid,
+                        id:            d.projectId,
+                        status:        effectiveStatus,
+                        rawStatus:     d.status,
+                        model:         d.model,
+                        session:       d.currentSession ?? d.sessionNumber ?? 1,
+                        sessionType:   d.sessionType,
+                        lastUpdated:   d.lastUpdated,
+                        pid:           d.pid,
+                        pidAlive,
+                        staleMinutes,
                         stats: {
                             total,
                             passing,

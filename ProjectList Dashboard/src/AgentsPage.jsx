@@ -64,22 +64,57 @@ function modelTheme(model = '') {
 }
 
 function AgentCard({ agent }) {
-    const theme = modelTheme(agent.model)
-    const pct   = agent.stats?.percentComplete ?? 0
+    const theme     = modelTheme(agent.model)
+    const pct       = agent.stats?.percentComplete ?? 0
     const isRunning = agent.status === 'running'
-    const label = agent.id.replace(/^p051-0?\d+-/, '').replace(/-/g, ' ')
+    const isDead    = agent.status === 'dead'
+    const isDone    = agent.status === 'completed'
+    const isStale   = isRunning && (agent.staleMinutes ?? 0) > 5
+
+    // Strip p051-NN- prefix; for others strip leading prd-NNN- prefix
+    const label = agent.id
+        .replace(/^p051-0?\d+-/, '')
+        .replace(/^prd-\d+-/, '')
+        .replace(/-/g, ' ')
+
     const modelShort = (agent.model || '').replace('claude-', '').replace(/-20\d+$/, '')
 
+    // Card border/bg: amber if stale running, red if dead, theme color otherwise
+    const cardBorder = isDead  ? 'border-red-500/40 bg-red-500/5'
+                     : isStale ? 'border-amber-500/40 bg-amber-500/5'
+                     : `${theme.bg} ${theme.border}`
+
+    // Progress bar colour
+    const barColor = isDead  ? 'bg-red-500'
+                   : isStale ? 'bg-amber-400'
+                   : isDone  ? 'bg-green-500'
+                   : theme.bar
+
+    // Status dot
+    const dot = isDead  ? <span className="w-2 h-2 rounded-full bg-red-400" />
+              : isStale ? <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              : isRunning ? <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              : <span className="w-2 h-2 rounded-full bg-gray-500" />
+
     return (
-        <div className={`rounded-xl p-4 border ${theme.bg} ${theme.border} transition-all`}>
+        <div className={`rounded-xl p-4 border ${cardBorder} transition-all`}>
             <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                    {isRunning
-                        ? <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                        : <span className="w-2 h-2 rounded-full bg-gray-500" />}
+                    {dot}
                     <span className="font-semibold text-white capitalize text-sm">{label}</span>
                 </div>
                 <div className="flex items-center gap-2">
+                    {isDead && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">dead</span>
+                    )}
+                    {isStale && !isDead && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                            {Math.round(agent.staleMinutes)}m stale
+                        </span>
+                    )}
+                    {isDone && (
+                        <CheckCircle2 size={14} className="text-green-400" />
+                    )}
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${theme.bg} ${theme.border} ${theme.text}`}>{modelShort}</span>
                     <span className="text-xs text-gray-500">s{agent.session}</span>
                 </div>
@@ -88,7 +123,7 @@ function AgentCard({ agent }) {
             {/* Progress bar */}
             <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden mb-2">
                 <div
-                    className={`h-full rounded-full transition-all duration-700 ${theme.bar}`}
+                    className={`h-full rounded-full transition-all duration-700 ${barColor}`}
                     style={{ width: `${pct}%` }}
                 />
             </div>
