@@ -414,6 +414,46 @@ export function useAuth() {
 }
 
 // ============================================
+// LIVE AGENT STATUS HOOK
+// ============================================
+
+/**
+ * Poll /api/harness/agents every 5s for live parallel agent progress
+ */
+export function useAgentStatus(pollInterval = 5000) {
+    const [agents, setAgents] = useState([])
+    const [asOf, setAsOf] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    const fetchAgents = useCallback(async () => {
+        try {
+            const data = await apiFetch('/api/harness/agents')
+            setAgents(data.agents || [])
+            setAsOf(data.asOf || null)
+            setError(null)
+        } catch (e) {
+            setError(e.message)
+        } finally {
+            setLoading(false)
+        }
+    }, [])
+
+    useEffect(() => {
+        fetchAgents()
+        const interval = setInterval(fetchAgents, pollInterval)
+        return () => clearInterval(interval)
+    }, [fetchAgents, pollInterval])
+
+    const runningCount = agents.filter(a => a.status === 'running').length
+    const totalFeatures = agents.reduce((s, a) => s + (a.stats?.total || 0), 0)
+    const passingFeatures = agents.reduce((s, a) => s + (a.stats?.passing || 0), 0)
+    const overallPct = totalFeatures > 0 ? +((passingFeatures / totalFeatures) * 100).toFixed(1) : 0
+
+    return { agents, asOf, loading, error, refetch: fetchAgents, runningCount, totalFeatures, passingFeatures, overallPct }
+}
+
+// ============================================
 // UTILITY FUNCTIONS
 // ============================================
 

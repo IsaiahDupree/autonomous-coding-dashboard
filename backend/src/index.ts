@@ -236,6 +236,78 @@ app.get('/api/status', async (req, res) => {
     }
 });
 
+// Live parallel agent status — scans all harness-status-*.json in watched repos
+app.get('/api/harness/agents', async (req, res) => {
+    try {
+        const watchedRoots = [
+            path.resolve(__dirname, '..', '..'),                                // dashboard root
+            '/Users/isaiahdupree/Documents/Software/actp-worker',
+        ];
+
+        const agents: any[] = [];
+
+        for (const root of watchedRoots) {
+            if (!fs.existsSync(root)) continue;
+            const files = fs.readdirSync(root).filter(f =>
+                f.startsWith('harness-status-') && f.endsWith('.json')
+            );
+            for (const file of files) {
+                try {
+                    const raw = fs.readFileSync(path.join(root, file), 'utf-8');
+                    const d = JSON.parse(raw);
+                    // Only return agents active in the last 6 hours
+                    const lastUpdated = d.lastUpdated ? new Date(d.lastUpdated) : null;
+                    const ageMs = lastUpdated ? Date.now() - lastUpdated.getTime() : Infinity;
+                    if (ageMs > 6 * 60 * 60 * 1000) continue;
+
+                    // Read actual passing count from the feature list if available
+                    let passing = d.stats?.passing ?? 0;
+                    let total   = d.stats?.total   ?? 0;
+                    const featureListPath = path.join(root, `p051-${d.projectId?.replace('p051-','')}.json`);
+                    // Try to read from harness feature list location
+                    const dashFeatDir = path.resolve(__dirname, '..', '..', 'harness', 'features');
+                    const featFile = path.join(dashFeatDir, `${d.projectId}.json`);
+                    if (fs.existsSync(featFile)) {
+                        try {
+                            const fd = JSON.parse(fs.readFileSync(featFile, 'utf-8'));
+                            const feats = fd.features || [];
+                            passing = feats.filter((f: any) => f.passes === true).length;
+                            total   = feats.length;
+                        } catch {}
+                    }
+
+                    agents.push({
+                        id:          d.projectId,
+                        status:      d.status,
+                        model:       d.model,
+                        session:     d.currentSession ?? d.sessionNumber ?? 1,
+                        sessionType: d.sessionType,
+                        lastUpdated: d.lastUpdated,
+                        pid:         d.pid,
+                        stats: {
+                            total,
+                            passing,
+                            pending:         total - passing,
+                            percentComplete: total > 0 ? +((passing / total) * 100).toFixed(1) : 0,
+                        },
+                    });
+                } catch { /* skip unparseable files */ }
+            }
+        }
+
+        // Sort: running first, then by id
+        agents.sort((a, b) => {
+            if (a.status === 'running' && b.status !== 'running') return -1;
+            if (b.status === 'running' && a.status !== 'running') return 1;
+            return a.id.localeCompare(b.id);
+        });
+
+        res.json({ data: { agents, count: agents.length, asOf: new Date().toISOString() } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get agent status' } });
+    }
+});
+
 // Comprehensive targets status endpoint - reads from repo-queue.json
 app.get('/api/targets/status', async (req, res) => {
     try {

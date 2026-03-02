@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
     ChevronDown,
     ChevronRight,
@@ -14,8 +14,12 @@ import {
     Code,
     Database,
     FolderOpen,
-    Settings
+    Settings,
+    Cpu,
+    CircleDot,
+    AlertCircle
 } from 'lucide-react'
+import { useAgentStatus } from './api'
 
 // Collapsible Dropdown Component
 function Dropdown({ title, icon: Icon, children, defaultOpen = false }) {
@@ -40,6 +44,115 @@ function Dropdown({ title, icon: Icon, children, defaultOpen = false }) {
                     {children}
                 </div>
             )}
+        </div>
+    )
+}
+
+// ── Live Parallel Agents Panel ─────────────────────────────────────────────
+const MODEL_COLORS = {
+    'claude-opus':   { bg: 'bg-purple-500/15', border: 'border-purple-500/40', text: 'text-purple-300', bar: 'bg-purple-500' },
+    'claude-sonnet': { bg: 'bg-blue-500/15',   border: 'border-blue-500/40',   text: 'text-blue-300',   bar: 'bg-blue-500'   },
+    'claude-haiku':  { bg: 'bg-teal-500/15',   border: 'border-teal-500/40',   text: 'text-teal-300',   bar: 'bg-teal-500'   },
+    default:         { bg: 'bg-slate-700/30',  border: 'border-white/10',      text: 'text-gray-300',   bar: 'bg-gray-500'   },
+}
+
+function modelTheme(model = '') {
+    if (model.includes('opus'))   return MODEL_COLORS['claude-opus']
+    if (model.includes('sonnet')) return MODEL_COLORS['claude-sonnet']
+    if (model.includes('haiku'))  return MODEL_COLORS['claude-haiku']
+    return MODEL_COLORS.default
+}
+
+function AgentCard({ agent }) {
+    const theme = modelTheme(agent.model)
+    const pct   = agent.stats?.percentComplete ?? 0
+    const isRunning = agent.status === 'running'
+    const label = agent.id.replace(/^p051-0?\d+-/, '').replace(/-/g, ' ')
+    const modelShort = (agent.model || '').replace('claude-', '').replace(/-20\d+$/, '')
+
+    return (
+        <div className={`rounded-xl p-4 border ${theme.bg} ${theme.border} transition-all`}>
+            <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                    {isRunning
+                        ? <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                        : <span className="w-2 h-2 rounded-full bg-gray-500" />}
+                    <span className="font-semibold text-white capitalize text-sm">{label}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${theme.bg} ${theme.border} ${theme.text}`}>{modelShort}</span>
+                    <span className="text-xs text-gray-500">s{agent.session}</span>
+                </div>
+            </div>
+
+            {/* Progress bar */}
+            <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden mb-2">
+                <div
+                    className={`h-full rounded-full transition-all duration-700 ${theme.bar}`}
+                    style={{ width: `${pct}%` }}
+                />
+            </div>
+
+            <div className="flex justify-between text-xs text-gray-400">
+                <span>{agent.stats?.passing ?? 0}/{agent.stats?.total ?? 0} features</span>
+                <span className="font-mono">{pct}%</span>
+            </div>
+        </div>
+    )
+}
+
+function LiveAgentsPanel() {
+    const { agents, asOf, loading, error, runningCount, totalFeatures, passingFeatures, overallPct } = useAgentStatus(5000)
+
+    const ago = asOf ? Math.round((Date.now() - new Date(asOf).getTime()) / 1000) : null
+
+    if (loading) return (
+        <div className="rounded-xl border border-white/10 bg-slate-900/50 p-6 flex items-center gap-3 text-gray-400">
+            <RefreshCw size={16} className="animate-spin" />
+            <span>Connecting to backend…</span>
+        </div>
+    )
+
+    if (error || agents.length === 0) return (
+        <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/5 p-4 flex items-center gap-3 text-yellow-400 text-sm">
+            <AlertCircle size={16} />
+            <span>{error ? `Backend error: ${error}` : 'No active agents found (last 6h). Start a harness to see live progress.'}</span>
+        </div>
+    )
+
+    return (
+        <div className="rounded-xl border border-white/10 bg-slate-900/50 overflow-hidden">
+            {/* Summary bar */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                        <span className="text-white font-semibold">{runningCount} running</span>
+                        <span className="text-gray-500 text-sm">/ {agents.length} total</span>
+                    </div>
+                    <div className="text-sm text-gray-400">
+                        <span className="text-white font-mono">{passingFeatures}</span>
+                        <span>/{totalFeatures} features · </span>
+                        <span className="text-green-400 font-mono">{overallPct}%</span>
+                    </div>
+                </div>
+                <span className="text-xs text-gray-600">{ago != null ? `${ago}s ago` : ''}</span>
+            </div>
+
+            {/* Overall progress bar */}
+            <div className="px-6 py-2 bg-slate-950/40">
+                <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                        className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-700"
+                        style={{ width: `${overallPct}%` }}
+                    />
+                </div>
+            </div>
+
+            {/* Agent grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-4">
+                {agents.map(agent => <AgentCard key={agent.id} agent={agent} />)}
+            </div>
         </div>
     )
 }
@@ -158,6 +271,17 @@ export default function AgentsPage() {
 
             {/* Main Content */}
             <main className="max-w-6xl mx-auto px-6 py-8">
+
+                {/* Live Parallel Agents — polls /api/harness/agents every 5s */}
+                <section className="mb-8">
+                    <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <Cpu className="text-green-400" />
+                        Live Agent Progress
+                        <span className="ml-2 text-xs font-normal text-gray-500 bg-slate-800 px-2 py-0.5 rounded-full">auto-refresh 5s</span>
+                    </h2>
+                    <LiveAgentsPanel />
+                </section>
+
                 {/* Architecture Diagram */}
                 <section className="mb-8">
                     <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
