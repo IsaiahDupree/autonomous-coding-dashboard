@@ -1,0 +1,103 @@
+{
+  "features": [
+    {
+      "id": "CMM-076",
+      "name": "agent_pool.py: SpecialistHandoff + SpecialistResult dataclasses",
+      "description": "SpecialistHandoff: role, intent, context (dict), mcp_servers (list[str]), skill_domain (str), tools_allowed (list[str]), priority ('normal'|'high'|'urgent'), timeout_seconds, on_progress (Callable|None). SpecialistResult: role, success, output (str), data (dict), duration_ms, error (str|None), tools_used (list[str]).",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-077",
+      "name": "agent_pool.py: AgentHandle + AgentPoolStatus dataclasses",
+      "description": "AgentHandle: handle_id (uuid), role, pid (int|None), process (subprocess.Popen|None), started_at, handoff (SpecialistHandoff), status ('spawning'|'running'|'finishing'|'done'|'failed'). AgentPoolStatus: role, active_count, queued_count, max_count, completed_today, failed_today, avg_duration_ms.",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-078",
+      "name": "agent_pool.py: AgentPool class with concurrency control",
+      "description": "AgentPool.__init__: _active: dict[str, list[AgentHandle]], _semaphores: dict[str, asyncio.Semaphore] per role, _total_semaphore: asyncio.Semaphore(AGENT_POOL_MAX_CONCURRENCY). _role_configs: dict with timeout, max per role. _completed: deque(maxlen=100) for metrics.",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-079",
+      "name": "agent_pool.py: AgentPool.run_task() \u2014 full lifecycle",
+      "description": "async run_task(role, handoff) \u2192 SpecialistResult: (1) acquire role semaphore + total semaphore, (2) build system prompt via skill_loader.build_system_prompt(role, domain), (3) spawn Claude Code subprocess with --system-prompt and MCP config flags, (4) stream stdout as on_progress callbacks, (5) parse final JSON result from stdout, (6) kill subprocess in finally, (7) release semaphores, (8) log to actp_agent_pool_runs.",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-080",
+      "name": "agent_pool.py: specialist subprocess spawn with MCP config",
+      "description": "Specialist Claude Code invocation: claude --print --output-format json --system-prompt {soul_path} --mcp-config {mcp_config_path} -- '{intent}'. Generate temp mcp_config.json per spawn with only the allowed MCP servers for that role (from mcp_servers.json filtered by role). Pass tools_allowed as context in the prompt.",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-081",
+      "name": "agent_pool.py: structured result parsing from subprocess",
+      "description": "Specialist subprocess must output a final JSON line: {success, output, data, tools_used}. AgentPool reads stdout line by line: lines matching progress pattern \u2192 on_progress callback, final JSON line \u2192 SpecialistResult. Handle malformed output gracefully (fallback to raw stdout as output).",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-082",
+      "name": "agent_pool.py: warm reuse of specialist processes",
+      "description": "After task completion, keep process in _warm dict for AGENT_POOL_WARM_TIMEOUT seconds. If new task for same role arrives within timeout, send new task via stdin instead of spawning fresh process. Halves latency for follow-up queries. Fall back to fresh spawn if warm process dies.",
+      "category": "agent_pool",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-083",
+      "name": "agent_pool.py: pool metrics + status()",
+      "description": "AgentPool.status() \u2192 dict[str, AgentPoolStatus]: per role: active_count, queued_count, max_count, completed_today (reset at midnight), failed_today, avg_duration_ms (last 20 runs). Also: total_active, total_queued, total_completed_today. Exposed via actp_mcp_server /tools/get_swarm_status.",
+      "category": "agent_pool",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-084",
+      "name": "agent_pool.py: feature flag guard + SwarmAgent fallback",
+      "description": "If AGENT_POOL_ENABLED=false, AgentPool.run_task() delegates to existing SwarmAgent.run_task() from agent_swarm.py. Zero behavior change when disabled. AgentPool is always instantiated (for status calls) but routes through legacy path.",
+      "category": "agent_pool",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-085",
+      "name": "agent_pool.py: timeout enforcement + cleanup",
+      "description": "asyncio.wait_for(specialist_coroutine, timeout=handoff.timeout_seconds). On timeout: kill subprocess, log timeout to actp_agent_pool_runs, return SpecialistResult(success=False, error='timeout_{role}_{timeout}s'). Ensure semaphores are always released even on timeout.",
+      "category": "agent_pool",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-163",
+      "name": "agent_swarm.py: integrate AgentPool into SwarmOrchestrator",
+      "description": "SwarmOrchestrator.route_and_dispatch(): if AGENT_POOL_ENABLED and pool is available, route through AgentPool.run_task(). Else use existing SwarmAgent.run_task(). TaskRouter still decides the role \u2014 AgentPool just replaces the spawn mechanism. Backward compatible.",
+      "category": "agent_pool",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

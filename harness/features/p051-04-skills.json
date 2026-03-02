@@ -1,0 +1,112 @@
+{
+  "features": [
+    {
+      "id": "CMM-061",
+      "name": "skill_loader.py: SkillDomain enum + domain filtering",
+      "description": "Add SkillDomain enum: RESEARCH, CODING, CONTENT, ACQUISITION, PUBLISHING, WATCHDOG, ORCHESTRATOR. Extend get_registry(domain: SkillDomain | None = None): when domain specified, filter PRDs by domain frontmatter tags. Untagged PRDs only load for ORCHESTRATOR domain.",
+      "category": "skills",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-062",
+      "name": "skill_loader.py: PRD frontmatter parser",
+      "description": "Add _parse_prd_frontmatter(path) \u2192 dict: reads YAML frontmatter block (---...---) from PRD .md files. Extracts: domain list, agent_roles list, priority (high/medium/low). Returns empty dict if no frontmatter. Cache results per file (mtime-based invalidation).",
+      "category": "skills",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-063",
+      "name": "Tag research PRDs with domain frontmatter",
+      "description": "Add frontmatter to: PRD-003-SAFARI-RESEARCH-PIPELINE.md, PRD-008-AUTONOMOUS-TWITTER-RESEARCH-PIPELINE.md, PRD-003-SAFARI-RESEARCH-PIPELINE.md, and any market/analytics PRDs in harness/prompts/ and actp-worker/. domain: [research], agent_roles: [researcher].",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-064",
+      "name": "Tag coding/ACD PRDs with domain frontmatter",
+      "description": "Add frontmatter to ACD-related PRDs, harness PRDs, testing PRDs, deployment PRDs. domain: [coding], agent_roles: [coding]. Includes AGENT_HARNESS_GUIDE.md, PRD-001-WORKFLOW-ENGINE.md coding sections, all ACD dispatch docs.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-065",
+      "name": "Tag content PRDs with domain frontmatter",
+      "description": "Add frontmatter to content generation, video, publishing workflow, Remotion, Blotato PRDs. domain: [content], agent_roles: [content]. Includes PRD-007-RESEARCH-TO-BLOTATO-PIPELINE.md, ContentLite PRDs, video rendering PRDs.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-066",
+      "name": "Tag acquisition PRDs with domain frontmatter",
+      "description": "Add frontmatter to DM, CRM, LinkedIn, Upwork, outreach, lead gen PRDs. domain: [acquisition], agent_roles: [acquisition]. Includes PRD-022 through PRD-028 acquisition series, crm_brain docs.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-067",
+      "name": "Tag publishing/timing PRDs with domain frontmatter",
+      "description": "Add frontmatter to publishing, scheduling, MPLite, PublishLite, platform timing PRDs. domain: [publishing], agent_roles: [publisher]. Includes Thompson Sampling timing PRDs, MPLite integration docs.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-068",
+      "name": "Tag watchdog/infra PRDs with domain frontmatter",
+      "description": "Add frontmatter to infrastructure, health monitoring, deployment, self-healing PRDs. domain: [watchdog], agent_roles: [watchdog]. Includes PRD-002-LOCAL-AGENT-DAEMON, start_all.sh docs, self-healing docs.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-069",
+      "name": "skill_loader.py: domain audit + PRD count assertion",
+      "description": "Add skill_loader.audit_domains() \u2192 dict: returns per-domain PRD count and list. Add assertion in tests: each specialist domain loads < 30 PRDs. Log WARNING if a domain loads > 30. Log INFO with domain breakdown on startup.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-070",
+      "name": "skill_loader.py: domain-filtered system prompt builder",
+      "description": "Add build_system_prompt(role, soul_file, domain) \u2192 str: loads soul file content + get_registry(domain) PRDs. Formats as system prompt: [SOUL] + [SKILLS: domain X] section with filtered PRD summaries. Used by AgentPool when spawning specialists.",
+      "category": "skills",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-164",
+      "name": "specialist soul files: researcher-soul.md",
+      "description": "Create actp-worker/specialist_souls/researcher-soul.md: Role: ResearchClaw - Platform Intelligence Analyst. Domain: market research, competitive analysis, platform metrics, creator discovery. Tools available (list all researcher_tools functions with descriptions). Output format: structured JSON with sources + data points. Constraints: never fabricate metrics, always cite source.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-165",
+      "name": "specialist soul files: content + acquisition + publisher + watchdog",
+      "description": "Create: content-soul.md (ContentClaw - Creative Director), acquisition-soul.md (AcquisitionClaw - Growth Specialist), publisher-soul.md (PublisherClaw - Distribution Strategist), watchdog-soul.md (WatchdogClaw - Infrastructure Guardian). Each: role identity, domain, tools list, output format, constraints.",
+      "category": "skills",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

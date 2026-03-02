@@ -1,0 +1,85 @@
+{
+  "features": [
+    {
+      "id": "CMM-041",
+      "name": "actp_mcp_server.py: FastAPI app with auth",
+      "description": "FastAPI app on ACTP_MCP_PORT. Middleware: validate Bearer ACTP_MCP_AUTH_KEY header (skip if key empty = localhost trust). GET /health returns {ok, version, tool_count}. GET /tools returns list of all registered tool definitions with name, description, parameters schema.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-042",
+      "name": "actp_mcp_server.py: tool create_job",
+      "description": "POST /tools/create_job body: {topic: str, params: dict, priority: str='normal'}. Dispatches to ACTP worker via existing job queue. Returns {job_id, status, created_at}. Validates topic exists in ACTP topic registry before dispatch.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-043",
+      "name": "actp_mcp_server.py: tools get_job + list_jobs",
+      "description": "GET /tools/get_job?job_id=X: returns full JobStatus including status, result, error, duration_ms, created_at, updated_at. GET /tools/list_jobs?status=X&limit=N: returns paginated list of jobs. Both read from Supabase actp_jobs table.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-044",
+      "name": "actp_mcp_server.py: tool wait_for_job",
+      "description": "POST /tools/wait_for_job body: {job_id: str, timeout: int=60}. Polls job status every 2s until done/failed/timeout. Returns JobResult with final status and result payload. Long-poll safe (uvicorn async).",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-045",
+      "name": "actp_mcp_server.py: tool dispatch_topic",
+      "description": "POST /tools/dispatch_topic body: {topic: str, params: dict}. Creates job AND waits up to 30s for result (convenience wrapper over create_job + wait_for_job). Returns JobResult. This replaces the current dispatch_actp_topic HTTP call pattern.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-046",
+      "name": "actp_mcp_server.py: tool list_topics + get_topic_schema",
+      "description": "GET /tools/list_topics: returns list of all registered ACTP topic definitions (name, description, params schema, executor type). GET /tools/get_topic_schema?topic=X: returns full JSON schema for a specific topic's params. Reads from workflow_executors.py registry.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-047",
+      "name": "actp_mcp_server.py: analytics tools",
+      "description": "GET /tools/get_revenue_summary?days=30: queries Supabase for revenue metrics. GET /tools/get_content_performance?platform=X&days=30: queries actp_published_content for performance. GET /tools/get_system_health: aggregates all service health. GET /tools/get_active_campaigns.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-048",
+      "name": "actp_mcp_server.py: workflow tools",
+      "description": "GET /tools/get_workflow_status?slug=X: calls workflow-engine API, returns execution state + step states. POST /tools/start_workflow body: {slug, params}: starts a workflow execution. GET /tools/get_publish_queue?status=X: returns MPLite/PublishLite queue items.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-049",
+      "name": "actp_mcp_server.py: swarm status tool",
+      "description": "GET /tools/get_swarm_status: calls agent_swarm.SwarmOrchestrator.status() and AgentPool.status(). Returns: active_specialists, queued_tasks, completed_today, failed_today, per-role breakdown. This is what /meshstatus Telegram command calls.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

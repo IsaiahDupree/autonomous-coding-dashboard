@@ -1,0 +1,175 @@
+{
+  "features": [
+    {
+      "id": "CMM-001",
+      "name": "config.py: MCP mesh + orchestrator + agent pool env vars",
+      "description": "Add to config.py: ORCHESTRATOR_ENABLED=false, MCP_MESH_ENABLED=false, AGENT_POOL_ENABLED=false, SPECIALIST_TOOLS_ENABLED=false, AGENT_POOL_MAX_CONCURRENCY=8, AGENT_POOL_ROLE_MAX=2, AGENT_POOL_WARM_TIMEOUT=60, ORCHESTRATOR_RESTART_DELAY=3, MCP_HEALTH_CHECK_INTERVAL=60, MCP_RESTART_MAX_ATTEMPTS=3, ACTP_MCP_PORT=8766, ACTP_MCP_AUTH_KEY env var",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-002",
+      "name": "requirements.txt: add MCP + FastAPI deps",
+      "description": "Add to requirements.txt: fastapi>=0.115.0, uvicorn>=0.32.0, mcp>=1.0.0 (or httpx-mcp), pydantic>=2.0.0. Pin versions. Keep backward compatible with existing deps.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-003",
+      "name": "File skeleton: orchestrator_agent.py",
+      "description": "Create actp-worker/orchestrator_agent.py with class OrchestratorAgent, __init__, process(), warm_up(), shutdown(), status(). All methods raise NotImplementedError for now \u2014 stubs only. Add module-level logger and feature flag guard at top.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-004",
+      "name": "File skeleton: agent_pool.py",
+      "description": "Create actp-worker/agent_pool.py with dataclasses SpecialistHandoff, SpecialistResult, AgentHandle, AgentPoolStatus. Class AgentPool with acquire(), release(), run_task(), status() stubs. Module-level POOL singleton. Feature flag guard.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-005",
+      "name": "File skeleton: mcp_service_mesh.py",
+      "description": "Create actp-worker/mcp_service_mesh.py with dataclass MCPServerHandle, MCPServerConfig. Class MCPServiceMesh with start_all(), get(), health_check(), restart(), stop_all() stubs. Module-level MESH singleton. Feature flag guard.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-006",
+      "name": "File skeleton: actp_mcp_server.py",
+      "description": "Create actp-worker/actp_mcp_server.py as a FastAPI app on ACTP_MCP_PORT (8766). Skeleton routes: GET /health, GET /tools (list all). Auth: Bearer ACTP_MCP_AUTH_KEY. All tool endpoints return 501 Not Implemented stubs. Runnable via uvicorn.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-007",
+      "name": "specialist_tools/ package scaffold",
+      "description": "Create actp-worker/specialist_tools/__init__.py exporting ToolResult dataclass (tool_name, success, data, error, duration_ms). Create empty files: researcher_tools.py, content_tools.py, acquisition_tools.py, publisher_tools.py, watchdog_tools.py. Each with module docstring and logger.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-008",
+      "name": "specialist_souls/ directory with 6 soul files",
+      "description": "Create actp-worker/specialist_souls/ with: researcher-soul.md, coding-soul.md, content-soul.md, acquisition-soul.md, publisher-soul.md, watchdog-soul.md. Each defines: role identity, domain scope, output format, tool list, constraints, example task. Based on AGENT_PROFILES in agent_swarm.py.",
+      "category": "setup",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-009",
+      "name": "mcp_servers.json: MCP server registry config file",
+      "description": "Create actp-worker/mcp_servers.json listing all 18 MCP servers with: name, type (local|external), host, port, health_endpoint, restart_policy (auto|never), roles (which specialist roles use it), required_env_vars. Matches PRD-051 Section 3.4 table.",
+      "category": "setup",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-011",
+      "name": "Supabase migration: actp_agent_pool_runs table",
+      "description": "CREATE TABLE actp_agent_pool_runs (id uuid PK, role text, task_id text, handoff_intent text, status text, started_at timestamptz, finished_at timestamptz, duration_ms int, result_summary text, error text, mcp_servers text[], skill_domain text). For auditing and latency tracking.",
+      "category": "database",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-012",
+      "name": "Supabase migration: actp_mcp_server_health table",
+      "description": "CREATE TABLE actp_mcp_server_health (id uuid PK, server_name text, status text, last_check timestamptz, consecutive_failures int, last_error text, latency_ms int, requests_total int, errors_total int). Upserted every health check cycle.",
+      "category": "database",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-013",
+      "name": "Supabase migration: actp_orchestrator_sessions table",
+      "description": "CREATE TABLE actp_orchestrator_sessions (id uuid PK, user_id bigint, session_start timestamptz, last_activity timestamptz, turn_count int, context jsonb, specialists_used text[]). One row per user, upserted on each turn.",
+      "category": "database",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-016",
+      "name": "Fix double-processing bug in telegram_command_bot.py",
+      "description": "Root cause: when ai_chat returns an empty/falsy reply (partial_failure), code falls through to agent-core two-layer path which also spawns the swarm. Fix: (1) if ai_reply is falsy but no exception, return a fallback string instead of falling through. (2) Add processed_update_ids set to deduplicate any replayed updates. Both fixes together eliminate double sends.",
+      "category": "bot",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-017",
+      "name": "telegram_command_bot.py: wire orchestrator path (feature-flagged)",
+      "description": "In handle_admin_message(), before the existing ai_chat block, check: if ORCHESTRATOR_ENABLED and orchestrator is available, call orchestrator.process(user_id, text). Return result directly. Else fall through to existing ai_chat path. Feature flag ensures zero behavior change when disabled.",
+      "category": "bot",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-018",
+      "name": "telegram_command_bot.py: fix on_progress duplicate sends",
+      "description": "Current on_receipt and on_progress both call _send(), causing multiple messages. Fix: on_receipt fires once (ack), on_progress fires for meaningful milestones only (not every 10% update). Add dedup: skip progress send if identical text was sent < 500ms ago.",
+      "category": "bot",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-019",
+      "name": "telegram_command_bot.py: /meshstatus slash command",
+      "description": "Add /meshstatus command: calls MCPServiceMesh.health_check() and AgentPool.status(). Returns formatted table: server name, status (online/offline/degraded), latency_ms, last_checked. Also shows active specialists. Graceful fallback if mesh not enabled.",
+      "category": "bot",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-161",
+      "name": "telegram_command_bot.py: /meshstatus full implementation",
+      "description": "Full /meshstatus: calls MCPServiceMesh.health_check() + AgentPool.status(). Formats as markdown table: \ud83d\udfe2/\ud83d\udfe1/\ud83d\udd34 per server, latency_ms. Shows active specialists (role + task + duration). Shows pool stats: completed today, failed today per role. Graceful if mesh not initialized (ORCHESTRATOR_ENABLED=false).",
+      "category": "bot",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-162",
+      "name": "telegram_command_bot.py: /specialize <role> <task> command",
+      "description": "Add /specialize command: directly spawns a named specialist without going through orchestrator. Usage: /specialize researcher 'what are the top TikTok hooks for AI automation?'. Shows progress via on_progress callbacks. Good for testing individual specialists. Admin-only.",
+      "category": "bot",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-173",
+      "name": "docs: CLAWBOT_MESH_GUIDE.md",
+      "description": "Create actp-worker/docs/CLAWBOT_MESH_GUIDE.md: (1) Architecture diagram (ASCII), (2) Quick start: enable phase by phase with env vars, (3) Adding a new specialist role, (4) Adding a new MCP server, (5) Adding a new tool, (6) Troubleshooting: partial_failure, double processing, MCP server offline, pool exhaustion. Primary dev reference.",
+      "category": "setup",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

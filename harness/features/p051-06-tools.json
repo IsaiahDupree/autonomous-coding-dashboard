@@ -1,0 +1,148 @@
+{
+  "features": [
+    {
+      "id": "CMM-101",
+      "name": "specialist_tools/researcher_tools.py: get_youtube_stats",
+      "description": "async get_youtube_stats(handle_or_url: str) \u2192 ToolResult: calls MetricsLite /api/youtube/stats endpoint (METRICSLITE_URL from config). Returns ToolResult with data: {subscribers, views_30d, videos_count, top_video: {title, views, url}, channel_url}. Falls back to Blotato account data if MetricsLite unavailable.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-102",
+      "name": "specialist_tools/researcher_tools.py: get_platform_metrics",
+      "description": "async get_platform_metrics(platform: str, account: str) \u2192 ToolResult: dispatches to appropriate metrics source. TikTok/Instagram \u2192 Safari market-research (3106). YouTube \u2192 MetricsLite. Twitter \u2192 actp_twitter_research Supabase table. Returns unified PlatformMetrics: {platform, account, followers, posts_30d, avg_engagement, top_posts}.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-103",
+      "name": "specialist_tools/researcher_tools.py: safari_research tools",
+      "description": "async safari_twitter_research(keyword: str, count: int=50) \u2192 ToolResult: POST to market-research (3106) /api/research/twitter/search. async safari_tiktok_research(keyword, count) \u2192 same for tiktok. async safari_instagram_research(keyword, count) \u2192 instagram. Returns list of posts with engagement data.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-104",
+      "name": "specialist_tools/researcher_tools.py: get_top_creators + query_research_db",
+      "description": "async get_top_creators(niche: str, platform: str, limit: int=10) \u2192 ToolResult: POST /api/research/{platform}/niche to market-research service. async query_research_db(table: str, filters: dict, limit: int=20) \u2192 ToolResult: safe read-only Supabase query (whitelist of allowed tables: actp_platform_research, actp_platform_creators, actp_twitter_research).",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-105",
+      "name": "specialist_tools/content_tools.py: generate_content_from_blueprint",
+      "description": "async generate_content_from_blueprint(blueprint_id: str, platform: str, variant_count: int=3) \u2192 ToolResult: POST to ContentLite (CONTENTLITE_URL) /api/generate/from-blueprint. Returns ContentResult with scripts list, hooks list, CTAs. Reads CONTENTLITE_URL from config.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-106",
+      "name": "specialist_tools/content_tools.py: render_video + get_blueprints",
+      "description": "async render_video(template: str, params: dict) \u2192 ToolResult: dispatches remotion_render local_task via ACTP worker. Polls for completion up to 120s. Returns {video_path, duration_s, size_mb}. async get_blueprints(niche: str='', limit: int=5) \u2192 ToolResult: queries actp_platform_research Supabase for blueprint data.",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-107",
+      "name": "specialist_tools/content_tools.py: content queue + workflow tools",
+      "description": "async get_content_queue(status: str='pending', limit: int=10) \u2192 ToolResult: reads actp_jobs Supabase for content-related jobs. async start_workflow(slug: str, params: dict) \u2192 ToolResult: POSTs to workflow-engine /api/workflows/{slug}/run. async get_workflow_result(execution_id: str) \u2192 ToolResult: GET /api/workflows/executions/{id}.",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-108",
+      "name": "specialist_tools/acquisition_tools.py: send_dm",
+      "description": "async send_dm(platform: str, username: str, message: str) \u2192 ToolResult: routes to appropriate safari DM service (PLATFORM_PORT_MAP: instagram\u21923100, twitter\u21923003, tiktok\u21923102, linkedin\u21923105). POST /api/{platform}/dm with {username, message}. Returns {success, verified, strategy, rate_limits}.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-109",
+      "name": "specialist_tools/acquisition_tools.py: CRM + prospect tools",
+      "description": "async get_dm_conversations(platform: str) \u2192 ToolResult: GET /api/{platform}/conversations from DM service. async search_prospects(niche: str, platform: str, limit: int=20) \u2192 ToolResult: POST /api/research/{platform}/search to market-research. async add_crm_contact(data: dict) \u2192 ToolResult: upsert to crm_contacts Supabase. async get_crm_pipeline() \u2192 ToolResult: aggregate crm_contacts by stage.",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-110",
+      "name": "specialist_tools/publisher_tools.py: timing + enqueue",
+      "description": "async get_best_publish_time(platform: str) \u2192 ToolResult: GET PublishLite /api/timing?platform=X for Thompson Sampling optimal time. async enqueue_post(platform: str, content: str, media_path: str|None=None, scheduled_time: str|None=None) \u2192 ToolResult: POST MPLite /api/actp/mplite/enqueue. Returns {queue_id, estimated_publish_time}.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-111",
+      "name": "specialist_tools/publisher_tools.py: queue management + performance",
+      "description": "async get_publish_queue(status: str='pending') \u2192 ToolResult: GET MPLite /api/actp/mplite/queue. async publish_now(post_id: str) \u2192 ToolResult: claim + trigger immediate publish via MPLite. async get_post_performance(post_id: str) \u2192 ToolResult: reads actp_published_content Supabase for metrics (views, likes, comments, shares).",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-112",
+      "name": "specialist_tools/watchdog_tools.py: service health tools",
+      "description": "async check_service_health(service_name: str) \u2192 ToolResult: GET {service_url}/health (uses mcp_servers.json for URL lookup). async check_all_services() \u2192 ToolResult: calls health_check() on all services in MCPServiceMesh, returns dict of name\u2192{status, latency_ms}. async get_swarm_status() \u2192 ToolResult: calls AgentPool.status() + agent_swarm status.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-113",
+      "name": "specialist_tools/watchdog_tools.py: restart + logs tools",
+      "description": "async restart_service(service_name: str) \u2192 ToolResult: calls MCPServiceMesh.restart(name). async get_error_logs(service: str, minutes: int=60) \u2192 ToolResult: reads log files (LOGS_DIR from config) or Supabase error tables. async get_job_queue_stats() \u2192 ToolResult: Supabase actp_jobs grouped by status + age buckets.",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-114",
+      "name": "specialist_tools: tool registry + execution wrapper",
+      "description": "specialist_tools/__init__.py: TOOL_REGISTRY: dict[role, list[ToolDefinition]]. register_tools(role: str) \u2192 list[ToolDefinition]. Each tool wrapped with: timeout enforcement (asyncio.wait_for), error catch \u2192 ToolResult(success=False, error=...), duration_ms measurement. Tools discoverable by orchestrator for handoff tool_allowed list.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-115",
+      "name": "MetricsLite: POST /api/youtube/stats endpoint",
+      "description": "In metricslite (Vercel), add /api/youtube/stats route: accepts {handle_or_url: string}. Uses YouTube Data API v3 (YOUTUBE_API_KEY env) to fetch channel stats: subscriber_count, view_count, video_count, recent_videos (last 10). Falls back to public scrape if no API key. Returns unified response.",
+      "category": "tools",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-116",
+      "name": "MetricsLite: POST /api/platform/summary endpoint",
+      "description": "Add /api/platform/summary: accepts {platforms: string[], account_ids: dict}. Aggregates metrics from all configured platforms. YouTube via Data API, Instagram/TikTok via Blotato account stats, Twitter via actp_twitter_research Supabase table. Returns cross-platform summary with totals.",
+      "category": "tools",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "features": [
+    {
+      "id": "CMM-021",
+      "name": "mcp_service_mesh.py: MCPServerConfig + MCPServerHandle dataclasses",
+      "description": "MCPServerConfig: name, type (local|external), base_url, health_endpoint, restart_policy, restart_cmd, roles list, timeout_seconds. MCPServerHandle: config, process (Optional[subprocess.Popen]), status (online|offline|degraded), last_health_check, consecutive_failures, latency_ms.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-022",
+      "name": "mcp_service_mesh.py: MCPServiceMesh.start_all()",
+      "description": "Reads mcp_servers.json, instantiates MCPServerHandle per config. For local servers: starts subprocess, waits for health endpoint to respond (up to 10s). For external: pings health endpoint. Logs success/fail per server. Returns dict of name\u2192status.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-023",
+      "name": "mcp_service_mesh.py: MCPServiceMesh.get(name)",
+      "description": "Returns MCPServerHandle for named server. Raises MCPServerNotFoundError if unknown. Raises MCPServerOfflineError if status is offline. Caller can catch and use HTTP fallback.",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-024",
+      "name": "mcp_service_mesh.py: MCPServiceMesh.health_check()",
+      "description": "Async method: for each server, GET {health_endpoint}, measure latency. Update handle.status and handle.latency_ms. Increment consecutive_failures on timeout/error. Upsert to actp_mcp_server_health Supabase table. Returns dict[name, HealthResult].",
+      "category": "mcp",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-025",
+      "name": "mcp_service_mesh.py: MCPServiceMesh.restart(name)",
+      "description": "For local servers with restart_policy=auto: kill existing process, re-run restart_cmd, wait for health. Increment restart count. Log to Supabase. Raises if max restart attempts exceeded. For external servers: raise MCPRestartNotSupportedError.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-026",
+      "name": "mcp_service_mesh.py: health check loop (background task)",
+      "description": "asyncio background task: every MCP_HEALTH_CHECK_INTERVAL seconds, call health_check(). Auto-restart any local server with consecutive_failures >= 3 and restart_policy=auto. Logs restarts to Supabase. Task starts with MCPServiceMesh.start_all().",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-027",
+      "name": "mcp_service_mesh.py: circuit breaker per server",
+      "description": "Each handle tracks: trip_count, tripped_at. Circuit trips after 3 consecutive failures. Tripped circuit: all get() calls for that server raise CircuitOpenError immediately (no retry). Circuit resets after 5 minutes. Prevents cascade failures.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-028",
+      "name": "mcp_service_mesh.py: graceful HTTP fallback",
+      "description": "MCPServiceMesh.get_or_fallback(name) \u2192 Union[MCPServerHandle, HTTPFallback]. If server is offline/tripped, returns HTTPFallback object with base_url. Caller checks type and uses appropriate client. Allows zero-downtime degradation for each service.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-029",
+      "name": "mcp_service_mesh.py: register safari DM services",
+      "description": "In mcp_servers.json, register: safari-instagram-dm (3100/3001), safari-twitter-dm (3003), safari-tiktok-dm (3102), safari-linkedin (3105). Health endpoint: GET /health. Restart cmd: start script from start_all.sh. Roles: acquisition only.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-030",
+      "name": "mcp_service_mesh.py: register safari comment + research services",
+      "description": "Register: safari-threads-comments (3004), safari-instagram-comments (3005), safari-tiktok-comments (3006), safari-twitter-comments (3007), market-research (3106), safari-gateway (7070). Health endpoints. Roles: researcher + content.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-031",
+      "name": "mcp_service_mesh.py: register external Vercel services",
+      "description": "Register as external (restart_policy=never): workflow-engine (Vercel URL), contentlite (Vercel URL), researchlite (Vercel URL), publishlite (Vercel URL), metricslite (Vercel URL), blotato (backend.blotato.com). Health: GET /api/health. Roles per service.",
+      "category": "mcp",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

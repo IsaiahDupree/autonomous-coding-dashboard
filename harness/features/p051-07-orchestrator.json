@@ -1,0 +1,112 @@
+{
+  "features": [
+    {
+      "id": "CMM-136",
+      "name": "orchestrator_agent.py: OrchestratorAgent class",
+      "description": "Class OrchestratorAgent: __init__(pool: AgentPool, mesh: MCPServiceMesh, skill_loader). _conversations: dict[int, list[dict]] for user context. warm_up(): pre-connects MCP mesh, loads all skills. process(user_id, text, on_receipt, on_progress) \u2192 str. shutdown(): persists conversations. pid_file management for start_all.sh.",
+      "category": "orchestrator",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-137",
+      "name": "orchestrator_agent.py: intent classification",
+      "description": "_classify_intent(text) \u2192 IntentClass enum: ANALYTICS_QUERY (stats/metrics/performance), CONTENT_REQUEST (generate/write/create), TASK_REQUEST (publish/schedule/dm/send), STATUS_QUERY (health/status/check), MULTI_STEP (compound task with multiple verbs), CONVERSATION (greeting/question). Used to decide dispatch strategy.",
+      "category": "orchestrator",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-138",
+      "name": "orchestrator_agent.py: single-specialist dispatch",
+      "description": "For ANALYTICS_QUERY, CONTENT_REQUEST, TASK_REQUEST, STATUS_QUERY: _build_handoff(intent_class, text, context) \u2192 SpecialistHandoff. Maps intent_class to role, injects ACTP state from MCP as context, sets appropriate mcp_servers + skill_domain + tools_allowed. Calls pool.run_task(role, handoff) \u2192 SpecialistResult.",
+      "category": "orchestrator",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-139",
+      "name": "orchestrator_agent.py: multi-step task decomposition",
+      "description": "For MULTI_STEP: _decompose_task(text) \u2192 list[SpecialistHandoff] using Claude API call to decompose into ordered steps. Execute steps sequentially: each step's SpecialistResult.data injected into next step's context. Max 5 steps per decomposition. Timeout: sum of per-step timeouts.",
+      "category": "orchestrator",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-140",
+      "name": "orchestrator_agent.py: parallel dispatch for independent steps",
+      "description": "_decompose_task() annotates each step with depends_on: list[step_id]. Steps with no dependencies dispatched concurrently via asyncio.gather(). Dependent steps wait for their dependencies. Example: research + health_check can run in parallel; content_generation depends on research.",
+      "category": "orchestrator",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-141",
+      "name": "orchestrator_agent.py: result synthesis",
+      "description": "_synthesize_results(intent, results: list[SpecialistResult]) \u2192 str: calls Claude API with: original intent + all specialist outputs. Prompt: 'Synthesize these specialist results into a single coherent Telegram reply. Be concise. Use markdown.' Max output: 3000 chars. Handles single result (pass-through) and multi-result (synthesis).",
+      "category": "orchestrator",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-142",
+      "name": "orchestrator_agent.py: conversation context per user",
+      "description": "_get_context(user_id) \u2192 dict: last 5 turns for user, last known ACTP state (platform, account, active_campaign). Persisted to actp_orchestrator_sessions Supabase. _update_context(user_id, turn, result): upserts. Context injected into every SpecialistHandoff so specialists know who they're working for.",
+      "category": "orchestrator",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-143",
+      "name": "orchestrator_agent.py: CONVERSATION passthrough",
+      "description": "For CONVERSATION intent (greetings, simple questions not requiring tools): skip AgentPool entirely. Call Claude API directly with orchestrator system prompt. Fast path: < 3s response. Prevents spawning a specialist for 'hello' or 'what can you do?'.",
+      "category": "orchestrator",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-144",
+      "name": "orchestrator_agent.py: ACTP state enrichment from MCP",
+      "description": "Before any dispatch: _enrich_context(): calls actp_mcp_server /tools/get_system_health (cached 30s), /tools/get_active_campaigns (cached 60s). Injects into context: {health_summary, active_campaigns, publish_queue_size, job_queue_size}. Orchestrator can reference live state in decomposition.",
+      "category": "orchestrator",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-145",
+      "name": "orchestrator_agent.py: self-healing restart via PID file",
+      "description": "OrchestratorAgent.run_forever(): asyncio event loop + signal handlers (SIGTERM, SIGINT). Write PID to .pids/orchestrator.pid on start, delete on clean shutdown. start_all.sh monitors this PID and restarts if missing (within ORCHESTRATOR_RESTART_DELAY=3s). Log restart count to Supabase.",
+      "category": "orchestrator",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-146",
+      "name": "orchestrator_agent.py: feature flag + fallback",
+      "description": "OrchestratorAgent.process(): if ORCHESTRATOR_ENABLED=false, raise OrchestratorDisabledError immediately. telegram_command_bot catches this and falls through to existing ai_chat path. This ensures zero behavior change when flag is off and enables safe A/B rollout.",
+      "category": "orchestrator",
+      "priority": 1,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-147",
+      "name": "orchestrator_agent.py: latency budget tracking",
+      "description": "_track_latency(user_id, step, ms): records timing for each phase: classification, context_enrichment, handoff_build, specialist_run (per role), synthesis, total. Log WARNING if total > 30s. Log DEBUG breakdown for every request. Stored in actp_orchestrator_sessions.context['timing'].",
+      "category": "orchestrator",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}

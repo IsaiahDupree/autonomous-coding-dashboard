@@ -1,0 +1,103 @@
+{
+  "features": [
+    {
+      "id": "CMM-010",
+      "name": "start_all.sh: MCP mesh + orchestrator startup section",
+      "description": "Add to start_all.sh: start actp_mcp_server on 8766 (if MCP_MESH_ENABLED), start orchestrator_agent (if ORCHESTRATOR_ENABLED), add both to status checks and stop command. PID files: .pids/actp_mcp_server.pid, .pids/orchestrator.pid.",
+      "category": "infra",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-050",
+      "name": "actp_mcp_server.py: unit tests",
+      "description": "tests/test_actp_mcp_server.py: test auth (valid key, missing key, empty key=pass). test create_job (valid topic, invalid topic). test get_job (found, not found). test list_jobs (filter by status). test dispatch_topic (mock wait). test health endpoint. 15+ test cases.",
+      "category": "testing",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-071",
+      "name": "skill_loader.py: unit tests for domain filtering",
+      "description": "tests/test_skill_loader_domains.py: test_research_domain_loads_research_prds_only, test_coding_domain_excludes_acquisition_prds, test_orchestrator_domain_loads_all, test_untagged_prds_not_in_specialist_domains, test_domain_count_under_30. Mock filesystem for fast tests.",
+      "category": "testing",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-086",
+      "name": "agent_pool.py: unit tests",
+      "description": "tests/test_agent_pool.py: test_acquire_release_lifecycle (mock subprocess), test_concurrency_limit_blocks (semaphore), test_timeout_kills_subprocess, test_feature_flag_falls_back_to_swarm, test_status_returns_correct_counts, test_structured_result_parsing. Use pytest-asyncio.",
+      "category": "testing",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-148",
+      "name": "orchestrator_agent.py: unit tests",
+      "description": "tests/test_orchestrator_agent.py: test_classify_intent_analytics, test_classify_intent_multistep, test_classify_intent_conversation, test_single_specialist_dispatch (mock pool), test_conversation_passthrough_skips_pool, test_context_enrichment, test_feature_flag_raises. 15+ test cases.",
+      "category": "testing",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-149",
+      "name": "orchestrator_agent.py: E2E test \u2014 YouTube stats",
+      "description": "tests/test_orchestrator_e2e.py: test_youtube_stats_end_to_end(): send 'Can we check YouTube stats?' through full stack (orchestrator \u2192 researcher pool \u2192 researcher_tools.get_youtube_stats \u2192 MetricsLite). Assert SpecialistResult.success=True, data contains 'subscribers'. Mark @pytest.mark.e2e @pytest.mark.slow.",
+      "category": "testing",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-150",
+      "name": "orchestrator_agent.py: E2E test \u2014 multi-step research-generate-schedule",
+      "description": "tests/test_orchestrator_e2e.py: test_multistep_research_generate_schedule(): 'Research trending AI automation hooks, generate 3 TikTok scripts, schedule them for this week'. Assert 3 SpecialistHandoffs created (researcher, content, publisher), all succeed, final reply contains scheduled times. Mark @pytest.mark.e2e.",
+      "category": "testing",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-171",
+      "name": "Comprehensive E2E test suite: test_clawbot_mcp_mesh.py",
+      "description": "tests/test_clawbot_mcp_mesh.py covering: (1) routing tests \u2014 6 messages each routing to correct specialist, (2) bot fix \u2014 zero double processing of same update_id, (3) agent pool \u2014 lifecycle spawn/run/kill, (4) MCP mesh health \u2014 all registered servers reachable, (5) skill domain \u2014 each specialist loads correct PRD subset. Pytest markers: mcp, orchestrator, specialist, bot.",
+      "category": "testing",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-172",
+      "name": "start_all.sh: full MCP mesh integration",
+      "description": "Add to start_all.sh: MCP_MESH section \u2014 start actp_mcp_server.py (uvicorn, port 8766) if MCP_MESH_ENABLED=true. Wait for /health. Add to status(): show actp_mcp_server status + port. Add to stop(): kill PID. Orchestrator section: start orchestrator_agent.py if ORCHESTRATOR_ENABLED=true.",
+      "category": "infra",
+      "priority": 2,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-174",
+      "name": "GitHub Actions CI: test MCP mesh in CI",
+      "description": "Update .github/workflows or create .github/workflows/clawbot-mesh.yml: run pytest tests/test_clawbot_mcp_mesh.py -m 'not e2e and not slow'. Mock all external HTTP calls (httpx mock). Run on push to main + PRs touching actp-worker/. Fail fast on double-processing regression.",
+      "category": "infra",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    },
+    {
+      "id": "CMM-175",
+      "name": "actp-worker: commit + push all new files",
+      "description": "git add all new files (orchestrator_agent.py, agent_pool.py, mcp_service_mesh.py, actp_mcp_server.py, specialist_tools/, specialist_souls/, mcp_servers.json). git commit -m 'feat: PRD-051 ClawBot MCP Agent Mesh \u2014 Phase 1+2 foundation'. git push origin main. Verify CI passes.",
+      "category": "infra",
+      "priority": 3,
+      "status": "pending",
+      "prd": "PRD-051"
+    }
+  ]
+}
