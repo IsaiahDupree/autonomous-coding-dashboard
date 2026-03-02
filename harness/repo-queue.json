@@ -84,8 +84,30 @@
   },
   "repos": [
     {
+      "id": "prd051-clawbot-mcp-mesh",
+      "name": "PRD-051 \u2014 ClawBot MCP Agent Mesh (Orchestrator + Specialists + MCP Services)",
+      "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
+      "prompt": "prompts/prd051-clawbot-mcp-mesh.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd051-clawbot-mcp-mesh.json",
+      "priority": -31,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "critical",
+      "focus": "Fix double-processing bug, build MCP service mesh, ACTP MCP server, agent pool, 30+ specialist tools, orchestrator agent, skill domain filtering",
+      "tags": [
+        "clawbot",
+        "mcp",
+        "orchestrator",
+        "agent-pool",
+        "specialist-tools",
+        "telegram",
+        "infrastructure",
+        "prd051"
+      ]
+    },
+    {
       "id": "aag-01-foundation",
-      "name": "AAG Agent 01 — Foundation (DB + Config)",
+      "name": "AAG Agent 01 \u2014 Foundation (DB + Config)",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-01-foundation.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-01-foundation.json",
@@ -94,11 +116,16 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "All DB migrations, queries.py, config.py, requirements.txt, package scaffold for acquisition module",
-      "tags": ["aag", "acquisition", "foundation", "database"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "foundation",
+        "database"
+      ]
     },
     {
       "id": "aag-02-discovery",
-      "name": "AAG Agent 02 — Prospect Discovery",
+      "name": "AAG Agent 02 \u2014 Prospect Discovery",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-02-discovery.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-02-discovery.json",
@@ -107,11 +134,15 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "MarketResearchClient, DeduplicationEngine, ContactSeeder, DiscoveryAgent, niche discovery CLI",
-      "tags": ["aag", "acquisition", "discovery"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "discovery"
+      ]
     },
     {
       "id": "aag-03-scoring",
-      "name": "AAG Agent 03 — ICP Scoring",
+      "name": "AAG Agent 03 \u2014 ICP Scoring",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-03-scoring.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-03-scoring.json",
@@ -120,11 +151,15 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Claude Haiku batch ICP scoring, score routing, crm_score_history, scoring CLI",
-      "tags": ["aag", "acquisition", "scoring"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "scoring"
+      ]
     },
     {
       "id": "aag-04-warmup",
-      "name": "AAG Agent 04 — Engagement Warmup",
+      "name": "AAG Agent 04 \u2014 Engagement Warmup",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-04-warmup.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-04-warmup.json",
@@ -133,11 +168,15 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "CommentGenerator, WarmupScheduler, CommentSender, rate limiter, stage advance, warmup CLI",
-      "tags": ["aag", "acquisition", "warmup"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "warmup"
+      ]
     },
     {
       "id": "aag-05-outreach",
-      "name": "AAG Agent 05 — DM Outreach",
+      "name": "AAG Agent 05 \u2014 DM Outreach",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-05-outreach.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-05-outreach.json",
@@ -146,11 +185,15 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Claude Sonnet DM generation, MessageValidator, DMSender, ChannelCoordinator, outreach CLI",
-      "tags": ["aag", "acquisition", "outreach"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "outreach"
+      ]
     },
     {
       "id": "aag-06-followup",
-      "name": "AAG Agent 06 — Follow-up & Notifications",
+      "name": "AAG Agent 06 \u2014 Follow-up & Notifications",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-06-followup.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-06-followup.json",
@@ -159,11 +202,15 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "ReplyDetector, Day4/Day7 follow-ups, human push+email notifications, archive handler",
-      "tags": ["aag", "acquisition", "followup"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "followup"
+      ]
     },
     {
       "id": "aag-07-orchestrator",
-      "name": "AAG Agent 07 — Acquisition Orchestrator",
+      "name": "AAG Agent 07 \u2014 Acquisition Orchestrator",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-07-orchestrator.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-07-orchestrator.json",
@@ -172,11 +219,15 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "StateMachine, DailyCapManager, 10 cron jobs, FastAPI server, Pydantic schemas, e2e integration test",
-      "tags": ["aag", "acquisition", "orchestrator"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "orchestrator"
+      ]
     },
     {
       "id": "aag-08-email",
-      "name": "AAG Agent 08 — Email Outreach Integration",
+      "name": "AAG Agent 08 \u2014 Email Outreach Integration",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-08-email.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-08-email.json",
@@ -185,11 +236,16 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "ResendClient, email discovery pipeline, EmailGenerator/Validator, webhook handler, unsubscribe",
-      "tags": ["aag", "acquisition", "email", "resend"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "email",
+        "resend"
+      ]
     },
     {
       "id": "aag-09-entity",
-      "name": "AAG Agent 09 — Cross-Platform Entity Resolution",
+      "name": "AAG Agent 09 \u2014 Cross-Platform Entity Resolution",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-09-entity-resolution.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-09-entity.json",
@@ -198,11 +254,16 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "PerplexityClient, UsernameMatchEngine, BioLinkExtractor, AIDisambiguator, ResolutionScoreCalculator",
-      "tags": ["aag", "acquisition", "entity-resolution", "perplexity"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "entity-resolution",
+        "perplexity"
+      ]
     },
     {
       "id": "aag-10-reporting",
-      "name": "AAG Agent 10 — Pipeline Analytics & Reporting",
+      "name": "AAG Agent 10 \u2014 Pipeline Analytics & Reporting",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "prompts/aag-agent-10-reporting.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/aag-10-reporting.json",
@@ -211,7 +272,12 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "PipelineStatsCollector, ConversionCalculator, InsightGenerator, report delivery, auto-apply insights",
-      "tags": ["aag", "acquisition", "reporting", "analytics"]
+      "tags": [
+        "aag",
+        "acquisition",
+        "reporting",
+        "analytics"
+      ]
     },
     {
       "id": "prd-009-openqualls-bot",
@@ -224,7 +290,13 @@
       "enabled": true,
       "complexity": "critical",
       "focus": "Fix Claude CLI tool calling reliability, prompt optimization, conversation management",
-      "tags": ["prd", "bot", "telegram", "claude", "p0"]
+      "tags": [
+        "prd",
+        "bot",
+        "telegram",
+        "claude",
+        "p0"
+      ]
     },
     {
       "id": "prd-011-research-to-publish",
@@ -236,8 +308,14 @@
       "priority": -19,
       "enabled": true,
       "complexity": "critical",
-      "focus": "Wire research→generate→review→publish→feedback pipeline end-to-end",
-      "tags": ["prd", "pipeline", "research", "publish", "p0"]
+      "focus": "Wire research\u2192generate\u2192review\u2192publish\u2192feedback pipeline end-to-end",
+      "tags": [
+        "prd",
+        "pipeline",
+        "research",
+        "publish",
+        "p0"
+      ]
     },
     {
       "id": "prd-010-actp-pipeline",
@@ -250,7 +328,13 @@
       "enabled": true,
       "complexity": "high",
       "focus": "Implement real Claude generation in ContentLite cloud service",
-      "tags": ["prd", "contentlite", "generation", "cloud", "p0"]
+      "tags": [
+        "prd",
+        "contentlite",
+        "generation",
+        "cloud",
+        "p0"
+      ]
     },
     {
       "id": "prd-012-revenue-engine",
@@ -263,7 +347,13 @@
       "enabled": true,
       "complexity": "high",
       "focus": "RevCat, Stripe, YouTube analytics integration + daily revenue reports",
-      "tags": ["prd", "revenue", "stripe", "revcat", "p1"]
+      "tags": [
+        "prd",
+        "revenue",
+        "stripe",
+        "revcat",
+        "p1"
+      ]
     },
     {
       "id": "prd-013-security-self-test",
@@ -276,7 +366,13 @@
       "enabled": true,
       "complexity": "high",
       "focus": "Nightly self-test cron, ACD self-heal, approval gates, audit logging",
-      "tags": ["prd", "security", "self-test", "approval", "p1"]
+      "tags": [
+        "prd",
+        "security",
+        "self-test",
+        "approval",
+        "p1"
+      ]
     },
     {
       "id": "prd-020-chat-gateway",
@@ -289,7 +385,14 @@
       "enabled": true,
       "complexity": "high",
       "focus": "Extend OpenQualls bot to Slack/Discord/Twilio/web with canonical event normalization, identity graph, and delivery adapters",
-      "tags": ["prd", "clawbot", "chat-gateway", "slack", "discord", "p1"]
+      "tags": [
+        "prd",
+        "clawbot",
+        "chat-gateway",
+        "slack",
+        "discord",
+        "p1"
+      ]
     },
     {
       "id": "prd-014-conversation-memory",
@@ -302,7 +405,13 @@
       "enabled": true,
       "complexity": "high",
       "focus": "Persistent crash-safe conversation history with summarization, checkpoint/restore, and curated context injection",
-      "tags": ["prd", "actp", "memory", "conversation", "p1"]
+      "tags": [
+        "prd",
+        "actp",
+        "memory",
+        "conversation",
+        "p1"
+      ]
     },
     {
       "id": "prd-015-temporal-scheduler",
@@ -315,11 +424,17 @@
       "enabled": true,
       "complexity": "high",
       "focus": "Durable unified scheduler replacing cron_definitions.py with missed-run recovery, startup reconciliation, and agent-proposable schedules",
-      "tags": ["prd", "actp", "scheduler", "cron", "p1"]
+      "tags": [
+        "prd",
+        "actp",
+        "scheduler",
+        "cron",
+        "p1"
+      ]
     },
     {
       "id": "prd-017-research-worker",
-      "name": "PRD-017: ResearchWorker — Staged Evidence Pipeline",
+      "name": "PRD-017: ResearchWorker \u2014 Staged Evidence Pipeline",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "prompts/prd-017-research-worker.md",
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/prd/PRD-017-RESEARCH-WORKER.md",
@@ -327,8 +442,14 @@
       "priority": -12,
       "enabled": true,
       "complexity": "high",
-      "focus": "6-stage evidence pipeline: plan→search→fetch→rank→synthesize→propose with caching, provenance, and memory integration",
-      "tags": ["prd", "actp", "research", "evidence", "p1"]
+      "focus": "6-stage evidence pipeline: plan\u2192search\u2192fetch\u2192rank\u2192synthesize\u2192propose with caching, provenance, and memory integration",
+      "tags": [
+        "prd",
+        "actp",
+        "research",
+        "evidence",
+        "p1"
+      ]
     },
     {
       "id": "metricslite",
@@ -977,7 +1098,7 @@
     },
     {
       "id": "acd-live-dashboard",
-      "name": "ACD Live Dashboard — Real-Time Agent Visualization UI",
+      "name": "ACD Live Dashboard \u2014 Real-Time Agent Visualization UI",
       "path": "/Users/isaiahdupree/Documents/Software/acd-live-dashboard",
       "prompt": "prompts/acd-live-dashboard.md",
       "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/docs/PRD-ACD-Live-Dashboard.md",
@@ -987,7 +1108,13 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Next.js 15 real-time dashboard: parallel worker grid, series pipeline flow, SSE log streaming, PRD feature progress, queue management, agent controls",
-      "tags": ["dashboard", "ui", "acd", "monitoring", "real-time"]
+      "tags": [
+        "dashboard",
+        "ui",
+        "acd",
+        "monitoring",
+        "real-time"
+      ]
     },
     {
       "id": "unified-media",
@@ -1039,8 +1166,14 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "medium",
-      "focus": "Complete --watch flag, tier-2 correctness scoring (reject 'not installed' as success), Makefile + CI workflow. Core benchmark already runs — harden and automate it.",
-      "tags": ["browser-automation", "mcp", "benchmark", "playwright", "p1"]
+      "focus": "Complete --watch flag, tier-2 correctness scoring (reject 'not installed' as success), Makefile + CI workflow. Core benchmark already runs \u2014 harden and automate it.",
+      "tags": [
+        "browser-automation",
+        "mcp",
+        "benchmark",
+        "playwright",
+        "p1"
+      ]
     },
     {
       "id": "prd-048-browser-use-agent",
@@ -1054,7 +1187,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Add CLI (--action navigate|extract|screenshot|health), unit tests (test fallback chain + browser_take_screenshot tool name), retry logic, PlaywrightSession persistent subprocess, save_screenshot helper. Core fallback chain already built.",
-      "tags": ["browser-automation", "mcp", "playwright", "fallback", "actp-worker", "p1"]
+      "tags": [
+        "browser-automation",
+        "mcp",
+        "playwright",
+        "fallback",
+        "actp-worker",
+        "p1"
+      ]
     },
     {
       "id": "prd-049-computer-use-integration",
@@ -1068,7 +1208,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Payload validation, actp_browser_tasks Supabase migration + audit log, browser_use_health data plane method, capability registration, seed browser-use-research workflow, integration tests, blueprint setup script, ENV_CONFIG.md update. Executor already registered.",
-      "tags": ["browser-automation", "mcp", "actp-worker", "supabase", "workflow", "p1"]
+      "tags": [
+        "browser-automation",
+        "mcp",
+        "actp-worker",
+        "supabase",
+        "workflow",
+        "p1"
+      ]
     },
     {
       "id": "prd-050-content-recreation",
@@ -1082,7 +1229,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Build content_recreation_agent.py: ContentAnalyzer (Claude Haiku signals), ContentRecreator (Claude Sonnet 6 formats), recreate_from_url(), batch mode, discover mode, DB migrations, ContentRecreationExecutor, data plane methods, unit tests. Integrates with browser_use_agent (PRD-048) and Remotion pipeline.",
-      "tags": ["browser-automation", "content-intelligence", "claude", "actp-worker", "remotion", "p1"]
+      "tags": [
+        "browser-automation",
+        "content-intelligence",
+        "claude",
+        "actp-worker",
+        "remotion",
+        "p1"
+      ]
     },
     {
       "id": "prd-105-renderer-volume-engine",
@@ -1095,7 +1249,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "RendererHealthCheck auto-start/watch-loop, JobQueueFiller (fill to 15), RenderDispatcher (atomic claim + poll), OutputHandler (enqueue MPLite + thumbnail), VolumeTracker (10/day target), flush_pending_jobs() for 11 stuck jobs, 3 migrations (retry_count/completed_at/output_path), 4 health routes, 5 tests.",
-      "tags": ["content-growth", "renderer", "remotion", "actp-worker", "volume", "p0"]
+      "tags": [
+        "content-growth",
+        "renderer",
+        "remotion",
+        "actp-worker",
+        "volume",
+        "p0"
+      ]
     },
     {
       "id": "prd-106-hookgate-integration",
@@ -1108,7 +1269,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "HookScorer (POST to HookLite Vercel), GateEnforcer (block if score<85), RegenerationLoop (max 3 retries), patch organic_publisher.py + workflow_executors.py + research-to-blotato workflow, 2 migrations (actp_gate_attempts, actp_gate_stats), 4 health routes, 5 tests.",
-      "tags": ["content-growth", "hook-gate", "quality", "actp-worker", "hooklite", "p0"]
+      "tags": [
+        "content-growth",
+        "hook-gate",
+        "quality",
+        "actp-worker",
+        "hooklite",
+        "p0"
+      ]
     },
     {
       "id": "prd-107-crossplatform-adaptation",
@@ -1121,7 +1289,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "VideoTranscoder (ffmpeg: 9:16/1:1/16:9 + audio normalize + SRT), CaptionAdapter (5 platforms with correct char limits + hashtag counts), MetadataBuilder, AdaptedPayloadBuilder.adapt_all() returns 5 payloads + enqueues to MPLite, 1 migration (actp_adapted_payloads), 2 health routes, 5 tests.",
-      "tags": ["content-growth", "cross-platform", "ffmpeg", "actp-worker", "adaptation", "p1"]
+      "tags": [
+        "content-growth",
+        "cross-platform",
+        "ffmpeg",
+        "actp-worker",
+        "adaptation",
+        "p1"
+      ]
     },
     {
       "id": "prd-108-thumbnail-generator",
@@ -1134,7 +1309,15 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "FrameExtractor (ffmpeg), FrameScorer (brightness/contrast/face/composition), TextOverlay (PIL: hook text + gradient + branding, 3 platform styles), ThumbnailSelector (upload to Supabase Storage, A/B variant tracking), integrate into OutputHandler, 1 migration (actp_thumbnail_stats), 2 health routes, 5 tests.",
-      "tags": ["content-growth", "thumbnail", "PIL", "ffmpeg", "actp-worker", "ctr", "p1"]
+      "tags": [
+        "content-growth",
+        "thumbnail",
+        "PIL",
+        "ffmpeg",
+        "actp-worker",
+        "ctr",
+        "p1"
+      ]
     },
     {
       "id": "prd-109-comment-engagement-boost",
@@ -1146,8 +1329,15 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "PostMonitor (30min boost window), FirstCommentEngine (Claude Haiku question + post to Safari ports 3004-3007), ReplyEngine (AI replies to incoming comments), EngagementTracker (1hr/4hr/24hr checkbacks → viral/flop classification → feed actp_feedback_posts), 3 migrations, 3 health routes, 5 tests.",
-      "tags": ["content-growth", "engagement", "safari-automation", "actp-worker", "algorithm-boost", "p1"]
+      "focus": "PostMonitor (30min boost window), FirstCommentEngine (Claude Haiku question + post to Safari ports 3004-3007), ReplyEngine (AI replies to incoming comments), EngagementTracker (1hr/4hr/24hr checkbacks \u2192 viral/flop classification \u2192 feed actp_feedback_posts), 3 migrations, 3 health routes, 5 tests.",
+      "tags": [
+        "content-growth",
+        "engagement",
+        "safari-automation",
+        "actp-worker",
+        "algorithm-boost",
+        "p1"
+      ]
     },
     {
       "id": "prd-110-content-consistency-dashboard",
@@ -1160,7 +1350,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "ViewsTrendTracker (rolling 30-post avg), FollowerVelocity (daily gain + ETA to 1M), ConsistencyScore (posts/day vs 2.5 target), QualityTrendTracker (hook scores over time), NichePerformance (views by niche), WeeklyReporter (Telegram Sunday 20:00), 4 migrations, seed YouTube 2810 + 25 youtube_video_stats rows, 6 health routes, 5 tests.",
-      "tags": ["content-growth", "dashboard", "analytics", "actp-worker", "follower-tracking", "p2"]
+      "tags": [
+        "content-growth",
+        "dashboard",
+        "analytics",
+        "actp-worker",
+        "follower-tracking",
+        "p2"
+      ]
     },
     {
       "id": "prd-100-cognitive-orchestrator",
@@ -1173,7 +1370,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Main orchestrator brain: GoalTracker, DailyPlanner, AgentDelegator, OutcomeEvaluator, OptimizationEngine, goals.py config, daily_routine.py with APScheduler 06:00 cron, 3 Supabase migrations, 5 health server routes, 5 tests.",
-      "tags": ["cognitive-architecture", "orchestrator", "actp-worker", "goals", "autonomy", "p0"]
+      "tags": [
+        "cognitive-architecture",
+        "orchestrator",
+        "actp-worker",
+        "goals",
+        "autonomy",
+        "p0"
+      ]
     },
     {
       "id": "prd-101-agent-spawner",
@@ -1186,7 +1390,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "AgentRegistry, ProcessLauncher, HealthMonitor, CircuitBreaker, SelfHealingLoop, CapabilityRegistry, 4 Supabase migrations, 5 pre-registered agents, 6 health server routes, 5 tests.",
-      "tags": ["cognitive-architecture", "agent-spawner", "self-healing", "actp-worker", "reliability", "p0"]
+      "tags": [
+        "cognitive-architecture",
+        "agent-spawner",
+        "self-healing",
+        "actp-worker",
+        "reliability",
+        "p0"
+      ]
     },
     {
       "id": "prd-102-content-generation-agent",
@@ -1199,7 +1410,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "TrendResearcher, BatchGenerator (10+ per call), HookGate (top-5% threshold), PlatformAdapter (5 platforms), PublishRouter (Blotato/MPLite/Safari), ViralFeedbackLoop (viral/flop classification), FollowerTracker with ETA to 1M, 3 health server routes.",
-      "tags": ["cognitive-architecture", "content-generation", "viral-loop", "actp-worker", "audience-growth", "p0"]
+      "tags": [
+        "cognitive-architecture",
+        "content-generation",
+        "viral-loop",
+        "actp-worker",
+        "audience-growth",
+        "p0"
+      ]
     },
     {
       "id": "prd-103-acquisition-agent",
@@ -1212,7 +1430,15 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "ProspectDiscovery, ICPScorer (batch Claude), WarmupSequencer (3-touch), OutreachOrchestrator (LinkedIn/Upwork/DM/Email), CRMBridge, ConversionTracker, 2 Supabase migrations, Julian Goldie seed, fire_pending_outreach() for 22 LinkedIn + 2 Gmail queued messages, 4 health server routes.",
-      "tags": ["cognitive-architecture", "acquisition", "crm", "outreach", "actp-worker", "revenue", "p0"]
+      "tags": [
+        "cognitive-architecture",
+        "acquisition",
+        "crm",
+        "outreach",
+        "actp-worker",
+        "revenue",
+        "p0"
+      ]
     },
     {
       "id": "prd-104-revenue-analytics-agent",
@@ -1225,7 +1451,15 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "StripeTracker (MRR/churn/projection), AppleTracker (App Store Connect API, 21 apps), AudienceTracker (followers/views/ETA to 1M per platform), CostMonitor ($400/month ceiling), GoalProgressEngine (all goals 0.0-1.0), ReportGenerator (daily/weekly Telegram reports), 4 Supabase migrations, 6 health server routes, 3 tests.",
-      "tags": ["cognitive-architecture", "revenue", "analytics", "actp-worker", "stripe", "apple", "p0"]
+      "tags": [
+        "cognitive-architecture",
+        "revenue",
+        "analytics",
+        "actp-worker",
+        "stripe",
+        "apple",
+        "p0"
+      ]
     },
     {
       "id": "test-safari-instagram",
@@ -1239,7 +1473,14 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for Instagram DM (port 3001/3100) and Comments (port 3005): 103 tests across health, auth, core ops, error handling, edge cases, rate limiting, Supabase integration, AI features, native MCP tool calling, and session management.",
-      "tags": ["tests", "safari", "instagram", "mcp", "native-tool-calling", "p1"]
+      "tags": [
+        "tests",
+        "safari",
+        "instagram",
+        "mcp",
+        "native-tool-calling",
+        "p1"
+      ]
     },
     {
       "id": "test-safari-twitter",
@@ -1253,7 +1494,14 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for Twitter DM (port 3003) and Comments (port 3007): 103 tests. Mark composeTweet typing tests as xfail (known regression). Include 280-char validation, AI reply generation, rate limit, and MCP tool calling tests.",
-      "tags": ["tests", "safari", "twitter", "mcp", "native-tool-calling", "p1"]
+      "tags": [
+        "tests",
+        "safari",
+        "twitter",
+        "mcp",
+        "native-tool-calling",
+        "p1"
+      ]
     },
     {
       "id": "test-safari-tiktok",
@@ -1267,7 +1515,14 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for TikTok DM (port 3102) and Comments (port 3006): 103 tests. Video URL must be direct /video/ format. Test inbox-search and profile-fallback strategies. Include engagement stats, creator analytics, and MCP tool calling.",
-      "tags": ["tests", "safari", "tiktok", "mcp", "native-tool-calling", "p1"]
+      "tags": [
+        "tests",
+        "safari",
+        "tiktok",
+        "mcp",
+        "native-tool-calling",
+        "p1"
+      ]
     },
     {
       "id": "test-safari-linkedin",
@@ -1281,7 +1536,14 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for LinkedIn Automation (port 3105): 103 tests. Use dry_run=true for connection requests. Test force=true bypass, AI scoring (0-100 integer), prospect pipeline, outreach campaigns, and rate limits (10 reqs/day enforced).",
-      "tags": ["tests", "safari", "linkedin", "mcp", "native-tool-calling", "p1"]
+      "tags": [
+        "tests",
+        "safari",
+        "linkedin",
+        "mcp",
+        "native-tool-calling",
+        "p1"
+      ]
     },
     {
       "id": "test-safari-threads",
@@ -1295,7 +1557,14 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for Threads Comments (port 3004) and research (port 3106): 103 tests. Use correct endpoint /api/threads/comments/post. Test 500-char limit, ThreadsResearcher.researchNiche, engagement filters, and batch commenting.",
-      "tags": ["tests", "safari", "threads", "mcp", "native-tool-calling", "p1"]
+      "tags": [
+        "tests",
+        "safari",
+        "threads",
+        "mcp",
+        "native-tool-calling",
+        "p1"
+      ]
     },
     {
       "id": "test-safari-market-research",
@@ -1309,7 +1578,14 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for Market Research Hub (port 3106): 103 tests covering all 4 platforms (instagram/twitter/tiktok/threads). Test POST /api/research/{platform}/search with {keyword, maxResults}. Include async competitor research, top-creator ranking, niche resonance, and Supabase persistence checks.",
-      "tags": ["tests", "safari", "market-research", "mcp", "native-tool-calling", "p1"]
+      "tags": [
+        "tests",
+        "safari",
+        "market-research",
+        "mcp",
+        "native-tool-calling",
+        "p1"
+      ]
     },
     {
       "id": "test-mcp-native-tool-calling",
@@ -1323,11 +1599,19 @@
       "complexity": "high",
       "serialGroup": "safari-browser",
       "focus": "Write pytest test suite for all 5 MCP servers (playwright, steipete, joshrutkowski, lxman, peakmojo): 103 tests. Covers MCP JSON-RPC 2.0 protocol, browser_navigate/snapshot/screenshot tools, AppleScript execution, Safari session management, and stdio error handling. Set PLAYWRIGHT_BROWSERS_PATH env var.",
-      "tags": ["tests", "mcp", "playwright", "applescript", "native-tool-calling", "benchmark", "p1"]
+      "tags": [
+        "tests",
+        "mcp",
+        "playwright",
+        "applescript",
+        "native-tool-calling",
+        "benchmark",
+        "p1"
+      ]
     },
     {
       "id": "test-safari-e2e-claudecode",
-      "name": "Safari MCP Agents — Final Claude Code E2E Validation (103 tests)",
+      "name": "Safari MCP Agents \u2014 Final Claude Code E2E Validation (103 tests)",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-e2e-claudecode.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/test-safari-e2e-claudecode.json",
@@ -1336,12 +1620,21 @@
       "untilComplete": true,
       "complexity": "high",
       "serialGroup": "safari-browser",
-      "focus": "FINAL VALIDATION: Use Claude Code's own native MCP tools (mcp6_safari_* and mcp7_safari_*) to call each Safari automation service live — one feature at a time. No pytest writing. Directly invoke health_check, session_ensure, send_dm, post_comment, market_research, competitor_research, and Safari Inspector tools. Record pass/fail per feature in scripts/tests/safari_e2e_results.json. This is the capstone E2E test confirming the full Safari MCP stack works end-to-end.",
-      "tags": ["tests", "safari", "e2e", "mcp", "native-tool-calling", "final-validation", "claude-code", "p0"]
+      "focus": "FINAL VALIDATION: Use Claude Code's own native MCP tools (mcp6_safari_* and mcp7_safari_*) to call each Safari automation service live \u2014 one feature at a time. No pytest writing. Directly invoke health_check, session_ensure, send_dm, post_comment, market_research, competitor_research, and Safari Inspector tools. Record pass/fail per feature in scripts/tests/safari_e2e_results.json. This is the capstone E2E test confirming the full Safari MCP stack works end-to-end.",
+      "tags": [
+        "tests",
+        "safari",
+        "e2e",
+        "mcp",
+        "native-tool-calling",
+        "final-validation",
+        "claude-code",
+        "p0"
+      ]
     },
     {
       "id": "test-terminal-dispatch",
-      "name": "Main Terminal — Observe, Dispatch & Business Objectives Integration (103 tests)",
+      "name": "Main Terminal \u2014 Observe, Dispatch & Business Objectives Integration (103 tests)",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-terminal-dispatch.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/test-terminal-dispatch.json",
@@ -1350,12 +1643,24 @@
       "untilComplete": true,
       "complexity": "high",
       "serialGroup": "actp-worker",
-      "focus": "Write comprehensive pytest test suite (tests/test_terminal_dispatch_comprehensive.py) covering the full main terminal stack: local service_registry dispatch (35+ services, ACD observe+dispatch, data plane, memory plane) and cloud terminal (CRMLite /api/agent/*, Workflow Engine). Tests validate NL→intent→dispatch→result pipelines, all business objectives (outreach, content, revenue, research), memory+data plane integration, cross-local/cloud sync, and full audit observability. Unit tests mock HTTP; integration tests marked separately.",
-      "tags": ["tests", "terminal", "dispatch", "service-registry", "agent-core", "crmlite", "workflow", "memory", "data-plane", "business-objectives", "p0"]
+      "focus": "Write comprehensive pytest test suite (tests/test_terminal_dispatch_comprehensive.py) covering the full main terminal stack: local service_registry dispatch (35+ services, ACD observe+dispatch, data plane, memory plane) and cloud terminal (CRMLite /api/agent/*, Workflow Engine). Tests validate NL\u2192intent\u2192dispatch\u2192result pipelines, all business objectives (outreach, content, revenue, research), memory+data plane integration, cross-local/cloud sync, and full audit observability. Unit tests mock HTTP; integration tests marked separately.",
+      "tags": [
+        "tests",
+        "terminal",
+        "dispatch",
+        "service-registry",
+        "agent-core",
+        "crmlite",
+        "workflow",
+        "memory",
+        "data-plane",
+        "business-objectives",
+        "p0"
+      ]
     },
     {
       "id": "prd-200-hybrid-orchestrator-core",
-      "name": "PRD-200: EverReach OS — Unified Hybrid Orchestrator Core (50 features)",
+      "name": "PRD-200: EverReach OS \u2014 Unified Hybrid Orchestrator Core (50 features)",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-200-hybrid-orchestrator-core.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd-200-hybrid-orchestrator-core.json",
@@ -1364,12 +1669,21 @@
       "untilComplete": true,
       "complexity": "high",
       "serialGroup": "actp-worker",
-      "focus": "Build HybridOrchestrator — single codebase that runs in cloud/local/hybrid mode. ENV detection, action_classifier (compute=local, api=cloud), LocalExecutor wrapping service_registry.dispatch, CloudExecutor with retry+fallback, offline cache (SQLite), SyncBus (Redis+SQLite fallback), cost_guard ($400/month cap), Docker local stack (docker-compose: local-terminal + redis + chroma + prometheus), APScheduler 06:00 daily routine, route_table.json. MUST be built before PRD-201 and PRD-202.",
-      "tags": ["everreach-os", "hybrid", "orchestrator", "docker", "cost-guard", "offline-fallback", "p0", "eos-core"]
+      "focus": "Build HybridOrchestrator \u2014 single codebase that runs in cloud/local/hybrid mode. ENV detection, action_classifier (compute=local, api=cloud), LocalExecutor wrapping service_registry.dispatch, CloudExecutor with retry+fallback, offline cache (SQLite), SyncBus (Redis+SQLite fallback), cost_guard ($400/month cap), Docker local stack (docker-compose: local-terminal + redis + chroma + prometheus), APScheduler 06:00 daily routine, route_table.json. MUST be built before PRD-201 and PRD-202.",
+      "tags": [
+        "everreach-os",
+        "hybrid",
+        "orchestrator",
+        "docker",
+        "cost-guard",
+        "offline-fallback",
+        "p0",
+        "eos-core"
+      ]
     },
     {
       "id": "prd-201-cloud-terminal-agent-swarm",
-      "name": "PRD-201: EverReach OS — Cloud Terminal + Auto-Scaling Agent Swarm (50 features)",
+      "name": "PRD-201: EverReach OS \u2014 Cloud Terminal + Auto-Scaling Agent Swarm (50 features)",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-201-cloud-terminal-agent-swarm.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd-201-cloud-terminal-agent-swarm.json",
@@ -1379,11 +1693,21 @@
       "complexity": "high",
       "serialGroup": "actp-worker",
       "focus": "Build cloud terminal (FastAPI port 8090), AAGSwarm with 10+ auto-scaling agents (ProspectingAAG + DmAAG + FollowUpAAG), Kubernetes manifests (Deployment, Service, HPA min=2 max=10, CronJob scale schedule), AWS EventBridge cron rules, Stripe/RevenueCat/Hunter/Upwork integrations, $400/month cost log (Supabase actp_cost_log), FailoverWatcher with Telegram alerts, revenue goal tracker ($9.5K Month 1), viral burst detection. Requires PRD-200.",
-      "tags": ["everreach-os", "cloud-terminal", "kubernetes", "aag-swarm", "auto-scaling", "stripe", "upwork", "failover", "p0"]
+      "tags": [
+        "everreach-os",
+        "cloud-terminal",
+        "kubernetes",
+        "aag-swarm",
+        "auto-scaling",
+        "stripe",
+        "upwork",
+        "failover",
+        "p0"
+      ]
     },
     {
       "id": "prd-202-vector-db-feedback-monitoring",
-      "name": "PRD-202: EverReach OS — Shared Vector DB, Feedback Sync & Prometheus Monitoring (50 features)",
+      "name": "PRD-202: EverReach OS \u2014 Shared Vector DB, Feedback Sync & Prometheus Monitoring (50 features)",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-202-vector-db-feedback-monitoring.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd-202-vector-db-feedback-monitoring.json",
@@ -1392,12 +1716,22 @@
       "untilComplete": true,
       "complexity": "high",
       "serialGroup": "actp-worker",
-      "focus": "Build VectorDB wrapper (Chroma + pgvector backends, 4 collections), embedding pipeline (content/prospect/outcome/lesson), FeedbackSyncEngine (record_outcome → classify → embed → strategy rebuild after 10), delta sync (local→cloud), data privacy (prospect_embeddings LOCAL_ONLY, PII scrubber, encrypted transit), Prometheus metrics (MRR, flop_rate, followers, cost, dispatch latency), Grafana dashboard JSON, Telegram AlertManager integration, retention job. Requires PRD-200 + PRD-201.",
-      "tags": ["everreach-os", "vector-db", "chroma", "pgvector", "feedback-sync", "prometheus", "grafana", "data-privacy", "p0"]
+      "focus": "Build VectorDB wrapper (Chroma + pgvector backends, 4 collections), embedding pipeline (content/prospect/outcome/lesson), FeedbackSyncEngine (record_outcome \u2192 classify \u2192 embed \u2192 strategy rebuild after 10), delta sync (local\u2192cloud), data privacy (prospect_embeddings LOCAL_ONLY, PII scrubber, encrypted transit), Prometheus metrics (MRR, flop_rate, followers, cost, dispatch latency), Grafana dashboard JSON, Telegram AlertManager integration, retention job. Requires PRD-200 + PRD-201.",
+      "tags": [
+        "everreach-os",
+        "vector-db",
+        "chroma",
+        "pgvector",
+        "feedback-sync",
+        "prometheus",
+        "grafana",
+        "data-privacy",
+        "p0"
+      ]
     },
     {
       "id": "prd-203-claude-coding-agent",
-      "name": "PRD-203: EverReach OS — Claude Coding Agent (ECCA) with MCP Access (50 features)",
+      "name": "PRD-203: EverReach OS \u2014 Claude Coding Agent (ECCA) with MCP Access (50 features)",
       "path": "/Users/isaiahdupree/Documents/Software/actp-worker",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-203-claude-coding-agent.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd-203-claude-coding-agent.json",
@@ -1406,8 +1740,19 @@
       "untilComplete": true,
       "complexity": "high",
       "serialGroup": "actp-worker",
-      "focus": "Build the EverReach Claude Coding Agent (ECCA): CodingAgent class spawned from HybridOrchestrator, 6 Dockerized MCP servers (code-context, code-assistant, code-execution sandbox, vector-code, linter, per-client GitHub), closed-loop pipeline (plan→retrieve→write→execute→lint→test→evaluate→iterate→deliver→store), Claude 3.5 Sonnet for generation + Haiku for evals, batch_generate (10+ subtasks/call), per-client GitHub OAuth, Upwork webhook trigger, rork_batch for 21 Expo apps, daily_code_loop cron. Requires PRD-200+PRD-202.",
-      "tags": ["everreach-os", "coding-agent", "mcp", "claude", "code-generation", "upwork", "retainer", "rork", "sandbox", "p0"]
+      "focus": "Build the EverReach Claude Coding Agent (ECCA): CodingAgent class spawned from HybridOrchestrator, 6 Dockerized MCP servers (code-context, code-assistant, code-execution sandbox, vector-code, linter, per-client GitHub), closed-loop pipeline (plan\u2192retrieve\u2192write\u2192execute\u2192lint\u2192test\u2192evaluate\u2192iterate\u2192deliver\u2192store), Claude 3.5 Sonnet for generation + Haiku for evals, batch_generate (10+ subtasks/call), per-client GitHub OAuth, Upwork webhook trigger, rork_batch for 21 Expo apps, daily_code_loop cron. Requires PRD-200+PRD-202.",
+      "tags": [
+        "everreach-os",
+        "coding-agent",
+        "mcp",
+        "claude",
+        "code-generation",
+        "upwork",
+        "retainer",
+        "rork",
+        "sandbox",
+        "p0"
+      ]
     },
     {
       "id": "prd-111-native-tool-agent-framework",
@@ -1419,8 +1764,15 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "Base class for all Claude native tool-calling agents. ToolRegistry (register/lookup/validate), ClaudeToolRunner (Anthropic API tool_use loop until end_turn), AgentMemory (short-term messages + Supabase long-term), SelfHealingMixin (error counting + restart signal), AgentReporter (actp_agent_runs lifecycle). 4 Supabase migrations (actp_agent_runs, actp_agent_memory, actp_agent_tasks, actp_tool_call_log), 4 health routes, 6 tests. MUST be built first — PRD-112 through PRD-115 all extend this base class.",
-      "tags": ["native-tool-calling", "agent-framework", "base-class", "actp-worker", "cognitive-architecture", "p0"]
+      "focus": "Base class for all Claude native tool-calling agents. ToolRegistry (register/lookup/validate), ClaudeToolRunner (Anthropic API tool_use loop until end_turn), AgentMemory (short-term messages + Supabase long-term), SelfHealingMixin (error counting + restart signal), AgentReporter (actp_agent_runs lifecycle). 4 Supabase migrations (actp_agent_runs, actp_agent_memory, actp_agent_tasks, actp_tool_call_log), 4 health routes, 6 tests. MUST be built first \u2014 PRD-112 through PRD-115 all extend this base class.",
+      "tags": [
+        "native-tool-calling",
+        "agent-framework",
+        "base-class",
+        "actp-worker",
+        "cognitive-architecture",
+        "p0"
+      ]
     },
     {
       "id": "prd-112-social-media-domain-agent",
@@ -1433,7 +1785,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Extends NativeToolAgent (PRD-111). 20 tools across 12 Safari ports: research_niche (3106), post_instagram_comment (3005), post_tiktok_comment (3006), post_twitter_reply (3007), post_threads_comment (3004), send_instagram_dm (3001), send_tiktok_dm (3002), send_twitter_dm (3003), linkedin_search/connect/message (3105), get_follower_counts, get_engagement_stats, get_crm_contacts, queue_outreach, get_pending_posts, mark_comment_posted. LinkedIn dry_run=True default, Twitter reply-only (no composeTweet), max 10 LinkedIn/day. 3 preset goals: engagement_boost (every 15min), niche_research (4hr), prospect_session (11:00+15:00). 1 migration (actp_engagement_actions), 3 health routes, 6 tests.",
-      "tags": ["native-tool-calling", "social-media", "safari-automation", "audience-growth", "actp-worker", "p0"]
+      "tags": [
+        "native-tool-calling",
+        "social-media",
+        "safari-automation",
+        "audience-growth",
+        "actp-worker",
+        "p0"
+      ]
     },
     {
       "id": "prd-113-content-creation-domain-agent",
@@ -1446,7 +1805,14 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Extends NativeToolAgent (PRD-111). 22 tools: research_top_niches, generate_batch_scripts (min 10/call), score_hooks_batch (HookLite >=85), regenerate_script (max 3x), check_renderer_health, start_renderer, trigger_render (GenLite), flush_stuck_renders (fixes 11 stuck jobs), trigger_adaptation (PRD-107), trigger_thumbnail (PRD-108), enqueue_to_mplite, get_post_performance, classify_post (viral>100K/strong>10K/etc), save_viral_template, get_viral_templates. 3 preset goals: daily_pipeline (06:00), flush_and_publish_pending (2hr), viral_analysis (Sunday). 2 migrations (actp_viral_templates, actp_gate_stats), 3 health routes, 6 tests.",
-      "tags": ["native-tool-calling", "content-creation", "render-pipeline", "actp-worker", "viral-loop", "p0"]
+      "tags": [
+        "native-tool-calling",
+        "content-creation",
+        "render-pipeline",
+        "actp-worker",
+        "viral-loop",
+        "p0"
+      ]
     },
     {
       "id": "prd-114-acquisition-domain-agent",
@@ -1458,8 +1824,17 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "Extends NativeToolAgent (PRD-111). 24 tools: search_linkedin_prospects, score_prospect (ICP rubric), update_prospect_stage (Awareness→Decision→Closed Won), queue_linkedin_message (force=True), queue_twitter_dm, queue_gmail_outreach (Julian Goldie email Mon 13:00 UTC), send_pending_outreach, search_upwork_jobs, score_upwork_job, generate_proposal (Claude Sonnet), submit_upwork_proposal, get_revenue_pipeline, get_monthly_targets ($9.5K M1). LinkedIn 10/day rate limiter. 4 preset goals: daily_prospecting (11+15:00), pipeline_advance (09:00), upwork_scan (2hr), julian_goldie_email (13:00 UTC). 2 migrations (actp_deal_log, actp_revenue_goals), 3 health routes, 6 tests.",
-      "tags": ["native-tool-calling", "acquisition", "crm", "upwork", "linkedin", "actp-worker", "revenue", "p0"]
+      "focus": "Extends NativeToolAgent (PRD-111). 24 tools: search_linkedin_prospects, score_prospect (ICP rubric), update_prospect_stage (Awareness\u2192Decision\u2192Closed Won), queue_linkedin_message (force=True), queue_twitter_dm, queue_gmail_outreach (Julian Goldie email Mon 13:00 UTC), send_pending_outreach, search_upwork_jobs, score_upwork_job, generate_proposal (Claude Sonnet), submit_upwork_proposal, get_revenue_pipeline, get_monthly_targets ($9.5K M1). LinkedIn 10/day rate limiter. 4 preset goals: daily_prospecting (11+15:00), pipeline_advance (09:00), upwork_scan (2hr), julian_goldie_email (13:00 UTC). 2 migrations (actp_deal_log, actp_revenue_goals), 3 health routes, 6 tests.",
+      "tags": [
+        "native-tool-calling",
+        "acquisition",
+        "crm",
+        "upwork",
+        "linkedin",
+        "actp-worker",
+        "revenue",
+        "p0"
+      ]
     },
     {
       "id": "prd-116-agent-worker-daemon",
@@ -1471,8 +1846,15 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "worker.py — single entry point that starts all 4 domain agents (PRD-112 to PRD-115) as async daemons. AgentSupervisor (start/watch/restart with crash backoff 2^n up to 300s), AgentRegistry (UPSERT to actp_agent_registry at startup), HealthHeartbeat (30s interval), GracefulShutdown (SIGTERM/SIGINT drain 30s then force), DailyRoutineScheduler (APScheduler 6 crons: content 06:00, revenue 08:00, acquire 09:00, prospect 11+15:00, cost_audit 23:00, weekly Sun 20:00), HealthServer aiohttp port 8090 (GET /health, /agents, /agents/:id, /agents/:id/restart, POST /agents/task, GET /scheduler/jobs). NativeToolAgent.run_as_daemon(poll_interval) loop with crash isolation. CLI flags: --agents, --dry-run, --list-agents, --restart-agent. 1 migration (actp_agent_registry), 6 tests.",
-      "tags": ["native-tool-calling", "worker-daemon", "supervisor", "self-healing", "actp-worker", "p0"]
+      "focus": "worker.py \u2014 single entry point that starts all 4 domain agents (PRD-112 to PRD-115) as async daemons. AgentSupervisor (start/watch/restart with crash backoff 2^n up to 300s), AgentRegistry (UPSERT to actp_agent_registry at startup), HealthHeartbeat (30s interval), GracefulShutdown (SIGTERM/SIGINT drain 30s then force), DailyRoutineScheduler (APScheduler 6 crons: content 06:00, revenue 08:00, acquire 09:00, prospect 11+15:00, cost_audit 23:00, weekly Sun 20:00), HealthServer aiohttp port 8090 (GET /health, /agents, /agents/:id, /agents/:id/restart, POST /agents/task, GET /scheduler/jobs). NativeToolAgent.run_as_daemon(poll_interval) loop with crash isolation. CLI flags: --agents, --dry-run, --list-agents, --restart-agent. 1 migration (actp_agent_registry), 6 tests.",
+      "tags": [
+        "native-tool-calling",
+        "worker-daemon",
+        "supervisor",
+        "self-healing",
+        "actp-worker",
+        "p0"
+      ]
     },
     {
       "id": "prd-117-orchestrator-task-bridge",
@@ -1484,8 +1866,15 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "task_bridge.py — message bus between Cognitive Orchestrator (PRD-100) and all 4 domain agents. TaskRouter (regex-based goal→agent routing table, 4 patterns), TaskDispatcher (validate + INSERT with TTL, expiry, cancel), TaskResultPoller (asyncio poll with timeout), OutcomeReporter (feed results back to Orchestrator, update performance_score), TaskAuditor (full task trace: created→claimed→tools→completed), PriorityQueue (CRITICAL=100/HIGH=75/NORMAL=50/LOW=25 weights, SELECT FOR UPDATE SKIP LOCKED). TaskBridge public API: dispatch_goal, dispatch_from_gap_analysis, dispatch_daily_routine (4 morning tasks), get_system_status. Patches NativeToolAgent.get_next_task() to use PriorityQueue.claim_next(). 4 migrations (extends actp_agent_tasks, actp_orchestrator_feedback, performance_score, priority index), 5 health routes, 9 tests.",
-      "tags": ["native-tool-calling", "task-routing", "orchestrator", "message-bus", "actp-worker", "p0"]
+      "focus": "task_bridge.py \u2014 message bus between Cognitive Orchestrator (PRD-100) and all 4 domain agents. TaskRouter (regex-based goal\u2192agent routing table, 4 patterns), TaskDispatcher (validate + INSERT with TTL, expiry, cancel), TaskResultPoller (asyncio poll with timeout), OutcomeReporter (feed results back to Orchestrator, update performance_score), TaskAuditor (full task trace: created\u2192claimed\u2192tools\u2192completed), PriorityQueue (CRITICAL=100/HIGH=75/NORMAL=50/LOW=25 weights, SELECT FOR UPDATE SKIP LOCKED). TaskBridge public API: dispatch_goal, dispatch_from_gap_analysis, dispatch_daily_routine (4 morning tasks), get_system_status. Patches NativeToolAgent.get_next_task() to use PriorityQueue.claim_next(). 4 migrations (extends actp_agent_tasks, actp_orchestrator_feedback, performance_score, priority index), 5 health routes, 9 tests.",
+      "tags": [
+        "native-tool-calling",
+        "task-routing",
+        "orchestrator",
+        "message-bus",
+        "actp-worker",
+        "p0"
+      ]
     },
     {
       "id": "prd-118-validation-parallel-runner",
@@ -1497,8 +1886,15 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "validate.py — pre-flight validator before worker.py starts. FeatureListValidator (all PRDs 100-118 pass rates, blocking/ready categorization), PytestParallelRunner (asyncio.gather all test suites in parallel, parse passed/failed counts), MigrationChecker (19 required tables, async parallel existence checks), EnvChecker (3 required + 7 optional env vars, colored print_summary), SafariPortChecker (11 ports parallel health check, critical subset: 3001/3002/3005/3106), ServiceEndpointChecker (7 cloud service /api/health URLs). ValidationReporter: build_report → launch_recommendation: safe_to_launch/partial_launch/fix_first. Save to actp_validation_reports. CLI: --fast (skip pytest), --prd PRD_ID, --fix-missing-tables, --json (CI mode exit code). 5 health routes, 8 tests.",
-      "tags": ["validation", "parallel-testing", "pre-flight", "ci", "actp-worker", "p1"]
+      "focus": "validate.py \u2014 pre-flight validator before worker.py starts. FeatureListValidator (all PRDs 100-118 pass rates, blocking/ready categorization), PytestParallelRunner (asyncio.gather all test suites in parallel, parse passed/failed counts), MigrationChecker (19 required tables, async parallel existence checks), EnvChecker (3 required + 7 optional env vars, colored print_summary), SafariPortChecker (11 ports parallel health check, critical subset: 3001/3002/3005/3106), ServiceEndpointChecker (7 cloud service /api/health URLs). ValidationReporter: build_report \u2192 launch_recommendation: safe_to_launch/partial_launch/fix_first. Save to actp_validation_reports. CLI: --fast (skip pytest), --prd PRD_ID, --fix-missing-tables, --json (CI mode exit code). 5 health routes, 8 tests.",
+      "tags": [
+        "validation",
+        "parallel-testing",
+        "pre-flight",
+        "ci",
+        "actp-worker",
+        "p1"
+      ]
     },
     {
       "id": "prd-119-product-launch-agent",
@@ -1510,8 +1906,17 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "Extends NativeToolAgent (PRD-111). 28 tools: App Store Connect API (JWT auth via APPLE_KEY_ID/.p8 file, list_apps, get_app_status, create_version, submit_for_review, get_review_status, upload_screenshot, set_metadata, enable_phased_release, get_download_stats, get_review_queue), Expo EAS (trigger_eas_build subprocess, get_build_status, submit_to_app_store, get_pending_builds, get_rork_apps_queue), Stripe (get_subscriptions for EverReach $19.99 + ClientPortal $49, get_breakdown vs $3.5K target, get_churned, get_trial_conversions, create_promo_coupon, get_upcoming_renewals, get_payment_failures), ProductMetrics (get_product_goal_status: EverReach 100 users / ClientPortal 30, get_ratings, save_snapshot, get_rork_progress, get_revenue_by_product, flag_churn_risk). Self-healing: EAS retry once after 1hr, REJECTED→HIGH task, Stripe 401 pause 30min. Crons: daily 07:00, EAS queue 4hr, Stripe campaign Mon 09:00, weekly review Sun 19:00. 3 migrations (actp_app_submissions, actp_product_snapshots, actp_churn_risks), seed 21 Rork app rows, 4 health routes, 5 tests.",
-      "tags": ["native-tool-calling", "product", "app-store", "stripe", "expo-eas", "actp-worker", "revenue", "p0"]
+      "focus": "Extends NativeToolAgent (PRD-111). 28 tools: App Store Connect API (JWT auth via APPLE_KEY_ID/.p8 file, list_apps, get_app_status, create_version, submit_for_review, get_review_status, upload_screenshot, set_metadata, enable_phased_release, get_download_stats, get_review_queue), Expo EAS (trigger_eas_build subprocess, get_build_status, submit_to_app_store, get_pending_builds, get_rork_apps_queue), Stripe (get_subscriptions for EverReach $19.99 + ClientPortal $49, get_breakdown vs $3.5K target, get_churned, get_trial_conversions, create_promo_coupon, get_upcoming_renewals, get_payment_failures), ProductMetrics (get_product_goal_status: EverReach 100 users / ClientPortal 30, get_ratings, save_snapshot, get_rork_progress, get_revenue_by_product, flag_churn_risk). Self-healing: EAS retry once after 1hr, REJECTED\u2192HIGH task, Stripe 401 pause 30min. Crons: daily 07:00, EAS queue 4hr, Stripe campaign Mon 09:00, weekly review Sun 19:00. 3 migrations (actp_app_submissions, actp_product_snapshots, actp_churn_risks), seed 21 Rork app rows, 4 health routes, 5 tests.",
+      "tags": [
+        "native-tool-calling",
+        "product",
+        "app-store",
+        "stripe",
+        "expo-eas",
+        "actp-worker",
+        "revenue",
+        "p0"
+      ]
     },
     {
       "id": "prd-120-cross-agent-goal-optimizer",
@@ -1523,8 +1928,16 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "GoalOptimizerAgent extends NativeToolAgent (PRD-111) — outer closed-loop controller. 30 tools: GoalGapAnalyzer (6 KPIs: revenue vs $9.5K/mo + $50K cumulative, products user counts, audience vs 1M/platform, autonomy %, content quality %, efficiency vs $400 cap), AgentPerformanceRanker (success_rate + quality per domain, iteration delta, tool distribution), StrategyAmplifier (winning templates viral_score>0.8 → amplify, winning outreach sequences → scale, winning niches → double down), StrategyKiller (flop templates viral_score<0.2 + test_count>=3 → retire, losing niches → kill, failed outreach → retire), SystemPromptTuner (Claude-driven prompt improvement via performance data, actp_agent_prompts + actp_prompt_history, rollback support), ResourceRebalancer (dynamic priority boost: revenue<50%→acquisition CRITICAL, audience<30%→social+content HIGH, cost>80%→pause batch). 5 migrations (actp_agent_prompts, actp_prompt_history, actp_optimization_runs, actp_niche_kills, alter actp_viral_templates). Seed: initial prompts for all 5 agents. Crons: 05:30 daily (before morning routine), Saturday 23:00 weekly. 5 health routes, 6 tests.",
-      "tags": ["native-tool-calling", "meta-optimizer", "feedback-loop", "strategy", "prompt-tuning", "actp-worker", "p1"]
+      "focus": "GoalOptimizerAgent extends NativeToolAgent (PRD-111) \u2014 outer closed-loop controller. 30 tools: GoalGapAnalyzer (6 KPIs: revenue vs $9.5K/mo + $50K cumulative, products user counts, audience vs 1M/platform, autonomy %, content quality %, efficiency vs $400 cap), AgentPerformanceRanker (success_rate + quality per domain, iteration delta, tool distribution), StrategyAmplifier (winning templates viral_score>0.8 \u2192 amplify, winning outreach sequences \u2192 scale, winning niches \u2192 double down), StrategyKiller (flop templates viral_score<0.2 + test_count>=3 \u2192 retire, losing niches \u2192 kill, failed outreach \u2192 retire), SystemPromptTuner (Claude-driven prompt improvement via performance data, actp_agent_prompts + actp_prompt_history, rollback support), ResourceRebalancer (dynamic priority boost: revenue<50%\u2192acquisition CRITICAL, audience<30%\u2192social+content HIGH, cost>80%\u2192pause batch). 5 migrations (actp_agent_prompts, actp_prompt_history, actp_optimization_runs, actp_niche_kills, alter actp_viral_templates). Seed: initial prompts for all 5 agents. Crons: 05:30 daily (before morning routine), Saturday 23:00 weekly. 5 health routes, 6 tests.",
+      "tags": [
+        "native-tool-calling",
+        "meta-optimizer",
+        "feedback-loop",
+        "strategy",
+        "prompt-tuning",
+        "actp-worker",
+        "p1"
+      ]
     },
     {
       "id": "prd-121-mcp-registry-discovery",
@@ -1536,8 +1949,15 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "mcp_registry.py — dynamic MCP discovery and loading. MCPDiscoveryAgent: search npm registry, GitHub (MCP_GITHUB_TOKEN), mcp.so, glama.ai in parallel → deduplicate + rank by composite score → classify domain via Claude → validate top 5 → register. MCPValidator: connect_stdio (JSON-RPC initialize), list_tools, test_tool_call, extract_tool_manifest, get_compatibility_score. MCPRegistry: UPSERT actp_mcp_registry, get_servers_for_domain, get_tools_by_capability. MCPServerManager: start/stop/restart asyncio subprocesses, actp_mcp_processes tracking. MCPConnectionPool: live JSON-RPC client per server. MCPToolLoader: inject mcp_{server}_{tool} callables into NativeToolAgent tool_registry. MCPHealthMonitor: 60s ping loop, auto-restart on failure, actp_mcp_health_events. NativeToolAgent patches: load_mcp_tools(domain) on __init__, reload_mcp_tools() hot-reload. Seed 7 pre-validated MCPs: github, brave-search, puppeteer, filesystem, stripe, playwright, slack. 4 migrations, 5 health routes, 6 tests.",
-      "tags": ["mcp", "tool-discovery", "native-tool-calling", "registry", "actp-worker", "p0"]
+      "focus": "mcp_registry.py \u2014 dynamic MCP discovery and loading. MCPDiscoveryAgent: search npm registry, GitHub (MCP_GITHUB_TOKEN), mcp.so, glama.ai in parallel \u2192 deduplicate + rank by composite score \u2192 classify domain via Claude \u2192 validate top 5 \u2192 register. MCPValidator: connect_stdio (JSON-RPC initialize), list_tools, test_tool_call, extract_tool_manifest, get_compatibility_score. MCPRegistry: UPSERT actp_mcp_registry, get_servers_for_domain, get_tools_by_capability. MCPServerManager: start/stop/restart asyncio subprocesses, actp_mcp_processes tracking. MCPConnectionPool: live JSON-RPC client per server. MCPToolLoader: inject mcp_{server}_{tool} callables into NativeToolAgent tool_registry. MCPHealthMonitor: 60s ping loop, auto-restart on failure, actp_mcp_health_events. NativeToolAgent patches: load_mcp_tools(domain) on __init__, reload_mcp_tools() hot-reload. Seed 7 pre-validated MCPs: github, brave-search, puppeteer, filesystem, stripe, playwright, slack. 4 migrations, 5 health routes, 6 tests.",
+      "tags": [
+        "mcp",
+        "tool-discovery",
+        "native-tool-calling",
+        "registry",
+        "actp-worker",
+        "p0"
+      ]
     },
     {
       "id": "prd-122-claude-code-agent-launcher",
@@ -1549,8 +1969,16 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "claude_launcher.py — main terminal that spawns `claude --print --output-format json` subprocesses on demand. MCPConfigBuilder: build .mcp.json per domain from actp_mcp_registry (inject env vars, get_tool_allowlist per agent type). SystemPromptBuilder: compose from actp_agent_prompts + MCP tool descriptions + EverReach base context ($5K/month, 1M followers, $400 cost cap). AgentSession: asyncio subprocess lifecycle (start, stream_output async generator, wait_for_completion, cancel, get_cost_estimate). SessionPool: asyncio.Semaphore per agent_type (content-agent capped at 1 session for cost), acquire/release. OutputParser: parse newline-delimited JSON stream → extract_tool_uses, extract_result, extract_usage, detect_error. SessionLogger: actp_claude_sessions + actp_claude_tool_uses (source: native/mcp), cost to anthropic_cost_log. ClaudeCodeAgentLauncher.launch() full pipeline + launch_from_queue() (poll use_claude_code=true tasks) + launch_batch(). worker.py patch: route use_claude_code=true tasks to launcher. 3 migrations (actp_claude_sessions, actp_claude_tool_uses, alter actp_agent_tasks), 4 health routes, 6 tests. Requires: claude binary in PATH, CLAUDE_CODE_BIN/MODEL/MAX_CONCURRENT/SESSION_TIMEOUT env vars.",
-      "tags": ["claude-code", "agent-launcher", "mcp", "native-tool-calling", "terminal", "actp-worker", "p0"]
+      "focus": "claude_launcher.py \u2014 main terminal that spawns `claude --print --output-format json` subprocesses on demand. MCPConfigBuilder: build .mcp.json per domain from actp_mcp_registry (inject env vars, get_tool_allowlist per agent type). SystemPromptBuilder: compose from actp_agent_prompts + MCP tool descriptions + EverReach base context ($5K/month, 1M followers, $400 cost cap). AgentSession: asyncio subprocess lifecycle (start, stream_output async generator, wait_for_completion, cancel, get_cost_estimate). SessionPool: asyncio.Semaphore per agent_type (content-agent capped at 1 session for cost), acquire/release. OutputParser: parse newline-delimited JSON stream \u2192 extract_tool_uses, extract_result, extract_usage, detect_error. SessionLogger: actp_claude_sessions + actp_claude_tool_uses (source: native/mcp), cost to anthropic_cost_log. ClaudeCodeAgentLauncher.launch() full pipeline + launch_from_queue() (poll use_claude_code=true tasks) + launch_batch(). worker.py patch: route use_claude_code=true tasks to launcher. 3 migrations (actp_claude_sessions, actp_claude_tool_uses, alter actp_agent_tasks), 4 health routes, 6 tests. Requires: claude binary in PATH, CLAUDE_CODE_BIN/MODEL/MAX_CONCURRENT/SESSION_TIMEOUT env vars.",
+      "tags": [
+        "claude-code",
+        "agent-launcher",
+        "mcp",
+        "native-tool-calling",
+        "terminal",
+        "actp-worker",
+        "p0"
+      ]
     },
     {
       "id": "prd-115-revenue-analytics-domain-agent",
@@ -1562,8 +1990,18 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "critical",
-      "focus": "Extends NativeToolAgent (PRD-111). 26 tools: get_stripe_mrr, get_apple_revenue (App Store Connect API JWT), get_upwork_earnings, get_total_monthly_revenue (4 streams), get_revenue_vs_target ($9.5K), get_cumulative_revenue ($50K goal), get_follower_counts, get_follower_velocity, get_eta_to_1m (YouTube: 2810 subs), get_avg_views_per_video, get_ai_cost_today/month/projected ($400 ceiling), get_goal_gap_analysis, create_goal_gap_task (orchestrator), generate_weekly_report_md, send_telegram_report, save_weekly_snapshot. AnthropicCostTracker patches NativeToolAgent._call_claude() — tracks every API call cost. AppStoreConnectClient with JWT auth. 3 preset goals: daily_check (08:00), weekly_report (Sunday 20:00), cost_audit (23:00). 3 migrations (anthropic_cost_log, actp_weekly_snapshots + seed, actp_revenue_goals), 4 health routes, 6 tests.",
-      "tags": ["native-tool-calling", "revenue", "analytics", "stripe", "apple", "telegram", "cost-tracking", "actp-worker", "p1"]
+      "focus": "Extends NativeToolAgent (PRD-111). 26 tools: get_stripe_mrr, get_apple_revenue (App Store Connect API JWT), get_upwork_earnings, get_total_monthly_revenue (4 streams), get_revenue_vs_target ($9.5K), get_cumulative_revenue ($50K goal), get_follower_counts, get_follower_velocity, get_eta_to_1m (YouTube: 2810 subs), get_avg_views_per_video, get_ai_cost_today/month/projected ($400 ceiling), get_goal_gap_analysis, create_goal_gap_task (orchestrator), generate_weekly_report_md, send_telegram_report, save_weekly_snapshot. AnthropicCostTracker patches NativeToolAgent._call_claude() \u2014 tracks every API call cost. AppStoreConnectClient with JWT auth. 3 preset goals: daily_check (08:00), weekly_report (Sunday 20:00), cost_audit (23:00). 3 migrations (anthropic_cost_log, actp_weekly_snapshots + seed, actp_revenue_goals), 4 health routes, 6 tests.",
+      "tags": [
+        "native-tool-calling",
+        "revenue",
+        "analytics",
+        "stripe",
+        "apple",
+        "telegram",
+        "cost-tracking",
+        "actp-worker",
+        "p1"
+      ]
     },
     {
       "id": "creative-testing-pipeline",
@@ -1577,6 +2015,38 @@
       "untilComplete": true,
       "complexity": "critical",
       "focus": "Cross-system orchestrator: Remotion video gen + MediaPoster publishing + ad testing + WaitlistLab offers. Build DB schema first, then orchestrator, creative engine, publishers, analytics, winner selector, ad deployer, iteration engine."
+    },
+    {
+      "id": "test_missing_queue_file_error0",
+      "name": "test_missing_queue_file_error0",
+      "path": "/private/var/folders/nf/l8hh58ks7nzfr9c5m333996h0000gn/T/pytest-of-isaiahdupree/pytest-0/test_missing_queue_file_error0",
+      "priority": 47,
+      "enabled": true,
+      "complexity": "medium"
+    },
+    {
+      "id": "new-repo",
+      "name": "New Repo",
+      "path": "/private/var/folders/nf/l8hh58ks7nzfr9c5m333996h0000gn/T/pytest-of-isaiahdupree/pytest-0/test_adds_new_project0/new-repo",
+      "priority": 48,
+      "enabled": true,
+      "complexity": "high"
+    },
+    {
+      "id": "my-repo",
+      "name": "my-repo",
+      "path": "/private/var/folders/nf/l8hh58ks7nzfr9c5m333996h0000gn/T/pytest-of-isaiahdupree/pytest-0/test_new_project_written_to_di0/my-repo",
+      "priority": 49,
+      "enabled": true,
+      "complexity": "medium"
+    },
+    {
+      "id": "test_does_not_hit_managed_proj0",
+      "name": "test_does_not_hit_managed_proj0",
+      "path": "/private/var/folders/nf/l8hh58ks7nzfr9c5m333996h0000gn/T/pytest-of-isaiahdupree/pytest-0/test_does_not_hit_managed_proj0",
+      "priority": 50,
+      "enabled": true,
+      "complexity": "medium"
     }
   ]
 }
