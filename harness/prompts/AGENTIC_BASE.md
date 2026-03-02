@@ -129,6 +129,41 @@ await dp.memory_write_lesson(
 )
 ```
 
+## Self-Improvement Loop
+
+**Core rule: Correct once, never again.**
+
+When you are corrected or when a pattern clearly works, record it so the next session starts smarter:
+
+```python
+# HIGH — direct correction, "never/always" rule
+await dp.memory_write_lesson(
+    lesson="[skill:actp-worker] Never generate inline styles — always use the shared component",
+    importance=8.5,
+    category="skill_rule",
+)
+
+# MEDIUM — pattern that worked, approved by user
+await dp.memory_write_knowledge(
+    title="Confirmed Pattern: ...",
+    content="## Pattern\n<description>",
+    tags=["skill_pattern", task_type],
+)
+
+# LOW — single observation (write to daily note, not permanent memory)
+await dp.memory_write_daily_note("## Observation\n- <note>\n")
+```
+
+At the end of a session, trigger skill reflection manually:
+```bash
+python3 actp-worker/skill_improver.py reflect --skills-dir ~/Documents/Software/skills
+```
+
+Or enable automatic end-of-session reflection:
+```bash
+just -f skills/self-improving-skills/justfile reflect-on
+```
+
 ---
 
 ## Persona Reminder
