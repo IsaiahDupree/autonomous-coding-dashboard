@@ -1,0 +1,71 @@
+{
+  "project": "upwork-mcp-improvements",
+  "version": "1.0.0",
+  "description": "8 Upwork MCP gap-fill improvements",
+  "features": [
+    {
+      "id": "UW-001",
+      "name": "Add proposal template CRUD: GET/POST /api/upwork/templates and 2 MCP tools",
+      "category": "api",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-002",
+      "name": "Add job save/unsave and saved jobs list endpoints with 2 MCP tools",
+      "category": "api",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-003",
+      "name": "Add GET /api/upwork/connects endpoint and upwork_get_connects MCP tool",
+      "category": "api",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-004",
+      "name": "Add watch CRUD: POST/DELETE /api/upwork/monitor/watches with 2 MCP tools",
+      "category": "api",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-005",
+      "name": "Add GET /api/upwork/messages/unread and upwork_get_unread_messages MCP tool",
+      "category": "api",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-006",
+      "name": "Add GET /api/upwork/analytics summary endpoint and upwork_get_analytics MCP tool",
+      "category": "api",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-007",
+      "name": "Add rate-limit/captcha detection and GET /api/upwork/rate-status MCP tool",
+      "category": "reliability",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-008",
+      "name": "Add POST /api/upwork/proposals/improve and upwork_improve_proposal MCP tool",
+      "category": "api",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

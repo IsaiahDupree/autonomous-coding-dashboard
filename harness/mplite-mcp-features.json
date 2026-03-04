@@ -1,0 +1,15 @@
+{
+  "project": "mplite-mcp",
+  "version": "1.0.0",
+  "description": "MPLite MCP server — dedicated queue management tools for the MPLite publish queue (add, list, status, trigger, stats, update, cancel)",
+  "features": [
+    { "id": "FEAT-001", "name": "Project scaffold", "category": "setup", "priority": 1, "passes": true, "status": "completed" },
+    { "id": "FEAT-002", "name": "queue_add tool", "category": "api", "priority": 2, "passes": true, "status": "completed" },
+    { "id": "FEAT-003", "name": "queue_list and queue_status tools", "category": "api", "priority": 3, "passes": true, "status": "completed" },
+    { "id": "FEAT-004", "name": "queue_trigger and queue_daily_stats tools", "category": "api", "priority": 4, "passes": true, "status": "completed" },
+    { "id": "FEAT-005", "name": "queue_update and queue_cancel tools", "category": "api", "priority": 5, "passes": true, "status": "completed" },
+    { "id": "FEAT-006", "name": "queue_health tool", "category": "api", "priority": 6, "passes": true, "status": "completed" },
+    { "id": "FEAT-007", "name": "MCP stdio transport", "category": "mcp", "priority": 7, "passes": true, "status": "completed" },
+    { "id": "FEAT-008", "name": "Tests", "category": "tests", "priority": 8, "passes": true, "status": "completed" }
+  ]
+}

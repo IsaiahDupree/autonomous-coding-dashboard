@@ -1,0 +1,55 @@
+{
+  "project": "social-skills",
+  "version": "1.0.0",
+  "description": "6 Claude Code skills: /safari-status, /social-inbox, /dm-campaign, /upwork-hunt, /social-research, /comment-sweep",
+  "features": [
+    {
+      "id": "SKL-001",
+      "name": "/safari-status skill: SKILL.md + justfile checking all 7 REST services + Safari sessions, returns status table",
+      "category": "infrastructure",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SKL-002",
+      "name": "/social-inbox skill: reads unread DMs from all 4 platforms, categorizes hot_lead/needs_reply/spam/follow_up_pending, drafts replies",
+      "category": "inbox",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SKL-003",
+      "name": "/dm-campaign skill: CRMLite dedup check + profile fetch + ai_generate_dm + batch approval gate + send with delay",
+      "category": "outreach",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SKL-004",
+      "name": "/upwork-hunt skill: search jobs + score vs ICP + generate proposals for top 5 + approval gate + submit",
+      "category": "outreach",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SKL-005",
+      "name": "/social-research skill: cross-platform prospect brief from handle/name across LinkedIn, Instagram, Twitter",
+      "category": "research",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SKL-006",
+      "name": "/comment-sweep skill: scrape post comments, CRMLite score each commenter, surface top leads, optionally open DM threads",
+      "category": "outreach",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

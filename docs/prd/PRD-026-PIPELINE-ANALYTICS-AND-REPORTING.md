@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: medium
+---
+
 # PRD-026: Pipeline Analytics & Reporting Agent
 
-**Status:** Ready for ACD  
-**Priority:** P2  
+**Status:** Ready for ACD
+**Priority:** P2
 **Depends on:** PRD-022–025, `crm_contacts`, `crm_messages`, `acq_discovery_runs`, `acq_warmup_schedules`, `acq_outreach_sequences`
 
 ---

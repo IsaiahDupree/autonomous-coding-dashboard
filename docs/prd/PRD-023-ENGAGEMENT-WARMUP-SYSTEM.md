@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # PRD-023: Engagement Warmup System
 
-**Status:** Ready for ACD  
-**Priority:** P1  
+**Status:** Ready for ACD
+**Priority:** P1
 **Depends on:** PRD-022 (Discovery), Safari comment services (3004/3005/3006/3007), `crm_contacts`
 
 ---

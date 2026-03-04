@@ -1,4 +1,4 @@
-# PRD-021 — Felix AI CEO Persona: Research & Integration Reference
+can# PRD-021 — Felix AI CEO Persona: Research & Integration Reference
 *Source: ClawMart listing — Felix v3, February 26, 2026*
 *Category: Competitive Research / Persona Patterns / ACTP Integration*
 

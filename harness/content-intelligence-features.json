@@ -1,0 +1,17 @@
+{
+  "project": "content-intelligence-system",
+  "version": "1.0.0",
+  "description": "Content Intelligence System — audits MPLite DB, pulls all Blotato social account data, indexes local video files, deduplicates against uploaded posts, runs cross-platform analysis, and uploads everything to Supabase for informed content decisions",
+  "features": [
+    { "id": "FEAT-001", "name": "Project scaffold (package.json, index.js, lib/, .env.example, README)", "category": "setup", "priority": 1, "passes": true, "status": "completed" },
+    { "id": "FEAT-002", "name": "MPLite DB audit — fetch publish_queue, daily_counters, platforms, activity_log; upsert into ci_posts", "category": "data", "priority": 2, "passes": true, "status": "completed" },
+    { "id": "FEAT-003", "name": "Blotato account sync — enumerate accounts, paginate last 90 days of posts, upsert metrics into ci_posts", "category": "data", "priority": 3, "passes": true, "status": "completed" },
+    { "id": "FEAT-004", "name": "Local file scanner — recursive scan LOCAL_VIDEO_DIRS, SHA256 hash, upsert ci_local_files, match against ci_posts", "category": "data", "priority": 4, "passes": true, "status": "completed" },
+    { "id": "FEAT-005", "name": "Safe-delete engine — dry-run report of deletable files; --confirm-delete flag for actual deletion", "category": "storage", "priority": 5, "passes": true, "status": "completed" },
+    { "id": "FEAT-006", "name": "Cross-platform analyzer — top performers, platform breakdown, content gaps, recommendations; upsert ci_analysis_snapshots", "category": "analytics", "priority": 6, "passes": true, "status": "completed" },
+    { "id": "FEAT-007", "name": "Content association graph — group posts by filename stem across platforms, store in snapshot", "category": "analytics", "priority": 7, "passes": true, "status": "completed" },
+    { "id": "FEAT-008", "name": "Supabase schema migration — create ci_posts, ci_local_files, ci_analysis_snapshots tables on first launch", "category": "setup", "priority": 8, "passes": true, "status": "completed" },
+    { "id": "FEAT-009", "name": "CLI status dashboard — node index.js status prints latest snapshot: posts by platform, indexed files, safe-to-delete bytes, top 5 recommendations", "category": "cli", "priority": 9, "passes": true, "status": "completed" },
+    { "id": "FEAT-010", "name": "Unit + integration tests — mock Blotato/MPLite APIs, test hash matching, dry-run dedup, analyzer recommendations, full pipeline", "category": "tests", "priority": 10, "passes": true, "status": "completed" }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "project": "acd-mcp-skill",
+  "version": "1.0.0",
+  "description": "ACD Harness as MCP server + Claude Code skill — expose harness ops as callable tools",
+  "features": [
+    {
+      "id": "ACD-001",
+      "name": "Create acd-mcp-server.js with MCP handshake and acd_list_projects tool",
+      "category": "api",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-002",
+      "name": "Add acd_start tool — spawn harness run as detached child process",
+      "category": "api",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-003",
+      "name": "Add acd_status tool — read harness-status JSON and feature progress",
+      "category": "api",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-004",
+      "name": "Add acd_logs and acd_stop tools",
+      "category": "api",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-005",
+      "name": "Create Claude Code skill file at ~/.claude/skills/acd.md",
+      "category": "integration",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-006",
+      "name": "Register acd-mcp-server in Claude Desktop config mcpServers",
+      "category": "integration",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

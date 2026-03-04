@@ -16,6 +16,7 @@ import { spawn, execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import os from 'os';
 import * as metricsDb from './metrics-db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -77,6 +78,85 @@ function createConfig(projectRoot, projectId) {
 }
 
 let CONFIG = createConfig(PROJECT_ROOT);
+
+// ============================================
+// Memory System Integration
+// ============================================
+
+/**
+ * Write a memory event to the 3-layer memory system.
+ * Non-blocking - session completes even if this fails.
+ */
+async function writeMemoryEvent(sessionNumber, stats, success) {
+  try {
+    const { passing, total } = stats;
+    const passRate = total > 0 ? passing / total : 0;
+    const pct = total > 0 ? Math.round(passRate * 100) : 0;
+
+    // Calculate importance score based on pass rate
+    let importanceScore = 5.0; // default
+    if (passRate >= 0.8) {
+      importanceScore = 7.5; // significant progress
+    } else if (passRate >= 0.5) {
+      importanceScore = 5.5; // normal progress
+    } else {
+      importanceScore = 4.0; // early progress
+    }
+
+    const event = {
+      event_type: 'session_complete',
+      content: `ACD session ${sessionNumber} for ${PROJECT_ID}: ${passing}/${total} features passing (${pct}%)`,
+      importance_score: importanceScore,
+      source: 'acd-harness',
+      metadata: {
+        slug: PROJECT_ID,
+        session_number: sessionNumber,
+        features_passed: passing,
+        features_total: total,
+        success
+      }
+    };
+
+    // Write to Supabase
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (supabaseUrl && supabaseKey) {
+      const payload = {
+        ...event,
+        created_at: new Date().toISOString()
+      };
+
+      await fetch(`${supabaseUrl}/rest/v1/actp_memory_events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    // Append to daily note
+    const vaultPath = process.env.MEMORY_VAULT_PATH || path.join(os.homedir(), '.memory', 'vault');
+    const dailyNotesDir = path.join(vaultPath, 'DAILY-NOTES');
+
+    if (fs.existsSync(vaultPath)) {
+      const today = new Date().toISOString().split('T')[0];
+      const dailyNotePath = path.join(dailyNotesDir, `${today}.md`);
+      const timestamp = new Date().toTimeString().split(' ')[0].substring(0, 5);
+      const entry = `\n## ACD Event: ${timestamp}\n**Type:** ${event.event_type}\n**Score:** ${importanceScore}\n${event.content}\n`;
+
+      fs.mkdirSync(dailyNotesDir, { recursive: true });
+      fs.appendFileSync(dailyNotePath, entry, 'utf8');
+    }
+  } catch (e) {
+    // Non-blocking: log error but don't fail the session
+    console.error(`Memory write failed (non-fatal): ${e.message}`);
+  }
+}
 
 // ============================================
 // Configuration
@@ -644,10 +724,16 @@ async function runSession(sessionNumber, modelOverride = null) {
         log(`Progress: ${newStats.passing}/${newStats.total} features (${newStats.percentComplete}%)`);
         updateStatus(sessionType, 'completed', newStats);
         resetModelStatus(); // Model worked, clear any rate limit status
-        resolve({ 
-          code, 
-          output, 
-          stats: newStats, 
+
+        // Write to memory system (non-blocking)
+        writeMemoryEvent(sessionNumber, newStats, true).catch(e =>
+          console.error(`Memory write failed: ${e.message}`)
+        );
+
+        resolve({
+          code,
+          output,
+          stats: newStats,
           duration,
           metrics: sessionMetrics,
           success: true,
@@ -657,10 +743,16 @@ async function runSession(sessionNumber, modelOverride = null) {
         const errorType = classifyError(output, code);
         log(`Session #${sessionNumber} exited with code ${code} (${errorType})`, 'error');
         updateStatus(sessionType, 'failed', newStats, { errorType, model });
-        resolve({ 
-          code, 
-          output, 
-          stats: newStats, 
+
+        // Write to memory system (non-blocking)
+        writeMemoryEvent(sessionNumber, newStats, false).catch(e =>
+          console.error(`Memory write failed: ${e.message}`)
+        );
+
+        resolve({
+          code,
+          output,
+          stats: newStats,
           duration,
           metrics: sessionMetrics,
           success: false,

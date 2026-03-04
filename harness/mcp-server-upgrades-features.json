@@ -1,0 +1,87 @@
+{
+  "project": "mcp-server-upgrades",
+  "version": "1.0.0",
+  "description": "10 MCP server quality upgrades: dryRun, is_ready, structured errors, output schemas, pagination, CRMLite",
+  "features": [
+    {
+      "id": "MQS-001",
+      "name": "dryRun flag on Instagram MCP write tools: instagram_send_dm, instagram_post_comment, instagram_accept_message_request",
+      "category": "safety",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-002",
+      "name": "dryRun flag on Twitter MCP write tools: twitter_send_dm, twitter_post_reply, twitter_post_tweet",
+      "category": "safety",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-003",
+      "name": "dryRun flag on TikTok MCP write tools: tiktok_send_dm, tiktok_post_comment",
+      "category": "safety",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-004",
+      "name": "is_ready tools on all 4 MCP servers: instagram_is_ready (checks :3100/:3005), twitter_is_ready (:3003/:3007), tiktok_is_ready (:3102/:3006), linkedin_is_ready",
+      "category": "reliability",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-005",
+      "name": "Structured error objects on Instagram MCP: { code: RATE_LIMITED|SESSION_EXPIRED|NOT_FOUND, retryAfter?, action?, platform }",
+      "category": "reliability",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-006",
+      "name": "Structured error objects on Twitter, TikTok, and LinkedIn MCPs matching same error code schema as Instagram",
+      "category": "reliability",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-007",
+      "name": "outputSchema on Instagram get_conversations and get_messages tools with typed conversation/message shapes",
+      "category": "dx",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-008",
+      "name": "outputSchema on Twitter, TikTok, LinkedIn get_conversations and get_messages tools",
+      "category": "dx",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-009",
+      "name": "Pagination cursors on all get_conversations tools: response shape { items, nextCursor, total } with optional cursor input",
+      "category": "dx",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "MQS-010",
+      "name": "crm_get_contact tool on all 4 MCP servers: calls CRMLite /api/contacts/by-username/{platform}/{username}, returns contact history",
+      "category": "integration",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

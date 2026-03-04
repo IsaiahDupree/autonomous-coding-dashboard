@@ -1,3 +1,9 @@
+---
+domain: [research]
+agent_roles: [researcher]
+priority: high
+---
+
 # PRD-003: Safari Research Pipeline
 
 ## Status: Draft

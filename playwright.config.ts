@@ -146,6 +146,19 @@ export default defineConfig({
       testMatch: /cf-snapshot\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
     },
+
+    // 4-Layer Agentic Browser Automation — IndyDevDan pattern
+    // Run: npx playwright test --project=agentic  OR  j test-agentic
+    {
+      name: 'agentic',
+      testMatch: /agentic-ui-review\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'on',
+        video: 'retain-on-failure',
+      },
+    },
   ],
 
   webServer: process.env.CI ? undefined : {

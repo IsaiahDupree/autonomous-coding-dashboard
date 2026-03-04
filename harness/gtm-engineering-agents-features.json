@@ -1,0 +1,63 @@
+{
+  "project": "gtm-engineering-agents",
+  "version": "1.0.0",
+  "description": "7 GTM engineering automation workflows — TypeScript CLI toolkit based on Cody Schneider masterclass",
+  "features": [
+    {
+      "id": "GTM-001",
+      "name": "Workspace scaffold — package.json, .env.example, ApiClients loader, shared logger, npm scripts",
+      "category": "scaffolding",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-002",
+      "name": "LinkedIn Giveaway Auto-Responder — scrape commenters, filter keyword, DM Notion URL, resume-safe",
+      "category": "linkedin",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-003",
+      "name": "Bulk Facebook Ad Generator — Perplexity variations + React→PNG + localhost:3210 preview UI + zip download",
+      "category": "facebook",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-004",
+      "name": "Podcast Cold Email Pipeline — Rafonic scrape → MillionVerifier validate → Instantly enroll, resume-safe",
+      "category": "email",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-005",
+      "name": "On-the-Fly Railway Postgres Analysis — provision → ingest → Claude SQL → results → auto-teardown",
+      "category": "data",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-006",
+      "name": "Facebook Ad Performance Optimizer Daemon — poll metrics → pause losers → clone top-N into scaled adset",
+      "category": "facebook",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-007",
+      "name": "LinkedIn ICP Crawler + Auto Email — PhantomBuster scrape → Rafonic enrich → Claude personalize → Instantly enroll",
+      "category": "linkedin",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

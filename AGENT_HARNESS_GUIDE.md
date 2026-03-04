@@ -1,3 +1,9 @@
+---
+domain: [coding]
+agent_roles: [coding]
+priority: high
+---
+
 # Agent Harness Comprehensive Guide
 
 > A complete guide to building effective agent harnesses for long-running autonomous coding agents, based on Anthropic's official documentation and research.

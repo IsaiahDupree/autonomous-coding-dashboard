@@ -1,3 +1,9 @@
+---
+domain: [content]
+agent_roles: [content]
+priority: high
+---
+
 # PRD-004: Remotion Content Generation Pipeline
 
 ## Status: Draft

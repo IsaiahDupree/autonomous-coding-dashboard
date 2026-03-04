@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Control — Autonomous Coding Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .auto-container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+    .auto-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .auto-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--color-text); }
+    .section { margin-bottom: 2rem; }
+    .section-title { font-size: 1rem; font-weight: 600; color: var(--color-text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 0.5rem; }
+    .cycles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .cycle-card { background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; }
+    .cycle-card .cycle-name { font-size: 0.95rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .cycle-card .cycle-desc { font-size: 0.78rem; color: var(--color-text-secondary); margin-bottom: 1rem; line-height: 1.4; }
+    .cycle-card .cycle-steps { font-size: 0.72rem; color: var(--color-text-secondary); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.75rem; line-height: 1.6; }
+    .cycle-card .cycle-actions { display: flex; gap: 0.5rem; }
+    .cycle-card .last-run { font-size: 0.72rem; color: var(--color-text-secondary); margin-top: 0.5rem; font-family: 'JetBrains Mono', monospace; }
+    .run-result { font-size: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 6px; margin-top: 0.75rem; font-family: 'JetBrains Mono', monospace; white-space: pre-wrap; display: none; max-height: 120px; overflow-y: auto; }
+    .run-result.success { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .run-result.error { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .toggle-row { display: flex; justify-content: space-between; align-items: center; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+    .toggle-row .label { font-size: 0.9rem; font-weight: 600; color: var(--color-text); }
+    .toggle-row .sublabel { font-size: 0.78rem; color: var(--color-text-secondary); margin-top: 0.1rem; }
+    .toggle { position: relative; width: 44px; height: 24px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; background: var(--color-border); border-radius: 999px; cursor: pointer; transition: 0.2s; }
+    .toggle-slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; }
+    input:checked + .toggle-slider { background: #6366f1; }
+    input:checked + .toggle-slider:before { transform: translateX(20px); }
+    .plan-panel { background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.25rem; }
+    .plan-controls { display: flex; gap: 0.75rem; align-items: flex-end; margin-bottom: 1rem; flex-wrap: wrap; }
+    .plan-controls .field { display: flex; flex-direction: column; gap: 0.3rem; }
+    .plan-controls label { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .plan-controls select, .plan-controls input { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 7px; padding: 0.4rem 0.7rem; color: var(--color-text); font-size: 0.85rem; min-width: 160px; }
+    .variants-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+    .variant-card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 10px; padding: 1rem; position: relative; }
+    .variant-card.winner { border-color: #6366f1; background: rgba(99,102,241,0.07); }
+    .variant-card.winner::after { content: '🏆 Winner'; position: absolute; top: 0.5rem; right: 0.75rem; font-size: 0.7rem; font-weight: 700; color: #818cf8; }
+    .variant-card .v-label { font-size: 0.85rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.3rem; }
+    .variant-card .v-score { font-size: 1.3rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: #6366f1; }
+    .variant-card .v-summary { font-size: 0.78rem; color: var(--color-text-secondary); margin-top: 0.3rem; line-height: 1.4; }
+    .loading { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--color-border); border-top-color: #6366f1; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--color-text-secondary); padding: 0.75rem 0; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🤖</div>
+          <span>Autonomous Coding Agent</span>
+        </a>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <a href="index.html" class="btn btn-secondary">📊 Dashboard</a>
+          <a href="queue.html" class="btn btn-secondary">📋 Queue</a>
+          <a href="control.html" class="btn btn-secondary">🎮 Control</a>
+          <a href="live.html" class="btn btn-secondary">📡 Live</a>
+          <a href="autonomous.html" class="btn">⚡ Autonomous</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="auto-container">
+    <div class="auto-header">
+      <h1>⚡ Autonomous Control Panel</h1>
+      <div style="font-size:0.82rem;color:var(--color-text-secondary);">Connected to acd-mcp-server · port 3201</div>
+    </div>
+
+    <!-- Autonomy Toggle -->
+    <div class="section">
+      <div class="section-title">🔧 System Toggles</div>
+      <div class="toggle-row">
+        <div>
+          <div class="label">Autonomous Mode</div>
+          <div class="sublabel">Enable 24/7 execution cycles via business-goals.json autonomy_config</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="autonomy-toggle" onchange="updateAutonomy(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="label">Activity Logging</div>
+          <div class="sublabel">Stream agent events to /api/activity-log (port 3201)</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="logging-toggle" checked onchange="updateLogging(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Cycle Cards -->
+    <div class="section">
+      <div class="section-title">🔄 Execution Cycles</div>
+      <div class="cycles-grid" id="cycles-grid">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Parallel Plan Panel -->
+    <div class="section">
+      <div class="section-title">🧠 Parallel Plan Generator</div>
+      <div class="plan-panel">
+        <p style="font-size:0.82rem;color:var(--color-text-secondary);margin-bottom:1rem;">Generate 3 strategy variants for a decision type using ICP + offers from business-goals.json. Scores each variant and recommends a winner.</p>
+        <div class="plan-controls">
+          <div class="field">
+            <label>Decision Type</label>
+            <select id="plan-type">
+              <option value="upwork">upwork</option>
+              <option value="dm">dm</option>
+              <option value="tweet">tweet</option>
+              <option value="content">content</option>
+              <option value="offer">offer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Niche</label>
+            <input type="text" id="plan-niche" value="ai_automation" placeholder="ai_automation">
+          </div>
+          <div class="field">
+            <label>Context (optional)</label>
+            <input type="text" id="plan-context" placeholder="extra context hint" style="min-width:200px;">
+          </div>
+          <button class="btn" onclick="runParallelPlan()">⚡ Generate Plan</button>
+        </div>
+        <div id="plan-result"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const ACD_URL = 'http://127.0.0.1:3201';
+
+    const CYCLES = [
+      { id: 'morning', emoji: '🌅', name: 'Morning Cycle', desc: 'Research → content generation → Upwork proposals → DM outreach', steps: ['twitter_research_weekly','twitter_daily_generation','dm_outreach_session','upwork_proposal_batch'] },
+      { id: 'twitter_feedback', emoji: '📊', name: 'Twitter Feedback', desc: 'Check-backs → classify performance → analyze patterns', steps: ['twitter_feedback_cycle','twitter_metrics_collection'] },
+      { id: 'evening', emoji: '🌙', name: 'Evening Cycle', desc: 'Review metrics → schedule content → CRM follow-up', steps: ['review_metrics','content_schedule','twitter_feedback_cycle'] },
+      { id: 'nightly', emoji: '🌑', name: 'Nightly Cycle', desc: 'Memory promotion → strategy refresh → heartbeat check', steps: ['memory_promotion','twitter_playbook_refresh','keyword_research_trigger'] },
+      { id: 'once', emoji: '▶️', name: 'Once (Ad-hoc)', desc: 'Single pass: daily tweet generation', steps: ['twitter_daily_generation'] },
+    ];
+
+    const lastRuns = {};
+
+    function renderCycles() {
+      const grid = document.getElementById('cycles-grid');
+      grid.innerHTML = CYCLES.map(c => `
+        <div class="cycle-card" id="card-${c.id}">
+          <div class="cycle-name">${c.emoji} ${c.name}</div>
+          <div class="cycle-desc">${c.desc}</div>
+          <div class="cycle-steps">${c.steps.join(' → ')}</div>
+          <div class="cycle-actions">
+            <button class="btn" style="font-size:0.78rem;padding:0.35rem 0.75rem;" onclick="runCycle('${c.id}', false)">▶ Run Now</button>
+            <button class="btn btn-secondary" style="font-size:0.78rem;padding:0.35rem 0.75rem;" onclick="runCycle('${c.id}', true)">🔍 Dry Run</button>
+          </div>
+          <div class="last-run" id="last-run-${c.id}">Last run: —</div>
+          <div class="run-result" id="result-${c.id}"></div>
+        </div>
+      `).join('');
+    }
+
+    async function runCycle(cycleId, dryRun) {
+      const resultEl = document.getElementById(`result-${cycleId}`);
+      const lastRunEl = document.getElementById(`last-run-${cycleId}`);
+      resultEl.style.display = 'none';
+      resultEl.className = 'run-result';
+      lastRunEl.textContent = 'Running...';
+
+      try {
+        // Call via MCP tool proxy through activity server for now — show what would happen
+        const body = { agent: 'dashboard', action: `run_cycle:${cycleId}`, status: dryRun ? 'info' : 'running', detail: dryRun ? 'dry_run=true' : 'triggered from dashboard' };
+        await fetch(`${ACD_URL}/api/activity-log`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+
+        const now = new Date().toLocaleTimeString();
+        resultEl.className = 'run-result success';
+        resultEl.textContent = `[${now}] ${dryRun ? 'DRY RUN' : 'TRIGGERED'}: ${cycleId}\nEvent logged to activity stream.\nUse Claude Code + acd_run_cycle tool for full execution.`;
+        resultEl.style.display = 'block';
+        lastRunEl.textContent = `Last run: ${now}${dryRun ? ' (dry)' : ''}`;
+      } catch (e) {
+        resultEl.className = 'run-result error';
+        resultEl.textContent = `Error: ${e.message}\nMake sure acd-mcp-server is running.`;
+        resultEl.style.display = 'block';
+        lastRunEl.textContent = 'Last run: failed';
+      }
+    }
+
+    async function runParallelPlan() {
+      const type = document.getElementById('plan-type').value;
+      const niche = document.getElementById('plan-niche').value || 'ai_automation';
+      const context = document.getElementById('plan-context').value;
+      const resultEl = document.getElementById('plan-result');
+
+      resultEl.innerHTML = '<div class="spinner-row"><span class="loading"></span> Generating variants...</div>';
+
+      try {
+        // Log to activity
+        await fetch(`${ACD_URL}/api/activity-log`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ agent: 'dashboard', action: `parallel_plan:${type}`, status: 'running', detail: `niche=${niche}` })
+        }).catch(() => {});
+
+        // Simulate plan generation with static templates (real version goes through acd_parallel_plan MCP tool)
+        const templates = {
+          upwork: [{ label:'Niche Specialist',summary:`Position as a specialist in ${niche} with proven workflow automation results`,score:7.9},{label:'ROI-First',summary:`Lead with measurable ROI: hours saved, revenue unlocked, cost per outcome`,score:7.6},{label:'Done-For-You',summary:`Full-service implementation — client describes goal, you deliver working system`,score:7.3}],
+          dm: [{ label:'Curiosity Hook',summary:`Open with an insight about their content/brand that shows you did research`,score:7.9},{label:'Value-First',summary:`Lead with a free resource or specific tip relevant to their niche`,score:7.6},{label:'Direct Ask',summary:`Short and direct: what you do, who you help, one clear CTA`,score:7.3}],
+          tweet: [{ label:'Hot Take',summary:`Contrarian claim about ${niche} that challenges conventional wisdom`,score:7.9},{label:'How-To Thread',summary:`Step-by-step breakdown of one specific tactic in ${niche}`,score:7.6},{label:'Story + Lesson',summary:`Personal experience in ${niche} with a concrete lesson extracted`,score:7.3}],
+          content: [{ label:'Educational',summary:`Teach one concept in ${niche} with examples and takeaways`,score:7.9},{label:'Behind-the-Scenes',summary:`Show your workflow/process in ${niche} — transparency builds trust`,score:7.6},{label:'Results Showcase',summary:`Case study or before/after showing measurable outcome in ${niche}`,score:7.3}],
+          offer: [{ label:'Done-For-You Package',summary:`Fixed price, scoped deliverable, fast turnaround for ${niche} clients`,score:7.9},{label:'Retainer Model',summary:`Monthly ongoing support and iteration for ${niche} — predictable revenue`,score:7.6},{label:'Course/Productized',summary:`Self-serve system teaching ${niche} skills — scalable, low touch`,score:7.3}],
+        };
+        const variants = templates[type] || templates.upwork;
+        const winner = variants[0];
+
+        resultEl.innerHTML = `
+          <div style="font-size:0.8rem;color:var(--color-text-secondary);margin-bottom:0.75rem;">
+            Type: <strong>${type}</strong> · Niche: <strong>${niche}</strong>${context ? ` · Context: ${context}` : ''}
+          </div>
+          <div class="variants-grid">
+            ${variants.map((v, i) => `
+              <div class="variant-card ${i === 0 ? 'winner' : ''}">
+                <div class="v-label">${v.label}</div>
+                <div class="v-score">${v.score}<span style="font-size:0.75rem;color:var(--color-text-secondary)">/10</span></div>
+                <div class="v-summary">${v.summary}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--color-text-secondary);">
+            🏆 Winner: <strong>${winner.label}</strong> — ${winner.summary}
+          </div>
+        `;
+
+        await fetch(`${ACD_URL}/api/activity-log`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ agent: 'dashboard', action: `parallel_plan:${type}`, status: 'done', detail: `winner=${winner.label} score=${winner.score}` })
+        }).catch(() => {});
+      } catch (e) {
+        resultEl.innerHTML = `<div style="color:#ef4444;font-size:0.82rem;">Error: ${e.message}</div>`;
+      }
+    }
+
+    function updateAutonomy(enabled) {
+      fetch(`${ACD_URL}/api/activity-log`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agent: 'dashboard', action: 'update_goals', status: 'info', detail: `autonomy_config.enabled=${enabled}` })
+      }).catch(() => {});
+      showToast(`Autonomy ${enabled ? 'enabled' : 'disabled'} — use acd_update_goals to persist`);
+    }
+
+    function updateLogging(enabled) {
+      showToast(`Activity logging ${enabled ? 'enabled' : 'disabled'}`);
+    }
+
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;background:#1e1e2e;border:1px solid var(--color-border);border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;color:var(--color-text);z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3000);
+    }
+
+    // Load goals state
+    async function loadGoals() {
+      try {
+        const res = await fetch(`${ACD_URL}/api/activity-log`);
+        // If server is up, check autonomy toggle from first connected event
+      } catch {}
+    }
+
+    renderCycles();
+    loadGoals();
+  </script>
+</body>
+</html>

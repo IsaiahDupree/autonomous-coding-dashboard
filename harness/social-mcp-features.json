@@ -1,0 +1,15 @@
+{
+  "project": "social-mcp",
+  "version": "1.0.0",
+  "description": "Social Automation MCP server — unified interface to all 9 Safari automation services (DM, comment, research) across Instagram, Twitter, TikTok, LinkedIn, Threads",
+  "features": [
+    { "id": "FEAT-001", "name": "Project scaffold", "category": "setup", "priority": 1, "passes": true, "status": "completed" },
+    { "id": "FEAT-002", "name": "social_health tool", "category": "api", "priority": 2, "passes": true, "status": "completed" },
+    { "id": "FEAT-003", "name": "social_dm tool", "category": "api", "priority": 3, "passes": true, "status": "completed" },
+    { "id": "FEAT-004", "name": "social_comment tool", "category": "api", "priority": 4, "passes": true, "status": "completed" },
+    { "id": "FEAT-005", "name": "social_inbox tool", "category": "api", "priority": 5, "passes": true, "status": "completed" },
+    { "id": "FEAT-006", "name": "social_research and social_competitor_research tools", "category": "api", "priority": 6, "passes": true, "status": "completed" },
+    { "id": "FEAT-007", "name": "MCP stdio transport", "category": "mcp", "priority": 7, "passes": true, "status": "completed" },
+    { "id": "FEAT-008", "name": "Tests", "category": "tests", "priority": 8, "passes": true, "status": "completed" }
+  ]
+}

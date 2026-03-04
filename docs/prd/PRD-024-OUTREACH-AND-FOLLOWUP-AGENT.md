@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # PRD-024: Outreach & Follow-up Agent
 
-**Status:** Ready for ACD  
-**Priority:** P1  
+**Status:** Ready for ACD
+**Priority:** P1
 **Depends on:** PRD-023 (Warmup), crm_brain.py, DM services (3001/3003/3102/3105), `crm_contacts`, `crm_messages`
 
 ---

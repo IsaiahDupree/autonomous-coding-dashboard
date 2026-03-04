@@ -1,0 +1,55 @@
+{
+  "project": "acd-autonomous",
+  "version": "1.0.0",
+  "description": "6 features adding Polsia-style 24/7 autonomy and live activity streaming to the ACD ecosystem",
+  "features": [
+    {
+      "id": "ACD-AUTO-001",
+      "name": "acd_run_cycle MCP tool: accepts { cycle: 'morning'|'twitter_feedback'|'evening'|'nightly'|'once' } and executes the matching autonomous cycle steps via child_process, writing output to actp-autonomous-cycle.log and returning { cycle, steps_run, errors, duration_ms }",
+      "category": "mcp",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-AUTO-002",
+      "name": "acd_parallel_plan MCP tool: accepts { type: 'upwork'|'dm'|'tweet'|'content'|'offer', niche: string } — reads business-goals.json ICP + offers + strategy_notes, calls Claude claude-haiku-4-5-20251001 to generate 3 variants + scores + winner, saves decision event to actp_memory_events, returns { variants: [{label,summary,score}], winner, winner_reason }",
+      "category": "mcp",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-AUTO-003",
+      "name": "POST /api/activity-log route: accepts { agent, action, status, detail, timestamp } and appends to an in-memory ring buffer (last 200 events). GET /api/activity-log returns the ring buffer as JSON array. Used by live activity stream.",
+      "category": "backend",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-AUTO-004",
+      "name": "GET /api/activity-stream SSE endpoint: streams new activity-log events to connected clients via Server-Sent Events. Polls ring buffer every 2 seconds, emits only new events since last sent index. Format: data: JSON\\n\\n",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-AUTO-005",
+      "name": "Live tab in dashboard UI (index.html + app.js): shows a real-time activity feed consuming /api/activity-stream SSE. Each event renders as a row: timestamp badge, agent name pill (color-coded per agent), action text, status icon (running/done/error). Auto-scrolls to bottom. Max 100 rows displayed. Shows 'Live' pulsing indicator when SSE connected, 'Reconnecting...' when disconnected.",
+      "category": "frontend",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-AUTO-006",
+      "name": "Autonomous tab in dashboard UI: shows cycle schedule from business-goals.json autonomy_config, toggle switch for enabled/disabled (calls acd_update_goals), Run Now buttons for each cycle type (calls acd_run_cycle), last run time + result per cycle, parallel plan quick-launch panel with type selector + Planbutton (calls acd_parallel_plan), results rendered as variant cards with scores + winner highlighted",
+      "category": "frontend",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

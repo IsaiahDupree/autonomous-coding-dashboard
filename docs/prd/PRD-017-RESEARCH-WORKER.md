@@ -1,8 +1,14 @@
+---
+domain: [research]
+agent_roles: [researcher]
+priority: high
+---
+
 # PRD-017: ResearchWorker — Staged Evidence Pipeline
 
-**Status**: Drafting  
-**Priority**: High  
-**Owner**: Isaiah Dupree  
+**Status**: Drafting
+**Priority**: High
+**Owner**: Isaiah Dupree
 **Runtime**: Python daemon (actp-worker) + Supabase + Workflow Engine
 
 ---

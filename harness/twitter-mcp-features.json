@@ -1,0 +1,63 @@
+{
+  "project": "twitter-mcp-improvements",
+  "version": "1.0.0",
+  "description": "7 Twitter/X MCP gap-fill improvements",
+  "features": [
+    {
+      "id": "TW-001",
+      "name": "Add POST /api/twitter/ai/generate endpoint and twitter_ai_generate_dm MCP tool",
+      "category": "api",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TW-002",
+      "name": "Add rate-limit and suspension UI detection plus GET /api/twitter/rate-status",
+      "category": "reliability",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TW-003",
+      "name": "Add GET /api/twitter/conversations/search and twitter_search_conversations MCP tool",
+      "category": "api",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TW-004",
+      "name": "Add tweet like/retweet/bookmark/metrics endpoints and 4 MCP tools",
+      "category": "api",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TW-005",
+      "name": "Add optional Supabase CRM logging for DM sends",
+      "category": "integration",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TW-006",
+      "name": "Add GET /api/twitter/profile/:handle endpoint and twitter_get_profile MCP tool",
+      "category": "api",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TW-007",
+      "name": "Add force flag to bypass active-hours check on send endpoints",
+      "category": "api",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "project": "linkedin-safari-scale-fixes",
+  "version": "1.0.0",
+  "description": "6 LinkedIn Safari scale and reliability fixes (post LI-001 through LI-007)",
+  "features": [
+    {
+      "id": "LS-001",
+      "name": "Multi-tab SafariDriver pool + Playwright integration for parallel scraping",
+      "category": "scale",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "LS-002",
+      "name": "MutationObserver DOM change detection replacing fixed sleep polls",
+      "category": "reliability",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "LS-003",
+      "name": "Semantic LINKEDIN_SELECTORS object + GET /api/linkedin/debug/selector-health endpoint",
+      "category": "reliability",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "LS-004",
+      "name": "Background reply watcher with Supabase webhook and /api/linkedin/replies endpoints",
+      "category": "integration",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "LS-005",
+      "name": "Hybrid clipboard + character-by-character keystroke fallback for typeViaClipboard",
+      "category": "reliability",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "LS-006",
+      "name": "Session health heartbeat monitor with isLoggedIn() + /api/linkedin/health/session endpoint",
+      "category": "reliability",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

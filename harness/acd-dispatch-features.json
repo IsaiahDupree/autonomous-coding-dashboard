@@ -1,0 +1,79 @@
+{
+  "project": "acd-dispatch",
+  "version": "1.0.0",
+  "description": "9 features: 5 new ACD MCP tools, /dispatch skill, POST /api/dispatch, Launch Job drawer, PRD Library tab",
+  "features": [
+    {
+      "id": "ACD-DISP-001",
+      "name": "acd_list_prds tool: list all .md files in harness/prompts/ with parsed frontmatter, return { slug, domain, priority, path }[]",
+      "category": "mcp",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-002",
+      "name": "acd_write_prd tool: write PRD string to harness/prompts/{slug}.md, return { path, slug, bytesWritten }",
+      "category": "mcp",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-003",
+      "name": "acd_generate_features tool: read PRD, call Claude haiku extraction prompt, write harness/features/{slug}.json, return { count, path, features[] }",
+      "category": "mcp",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-004",
+      "name": "acd_dispatch tool: end-to-end wrapper calling acd_write_prd + acd_generate_features + acd_start, return { slug, pid, logFile, featuresGenerated, prdPath, featureListPath }",
+      "category": "mcp",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-005",
+      "name": "acd_list_running tool: scan harness/pids/ for .pid files, check process liveness, return [{ slug, isRunning, passed, total, percentComplete, pid }]",
+      "category": "mcp",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-006",
+      "name": "/dispatch skill: SKILL.md at skills/dispatch/ with 6-step workflow: inventory check, PRD draft, feature extraction, model selection, dispatch, /acd-status companion",
+      "category": "skill",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-007",
+      "name": "POST /api/dispatch route in backend: accepts { slug, prdPath, featureListPath, targetPath, model }, spawns harness, SSE-broadcasts new worker to connected clients",
+      "category": "backend",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-008",
+      "name": "Launch Job drawer in dashboard UI: PRD file picker (from acd_list_prds), target repo dropdown (repos.json), model selector, Generate Features button, Launch button",
+      "category": "ui",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-DISP-009",
+      "name": "PRD Library tab in dashboard: table of all harness/prompts/ with name, domain, last run date, pass rate, quick-launch button, domain filter",
+      "category": "ui",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

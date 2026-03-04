@@ -1,0 +1,63 @@
+{
+  "project": "gtm-engineering-agents",
+  "version": "1.0.0",
+  "description": "7 GTM engineering automation workflows from Cody Schneider / Greg Isenberg masterclass",
+  "features": [
+    {
+      "id": "GTM-001",
+      "name": "Workspace scaffold: package.json, .env.example with all 12 API keys, src/ structure, apiClient loader helper",
+      "category": "setup",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-002",
+      "name": "LinkedIn Giveaway Auto-Responder: scrape post comments for keyword, DM Notion asset URL to each commenter via LinkedIn API",
+      "category": "outreach",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-003",
+      "name": "Bulk Facebook Ad Generator: pain-point variations -> React components -> html2canvas PNG -> zip download + preview UI",
+      "category": "ads",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-004",
+      "name": "Podcast Cold Email Pipeline: Rafonic scrape -> MillionVerifier validate -> Instantly AI campaign enroll",
+      "category": "outreach",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-005",
+      "name": "On-the-fly Railway Postgres analysis: spin up DB via API, ingest CSV/URL data, run analysis, output results, teardown",
+      "category": "data",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-006",
+      "name": "Facebook Ad Performance Optimizer daemon: poll metrics on interval, pause losers, clone winners into scaled ad set",
+      "category": "ads",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "GTM-007",
+      "name": "LinkedIn ICP Crawler + Auto Email: PhantomBuster scrape -> email enrichment -> personalized Instantly AI enroll",
+      "category": "outreach",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

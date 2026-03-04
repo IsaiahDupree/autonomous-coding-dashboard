@@ -1,0 +1,63 @@
+{
+  "project": "tiktok-mcp-improvements",
+  "version": "1.0.0",
+  "description": "7 TikTok MCP gap-fill improvements",
+  "features": [
+    {
+      "id": "TK-001",
+      "name": "Add GET /api/tiktok/conversations/unread and tiktok_get_unread MCP tool",
+      "category": "api",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TK-002",
+      "name": "Add POST /api/tiktok/ai/generate and tiktok_ai_generate_dm MCP tool",
+      "category": "api",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TK-003",
+      "name": "Add rate-limit UI detection (captcha, too fast) and GET /api/tiktok/rate-status",
+      "category": "reliability",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TK-004",
+      "name": "Add GET /api/tiktok/profile/:username and tiktok_get_profile MCP tool",
+      "category": "api",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TK-005",
+      "name": "Add GET /api/tiktok/trending endpoint and tiktok_get_trending MCP tool via comments service",
+      "category": "api",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TK-006",
+      "name": "Add optional Supabase CRM logging for DM sends",
+      "category": "integration",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TK-007",
+      "name": "Add force flag to bypass active-hours on send endpoint",
+      "category": "api",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

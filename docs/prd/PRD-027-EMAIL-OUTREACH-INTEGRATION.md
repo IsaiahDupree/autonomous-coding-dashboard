@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # PRD-027: Email Outreach Integration
 
-**Status:** Ready for ACD  
-**Priority:** P1  
+**Status:** Ready for ACD
+**Priority:** P1
 **Depends on:** PRD-022 (Discovery), PRD-024 (Outreach), PRD-028 (Entity Resolution), `crm_contacts`
 
 ---

@@ -1,9 +1,15 @@
+---
+domain: [coding]
+agent_roles: [coding]
+priority: high
+---
+
 # PRD-029: Multi-Agent ACTP Dispatch Architecture
 
-**Status:** Ready for ACD  
-**Priority:** P0 — Foundation for all 9 domain agents  
-**Author:** Isaiah Dupree  
-**Created:** 2026-03-01  
+**Status:** Ready for ACD
+**Priority:** P0 — Foundation for all 9 domain agents
+**Author:** Isaiah Dupree
+**Created:** 2026-03-01
 **Depends on:** Supabase `ivhfuhxorppptyuofbgq`, actp-worker, service_registry.py
 
 ---

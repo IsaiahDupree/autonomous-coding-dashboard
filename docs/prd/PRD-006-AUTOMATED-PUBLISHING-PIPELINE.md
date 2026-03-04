@@ -1,3 +1,9 @@
+---
+domain: [publishing]
+agent_roles: [publisher]
+priority: high
+---
+
 # PRD-006: Automated Publishing Pipeline
 
 ## Status: Draft

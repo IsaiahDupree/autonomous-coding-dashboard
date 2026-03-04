@@ -1,0 +1,63 @@
+{
+  "project": "acd-orchestration",
+  "version": "1.0.0",
+  "description": "7 features connecting ACD to the business goals orchestration system",
+  "features": [
+    {
+      "id": "ACD-ORC-001",
+      "name": "acd_get_goals MCP tool: reads /Users/isaiahdupree/Documents/Software/business-goals.json and returns revenue targets, growth targets, weekly_targets, next_actions, agents_in_flight, offers",
+      "category": "mcp",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-ORC-002",
+      "name": "acd_update_goals MCP tool: accepts { path, value } to deep-set a field in business-goals.json (e.g. path='revenue.current_monthly_usd', value=2500) and writes updated file back with _updated timestamp",
+      "category": "mcp",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-ORC-003",
+      "name": "acd_orchestrate MCP tool: reads business-goals.json + live ACD agent status + service health and returns ranked action plan (array of { rank, action, skill, reason, expected_impact })",
+      "category": "mcp",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-ORC-004",
+      "name": "POST /api/goals route in backend: accepts { path, value } to update business-goals.json, broadcasts goal_updated SSE event to dashboard clients",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-ORC-005",
+      "name": "GET /api/goals route in backend: returns full business-goals.json content plus computed gap analysis (revenue_gap, contacts_gap, pct_to_targets per metric)",
+      "category": "backend",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-ORC-006",
+      "name": "Goals tab in dashboard UI (index.html + app.js): shows revenue progress bar (current vs target), weekly target completion checklist, agents_in_flight list with status badges, next_actions list, and an Update Goal form",
+      "category": "frontend",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-ORC-007",
+      "name": "Orchestration tab in dashboard UI: shows ranked action plan from acd_orchestrate, each action card has title/skill/reason/impact, a Run button that dispatches the skill via POST /api/dispatch, and live status via SSE",
+      "category": "frontend",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

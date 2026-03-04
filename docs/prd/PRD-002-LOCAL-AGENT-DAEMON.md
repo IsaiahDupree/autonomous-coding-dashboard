@@ -1,3 +1,9 @@
+---
+domain: [watchdog]
+agent_roles: [watchdog]
+priority: high
+---
+
 # PRD-002: Local Agent Daemon v2
 
 ## Status: Draft

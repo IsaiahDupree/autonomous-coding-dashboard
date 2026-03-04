@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # PRD-025: Acquisition Orchestrator
 
-**Status:** Ready for ACD  
-**Priority:** P1  
+**Status:** Ready for ACD
+**Priority:** P1
 **Depends on:** PRD-022, PRD-023, PRD-024, Workflow Engine (Vercel), safari_cloud_controller.py, `crm_contacts`
 
 ---

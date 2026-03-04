@@ -820,6 +820,375 @@ app.get('/api/harness/sleep/config', (req, res) => {
 });
 
 // ============================================
+// ACD DISPATCH API
+// ============================================
+
+// List all PRD files with frontmatter metadata
+app.get('/api/prds', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const promptsDir = path.join(projectRoot, 'harness', 'prompts');
+
+        if (!fs.existsSync(promptsDir)) {
+            return res.json({ data: [] });
+        }
+
+        const prds: any[] = [];
+        const entries = fs.readdirSync(promptsDir);
+
+        for (const entry of entries) {
+            if (!entry.endsWith('.md')) continue;
+
+            const filePath = path.join(promptsDir, entry);
+            const slug = path.basename(entry, '.md');
+            const stats = fs.statSync(filePath);
+
+            // Parse frontmatter
+            let domain = null;
+            let priority = null;
+            let description = null;
+
+            try {
+                const content = fs.readFileSync(filePath, 'utf8');
+                const lines = content.split('\n').slice(0, 20);
+
+                if (lines[0] && lines[0].trim() === '---') {
+                    const endIndex = lines.slice(1).findIndex(l => l.trim() === '---');
+                    if (endIndex > 0) {
+                        const frontmatter = lines.slice(1, endIndex + 1);
+                        for (const line of frontmatter) {
+                            const match = line.match(/^(\w+):\s*(.+)$/);
+                            if (match) {
+                                const [, key, value] = match;
+                                if (key === 'domain') domain = value.trim();
+                                if (key === 'priority') priority = parseInt(value.trim(), 10) || null;
+                                if (key === 'description') description = value.trim();
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                // Ignore parse errors for individual files
+            }
+
+            prds.push({
+                slug,
+                domain,
+                priority,
+                description,
+                path: filePath,
+                sizeBytes: stats.size,
+                modifiedAt: stats.mtime.toISOString()
+            });
+        }
+
+        res.json({ data: prds });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to list PRDs' } });
+    }
+});
+
+// List known repositories
+app.get('/api/repos', (req, res) => {
+    try {
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const reposFile = path.join(projectRoot, 'harness', 'repos.json');
+
+        if (!fs.existsSync(reposFile)) {
+            // Create empty repos file if it doesn't exist
+            fs.mkdirSync(path.dirname(reposFile), { recursive: true });
+            fs.writeFileSync(reposFile, JSON.stringify([], null, 2), 'utf8');
+            return res.json({ data: [] });
+        }
+
+        const repos = JSON.parse(fs.readFileSync(reposFile, 'utf8'));
+        res.json({ data: repos });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to list repos' } });
+    }
+});
+
+// Get business goals with gap analysis
+app.get('/api/goals', (req, res) => {
+    try {
+        const goalsPath = '/Users/isaiahdupree/Documents/Software/business-goals.json';
+
+        if (!fs.existsSync(goalsPath)) {
+            return res.status(404).json({
+                error: { message: 'business-goals.json not found at ' + goalsPath }
+            });
+        }
+
+        const goals = JSON.parse(fs.readFileSync(goalsPath, 'utf8'));
+
+        // Compute gap analysis
+        const revenue_gap = goals.revenue.target_monthly_usd - goals.revenue.current_monthly_usd;
+        const revenue_pct = Math.round((goals.revenue.current_monthly_usd / goals.revenue.target_monthly_usd) * 100);
+        const contacts_gap = goals.growth.crm_contacts_target - goals.growth.crm_contacts_current;
+
+        res.json({
+            goals,
+            computed: {
+                revenue_gap,
+                revenue_pct,
+                contacts_gap
+            },
+            updated: goals._updated
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to read goals' } });
+    }
+});
+
+// Update business goals
+app.post('/api/goals', (req, res) => {
+    try {
+        const { path: goalPath, value } = req.body;
+
+        if (!goalPath || value === undefined) {
+            return res.status(400).json({
+                error: { message: 'Missing required fields: path and value' }
+            });
+        }
+
+        const goalsPath = '/Users/isaiahdupree/Documents/Software/business-goals.json';
+
+        if (!fs.existsSync(goalsPath)) {
+            return res.status(404).json({
+                error: { message: 'business-goals.json not found at ' + goalsPath }
+            });
+        }
+
+        const goals = JSON.parse(fs.readFileSync(goalsPath, 'utf8'));
+
+        // Deep-set using path split by '.'
+        function deepSet(obj: any, pathParts: string[], value: any) {
+            if (pathParts.length === 1) {
+                obj[pathParts[0]] = value;
+            } else {
+                const key = pathParts[0];
+                if (!obj[key] || typeof obj[key] !== 'object') {
+                    obj[key] = {};
+                }
+                deepSet(obj[key], pathParts.slice(1), value);
+            }
+        }
+
+        const pathParts = goalPath.split('.');
+        deepSet(goals, pathParts, value);
+
+        // Update timestamp
+        goals._updated = new Date().toISOString().split('T')[0];
+
+        // Write back to file
+        fs.writeFileSync(goalsPath, JSON.stringify(goals, null, 2), 'utf8');
+
+        // Broadcast SSE event
+        io.emit('goal_updated', {
+            path: goalPath,
+            value,
+            updated: goals._updated
+        });
+
+        res.json({
+            ok: true,
+            path: goalPath,
+            newValue: value,
+            updated: goals._updated
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to update goals' } });
+    }
+});
+
+// Dispatch a new ACD job
+app.post('/api/dispatch', async (req, res) => {
+    try {
+        const { slug, prdPath, prdContent, featureListPath, targetPath, model, generateOnly } = req.body;
+
+        if (!slug || !targetPath) {
+            return res.status(400).json({
+                error: { message: 'Missing required fields: slug and targetPath' }
+            });
+        }
+
+        const projectRoot = path.resolve(__dirname, '..', '..');
+        const harnessDir = path.join(projectRoot, 'harness');
+
+        // Write PRD if content provided
+        let finalPrdPath = prdPath;
+        if (prdContent) {
+            finalPrdPath = path.join(harnessDir, 'prompts', `${slug}.md`);
+            fs.mkdirSync(path.dirname(finalPrdPath), { recursive: true });
+            fs.writeFileSync(finalPrdPath, prdContent, 'utf8');
+        }
+
+        // Use provided PRD path or default
+        if (!finalPrdPath) {
+            finalPrdPath = path.join(harnessDir, 'prompts', `${slug}.md`);
+        }
+
+        if (!fs.existsSync(finalPrdPath)) {
+            return res.status(400).json({
+                error: { message: `PRD not found: ${finalPrdPath}` }
+            });
+        }
+
+        // Generate features if not provided
+        let finalFeatureListPath = featureListPath;
+        let featuresGenerated = 0;
+
+        if (!finalFeatureListPath) {
+            // Use Claude API to generate features
+            const apiKey = process.env.ANTHROPIC_API_KEY;
+            if (!apiKey) {
+                return res.status(500).json({
+                    error: { message: 'ANTHROPIC_API_KEY not set in environment' }
+                });
+            }
+
+            const prdContentRead = fs.readFileSync(finalPrdPath, 'utf8');
+            const idPrefix = slug.toUpperCase();
+
+            const systemPrompt = 'You are a feature extraction expert. Extract discrete, independently testable features from PRDs. Return ONLY valid JSON.';
+            const userPrompt = `Extract features from this PRD and return a JSON object with this exact structure:
+
+{
+  "project": "${slug}",
+  "version": "1.0.0",
+  "description": "Brief project summary",
+  "features": [
+    {
+      "id": "${idPrefix}-001",
+      "name": "Feature name with acceptance criterion (under 120 chars)",
+      "category": "api | database | ui | integration | testing | config | mcp | skill | backend",
+      "priority": 1,
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}
+
+Rules:
+- IDs: ${idPrefix}-001, ${idPrefix}-002, etc.
+- category: api, database, ui, integration, testing, config, mcp, skill, or backend
+- priority: 1 (blocking), 2 (core), 3 (enhancement)
+- name: what to build + acceptance criterion, under 120 chars
+- All features start with passes: false, status: "pending"
+
+PRD Content:
+${prdContentRead}`;
+
+            const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey,
+                    'anthropic-version': '2023-06-01'
+                },
+                body: JSON.stringify({
+                    model: 'claude-haiku-4-5-20251001',
+                    max_tokens: 4096,
+                    system: systemPrompt,
+                    messages: [{ role: 'user', content: userPrompt }]
+                })
+            });
+
+            if (!claudeResponse.ok) {
+                const errorText = await claudeResponse.text();
+                return res.status(500).json({
+                    error: { message: `Claude API error: ${claudeResponse.status} ${errorText}` }
+                });
+            }
+
+            const result = await claudeResponse.json();
+            const content = result.content?.[0]?.text;
+
+            if (!content) {
+                return res.status(500).json({
+                    error: { message: 'No content in Claude response' }
+                });
+            }
+
+            const featuresData = JSON.parse(content);
+            featuresGenerated = featuresData.features?.length || 0;
+
+            finalFeatureListPath = path.join(harnessDir, `${slug}-features.json`);
+            fs.writeFileSync(finalFeatureListPath, JSON.stringify(featuresData, null, 2), 'utf8');
+        }
+
+        // If generateOnly mode, return features without starting harness
+        if (generateOnly) {
+            return res.json({
+                data: {
+                    slug,
+                    featuresGenerated,
+                    prdPath: finalPrdPath,
+                    featureListPath: finalFeatureListPath
+                }
+            });
+        }
+
+        // Start harness process
+        const logsDir = path.join(harnessDir, 'logs');
+        const pidsDir = path.join(harnessDir, 'pids');
+        fs.mkdirSync(logsDir, { recursive: true });
+        fs.mkdirSync(pidsDir, { recursive: true });
+
+        const logFile = path.join(logsDir, `${slug}.log`);
+        const pidFile = path.join(pidsDir, `${slug}.pid`);
+        const logStream = fs.createWriteStream(logFile, { flags: 'a' });
+
+        const { spawn } = require('child_process');
+        const args = [
+            'harness/run-harness-v2.js',
+            `--path=${targetPath}`,
+            `--project=${slug}`,
+            `--prompt=${finalPrdPath}`,
+            `--feature-list=${finalFeatureListPath}`,
+            `--model=${model || 'claude-sonnet-4-6'}`,
+            '--adaptive-delay',
+            '--force-coding',
+            '--until-complete'
+        ];
+
+        const child = spawn('node', args, {
+            detached: true,
+            stdio: ['ignore', logStream, logStream],
+            cwd: projectRoot
+        });
+
+        child.unref();
+        fs.writeFileSync(pidFile, String(child.pid));
+
+        // Broadcast to SSE clients if io is available
+        if (io) {
+            io.emit('worker_started', {
+                slug,
+                pid: child.pid,
+                featuresTotal: featuresGenerated
+            });
+        }
+
+        res.status(201).json({
+            data: {
+                slug,
+                pid: child.pid,
+                logFile: `harness/logs/${slug}.log`,
+                featuresGenerated,
+                prdPath: finalPrdPath,
+                featureListPath: finalFeatureListPath
+            }
+        });
+    } catch (error: any) {
+        console.error('Dispatch error:', error);
+        res.status(500).json({
+            error: { message: error.message || 'Failed to dispatch job' }
+        });
+    }
+});
+
+// ============================================
 // PROJECTS API
 // ============================================
 

@@ -1,0 +1,63 @@
+{
+  "project": "linkedin-mcp-server-fixes",
+  "version": "1.0.0",
+  "description": "6 critical bug fixes for the LinkedIn automation MCP server",
+  "features": [
+    {
+      "id": "LI-001",
+      "category": "api",
+      "priority": 1,
+      "passes": true,
+      "status": "completed",
+      "name": "Expose native click endpoint POST /api/linkedin/debug/click and GET /api/linkedin/debug/screenshot"
+    },
+    {
+      "id": "LI-002",
+      "category": "automation",
+      "priority": 2,
+      "passes": true,
+      "status": "completed",
+      "name": "Fix sendMessageToProfile to keep interop=msgOverlay and use native clickAtViewportPosition on profile page"
+    },
+    {
+      "id": "LI-003",
+      "category": "automation",
+      "priority": 3,
+      "passes": true,
+      "status": "completed",
+      "name": "Remove broken section scoping from compose DOM search, use document-scoped multi-selector"
+    },
+    {
+      "id": "LI-004",
+      "category": "api",
+      "priority": 4,
+      "passes": true,
+      "status": "completed",
+      "name": "Add openNewCompose() function and POST /api/linkedin/messages/new-compose endpoint for first-contact DMs"
+    },
+    {
+      "id": "LI-005",
+      "category": "reliability",
+      "priority": 5,
+      "passes": true,
+      "status": "completed",
+      "name": "Add waitForCondition() to SafariDriver and replace all wait(N) fixed delays"
+    },
+    {
+      "id": "LI-006",
+      "category": "api",
+      "priority": 6,
+      "passes": true,
+      "status": "completed",
+      "name": "Add force: true flag to all send/connect endpoints to bypass active-hours check"
+    },
+    {
+      "id": "LI-007",
+      "category": "api",
+      "priority": 7,
+      "passes": true,
+      "status": "completed",
+      "name": "Add navigateViaGoogle() helper and POST /api/linkedin/navigate/via-google endpoint"
+    }
+  ]
+}

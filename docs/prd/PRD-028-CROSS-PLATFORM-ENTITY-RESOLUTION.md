@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # PRD-028: Cross-Platform Entity Resolution
 
-**Status:** Ready for ACD  
-**Priority:** P1  
+**Status:** Ready for ACD
+**Priority:** P1
 **Depends on:** PRD-022 (Discovery), Perplexity API, Claude API, `crm_contacts`
 
 ---

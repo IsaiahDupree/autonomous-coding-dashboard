@@ -1,0 +1,71 @@
+{
+  "project": "instagram-mcp-improvements",
+  "version": "1.0.0",
+  "description": "8 Instagram MCP gap-fill improvements",
+  "features": [
+    {
+      "id": "IG-001",
+      "name": "Expose POST /api/ai/generate endpoint for AI DM generation",
+      "category": "api",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-002",
+      "name": "Add GET /api/conversations/unread endpoint and instagram_get_unread MCP tool",
+      "category": "api",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-003",
+      "name": "Add message timestamp extraction to readMessages()",
+      "category": "reliability",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-004",
+      "name": "Add rate-limit UI detection (Action Blocked banner) before sends",
+      "category": "reliability",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-005",
+      "name": "Add POST /api/requests/:username/accept and /decline with MCP tools",
+      "category": "api",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-006",
+      "name": "Add conversation scroll pagination to GET /api/conversations",
+      "category": "api",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-007",
+      "name": "Add optional Supabase CRM logging for DM sends",
+      "category": "integration",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-008",
+      "name": "Add GET /api/profile/:username endpoint and instagram_get_profile MCP tool",
+      "category": "api",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

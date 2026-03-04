@@ -70,6 +70,7 @@
           <button id="settings-btn" class="btn btn-secondary" onclick="openSettingsModal()" title="Harness Settings">⚙️</button>
           <a href="index.html" class="btn">📊 Dashboard</a>
           <a href="control.html" class="btn btn-secondary">🎮 Control Panel</a>
+          <a href="prd-library.html" class="btn btn-secondary">📚 PRD Library</a>
           <div class="status-badge" id="agent-status">
             <span class="status-dot active"></span>
             <span id="status-text">Active - Session 5</span>
@@ -80,6 +81,21 @@
   </header>
 
   <main class="container">
+    <!-- Tab Navigation -->
+    <div class="tabs-nav" style="display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem;">
+      <button class="tab-btn active" onclick="switchTab('dashboard')" data-tab="dashboard">
+        📊 Dashboard
+      </button>
+      <button class="tab-btn" onclick="switchTab('goals')" data-tab="goals">
+        🎯 Goals
+      </button>
+      <button class="tab-btn" onclick="switchTab('orchestration')" data-tab="orchestration">
+        🚀 Orchestration
+      </button>
+    </div>
+
+    <!-- Dashboard Tab Content -->
+    <div id="tab-dashboard" class="tab-content active">
     <!-- Key Metrics Overview -->
     <section id="metrics-section" class="stats-grid">
       <div class="stat-card">
@@ -391,6 +407,126 @@
         </div>
       </div>
     </div>
+    </div><!-- End Dashboard Tab -->
+
+    <!-- Goals Tab Content -->
+    <div id="tab-goals" class="tab-content" style="display: none;">
+      <div class="grid grid-2">
+        <!-- Revenue Progress Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">💰 Revenue Progress</h3>
+          </div>
+          <div class="card-body">
+            <div id="revenue-progress">
+              <div class="progress-bar-container" style="margin-bottom: 1rem;">
+                <div class="progress-bar" style="background: var(--border); height: 2rem; border-radius: 0.5rem; overflow: hidden; position: relative;">
+                  <div id="revenue-bar" style="background: var(--success); height: 100%; transition: width 0.3s ease;"></div>
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 600; color: var(--text-primary);">
+                    <span id="revenue-label">$0 / $5,000 (0%)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="stat-change" style="text-align: center;">
+                <span id="revenue-gap">Gap: $5,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agents in Flight Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🤖 Agents in Flight</h3>
+          </div>
+          <div class="card-body">
+            <div id="agents-in-flight" class="badge-list">
+              <!-- Agent badges will be inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Targets Checklist -->
+      <div class="card mt-2">
+        <div class="card-header">
+          <h3 class="card-title">📋 Weekly Targets</h3>
+        </div>
+        <div class="card-body">
+          <div id="weekly-targets" class="checklist">
+            <!-- Weekly targets will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2 mt-2">
+        <!-- Next Actions Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">⚡ Next Actions</h3>
+          </div>
+          <div class="card-body">
+            <ol id="next-actions" style="padding-left: 1.5rem;">
+              <!-- Next actions will be inserted here -->
+            </ol>
+          </div>
+        </div>
+
+        <!-- Update Goal Form -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">✏️ Update Goal</h3>
+          </div>
+          <div class="card-body">
+            <form id="update-goal-form" onsubmit="updateGoal(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <label for="goal-path" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Path:</label>
+                <input type="text" id="goal-path" placeholder="e.g. revenue.current_monthly_usd" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.25rem; background: var(--bg-secondary); color: var(--text-primary);">
+              </div>
+              <div>
+                <label for="goal-value" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Value:</label>
+                <input type="text" id="goal-value" placeholder="e.g. 2500" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.25rem; background: var(--bg-secondary); color: var(--text-primary);">
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Offers Card -->
+      <div class="card mt-2">
+        <div class="card-header">
+          <h3 class="card-title">💼 Active Offers</h3>
+        </div>
+        <div class="card-body">
+          <div id="offers-grid" class="grid grid-3">
+            <!-- Offers will be inserted here -->
+          </div>
+        </div>
+      </div>
+    </div><!-- End Goals Tab -->
+
+    <!-- Orchestration Tab Content -->
+    <div id="tab-orchestration" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">🚀 Recommended Actions</h3>
+            <p class="card-subtitle">Ranked by impact and readiness</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="goals-summary" class="badge badge-primary"></span>
+            <button class="btn btn-secondary" onclick="refreshOrchestration()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="action-plan" class="grid grid-2">
+            <!-- Action cards will be inserted here -->
+          </div>
+        </div>
+      </div>
+    </div><!-- End Orchestration Tab -->
+
   </main>
 
   <script src="mock-data.js"></script>
@@ -482,6 +618,256 @@
   <script src="cost-tracker.js"></script>
   <script src="project-manager-ui.js"></script>
   <script src="app.js"></script>
+
+  <script>
+    // Tab switching
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+      });
+
+      // Remove active class from all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab
+      const selectedTab = document.getElementById(`tab-${tabName}`);
+      if (selectedTab) {
+        selectedTab.style.display = 'block';
+      }
+
+      // Add active class to clicked button
+      const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+      }
+
+      // Load tab-specific data
+      if (tabName === 'goals') {
+        loadGoalsData();
+      } else if (tabName === 'orchestration') {
+        loadOrchestrationData();
+      }
+    }
+
+    // Load Goals data
+    async function loadGoalsData() {
+      try {
+        const response = await fetch('/api/goals');
+        if (!response.ok) throw new Error('Failed to fetch goals');
+
+        const data = await response.json();
+        const { goals, computed } = data;
+
+        // Update revenue progress bar
+        const revenuePct = computed.revenue_pct;
+        document.getElementById('revenue-bar').style.width = `${revenuePct}%`;
+        document.getElementById('revenue-label').textContent =
+          `$${goals.revenue.current_monthly_usd.toLocaleString()} / $${goals.revenue.target_monthly_usd.toLocaleString()} (${revenuePct}%)`;
+        document.getElementById('revenue-gap').textContent =
+          `Gap: $${computed.revenue_gap.toLocaleString()}`;
+
+        // Update agents in flight
+        const agentsContainer = document.getElementById('agents-in-flight');
+        agentsContainer.innerHTML = '';
+        Object.entries(goals.agents_in_flight || {}).forEach(([slug, status]) => {
+          if (slug === '_doc') return;
+          const badge = document.createElement('span');
+          badge.className = `badge ${status === 'running' ? 'badge-success' : status === 'completed' ? 'badge-secondary' : 'badge-danger'}`;
+          badge.textContent = `${slug}: ${status}`;
+          badge.style.marginRight = '0.5rem';
+          badge.style.marginBottom = '0.5rem';
+          agentsContainer.appendChild(badge);
+        });
+
+        // Update weekly targets
+        const targetsContainer = document.getElementById('weekly-targets');
+        targetsContainer.innerHTML = '';
+        Object.entries(goals.weekly_targets || {}).forEach(([key, value]) => {
+          const item = document.createElement('div');
+          item.style.marginBottom = '0.5rem';
+          item.innerHTML = `
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" style="width: 1rem; height: 1rem;">
+              <span>${key.replace(/_/g, ' ')}: ${value}</span>
+            </label>
+          `;
+          targetsContainer.appendChild(item);
+        });
+
+        // Update next actions
+        const actionsContainer = document.getElementById('next-actions');
+        actionsContainer.innerHTML = '';
+        (goals.next_actions || []).forEach(action => {
+          const li = document.createElement('li');
+          li.textContent = action;
+          li.style.marginBottom = '0.5rem';
+          actionsContainer.appendChild(li);
+        });
+
+        // Update offers
+        const offersContainer = document.getElementById('offers-grid');
+        offersContainer.innerHTML = '';
+        (goals.offers || []).filter(o => o.active).forEach(offer => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-body">
+              <h4 style="margin-bottom: 0.5rem;">${offer.name}</h4>
+              <div class="badge badge-primary" style="margin-bottom: 0.5rem;">$${offer.price_usd.toLocaleString()}</div>
+              <p style="font-size: 0.875rem; color: var(--text-secondary);">${offer.description}</p>
+              <div style="margin-top: 0.5rem;">
+                <span class="badge badge-secondary">${offer.platform}</span>
+              </div>
+            </div>
+          `;
+          offersContainer.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Error loading goals:', error);
+      }
+    }
+
+    // Update goal
+    async function updateGoal(event) {
+      event.preventDefault();
+
+      const path = document.getElementById('goal-path').value;
+      const valueStr = document.getElementById('goal-value').value;
+
+      let value;
+      try {
+        value = JSON.parse(valueStr);
+      } catch (e) {
+        // If not valid JSON, treat as string or number
+        value = isNaN(valueStr) ? valueStr : parseFloat(valueStr);
+      }
+
+      try {
+        const response = await fetch('/api/goals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path, value })
+        });
+
+        if (!response.ok) throw new Error('Failed to update goal');
+
+        // Clear form
+        document.getElementById('goal-path').value = '';
+        document.getElementById('goal-value').value = '';
+
+        // Refresh goals data
+        loadGoalsData();
+
+        alert('Goal updated successfully!');
+      } catch (error) {
+        console.error('Error updating goal:', error);
+        alert('Failed to update goal: ' + error.message);
+      }
+    }
+
+    // Load Orchestration data
+    async function loadOrchestrationData() {
+      try {
+        const response = await fetch('/api/goals');
+        if (!response.ok) throw new Error('Failed to fetch goals for orchestration');
+
+        const goalsData = await response.json();
+        const { computed } = goalsData;
+
+        // Update goals summary
+        document.getElementById('goals-summary').textContent =
+          `Revenue: ${computed.revenue_pct}% | Gap: $${computed.revenue_gap.toLocaleString()}`;
+
+        // Build action plan (simplified - would normally call MCP tool or backend endpoint)
+        // For now, create a simple static plan based on revenue gap
+        const actionPlan = [
+          {
+            rank: 1,
+            action: 'Submit Upwork proposals',
+            skill: '/upwork-hunt',
+            reason: `Revenue gap $${computed.revenue_gap.toLocaleString()}`,
+            expected_impact: '2-5 client responses within 48hrs',
+            can_run: true
+          },
+          {
+            rank: 2,
+            action: 'LinkedIn DM campaign',
+            skill: '/dm-campaign',
+            reason: 'Top outreach channel for ICP',
+            expected_impact: '3-5 replies from qualified prospects',
+            can_run: true
+          },
+          {
+            rank: 3,
+            action: 'Triage DM inbox',
+            skill: '/social-inbox',
+            reason: 'Reply to incoming leads',
+            expected_impact: '1-2 conversions to discovery calls',
+            can_run: true
+          }
+        ];
+
+        // Render action cards
+        const planContainer = document.getElementById('action-plan');
+        planContainer.innerHTML = '';
+        actionPlan.forEach(action => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-header">
+              <div>
+                <h4 class="card-title">${action.action}</h4>
+                <p class="card-subtitle">${action.skill}</p>
+              </div>
+              <span class="badge badge-primary">#${action.rank}</span>
+            </div>
+            <div class="card-body">
+              <p style="margin-bottom: 1rem;"><strong>Reason:</strong> ${action.reason}</p>
+              <p style="margin-bottom: 1rem;"><strong>Expected Impact:</strong> ${action.expected_impact}</p>
+              <button
+                class="btn ${action.can_run ? 'btn-primary' : 'btn-secondary'}"
+                ${action.can_run ? '' : 'disabled'}
+                onclick="copyToClipboard('${action.skill}')"
+              >
+                ${action.can_run ? '▶️ Run' : '⛔ Blocked'}
+              </button>
+            </div>
+          `;
+          planContainer.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Error loading orchestration:', error);
+      }
+    }
+
+    // Refresh orchestration
+    function refreshOrchestration() {
+      loadOrchestrationData();
+    }
+
+    // Copy to clipboard helper
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert(`Copied to clipboard: ${text}`);
+      });
+    }
+
+    // Listen for goal_updated events via Socket.IO
+    if (typeof io !== 'undefined') {
+      const socket = io();
+      socket.on('goal_updated', (data) => {
+        console.log('Goal updated:', data);
+        // Refresh goals tab if currently active
+        const goalsTab = document.getElementById('tab-goals');
+        if (goalsTab && goalsTab.style.display !== 'none') {
+          loadGoalsData();
+        }
+      });
+    }
+  </script>
 </body>
 
 </html>

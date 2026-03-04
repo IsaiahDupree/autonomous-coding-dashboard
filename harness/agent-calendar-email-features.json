@@ -1,0 +1,71 @@
+{
+  "project": "agent-calendar-email",
+  "version": "1.0.0",
+  "description": "Google Calendar + Gmail MCP servers + agent planning/progress system",
+  "features": [
+    {
+      "id": "ACAL-001",
+      "name": "Scaffold agent-comms package with package.json, tsconfig.json, src/ structure and Google OAuth2 helper",
+      "category": "setup",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-002",
+      "name": "Google Calendar client module: createBlock(), updateBlock(), listBlocks(), deleteBlock() using googleapis",
+      "category": "integration",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-003",
+      "name": "Gmail client module: sendEmail(to, subject, body, cc), readInbox(limit), searchEmails(query) using googleapis",
+      "category": "integration",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-004",
+      "name": "Agent planner: readBusinessGoals(), readRecentActivity(), generateDailyPlan() returning array of 15-30min CalendarBlock objects",
+      "category": "planning",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-005",
+      "name": "Google Calendar MCP server (JSON-RPC stdio): tools gcal_create_block, gcal_update_block, gcal_list_blocks, gcal_create_daily_plan",
+      "category": "mcp",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-006",
+      "name": "Gmail MCP server (JSON-RPC stdio): tools gmail_send, gmail_read_inbox, gmail_send_progress_update (auto-cc AGENT_CC_EMAIL)",
+      "category": "mcp",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-007",
+      "name": "Progress reporter: on session completion update calendar block description with status + send progress email cc-ing user",
+      "category": "planning",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACAL-008",
+      "name": "Windsurf skill file at .windsurf/workflows/agent-calendar-skill.md documenting all MCP tools and planning patterns",
+      "category": "docs",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

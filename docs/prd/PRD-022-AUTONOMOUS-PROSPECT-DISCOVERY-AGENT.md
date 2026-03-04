@@ -1,7 +1,13 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # PRD-022: Autonomous Prospect Discovery Agent
 
-**Status:** Ready for ACD  
-**Priority:** P1  
+**Status:** Ready for ACD
+**Priority:** P1
 **Depends on:** Safari Automation (port 3106), Supabase `crm_contacts`, `crm_creators`
 
 ---

@@ -1,3 +1,9 @@
+---
+domain: [research]
+agent_roles: [researcher]
+priority: high
+---
+
 # PRD-008: Autonomous Twitter/X Research & Posting Pipeline
 
 ## Status: Draft

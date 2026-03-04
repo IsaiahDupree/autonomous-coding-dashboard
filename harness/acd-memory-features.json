@@ -1,0 +1,55 @@
+{
+  "project": "acd-memory",
+  "version": "1.0.0",
+  "description": "6 features connecting ACD MCP server to 3-layer memory, heartbeat, and scheduling systems",
+  "features": [
+    {
+      "id": "ACD-MEM-001",
+      "name": "acd_read_memory tool: reads Layer 3 (TACIT-KNOWLEDGE.md), today's Layer 2 daily note, and top-10 Layer 1 graph entities from ~/.memory/vault",
+      "category": "mcp",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-MEM-002",
+      "name": "acd_write_memory tool: writes a memory event to actp_memory_events via python3 graph_memory.record_event() with event_type, content, importance_score, source, metadata",
+      "category": "mcp",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-MEM-003",
+      "name": "acd_heartbeat_status tool: reads actp_agent_health_snapshots from Supabase (latest 3 rows) and returns service up/down counts, last_seen, pipeline status",
+      "category": "mcp",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-MEM-004",
+      "name": "acd_schedule tool: writes a job entry to harness/schedule.json with slug, targetPath, model, schedule (once|daily|weekly), runAt (ISO datetime), enabled: true",
+      "category": "mcp",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-MEM-005",
+      "name": "acd_list_scheduled tool: reads harness/schedule.json, checks PID liveness for running slugs, returns { pending, running, completed } job lists with next run times",
+      "category": "mcp",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "ACD-MEM-006",
+      "name": "Heartbeat trigger in run-harness-v2.js: after each session completes or fails, auto-call acd_write_memory with event_type=session_complete, slug, features_passed, features_total, importance_score based on pass rate",
+      "category": "integration",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}
