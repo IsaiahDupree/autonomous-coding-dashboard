@@ -1,0 +1,19 @@
+{
+  "features": [
+    { "id": "ENG-001", "name": "Task analyzer: Claude decomposes natural language task into { repoId, featureDescription, testStrategy, deployTarget } JSON", "passes": true, "status": "completed" },
+    { "id": "ENG-002", "name": "Repo resolver: fuzzy-match task description against repo-queue.json tags/name/focus fields to find best target repo", "passes": true, "status": "completed" },
+    { "id": "ENG-003", "name": "Subtask splitter: detect complex tasks and split into ordered subtask list, execute sequentially", "passes": true, "status": "completed" },
+    { "id": "ENG-004", "name": "Task dispatch: call harness/task-agent.js programmatically with resolved repo + feature description via child_process", "passes": true, "status": "completed" },
+    { "id": "ENG-005", "name": "Execution monitor: stream task-agent stdout/stderr to engineering_agent.jsonl log in real time", "passes": true, "status": "completed" },
+    { "id": "ENG-006", "name": "Retry logic: if task-agent tests fail, rephrase task with more context and retry once before reporting failure", "passes": true, "status": "completed" },
+    { "id": "ENG-007", "name": "Test runner: after task-agent completes, independently run npm test / pytest and parse pass/fail count", "passes": true, "status": "completed" },
+    { "id": "ENG-008", "name": "Code review gate: Claude reviews git diff HEAD~1 and scores quality 1-10; reject and report if score < 6", "passes": true, "status": "completed" },
+    { "id": "ENG-009", "name": "Regression check: verify passing test count did not decrease from pre-task baseline snapshot", "passes": true, "status": "completed" },
+    { "id": "ENG-010", "name": "Vercel deploy trigger: POST to Vercel deploy webhook URL from env after tests pass and review gate clears", "passes": true, "status": "completed" },
+    { "id": "ENG-011", "name": "GitHub push: git push origin main after successful tests + code review gate", "passes": true, "status": "completed" },
+    { "id": "ENG-012", "name": "Deploy status poll: poll Vercel deployments API every 10s until status READY or ERROR (max 5min)", "passes": true, "status": "completed" },
+    { "id": "ENG-013", "name": "Result schema: { success, repoId, task, filesChanged, testsPass, deployUrl, commitHash, duration, reviewScore }", "passes": true, "status": "completed" },
+    { "id": "ENG-014", "name": "Engineering log: append each task result to logs/engineering-agent.jsonl with full result schema", "passes": true, "status": "completed" },
+    { "id": "ENG-015", "name": "Failure report: on failure write root cause + relevant log excerpt to result for orchestrator reflector consumption", "passes": true, "status": "completed" }
+  ]
+}

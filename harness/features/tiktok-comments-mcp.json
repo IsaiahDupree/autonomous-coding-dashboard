@@ -1,0 +1,16 @@
+{
+  "features": [
+    {"id":"TKCM-001","name":"Scaffold packages/tiktok-comments/src/api/mcp-server.ts with McpServer boilerplate","passes":true,"status":"completed"},
+    {"id":"TKCM-002","name":"Implement is_ready tool — GET /health, returns {ready, port, timestamp}","passes":true,"status":"completed"},
+    {"id":"TKCM-003","name":"Implement get_status tool — GET /api/status, returns session/tab info","passes":true,"status":"completed"},
+    {"id":"TKCM-004","name":"Implement navigate tool — POST /api/navigate with videoUrl (must be /video/ format)","passes":true,"status":"completed"},
+    {"id":"TKCM-005","name":"Implement post tool — POST /api/comment with videoUrl+text, dryRun support","passes":true,"status":"completed"},
+    {"id":"TKCM-006","name":"Implement get tool — GET /api/comments/:videoId","passes":true,"status":"completed"},
+    {"id":"TKCM-007","name":"Implement search tool — GET /api/search with keyword/limit params","passes":true,"status":"completed"},
+    {"id":"TKCM-008","name":"Implement trending tool — GET /api/trending","passes":true,"status":"completed"},
+    {"id":"TKCM-009","name":"Implement like tool — POST /api/like/:videoId with dryRun support","passes":true,"status":"completed"},
+    {"id":"TKCM-010","name":"Implement get_metrics tool — GET /api/metrics/:videoId","passes":true,"status":"completed"},
+    {"id":"TKCM-011","name":"Structured error handling: RATE_LIMITED, SESSION_EXPIRED, SERVICE_DOWN codes","passes":true,"status":"completed"},
+    {"id":"TKCM-012","name":"Register server on stdio transport + export for MCP client consumption","passes":true,"status":"completed"}
+  ]
+}

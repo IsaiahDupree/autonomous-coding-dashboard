@@ -1,0 +1,19 @@
+{
+  "prd": "PRD-084",
+  "name": "Business Objective Self-Improvement Loop",
+  "priority": 6,
+  "targetPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness",
+  "features": [
+    { "id": "IL-001", "name": "KPI collector: reads linkedin-daemon-state.json, linkedin-dm-queue.json, upwork-queue.json, CRMLite API → produces weekly_metrics object", "passes": false },
+    { "id": "IL-002", "name": "Claude Haiku analysis: send metrics vs targets to haiku → returns { bottleneck, fix, action, confidence } JSON", "passes": false },
+    { "id": "IL-003", "name": "Auto-executor: if confidence>0.9 AND action in allowlist (adjust_icp_threshold, rotate_strategy_cursor, adjust_cycle_frequency) → apply immediately", "passes": false },
+    { "id": "IL-004", "name": "Approval queue: low-confidence actions → append to improvement-pending.json for human review via dashboard", "passes": false },
+    { "id": "IL-005", "name": "Strategy performance tracker: per-strategy stats in linkedin-daemon-state.json (qualified_rate per strategy), auto-promote top 3", "passes": false },
+    { "id": "IL-006", "name": "DM template A/B tracker: track reply rate per template variant, swap lowest-performing weekly", "passes": false },
+    { "id": "IL-007", "name": "improvement-log.ndjson: append every analysis cycle { ts, metrics_snapshot, bottleneck, action_taken, auto_applied }", "passes": false },
+    { "id": "IL-008", "name": "improvement-loop.js daemon: runs every 6h, hot-reloads business-goals.json without restart", "passes": false },
+    { "id": "IL-009", "name": "launch-improvement-loop.sh: start|stop|status", "passes": false },
+    { "id": "IL-010", "name": "Backend routes: GET /api/improvement/status, GET /api/improvement/log, GET /api/improvement/pending, POST /api/improvement/approve", "passes": false },
+    { "id": "IL-011", "name": "Dashboard: Business Goals tab showing revenue gap bar chart, KPIs vs targets, recent auto-adjustments, pending approvals", "passes": false }
+  ]
+}

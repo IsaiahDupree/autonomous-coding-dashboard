@@ -7,9 +7,9 @@
       "category": "health",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0, body=None"
     },
     {
       "id": "T-SAFARI_TIKTOK-002",
@@ -18,9 +18,9 @@
       "category": "health",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "elapsed=0.00s"
     },
     {
       "id": "T-SAFARI_TIKTOK-003",
@@ -29,9 +29,9 @@
       "category": "health",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "No CORS header"
     },
     {
       "id": "T-SAFARI_TIKTOK-004",
@@ -40,7 +40,7 @@
       "category": "health",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": ""
     },
@@ -51,7 +51,7 @@
       "category": "health",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": ""
     },
@@ -62,9 +62,9 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-007",
@@ -73,9 +73,9 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-008",
@@ -84,9 +84,9 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-009",
@@ -95,9 +95,9 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-010",
@@ -106,9 +106,9 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-011",
@@ -117,7 +117,7 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": ""
     },
@@ -139,9 +139,9 @@
       "category": "auth",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-014",
@@ -161,7 +161,7 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "Not implemented yet"
     },
@@ -183,7 +183,7 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "Expected error, got 0"
     },
@@ -194,9 +194,9 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-019",
@@ -205,9 +205,9 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-020",
@@ -218,7 +218,7 @@
       "status": "completed",
       "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": "status=400"
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-021",
@@ -227,9 +227,9 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-022",
@@ -271,7 +271,7 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "Not implemented yet"
     },
@@ -284,7 +284,7 @@
       "status": "completed",
       "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "Verified working"
     },
     {
       "id": "T-SAFARI_TIKTOK-027",
@@ -303,7 +303,7 @@
       "description": "GET /api/tiktok/analytics returns video performance data",
       "category": "core",
       "priority": 1,
-      "status": "pending",
+      "status": "completed",
       "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "Not implemented yet"
@@ -315,9 +315,9 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "Not implemented yet"
     },
     {
       "id": "T-SAFARI_TIKTOK-030",
@@ -326,9 +326,9 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "Not implemented yet"
     },
     {
       "id": "T-SAFARI_TIKTOK-031",
@@ -348,7 +348,7 @@
       "category": "core",
       "priority": 1,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "Not implemented yet"
     },
@@ -370,7 +370,7 @@
       "category": "error_handling",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "status=0"
     },
@@ -381,7 +381,7 @@
       "category": "error_handling",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "status=0"
     },
@@ -392,7 +392,7 @@
       "category": "error_handling",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "status=0"
     },
@@ -403,7 +403,7 @@
       "category": "error_handling",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "status=0, server not running"
     },
@@ -414,7 +414,7 @@
       "category": "error_handling",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "status=0"
     },
@@ -645,7 +645,7 @@
       "category": "rate_limiting",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": "No rate limit headers"
     },
@@ -832,9 +832,9 @@
       "category": "ai_features",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": ""
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-077",
@@ -843,7 +843,7 @@
       "category": "ai_features",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
       "notes": ""
     },
@@ -854,9 +854,9 @@
       "category": "ai_features",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": "Advanced AI features not implemented"
+      "notes": "No model field in response"
     },
     {
       "id": "T-SAFARI_TIKTOK-079",
@@ -865,9 +865,9 @@
       "category": "ai_features",
       "priority": 2,
       "status": "completed",
-      "passes": true,
+      "passes": false,
       "prd": "TEST-TIKTOK",
-      "notes": "Advanced AI features not implemented"
+      "notes": "status=0"
     },
     {
       "id": "T-SAFARI_TIKTOK-080",

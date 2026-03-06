@@ -1,0 +1,22 @@
+{
+  "features": [
+    {"id":"CSM-001","name":"Scaffold packages/cloud-sync/src/api/mcp-server.ts with McpServer boilerplate","passes":true,"status":"completed"},
+    {"id":"CSM-002","name":"Implement cloud_sync_is_ready — GET /health, returns {ready, port, timestamp}","passes":true,"status":"completed"},
+    {"id":"CSM-003","name":"Implement cloud_sync_status — GET /api/status","passes":true,"status":"completed"},
+    {"id":"CSM-004","name":"Implement cloud_sync_start — POST /api/start","passes":true,"status":"completed"},
+    {"id":"CSM-005","name":"Implement cloud_sync_stop — POST /api/stop","passes":true,"status":"completed"},
+    {"id":"CSM-006","name":"Implement cloud_sync_poll — GET /api/poll","passes":true,"status":"completed"},
+    {"id":"CSM-007","name":"Implement cloud_sync_get_notifications — GET /api/notifications","passes":true,"status":"completed"},
+    {"id":"CSM-008","name":"Implement cloud_sync_action_notification — POST /api/notifications/:id/action (string interpolation for :id)","passes":true,"status":"completed"},
+    {"id":"CSM-009","name":"Implement cloud_sync_get_dms — GET /api/dms with platform/limit params","passes":true,"status":"completed"},
+    {"id":"CSM-010","name":"Implement cloud_sync_mark_dm_replied — POST /api/dms/:id/replied","passes":true,"status":"completed"},
+    {"id":"CSM-011","name":"Implement cloud_sync_get_posts — GET /api/posts with platform/limit params","passes":true,"status":"completed"},
+    {"id":"CSM-012","name":"Implement cloud_sync_get_top_posts — GET /api/posts/top","passes":true,"status":"completed"},
+    {"id":"CSM-013","name":"Implement cloud_sync_queue_action — POST /api/queue with action payload","passes":true,"status":"completed"},
+    {"id":"CSM-014","name":"Implement cloud_sync_analytics_brief — GET /api/analytics/brief","passes":true,"status":"completed"},
+    {"id":"CSM-015","name":"Implement cloud_sync_dashboard — GET /api/dashboard","passes":true,"status":"completed"},
+    {"id":"CSM-016","name":"Implement cloud_sync_learnings — GET /api/learnings","passes":true,"status":"completed"},
+    {"id":"CSM-017","name":"Handle GET query params via URLSearchParams, path params via string interpolation","passes":true,"status":"completed"},
+    {"id":"CSM-018","name":"Register server on stdio transport + export for MCP client consumption","passes":true,"status":"completed"}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "features": [
+    {"id":"TCM-001","name":"Scaffold packages/twitter-comments/src/api/mcp-server.ts with McpServer boilerplate","passes":true,"status":"completed"},
+    {"id":"TCM-002","name":"Implement is_ready tool — GET /health, returns {ready, port, timestamp}","passes":true,"status":"completed"},
+    {"id":"TCM-003","name":"Implement post_reply tool — delegates to port 3007 POST /api/reply with dryRun support","passes":true,"status":"completed"},
+    {"id":"TCM-004","name":"Implement search tool — GET /api/search with query/limit params","passes":true,"status":"completed"},
+    {"id":"TCM-005","name":"Implement timeline tool — GET /api/timeline with username param","passes":true,"status":"completed"},
+    {"id":"TCM-006","name":"Implement compose tool — POST /api/tweet with dryRun support","passes":true,"status":"completed"},
+    {"id":"TCM-007","name":"Implement like tool — POST /api/like/:tweetId with dryRun support","passes":true,"status":"completed"},
+    {"id":"TCM-008","name":"Implement retweet tool — POST /api/retweet/:tweetId with dryRun support","passes":true,"status":"completed"},
+    {"id":"TCM-009","name":"Implement bookmark tool — POST /api/bookmark/:tweetId","passes":true,"status":"completed"},
+    {"id":"TCM-010","name":"Implement get_metrics tool — GET /api/metrics/:tweetId","passes":true,"status":"completed"},
+    {"id":"TCM-011","name":"Structured error handling: RATE_LIMITED, SESSION_EXPIRED, SERVICE_DOWN codes","passes":true,"status":"completed"},
+    {"id":"TCM-012","name":"Register server on stdio transport + export for MCP client consumption","passes":true,"status":"completed"}
+  ]
+}

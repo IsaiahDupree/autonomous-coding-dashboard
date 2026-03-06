@@ -1,0 +1,24 @@
+{
+  "features": [
+    { "id": "ORCH-001", "name": "Supabase company_tasks table migration (id, type, status, priority, payload, result, created_at, completed_at)", "passes": true, "status": "completed" },
+    { "id": "ORCH-002", "name": "Main orchestrator loop: poll → plan → delegate → reflect → enqueue next (60s interval)", "passes": true, "status": "completed" },
+    { "id": "ORCH-003", "name": "Planner agent: Claude produces structured execution plan with agent_type + tool_calls JSON from task text", "passes": true, "status": "completed" },
+    { "id": "ORCH-004", "name": "Task router: dispatch plan to engineering_agent / marketing_agent / ops_agent modules based on agent_type", "passes": true, "status": "completed" },
+    { "id": "ORCH-005", "name": "Result handler: capture agent output, write to Supabase company_tasks, update status to completed/failed", "passes": true, "status": "completed" },
+    { "id": "ORCH-006", "name": "Engineering agent module: accepts coding task → dispatches to ACD task-agent.js via subprocess → returns result", "passes": true, "status": "completed" },
+    { "id": "ORCH-007", "name": "GitHub integration: after successful engineering task, trigger git push + optional Vercel deploy webhook", "passes": true, "status": "completed" },
+    { "id": "ORCH-008", "name": "Marketing agent module: accepts campaign task → calls ACTP Safari automation services (3007/3005/3004)", "passes": true, "status": "completed" },
+    { "id": "ORCH-009", "name": "Twitter/X posting via Safari automation port 3007 with AI-generated content from task payload", "passes": true, "status": "completed" },
+    { "id": "ORCH-010", "name": "Email outreach via SMTP integration with Claude-drafted messages and lead list from CRM", "passes": true, "status": "completed" },
+    { "id": "ORCH-011", "name": "Ops agent module: web research via Market Research API port 3106 given research query", "passes": true, "status": "completed" },
+    { "id": "ORCH-012", "name": "Inbox monitor: summarize new DMs via Safari automation, surface action items as new tasks", "passes": true, "status": "completed" },
+    { "id": "ORCH-013", "name": "Reflector: after each task, Claude evaluates result quality and appends lesson to knowledge base", "passes": true, "status": "completed" },
+    { "id": "ORCH-014", "name": "Task generator: reflector auto-proposes 1-3 follow-up tasks and enqueues them in company_tasks", "passes": true, "status": "completed" },
+    { "id": "ORCH-015", "name": "Prompt evolution: reflector updates relevant agent prompt files in prompts/ dir when high-confidence lessons found", "passes": true, "status": "completed" },
+    { "id": "ORCH-016", "name": "Activity log: append every orchestrator action to logs/orchestrator-activity.jsonl with ts, task, agent, result", "passes": true, "status": "completed" },
+    { "id": "ORCH-017", "name": "Live status endpoint: GET /status returns current task, queue depth, last 20 activity lines as JSON", "passes": true, "status": "completed" },
+    { "id": "ORCH-018", "name": "Metrics tracker: daily summary written to company_metrics table (tasks completed, agents used, success rate)", "passes": true, "status": "completed" },
+    { "id": "ORCH-019", "name": "CLI: python orchestrator.py --run (daemon), --once (single tick), --status, --enqueue 'task text'", "passes": true, "status": "completed" },
+    { "id": "ORCH-020", "name": ".env config + README.md with quickstart: ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_KEY, agent enable flags", "passes": true, "status": "completed" }
+  ]
+}

@@ -1509,6 +1509,125 @@ app.get('/api/goals', (req, res) => {
     }
 });
 
+// Goal status — live metrics from Supabase + local state
+app.get('/api/goal-status', async (req, res) => {
+    try {
+        const goalsPath = '/Users/isaiahdupree/Documents/Software/business-goals.json';
+        const goals = fs.existsSync(goalsPath) ? JSON.parse(fs.readFileSync(goalsPath, 'utf8')) : {};
+
+        const harnessDir = path.resolve(__dirname, '..', '..', 'harness');
+        const readJsonFile = (fp: string, fallback: any = null) => {
+            try { return JSON.parse(fs.readFileSync(fp, 'utf8')); } catch { return fallback; }
+        };
+
+        const liState   = readJsonFile(path.join(harnessDir, 'linkedin-daemon-state.json'), {});
+        const liQueue   = readJsonFile(path.join(harnessDir, 'linkedin-dm-queue.json'), []);
+        const cbState   = readJsonFile(path.join(harnessDir, 'cloud-bridge-state.json'), {});
+        const orchState = readJsonFile(path.join(harnessDir, 'orchestrator-state.json'), {});
+
+        // Supabase REST queries (no SDK needed)
+        const SUPABASE_URL = process.env.SUPABASE_URL || '';
+        const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || '';
+        const sbHeaders = { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, Prefer: 'count=exact' };
+
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const todayISO = today.toISOString();
+        const week = new Date(); week.setDate(week.getDate() - 7);
+        const weekISO = week.toISOString();
+
+        const [crmR, sessTodayR, sessWeekR, cmdQR, cmdCompletedR] = await Promise.all([
+            fetch(`${SUPABASE_URL}/rest/v1/crm_contacts?select=id&limit=1`, { headers: sbHeaders, signal: AbortSignal.timeout(5000) }),
+            fetch(`${SUPABASE_URL}/rest/v1/actp_browser_sessions?select=platform,action,status&created_at=gte.${todayISO}`, { headers: sbHeaders, signal: AbortSignal.timeout(5000) }),
+            fetch(`${SUPABASE_URL}/rest/v1/actp_browser_sessions?select=platform,status&created_at=gte.${weekISO}`, { headers: sbHeaders, signal: AbortSignal.timeout(5000) }),
+            fetch(`${SUPABASE_URL}/rest/v1/safari_command_queue?select=platform,action,status,created_at&order=created_at.desc&limit=5`, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }, signal: AbortSignal.timeout(5000) }),
+            fetch(`${SUPABASE_URL}/rest/v1/safari_command_queue?select=id&status=eq.completed&created_at=gte.${todayISO}&limit=1`, { headers: sbHeaders, signal: AbortSignal.timeout(5000) }),
+        ]);
+
+        const [crmCount, sessToday, sessWeek, cmdQueue, cmdCompleted] = await Promise.all([
+            parseInt(crmR.headers.get('content-range')?.split('/')[1] || '0'),
+            sessTodayR.json().catch(() => []),
+            sessWeekR.json().catch(() => []),
+            cmdQR.json().catch(() => []),
+            parseInt(cmdCompletedR.headers.get('content-range')?.split('/')[1] || '0'),
+        ]);
+
+        // Safari service health checks
+        const SAFARI_PORTS = [
+            { port: 3100, name: 'Instagram DM' }, { port: 3003, name: 'Twitter DM' },
+            { port: 3102, name: 'TikTok DM' },    { port: 3105, name: 'LinkedIn DM' },
+            { port: 3005, name: 'IG Comments' },   { port: 3007, name: 'TW Comments' },
+            { port: 3004, name: 'Threads' },        { port: 3106, name: 'Market Res.' },
+        ];
+        const portStatuses = await Promise.all(SAFARI_PORTS.map(async s => {
+            try {
+                const r = await fetch(`http://localhost:${s.port}/health`, { signal: AbortSignal.timeout(2000) });
+                const d = await r.json();
+                return { ...s, up: true, status: d.status || 'ok' };
+            } catch {
+                return { ...s, up: false, status: 'DOWN' };
+            }
+        }));
+
+        // Sessions breakdown
+        const byStatus: Record<string, number> = {};
+        const byPlatform: Record<string, number> = {};
+        for (const s of (sessToday as any[])) {
+            byStatus[s.status] = (byStatus[s.status] || 0) + 1;
+            byPlatform[s.platform] = (byPlatform[s.platform] || 0) + 1;
+        }
+        const weekByStatus: Record<string, number> = {};
+        for (const s of (sessWeek as any[])) weekByStatus[s.status] = (weekByStatus[s.status] || 0) + 1;
+
+        res.json({
+            ts: new Date().toISOString(),
+            revenue: {
+                current: goals.revenue?.current_monthly_usd || 0,
+                target: goals.revenue?.target_monthly_usd || 5000,
+                sources: goals.revenue?.sources || [],
+            },
+            crm: { current: crmCount, target: goals.growth?.crm_contacts_target || 1000 },
+            linkedin: {
+                queue_pending: (liQueue as any[]).filter((i: any) => i.status === 'pending_approval').length,
+                seen_urls: (liState.seenUrls || []).length,
+                cycles: liState.cycleCount || 0,
+                total_found: liState.totalProspectsFound || 0,
+            },
+            sessions_today: {
+                total: (sessToday as any[]).length,
+                completed: byStatus.completed || 0,
+                failed: byStatus.failed || 0,
+                scheduled: byStatus.scheduled || 0,
+                by_platform: byPlatform,
+            },
+            sessions_7day: {
+                total: (sessWeek as any[]).length,
+                completed: weekByStatus.completed || 0,
+                failed: weekByStatus.failed || 0,
+            },
+            safari_services: {
+                up: portStatuses.filter(p => p.up).length,
+                total: portStatuses.length,
+                ports: portStatuses,
+            },
+            cloud_bridge: {
+                processed: cbState.totalProcessed || 0,
+                last_poll: cbState.lastPoll || null,
+            },
+            orchestrator: {
+                cycles: orchState.cycleCount || 0,
+                last_cycle: orchState.lastCycleAt || null,
+            },
+            cmd_queue: {
+                completed_today: cmdCompleted,
+                recent: cmdQueue,
+            },
+            next_actions: goals.next_actions || [],
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get goal status' } });
+    }
+});
+
 // Update business goals
 app.post('/api/goals', (req, res) => {
     try {

@@ -1,0 +1,23 @@
+{
+  "features": [
+    { "id": "MKT-001", "name": "Niche researcher: query Market Research API /api/research/{platform}/search for top posts + creators given goal", "passes": true, "status": "completed" },
+    { "id": "MKT-002", "name": "Hook extractor: Claude analyzes top posts and extracts reusable hook patterns + content frameworks to knowledge base", "passes": true, "status": "completed" },
+    { "id": "MKT-003", "name": "Competitor mapper: identify top 5 accounts and store in Supabase company_competitors table with handle + platform", "passes": true, "status": "completed" },
+    { "id": "MKT-004", "name": "Tweet generator: given hook + product context, Claude generates 5 tweet variants (thread + standalone) as JSON list", "passes": true, "status": "completed" },
+    { "id": "MKT-005", "name": "Caption generator: platform-aware captions for Instagram/Threads/LinkedIn from same brief (respecting char limits)", "passes": true, "status": "completed" },
+    { "id": "MKT-006", "name": "Content scorer: Claude scores each variant on hook strength, clarity, CTA (1-10); filter out scores < 6", "passes": true, "status": "completed" },
+    { "id": "MKT-007", "name": "Twitter poster: POST to Safari automation port 3007 /api/twitter/comments/post with top-scoring tweet content", "passes": true, "status": "completed" },
+    { "id": "MKT-008", "name": "Instagram poster: POST to port 3005 with best caption variant (respects 3/day rate limit)", "passes": true, "status": "completed" },
+    { "id": "MKT-009", "name": "Threads poster: POST to port 3004 with threads-optimized variant (respects 5/day rate limit)", "passes": true, "status": "completed" },
+    { "id": "MKT-010", "name": "DM campaign: generate personalized DMs for warm CRM leads (score >= 50) and dispatch via port 3003", "passes": true, "status": "completed" },
+    { "id": "MKT-011", "name": "Metrics collector: after 1h and 24h, record engagement (likes, views, replies) from post URLs in company_post_metrics", "passes": true, "status": "completed" },
+    { "id": "MKT-012", "name": "Performance classifier: label each post viral (>500 eng) / good (>100) / average (>20) / flop (<20)", "passes": true, "status": "completed" },
+    { "id": "MKT-013", "name": "Campaign summary: write to Supabase company_campaigns table (goal, posts, reach, top_post, classification)", "passes": true, "status": "completed" },
+    { "id": "MKT-014", "name": "Best-post analyzer: weekly review of top performers → extract what worked → update hook_library.json", "passes": true, "status": "completed" },
+    { "id": "MKT-015", "name": "A/B tester: run 2 content variants per campaign, compare 24h results, persist winner's framework to knowledge base", "passes": true, "status": "completed" },
+    { "id": "MKT-016", "name": "Marketing knowledge base: append campaign lessons to knowledge/marketing-playbook.md after each campaign run", "passes": true, "status": "completed" },
+    { "id": "MKT-017", "name": "Rate limiter: enforce per-platform daily post limits; skip platform and log warning if limit hit", "passes": true, "status": "completed" },
+    { "id": "MKT-018", "name": "Marketing log: append each marketing action to logs/marketing-agent.jsonl with ts, platform, content_id, result", "passes": true, "status": "completed" },
+    { "id": "MKT-019", "name": "Marketing CLI: python marketing_agent.py --goal '...' --platform twitter --dry-run (prints plan without executing)", "passes": true, "status": "completed" }
+  ]
+}

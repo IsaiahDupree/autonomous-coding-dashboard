@@ -45,6 +45,9 @@ function LeftSidebar({ isCollapsed, onToggle, activePage, onPageChange }) {
     { id: 'agents', icon: Bot, label: 'Agents' },
     { id: 'tests', icon: TestTube2, label: 'Tests' },
     { id: 'active', icon: Activity, label: 'Active' },
+    { id: 'acd', icon: Cpu, label: 'ACD Dashboard' },
+    { id: 'live', icon: Zap, label: 'Live Feed' },
+    { id: 'autonomous', icon: Brain, label: 'Autonomous' },
     { id: 'terminal', icon: Terminal, label: 'Terminal' },
     { id: 'files', icon: FileText, label: 'Files' },
     { id: 'history', icon: History, label: 'History' },
@@ -349,6 +352,27 @@ export default function App() {
         activePage={activePage}
         onPageChange={setActivePage}
       />
+
+      {/* ACD Dashboard (iframe into root ACD at port 3300) */}
+      {activePage === 'acd' && (
+        <div className={`transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-56'}`} style={{ height: '100vh' }}>
+          <iframe src="http://localhost:3300/index.html" style={{ width: '100%', height: '100%', border: 'none' }} title="ACD Dashboard" />
+        </div>
+      )}
+
+      {/* Live Feed (iframe into live.html at port 3300) */}
+      {activePage === 'live' && (
+        <div className={`transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-56'}`} style={{ height: '100vh' }}>
+          <iframe src="http://localhost:3300/live.html" style={{ width: '100%', height: '100%', border: 'none' }} title="Live Feed" />
+        </div>
+      )}
+
+      {/* Autonomous Control (iframe into autonomous.html at port 3300) */}
+      {activePage === 'autonomous' && (
+        <div className={`transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-56'}`} style={{ height: '100vh' }}>
+          <iframe src="http://localhost:3300/autonomous.html" style={{ width: '100%', height: '100%', border: 'none' }} title="Autonomous Control" />
+        </div>
+      )}
 
       {/* Agents Page */}
       {activePage === 'agents' && (

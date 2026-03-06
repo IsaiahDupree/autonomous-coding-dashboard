@@ -1,0 +1,20 @@
+{
+  "prd": "PRD-080",
+  "name": "Multi-Platform Prospect Pipeline",
+  "priority": 10,
+  "targetPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness",
+  "features": [
+    { "id": "PP-001", "name": "ProspectPipeline daemon skeleton: 30min cycle, platform rotation (IG→TT→TW→Threads), state file, NDJSON log", "passes": true, "status": "completed" },
+    { "id": "PP-002", "name": "Instagram prospect finder: POST :3005/api/instagram/search/hashtag → extract creator profiles → GET followers → return array", "passes": true, "status": "completed" },
+    { "id": "PP-003", "name": "TikTok prospect finder: POST :3006/api/tiktok/search/keyword → extract top video creators → return profile array", "passes": true, "status": "completed" },
+    { "id": "PP-004", "name": "Twitter prospect finder: POST :3003/api/twitter/search → extract tweet authors → score ICP → return qualified array", "passes": true, "status": "completed" },
+    { "id": "PP-005", "name": "Threads prospect finder: POST :3004/api/threads/search → extract post authors → return array", "passes": true, "status": "completed" },
+    { "id": "PP-006", "name": "Unified ICP scorer (10-point): tech/ai/founder/company/revenue signals — shared by all 4 platforms", "passes": true, "status": "completed" },
+    { "id": "PP-007", "name": "CRMLite dedup + upsert: check if prospect exists by platform_username, create if new, skip if exists", "passes": true, "status": "completed" },
+    { "id": "PP-008", "name": "Per-platform DM queue files: prospect-ig-queue.json, prospect-tt-queue.json, prospect-tw-queue.json, prospect-threads-queue.json", "passes": true, "status": "completed" },
+    { "id": "PP-009", "name": "launch-prospect-pipeline.sh: start|stop|status with PID file and nohup logging", "passes": true, "status": "completed" },
+    { "id": "PP-010", "name": "Backend routes: GET /api/prospects/status, GET /api/prospects/queue?platform=, POST /api/prospects/queue/approve, POST /api/prospects/queue/skip", "passes": true, "status": "completed" },
+    { "id": "PP-011", "name": "Dashboard panel in backend/index.html Queue tab: 4 platform rows with found/qualified/queued counts + review buttons", "passes": true, "status": "completed" },
+    { "id": "PP-012", "name": "Strategy config: hashtag/keyword lists per platform loaded from business-goals.json content_niches field", "passes": true, "status": "completed" }
+  ]
+}

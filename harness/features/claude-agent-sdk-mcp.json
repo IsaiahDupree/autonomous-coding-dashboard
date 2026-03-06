@@ -1,0 +1,24 @@
+{
+  "features": [
+    {"id":"SDK-MCP-001","name":"Create sdk_mcp_server.py FastMCP server in actp-worker — imports from claude_launcher, sdk_pipeline, config; binds on port 3210; stdio transport for Claude MCP protocol","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-002","name":"MCP tool sdk_launch_agent(agent_type, goal, context, task_id, project_dir?) — calls launch_sdk_session(), returns {ok, result, tool_use_count, cost_usd}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-003","name":"MCP tool sdk_run_pipeline(proposal_text, project_dir?) — calls run_client_pipeline(), returns {ok, stages_completed, final_stage, checkpoint_dir}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-004","name":"MCP tool sdk_resume_pipeline(project_dir) — calls resume_pipeline(), returns {resuming_from_stage, stages_done, checkpoint_data}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-005","name":"MCP tool sdk_pipeline_status(project_dir) — reads ~/openclaw-shared/context.json for matching task, returns stage checkpoints and last update time","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-006","name":"MCP tool sdk_list_agents() — returns DOMAIN_AGENTS dict as JSON: {agent_type: {description, tools, model}} for all 9 agents","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-007","name":"MCP tool sdk_queue_task(agent_type, goal, context?, priority?) — inserts row to Supabase actp_agent_tasks with use_claude_code=true, returns task_id","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-008","name":"MCP tool sdk_get_tasks(status?, limit?) — queries actp_agent_tasks filtered by status, returns list with id/agent_type/goal/status/created_at","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-009","name":"MCP tool sdk_swarm_status() — calls get_swarm().status(), returns {agents: [{role, engine, status, last_error, heartbeat_age_s}]}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-010","name":"MCP tool sdk_executor_health() — calls SdkAgentExecutor().check_available(), returns {available, claude_binary, api_key_set, max_concurrent}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-011","name":"MCP tool sdk_self_heal(role?) — triggers SelfHealingLoop.heal_agent(role) or full heal cycle; returns {healed, actions_taken, new_status}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-012","name":"MCP tool sdk_read_checkpoint(project_dir, stage?) — reads specific checkpoint file(s) from ~/openclaw-shared/ or project_dir, returns checkpoint data","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-013","name":"Add MCP server entry to harness/mcp-servers.json (or create it): {name: 'sdk-agent', command: 'python3 sdk_mcp_server.py', cwd: actp-worker, port: 3210}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-014","name":"Add SDK MCP server config to ~/.claude.json mcpServers: {sdk-agent: {type: 'stdio', command: 'python3', args: ['sdk_mcp_server.py'], cwd: '...actp-worker'}}","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-015","name":"Write tests/test_sdk_mcp_server.py: test_all_tools_registered — import server, assert all 12 tool names present in registered tools list","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-016","name":"test_sdk_list_agents_returns_all — call sdk_list_agents tool handler directly, assert all 9 agent keys returned","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-017","name":"test_sdk_queue_task_mock — mock Supabase insert, call sdk_queue_task('content-agent','write post'), assert task_id UUID returned","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-018","name":"test_sdk_executor_health_mock — mock shutil.which + ANTHROPIC_API_KEY, assert sdk_executor_health returns correct available/claude_binary/api_key_set","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-019","name":"Add start script: harness/start-sdk-mcp.sh — cd actp-worker && python3 sdk_mcp_server.py with env vars, logs to harness/logs/sdk-mcp.log","passes":true,"status":"completed"},
+    {"id":"SDK-MCP-020","name":"Update AGENT_HARNESS_GUIDE.md (or README) with SDK MCP server section: what it does, how to start it, all 12 tool signatures, integration with Claude MCP config","passes":true,"status":"completed"}
+  ]
+}

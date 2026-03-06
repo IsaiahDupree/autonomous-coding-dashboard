@@ -1,0 +1,18 @@
+{
+  "prd": "PRD-082",
+  "name": "Self-Healing Agent System (Overstory + Claude Code SDK)",
+  "priority": 8,
+  "targetPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness",
+  "features": [
+    { "id": "SH-001", "name": "Overstory bridge: overstory-bridge.js reads doctor-log.ndjson, when diagnosis=code_bug spawns ov worker with task payload", "passes": false },
+    { "id": "SH-002", "name": "Code fixer agent: code-fixer-agent.js — Claude Code SDK session that reads error log + file, generates fix, commits it", "passes": false },
+    { "id": "SH-003", "name": "Service monitor: service-monitor.js polls all ports (3100,3003,3102,3105,3005,3006,3007,3004,3106,8090,3333) every 30s", "passes": false },
+    { "id": "SH-004", "name": "Auto-restart: if port down >2min, call watchdog-safari.sh restart {service}; if fails 3x → trigger code-fixer-agent.js", "passes": false },
+    { "id": "SH-005", "name": "Overstory spec files: .overstory/specs/code-fixer.yaml, .overstory/specs/service-healer.yaml with agent role definitions", "passes": false },
+    { "id": "SH-006", "name": "harness/prompts/code-fixer.md: Claude Code SDK prompt — reads logs, identifies root cause, edits file, runs node --check, commits", "passes": false },
+    { "id": "SH-007", "name": "launch-self-healing.sh: starts service-monitor.js + overstory-bridge.js + ensures doctor-daemon.js running", "passes": false },
+    { "id": "SH-008", "name": "Backend route: GET /api/healing/status — { monitored_services: [], recent_heals: [], bridge_status, overstory_agents: 0 }", "passes": false },
+    { "id": "SH-009", "name": "Healing metrics: track heal attempts, success rate, MTTR in healing-stats.json; alert if success rate <50%", "passes": false },
+    { "id": "SH-010", "name": "Dashboard panel: Self-Healing section showing service status grid (green/red per port) + recent auto-heals list", "passes": false }
+  ]
+}

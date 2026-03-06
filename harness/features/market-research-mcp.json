@@ -1,0 +1,16 @@
+{
+  "features": [
+    {"id":"MRM-001","name":"Scaffold packages/market-research/src/api/mcp-server.ts with McpServer boilerplate (do NOT modify existing src/mcp/server.ts)","passes":true,"status":"completed"},
+    {"id":"MRM-002","name":"Implement market_research_is_ready — GET /health, returns {ready, port, timestamp}","passes":true,"status":"completed"},
+    {"id":"MRM-003","name":"Port existing 6 tools from src/mcp/server.ts with market_research_ prefix","passes":true,"status":"completed"},
+    {"id":"MRM-004","name":"Implement market_research_niche_pipeline — full single-niche collection across all platforms","passes":true,"status":"completed"},
+    {"id":"MRM-005","name":"Implement market_research_full_multi_niche — runs niche_pipeline for array of niches","passes":true,"status":"completed"},
+    {"id":"MRM-006","name":"Implement market_research_all_platforms — cross-platform search for single keyword","passes":true,"status":"completed"},
+    {"id":"MRM-007","name":"Implement market_research_ingest — stores raw research result into Supabase","passes":true,"status":"completed"},
+    {"id":"MRM-008","name":"Implement market_research_get_stored — query stored research by niche/platform/date","passes":true,"status":"completed"},
+    {"id":"MRM-009","name":"Set 60s timeout on all long-running research calls","passes":true,"status":"completed"},
+    {"id":"MRM-010","name":"Structured error handling: SERVICE_DOWN, RATE_LIMITED, TIMEOUT codes","passes":true,"status":"completed"},
+    {"id":"MRM-011","name":"Register server on stdio transport + export for MCP client consumption","passes":true,"status":"completed"},
+    {"id":"MRM-012","name":"Add to packages/market-research/package.json: mcp-server entrypoint script","passes":true,"status":"completed"}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "features": [
+    { "id": "DASH-001", "name": "/live page: real-time scrolling activity feed via SSE from orchestrator-activity.jsonl", "passes": true, "status": "completed" },
+    { "id": "DASH-002", "name": "/queue page: table of pending/active/completed tasks from Supabase company_tasks with status badges", "passes": true, "status": "completed" },
+    { "id": "DASH-003", "name": "/agents page: card per agent (engineering, marketing, ops) with status, last action, tasks today count", "passes": true, "status": "completed" },
+    { "id": "DASH-004", "name": "/metrics page: daily summary — tasks completed, success rate, commits pushed, posts published", "passes": true, "status": "completed" },
+    { "id": "DASH-005", "name": "SSE endpoint: GET /api/stream/activity — tails orchestrator-activity.jsonl and pushes new lines as SSE events", "passes": true, "status": "completed" },
+    { "id": "DASH-006", "name": "Activity line renderer: color-coded by agent type (blue=engineering, green=marketing, yellow=ops, red=error)", "passes": true, "status": "completed" },
+    { "id": "DASH-007", "name": "Auto-scroll live feed with pause-on-hover behavior (like a terminal feed)", "passes": true, "status": "completed" },
+    { "id": "DASH-008", "name": "Filter bar on /live: filter feed by agent type (All / Engineering / Marketing / Ops) and status (Success / Error)", "passes": true, "status": "completed" },
+    { "id": "DASH-009", "name": "Recent commits widget on /engineering: last 10 Git commits across repos from engineering-agent.jsonl", "passes": true, "status": "completed" },
+    { "id": "DASH-010", "name": "Deploy status widget: live Vercel deployment status per service (green=READY, yellow=BUILDING, red=ERROR)", "passes": true, "status": "completed" },
+    { "id": "DASH-011", "name": "Test coverage trend: feature pass count over time rendered as a sparkline chart (Recharts)", "passes": true, "status": "completed" },
+    { "id": "DASH-012", "name": "Recent posts widget on /marketing: last 10 posts with platform icon, content preview, engagement stats", "passes": true, "status": "completed" },
+    { "id": "DASH-013", "name": "Engagement chart: 7-day line chart of likes + views per platform (Twitter/IG/Threads) using Recharts", "passes": true, "status": "completed" },
+    { "id": "DASH-014", "name": "Top performer card: best post this week with hook text, platform, metrics, and classification label", "passes": true, "status": "completed" },
+    { "id": "DASH-015", "name": "ACD health widget: queue PID alive, heartbeat age, current repo, % complete from ACD queue-status.json", "passes": true, "status": "completed" },
+    { "id": "DASH-016", "name": "Safari services status grid: green/red health indicator per port (3003/3005/3007/3106) via /health polling", "passes": true, "status": "completed" },
+    { "id": "DASH-017", "name": "Orchestrator uptime counter: time since last restart, formatted as '2d 4h 12m'", "passes": true, "status": "completed" },
+    { "id": "DASH-018", "name": "API: GET /api/status returns full JSON snapshot of all panels for programmatic / embedding use", "passes": true, "status": "completed" },
+    { "id": "DASH-019", "name": "Mobile-responsive layout with Tailwind CSS (grid collapses to single column on mobile)", "passes": true, "status": "completed" },
+    { "id": "DASH-020", "name": "Dark mode terminal aesthetic: dark background (#0d0d0d), monospace font for activity feed, colored badges", "passes": true, "status": "completed" }
+  ]
+}

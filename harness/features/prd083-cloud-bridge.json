@@ -1,0 +1,18 @@
+{
+  "prd": "PRD-083",
+  "name": "Cloud <-> Local Request Bridge",
+  "priority": 7,
+  "targetPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness",
+  "features": [
+    { "id": "CB-001", "name": "Supabase migration: browser_command_queue table (id, platform, action, params jsonb, status, priority, created_at, claimed_at, completed_at)", "passes": true, "status": "completed" },
+    { "id": "CB-002", "name": "Supabase migration: browser_results table (id, command_id, platform, action, result jsonb, created_at)", "passes": true, "status": "completed" },
+    { "id": "CB-003", "name": "Cloud bridge daemon: cloud-bridge.js polls browser_command_queue every 10s, claims rows, routes to correct local service", "passes": true, "status": "completed" },
+    { "id": "CB-004", "name": "Route handlers: instagram->:3005, twitter->:3003, tiktok->:3006, threads->:3004, linkedin->chrome-search.js, upwork->safari", "passes": true, "status": "completed" },
+    { "id": "CB-005", "name": "Result writer: after each command, INSERT into browser_results + UPDATE command status=done/failed", "passes": true, "status": "completed" },
+    { "id": "CB-006", "name": "Rate limiter: max 100 commands/hour, skip excess with status=rate_limited, resume next window", "passes": true, "status": "completed" },
+    { "id": "CB-007", "name": "Command allowlist validation: only known platform+action combos accepted, unknown commands set status=rejected", "passes": true, "status": "completed" },
+    { "id": "CB-008", "name": "launch-cloud-bridge.sh: start|stop|status with 10s polling and PID management", "passes": true, "status": "completed" },
+    { "id": "CB-009", "name": "Backend route: GET /api/bridge/status — { pending, processing, done_today, failed_today, rate_limit_remaining }", "passes": true, "status": "completed" },
+    { "id": "CB-010", "name": "Dashboard panel: Cloud Bridge section showing command throughput + recent command log table", "passes": true, "status": "completed" }
+  ]
+}

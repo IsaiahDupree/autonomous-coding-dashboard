@@ -621,6 +621,70 @@
         </div>
       </div>
 
+      <!-- Business Goal Status Panel -->
+      <div id="goal-status-panel" style="margin-top:20px;border:1px solid #1e3a5f;border-radius:8px;padding:16px;background:#0a1628;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <h3 style="margin:0;color:#64b5f6;font-size:15px;">🎯 Business Goal Status</h3>
+          <button onclick="loadGoalStatus()" style="background:#0d2040;color:#64b5f6;border:1px solid #1e3a5f;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Refresh</button>
+        </div>
+
+        <!-- Revenue + CRM progress bars -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px;color:#90a4ae;margin-bottom:4px;">Revenue / $5K target</div>
+            <div style="background:#0d2040;border-radius:4px;height:18px;position:relative;overflow:hidden;">
+              <div id="gs-rev-bar" style="background:#4caf50;height:100%;width:0%;transition:width 0.5s;"></div>
+            </div>
+            <div id="gs-rev-label" style="font-size:11px;color:#64b5f6;margin-top:3px;">loading…</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#90a4ae;margin-bottom:4px;">CRM Contacts / 1K target</div>
+            <div style="background:#0d2040;border-radius:4px;height:18px;position:relative;overflow:hidden;">
+              <div id="gs-crm-bar" style="background:#2196f3;height:100%;width:0%;transition:width 0.5s;"></div>
+            </div>
+            <div id="gs-crm-label" style="font-size:11px;color:#64b5f6;margin-top:3px;">loading…</div>
+          </div>
+        </div>
+
+        <!-- Sessions today -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
+          <div style="background:#0d2040;border-radius:6px;padding:8px;text-align:center;">
+            <div id="gs-sess-total" style="font-size:20px;font-weight:bold;color:#fff;">—</div>
+            <div style="font-size:10px;color:#90a4ae;">Sessions Today</div>
+          </div>
+          <div style="background:#0d2040;border-radius:6px;padding:8px;text-align:center;">
+            <div id="gs-sess-ok" style="font-size:20px;font-weight:bold;color:#4caf50;">—</div>
+            <div style="font-size:10px;color:#90a4ae;">Completed</div>
+          </div>
+          <div style="background:#0d2040;border-radius:6px;padding:8px;text-align:center;">
+            <div id="gs-sess-fail" style="font-size:20px;font-weight:bold;color:#f44336;">—</div>
+            <div style="font-size:10px;color:#90a4ae;">Failed</div>
+          </div>
+          <div style="background:#0d2040;border-radius:6px;padding:8px;text-align:center;">
+            <div id="gs-cmd-today" style="font-size:20px;font-weight:bold;color:#2196f3;">—</div>
+            <div style="font-size:10px;color:#90a4ae;">Cloud Cmds</div>
+          </div>
+        </div>
+
+        <!-- Safari services + Daemons -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px;color:#90a4ae;margin-bottom:6px;">Safari Services</div>
+            <div id="gs-safari-ports" style="font-size:11px;line-height:1.7;"></div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#90a4ae;margin-bottom:6px;">Platform Breakdown (today)</div>
+            <div id="gs-platform-breakdown" style="font-size:11px;line-height:1.7;"></div>
+          </div>
+        </div>
+
+        <!-- Recent cloud commands -->
+        <div>
+          <div style="font-size:11px;color:#90a4ae;margin-bottom:6px;">Recent Safari↔Cloud Commands</div>
+          <div id="gs-cmd-list" style="font-size:11px;font-family:monospace;color:#b0bec5;line-height:1.7;"></div>
+        </div>
+      </div>
+
       <!-- LinkedIn Hub Panel -->
       <div id="linkedin-hub-panel" class="panel" style="margin-top:20px;border:1px solid #2d4a2d;border-radius:8px;padding:16px;background:#0d1f0d;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
@@ -1803,6 +1867,65 @@
         alert(`Copied to clipboard: ${text}`);
       });
     }
+
+    // ── Goal Status Panel ────────────────────────────────────────────────────
+    async function loadGoalStatus() {
+      try {
+        const res = await fetch('/api/goal-status');
+        if (!res.ok) return;
+        const d = await res.json();
+
+        // Revenue bar
+        const revPct = Math.min(100, Math.round((d.revenue.current / d.revenue.target) * 100));
+        document.getElementById('gs-rev-bar').style.width = revPct + '%';
+        document.getElementById('gs-rev-label').textContent = `$${d.revenue.current.toLocaleString()} / $${d.revenue.target.toLocaleString()} (${revPct}%)`;
+
+        // CRM bar
+        const crmPct = Math.min(100, Math.round((d.crm.current / d.crm.target) * 100));
+        document.getElementById('gs-crm-bar').style.width = crmPct + '%';
+        document.getElementById('gs-crm-label').textContent = `${d.crm.current.toLocaleString()} / ${d.crm.target.toLocaleString()} (${crmPct}%)`;
+
+        // Session counts
+        document.getElementById('gs-sess-total').textContent = d.sessions_today.total;
+        document.getElementById('gs-sess-ok').textContent = d.sessions_today.completed;
+        document.getElementById('gs-sess-fail').textContent = d.sessions_today.failed;
+        document.getElementById('gs-cmd-today').textContent = d.cmd_queue.completed_today;
+
+        // Safari ports
+        const ports = d.safari_services.ports || [];
+        document.getElementById('gs-safari-ports').innerHTML = ports.map(p =>
+          `<span style="color:${p.up ? '#4caf50' : '#f44336'}">${p.up ? '●' : '○'}</span> :${p.port} ${p.name}`
+        ).join('<br>') + `<br><b style="color:#64b5f6">${d.safari_services.up}/${d.safari_services.total} up</b>`;
+
+        // Platform breakdown
+        const bp = d.sessions_today.by_platform || {};
+        document.getElementById('gs-platform-breakdown').innerHTML = Object.entries(bp).map(([k, v]) =>
+          `<span style="color:#fff">${v}</span> ${k}`
+        ).join('<br>') || '<span style="color:#546e7a">no sessions yet</span>';
+
+        // Recent commands
+        const cmds = d.cmd_queue.recent || [];
+        document.getElementById('gs-cmd-list').innerHTML = cmds.map(c =>
+          `<span style="color:${c.status === 'completed' ? '#4caf50' : '#f44336'}">${c.status?.padEnd ? c.status : c.status}</span> ${c.platform?.padEnd ? c.platform : c.platform} ${c.action} <span style="color:#546e7a">${c.created_at?.slice(11,19)||''}</span>`
+        ).join('<br>') || '<span style="color:#546e7a">no data</span>';
+
+      } catch (e) {
+        console.error('loadGoalStatus error:', e);
+      }
+    }
+
+    // Auto-load when Queue tab is active
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load on tab switch
+      document.querySelectorAll('[data-tab="queue"]').forEach(btn => {
+        btn.addEventListener('click', () => setTimeout(loadGoalStatus, 200));
+      });
+      // Also poll every 2 minutes
+      setInterval(() => {
+        const queueTab = document.getElementById('tab-queue');
+        if (queueTab && queueTab.style.display !== 'none') loadGoalStatus();
+      }, 120_000);
+    });
 
     // ── LinkedIn Hub ─────────────────────────────────────────────────────────
     let liCurrentQueueType = 'discovery';

@@ -1,0 +1,24 @@
+{
+  "features": [
+    {"id":"SDK-IMPL-001","name":"Create claude_launcher.py with DOMAIN_AGENTS dict — 8 agent definitions (social-media, acquisition, revenue, content, product, intake, research, planning, builder)","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-002","name":"Implement launch_sdk_session(agent_type, goal, context, task_id, project_dir) with Semaphore + claude-agent-sdk query() async loop","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-003","name":"Implement claude_code_launcher_loop() — polls actp_agent_tasks for use_claude_code=true rows, claims and dispatches","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-004","name":"Implement _handle_task(db, task) — dispatches to launch_sdk_session, updates status to completed/failed","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-005","name":"Add config vars to config.py: CLAUDE_CODE_MODEL, CLAUDE_CODE_MAX_CONCURRENT, CLAUDE_CODE_SESSION_TIMEOUT, CLAUDE_CODE_MAX_BUDGET_USD, CLAUDE_CODE_AVAILABLE, CLIENT_PROJECTS_DIR","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-006","name":"Create Supabase migration for actp_agent_tasks table (id, agent_type, goal, context, status, use_claude_code, priority, result, created_at, completed_at)","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-007","name":"Add SdkAgentExecutor class (#18) to workflow_executors.py with check_available(), execute(), and validate_output()","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-008","name":"Register SdkAgentExecutor in register_all() at bottom of workflow_executors.py","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-009","name":"Add _sdk_engine() to AGENT2_ENGINES dict in agent_swarm.py — maps swarm roles to DOMAIN_AGENTS via role_map","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-010","name":"Update coding agent profile in agent_swarm.py to use engine='claude_sdk' (was claude_code_unstructured)","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-011","name":"Implement _sdk_failure_hook(agent_type, error, task_id) — bridges SDK failures to SelfHealingLoop via swarm state","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-012","name":"Wire AgentHealthMonitor.on_post_tool_failure → _sdk_failure_hook in launch_sdk_session()","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-013","name":"Implement write_sdk_checkpoint(task_id, stage, data) — writes to ~/openclaw-shared/handoffs.jsonl and context.json","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-014","name":"Wire write_sdk_checkpoint() calls at each pipeline stage completion in launch_sdk_session()","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-015","name":"Create sdk_pipeline.py with run_client_pipeline(proposal_text, project_dir) — full 5-stage orchestrator (intake→onboard→research→plan→build)","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-016","name":"Implement resume_pipeline(project_dir) — detects last checkpoint file, resumes from next stage","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-017","name":"Implement AgentHealthMonitor dataclass with on_pre_tool_use (dangerous cmd block), on_post_tool_failure (error log), on_subagent_stop (tier-2 respawn)","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-018","name":"Implement build_self_healing_options(project_dir, monitor) — returns ClaudeAgentOptions with full hook configuration","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-019","name":"Seed client-proposal-to-delivery workflow definition (6 steps: intake, research, planning, review-plan, build-phase-1, deliver) to actp_workflow_definitions via Supabase","passes":true,"status":"completed"},
+    {"id":"SDK-IMPL-020","name":"Add ENABLE_CLAUDE_CODE_LAUNCHER=false flag to worker.py conditional + .env.example with all new SDK env vars","passes":true,"status":"completed"}
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "features": [
+    {
+      "id": "SDK-TEST-001",
+      "name": "Create test_claude_launcher.py: test_domain_agents_defined \u2014 assert all 8 DOMAIN_AGENTS keys present with description, prompt, tools, model fields",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-002",
+      "name": "test_launch_sdk_session_mock \u2014 mock claude_agent_sdk.query(), verify ClaudeAgentOptions built with correct model/max_turns/permission_mode, verify ok=True returned",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-003",
+      "name": "test_semaphore_limits \u2014 verify _get_semaphore returns limit=1 for content-agent (COST_LIMIT_DOMAINS) and MAX_CONCURRENT for others",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-004",
+      "name": "test_failure_hook_updates_swarm_state \u2014 mock get_swarm(), call _sdk_failure_hook('builder-agent', 'timeout', 'task-1'), assert swarm coding agent state.last_error set",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-005",
+      "name": "test_write_sdk_checkpoint \u2014 call write_sdk_checkpoint('t1','intake',{result:'ok'}), assert ~/openclaw-shared/handoffs.jsonl has entry, context.json has key 'sdk_pipeline_t1'",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-006",
+      "name": "Create test_sdk_pipeline.py: test_resume_empty_dir \u2014 resume_pipeline on fresh tempdir returns stage='intake' (no checkpoint)",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-007",
+      "name": "test_resume_after_intake_checkpoint \u2014 write intake checkpoint to tempdir, assert resume_pipeline returns stage='research'",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-008",
+      "name": "test_run_pipeline_mock \u2014 mock launch_sdk_session to return ok=True for all calls, run_client_pipeline('test proposal', tempdir) completes all 5 stages",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-009",
+      "name": "test_run_pipeline_stage_failure \u2014 mock launch_sdk_session to fail on 'research', assert PipelineError raised with stage='research' and checkpoint at 'intake' preserved",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-010",
+      "name": "Create test_sdk_executor.py: test_executor_task_type \u2014 SdkAgentExecutor().task_type == 'sdk_agent'",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-011",
+      "name": "test_executor_check_available_true \u2014 set ANTHROPIC_API_KEY + mock shutil.which('claude') returns path, assert check_available() returns True",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-012",
+      "name": "test_executor_check_available_false \u2014 clear ANTHROPIC_API_KEY, assert check_available() returns False",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-013",
+      "name": "test_executor_validate_output_ok \u2014 validate_output({'ok': True, 'result': 'done'}) returns []",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-014",
+      "name": "test_executor_validate_output_failure \u2014 validate_output({'ok': False, 'error': 'timeout'}) returns list with 1 error string containing 'timeout'",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-015",
+      "name": "Create test_sdk_swarm.py: test_sdk_engine_registered \u2014 import AGENT2_ENGINES from agent_swarm, assert 'claude_sdk' key present",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-016",
+      "name": "test_sdk_engine_role_map \u2014 mock launch_sdk_session, call _sdk_engine with packet tool_name='coding', assert agent_type='builder-agent' passed",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-017",
+      "name": "test_coding_agent_profile_engine \u2014 find coding AgentProfile in AGENT_PROFILES, assert engine == 'claude_sdk'",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-018",
+      "name": "test_sdk_engine_returns_execution_result \u2014 mock ok=True result, assert _sdk_engine returns ExecutionResult with status='completed'",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-019",
+      "name": "test_sdk_engine_failure_returns_failed_result \u2014 mock ok=False, assert _sdk_engine returns ExecutionResult with status='failed' and warnings non-empty",
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SDK-TEST-020",
+      "name": "Integration smoke test: test_config_sdk_vars \u2014 import config, assert all 6 SDK vars present (CLAUDE_CODE_MODEL, MAX_CONCURRENT, SESSION_TIMEOUT, MAX_BUDGET_USD, CLAUDE_CODE_AVAILABLE, CLIENT_PROJECTS_DIR)",
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

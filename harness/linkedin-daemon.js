@@ -390,7 +390,7 @@ async function crmUpsert(prospect, icpScore, icpReasons, goals) {
 
 // ── Load state / queue ────────────────────────────────────────────────────────
 function loadState() {
-  return readJson(STATE_FILE, {
+  const defaults = {
     running: false,
     paused: false,
     cycleCount: 0,
@@ -401,7 +401,10 @@ function loadState() {
     lastCycleAt: null,
     nextCycleAt: null,
     startedAt: null,
-  });
+    seenUrls: [],           // persistent dedup across restarts
+  };
+  const saved = readJson(STATE_FILE, null);
+  return saved ? { ...defaults, ...saved } : defaults;
 }
 
 function saveState(state) {

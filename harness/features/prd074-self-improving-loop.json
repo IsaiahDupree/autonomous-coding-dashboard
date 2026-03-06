@@ -1,0 +1,24 @@
+{
+  "features": [
+    { "id": "SELF-001", "name": "Reflector: after each task Claude evaluates result and extracts structured lesson { insight, category, confidence, affects_agent }", "passes": true, "status": "completed" },
+    { "id": "SELF-002", "name": "Failure analyzer: on task failure, deep-dive root cause analysis — was it prompt, context, tool, or environment?", "passes": true, "status": "completed" },
+    { "id": "SELF-003", "name": "Success pattern extractor: on task success, identify what specifically worked (hook, structure, tool sequence)", "passes": true, "status": "completed" },
+    { "id": "SELF-004", "name": "Confidence scorer: rate lesson confidence 1-5; only apply lessons to prompts if confidence >= 4", "passes": true, "status": "completed" },
+    { "id": "SELF-005", "name": "Daily note writer: append today's lessons to ~/.memory/vault/DAILY-NOTES/YYYY-MM-DD.md (Layer 2 memory)", "passes": true, "status": "completed" },
+    { "id": "SELF-006", "name": "Knowledge graph writer: write reusable facts to ~/.memory/vault/KNOWLEDGE-GRAPH.md under correct PARA section (Layer 1)", "passes": true, "status": "completed" },
+    { "id": "SELF-007", "name": "Tacit knowledge writer: write learned rules/patterns to ~/.memory/vault/TACIT-KNOWLEDGE.md (Layer 3)", "passes": true, "status": "completed" },
+    { "id": "SELF-008", "name": "Lesson deduplication: before writing, check if similar lesson exists; update existing rather than duplicate", "passes": true, "status": "completed" },
+    { "id": "SELF-009", "name": "Prompt differ: given new lesson, Claude proposes minimal unified diff to relevant agent prompt file in harness/prompts/", "passes": true, "status": "completed" },
+    { "id": "SELF-010", "name": "Prompt updater: apply approved diffs to harness/prompts/*.md files (only confidence >= 4)", "passes": true, "status": "completed" },
+    { "id": "SELF-011", "name": "Prompt version control: git commit each prompt change with message 'refine(prompt): <lesson summary>'", "passes": true, "status": "completed" },
+    { "id": "SELF-012", "name": "Rollback guard: track per-prompt success rate; revert prompt change if failure rate increases >10% after update", "passes": true, "status": "completed" },
+    { "id": "SELF-013", "name": "Next-task proposer: reflector generates 1-3 follow-up tasks and writes them to company_tasks queue with reason field", "passes": true, "status": "completed" },
+    { "id": "SELF-014", "name": "Task priority scorer: assign P0/P1/P2 to proposed follow-up tasks based on impact estimate from Claude", "passes": true, "status": "completed" },
+    { "id": "SELF-015", "name": "Dedup check: before enqueuing follow-up task, verify not already in queue or completed within last 7 days", "passes": true, "status": "completed" },
+    { "id": "SELF-016", "name": "Weekly digest: every Sunday Claude synthesizes week's lessons into per-agent strategy update written to knowledge base", "passes": true, "status": "completed" },
+    { "id": "SELF-017", "name": "Performance trend tracker: track per-agent success rate over rolling 7-day window; write alert if declining >15%", "passes": true, "status": "completed" },
+    { "id": "SELF-018", "name": "Knowledge promotion: lessons referenced 3+ times promoted into permanent agent system context via memory_promote_candidates()", "passes": true, "status": "completed" },
+    { "id": "SELF-019", "name": "Reflection log: append each reflection to logs/self-improve.jsonl with full input (task+result) and output (lessons)", "passes": true, "status": "completed" },
+    { "id": "SELF-020", "name": "Reflection CLI: python self_improve.py --reflect --task-id <id> for manual replay; --digest for weekly summary", "passes": true, "status": "completed" }
+  ]
+}

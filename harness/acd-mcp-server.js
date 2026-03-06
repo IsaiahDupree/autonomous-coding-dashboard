@@ -2,7 +2,8 @@
 
 import { createInterface } from 'readline';
 import { createServer } from 'http';
-import { existsSync, readFileSync, writeFileSync, appendFileSync, mkdirSync, createWriteStream, unlinkSync, readdirSync, statSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, appendFileSync, mkdirSync, createWriteStream, unlinkSync, readdirSync, statSync, openSync, readSync, closeSync } from 'fs';
+import * as rateCoord from './rate-limit-coordinator.js';
 import { join, basename, resolve, dirname } from 'path';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
@@ -18,6 +19,7 @@ if (process.argv.includes('--version')) {
 }
 
 const ACD_ROOT = resolve(__dirname, '..');
+const GOALS_PATH = process.env.GOALS_PATH || join(os.homedir(), 'Documents', 'Software', 'business-goals.json');
 
 // ─── Tool definitions ────────────────────────────────────────────────────────
 
@@ -132,7 +134,7 @@ const TOOLS = [
         slug: { type: 'string', description: 'Project slug' },
         targetPath: { type: 'string', description: 'Absolute path to target repo (sets Claude cwd)' },
         prdContent: { type: 'string', description: 'Optional: PRD content to write' },
-        model: { type: 'string', description: 'Claude model (default: claude-sonnet-4-5-20250929)' },
+        model: { type: 'string', description: 'Claude model (default: claude-sonnet-4-6)' },
         overwritePrd: { type: 'boolean', description: 'Overwrite existing PRD (default: false)' }
       },
       required: ['slug', 'targetPath']
@@ -193,7 +195,7 @@ const TOOLS = [
         targetPath: { type: 'string', description: 'Absolute path to target repo' },
         schedule: { type: 'string', description: 'once | daily | weekly | cron-string' },
         runAt: { type: 'string', description: 'ISO 8601 datetime for once jobs (e.g. 2026-03-04T09:00:00Z)' },
-        model: { type: 'string', description: 'Default: claude-sonnet-4-5-20250929' },
+        model: { type: 'string', description: 'Default: claude-sonnet-4-6' },
         enabled: { type: 'boolean', description: 'Default: true' }
       },
       required: ['slug', 'targetPath']
@@ -264,6 +266,41 @@ const TOOLS = [
         context: { type: 'string', description: 'Optional extra context to inject into variant generation' }
       },
       required: ['type']
+    }
+  },
+  {
+    name: 'acd_restart',
+    description: 'Stop a running ACD harness process and immediately re-start it with the same PRD and features',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        slug: { type: 'string', description: 'Project slug to restart' },
+        targetPath: { type: 'string', description: 'Absolute path to target repo (required — used to re-launch)' },
+        model: { type: 'string', description: 'Claude model (default: claude-sonnet-4-6)' },
+        force: { type: 'boolean', description: 'Use SIGKILL for the stop phase (default: false)' }
+      },
+      required: ['slug', 'targetPath']
+    }
+  },
+  {
+    name: 'acd_prune_pids',
+    description: 'Scan harness/pids/ for stale .pid files belonging to dead processes and remove them. Returns count pruned.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+      required: []
+    }
+  },
+  {
+    name: 'acd_get_log_errors',
+    description: 'Read a harness log and return only lines matching error/fail/exception patterns. Useful for diagnosing stuck or failed runs.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        slug: { type: 'string' },
+        lines: { type: 'number', description: 'Max error lines to return (default: 20)' }
+      },
+      required: ['slug']
     }
   }
 ];
@@ -498,10 +535,24 @@ function acdLogs(params) {
   }
 
   try {
-    const content = readFileSync(logFile, 'utf8');
-    const allLines = content.split('\n');
-    const tailLines = allLines.slice(-lines);
-    return { content: [{ type: 'text', text: tailLines.join('\n') }] };
+    const stat = statSync(logFile);
+    // Read last 32KB max — avoids loading multi-MB log files into memory
+    const chunkSize = Math.min(stat.size, 32768);
+    let text;
+    if (chunkSize === 0) {
+      text = '';
+    } else {
+      const fd = openSync(logFile, 'r');
+      const buf = Buffer.alloc(chunkSize);
+      readSync(fd, buf, 0, chunkSize, stat.size - chunkSize);
+      closeSync(fd);
+      const chunk = buf.toString('utf8');
+      const allLines = chunk.split('\n');
+      // Drop first line if we didn't start from byte 0 (may be a partial line)
+      const startFrom = stat.size > chunkSize ? 1 : 0;
+      text = allLines.slice(startFrom).slice(-lines).join('\n');
+    }
+    return { content: [{ type: 'text', text }] };
   } catch (e) {
     return { content: [{ type: 'text', text: `Error reading log: ${e.message}` }] };
   }
@@ -702,7 +753,8 @@ ${prdContent}`;
         max_tokens: 4096,
         system: systemPrompt,
         messages: [{ role: 'user', content: userPrompt }]
-      })
+      }),
+      signal: AbortSignal.timeout(60000)
     });
 
     if (!response.ok) {
@@ -727,10 +779,13 @@ ${prdContent}`;
       };
     }
 
-    // Parse JSON from response
+    // Parse JSON from response — strip markdown code fences if present
     let featuresData;
     try {
-      featuresData = JSON.parse(content);
+      let cleanContent = content.trim();
+      const fenceMatch = cleanContent.match(/^```(?:json)?\s*([\s\S]*?)```\s*$/);
+      if (fenceMatch) cleanContent = fenceMatch[1].trim();
+      featuresData = JSON.parse(cleanContent);
     } catch (e) {
       return {
         content: [{
@@ -813,7 +868,7 @@ async function acdDispatch(params) {
     promptPath: prdPath,
     featureListPath,
     targetPath,
-    model: model || 'claude-sonnet-4-5-20250929'
+    model: model || 'claude-sonnet-4-6'
   });
 
   const startData = JSON.parse(startResult.content[0].text);
@@ -1010,7 +1065,8 @@ async function acdReadMemory(params) {
         headers: {
           'apikey': supabaseKey,
           'Authorization': `Bearer ${supabaseKey}`
-        }
+        },
+        signal: AbortSignal.timeout(10000)
       });
       if (response.ok) {
         const data = await response.json();
@@ -1059,7 +1115,8 @@ async function acdWriteMemory(params) {
           'Authorization': `Bearer ${supabaseKey}`,
           'Prefer': 'return=minimal'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(10000)
       });
 
       if (!response.ok) {
@@ -1164,7 +1221,7 @@ async function acdHeartbeatStatus() {
 // ─── Tool: acd_schedule ──────────────────────────────────────────────────────
 
 function acdSchedule(params) {
-  const { slug, targetPath, schedule = 'once', runAt, model = 'claude-sonnet-4-5-20250929', enabled = true } = params;
+  const { slug, targetPath, schedule = 'once', runAt, model = 'claude-sonnet-4-6', enabled = true } = params;
 
   const schedulePath = join(ACD_ROOT, 'harness', 'schedule.json');
 
@@ -1358,7 +1415,7 @@ function acdStop(params) {
 // ─── Tool: acd_get_goals ─────────────────────────────────────────────────────
 
 function acdGetGoals() {
-  const goalsPath = '/Users/isaiahdupree/Documents/Software/business-goals.json';
+  const goalsPath = GOALS_PATH;
 
   if (!existsSync(goalsPath)) {
     return {
@@ -1402,7 +1459,7 @@ function acdGetGoals() {
 
 function acdUpdateGoals(params) {
   const { path, value } = params;
-  const goalsPath = '/Users/isaiahdupree/Documents/Software/business-goals.json';
+  const goalsPath = GOALS_PATH;
 
   if (!existsSync(goalsPath)) {
     return {
@@ -1463,7 +1520,7 @@ function acdUpdateGoals(params) {
 
 async function acdOrchestrate(params) {
   const { focus } = params;
-  const goalsPath = '/Users/isaiahdupree/Documents/Software/business-goals.json';
+  const goalsPath = GOALS_PATH;
 
   // 1. Read business goals
   let goals;
@@ -1724,7 +1781,7 @@ async function acdParallelPlan(params) {
 
   // Read business goals for ICP and offers context
   let goalsContext = {};
-  const goalsPath = join(ACD_ROOT, 'business-goals.json');
+  const goalsPath = GOALS_PATH;
   if (existsSync(goalsPath)) {
     try {
       const g = JSON.parse(readFileSync(goalsPath, 'utf8'));
@@ -1767,6 +1824,146 @@ async function acdParallelPlan(params) {
   };
 }
 
+// ─── Tool: acd_restart ───────────────────────────────────────────────────────
+
+function acdRestart(params) {
+  const { slug, targetPath, model, force = false } = params;
+  const harnessDir = join(ACD_ROOT, 'harness');
+
+  // Stop existing process (ok if not running)
+  const stopResult = acdStop({ slug, force });
+  const stopData = JSON.parse(stopResult.content[0].text);
+
+  // Find PRD path
+  const prdPath = join(harnessDir, 'prompts', `${slug}.md`);
+  if (!existsSync(prdPath)) {
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({ error: 'PRD_NOT_FOUND', prdPath, message: 'Cannot restart without a PRD file' })
+      }]
+    };
+  }
+
+  // Find feature list path
+  const featureCandidates = [
+    join(harnessDir, `${slug}-features.json`),
+    join(harnessDir, 'features', `${slug}.json`)
+  ];
+  const featureListPath = featureCandidates.find(p => existsSync(p));
+  if (!featureListPath) {
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({ error: 'FEATURES_NOT_FOUND', checked: featureCandidates })
+      }]
+    };
+  }
+
+  // Re-start
+  const startResult = acdStart({ slug, promptPath: prdPath, featureListPath, targetPath, model });
+  const startData = JSON.parse(startResult.content[0].text);
+
+  return {
+    content: [{
+      type: 'text',
+      text: JSON.stringify({
+        restarted: !startData.error,
+        previouslyStopped: stopData.stopped !== false,
+        pid: startData.pid,
+        slug,
+        logFile: startData.logFile,
+        error: startData.error || null
+      })
+    }]
+  };
+}
+
+// ─── Tool: acd_prune_pids ────────────────────────────────────────────────────
+
+function acdPrunePids() {
+  const pidsDir = join(ACD_ROOT, 'harness', 'pids');
+  if (!existsSync(pidsDir)) {
+    return { content: [{ type: 'text', text: JSON.stringify({ pruned: 0, message: 'pids directory not found' }) }] };
+  }
+
+  const removed = [];
+  const kept = [];
+  let pruned = 0;
+
+  try {
+    const files = readdirSync(pidsDir).filter(f => f.endsWith('.pid'));
+    for (const file of files) {
+      const slug = basename(file, '.pid');
+      const pidFile = join(pidsDir, file);
+      try {
+        const pid = parseInt(readFileSync(pidFile, 'utf8').trim(), 10);
+        if (isNaN(pid)) {
+          unlinkSync(pidFile);
+          removed.push({ slug, reason: 'invalid pid' });
+          pruned++;
+          continue;
+        }
+        try {
+          process.kill(pid, 0);
+          kept.push({ slug, pid });
+        } catch (_) {
+          unlinkSync(pidFile);
+          removed.push({ slug, pid, reason: 'process dead' });
+          pruned++;
+        }
+      } catch (e) {
+        removed.push({ slug, reason: `read error: ${e.message}` });
+      }
+    }
+  } catch (e) {
+    return { content: [{ type: 'text', text: JSON.stringify({ error: `Failed to read pids dir: ${e.message}` }) }] };
+  }
+
+  return {
+    content: [{
+      type: 'text',
+      text: JSON.stringify({ pruned, kept: kept.length, keptItems: kept, removed })
+    }]
+  };
+}
+
+// ─── Tool: acd_get_log_errors ─────────────────────────────────────────────────
+
+function acdGetLogErrors(params) {
+  const { slug, lines = 20 } = params;
+  const logFile = join(ACD_ROOT, 'harness', 'logs', `${slug}.log`);
+
+  if (!existsSync(logFile)) {
+    return { content: [{ type: 'text', text: JSON.stringify({ error: `Log not found: harness/logs/${slug}.log` }) }] };
+  }
+
+  try {
+    const stat = statSync(logFile);
+    const chunkSize = Math.min(stat.size, 131072); // read last 128KB to find errors
+    let chunk = '';
+    if (chunkSize > 0) {
+      const fd = openSync(logFile, 'r');
+      const buf = Buffer.alloc(chunkSize);
+      readSync(fd, buf, 0, chunkSize, stat.size - chunkSize);
+      closeSync(fd);
+      chunk = buf.toString('utf8');
+    }
+    const errorLines = chunk
+      .split('\n')
+      .filter(l => /error|ERROR|Error|FAIL|fail|exception|Exception|Traceback|TypeError|ReferenceError/.test(l));
+    const tail = errorLines.slice(-lines);
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({ slug, totalErrorLines: errorLines.length, lines: tail })
+      }]
+    };
+  } catch (e) {
+    return { content: [{ type: 'text', text: JSON.stringify({ error: e.message }) }] };
+  }
+}
+
 // ─── Tool dispatcher ─────────────────────────────────────────────────────────
 
 async function callTool(name, args) {
@@ -1791,6 +1988,9 @@ async function callTool(name, args) {
     case 'acd_orchestrate':       return await acdOrchestrate(args);
     case 'acd_run_cycle':         return await acdRunCycle(args);
     case 'acd_parallel_plan':     return await acdParallelPlan(args);
+    case 'acd_restart':           return acdRestart(args);
+    case 'acd_prune_pids':        return acdPrunePids();
+    case 'acd_get_log_errors':    return acdGetLogErrors(args);
     default: throw new Error(`Unknown tool: ${name}`);
   }
 }
@@ -1913,8 +2113,16 @@ const activityServer = createServer((req, res) => {
     return;
   }
 
+  if (req.url === '/api/rate-limit-status' && req.method === 'GET') {
+    const snapshot = rateCoord.getSnapshot();
+    const check = rateCoord.checkGlobalState();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ globalPause: snapshot.globalPause, processes: snapshot.processes, limited: check.limited, waitMs: check.waitMs, reason: check.reason }));
+    return;
+  }
+
   res.writeHead(404, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ error: 'Not found', routes: ['POST /api/activity-log', 'GET /api/activity-log', 'GET /api/activity-stream'] }));
+  res.end(JSON.stringify({ error: 'Not found', routes: ['POST /api/activity-log', 'GET /api/activity-log', 'GET /api/activity-stream', 'GET /api/rate-limit-status'] }));
 });
 
 activityServer.listen(ACTIVITY_PORT, '127.0.0.1', () => {
