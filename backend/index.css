@@ -1361,3 +1361,13 @@ body:has(.project-sidebar.collapsed) {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
+
+/* LinkedIn Hub */
+.li-component-card { background:#1a2a1a; border:1px solid #2d4a2d; border-radius:6px; padding:10px; font-size:13px; }
+.li-component-card .li-label { color:#888; font-size:11px; margin-bottom:4px; }
+.li-component-card .li-value { color:#e0e0e0; font-weight:bold; }
+.li-component-card .li-badge-running { color:#4CAF50; font-size:11px; }
+.li-component-card .li-badge-stopped { color:#888; font-size:11px; }
+.li-review-btn { background:#1a3a1a; color:#8bc34a; border:1px solid #2d4a2d; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:13px; }
+.li-review-btn:hover { background:#243a24; }
+.li-prospect-card { border:1px solid #2d4a2d; border-radius:6px; padding:12px; margin-bottom:10px; background:#0d1f0d; }

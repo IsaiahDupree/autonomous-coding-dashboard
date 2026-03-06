@@ -45,10 +45,28 @@ let ENABLE_METRICS_DB = true;
 
 const STATUS_FILE = path.join(__dirname, 'queue-status.json');
 const LOG_FILE = path.join(__dirname, 'queue-output.log');
+const HEARTBEAT_FILE = path.join(__dirname, 'watchdog-heartbeat.json');
 
 // Metrics tracking state
 let metricsEnabled = false;
 let sessionCounter = {};
+
+// Watchdog heartbeat state
+let heartbeatInterval = null;
+
+// Watchdog heartbeat — written every 2 min so watchdog.js can detect stalls
+function writeHeartbeat(currentRepoId, passingCount) {
+  try {
+    fs.writeFileSync(HEARTBEAT_FILE, JSON.stringify({
+      pid: process.pid,
+      ts: new Date().toISOString(),
+      currentRepo: currentRepoId || null,
+      passingCount: passingCount || 0,
+    }));
+  } catch (e) {
+    // non-fatal
+  }
+}
 
 // Logging
 function log(message, level = 'info') {
@@ -381,6 +399,19 @@ async function runQueue() {
   // Initialize metrics database
   await initMetricsDb();
 
+  // Start watchdog heartbeat (every 2 min)
+  writeHeartbeat(null, 0);
+  heartbeatInterval = setInterval(() => {
+    try {
+      const s = loadStatus();
+      const currentRepo = queue.repos.find(r => r.id === s.currentRepo);
+      const progress = currentRepo ? getRepoProgress(currentRepo) : { passing: 0 };
+      writeHeartbeat(s.currentRepo, progress.passing);
+    } catch (e) {
+      // non-fatal
+    }
+  }, 2 * 60 * 1000);
+
   // Sort repos by priority
   const repos = queue.repos
     .filter(r => r.enabled !== false)
@@ -444,6 +475,7 @@ async function runQueue() {
     saveStatus(status);
 
     const progressBefore = getRepoProgress(repo);
+    writeHeartbeat(repo.id, progressBefore.passing);
     log(`Current progress: ${progressBefore.passing}/${progressBefore.total} (${progressBefore.percent}%)`, 'info');
 
     // Track session start in metrics DB
@@ -485,6 +517,9 @@ async function runQueue() {
       gitCommit(repo.path, commitMsg);
     }
 
+    const progressAfterRepo = getRepoProgress(repo);
+    writeHeartbeat(repo.id, progressAfterRepo.passing);
+
     // Brief pause between repos (configurable)
     if (repos.indexOf(repo) < repos.length - 1) {
       log(`Pausing ${INTER_REPO_DELAY_SEC} seconds before next repo...`, 'pause');
@@ -502,6 +537,11 @@ async function runQueue() {
     const complete = isRepoComplete(repo);
     const icon = complete ? '✅' : '🔄';
     log(`${icon} ${repo.name}: ${progress.passing}/${progress.total} (${progress.percent}%)`, 'info');
+  }
+
+  if (heartbeatInterval) {
+    clearInterval(heartbeatInterval);
+    heartbeatInterval = null;
   }
 
   status.currentRepo = null;
