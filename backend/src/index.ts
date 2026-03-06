@@ -8257,6 +8257,149 @@ app.post('/api/logs/demo', (_req, res) => {
 startLogFileTailing();
 
 // ============================================
+// SORA VIDEO LEADERBOARD + NOTIFICATIONS API
+// ============================================
+
+const SORA_STATE_FILE = path.join(
+    '/Users/isaiahdupree/Documents/Software/Safari Automation',
+    'packages/services/src/sora/sora-mcp-state.json'
+);
+
+function loadSoraState(): any {
+    try { return JSON.parse(fs.readFileSync(SORA_STATE_FILE, 'utf-8')); }
+    catch { return { videos: [], notifications: [], trilogies: [] }; }
+}
+
+function saveSoraState(s: any): void {
+    fs.writeFileSync(SORA_STATE_FILE, JSON.stringify(s, null, 2));
+}
+
+function extractNiche(prompt: string): string {
+    const p = prompt.toLowerCase();
+    if (p.match(/mars|space|planet|astronaut|galaxy/)) return 'space';
+    if (p.match(/\bai\b|robot|machine learning|tech|neural/)) return 'ai_tech';
+    if (p.match(/nature|forest|ocean|mountain|waterfall/)) return 'nature';
+    if (p.match(/city|urban|street|skyline|building/)) return 'urban';
+    if (p.match(/person|woman|man|human|portrait/)) return 'people';
+    if (p.match(/food|cook|eat|restaurant|cuisine/)) return 'food';
+    if (p.match(/sport|gym|running|fitness|workout/)) return 'fitness';
+    if (p.match(/fantasy|magic|dragon|sword|wizard/)) return 'fantasy';
+    return 'other';
+}
+
+// GET /api/sora/leaderboard
+app.get('/api/sora/leaderboard', (req: any, res: any) => {
+    const state = loadSoraState();
+    const videos: any[] = state.videos || [];
+    const sortBy = (req.query.sort_by as string) || 'quality';
+    const limit = parseInt(req.query.limit as string) || 10;
+    const nicheFilter = req.query.niche as string | undefined;
+
+    const enriched = videos.map((v: any) => ({ ...v, niche: v.niche || extractNiche(v.prompt || '') }));
+    let filtered = nicheFilter ? enriched.filter((v: any) => v.niche === nicheFilter) : enriched;
+
+    filtered.sort((a: any, b: any) => {
+        if (sortBy === 'views') return (b.ytViews ?? 0) - (a.ytViews ?? 0);
+        if (sortBy === 'likes') return (b.ytLikes ?? 0) - (a.ytLikes ?? 0);
+        if (sortBy === 'recent') return new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime();
+        return (b.qualityScore ?? 0) - (a.qualityScore ?? 0);
+    });
+
+    const top = filtered.slice(0, limit);
+
+    // Niche breakdown
+    const nicheMap: Record<string, { count: number; totalQuality: number; totalViews: number }> = {};
+    for (const v of enriched) {
+        const n = v.niche;
+        if (!nicheMap[n]) nicheMap[n] = { count: 0, totalQuality: 0, totalViews: 0 };
+        nicheMap[n].count++;
+        nicheMap[n].totalQuality += v.qualityScore ?? 0;
+        nicheMap[n].totalViews += v.ytViews ?? 0;
+    }
+    const niches = Object.entries(nicheMap)
+        .map(([niche, d]: [string, any]) => ({ niche, count: d.count, avg_quality: d.count ? +(d.totalQuality / d.count).toFixed(1) : 0, total_views: d.totalViews }))
+        .sort((a, b) => b.avg_quality - a.avg_quality);
+
+    res.json({
+        total_videos: videos.length,
+        videos_with_score: enriched.filter((v: any) => v.qualityScore).length,
+        videos_on_youtube: enriched.filter((v: any) => v.youtubeUrl).length,
+        sort_by: sortBy,
+        leaderboard: top.map((v: any, i: number) => ({
+            rank: i + 1, id: v.id, prompt: (v.prompt || '').slice(0, 80),
+            niche: v.niche, quality_score: v.qualityScore,
+            yt_views: v.ytViews, yt_likes: v.ytLikes,
+            youtube_url: v.youtubeUrl, generated_at: v.generatedAt,
+            has_clean: !!v.processedPath,
+        })),
+        niche_breakdown: niches,
+        gens_left: state.gensLeft,
+        next_reset: state.nextResetDate,
+    });
+});
+
+// GET /api/sora/notifications
+app.get('/api/sora/notifications', (req: any, res: any) => {
+    const state = loadSoraState();
+    let notifs: any[] = state.notifications || [];
+    const unreadOnly = req.query.unread_only === 'true';
+    const typeFilter = req.query.type as string | undefined;
+    const limit = parseInt(req.query.limit as string) || 20;
+
+    if (unreadOnly) notifs = notifs.filter((n: any) => !n.read);
+    if (typeFilter) notifs = notifs.filter((n: any) => n.type === typeFilter);
+    notifs = [...notifs].reverse().slice(0, limit);
+
+    res.json({
+        total: (state.notifications || []).length,
+        unread: (state.notifications || []).filter((n: any) => !n.read).length,
+        showing: notifs.length,
+        notifications: notifs,
+    });
+});
+
+// POST /api/sora/notifications/mark-read
+app.post('/api/sora/notifications/mark-read', (req: any, res: any) => {
+    const state = loadSoraState();
+    const { ids, all } = req.body || {};
+    if (!state.notifications) { res.json({ marked: 0 }); return; }
+    let count = 0;
+    for (const n of state.notifications) {
+        if (all || (ids && ids.includes(n.id))) { n.read = true; count++; }
+    }
+    saveSoraState(state);
+    res.json({ marked: count });
+});
+
+// DELETE /api/sora/notifications
+app.delete('/api/sora/notifications', (_req: any, res: any) => {
+    const state = loadSoraState();
+    const count = (state.notifications || []).length;
+    state.notifications = [];
+    saveSoraState(state);
+    res.json({ cleared: count });
+});
+
+// GET /api/sora/status  (lightweight — gens left, reset, session)
+app.get('/api/sora/status', (_req: any, res: any) => {
+    const state = loadSoraState();
+    res.json({
+        date: state.date,
+        generated_today: state.generatedToday ?? 0,
+        max_per_day: state.maxPerDay ?? 10,
+        gens_left: state.gensLeft,
+        gens_left_free: state.gensLeftFree,
+        gens_left_paid: state.gensLeftPaid,
+        next_reset: state.nextResetDate,
+        reset_detected_at: state.resetDetectedAt,
+        usage_checked_at: state.usageCheckedAt,
+        maximize_session_active: state.maximizeSessionActive ?? false,
+        total_videos: (state.videos || []).length,
+        unread_notifications: (state.notifications || []).filter((n: any) => !n.read).length,
+    });
+});
+
+// ============================================
 // START SERVER
 // ============================================
 
