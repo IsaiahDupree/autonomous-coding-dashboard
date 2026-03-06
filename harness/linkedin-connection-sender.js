@@ -35,12 +35,63 @@ const HOME_ENV      = `${process.env.HOME}/.env`;
 
 // CLI args
 const args = process.argv.slice(2);
-const DRY_RUN = args.includes('--dry-run');
-const LIMIT   = parseInt(args[args.indexOf('--limit') + 1] || '10', 10);
+const DRY_RUN      = args.includes('--dry-run');
+const AUTO_APPROVE = args.includes('--auto-approve');  // rank pending → approve top N → send
+const LIMIT        = parseInt(args[args.indexOf('--limit') + 1] || '15', 10);
 
 // Rate limits
 const DAILY_LIMIT  = 15;
 const WEEKLY_LIMIT = 80;  // safe margin under LinkedIn's ~100/week
+
+// ── Priority ranking ─────────────────────────────────────────────────────────
+// Scores each prospect 0-100. Higher = send connection request first.
+//
+// Rubric:
+//   ICP score (0-10) × 6       = 0-60  [primary signal — quality of fit]
+//   Signal richness (reasons)  = 0-15  [+3 per reason beyond 2, max 5 extra]
+//   Source warmth              = 0-10  [post engager > keyword search]
+//   Connection degree          = 0-8   [2nd > 3rd — mutual connections help]
+//   Strategy intent tier       = 0-8   [high-intent niches convert better]
+//   Recency                    = 0-3   [fresher = more relevant]
+const HIGH_INTENT_STRATEGIES = new Set([
+  'AI SaaS Founders', 'Bootstrapped SaaS', 'App Creation Founders',
+  'No-Code SaaS Founders', 'AI SaaS Founders 3rd',
+]);
+const MED_INTENT_STRATEGIES = new Set([
+  'Agency AI Owners', 'Creator Economy AI', 'Web App Builders',
+  'App Founders 3rd',
+]);
+
+export function priorityScore(item) {
+  const p = item.prospect || {};
+  let score = 0;
+
+  // ICP fit (primary)
+  score += (p.icp_score || 0) * 6;
+
+  // Signal richness: each reason beyond 2 = +3 (max +15)
+  const reasons = p.icp_reasons || [];
+  score += Math.min(5, Math.max(0, reasons.length - 2)) * 3;
+
+  // Source warmth: engager > search
+  const src = item.source || '';
+  if (src === 'post_engagement' || src === 'engagement' || src === 'commenter') score += 10;
+
+  // Connection degree: 2nd is much easier to connect with
+  if (p.connectionDegree === '2nd') score += 8;
+
+  // Strategy intent
+  const strat = item.strategy || '';
+  if (HIGH_INTENT_STRATEGIES.has(strat)) score += 8;
+  else if (MED_INTENT_STRATEGIES.has(strat)) score += 4;
+
+  // Recency bonus (queued recently = fresher intel)
+  const ageHours = (Date.now() - new Date(item.queued_at || 0).getTime()) / 3_600_000;
+  if (ageHours < 24)  score += 3;
+  else if (ageHours < 72) score += 1;
+
+  return Math.round(score);
+}
 
 // ── Bootstrap env from files ─────────────────────────────────────────────────
 const ENV_OVERRIDE_KEYS = new Set(['CRMLITE_API_KEY', 'CRMLITE_URL']);
@@ -262,12 +313,47 @@ async function main() {
     return;
   }
 
-  // Load queue — find approved items (2nd/3rd degree, not yet connection_requested)
+  // Load queue
   const queue = JSON.parse(fs.readFileSync(QUEUE_FILE, 'utf-8') || '[]');
-  const eligible = queue.filter(item =>
-    item.status === 'approved' &&
-    item.prospect?.connectionDegree !== '1st'
-  ).slice(0, Math.min(LIMIT, DAILY_LIMIT - state.sentToday));
+
+  // --auto-approve: rank all pending_approval by priority, approve top N, then send
+  if (AUTO_APPROVE) {
+    const cap = Math.min(LIMIT, DAILY_LIMIT - state.sentToday);
+    const pending = queue
+      .filter(item => item.status === 'pending_approval' && item.prospect?.connectionDegree !== '1st')
+      .map(item => ({ item, score: priorityScore(item) }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, cap);
+
+    let autoApproved = 0;
+    for (const { item, score } of pending) {
+      const idx = queue.findIndex(q => q.id === item.id);
+      if (idx !== -1) {
+        queue[idx].status = 'approved';
+        queue[idx].priority_score = score;
+        queue[idx].auto_approved_at = new Date().toISOString();
+        autoApproved++;
+      }
+    }
+    if (autoApproved > 0) {
+      if (!DRY_RUN) writeJson(QUEUE_FILE, queue);
+      log(`${DRY_RUN ? 'DRY RUN — would auto-approve' : 'Auto-approved'} top ${autoApproved} prospects by priority score`);
+      pending.slice(0, 5).forEach(({ item, score }) => {
+        const p = item.prospect;
+        log(`  [${score}] ${p.name} — ${(p.headline||'').slice(0,60)} (${p.connectionDegree}, ${item.strategy})`);
+      });
+    } else {
+      log('Auto-approve: no pending_approval items to rank');
+    }
+  }
+
+  // Find approved items, sorted by priority_score desc (highest priority first)
+  const eligible = queue
+    .filter(item => item.status === 'approved' && item.prospect?.connectionDegree !== '1st')
+    .map(item => ({ item, score: item.priority_score ?? priorityScore(item) }))
+    .sort((a, b) => b.score - a.score)
+    .map(({ item }) => item)
+    .slice(0, Math.min(LIMIT, DAILY_LIMIT - state.sentToday));
 
   log(`Eligible items: ${eligible.length} | sentToday: ${state.sentToday}/${DAILY_LIMIT} | sentThisWeek: ${state.sentThisWeek}/${WEEKLY_LIMIT}`);
 

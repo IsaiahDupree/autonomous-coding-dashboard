@@ -635,6 +635,28 @@ function formatSessionResult(session, result) {
     return `✅ ${tag} — inbox clear`;
   }
 
+  // linkedin_connection_send — show how many requests went out
+  if (action === 'linkedin_connection_send') {
+    const sent = result.sent ?? 0;
+    const skipped = result.skipped ?? 0;
+    const failed = result.failed ?? 0;
+    if (sent > 0) {
+      return `🤝 <b>LinkedIn Connections</b> — ${sent} sent, ${skipped} skipped${failed ? `, ${failed} failed` : ''}`;
+    }
+    return `⏭️ <b>LinkedIn Connections</b> — none sent (${skipped} skipped)`;
+  }
+
+  // linkedin_dm_send — show how many DMs went out
+  if (action === 'linkedin_dm_send') {
+    const sent = result.sent ?? 0;
+    const skipped = result.skipped ?? 0;
+    const failed = result.failed ?? 0;
+    if (sent > 0) {
+      return `💬 <b>LinkedIn DMs</b> — ${sent} sent, ${skipped} skipped${failed ? `, ${failed} failed` : ''}`;
+    }
+    return `⏭️ <b>LinkedIn DMs</b> — none sent (${skipped} skipped, no approved items?)`;
+  }
+
   // job_scan (Upwork)
   if (action === 'job_scan') {
     const jobs = result.jobs ?? result.results ?? result.data ?? [];

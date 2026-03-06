@@ -658,7 +658,7 @@ async function runCycle(goals, state) {
   const elapsed = ((Date.now() - cycleStart) / 1000).toFixed(1);
   log(`─── Cycle #${cycleNum} done in ${elapsed}s | qualified: ${cycleEntry.qualified} | CRM synced: ${cycleEntry.crm_synced} | DM queue: ${cycleEntry.queued_for_dm} new | seen total: ${seenUrls.size} ───`);
 
-  // Telegram notification — only when new prospects found
+  // Telegram notification — when new prospects found (always) or milestone hit (5+)
   if (cycleEntry.queued_for_dm > 0 || cycleEntry.crm_synced > 0) {
     const queue = loadQueue();
     const newItems = queue.slice(-cycleEntry.queued_for_dm);
@@ -667,8 +667,9 @@ async function runCycle(goals, state) {
       return `  👤 <b>${p.name || 'Unknown'}</b> — ${(p.headline || '').slice(0, 65)}${p.company ? ' @ ' + p.company : ''} [ICP ${p.icp_score}/10]`;
     }).join('\n');
 
+    const milestone = cycleEntry.queued_for_dm >= 10 ? ' 🎯 10+ milestone!' : cycleEntry.queued_for_dm >= 5 ? ' 🎯 5+ milestone!' : '';
     const text = [
-      `🔗 <b>LinkedIn Prospects</b> — Cycle #${cycleNum}`,
+      `🔗 <b>LinkedIn Prospects</b> — Cycle #${cycleNum}${milestone}`,
       `Searched: ${cycleEntry.searched} | Qualified: ${cycleEntry.qualified} | CRM: +${cycleEntry.crm_synced} | Queue: +${cycleEntry.queued_for_dm}`,
       prospectLines || '',
       cycleEntry.errors.length ? `⚠️ ${cycleEntry.errors[0]}` : '',
