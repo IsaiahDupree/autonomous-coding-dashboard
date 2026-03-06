@@ -1,3 +1,9 @@
+---
+domain: [watchdog, coding]
+agent_roles: [watchdog, coding]
+priority: medium
+---
+
 # PRD-121: MCP Registry & Discovery System
 
 ## Project

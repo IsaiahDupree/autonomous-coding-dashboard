@@ -1,3 +1,9 @@
+---
+domain: [content]
+agent_roles: [content]
+priority: high
+---
+
 # PRD-102: Content Generation Agent
 
 ## Project

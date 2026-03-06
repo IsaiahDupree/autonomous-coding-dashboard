@@ -1,3 +1,9 @@
+---
+domain: [watchdog]
+agent_roles: [watchdog]
+priority: high
+---
+
 # PRD-116: Agent Worker Daemon
 
 ## Project

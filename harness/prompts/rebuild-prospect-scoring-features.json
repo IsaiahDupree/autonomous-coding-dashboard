@@ -1,0 +1,11 @@
+{
+  "project": "rebuild-prospect-scoring",
+  "features": [
+    {
+      "id": "REBUILD_PROSPECT_SCORING-001",
+      "name": "DMs sent in last 7 days: 0 (pipeline stalled)",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

@@ -1,3 +1,9 @@
+---
+domain: [research]
+agent_roles: [researcher]
+priority: high
+---
+
 # PRD-017: ResearchWorker — Staged Evidence Pipeline
 
 ## Project

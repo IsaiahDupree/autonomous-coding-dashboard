@@ -1,3 +1,9 @@
+---
+domain: [research, content, publishing]
+agent_roles: [researcher, content, publisher]
+priority: high
+---
+
 # PRD-011: Research-to-Publish Automation Pipeline
 
 ## Project

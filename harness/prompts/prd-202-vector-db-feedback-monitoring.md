@@ -1,3 +1,9 @@
+---
+domain: [watchdog]
+agent_roles: [watchdog]
+priority: high
+---
+
 # Mission: PRD-202 — EverReach OS Shared Vector DB, Feedback Sync & Prometheus Monitoring
 
 ## Working Directory

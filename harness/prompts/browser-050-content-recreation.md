@@ -1,3 +1,9 @@
+---
+domain: [content, research]
+agent_roles: [content, researcher]
+priority: high
+---
+
 # Browser-050 — Content Recreation from Browser Analysis
 
 ## Mission

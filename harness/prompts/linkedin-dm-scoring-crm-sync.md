@@ -1,3 +1,9 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # LinkedIn DM Intelligence: Score + Reply + Sync to Supabase
 Uses: LinkedIn automation (port 3105) + supabase-mcp + Claude Haiku for scoring
 For: Portal Copy Co / Sarah Ashley outreach pipeline

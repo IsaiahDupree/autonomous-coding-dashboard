@@ -1,3 +1,9 @@
+---
+domain: [acquisition]
+agent_roles: [acquisition]
+priority: high
+---
+
 # CRMLite MCP Server
 
 ## Project

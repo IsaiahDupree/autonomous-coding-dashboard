@@ -40,6 +40,45 @@ const DM_QUEUES = [
   { platform: 'linkedin',  file: path.join(H, 'linkedin-dm-queue.json') },
 ];
 
+// Normalize queue data: LinkedIn stores a top-level array with different field names
+function normalizeQueue(platform, raw) {
+  if (!raw) return null;
+  // LinkedIn: top-level array of {id, status:'pending_approval'|'sent', prospect:{...}, crm_synced, crm_id}
+  if (Array.isArray(raw)) {
+    return raw.map(e => ({
+      _raw: e,
+      id: e.id,
+      platform: 'linkedin',
+      username: e.prospect?.name || e.id,
+      profileUrl: e.prospect?.profileUrl || '',
+      score: e.prospect?.icp_score || 0,
+      signals: e.prospect?.icp_reasons || [],
+      message: e.drafted_message || '',
+      status: e.status === 'pending_approval' ? 'pending' : e.status,
+      sentAt: e.sent_at || null,
+      discoveredAt: e.queued_at,
+      crmlite_synced: e.crm_synced || false,
+      crmlite_contact_id: e.crm_id || null,
+      crmlite_fail_count: e.crm_fail_count || 0,
+    }));
+  }
+  // Standard format: {queue: [...]}
+  return (raw.queue || []).map(e => ({ _raw: e, ...e }));
+}
+
+// Write back: update the raw source entry with sync result
+function patchRawEntry(platform, rawEntry, updates) {
+  if (platform === 'linkedin') {
+    // Map normalized fields back to LinkedIn format
+    if ('crmlite_synced' in updates)      rawEntry.crm_synced     = updates.crmlite_synced;
+    if ('crmlite_contact_id' in updates)  rawEntry.crm_id         = updates.crmlite_contact_id;
+    if ('crmlite_synced_at' in updates)   rawEntry.crm_synced_at  = updates.crmlite_synced_at;
+    if ('crmlite_fail_count' in updates)  rawEntry.crm_fail_count = updates.crmlite_fail_count;
+  } else {
+    Object.assign(rawEntry, updates);
+  }
+}
+
 const args = process.argv.slice(2);
 const MODE = args.includes('--once') ? 'once' : args.includes('--test') ? 'test' : 'daemon';
 
@@ -135,10 +174,11 @@ async function syncAll() {
   let totalFailed = 0;
 
   for (const { platform, file } of DM_QUEUES) {
-    const q = readQueue(file);
-    if (!q?.queue?.length) continue;
+    const raw = readQueue(file);
+    const entries = normalizeQueue(platform, raw);
+    if (!entries?.length) continue;
 
-    const toSync = q.queue.filter(e => e.status === 'sent' && !e.crmlite_synced);
+    const toSync = entries.filter(e => e.status === 'sent' && !e.crmlite_synced);
     if (!toSync.length) continue;
 
     log(`${platform}: ${toSync.length} sent DMs to sync`);
@@ -147,21 +187,26 @@ async function syncAll() {
     for (const entry of toSync) {
       const result = await crmUpsert(entry);
       if (result.synced) {
-        entry.crmlite_synced = true;
-        entry.crmlite_contact_id = result.contact_id || null;
-        entry.crmlite_synced_at = new Date().toISOString();
+        const updates = {
+          crmlite_synced: true,
+          crmlite_contact_id: result.contact_id || null,
+          crmlite_synced_at: new Date().toISOString(),
+        };
+        patchRawEntry(platform, entry._raw, updates);
         totalSynced++;
         log(`  ✓ @${entry.username} → CRMLite${result.existing ? ' (existing)' : ''} contact=${result.contact_id}`);
         changed = true;
       } else {
         // Increment fail count — stop retrying after 5 failures
-        entry.crmlite_fail_count = (entry.crmlite_fail_count || 0) + 1;
-        if (entry.crmlite_fail_count >= 5) {
-          entry.crmlite_synced = 'failed';
+        const failCount = (entry.crmlite_fail_count || 0) + 1;
+        const updates = { crmlite_fail_count: failCount };
+        if (failCount >= 5) {
+          updates.crmlite_synced = 'failed';
           log(`  ✗ @${entry.username} — max retries reached: ${result.reason}`);
         } else {
-          log(`  ✗ @${entry.username} — will retry (attempt ${entry.crmlite_fail_count}/5): ${result.reason}`);
+          log(`  ✗ @${entry.username} — will retry (attempt ${failCount}/5): ${result.reason}`);
         }
+        patchRawEntry(platform, entry._raw, updates);
         totalFailed++;
         changed = true;
       }
@@ -170,7 +215,14 @@ async function syncAll() {
       await new Promise(r => setTimeout(r, 500));
     }
 
-    if (changed) writeQueue(file, q);
+    if (changed) {
+      // Write back raw format: LinkedIn is array, others are {queue:[]}
+      if (Array.isArray(raw)) {
+        writeQueue(file, raw);
+      } else {
+        writeQueue(file, raw);
+      }
+    }
   }
 
   if (totalSynced + totalFailed > 0) {
@@ -188,11 +240,12 @@ async function preflight() {
 
   let totalPending = 0;
   for (const { platform, file } of DM_QUEUES) {
-    const q = readQueue(file);
-    if (!q) { console.log(`  ${platform}: queue file not found (${file})`); continue; }
-    const sent = q.queue.filter(e => e.status === 'sent');
+    const raw = readQueue(file);
+    if (!raw) { console.log(`  ${platform}: queue file not found (${file})`); continue; }
+    const entries = normalizeQueue(platform, raw) || [];
+    const sent = entries.filter(e => e.status === 'sent');
     const unsynced = sent.filter(e => !e.crmlite_synced);
-    console.log(`  ${platform}: ${q.queue.length} total | ${sent.length} sent | ${unsynced.length} unsynced`);
+    console.log(`  ${platform}: ${entries.length} total | ${sent.length} sent | ${unsynced.length} unsynced`);
     totalPending += unsynced.length;
   }
   console.log(`\nTotal unsynced: ${totalPending}`);

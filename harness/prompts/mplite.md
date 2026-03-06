@@ -1,3 +1,9 @@
+---
+domain: [publishing]
+agent_roles: [publisher]
+priority: high
+---
+
 # MPLite — Organic Publishing Queue
 
 ## Purpose

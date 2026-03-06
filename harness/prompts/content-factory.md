@@ -1,3 +1,9 @@
+---
+domain: [content]
+agent_roles: [content]
+priority: high
+---
+
 # Content Factory - AI Content Generation Pipeline
 
 ## Project Overview

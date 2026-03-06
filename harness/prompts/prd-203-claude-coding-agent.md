@@ -1,3 +1,9 @@
+---
+domain: [coding]
+agent_roles: [coding]
+priority: high
+---
+
 # Mission: PRD-203 — EverReach OS Claude Coding Agent (ECCA) with MCP Access
 
 ## Working Directory
