@@ -51,6 +51,19 @@ else
   echo "[watchdog] tiktok-comment-sweep already running" | tee -a "$LOG"
 fi
 
+# Start DM sweep daemons (approval-queue-based, no auto-send)
+for DM_DAEMON in twitter-dm-sweep instagram-dm-sweep tiktok-dm-sweep; do
+  if ! pgrep -f "${DM_DAEMON}.js" > /dev/null 2>&1; then
+    echo "[watchdog] Starting ${DM_DAEMON}..." | tee -a "$LOG"
+    nohup node "$H/${DM_DAEMON}.js" >> "$H/logs/${DM_DAEMON}.log" 2>&1 &
+    DM_PID=$!
+    echo $DM_PID > "$H/${DM_DAEMON}.pid"
+    echo "[watchdog] ${DM_DAEMON} PID: $DM_PID" | tee -a "$LOG"
+  else
+    echo "[watchdog] ${DM_DAEMON} already running" | tee -a "$LOG"
+  fi
+done
+
 # Start instagram-comment-sweep daemon if not already running
 if ! pgrep -f "instagram-comment-sweep.js" > /dev/null 2>&1; then
   echo "[watchdog] Starting instagram-comment-sweep..." | tee -a "$LOG"
