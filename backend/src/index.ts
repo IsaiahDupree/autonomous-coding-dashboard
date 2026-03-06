@@ -325,6 +325,575 @@ app.get('/api/harness/agents', async (req, res) => {
     }
 });
 
+// ── Observability: Queue Topology ─────────────────────────────────────────────
+app.get('/api/harness/topology', async (req, res) => {
+    try {
+        const harnessDir = path.resolve(__dirname, '..', '..', 'harness');
+        const queueStateModule = path.join(harnessDir, 'queue-state.js');
+        if (!fs.existsSync(queueStateModule)) {
+            return res.status(503).json({ error: { message: 'queue-state.js not found' } });
+        }
+        const { getQueueState } = await import(queueStateModule);
+        const state = getQueueState();
+        res.json({ data: state });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get topology' } });
+    }
+});
+
+// ── Observability: Per-agent telemetry ────────────────────────────────────────
+app.get('/api/harness/telemetry/:slug', async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const harnessDir = path.resolve(__dirname, '..', '..', 'harness');
+        const telemetryModule = path.join(harnessDir, 'agent-telemetry.js');
+        if (!fs.existsSync(telemetryModule)) {
+            return res.status(503).json({ error: { message: 'agent-telemetry.js not found' } });
+        }
+        const { getEvents, TELEMETRY_DIR } = await import(telemetryModule);
+        const events = getEvents(slug, 200);
+
+        // Also try reading from disk if ring buffer is empty (e.g. after restart)
+        let diskEvents: any[] = [];
+        if (events.length === 0) {
+            const ndjsonFile = path.join(TELEMETRY_DIR, `${slug}.ndjson`);
+            if (fs.existsSync(ndjsonFile)) {
+                try {
+                    const lines = fs.readFileSync(ndjsonFile, 'utf-8')
+                        .trim().split('\n').filter(Boolean).slice(-200);
+                    diskEvents = lines.map((l: string) => JSON.parse(l));
+                } catch { /* ok */ }
+            }
+        }
+
+        res.json({ data: { slug, events: events.length > 0 ? events : diskEvents, asOf: new Date().toISOString() } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to get telemetry' } });
+    }
+});
+
+// ── Observability: Manual doctor trigger ──────────────────────────────────────
+app.post('/api/harness/doctor/:slug', async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const reason = (req.body?.reason as string) || 'Manual trigger from dashboard';
+        const harnessDir = path.resolve(__dirname, '..', '..', 'harness');
+        const doctorModule = path.join(harnessDir, 'doctor-engine.js');
+        if (!fs.existsSync(doctorModule)) {
+            return res.status(503).json({ error: { message: 'doctor-engine.js not found' } });
+        }
+        const { diagnoseAndHeal } = await import(doctorModule);
+        const result = await diagnoseAndHeal(slug, reason);
+        res.json({ data: result });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Doctor engine failed' } });
+    }
+});
+
+// ── Observability: Doctor log ──────────────────────────────────────────────────
+app.get('/api/harness/doctor-log', async (req, res) => {
+    try {
+        const harnessDir = path.resolve(__dirname, '..', '..', 'harness');
+        const doctorLogFile = path.join(harnessDir, 'doctor-log.ndjson');
+        if (!fs.existsSync(doctorLogFile)) {
+            return res.json({ data: { entries: [], count: 0 } });
+        }
+        const lines = fs.readFileSync(doctorLogFile, 'utf-8')
+            .trim().split('\n').filter(Boolean).slice(-50);
+        const entries = lines.map((l: string) => { try { return JSON.parse(l); } catch { return null; } })
+            .filter(Boolean).reverse(); // newest first
+        res.json({ data: { entries, count: entries.length } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to read doctor log' } });
+    }
+});
+
+// ── Orchestrator routes ────────────────────────────────────────────────────────
+
+const ORCH_STATE_FILE = path.resolve(__dirname, '..', '..', 'harness', 'orchestrator-state.json');
+const ORCH_LOG_FILE = path.resolve(__dirname, '..', '..', 'harness', 'orchestrator-log.ndjson');
+const ORCH_PENDING_FILE = path.resolve(__dirname, '..', '..', 'harness', 'pending-actions.json');
+
+function readJsonFile(filePath: string, fallback: any = null) {
+    try { return JSON.parse(fs.readFileSync(filePath, 'utf-8')); } catch { return fallback; }
+}
+
+app.get('/api/orchestrator/status', (req, res) => {
+    try {
+        const state = readJsonFile(ORCH_STATE_FILE, { paused: false, cycleCount: 0, lastActionAt: {}, todayActionCount: 0 });
+        const pidFile = path.resolve(__dirname, '..', '..', 'harness', 'orchestrator.pid');
+        let running = false;
+        if (fs.existsSync(pidFile)) {
+            try {
+                const pid = parseInt(fs.readFileSync(pidFile, 'utf-8').trim(), 10);
+                process.kill(pid, 0);
+                running = true;
+            } catch { /* not running */ }
+        }
+        res.json({ data: { ...state, running } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to read orchestrator status' } });
+    }
+});
+
+app.get('/api/orchestrator/log', (req, res) => {
+    try {
+        if (!fs.existsSync(ORCH_LOG_FILE)) {
+            return res.json({ data: { entries: [], count: 0 } });
+        }
+        const lines = fs.readFileSync(ORCH_LOG_FILE, 'utf-8')
+            .trim().split('\n').filter(Boolean).slice(-20);
+        const entries = lines.map((l: string) => { try { return JSON.parse(l); } catch { return null; } })
+            .filter(Boolean).reverse();
+        res.json({ data: { entries, count: entries.length } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to read orchestrator log' } });
+    }
+});
+
+app.get('/api/orchestrator/pending', (req, res) => {
+    try {
+        const pending = readJsonFile(ORCH_PENDING_FILE, []);
+        res.json({ data: { pending, count: pending.length } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to read pending actions' } });
+    }
+});
+
+app.post('/api/orchestrator/pending', (req, res) => {
+    try {
+        const { pending } = req.body;
+        if (!Array.isArray(pending)) {
+            return res.status(400).json({ error: { message: 'pending must be an array' } });
+        }
+        fs.writeFileSync(ORCH_PENDING_FILE, JSON.stringify(pending, null, 2));
+        res.json({ data: { count: pending.length } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to update pending actions' } });
+    }
+});
+
+app.post('/api/orchestrator/pause', (req, res) => {
+    try {
+        const state = readJsonFile(ORCH_STATE_FILE, {});
+        state.paused = true;
+        fs.writeFileSync(ORCH_STATE_FILE, JSON.stringify(state, null, 2));
+        res.json({ data: { paused: true } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to pause orchestrator' } });
+    }
+});
+
+app.post('/api/orchestrator/resume', (req, res) => {
+    try {
+        const state = readJsonFile(ORCH_STATE_FILE, {});
+        state.paused = false;
+        fs.writeFileSync(ORCH_STATE_FILE, JSON.stringify(state, null, 2));
+        res.json({ data: { paused: false } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message || 'Failed to resume orchestrator' } });
+    }
+});
+
+// ── LinkedIn Daemon Routes ────────────────────────────────────────────────────
+const LI_DAEMON_STATE = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-daemon-state.json');
+const LI_DAEMON_LOG   = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-daemon-log.ndjson');
+const LI_QUEUE_FILE   = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-dm-queue.json');
+const LI_DAEMON_PID   = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-daemon.pid');
+const LI_ENGAGEMENT_STATE = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-engagement-state.json');
+const LI_ENGAGEMENT_QUEUE = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-engagement-queue.json');
+const LI_FOLLOWUP_STATE   = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-followup-state.json');
+const LI_FOLLOWUP_QUEUE   = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-followup-queue.json');
+const LI_ENGAGEMENT_PID   = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-engagement-daemon.pid');
+const LI_FOLLOWUP_PID     = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-followup-engine.pid');
+const LI_DAEMON_HEALTH    = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-daemon-health.json');
+const LI_CONNECTION_STATE = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-connection-state.json');
+const LI_DM_SENDER_STATE  = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-dm-sender-state.json');
+const LI_INBOX_STATE      = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-inbox-state.json');
+const LI_REPLIES_FILE     = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-replies.ndjson');
+const LI_INBOX_PID        = path.resolve(__dirname, '..', '..', 'harness', 'linkedin-inbox-monitor.pid');
+
+function pidAlive(pidFile: string): boolean {
+    try {
+        const pid = parseInt(fs.readFileSync(pidFile, 'utf-8').trim(), 10);
+        if (!pid) return false;
+        process.kill(pid, 0);
+        return true;
+    } catch { return false; }
+}
+
+app.get('/api/linkedin/daemon/status', (req, res) => {
+    try {
+        const state = readJsonFile(LI_DAEMON_STATE, {});
+        const alive = pidAlive(LI_DAEMON_PID);
+        const queue: any[] = readJsonFile(LI_QUEUE_FILE, []);
+        res.json({
+            data: {
+                ...state,
+                pid_alive: alive,
+                queue_stats: {
+                    total: queue.length,
+                    pending_approval: queue.filter((q: any) => q.status === 'pending_approval').length,
+                    approved: queue.filter((q: any) => q.status === 'approved').length,
+                    skipped: queue.filter((q: any) => q.status === 'skipped').length,
+                },
+            },
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/linkedin/daemon/log', (req, res) => {
+    try {
+        const entries: any[] = [];
+        if (fs.existsSync(LI_DAEMON_LOG)) {
+            const lines = fs.readFileSync(LI_DAEMON_LOG, 'utf-8').trim().split('\n').filter(Boolean);
+            lines.slice(-20).forEach(l => { try { entries.push(JSON.parse(l)); } catch { /* skip */ } });
+        }
+        res.json({ data: entries.reverse() });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/linkedin/daemon/queue', (req, res) => {
+    try {
+        const queue: any[] = readJsonFile(LI_QUEUE_FILE, []);
+        const status = (req.query.status as string) || 'pending_approval';
+        const filtered = status === 'all' ? queue : queue.filter((q: any) => q.status === status);
+        res.json({ data: filtered.slice(-50).reverse() });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.post('/api/linkedin/daemon/queue/approve', (req, res) => {
+    try {
+        const { id } = req.body;
+        if (!id) return res.status(400).json({ error: { message: 'id required' } });
+        const queue: any[] = readJsonFile(LI_QUEUE_FILE, []);
+        const idx = queue.findIndex((q: any) => q.id === id);
+        if (idx === -1) return res.status(404).json({ error: { message: 'item not found' } });
+        queue[idx].status = 'approved';
+        queue[idx].approved_at = new Date().toISOString();
+        fs.writeFileSync(LI_QUEUE_FILE, JSON.stringify(queue, null, 2));
+        res.json({ data: queue[idx] });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.post('/api/linkedin/daemon/queue/skip', (req, res) => {
+    try {
+        const { id } = req.body;
+        if (!id) return res.status(400).json({ error: { message: 'id required' } });
+        const queue: any[] = readJsonFile(LI_QUEUE_FILE, []);
+        const idx = queue.findIndex((q: any) => q.id === id);
+        if (idx === -1) return res.status(404).json({ error: { message: 'item not found' } });
+        queue[idx].status = 'skipped';
+        queue[idx].skipped_at = new Date().toISOString();
+        fs.writeFileSync(LI_QUEUE_FILE, JSON.stringify(queue, null, 2));
+        res.json({ data: queue[idx] });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+// ── LinkedIn Hub Routes ───────────────────────────────────────────────────────
+
+// GET /api/linkedin/status — all daemon states + queue counts
+app.get('/api/linkedin/status', (req, res) => {
+    try {
+        const discoveryState = readJsonFile(LI_DAEMON_STATE, {});
+        const engagementState = readJsonFile(LI_ENGAGEMENT_STATE, {});
+        const followupState = readJsonFile(LI_FOLLOWUP_STATE, {});
+        const discoveryQueue: any[] = readJsonFile(LI_QUEUE_FILE, []);
+        const engagementQueue: any[] = readJsonFile(LI_ENGAGEMENT_QUEUE, []);
+        const followupQueue: any[] = readJsonFile(LI_FOLLOWUP_QUEUE, []);
+
+        res.json({
+            discovery: {
+                ...discoveryState,
+                running: pidAlive(LI_DAEMON_PID) && !!discoveryState.running,
+                pending: discoveryQueue.filter((i: any) => i.status === 'pending_approval').length,
+                total: discoveryQueue.length,
+            },
+            engagement: {
+                ...engagementState,
+                running: pidAlive(LI_ENGAGEMENT_PID) && !!engagementState.running,
+                pending: engagementQueue.filter((i: any) => i.status === 'pending_approval').length,
+                total: engagementQueue.length,
+            },
+            followup: {
+                ...followupState,
+                running: pidAlive(LI_FOLLOWUP_PID) && !!followupState.running,
+                pending: followupQueue.filter((i: any) => i.status === 'pending_approval').length,
+                total: followupQueue.length,
+            },
+        });
+    } catch (e: any) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/linkedin/health — chrome daemon rate limits + active-hours status
+app.get('/api/linkedin/health', (req, res) => {
+    const health = readJsonFile(LI_DAEMON_HEALTH, {
+        status: 'unknown',
+        service: 'linkedin-daemon-chrome',
+        timestamp: null,
+        rateLimits: null,
+    });
+    res.json(health);
+});
+
+// GET /api/linkedin/queue?type=discovery|engagement|followup
+app.get('/api/linkedin/queue', (req, res) => {
+    try {
+        const type = req.query.type as string || 'discovery';
+        const fileMap: Record<string, string> = {
+            discovery: LI_QUEUE_FILE,
+            engagement: LI_ENGAGEMENT_QUEUE,
+            followup: LI_FOLLOWUP_QUEUE,
+        };
+        const file = fileMap[type];
+        if (!file) { res.status(400).json({ error: 'invalid type' }); return; }
+        const queue: any[] = readJsonFile(file, []);
+        const pending = queue.filter((i: any) => i.status === 'pending_approval');
+        res.json({ type, pending, all: queue });
+    } catch (e: any) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// POST /api/linkedin/queue/approve — { queueFile, id }
+app.post('/api/linkedin/queue/approve', (req, res) => {
+    try {
+        const { queueFile, id } = req.body;
+        const fileMap: Record<string, string> = {
+            discovery: LI_QUEUE_FILE,
+            engagement: LI_ENGAGEMENT_QUEUE,
+            followup: LI_FOLLOWUP_QUEUE,
+        };
+        const file = fileMap[queueFile];
+        if (!file) { res.status(400).json({ error: 'invalid queueFile' }); return; }
+        const queue: any[] = readJsonFile(file, []);
+        const item = queue.find((i: any) => i.id === id);
+        if (!item) { res.status(404).json({ error: 'not found' }); return; }
+        item.status = 'approved';
+        item.approved_at = new Date().toISOString();
+        fs.writeFileSync(file, JSON.stringify(queue, null, 2));
+        res.json({ ok: true, item });
+    } catch (e: any) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// POST /api/linkedin/queue/skip — { queueFile, id }
+app.post('/api/linkedin/queue/skip', (req, res) => {
+    try {
+        const { queueFile, id } = req.body;
+        const fileMap: Record<string, string> = {
+            discovery: LI_QUEUE_FILE,
+            engagement: LI_ENGAGEMENT_QUEUE,
+            followup: LI_FOLLOWUP_QUEUE,
+        };
+        const file = fileMap[queueFile];
+        if (!file) { res.status(400).json({ error: 'invalid queueFile' }); return; }
+        const queue: any[] = readJsonFile(file, []);
+        const item = queue.find((i: any) => i.id === id);
+        if (!item) { res.status(404).json({ error: 'not found' }); return; }
+        item.status = 'skipped';
+        item.skipped_at = new Date().toISOString();
+        fs.writeFileSync(file, JSON.stringify(queue, null, 2));
+        res.json({ ok: true, item });
+    } catch (e: any) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/linkedin/sender-status — connection + DM sender state
+app.get('/api/linkedin/sender-status', (req, res) => {
+    try {
+        const connState  = readJsonFile(LI_CONNECTION_STATE, { sentToday: 0, sentThisWeek: 0, totalSent: 0 });
+        const dmState    = readJsonFile(LI_DM_SENDER_STATE,  { sentToday: 0, totalSent: 0 });
+        const inboxState = readJsonFile(LI_INBOX_STATE, { cycleCount: 0, totalRepliesFound: 0, lastPollAt: null });
+        res.json({
+            connections: { ...connState, dailyLimit: 15, weeklyLimit: 80, running: false },
+            dms:         { ...dmState,   dailyLimit: 10, running: false },
+            inbox:       { ...inboxState, running: pidAlive(LI_INBOX_PID) },
+        });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/linkedin/replies — recent replies from linkedin-replies.ndjson
+app.get('/api/linkedin/replies', (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string || '20', 10);
+        const entries: any[] = [];
+        if (fs.existsSync(LI_REPLIES_FILE)) {
+            const lines = fs.readFileSync(LI_REPLIES_FILE, 'utf-8').trim().split('\n').filter(Boolean);
+            lines.slice(-limit).forEach(line => {
+                try { entries.push(JSON.parse(line)); } catch {}
+            });
+        }
+        res.json({ count: entries.length, replies: entries.reverse() });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// ── Prospect Pipeline Routes ──────────────────────────────────────────────────
+const PP_STATE_FILE = path.resolve(__dirname, '..', '..', 'harness', 'prospect-pipeline-state.json');
+const PP_LOG_FILE   = path.resolve(__dirname, '..', '..', 'harness', 'prospect-pipeline-log.ndjson');
+const PP_PID_FILE   = path.resolve(__dirname, '..', '..', 'harness', 'prospect-pipeline.pid');
+const PP_QUEUE_FILES: Record<string, string> = {
+    ig:      path.resolve(__dirname, '..', '..', 'harness', 'prospect-ig-queue.json'),
+    tt:      path.resolve(__dirname, '..', '..', 'harness', 'prospect-tt-queue.json'),
+    tw:      path.resolve(__dirname, '..', '..', 'harness', 'prospect-tw-queue.json'),
+    threads: path.resolve(__dirname, '..', '..', 'harness', 'prospect-threads-queue.json'),
+};
+
+app.get('/api/prospects/status', (req, res) => {
+    try {
+        const state = readJsonFile(PP_STATE_FILE, {});
+        const alive = pidAlive(PP_PID_FILE);
+        const queueStats: Record<string, any> = {};
+        for (const [platform, fp] of Object.entries(PP_QUEUE_FILES)) {
+            const q: any[] = readJsonFile(fp, []);
+            queueStats[platform] = {
+                total: q.length,
+                pending_approval: q.filter((i: any) => i.status === 'pending_approval').length,
+                approved: q.filter((i: any) => i.status === 'approved').length,
+                skipped: q.filter((i: any) => i.status === 'skipped').length,
+            };
+        }
+        res.json({ data: { ...state, pid_alive: alive, queues: queueStats } });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/prospects/queue', (req, res) => {
+    try {
+        const platform = (req.query.platform as string) || 'ig';
+        const status = (req.query.status as string) || 'pending_approval';
+        const fp = PP_QUEUE_FILES[platform];
+        if (!fp) return res.status(400).json({ error: { message: `invalid platform: ${platform}. Use: ig, tt, tw, threads` } });
+        const queue: any[] = readJsonFile(fp, []);
+        const filtered = status === 'all' ? queue : queue.filter((q: any) => q.status === status);
+        res.json({ data: filtered.slice(-50).reverse() });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.post('/api/prospects/queue/approve', (req, res) => {
+    try {
+        const { id, platform } = req.body;
+        if (!id || !platform) return res.status(400).json({ error: { message: 'id and platform required' } });
+        const fp = PP_QUEUE_FILES[platform];
+        if (!fp) return res.status(400).json({ error: { message: `invalid platform: ${platform}` } });
+        const queue: any[] = readJsonFile(fp, []);
+        const idx = queue.findIndex((q: any) => q.id === id);
+        if (idx === -1) return res.status(404).json({ error: { message: 'item not found' } });
+        queue[idx].status = 'approved';
+        queue[idx].approved_at = new Date().toISOString();
+        fs.writeFileSync(fp, JSON.stringify(queue, null, 2));
+        res.json({ data: queue[idx] });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.post('/api/prospects/queue/skip', (req, res) => {
+    try {
+        const { id, platform } = req.body;
+        if (!id || !platform) return res.status(400).json({ error: { message: 'id and platform required' } });
+        const fp = PP_QUEUE_FILES[platform];
+        if (!fp) return res.status(400).json({ error: { message: `invalid platform: ${platform}` } });
+        const queue: any[] = readJsonFile(fp, []);
+        const idx = queue.findIndex((q: any) => q.id === id);
+        if (idx === -1) return res.status(404).json({ error: { message: 'item not found' } });
+        queue[idx].status = 'skipped';
+        queue[idx].skipped_at = new Date().toISOString();
+        fs.writeFileSync(fp, JSON.stringify(queue, null, 2));
+        res.json({ data: queue[idx] });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+// ── Cloud Bridge Routes ──────────────────────────────────────────────────────
+const CB_STATE_FILE = path.resolve(__dirname, '..', '..', 'harness', 'cloud-bridge-state.json');
+const CB_LOG_FILE   = path.resolve(__dirname, '..', '..', 'harness', 'cloud-bridge-log.ndjson');
+const CB_PID_FILE   = path.resolve(__dirname, '..', '..', 'harness', 'cloud-bridge.pid');
+
+const CB_SUPABASE_URL = process.env.SUPABASE_URL || 'https://ivhfuhxorppptyuofbgq.supabase.co';
+const CB_SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+
+app.get('/api/bridge/status', async (req, res) => {
+    try {
+        const state = readJsonFile(CB_STATE_FILE, {});
+        const alive = pidAlive(CB_PID_FILE);
+
+        let pending = 0, processing = 0, doneToday = 0, failedToday = 0;
+        if (CB_SUPABASE_KEY) {
+            const hdrs = { 'apikey': CB_SUPABASE_KEY, 'Authorization': `Bearer ${CB_SUPABASE_KEY}` };
+            const todayISO = new Date().toISOString().slice(0, 10);
+            try {
+                const [pRes, dRes, fRes] = await Promise.all([
+                    fetch(`${CB_SUPABASE_URL}/rest/v1/safari_command_queue?status=eq.pending&select=id`, { headers: hdrs }).then(r => r.json()).catch(() => []),
+                    fetch(`${CB_SUPABASE_URL}/rest/v1/safari_command_queue?status=eq.completed&updated_at=gte.${todayISO}&select=id`, { headers: hdrs }).then(r => r.json()).catch(() => []),
+                    fetch(`${CB_SUPABASE_URL}/rest/v1/safari_command_queue?status=eq.failed&updated_at=gte.${todayISO}&select=id`, { headers: hdrs }).then(r => r.json()).catch(() => []),
+                ]);
+                pending = Array.isArray(pRes) ? pRes.length : 0;
+                doneToday = Array.isArray(dRes) ? dRes.length : 0;
+                failedToday = Array.isArray(fRes) ? fRes.length : 0;
+            } catch { /* Supabase unreachable or tables not created */ }
+        }
+
+        res.json({
+            data: {
+                pid_alive: alive,
+                ...state,
+                pending,
+                processing,
+                done_today: doneToday,
+                failed_today: failedToday,
+                rate_limit_remaining: state.rateLimits || {},
+            }
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/bridge/log', (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 50;
+        if (!fs.existsSync(CB_LOG_FILE)) return res.json({ data: [] });
+        const lines = fs.readFileSync(CB_LOG_FILE, 'utf-8').trim().split('\n').filter(Boolean);
+        const entries = lines.slice(-limit).reverse().map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+        res.json({ data: entries });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
+app.get('/api/bridge/recent', async (req, res) => {
+    try {
+        if (!CB_SUPABASE_KEY) return res.json({ data: [] });
+        const hdrs = { 'apikey': CB_SUPABASE_KEY, 'Authorization': `Bearer ${CB_SUPABASE_KEY}` };
+        const commands = await fetch(
+            `${CB_SUPABASE_URL}/rest/v1/safari_command_queue?order=created_at.desc&limit=20&select=id,platform,action,status,priority,created_at,updated_at`,
+            { headers: hdrs }
+        ).then(r => r.json()).catch(() => []);
+        res.json({ data: Array.isArray(commands) ? commands : [] });
+    } catch (error: any) {
+        res.status(500).json({ error: { message: error.message } });
+    }
+});
+
 // Comprehensive targets status endpoint - reads from repo-queue.json
 app.get('/api/targets/status', async (req, res) => {
     try {

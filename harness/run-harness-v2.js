@@ -18,6 +18,33 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import os from 'os';
 import * as metricsDb from './metrics-db.js';
+import * as rateCoord from './rate-limit-coordinator.js';
+import { createTelemetry } from './agent-telemetry.js';
+// Load TELEGRAM_* vars from actp-worker .env if not already set
+if (!process.env.TELEGRAM_BOT_TOKEN) {
+  try {
+    const _envLines = fs.readFileSync('/Users/isaiahdupree/Documents/Software/actp-worker/.env', 'utf8').split('\n');
+    for (const _line of _envLines) {
+      const _m = _line.match(/^(TELEGRAM_BOT_TOKEN|TELEGRAM_CHAT_ID)=(.+)$/);
+      if (_m) process.env[_m[1]] = _m[2].trim().replace(/^['"]/,'').replace(/['"]$/,'');
+    }
+  } catch { /* env file missing — Telegram notifications disabled */ }
+}
+// ── Telegram proactive notifications ─────────────────────────────────────────
+async function notifyTelegram(text) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' }),
+    });
+  } catch (e) {
+    // non-fatal — never crash harness over Telegram
+  }
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -596,7 +623,17 @@ async function runSession(sessionNumber, modelOverride = null) {
   log(`Progress: ${stats.passing}/${stats.total} features (${stats.percentComplete}%)`);
   
   updateStatus(sessionType, 'running', stats, { currentSession: sessionNumber, model });
-  
+
+  // Telemetry: session start
+  const telemetry = createTelemetry(PROJECT_ID);
+  telemetry.emit('session_start', {
+    session: sessionNumber,
+    model,
+    featuresTotal: stats.total,
+    featuresPassing: stats.passing,
+  });
+  notifyTelegram(`🚀 *Agent started* \`${PROJECT_ID}\`\nSession #${sessionNumber} · ${stats.passing}/${stats.total} features (${stats.percentComplete}%) · model: ${model}`).catch(()=>{});
+
   // Start DB session tracking
   let dbSession = null;
   try {
@@ -627,7 +664,19 @@ async function runSession(sessionNumber, modelOverride = null) {
     
     const startTime = Date.now();
     let output = '';
-    
+    const OUTPUT_TIMEOUT_MS = parseInt(process.env.OUTPUT_TIMEOUT_MS || '900000', 10); // 15 min
+    let lastOutputAt = Date.now();
+    let silenceTimer = setInterval(() => {
+      const silenceMs = Date.now() - lastOutputAt;
+      if (silenceMs >= OUTPUT_TIMEOUT_MS) {
+        telemetry.emit('stuck_detected', {
+          reason: `No stdout for ${(silenceMs / 60000).toFixed(0)} minutes`,
+          lastProgressMs: silenceMs,
+        });
+        notifyTelegram(`⚠️ *Agent stuck* \`${PROJECT_ID}\`\nNo output for ${(silenceMs / 60000).toFixed(0)} min · session #${sessionNumber} · ${stats.passing}/${stats.total} features done`).catch(()=>{});
+      }
+    }, 60000); // check every minute
+
     // Build env: always use Claude OAuth auth, never API key
     const claudeEnv = { ...process.env };
     delete claudeEnv.ANTHROPIC_API_KEY; // strip API key — force OAuth/Claude auth
@@ -644,6 +693,7 @@ async function runSession(sessionNumber, modelOverride = null) {
     claude.stdout.on('data', (data) => {
       const text = data.toString();
       output += text;
+      lastOutputAt = Date.now();
       process.stdout.write(text);
       try {
         fs.appendFileSync(CONFIG.outputLog, text);
@@ -670,11 +720,29 @@ async function runSession(sessionNumber, modelOverride = null) {
     });
     
     claude.on('close', async (code) => {
+      clearInterval(silenceTimer);
       const durationMs = Date.now() - startTime;
       const duration = (durationMs / 1000 / 60).toFixed(1);
       const newStats = getProgressStats();
       const sessionMetrics = parseSessionOutput(output);
-      
+
+      // Telemetry: emit feature_passed for each newly completed feature
+      const featuresDelta = Math.max(0, newStats.passing - stats.passing);
+      if (featuresDelta > 0) {
+        telemetry.emit('feature_passed', { session: sessionNumber, featuresDelta, newPassing: newStats.passing });
+        notifyTelegram(`✅ *+${featuresDelta} feature${featuresDelta>1?'s':''} passed* · \`${PROJECT_ID}\`\n${newStats.passing}/${newStats.total} total (${newStats.percentComplete}%)`).catch(()=>{});
+      }
+      telemetry.emit('session_end', {
+        session: sessionNumber,
+        duration_ms: durationMs,
+        featuresDelta,
+        tokens: (sessionMetrics.inputTokens || 0) + (sessionMetrics.outputTokens || 0),
+        cost: sessionMetrics.cost || 0,
+        exitCode: code,
+      });
+      const exitIcon = code === 0 ? '🏁' : '❌';
+      notifyTelegram(`${exitIcon} *Session #${sessionNumber} ended* · \`${PROJECT_ID}\`\n${newStats.passing}/${newStats.total} features · ${duration}min · exit ${code}`).catch(()=>{});
+
       // End DB session tracking
       if (dbSession?.id) {
         try {
@@ -777,6 +845,10 @@ async function runHarness(options = {}) {
   const { maxSessions = CONFIG.maxSessions, continuous = false } = options;
   
   log('Agent Harness v2 Starting', 'start');
+  rateCoord.register(PROJECT_ID);
+  process.on('exit', () => rateCoord.deregister());
+  process.on('SIGINT', () => { rateCoord.deregister(); process.exit(0); });
+  process.on('SIGTERM', () => { rateCoord.deregister(); process.exit(0); });
   log(`Project root: ${PROJECT_ROOT}`);
   log(`Max sessions: ${maxSessions}`);
   log(`Mode: ${UNTIL_COMPLETE ? 'Until complete' : (continuous ? 'Continuous' : 'Single session')}`);
@@ -825,6 +897,12 @@ async function runHarness(options = {}) {
     }
     
     try {
+      // Check if any peer process has broadcast a global rate limit
+      const coordWait = await rateCoord.waitIfRateLimited(msg => log(msg, 'rate'));
+      if (coordWait > 0) {
+        log(`Resumed after ${(coordWait / 60000).toFixed(1)}m global backoff`, 'info');
+      }
+
       const result = await runSession(sessionNumber);
       
       // Update metrics
@@ -835,6 +913,7 @@ async function runHarness(options = {}) {
         metrics.successfulSessions++;
         consecutiveErrors = 0;
         metrics.consecutiveErrors = 0;
+        rateCoord.reportSuccess(getCurrentModel()).catch(() => {});
         
         if (result.metrics) {
           metrics.totalTokens += (result.metrics.inputTokens + result.metrics.outputTokens);
@@ -900,6 +979,16 @@ async function runHarness(options = {}) {
           case ErrorTypes.RATE_LIMIT:
             metrics.rateLimitHits++;
             log('Rate limit hit - attempting model fallback', 'rate');
+
+            // Broadcast to all peer harness processes
+            {
+              const rlResetAt = result.output ? (() => {
+                const ms = calculateRateLimitWaitMs(result.output);
+                return ms ? new Date(Date.now() + ms).toISOString() : null;
+              })() : null;
+              rateCoord.reportRateLimit(getCurrentModel(), { resetAt: rlResetAt, projectId: PROJECT_ID }).catch(() => {});
+              log(`[RateCoord] Broadcast rate limit for model ${getCurrentModel()} to all peers`, 'rate');
+            }
             
             // Try to switch to another model
             const nextModel = switchToNextModel();

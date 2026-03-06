@@ -9,6 +9,59 @@ H="/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness"
 LOG="$H/logs/watchdog-queue.log"
 mkdir -p "$H/logs"
 
+# Start doctor-daemon if not already running
+if ! pgrep -f "doctor-daemon.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting doctor-daemon..." | tee -a "$LOG"
+  nohup node "$H/doctor-daemon.js" >> "$H/logs/doctor-daemon.log" 2>&1 &
+  echo "[watchdog] Doctor daemon PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] doctor-daemon already running" | tee -a "$LOG"
+fi
+
+# Start twitter-comment-sweep daemon if not already running
+if ! pgrep -f "twitter-comment-sweep.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting twitter-comment-sweep..." | tee -a "$LOG"
+  nohup node "$H/twitter-comment-sweep.js" >> "$H/logs/twitter-comment-sweep.log" 2>&1 &
+  TW_PID=$!
+  echo $TW_PID > "$H/twitter-comment-sweep.pid"
+  echo "[watchdog] Twitter comment sweep PID: $TW_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] twitter-comment-sweep already running" | tee -a "$LOG"
+fi
+
+# Start threads-comment-sweep daemon if not already running
+if ! pgrep -f "threads-comment-sweep.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting threads-comment-sweep..." | tee -a "$LOG"
+  nohup node "$H/threads-comment-sweep.js" >> "$H/logs/threads-comment-sweep.log" 2>&1 &
+  TH_PID=$!
+  echo $TH_PID > "$H/threads-comment-sweep.pid"
+  echo "[watchdog] Threads comment sweep PID: $TH_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] threads-comment-sweep already running" | tee -a "$LOG"
+fi
+
+# Start tiktok-comment-sweep daemon if not already running
+if ! pgrep -f "tiktok-comment-sweep.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting tiktok-comment-sweep..." | tee -a "$LOG"
+  nohup node "$H/tiktok-comment-sweep.js" >> "$H/logs/tiktok-comment-sweep.log" 2>&1 &
+  TK_PID=$!
+  echo $TK_PID > "$H/tiktok-comment-sweep.pid"
+  echo "[watchdog] TikTok comment sweep PID: $TK_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] tiktok-comment-sweep already running" | tee -a "$LOG"
+fi
+
+# Start instagram-comment-sweep daemon if not already running
+if ! pgrep -f "instagram-comment-sweep.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting instagram-comment-sweep..." | tee -a "$LOG"
+  nohup node "$H/instagram-comment-sweep.js" >> "$H/logs/instagram-comment-sweep.log" 2>&1 &
+  IG_PID=$!
+  echo $IG_PID > "$H/instagram-comment-sweep.pid"
+  echo "[watchdog] Instagram comment sweep PID: $IG_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] instagram-comment-sweep already running" | tee -a "$LOG"
+fi
+
 # Don't start if run-queue is already running (avoid double-run)
 if pgrep -f "run-queue.js" > /dev/null 2>&1; then
   echo "[watchdog] run-queue.js already running — monitoring only" | tee -a "$LOG"

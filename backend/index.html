@@ -92,6 +92,12 @@
       <button class="tab-btn" onclick="switchTab('orchestration')" data-tab="orchestration">
         🚀 Orchestration
       </button>
+      <button class="tab-btn" onclick="switchTab('queue')" data-tab="queue">
+        🗂️ Queue
+      </button>
+      <button class="tab-btn" onclick="switchTab('bridge')" data-tab="bridge">
+        🌉 Bridge
+      </button>
     </div>
 
     <!-- Dashboard Tab Content -->
@@ -527,6 +533,354 @@
       </div>
     </div><!-- End Orchestration Tab -->
 
+    <!-- Queue / Topology Tab -->
+    <div id="tab-queue" class="tab-content" style="display: none;">
+
+      <!-- Polsia Orchestrator Panel -->
+      <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--color-primary, #6366f1);">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">🤖 Polsia Orchestrator</h3>
+            <p class="card-subtitle">Business goals → autonomous action every 5 minutes</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="orch-status-badge" class="badge badge-secondary">—</span>
+            <button class="btn btn-secondary" onclick="orchPause()" id="orch-pause-btn" style="display:none;">Pause</button>
+            <button class="btn btn-secondary" onclick="orchResume()" id="orch-resume-btn" style="display:none;">Resume</button>
+            <button class="btn btn-secondary" onclick="loadOrchestratorData()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="orch-summary" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.75rem; font-size: 0.875rem;">
+            <span>Cycle <b id="orch-cycle">—</b></span>
+            <span>Last cycle: <b id="orch-last">—</b></span>
+            <span>Today: <b id="orch-today">—</b> actions</span>
+            <span id="orch-pending-summary" style="cursor:pointer; text-decoration:underline;" onclick="togglePendingPanel()">Pending approvals: <b id="orch-pending-count">0</b></span>
+          </div>
+          <div id="orch-last-action" style="font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;"></div>
+        </div>
+      </div>
+
+      <!-- Pending Approvals Panel -->
+      <div id="orch-pending-panel" class="card" style="margin-bottom: 1rem; display: none;">
+        <div class="card-header">
+          <h3 class="card-title">⏸️ Pending Approvals</h3>
+          <button class="btn btn-secondary" onclick="loadOrchestratorData()">🔄 Refresh</button>
+        </div>
+        <div class="card-body">
+          <div id="orch-pending-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="color: var(--color-text-secondary); font-size: 0.875rem;">No pending approvals.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn Prospect Daemon Panel -->
+      <div class="card" style="margin-bottom: 1rem; border-left: 3px solid #0a66c2;">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">🔗 LinkedIn Prospect Daemon</h3>
+            <p class="card-subtitle">24/7 ICP discovery → CRMLite cloud sync → DM approval queue</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="li-daemon-badge" class="badge badge-secondary">—</span>
+            <button class="btn btn-secondary" onclick="loadLinkedInDaemon()">🔄 Refresh</button>
+            <button class="btn btn-primary" id="li-queue-toggle-btn" onclick="toggleLiQueuePanel()" style="display:none;">Review Queue (0)</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: 0.875rem; margin-bottom: 0.5rem;">
+            <span>Cycles: <b id="li-cycle-count">—</b></span>
+            <span>Prospects found: <b id="li-total-found">—</b></span>
+            <span>CRM synced: <b id="li-crm-synced">—</b></span>
+            <span>DM queue: <b id="li-queue-total">—</b></span>
+            <span>Pending approval: <b id="li-queue-pending" style="color:#f59e0b;">—</b></span>
+            <span>Last cycle: <b id="li-last-cycle">—</b></span>
+            <span>Next: <b id="li-next-cycle">—</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn DM Queue Panel -->
+      <div id="li-queue-panel" class="card" style="margin-bottom: 1rem; display: none;">
+        <div class="card-header">
+          <h3 class="card-title">📋 LinkedIn DM Approval Queue</h3>
+          <div style="display:flex;gap:0.5rem;">
+            <select id="li-queue-filter" onchange="loadLinkedInQueue()" style="font-size:0.8rem;padding:2px 6px;">
+              <option value="pending_approval">Pending Approval</option>
+              <option value="approved">Approved</option>
+              <option value="skipped">Skipped</option>
+              <option value="all">All</option>
+            </select>
+            <button class="btn btn-secondary" onclick="loadLinkedInQueue()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="li-queue-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="color: var(--color-text-secondary); font-size: 0.875rem;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn Hub Panel -->
+      <div id="linkedin-hub-panel" class="panel" style="margin-top:20px;border:1px solid #2d4a2d;border-radius:8px;padding:16px;background:#0d1f0d;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <h3 style="margin:0;color:#4CAF50;">LinkedIn Hub</h3>
+          <button onclick="refreshLinkedInHub()" style="background:#1a3a1a;color:#8bc34a;border:1px solid #2d4a2d;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Refresh</button>
+        </div>
+        <div id="linkedin-hub-status" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div id="li-discovery-status" class="li-component-card">Loading...</div>
+          <div id="li-engagement-status" class="li-component-card">Loading...</div>
+          <div id="li-followup-status" class="li-component-card">Loading...</div>
+          <div id="li-inbox-status" class="li-component-card">Loading...</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="openLinkedInQueue('discovery')" id="li-review-discovery" class="li-review-btn">Review Discovery: --</button>
+          <button onclick="openLinkedInQueue('engagement')" id="li-review-engagement" class="li-review-btn">Review Engagement: --</button>
+          <button onclick="openLinkedInQueue('followup')" id="li-review-followup" class="li-review-btn">Review Follow-ups: --</button>
+          <button onclick="openLinkedInReplies()" id="li-view-replies" class="li-review-btn" style="background:#1a2a3a;color:#64b5f6;border-color:#1e3a5a;">View Replies: —</button>
+        </div>
+      </div>
+
+      <!-- LinkedIn Queue Modal -->
+      <div id="linkedin-queue-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;overflow:auto;">
+        <div style="max-width:700px;margin:40px auto;background:#1a2a1a;border:1px solid #2d4a2d;border-radius:8px;padding:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 id="li-modal-title" style="margin:0;color:#4CAF50;">LinkedIn Queue</h3>
+            <button onclick="document.getElementById('linkedin-queue-modal').style.display='none'" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">X</button>
+          </div>
+          <div id="li-modal-items"></div>
+        </div>
+      </div>
+
+      <!-- LinkedIn Replies Modal -->
+      <div id="linkedin-replies-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;overflow:auto;">
+        <div style="max-width:700px;margin:40px auto;background:#1a2a1a;border:1px solid #1e3a5a;border-radius:8px;padding:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 style="margin:0;color:#64b5f6;">LinkedIn Replies</h3>
+            <button onclick="document.getElementById('linkedin-replies-modal').style.display='none'" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">X</button>
+          </div>
+          <div id="li-replies-items"></div>
+        </div>
+      </div>
+
+      <!-- Multi-Platform Prospect Pipeline Panel -->
+      <div class="card" style="margin-bottom: 1rem; border-left: 3px solid #8b5cf6;">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">🌐 Multi-Platform Prospect Pipeline</h3>
+            <p class="card-subtitle">IG / TikTok / Twitter / Threads → ICP score → CRMLite → DM queue</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="pp-daemon-badge" class="badge badge-secondary">—</span>
+            <button class="btn btn-secondary" onclick="loadProspectPipeline()">🔄 Refresh</button>
+            <button class="btn btn-primary" id="pp-queue-toggle-btn" onclick="togglePpQueuePanel()" style="display:none;">Review Queue</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: 0.875rem; margin-bottom: 0.75rem;">
+            <span>Cycles: <b id="pp-cycle-count">—</b></span>
+            <span>Last cycle: <b id="pp-last-cycle">—</b></span>
+            <span>Next: <b id="pp-next-cycle">—</b></span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
+            <div style="border:1px solid var(--color-border);border-radius:6px;padding:0.6rem;background:var(--color-bg-secondary);">
+              <div style="font-weight:600;font-size:0.8rem;margin-bottom:4px;">📸 Instagram</div>
+              <div style="font-size:0.78rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <span>Found: <b id="pp-ig-found">0</b></span>
+                <span>Qualified: <b id="pp-ig-qualified">0</b></span>
+                <span style="color:#f59e0b;">Queued: <b id="pp-ig-queued">0</b></span>
+              </div>
+            </div>
+            <div style="border:1px solid var(--color-border);border-radius:6px;padding:0.6rem;background:var(--color-bg-secondary);">
+              <div style="font-weight:600;font-size:0.8rem;margin-bottom:4px;">🎵 TikTok</div>
+              <div style="font-size:0.78rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <span>Found: <b id="pp-tt-found">0</b></span>
+                <span>Qualified: <b id="pp-tt-qualified">0</b></span>
+                <span style="color:#f59e0b;">Queued: <b id="pp-tt-queued">0</b></span>
+              </div>
+            </div>
+            <div style="border:1px solid var(--color-border);border-radius:6px;padding:0.6rem;background:var(--color-bg-secondary);">
+              <div style="font-weight:600;font-size:0.8rem;margin-bottom:4px;">🐦 Twitter</div>
+              <div style="font-size:0.78rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <span>Found: <b id="pp-tw-found">0</b></span>
+                <span>Qualified: <b id="pp-tw-qualified">0</b></span>
+                <span style="color:#f59e0b;">Queued: <b id="pp-tw-queued">0</b></span>
+              </div>
+            </div>
+            <div style="border:1px solid var(--color-border);border-radius:6px;padding:0.6rem;background:var(--color-bg-secondary);">
+              <div style="font-weight:600;font-size:0.8rem;margin-bottom:4px;">🧵 Threads</div>
+              <div style="font-size:0.78rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <span>Found: <b id="pp-threads-found">0</b></span>
+                <span>Qualified: <b id="pp-threads-qualified">0</b></span>
+                <span style="color:#f59e0b;">Queued: <b id="pp-threads-queued">0</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prospect Pipeline DM Queue Panel -->
+      <div id="pp-queue-panel" class="card" style="margin-bottom: 1rem; display: none;">
+        <div class="card-header">
+          <h3 class="card-title">📋 Prospect DM Approval Queue</h3>
+          <div style="display:flex;gap:0.5rem;">
+            <select id="pp-platform-filter" onchange="loadProspectQueue()" style="font-size:0.8rem;padding:2px 6px;">
+              <option value="ig">Instagram</option>
+              <option value="tt">TikTok</option>
+              <option value="tw">Twitter</option>
+              <option value="threads">Threads</option>
+            </select>
+            <select id="pp-status-filter" onchange="loadProspectQueue()" style="font-size:0.8rem;padding:2px 6px;">
+              <option value="pending_approval">Pending Approval</option>
+              <option value="approved">Approved</option>
+              <option value="skipped">Skipped</option>
+              <option value="all">All</option>
+            </select>
+            <button class="btn btn-secondary" onclick="loadProspectQueue()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="pp-queue-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="color: var(--color-text-secondary); font-size: 0.875rem;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Topology header -->
+      <div class="card" style="margin-bottom: 1rem;">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">🗂️ Agent Queue &amp; Topology</h3>
+            <p class="card-subtitle">Live view of running, queued, and completed agents</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="topology-badge" class="badge badge-info">—</span>
+            <span id="parallel-count-badge" class="badge badge-secondary"></span>
+            <button class="btn btn-secondary" onclick="refreshQueueTab()">🔄 Refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Running agents -->
+      <div class="card" style="margin-bottom: 1rem;">
+        <div class="card-header">
+          <h3 class="card-title">▶️ Running</h3>
+          <span id="running-count" class="badge badge-success">0</span>
+        </div>
+        <div class="card-body">
+          <div id="running-agents-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="color: var(--color-text-secondary); font-size: 0.875rem;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Queued agents -->
+      <div class="card" style="margin-bottom: 1rem;">
+        <div class="card-header">
+          <h3 class="card-title">⏳ Queued</h3>
+          <span id="queued-count" class="badge badge-warning">0</span>
+        </div>
+        <div class="card-body">
+          <div id="queued-agents-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="color: var(--color-text-secondary); font-size: 0.875rem;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Completed agents -->
+      <div class="card" style="margin-bottom: 1rem;">
+        <div class="card-header">
+          <h3 class="card-title">✅ Completed</h3>
+          <span id="completed-count" class="badge badge-primary">0</span>
+        </div>
+        <div class="card-body">
+          <div id="completed-agents-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="color: var(--color-text-secondary); font-size: 0.875rem;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doctor Log -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🩺 Doctor Log</h3>
+          <button class="btn btn-secondary" onclick="refreshDoctorLog()">🔄 Refresh</button>
+        </div>
+        <div class="card-body">
+          <div id="doctor-log-list" style="font-family: monospace; font-size: 0.8rem; max-height: 300px; overflow-y: auto;">
+            <div style="color: var(--color-text-secondary);">No entries yet.</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Queue Tab -->
+
+    <!-- Bridge Tab Content -->
+    <div id="tab-bridge" class="tab-content" style="display: none;">
+      <div class="card" style="margin-bottom: 1rem; border-left: 3px solid #10b981;">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Cloud Bridge</h3>
+            <p class="card-subtitle">Cloud services send commands to local Safari/Chrome browser agents</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span id="bridge-status-badge" class="badge badge-secondary">--</span>
+            <button class="btn btn-secondary" onclick="loadBridgeData()">Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1rem; font-size: 0.875rem;">
+            <div><span style="color: var(--color-text-secondary);">Pending:</span> <b id="bridge-pending">0</b></div>
+            <div><span style="color: var(--color-text-secondary);">Processing:</span> <b id="bridge-processing">0</b></div>
+            <div><span style="color: var(--color-text-secondary);">Done today:</span> <b id="bridge-done">0</b></div>
+            <div><span style="color: var(--color-text-secondary);">Failed today:</span> <b id="bridge-failed">0</b></div>
+            <div><span style="color: var(--color-text-secondary);">Total processed:</span> <b id="bridge-total">0</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Recent Commands</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-container">
+            <table class="table" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>Platform</th>
+                  <th>Action</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Created</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody id="bridge-commands-table">
+                <tr><td colspan="6" style="text-align:center; color: var(--color-text-secondary);">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Bridge Tab -->
+
+    <!-- Doctor Modal -->
+    <div id="doctor-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="margin: 0;">🩺 Doctor Diagnosis</h3>
+          <button onclick="closeDoctorModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);">&times;</button>
+        </div>
+        <div id="doctor-modal-slug" style="color: var(--color-text-secondary); margin-bottom: 1rem; font-size: 0.875rem;"></div>
+        <div id="doctor-modal-body" style="white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; background: var(--bg-primary); padding: 1rem; border-radius: 0.25rem; min-height: 100px;">
+          Running diagnosis...
+        </div>
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" onclick="closeDoctorModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <script src="mock-data.js"></script>
@@ -649,7 +1003,602 @@
         loadGoalsData();
       } else if (tabName === 'orchestration') {
         loadOrchestrationData();
+      } else if (tabName === 'queue') {
+        loadQueueData();
+        loadOrchestratorData();
+        loadLinkedInDaemon();
+        loadProspectPipeline();
+      } else if (tabName === 'bridge') {
+        loadBridgeData();
       }
+    }
+
+    // ── Cloud Bridge Panel ─────────────────────────────────────────────────────
+
+    async function loadBridgeData() {
+      try {
+        const [statusRes, recentRes] = await Promise.all([
+          fetch('/api/bridge/status'),
+          fetch('/api/bridge/recent'),
+        ]);
+        const status = await statusRes.json();
+        const recent = await recentRes.json();
+        const d = status.data || {};
+
+        // Status badge
+        const badge = document.getElementById('bridge-status-badge');
+        if (d.pid_alive) {
+          badge.textContent = 'RUNNING';
+          badge.className = 'badge badge-success';
+        } else {
+          badge.textContent = 'STOPPED';
+          badge.className = 'badge badge-secondary';
+        }
+
+        // Stats
+        document.getElementById('bridge-pending').textContent = d.pending || 0;
+        document.getElementById('bridge-processing').textContent = d.processing || 0;
+        document.getElementById('bridge-done').textContent = d.done_today || 0;
+        document.getElementById('bridge-failed').textContent = d.failed_today || 0;
+        document.getElementById('bridge-total').textContent = d.totalProcessed || 0;
+
+        // Recent commands table
+        const tbody = document.getElementById('bridge-commands-table');
+        const commands = recent.data || [];
+        if (commands.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--color-text-secondary);">No commands yet</td></tr>';
+        } else {
+          tbody.innerHTML = commands.map(c => {
+            const statusColor = c.status === 'done' ? '#10b981'
+              : c.status === 'failed' ? '#ef4444'
+              : c.status === 'processing' ? '#f59e0b'
+              : c.status === 'rejected' ? '#9333ea'
+              : c.status === 'rate_limited' ? '#f97316'
+              : 'var(--color-text-secondary)';
+            const created = c.created_at ? new Date(c.created_at).toLocaleTimeString() : '--';
+            const completed = c.updated_at ? new Date(c.updated_at).toLocaleTimeString() : '--';
+            return `<tr>
+              <td>${c.platform || '--'}</td>
+              <td>${c.action || '--'}</td>
+              <td><span style="color:${statusColor}; font-weight:600;">${c.status || '--'}</span></td>
+              <td>${c.priority || '--'}</td>
+              <td>${created}</td>
+              <td>${completed}</td>
+            </tr>`;
+          }).join('');
+        }
+      } catch (err) {
+        console.error('Bridge data load error:', err);
+      }
+    }
+
+    // ── Orchestrator Panel ────────────────────────────────────────────────────
+
+    let _orchPendingVisible = false;
+
+    function togglePendingPanel() {
+      _orchPendingVisible = !_orchPendingVisible;
+      document.getElementById('orch-pending-panel').style.display = _orchPendingVisible ? 'block' : 'none';
+    }
+
+    async function loadOrchestratorData() {
+      try {
+        const [statusRes, logRes, pendingRes] = await Promise.all([
+          fetch('/api/orchestrator/status'),
+          fetch('/api/orchestrator/log'),
+          fetch('/api/orchestrator/pending'),
+        ]);
+
+        // Status
+        if (statusRes.ok) {
+          const { data } = await statusRes.json();
+          const badge = document.getElementById('orch-status-badge');
+          if (data.running) {
+            badge.textContent = data.paused ? 'PAUSED' : 'RUNNING';
+            badge.className = `badge ${data.paused ? 'badge-warning' : 'badge-success'}`;
+          } else {
+            badge.textContent = 'STOPPED';
+            badge.className = 'badge badge-secondary';
+          }
+          document.getElementById('orch-pause-btn').style.display = (data.running && !data.paused) ? '' : 'none';
+          document.getElementById('orch-resume-btn').style.display = (data.running && data.paused) ? '' : 'none';
+          document.getElementById('orch-cycle').textContent = data.cycleCount || 0;
+          document.getElementById('orch-today').textContent = data.todayActionCount || 0;
+          const last = data.lastCycleAt ? new Date(data.lastCycleAt).toLocaleTimeString() : '—';
+          document.getElementById('orch-last').textContent = last;
+        }
+
+        // Last log entry
+        if (logRes.ok) {
+          const { data } = await logRes.json();
+          const lastEl = document.getElementById('orch-last-action');
+          if (data.entries && data.entries.length > 0) {
+            const e = data.entries[0];
+            const icon = e.action === 'no_action' ? '💤' : e.action === 'dispatch_acd' ? '🚀' : e.action === 'run_actp_pipeline' ? '⚙️' : '📋';
+            lastEl.innerHTML = `Last: ${icon} <b>${e.action}</b> — ${(e.reason || '').slice(0, 80)} <span style="color:var(--color-text-secondary)">${new Date(e.ts).toLocaleString()}</span>`;
+          } else {
+            lastEl.textContent = 'No cycles run yet.';
+          }
+        }
+
+        // Pending approvals
+        if (pendingRes.ok) {
+          const { data } = await pendingRes.json();
+          const count = data.pending.filter(p => p.status === 'pending').length;
+          document.getElementById('orch-pending-count').textContent = count;
+          const listEl = document.getElementById('orch-pending-list');
+          const pendingItems = data.pending.filter(p => p.status === 'pending');
+          if (pendingItems.length === 0) {
+            listEl.innerHTML = '<div style="color: var(--color-text-secondary); font-size: 0.875rem;">No pending approvals.</div>';
+          } else {
+            listEl.innerHTML = pendingItems.map(p => `
+              <div style="display:flex; align-items:center; gap:0.75rem; padding:0.5rem; background:var(--bg-primary); border-radius:0.25rem; font-size:0.875rem;">
+                <span class="badge badge-warning">${p.type}</span>
+                <span style="flex:1;">${(p.reason || '').slice(0, 100)}</span>
+                <span style="color:var(--color-text-secondary); font-size:0.75rem;">${new Date(p.queued_at).toLocaleString()}</span>
+                <button class="btn btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="orchApprove('${p.id}')">Approve</button>
+                <button class="btn btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="orchSkip('${p.id}')">Skip</button>
+              </div>`).join('');
+          }
+        }
+      } catch (err) {
+        console.error('loadOrchestratorData error:', err);
+      }
+    }
+
+    async function orchPause() {
+      await fetch('/api/orchestrator/pause', { method: 'POST' });
+      loadOrchestratorData();
+    }
+
+    async function orchResume() {
+      await fetch('/api/orchestrator/resume', { method: 'POST' });
+      loadOrchestratorData();
+    }
+
+    async function orchApprove(id) {
+      // Mark as approved in pending-actions.json via a simple status update
+      // (Manual execution: user sees it's approved and runs it themselves)
+      try {
+        const res = await fetch('/api/orchestrator/pending');
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const updated = data.pending.map(p => p.id === id ? { ...p, status: 'approved', approved_at: new Date().toISOString() } : p);
+        await fetch('/api/orchestrator/pending', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pending: updated }),
+        });
+      } catch { /* non-fatal */ }
+      loadOrchestratorData();
+    }
+
+    async function orchSkip(id) {
+      try {
+        const res = await fetch('/api/orchestrator/pending');
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const updated = data.pending.map(p => p.id === id ? { ...p, status: 'skipped', skipped_at: new Date().toISOString() } : p);
+        await fetch('/api/orchestrator/pending', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pending: updated }),
+        });
+      } catch { /* non-fatal */ }
+      loadOrchestratorData();
+    }
+
+    // ── LinkedIn Daemon ───────────────────────────────────────────────────────
+    function timeAgo(iso) {
+      if (!iso) return '—';
+      const diff = Date.now() - new Date(iso).getTime();
+      const m = Math.floor(diff / 60000);
+      if (m < 1) return 'just now';
+      if (m < 60) return `${m}m ago`;
+      return `${Math.floor(m/60)}h ${m%60}m ago`;
+    }
+    function timeUntil(iso) {
+      if (!iso) return '—';
+      const diff = new Date(iso).getTime() - Date.now();
+      if (diff <= 0) return 'now';
+      const m = Math.ceil(diff / 60000);
+      if (m < 60) return `in ${m}m`;
+      return `in ${Math.floor(m/60)}h ${m%60}m`;
+    }
+
+    function toggleLiQueuePanel() {
+      const panel = document.getElementById('li-queue-panel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      if (panel.style.display !== 'none') loadLinkedInQueue();
+    }
+
+    async function loadLinkedInDaemon() {
+      try {
+        const res = await fetch('/api/linkedin/daemon/status');
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const alive = data.pid_alive;
+        const badge = document.getElementById('li-daemon-badge');
+        badge.textContent = alive ? 'RUNNING' : (data.startedAt ? 'STOPPED' : 'NOT STARTED');
+        badge.className = 'badge ' + (alive ? 'badge-success' : 'badge-secondary');
+        document.getElementById('li-cycle-count').textContent = data.cycleCount ?? '0';
+        document.getElementById('li-total-found').textContent = data.totalProspectsFound ?? '0';
+        document.getElementById('li-crm-synced').textContent = data.totalSyncedCrm ?? '0';
+        document.getElementById('li-last-cycle').textContent = timeAgo(data.lastCycleAt);
+        document.getElementById('li-next-cycle').textContent = alive ? timeUntil(data.nextCycleAt) : '—';
+        const qs = data.queue_stats || {};
+        document.getElementById('li-queue-total').textContent = qs.total ?? '0';
+        document.getElementById('li-queue-pending').textContent = qs.pending_approval ?? '0';
+        const toggleBtn = document.getElementById('li-queue-toggle-btn');
+        toggleBtn.style.display = (qs.total > 0) ? 'inline-block' : 'none';
+        toggleBtn.textContent = `Review Queue (${qs.pending_approval ?? 0} pending)`;
+      } catch (err) {
+        console.error('loadLinkedInDaemon error:', err);
+      }
+    }
+
+    async function loadLinkedInQueue() {
+      const status = document.getElementById('li-queue-filter')?.value || 'pending_approval';
+      try {
+        const res = await fetch(`/api/linkedin/daemon/queue?status=${status}`);
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const container = document.getElementById('li-queue-list');
+        if (!data || data.length === 0) {
+          container.innerHTML = '<div style="color:var(--color-text-secondary);font-size:0.875rem;">No items in this view.</div>';
+          return;
+        }
+        container.innerHTML = data.map(item => {
+          const p = item.prospect || {};
+          const scoreColor = (p.icp_score >= 8) ? '#22c55e' : (p.icp_score >= 6) ? '#f59e0b' : '#94a3b8';
+          const statusBadge = {
+            pending_approval: '<span class="badge badge-warning" style="font-size:0.7rem;">PENDING</span>',
+            approved: '<span class="badge badge-success" style="font-size:0.7rem;">APPROVED</span>',
+            skipped: '<span class="badge badge-secondary" style="font-size:0.7rem;">SKIPPED</span>',
+            sent: '<span class="badge badge-info" style="font-size:0.7rem;">SENT</span>',
+          }[item.status] || '';
+          const actions = item.status === 'pending_approval' ? `
+            <button class="btn btn-primary" style="font-size:0.75rem;padding:3px 10px;" onclick="liApprove('${item.id}')">Approve</button>
+            <button class="btn btn-secondary" style="font-size:0.75rem;padding:3px 10px;" onclick="liSkip('${item.id}')">Skip</button>
+          ` : '';
+          return `
+            <div style="border:1px solid var(--color-border);border-radius:6px;padding:0.75rem;background:var(--color-bg-secondary);">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;flex-wrap:wrap;">
+                <div>
+                  <b><a href="${p.profileUrl}" target="_blank" style="color:var(--color-primary);text-decoration:none;">${p.name || '?'}</a></b>
+                  ${statusBadge}
+                  ${item.crm_synced ? '<span class="badge badge-info" style="font-size:0.7rem;">CRM</span>' : ''}
+                  <span style="font-size:0.75rem;color:${scoreColor};font-weight:600;margin-left:4px;">ICP ${p.icp_score}/10</span>
+                </div>
+                <div style="display:flex;gap:0.4rem;">${actions}</div>
+              </div>
+              <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:4px;">${p.headline || ''}</div>
+              <div style="font-size:0.75rem;color:var(--color-text-secondary);margin-top:2px;">
+                ${p.role ? `<span>${p.role}</span>` : ''}
+                ${p.company ? `<span> @ ${p.company}</span>` : ''}
+                ${p.location ? `<span> · ${p.location}</span>` : ''}
+                <span> · ${item.strategy || ''}</span>
+                <span> · ${timeAgo(item.queued_at)}</span>
+              </div>
+              <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:6px;padding:6px 8px;background:var(--color-bg);border-radius:4px;font-style:italic;">
+                "${(item.drafted_message || '').slice(0, 200)}${(item.drafted_message || '').length > 200 ? '…' : ''}"
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('loadLinkedInQueue error:', err);
+      }
+    }
+
+    async function liApprove(id) {
+      await fetch('/api/linkedin/daemon/queue/approve', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }),
+      });
+      await loadLinkedInQueue();
+      await loadLinkedInDaemon();
+    }
+
+    async function liSkip(id) {
+      await fetch('/api/linkedin/daemon/queue/skip', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }),
+      });
+      await loadLinkedInQueue();
+      await loadLinkedInDaemon();
+    }
+
+    // ── Prospect Pipeline Functions ──────────────────────────────────────────
+
+    function togglePpQueuePanel() {
+      const panel = document.getElementById('pp-queue-panel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      if (panel.style.display !== 'none') loadProspectQueue();
+    }
+
+    async function loadProspectPipeline() {
+      try {
+        const res = await fetch('/api/prospects/status');
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const alive = data.pid_alive;
+        const badge = document.getElementById('pp-daemon-badge');
+        badge.textContent = alive ? 'RUNNING' : (data.startedAt ? 'STOPPED' : 'NOT STARTED');
+        badge.className = 'badge ' + (alive ? 'badge-success' : 'badge-secondary');
+        document.getElementById('pp-cycle-count').textContent = data.cycleCount ?? '0';
+        document.getElementById('pp-last-cycle').textContent = timeAgo(data.lastCycleAt);
+        document.getElementById('pp-next-cycle').textContent = alive ? timeUntil(data.nextCycleAt) : '—';
+
+        const stats = data.stats || {};
+        const queues = data.queues || {};
+        let totalPending = 0;
+        for (const p of ['ig', 'tt', 'tw', 'threads']) {
+          const s = stats[p] || {};
+          const q = queues[p] || {};
+          const el = (id) => document.getElementById(id);
+          el(`pp-${p}-found`).textContent = s.found ?? '0';
+          el(`pp-${p}-qualified`).textContent = s.qualified ?? '0';
+          el(`pp-${p}-queued`).textContent = q.pending_approval ?? '0';
+          totalPending += (q.pending_approval || 0);
+        }
+
+        const toggleBtn = document.getElementById('pp-queue-toggle-btn');
+        toggleBtn.style.display = totalPending > 0 ? 'inline-block' : 'none';
+        toggleBtn.textContent = `Review Queue (${totalPending} pending)`;
+      } catch (err) {
+        console.error('loadProspectPipeline error:', err);
+      }
+    }
+
+    async function loadProspectQueue() {
+      const platform = document.getElementById('pp-platform-filter')?.value || 'ig';
+      const status = document.getElementById('pp-status-filter')?.value || 'pending_approval';
+      try {
+        const res = await fetch(`/api/prospects/queue?platform=${platform}&status=${status}`);
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const container = document.getElementById('pp-queue-list');
+        if (!data || data.length === 0) {
+          container.innerHTML = '<div style="color:var(--color-text-secondary);font-size:0.875rem;">No items in this view.</div>';
+          return;
+        }
+        container.innerHTML = data.map(item => {
+          const p = item.prospect || {};
+          const scoreColor = (p.icp_score >= 8) ? '#22c55e' : (p.icp_score >= 6) ? '#f59e0b' : '#94a3b8';
+          const statusBadge = {
+            pending_approval: '<span class="badge badge-warning" style="font-size:0.7rem;">PENDING</span>',
+            approved: '<span class="badge badge-success" style="font-size:0.7rem;">APPROVED</span>',
+            skipped: '<span class="badge badge-secondary" style="font-size:0.7rem;">SKIPPED</span>',
+          }[item.status] || '';
+          const actions = item.status === 'pending_approval' ? `
+            <button class="btn btn-primary" style="font-size:0.75rem;padding:3px 10px;" onclick="ppApprove('${item.id}','${p.platform}')">Approve</button>
+            <button class="btn btn-secondary" style="font-size:0.75rem;padding:3px 10px;" onclick="ppSkip('${item.id}','${p.platform}')">Skip</button>
+          ` : '';
+          return `
+            <div style="border:1px solid var(--color-border);border-radius:6px;padding:0.75rem;background:var(--color-bg-secondary);">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;flex-wrap:wrap;">
+                <div>
+                  <b><a href="${p.profile_url || '#'}" target="_blank" style="color:var(--color-primary);text-decoration:none;">${p.display_name || p.username || '?'}</a></b>
+                  ${p.username ? `<span style="font-size:0.75rem;color:var(--color-text-secondary);">@${p.username}</span>` : ''}
+                  ${statusBadge}
+                  ${item.crm_synced ? '<span class="badge badge-info" style="font-size:0.7rem;">CRM</span>' : ''}
+                  <span style="font-size:0.75rem;color:${scoreColor};font-weight:600;margin-left:4px;">ICP ${p.icp_score}/10</span>
+                </div>
+                <div style="display:flex;gap:0.4rem;">${actions}</div>
+              </div>
+              <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:4px;">${(p.bio || '').slice(0, 150)}</div>
+              <div style="font-size:0.75rem;color:var(--color-text-secondary);margin-top:2px;">
+                ${p.followers_count ? `<span>${p.followers_count} followers</span>` : ''}
+                <span> · ${timeAgo(item.queued_at)}</span>
+              </div>
+              <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:6px;padding:6px 8px;background:var(--color-bg);border-radius:4px;font-style:italic;">
+                "${(item.drafted_message || '').slice(0, 200)}${(item.drafted_message || '').length > 200 ? '…' : ''}"
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('loadProspectQueue error:', err);
+      }
+    }
+
+    async function ppApprove(id, platform) {
+      await fetch('/api/prospects/queue/approve', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, platform }),
+      });
+      await loadProspectQueue();
+      await loadProspectPipeline();
+    }
+
+    async function ppSkip(id, platform) {
+      await fetch('/api/prospects/queue/skip', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, platform }),
+      });
+      await loadProspectQueue();
+      await loadProspectPipeline();
+    }
+
+    // ── Queue / Topology Tab ─────────────────────────────────────────────────
+
+    async function loadQueueData() {
+      try {
+        const [topologyRes, agentsRes] = await Promise.all([
+          fetch('/api/harness/topology'),
+          fetch('/api/harness/agents'),
+        ]);
+        const topologyData = topologyRes.ok ? (await topologyRes.json()).data : null;
+        const agentsData = agentsRes.ok ? (await agentsRes.json()).data : null;
+
+        // Update topology badge
+        if (topologyData) {
+          const topoBadge = document.getElementById('topology-badge');
+          const topoLabel = topologyData.topology.toUpperCase();
+          topoBadge.textContent = topoLabel;
+          topoBadge.className = `badge ${topologyData.parallelCount > 1 ? 'badge-success' : topologyData.parallelCount === 1 ? 'badge-info' : 'badge-secondary'}`;
+
+          const countBadge = document.getElementById('parallel-count-badge');
+          countBadge.textContent = `${topologyData.parallelCount} running`;
+
+          // Running agents
+          renderRunningAgents(topologyData.running, agentsData?.agents || []);
+
+          // Queued agents
+          const queuedEl = document.getElementById('queued-agents-list');
+          document.getElementById('queued-count').textContent = topologyData.queued.length;
+          if (topologyData.queued.length === 0) {
+            queuedEl.innerHTML = '<div style="color: var(--color-text-secondary); font-size: 0.875rem;">No agents queued</div>';
+          } else {
+            queuedEl.innerHTML = topologyData.queued.map(q => `
+              <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem; background: var(--bg-primary); border-radius: 0.25rem;">
+                <span class="badge badge-secondary">#${q.position}</span>
+                <span style="font-weight: 500; font-size: 0.875rem;">${q.slug}</span>
+                <span style="color: var(--color-text-secondary); font-size: 0.8rem;">${q.prd}</span>
+                <span class="badge badge-warning" style="margin-left: auto;">${q.features.total} features</span>
+                ${topologyData.nextUp === q.slug ? '<span class="badge badge-success">NEXT UP</span>' : ''}
+              </div>
+            `).join('');
+          }
+
+          // Completed agents
+          const completedEl = document.getElementById('completed-agents-list');
+          document.getElementById('completed-count').textContent = topologyData.completed.length;
+          if (topologyData.completed.length === 0) {
+            completedEl.innerHTML = '<div style="color: var(--color-text-secondary); font-size: 0.875rem;">None yet</div>';
+          } else {
+            completedEl.innerHTML = topologyData.completed.map(c => `
+              <span class="badge badge-success" title="${c.prd}">✅ ${c.slug} (${c.features.passing}/${c.features.total})</span>
+            `).join('');
+          }
+        }
+      } catch (e) {
+        document.getElementById('running-agents-list').innerHTML =
+          `<div style="color: var(--color-danger); font-size: 0.875rem;">Error: ${e.message}</div>`;
+      }
+    }
+
+    function renderRunningAgents(runningAgents, allAgents) {
+      const el = document.getElementById('running-agents-list');
+      document.getElementById('running-count').textContent = runningAgents.length;
+
+      if (runningAgents.length === 0) {
+        el.innerHTML = '<div style="color: var(--color-text-secondary); font-size: 0.875rem;">No agents currently running</div>';
+        return;
+      }
+
+      el.innerHTML = runningAgents.map(agent => {
+        const pct = agent.features.pct || 0;
+        const isStuck = !!agent.stuckSince;
+        const stuckAge = agent.stuckSince
+          ? Math.round((Date.now() - new Date(agent.stuckSince).getTime()) / 60000)
+          : 0;
+
+        return `
+          <div style="padding: 0.75rem; background: var(--bg-primary); border-radius: 0.25rem; border-left: 3px solid ${isStuck ? 'var(--color-danger, #f44)' : 'var(--color-primary)'};">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="font-weight: 600;">${agent.slug}</span>
+              <span class="badge badge-info" style="font-size: 0.75rem;">S${agent.sessionNum}</span>
+              ${isStuck ? `<span class="badge" style="background: var(--color-danger, #f44); color: white;">STUCK ${stuckAge}m</span>` : '<span class="badge badge-success">RUNNING</span>'}
+              <button class="btn btn-secondary" style="margin-left: auto; font-size: 0.75rem; padding: 0.25rem 0.5rem;"
+                onclick="triggerDoctor('${agent.slug}')">🩺 Doctor</button>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 0.4rem;">${agent.prd}</div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="flex: 1; background: var(--border); height: 6px; border-radius: 3px; overflow: hidden;">
+                <div style="width: ${pct}%; background: var(--color-primary); height: 100%;"></div>
+              </div>
+              <span style="font-size: 0.8rem; color: var(--color-text-secondary);">${agent.features.passing}/${agent.features.total} (${pct}%)</span>
+            </div>
+            <div id="telemetry-${agent.slug}" style="margin-top: 0.5rem; font-family: monospace; font-size: 0.75rem; color: var(--color-text-secondary); max-height: 80px; overflow-y: auto;"></div>
+          </div>
+        `;
+      }).join('');
+
+      // Load telemetry for each running agent
+      runningAgents.forEach(agent => {
+        loadAgentTelemetry(agent.slug);
+      });
+    }
+
+    async function loadAgentTelemetry(slug) {
+      try {
+        const res = await fetch(`/api/harness/telemetry/${slug}`);
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const el = document.getElementById(`telemetry-${slug}`);
+        if (!el) return;
+        const events = (data.events || []).slice(-10).reverse();
+        if (events.length === 0) {
+          el.textContent = '(no recent events)';
+          return;
+        }
+        el.innerHTML = events.map(e => {
+          const ts = new Date(e.ts).toLocaleTimeString();
+          const icon = e.event === 'feature_passed' ? '✅' : e.event === 'stuck_detected' ? '🔴' : e.event === 'session_end' ? '🏁' : '·';
+          return `<div>${icon} [${ts}] ${e.event}${e.featuresDelta ? ` +${e.featuresDelta}` : ''}${e.reason ? ` — ${e.reason}` : ''}</div>`;
+        }).join('');
+      } catch { /* ok */ }
+    }
+
+    async function refreshQueueTab() {
+      document.getElementById('running-agents-list').innerHTML = '<div style="color: var(--color-text-secondary);">Loading...</div>';
+      await loadQueueData();
+    }
+
+    async function refreshDoctorLog() {
+      try {
+        const res = await fetch('/api/harness/doctor-log');
+        if (!res.ok) return;
+        const { data } = await res.json();
+        const el = document.getElementById('doctor-log-list');
+        if (!data.entries || data.entries.length === 0) {
+          el.innerHTML = '<div style="color: var(--color-text-secondary);">No entries yet.</div>';
+          return;
+        }
+        el.innerHTML = data.entries.slice(0, 20).map(e => {
+          const ts = new Date(e.ts).toLocaleString();
+          const icon = e.success ? '✅' : '❌';
+          return `<div style="margin-bottom: 0.25rem;">${icon} [${ts}] <b>${e.slug}</b> — ${e.reason} | ${e.diagnosis ? e.diagnosis.slice(0, 80) + '…' : 'no diagnosis'}</div>`;
+        }).join('');
+      } catch (err) {
+        document.getElementById('doctor-log-list').textContent = `Error: ${err.message}`;
+      }
+    }
+
+    async function triggerDoctor(slug) {
+      const modal = document.getElementById('doctor-modal');
+      const body = document.getElementById('doctor-modal-body');
+      const slugEl = document.getElementById('doctor-modal-slug');
+      modal.style.display = 'flex';
+      slugEl.textContent = `Agent: ${slug}`;
+      body.textContent = 'Running diagnosis... (may take 30-60 seconds)';
+      try {
+        const res = await fetch(`/api/harness/doctor/${slug}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason: 'Manual trigger from dashboard' }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          body.textContent = `Error: ${data.error?.message || 'Unknown error'}`;
+          return;
+        }
+        const result = data.data;
+        body.textContent = [
+          `Success: ${result.success ? 'YES' : 'NO'}`,
+          `Turns: ${result.turns}`,
+          '',
+          '── Diagnosis ──',
+          result.diagnosis || '(no diagnosis text)',
+          '',
+          '── Actions Taken ──',
+          ...(result.actions_taken || []).map(a => `• ${a.tool}: ${JSON.stringify(a.result)}`),
+        ].join('\n');
+      } catch (err) {
+        body.textContent = `Error: ${err.message}`;
+      }
+    }
+
+    function closeDoctorModal() {
+      document.getElementById('doctor-modal').style.display = 'none';
     }
 
     // Load Goals data
@@ -854,6 +1803,124 @@
         alert(`Copied to clipboard: ${text}`);
       });
     }
+
+    // ── LinkedIn Hub ─────────────────────────────────────────────────────────
+    let liCurrentQueueType = 'discovery';
+
+    async function refreshLinkedInHub() {
+      try {
+        const res = await fetch('/api/linkedin/status');
+        if (!res.ok) return;
+        const data = await res.json();
+        const renderCard = (label, d, id) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const badge = d.running ? '<span class="li-badge-running">RUNNING</span>' : '<span class="li-badge-stopped">STOPPED</span>';
+          el.innerHTML = `<div class="li-label">${label} ${badge}</div>
+            <div class="li-value">Cycle #${d.cycleCount || 0}</div>
+            <div style="color:#888;font-size:11px;margin-top:4px;">${d.lastCycleAt ? new Date(d.lastCycleAt).toLocaleTimeString() : 'Never'} | ${d.pending || 0} pending</div>`;
+        };
+        renderCard('Discovery', data.discovery, 'li-discovery-status');
+        renderCard('Post Engagement', data.engagement, 'li-engagement-status');
+        renderCard('Follow-ups', data.followup, 'li-followup-status');
+        document.getElementById('li-review-discovery').textContent = `Review Discovery: ${data.discovery?.pending || 0}`;
+        document.getElementById('li-review-engagement').textContent = `Review Engagement: ${data.engagement?.pending || 0}`;
+        document.getElementById('li-review-followup').textContent = `Review Follow-ups: ${data.followup?.pending || 0}`;
+      } catch (e) { console.error('LinkedIn hub refresh error:', e); }
+    }
+
+    async function openLinkedInQueue(type) {
+      liCurrentQueueType = type;
+      const modal = document.getElementById('linkedin-queue-modal');
+      const title = document.getElementById('li-modal-title');
+      const items = document.getElementById('li-modal-items');
+      title.textContent = `LinkedIn ${type.charAt(0).toUpperCase() + type.slice(1)} Queue`;
+      items.innerHTML = 'Loading...';
+      modal.style.display = 'block';
+      try {
+        const res = await fetch(`/api/linkedin/queue?type=${type}`);
+        const data = await res.json();
+        const pending = data.pending || [];
+        if (pending.length === 0) { items.innerHTML = '<p style="color:#888">No pending items.</p>'; return; }
+        items.innerHTML = pending.map(item => {
+          const p = item.prospect || item;
+          const name = p.name || item.display_name || '?';
+          const msg = item.drafted_message || item.message || '';
+          const score = p.icp_score ? `ICP ${p.icp_score}/10` : '';
+          return `<div class="li-prospect-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <strong style="color:#e0e0e0;">${name}</strong>
+                ${score ? `<span style="color:#8bc34a;font-size:11px;margin-left:8px;">${score}</span>` : ''}
+                <div style="color:#888;font-size:12px;margin-top:2px;">${p.headline || p.company || ''}</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button onclick="liApprove('${item.id}')" style="background:#2d5a2d;color:#8bc34a;border:1px solid #4CAF50;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Approve</button>
+                <button onclick="liSkip('${item.id}')" style="background:#3a2a1a;color:#888;border:1px solid #555;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Skip</button>
+              </div>
+            </div>
+            ${msg ? `<div style="margin-top:10px;padding:8px;background:#162516;border-radius:4px;color:#c8e6c9;font-size:12px;line-height:1.5;">${msg}</div>` : ''}
+          </div>`;
+        }).join('');
+      } catch (e) { items.innerHTML = `<p style="color:#f44">Error: ${e.message}</p>`; }
+    }
+
+    async function liApprove(id) {
+      await fetch('/api/linkedin/queue/approve', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ queueFile: liCurrentQueueType, id }) });
+      openLinkedInQueue(liCurrentQueueType);
+      refreshLinkedInHub();
+    }
+
+    async function liSkip(id) {
+      await fetch('/api/linkedin/queue/skip', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ queueFile: liCurrentQueueType, id }) });
+      openLinkedInQueue(liCurrentQueueType);
+      refreshLinkedInHub();
+    }
+
+    async function openLinkedInReplies() {
+      const modal = document.getElementById('linkedin-replies-modal');
+      const items = document.getElementById('li-replies-items');
+      items.innerHTML = 'Loading...';
+      modal.style.display = 'block';
+      try {
+        const res = await fetch('/api/linkedin/replies?limit=20');
+        const data = await res.json();
+        const replies = data.replies || [];
+        if (replies.length === 0) { items.innerHTML = '<p style="color:#888">No replies yet.</p>'; return; }
+        items.innerHTML = replies.map(r => `
+          <div class="li-prospect-card" style="border-color:#1e3a5a;">
+            <div style="display:flex;justify-content:space-between;">
+              <strong style="color:#e0e0e0;">${r.name || r.slug}</strong>
+              <span style="color:#888;font-size:11px;">${r.ts ? new Date(r.ts).toLocaleString() : ''}</span>
+            </div>
+            <div style="color:#90caf9;font-size:13px;margin-top:6px;padding:8px;background:#0d1929;border-radius:4px;">"${r.fullMessage || r.preview || ''}"</div>
+            <div style="color:#888;font-size:11px;margin-top:4px;"><a href="${r.profileUrl}" target="_blank" style="color:#64b5f6;">${r.profileUrl}</a></div>
+          </div>`).join('');
+      } catch (e) { items.innerHTML = `<p style="color:#f44">Error: ${e.message}</p>`; }
+    }
+
+    // Extend refreshLinkedInHub to also show sender status + inbox
+    const _origRefresh = refreshLinkedInHub;
+    refreshLinkedInHub = async function() {
+      await _origRefresh();
+      try {
+        const res = await fetch('/api/linkedin/sender-status');
+        if (!res.ok) return;
+        const data = await res.json();
+        const el = document.getElementById('li-inbox-status');
+        if (el) {
+          const badge = data.inbox.running ? '<span class="li-badge-running">RUNNING</span>' : '<span class="li-badge-stopped">STOPPED</span>';
+          el.innerHTML = `<div class="li-label">Inbox Monitor ${badge}</div>
+            <div class="li-value">${data.inbox.totalRepliesFound || 0} replies found</div>
+            <div style="color:#888;font-size:11px;margin-top:4px;">${data.inbox.lastPollAt ? new Date(data.inbox.lastPollAt).toLocaleTimeString() : 'Never'} | Conn: ${data.connections.sentToday}/${data.connections.dailyLimit} today</div>`;
+        }
+        const repliesBtn = document.getElementById('li-view-replies');
+        if (repliesBtn) repliesBtn.textContent = `View Replies: ${data.inbox.totalRepliesFound || 0}`;
+      } catch {}
+    };
+
+    setInterval(refreshLinkedInHub, 30000);
+    setTimeout(refreshLinkedInHub, 2000);
 
     // Listen for goal_updated events via Socket.IO
     if (typeof io !== 'undefined') {
