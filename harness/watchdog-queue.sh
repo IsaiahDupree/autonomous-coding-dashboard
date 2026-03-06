@@ -97,6 +97,17 @@ else
   echo "[watchdog] dm-followup-engine already running" | tee -a "$LOG"
 fi
 
+# Start DM auto-sender daemon if not already running
+if ! pgrep -f "dm-auto-sender.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting dm-auto-sender..." | tee -a "$LOG"
+  nohup node "$H/dm-auto-sender.js" >> "$H/logs/dm-auto-sender.log" 2>&1 &
+  DAS_PID=$!
+  echo $DAS_PID > "$H/dm-auto-sender.pid"
+  echo "[watchdog] DM auto-sender PID: $DAS_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] dm-auto-sender already running" | tee -a "$LOG"
+fi
+
 # Don't start if run-queue is already running (avoid double-run)
 if pgrep -f "run-queue.js" > /dev/null 2>&1; then
   echo "[watchdog] run-queue.js already running — monitoring only" | tee -a "$LOG"

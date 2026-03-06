@@ -16,6 +16,7 @@
  *   /goal revenue <N>  Update current monthly revenue
  *   /metrics       Today's session stats per platform
  *   /improve       Trigger Haiku self-improvement analysis now
+ *   /dm            DM auto-sender control panel (mode, caps, intervals, send now)
  *   /help          Show this menu
  *
  * Usage:
@@ -444,6 +445,7 @@ async function cmdHelp() {
     `🤖 <b>ACD Mission Control</b>`,
     ``,
     `/status      — Live system snapshot`,
+    `/connections — Top prospects ranked by priority + send connections`,
     `/queue       — LinkedIn DMs awaiting approval`,
     `/approve N   — Send DM to prospect #N`,
     `/approve all — Send all pending DMs`,
@@ -455,6 +457,7 @@ async function cmdHelp() {
     `/goal revenue &lt;N&gt; — Update current MRR`,
     `/metrics     — Today's session stats`,
     `/improve     — Trigger Haiku analysis now`,
+    `/dm          — DM auto-sender panel (mode, caps, send now)`,
     `/help        — Show this menu`,
     ``,
     `Platforms: instagram twitter tiktok threads linkedin`,
@@ -462,6 +465,161 @@ async function cmdHelp() {
     [{ text: '📊 Status', callback_data: 'status' }, { text: '📋 Queue', callback_data: 'queue' }],
     [{ text: '📈 Metrics', callback_data: 'metrics' }, { text: '🎯 Goals', callback_data: 'goals' }],
   ]));
+}
+
+// ── DM Auto-Sender panel ──────────────────────────────────────────────────────
+const DM_CONTROL_FILE = path.join(__dirname, 'dm-control-state.json');
+const DM_PLATFORM_CFG = {
+  twitter:   { icon: '🐦', defaultCap: 15, maxCap: 50, queueFile: 'twitter-dm-queue.json' },
+  instagram: { icon: '📸', defaultCap: 10, maxCap: 30, queueFile: 'instagram-dm-queue.json' },
+  tiktok:    { icon: '🎵', defaultCap: 8,  maxCap: 25, queueFile: 'tiktok-dm-queue.json' },
+};
+
+function dmTodayStr() { return new Date().toISOString().slice(0, 10); }
+
+function readDmControl() {
+  try {
+    const raw = JSON.parse(readFileSync(DM_CONTROL_FILE, 'utf8'));
+    for (const [p, cfg] of Object.entries(DM_PLATFORM_CFG)) {
+      if (!raw[p]) raw[p] = { mode: 'manual', dailyCap: cfg.defaultCap, intervalMinutes: 10, activeHours: [9, 22], todaySent: 0, todayDate: dmTodayStr(), lastSentAt: null, totalAllTime: 0 };
+    }
+    return raw;
+  } catch {
+    const s = {};
+    for (const [p, cfg] of Object.entries(DM_PLATFORM_CFG)) {
+      s[p] = { mode: 'manual', dailyCap: cfg.defaultCap, intervalMinutes: 10, activeHours: [9, 22], todaySent: 0, todayDate: dmTodayStr(), lastSentAt: null, totalAllTime: 0 };
+    }
+    return s;
+  }
+}
+
+function writeDmControl(c) { try { writeFileSync(DM_CONTROL_FILE, JSON.stringify(c, null, 2)); } catch {} }
+
+async function cmdDmPanel() {
+  const control = readDmControl();
+  const lines = ['🎛️ <b>DM Auto-Sender</b>\n'];
+  const buttons = [];
+
+  for (const [platform, cfg] of Object.entries(DM_PLATFORM_CFG)) {
+    const state = control[platform] || {};
+    if (state.todayDate !== dmTodayStr()) { state.todaySent = 0; state.todayDate = dmTodayStr(); }
+    const q = readJson(path.join(__dirname, cfg.queueFile), { queue: [] });
+    const qCount = (q.queue || []).filter(e => e.status === 'pending' || e.status === 'approved').length;
+    const modeIcon = state.mode === 'auto' ? '▶️' : '⏸';
+    const lastSent = state.lastSentAt
+      ? `${Math.round((Date.now() - new Date(state.lastSentAt).getTime()) / 60000)}min ago`
+      : 'never';
+    lines.push(`${cfg.icon} <b>${platform}</b>  ${modeIcon} ${state.mode.toUpperCase()}  |  ${state.todaySent}/${state.dailyCap} today  |  ${qCount} queued  |  last: ${lastSent}`);
+    buttons.push([{ text: `⚙️ ${platform} settings`, callback_data: `dm_settings:${platform}` }]);
+  }
+
+  lines.push('\n<i>Auto sends queued DMs on your chosen interval.\nManual only sends when you tap "Send Now".</i>');
+  return send(lines.join('\n'), kb(buttons));
+}
+
+async function cmdDmSettings(platform) {
+  const cfg = DM_PLATFORM_CFG[platform];
+  if (!cfg) return send(`❌ Unknown platform: ${platform}`);
+
+  const control = readDmControl();
+  const state = control[platform];
+  if (state.todayDate !== dmTodayStr()) { state.todaySent = 0; state.todayDate = dmTodayStr(); }
+
+  const q = readJson(path.join(__dirname, cfg.queueFile), { queue: [] });
+  const qCount = (q.queue || []).filter(e => e.status === 'pending' || e.status === 'approved').length;
+  const lastSent = state.lastSentAt
+    ? `${Math.round((Date.now() - new Date(state.lastSentAt).getTime()) / 60000)}min ago`
+    : 'never';
+  const [startH, endH] = state.activeHours || [9, 22];
+  const endStr = endH > 12 ? `${endH - 12}pm` : `${endH}am`;
+
+  const lines = [
+    `${cfg.icon} <b>${platform} DM Settings</b>`,
+    ``,
+    `Mode: <b>${state.mode === 'auto' ? '▶️ AUTO' : '⏸ MANUAL'}</b>`,
+    `Daily cap: <b>${state.dailyCap}/day</b> (max: ${cfg.maxCap})`,
+    `Interval: <b>${state.intervalMinutes}min</b> between sends`,
+    `Active hours: <b>${startH}am – ${endStr}</b>`,
+    ``,
+    `Today: <b>${state.todaySent} sent</b> / ${state.dailyCap} cap`,
+    `Queue: <b>${qCount} ready to send</b>`,
+    `Last sent: ${lastSent}`,
+    `Total all-time: ${state.totalAllTime || 0}`,
+    ``,
+    `<i>Cap grows automatically each Monday when you consistently max out.</i>`,
+  ];
+
+  return send(lines.join('\n'), kb([
+    [
+      { text: state.mode === 'auto' ? '✅ Auto' : '▶️ Set Auto',   callback_data: `dm_mode:${platform}:auto` },
+      { text: state.mode === 'manual' ? '✅ Manual' : '⏸ Set Manual', callback_data: `dm_mode:${platform}:manual` },
+    ],
+    [
+      { text: 'Cap −5', callback_data: `dm_cap:${platform}:-5` },
+      { text: 'Cap +5', callback_data: `dm_cap:${platform}:+5` },
+    ],
+    [
+      { text: '5min',  callback_data: `dm_interval:${platform}:5` },
+      { text: '10min', callback_data: `dm_interval:${platform}:10` },
+      { text: '20min', callback_data: `dm_interval:${platform}:20` },
+      { text: '30min', callback_data: `dm_interval:${platform}:30` },
+    ],
+    [
+      { text: '🚀 Send 1 now', callback_data: `dm_send:${platform}:1` },
+      { text: '🚀 Send 5 now', callback_data: `dm_send:${platform}:5` },
+    ],
+    [{ text: '← DM Panel', callback_data: 'dm_panel' }],
+  ]));
+}
+
+async function cmdDmSetMode(platform, mode) {
+  const cfg = DM_PLATFORM_CFG[platform];
+  if (!cfg) return send(`❌ Unknown platform: ${platform}`);
+  const control = readDmControl();
+  control[platform].mode = mode;
+  writeDmControl(control);
+  const icon = mode === 'auto' ? '▶️' : '⏸';
+  await send(`${icon} <b>${cfg.icon} ${platform} → ${mode.toUpperCase()}</b>\n${mode === 'auto' ? `Auto-sending every ${control[platform].intervalMinutes}min during active hours.` : 'Will only send when you tap "Send Now".'}`);
+  return cmdDmSettings(platform);
+}
+
+async function cmdDmAdjustCap(platform, delta) {
+  const cfg = DM_PLATFORM_CFG[platform];
+  if (!cfg) return send(`❌ Unknown platform: ${platform}`);
+  const control = readDmControl();
+  const state = control[platform];
+  state.dailyCap = Math.max(1, Math.min(cfg.maxCap, state.dailyCap + parseInt(delta)));
+  writeDmControl(control);
+  await send(`✅ ${cfg.icon} <b>${platform} cap → ${state.dailyCap}/day</b>`);
+  return cmdDmSettings(platform);
+}
+
+async function cmdDmSetInterval(platform, minutes) {
+  const cfg = DM_PLATFORM_CFG[platform];
+  if (!cfg) return send(`❌ Unknown platform: ${platform}`);
+  const control = readDmControl();
+  control[platform].intervalMinutes = parseInt(minutes);
+  writeDmControl(control);
+  await send(`✅ ${cfg.icon} <b>${platform} interval → ${minutes}min</b>`);
+  return cmdDmSettings(platform);
+}
+
+async function cmdDmSendNow(platform, n) {
+  const cfg = DM_PLATFORM_CFG[platform];
+  if (!cfg) return send(`❌ Unknown platform: ${platform}`);
+  await send(`⏳ Sending ${n} ${cfg.icon} ${platform} DM(s) now...`);
+  try {
+    const { triggerSendNow } = await import('./dm-auto-sender.js');
+    const result = await triggerSendNow(platform, parseInt(n));
+    if (result.error && !result.sent) return send(`❌ Send failed: ${result.error}`);
+    return send(
+      `${cfg.icon} <b>${result.sent} DM(s) sent</b>\n` +
+      `${result.failed ? `${result.failed} failed\n` : ''}` +
+      `Today: ${result.todaySent}/${result.cap}`
+    );
+  } catch (e) {
+    return send(`❌ dm-auto-sender error: ${e.message.slice(0, 120)}`);
+  }
 }
 
 // ── Message + callback router ─────────────────────────────────────────────────
@@ -481,6 +639,7 @@ async function handleMessage(msg) {
     case 'goals':   return cmdGoals();
     case 'metrics': return cmdMetrics();
     case 'improve': return cmdImprove();
+    case 'dm':      return cmdDmPanel();
     case 'approve':
       if (args[0]?.toLowerCase() === 'all') return cmdApproveAll();
       if (args[0]) {
@@ -499,6 +658,8 @@ async function handleMessage(msg) {
       if (pending[n]) return cmdSkip(pending[n].id);
       return send(`❌ No prospect #${args[0]} in queue`);
     }
+    case 'connections':
+      return cmdConnections();
     case 'boost':
       return cmdBoost(args[0] || 'instagram');
     case 'goal':
@@ -507,6 +668,97 @@ async function handleMessage(msg) {
     default:
       return send(`❓ Unknown command: /${cmd}\nTry /help`);
   }
+}
+
+async function cmdConnections() {
+  const queue = readJson(QUEUE_FILE, []);
+  const pending = queue.filter(q => q.status === 'pending_approval' && q.prospect?.connectionDegree !== '1st');
+  const approved = queue.filter(q => q.status === 'approved' && q.prospect?.connectionDegree !== '1st');
+
+  if (pending.length === 0 && approved.length === 0) {
+    return send('📭 <b>Connections</b>\n\nNo prospects queued for connection requests.');
+  }
+
+  // Load priority scorer dynamically from connection-sender
+  const { priorityScore } = await import('./linkedin-connection-sender.js').catch(() => ({ priorityScore: (i) => i.prospect?.icp_score * 6 || 0 }));
+
+  // Rank pending by priority
+  const ranked = pending
+    .map(item => ({ item, score: item.priority_score ?? priorityScore(item) }))
+    .sort((a, b) => b.score - a.score);
+
+  const top10 = ranked.slice(0, 10);
+  const state = readJson(path.join(__dirname, 'linkedin-connection-state.json'), {});
+  const sentToday = state.sentToday || 0;
+  const remaining = Math.max(0, 15 - sentToday);
+
+  const lines = [
+    `🤝 <b>LinkedIn Connection Queue</b>`,
+    ``,
+    `📊 ${pending.length} pending | ${approved.length} approved | ${sentToday}/15 sent today | ${remaining} slots left`,
+    ``,
+    `<b>Top prospects by priority:</b>`,
+  ];
+
+  top10.forEach(({ item, score }, i) => {
+    const p = item.prospect;
+    const src = item.source === 'post_engagement' ? '🔥' : item.prospect?.connectionDegree === '2nd' ? '👥' : '🔍';
+    lines.push(`${i + 1}. ${src} <b>${p.name}</b> [ICP ${p.icp_score}/10, pri ${score}]`);
+    lines.push(`   ${(p.headline || '').slice(0, 65)}`);
+  });
+
+  return send(lines.join('\n'), {
+    reply_markup: { inline_keyboard: [
+      [{ text: `🚀 Send Top ${Math.min(remaining, 15)} Connections Now`, callback_data: 'send_connections' }],
+      [{ text: '📋 DM Queue', callback_data: 'queue' }, { text: '📊 Status', callback_data: 'status' }],
+    ]},
+  });
+}
+
+async function cmdSendConnections() {
+  const state = readJson(path.join(__dirname, 'linkedin-connection-state.json'), {});
+  const sentToday = state.sentToday || 0;
+  const remaining = Math.max(0, 15 - sentToday);
+
+  if (remaining === 0) {
+    return send('⏸ <b>Daily limit reached</b>\n\n15/15 connection requests already sent today. Resets at midnight.');
+  }
+
+  await send(`⏳ <b>Sending connections...</b>\n\nRanking prospects by priority → auto-approving top ${remaining} → sending via Chrome CDP.\n\nMake sure Chrome is open in debug mode.`);
+
+  return new Promise((resolve) => {
+    const child = spawn('node', [
+      path.join(__dirname, 'linkedin-connection-sender.js'),
+      '--auto-approve',
+      '--limit', String(remaining),
+    ], { detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
+
+    let output = '';
+    child.stdout?.on('data', d => { output += d; });
+    child.stderr?.on('data', d => { output += d; });
+
+    const timer = setTimeout(async () => {
+      child.kill();
+      await send(`⚠️ <b>Connection sender timed out</b>\n\nCheck Chrome is in debug mode:\n<code>bash harness/start-chrome-debug.sh start</code>`);
+      resolve();
+    }, 300_000); // 5 min max
+
+    child.on('close', async (code) => {
+      clearTimeout(timer);
+      const lastLines = output.trim().split('\n').slice(-5).join('\n');
+      const match = lastLines.match(/sent:\s*(\d+).*skipped:\s*(\d+).*failed:\s*(\d+)/);
+      if (match) {
+        await send(`✅ <b>Connections sent!</b>\n\nSent: ${match[1]} | Skipped: ${match[2]} | Failed: ${match[3]}\n\n<code>${lastLines.slice(0, 300)}</code>`);
+      } else if (code === 0) {
+        await send(`✅ <b>Connection sender done</b>\n\n<code>${lastLines.slice(0, 300)}</code>`);
+      } else {
+        await send(`❌ <b>Connection sender failed (exit ${code})</b>\n\n<code>${lastLines.slice(0, 300)}</code>`);
+      }
+      resolve();
+    });
+
+    child.unref();
+  });
 }
 
 async function cmdSendApproved(platform) {
@@ -549,9 +801,30 @@ async function handleCallback(cb) {
     case 'metrics':       return cmdMetrics();
     case 'improve':       return cmdImprove();
     case 'update_revenue': return send('Send: /goal revenue &lt;amount&gt;\nExample: /goal revenue 1500');
+    case 'connections':       return cmdConnections();
+    case 'send_connections':  return cmdSendConnections();
     case 'tw_approve_all': return cmdSendApproved('twitter');
     case 'ig_approve_all': return cmdSendApproved('instagram');
     case 'tt_approve_all': return cmdSendApproved('tiktok');
+    // DM auto-sender panel
+    case 'dm_panel':    return cmdDmPanel();
+    case 'dm_settings': return cmdDmSettings(arg);
+    case 'dm_mode': {
+      const [plat, mode] = arg.split(':');
+      return cmdDmSetMode(plat, mode);
+    }
+    case 'dm_cap': {
+      const [plat, delta] = arg.split(':');
+      return cmdDmAdjustCap(plat, delta);
+    }
+    case 'dm_interval': {
+      const [plat, min] = arg.split(':');
+      return cmdDmSetInterval(plat, min);
+    }
+    case 'dm_send': {
+      const [plat, n] = arg.split(':');
+      return cmdDmSendNow(plat, n);
+    }
     default:              return send(`❓ Unknown action: ${data}`);
   }
 }
