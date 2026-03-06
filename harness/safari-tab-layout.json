@@ -1,0 +1,77 @@
+{
+  "coordinatedAt": "2026-03-06T04:13:40.512Z",
+  "platforms": [
+    {
+      "platform": "Instagram DM",
+      "port": 3100,
+      "up": true,
+      "tab": "w8t2",
+      "claimed": true,
+      "error": null
+    },
+    {
+      "platform": "Twitter DM",
+      "port": 3003,
+      "up": true,
+      "tab": "w8t3",
+      "claimed": true,
+      "error": null
+    },
+    {
+      "platform": "TikTok DM",
+      "port": 3102,
+      "up": true,
+      "tab": "w8t5",
+      "claimed": true,
+      "error": null
+    },
+    {
+      "platform": "LinkedIn DM",
+      "port": 3105,
+      "up": true,
+      "tab": "w2t2",
+      "claimed": true,
+      "error": null
+    },
+    {
+      "platform": "Threads",
+      "port": 3004,
+      "up": true,
+      "tab": "w4t1",
+      "claimed": true,
+      "error": null
+    }
+  ],
+  "tabMap": {
+    "ig": {
+      "windowIndex": 8,
+      "tabIndex": 2,
+      "url": "https://www.instagram.com/direct/inbox/",
+      "found": true
+    },
+    "tw": {
+      "windowIndex": 3,
+      "tabIndex": 1,
+      "url": "https://x.com/i/chat",
+      "found": true
+    },
+    "tt": {
+      "windowIndex": 8,
+      "tabIndex": 5,
+      "url": "https://www.tiktok.com/messages",
+      "found": true
+    },
+    "li": {
+      "windowIndex": 2,
+      "tabIndex": 2,
+      "url": "https://www.linkedin.com/messaging/",
+      "found": true
+    },
+    "th": {
+      "windowIndex": 4,
+      "tabIndex": 1,
+      "url": "https://www.threads.com/@zvonko.biskup",
+      "found": true
+    }
+  }
+}
