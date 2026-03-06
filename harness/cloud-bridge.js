@@ -100,7 +100,8 @@ async function sbUpdate(table, matchCol, matchVal, updates) {
 }
 
 // ── Command Allowlist ───────────────────────────────────────────────────────
-// Only these platform:action combos are accepted. DM/post actions are excluded.
+// DM send actions are included — the dm-outreach-daemon also handles local
+// sending, but cloud can trigger DMs via safari_command_queue Realtime.
 const COMMAND_ALLOWLIST = new Set([
   'instagram:search',
   'instagram:profile',
@@ -109,12 +110,15 @@ const COMMAND_ALLOWLIST = new Set([
   'instagram:enrich',
   'instagram:navigate',
   'instagram:status',
+  'instagram:dm',        // send DM via IG DM service (port 3100)
   'twitter:search',
   'twitter:profile',
   'twitter:followers',
+  'twitter:dm',          // send DM via TW DM service (port 3003)
   'tiktok:search',
   'tiktok:profile',
   'tiktok:posts',
+  'tiktok:dm',           // send DM via TK DM service (port 3102)
   'threads:search',
   'threads:profile',
   'linkedin:search',
@@ -137,6 +141,9 @@ const ROUTES = {
     localPost('http://localhost:3005/api/instagram/navigate', params),
   'instagram:status': (params) =>
     localGet('http://localhost:3005/health'),
+  // Cloud-triggered DM: params = { username, text }
+  'instagram:dm': (params) =>
+    localPost('http://localhost:3100/api/messages/send-to', params),
 
   'twitter:search': (params) =>
     localPost('http://localhost:3003/api/twitter/search', params),
@@ -144,6 +151,9 @@ const ROUTES = {
     localPost('http://localhost:3003/api/twitter/profile', params),
   'twitter:followers': (params) =>
     localPost('http://localhost:3003/api/twitter/followers', params),
+  // Cloud-triggered DM: params = { username, text }
+  'twitter:dm': (params) =>
+    localPost('http://localhost:3003/api/twitter/messages/send-to', params),
 
   'tiktok:search': (params) =>
     localPost('http://localhost:3006/api/tiktok/search/keyword', params),
@@ -151,6 +161,9 @@ const ROUTES = {
     localPost('http://localhost:3006/api/tiktok/profile', params),
   'tiktok:posts': (params) =>
     localPost('http://localhost:3006/api/tiktok/posts', params),
+  // Cloud-triggered DM: params = { username, message }
+  'tiktok:dm': (params) =>
+    localPost('http://localhost:3102/api/tiktok/messages/send-to', params),
 
   'threads:search': (params) =>
     localPost('http://localhost:3004/api/threads/search', params),
