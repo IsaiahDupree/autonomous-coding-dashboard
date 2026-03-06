@@ -62,6 +62,75 @@ const MED_INTENT_STRATEGIES = new Set([
   'App Founders 3rd',
 ]);
 
+// ── Chrome auto-launch + LinkedIn auto-login ──────────────────────────────────
+
+/** Try to bring up Chrome in debug mode. Returns 'cdp' | 'cdp_launched' | 'unavailable' */
+async function ensureChromeDebugMode() {
+  // Already up?
+  try {
+    const r = await fetch(`${CDP_URL}/json/version`, { signal: AbortSignal.timeout(2000) });
+    if (r.ok) return 'cdp';
+  } catch {}
+
+  // Regular Chrome running? Can't safely share the profile — report back
+  const { execSync } = await import('child_process');
+  const regularRunning = (() => {
+    try { execSync('pgrep -x "Google Chrome"', { stdio: 'pipe' }); return true; } catch { return false; }
+  })();
+
+  if (regularRunning) {
+    err('Regular Chrome is open — cannot share profile. Quit Chrome (Cmd+Q) then retry.');
+    return 'unavailable_regular_chrome_open';
+  }
+
+  // Launch Chrome in debug mode using real profile (already logged into LinkedIn)
+  err('CDP not reachable — auto-launching Chrome in debug mode...');
+  const { spawn } = await import('child_process');
+  const launchScript = path.join(__dirname, 'start-chrome-debug.sh');
+  spawn('bash', [launchScript, 'start'], { stdio: 'pipe', detached: false });
+
+  // Wait up to 20s for CDP to come up
+  for (let i = 0; i < 20; i++) {
+    await new Promise(r => setTimeout(r, 1000));
+    try {
+      const r = await fetch(`${CDP_URL}/json/version`, { signal: AbortSignal.timeout(2000) });
+      if (r.ok) { err('Chrome debug mode ready'); return 'cdp_launched'; }
+    } catch {}
+  }
+
+  err('Chrome failed to start in debug mode after 20s');
+  return 'unavailable_launch_failed';
+}
+
+/** Auto-login to LinkedIn using LINKEDIN_EMAIL + LINKEDIN_PASSWORD from env */
+async function loginLinkedIn(page) {
+  const email    = process.env.LINKEDIN_EMAIL;
+  const password = process.env.LINKEDIN_PASSWORD;
+
+  if (!email || !password) {
+    err('LINKEDIN_EMAIL or LINKEDIN_PASSWORD not set in actp-worker/.env');
+    return false;
+  }
+
+  err('Detected login page — auto-signing in...');
+  try {
+    await page.goto('https://www.linkedin.com/login', { waitUntil: 'domcontentloaded', timeout: 20000 });
+    await page.waitForSelector('#username', { timeout: 8000 });
+    await page.fill('#username', email);
+    await page.fill('#password', password);
+    await page.waitForTimeout(500 + Math.random() * 500);
+    await page.click('button[type="submit"]');
+    // Wait for redirect away from login
+    await page.waitForURL(url => !url.includes('/login') && !url.includes('/checkpoint'), { timeout: 20000 });
+    const dest = await page.evaluate(() => window.location.pathname);
+    err(`Login successful — landed on ${dest}`);
+    return true;
+  } catch (e) {
+    err(`Login failed: ${e.message}`);
+    return false;
+  }
+}
+
 export function priorityScore(item) {
   const p = item.prospect || {};
   let score = 0;
@@ -209,10 +278,18 @@ async function sendConnectionRequest(page, item) {
   await page.goto(profileUrl, { waitUntil: 'domcontentloaded', timeout: 25000 });
   await page.waitForTimeout(2000 + Math.random() * 1500); // jitter
 
-  // Check login
+  // Check login — auto-sign in if credentials are available
   const currentPath = await page.evaluate(() => window.location.pathname);
   if (currentPath.startsWith('/login') || currentPath.startsWith('/checkpoint')) {
-    return { ok: false, error: 'not_logged_in' };
+    const loggedIn = await loginLinkedIn(page);
+    if (!loggedIn) return { ok: false, error: 'not_logged_in — add LINKEDIN_EMAIL + LINKEDIN_PASSWORD to actp-worker/.env' };
+    // Re-navigate to the profile after login
+    await page.goto(profileUrl, { waitUntil: 'domcontentloaded', timeout: 25000 });
+    await page.waitForTimeout(2000);
+    const newPath = await page.evaluate(() => window.location.pathname);
+    if (newPath.startsWith('/login') || newPath.startsWith('/checkpoint')) {
+      return { ok: false, error: 'login_failed — check LINKEDIN_EMAIL + LINKEDIN_PASSWORD in actp-worker/.env' };
+    }
   }
 
   // Check if already connected (1st degree) — skip if so
@@ -368,15 +445,27 @@ async function main() {
     return;
   }
 
-  // Connect to Chrome CDP (same pattern as linkedin-chrome-search.js)
+  // Ensure Chrome is in debug mode (auto-launch if needed)
+  const chromeStatus = await ensureChromeDebugMode();
+  if (chromeStatus.startsWith('unavailable')) {
+    const reason = chromeStatus === 'unavailable_regular_chrome_open'
+      ? 'Chrome is open in regular mode — quit Chrome (Cmd+Q) then retry'
+      : 'Chrome failed to start in debug mode — run: bash harness/start-chrome-debug.sh start';
+    err(`Cannot connect to Chrome: ${reason}`);
+    // Print a summary line the Telegram caller can parse
+    process.stderr.write(`[connection-sender] Done — sent: 0, skipped: 0, failed: 0, error: ${reason}\n`);
+    return;
+  }
+
+  // Connect to Chrome CDP
   let context = null, browserForCDP = null, usingCDP = false;
   try {
-    browserForCDP = await chromium.connectOverCDP(CDP_URL, { timeout: 3000 });
+    browserForCDP = await chromium.connectOverCDP(CDP_URL, { timeout: 8000 });
     context = browserForCDP.contexts()[0] || await browserForCDP.newContext();
     usingCDP = true;
     err('Connected via CDP');
   } catch {
-    err('CDP not available — falling back to persistent profile');
+    err('CDP connect failed — falling back to persistent profile');
     fs.mkdirSync(PROFILE_DIR, { recursive: true });
     context = await chromium.launchPersistentContext(PROFILE_DIR, {
       headless: false, executablePath: CHROME_PATH,

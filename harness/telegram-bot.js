@@ -724,7 +724,14 @@ async function cmdSendConnections() {
     return send('⏸ <b>Daily limit reached</b>\n\n15/15 connection requests already sent today. Resets at midnight.');
   }
 
-  await send(`⏳ <b>Sending connections...</b>\n\nRanking prospects by priority → auto-approving top ${remaining} → sending via Chrome CDP.\n\nMake sure Chrome is open in debug mode.`);
+  // Pre-check Chrome status and report it
+  let chromeMsg = '⚠️ Chrome not in debug mode — will auto-launch';
+  try {
+    const r = await fetch('http://localhost:9333/json/version', { signal: AbortSignal.timeout(2000) });
+    if (r.ok) chromeMsg = '✅ Chrome debug mode ready';
+  } catch {}
+
+  await send(`⏳ <b>Sending connections...</b>\n\n${chromeMsg}\nRanking ${remaining} slots by priority → auto-approving → sending.\n\n<i>Will auto-launch Chrome if needed. Results in ~2min.</i>`);
 
   return new Promise((resolve) => {
     const child = spawn('node', [
@@ -739,20 +746,42 @@ async function cmdSendConnections() {
 
     const timer = setTimeout(async () => {
       child.kill();
-      await send(`⚠️ <b>Connection sender timed out</b>\n\nCheck Chrome is in debug mode:\n<code>bash harness/start-chrome-debug.sh start</code>`);
+      const tail = output.trim().split('\n').slice(-3).join('\n');
+      await send(`⚠️ <b>Connection sender timed out after 5min</b>\n\nLast output:\n<code>${tail.slice(0, 300)}</code>`);
       resolve();
-    }, 300_000); // 5 min max
+    }, 300_000);
 
     child.on('close', async (code) => {
       clearTimeout(timer);
-      const lastLines = output.trim().split('\n').slice(-5).join('\n');
+      const lines = output.trim().split('\n');
+      const lastLines = lines.slice(-6).join('\n');
+
+      // Check for Chrome unavailable error
+      const chromeErr = lines.find(l => l.includes('unavailable') || l.includes('Cannot connect to Chrome'));
+      if (chromeErr) {
+        const isRegularOpen = chromeErr.includes('regular mode') || chromeErr.includes('Cmd+Q');
+        await send(isRegularOpen
+          ? `❌ <b>Chrome is open in regular mode</b>\n\nQuit Chrome (Cmd+Q) then tap "Send Connections" again — auto-launch will handle the rest.`
+          : `❌ <b>Chrome failed to start</b>\n\nTry manually:\n<code>bash harness/start-chrome-debug.sh start</code>\nThen tap "Send Connections" again.`
+        );
+        return resolve();
+      }
+
+      // Check for login error
+      const loginErr = lines.find(l => l.includes('not_logged_in') || l.includes('login_failed'));
+      if (loginErr) {
+        await send(`❌ <b>LinkedIn login required</b>\n\nAdd credentials to <code>actp-worker/.env</code>:\n<code>LINKEDIN_EMAIL=your@email.com\nLINKEDIN_PASSWORD=yourpassword</code>\n\nThen tap "Send Connections" again.`);
+        return resolve();
+      }
+
       const match = lastLines.match(/sent:\s*(\d+).*skipped:\s*(\d+).*failed:\s*(\d+)/);
       if (match) {
-        await send(`✅ <b>Connections sent!</b>\n\nSent: ${match[1]} | Skipped: ${match[2]} | Failed: ${match[3]}\n\n<code>${lastLines.slice(0, 300)}</code>`);
+        const icon = parseInt(match[1]) > 0 ? '✅' : '⏭️';
+        await send(`${icon} <b>Connections done!</b>\n\nSent: ${match[1]} | Skipped: ${match[2]} | Failed: ${match[3]}\n\n<code>${lastLines.slice(0, 400)}</code>`);
       } else if (code === 0) {
-        await send(`✅ <b>Connection sender done</b>\n\n<code>${lastLines.slice(0, 300)}</code>`);
+        await send(`✅ <b>Connection sender done</b>\n\n<code>${lastLines.slice(0, 400)}</code>`);
       } else {
-        await send(`❌ <b>Connection sender failed (exit ${code})</b>\n\n<code>${lastLines.slice(0, 300)}</code>`);
+        await send(`❌ <b>Connection sender failed (exit ${code})</b>\n\n<code>${lastLines.slice(0, 400)}</code>`);
       }
       resolve();
     });
