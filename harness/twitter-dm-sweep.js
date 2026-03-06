@@ -60,6 +60,21 @@ function loadEnv(p) {
 }
 loadEnv(HOME_ENV); loadEnv(ACTP_ENV);
 
+// ── Telegram ──────────────────────────────────────────────────────────────────
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TG_CHAT  = process.env.TELEGRAM_CHAT_ID   || '';
+async function sendTelegram(text, replyMarkup = null) {
+  if (!TG_TOKEN || !TG_CHAT) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML', ...(replyMarkup ? { reply_markup: replyMarkup } : {}) }),
+      signal: AbortSignal.timeout(8_000),
+    });
+  } catch { /* non-fatal */ }
+}
+
 function today() { return new Date().toISOString().slice(0,10); }
 
 function readState() {
@@ -184,6 +199,15 @@ async function runSweep() {
     if (!DRY_RUN) { writeQueue(q); writeState(state); }
     log(`Sweep done: ${queued} queued (${DRY_RUN?'dry-run':'saved'}), daily total ${state.dailyQueued}/${DAILY_CAP}`);
 
+    if (queued > 0 && !DRY_RUN) {
+      const newEntries = q.queue.filter(e => e.status === 'pending').slice(-queued);
+      const lines = newEntries.map(e => `  @${e.username} — score ${e.score} | "${(e.message||'').slice(0,60)}..."`).join('\n');
+      await sendTelegram(
+        `🐦 <b>Twitter DM Queue</b> — +${queued} new prospects\n\n${lines}\n\nDaily: ${state.dailyQueued}/${DAILY_CAP}`,
+        { inline_keyboard: [[{ text: '📋 Review LinkedIn Queue', callback_data: 'queue' }, { text: '✅ Approve All TW', callback_data: 'tw_approve_all' }]] }
+      );
+    }
+
   } finally { releaseLock(); }
 }
 
@@ -210,7 +234,10 @@ async function sendApproved() {
     await new Promise(r => setTimeout(r, 15000 + Math.random()*10000)); // 15-25s between sends
   }
   writeQueue(q);
-  log(`Done: ${approved.filter(e=>e.status==='sent').length} sent, ${approved.filter(e=>e.status==='failed').length} failed`);
+  const sent = approved.filter(e=>e.status==='sent').length;
+  const failed = approved.filter(e=>e.status==='failed').length;
+  log(`Done: ${sent} sent, ${failed} failed`);
+  await sendTelegram(`🐦 <b>Twitter DMs sent</b>\n\n✅ ${sent} sent | ❌ ${failed} failed`);
 }
 
 async function preflight() {

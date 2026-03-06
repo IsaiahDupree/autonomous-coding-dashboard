@@ -40,6 +40,21 @@ const DRY_RUN = args.includes('--dry-run');
 function loadEnv(p){try{for(const l of fs.readFileSync(p,'utf8').split('\n')){const m=l.match(/^([A-Z0-9_]+)=(.+)/);if(m&&!process.env[m[1]])process.env[m[1]]=m[2].trim();}}catch{}}
 loadEnv(HOME_ENV);loadEnv(ACTP_ENV);
 
+// ── Telegram ──────────────────────────────────────────────────────────────────
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TG_CHAT  = process.env.TELEGRAM_CHAT_ID   || '';
+async function sendTelegram(text, replyMarkup = null) {
+  if (!TG_TOKEN || !TG_CHAT) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML', ...(replyMarkup ? { reply_markup: replyMarkup } : {}) }),
+      signal: AbortSignal.timeout(8_000),
+    });
+  } catch { /* non-fatal */ }
+}
+
 function today(){return new Date().toISOString().slice(0,10);}
 function readState(){
   try{const s=JSON.parse(fs.readFileSync(STATE_FILE,'utf8'));if(s.date!==today()){s.date=today();s.dailyQueued=0;}const c=Date.now()-SEEN_TTL*86400000;for(const[u,t]of Object.entries(s.seenUsers||{}))if(t<c)delete s.seenUsers[u];return s;}
@@ -105,6 +120,15 @@ async function runSweep(){
     }
     if(!DRY_RUN){writeQueue(q);writeState(state);}
     log(`Sweep done: ${queued} queued${DRY_RUN?' (dry-run)':''}, daily ${state.dailyQueued}/${DAILY_CAP}`);
+
+    if (queued > 0 && !DRY_RUN) {
+      const newEntries = q.queue.filter(e=>e.status==='pending').slice(-queued);
+      const lines = newEntries.map(e=>`  @${e.username} — score ${e.score} | "${(e.message||'').slice(0,60)}..."`).join('\n');
+      await sendTelegram(
+        `📸 <b>Instagram DM Queue</b> — +${queued} new prospects\n\n${lines}\n\nDaily: ${state.dailyQueued}/${DAILY_CAP}`,
+        { inline_keyboard: [[{ text: '📋 Review Queue', callback_data: 'queue' }, { text: '✅ Approve All IG', callback_data: 'ig_approve_all' }]] }
+      );
+    }
   }finally{releaseLock();}
 }
 
@@ -121,6 +145,9 @@ async function sendApproved(){
     await new Promise(r=>setTimeout(r,20000+Math.random()*15000));
   }
   writeQueue(q);
+  const sent=approved.filter(e=>e.status==='sent').length;
+  const failed=approved.filter(e=>e.status==='failed').length;
+  await sendTelegram(`📸 <b>Instagram DMs sent</b>\n\n✅ ${sent} sent | ❌ ${failed} failed`);
 }
 
 async function main(){
