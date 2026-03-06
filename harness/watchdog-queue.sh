@@ -75,6 +75,28 @@ else
   echo "[watchdog] instagram-comment-sweep already running" | tee -a "$LOG"
 fi
 
+# Start DM→CRMLite sync daemon if not already running
+if ! pgrep -f "dm-crm-sync.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting dm-crm-sync..." | tee -a "$LOG"
+  nohup node "$H/dm-crm-sync.js" >> "$H/logs/dm-crm-sync.log" 2>&1 &
+  CRM_PID=$!
+  echo $CRM_PID > "$H/dm-crm-sync.pid"
+  echo "[watchdog] DM→CRMLite sync PID: $CRM_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] dm-crm-sync already running" | tee -a "$LOG"
+fi
+
+# Start DM follow-up engine if not already running
+if ! pgrep -f "dm-followup-engine.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting dm-followup-engine..." | tee -a "$LOG"
+  nohup node "$H/dm-followup-engine.js" >> "$H/logs/dm-followup-engine.log" 2>&1 &
+  FU_PID=$!
+  echo $FU_PID > "$H/dm-followup-engine.pid"
+  echo "[watchdog] DM follow-up engine PID: $FU_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] dm-followup-engine already running" | tee -a "$LOG"
+fi
+
 # Don't start if run-queue is already running (avoid double-run)
 if pgrep -f "run-queue.js" > /dev/null 2>&1; then
   echo "[watchdog] run-queue.js already running — monitoring only" | tee -a "$LOG"
