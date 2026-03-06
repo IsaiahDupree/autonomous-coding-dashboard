@@ -9,6 +9,30 @@ H="/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness"
 LOG="$H/logs/watchdog-queue.log"
 mkdir -p "$H/logs"
 
+# Run Safari tab coordinator once on startup (registers each platform's Safari tab)
+echo "[watchdog] Running Safari tab coordinator..." | tee -a "$LOG"
+node "$H/safari-tab-coordinator.js" --open >> "$H/logs/safari-tab-coordinator.log" 2>&1 &
+
+# Start cloud-bridge if not already running
+if ! pgrep -f "cloud-bridge.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting cloud-bridge..." | tee -a "$LOG"
+  nohup node "$H/cloud-bridge.js" >> "$H/logs/cloud-bridge.log" 2>&1 &
+  echo $! > "$H/cloud-bridge.pid"
+  echo "[watchdog] Cloud Bridge PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] cloud-bridge already running" | tee -a "$LOG"
+fi
+
+# Start browser-session-daemon if not already running
+if ! pgrep -f "browser-session-daemon.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting browser-session-daemon..." | tee -a "$LOG"
+  nohup node "$H/browser-session-daemon.js" >> "$H/logs/browser-session-daemon.log" 2>&1 &
+  echo $! > "$H/browser-session-daemon.pid"
+  echo "[watchdog] Browser Session Daemon PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] browser-session-daemon already running" | tee -a "$LOG"
+fi
+
 # Start doctor-daemon if not already running
 if ! pgrep -f "doctor-daemon.js" > /dev/null 2>&1; then
   echo "[watchdog] Starting doctor-daemon..." | tee -a "$LOG"
@@ -97,15 +121,15 @@ else
   echo "[watchdog] dm-followup-engine already running" | tee -a "$LOG"
 fi
 
-# Start DM auto-sender daemon if not already running
-if ! pgrep -f "dm-auto-sender.js" > /dev/null 2>&1; then
-  echo "[watchdog] Starting dm-auto-sender..." | tee -a "$LOG"
-  nohup node "$H/dm-auto-sender.js" >> "$H/logs/dm-auto-sender.log" 2>&1 &
-  DAS_PID=$!
-  echo $DAS_PID > "$H/dm-auto-sender.pid"
-  echo "[watchdog] DM auto-sender PID: $DAS_PID" | tee -a "$LOG"
+# Start DM outreach daemon (IG/TW/TT daily sends) if not already running
+if ! pgrep -f "dm-outreach-daemon.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting dm-outreach-daemon..." | tee -a "$LOG"
+  nohup node "$H/dm-outreach-daemon.js" >> "$H/logs/dm-outreach.log" 2>&1 &
+  DO_PID=$!
+  echo $DO_PID > "$H/dm-outreach.pid"
+  echo "[watchdog] DM Outreach Daemon PID: $DO_PID" | tee -a "$LOG"
 else
-  echo "[watchdog] dm-auto-sender already running" | tee -a "$LOG"
+  echo "[watchdog] dm-outreach-daemon already running" | tee -a "$LOG"
 fi
 
 # Don't start if run-queue is already running (avoid double-run)
