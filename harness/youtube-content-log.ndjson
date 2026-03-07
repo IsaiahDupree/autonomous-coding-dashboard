@@ -1703,3 +1703,7 @@
 {"ts":"2026-03-07T20:50:46.765Z","level":"info","msg":"Scanning playlist PLL7TyPlRkPShX1uKR70PovVPBt-IpbKRs"}
 {"ts":"2026-03-07T20:50:55.417Z","level":"info","msg":"1681 videos in playlist PLL7TyPlRkPShX1uKR70PovVPBt-IpbKRs"}
 {"ts":"2026-03-07T20:52:44.365Z","level":"info","msg":"Scan done. Newly queued: 0"}
+{"ts":"2026-03-07T20:52:44.434Z","level":"info","msg":"Processing up to 4 videos (done today: 1)"}
+{"ts":"2026-03-07T20:52:44.495Z","level":"info","msg":"Processing: \"This 30-Year-Old Pattern Fixes AI Agents\" (e9EBl_PK4bw)"}
+{"ts":"2026-03-07T20:56:07.364Z","level":"info","msg":"Pipeline complete: e9EBl_PK4bw"}
+{"ts":"2026-03-07T20:56:12.496Z","level":"info","msg":"Processing: \"wtf is Harness Engineer & why is it important\" (kJPvfoLtFFY)"}

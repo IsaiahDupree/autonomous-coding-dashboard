@@ -1,13 +1,13 @@
 {
   "running": true,
   "paused": false,
-  "cycleCount": 2,
+  "cycleCount": 3,
   "seenProfiles": [],
   "totalCommentersFound": 0,
   "totalSyncedCrm": 0,
   "totalQueuedForDm": 0,
-  "lastCycleAt": "2026-03-07T18:51:22.678Z",
-  "nextCycleAt": "2026-03-07T20:51:22.678Z",
+  "lastCycleAt": "2026-03-07T20:56:21.684Z",
+  "nextCycleAt": "2026-03-07T22:56:21.684Z",
   "startedAt": "2026-03-06T02:13:54.951Z",
   "keywordStats": {
     "ai_automation": {

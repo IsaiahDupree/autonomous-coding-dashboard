@@ -1,13 +1,13 @@
 {
   "running": true,
   "paused": false,
-  "cycleCount": 11,
-  "strategyCursor": 12,
-  "totalProspectsFound": 102,
+  "cycleCount": 12,
+  "strategyCursor": 15,
+  "totalProspectsFound": 111,
   "totalSyncedCrm": 6,
   "totalQueuedForDm": 12,
-  "lastCycleAt": "2026-03-07T20:21:42.215Z",
-  "nextCycleAt": "2026-03-07T20:51:42.215Z",
+  "lastCycleAt": "2026-03-07T20:53:39.747Z",
+  "nextCycleAt": "2026-03-07T21:23:39.747Z",
   "startedAt": "2026-03-05T05:10:52.892Z",
   "seenUrls": [
     "https://www.linkedin.com/in/dave-miz/",

@@ -6,80 +6,80 @@
     {
       "id": "F-001",
       "name": "Project",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-002",
       "name": "Context",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-003",
       "name": "Instructions",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-004",
       "name": "MQS-001: dryRun on Instagram MCP write tools",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-005",
       "name": "MQS-002: dryRun on Twitter MCP write tools",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-006",
       "name": "MQS-003: dryRun on TikTok MCP write tools",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-007",
       "name": "MQS-004: is_ready tools on all 4 MCP servers",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-008",
       "name": "MQS-005: Structured error objects on Instagram MCP",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-009",
       "name": "MQS-006: Structured error objects on Twitter, TikTok, LinkedIn MCPs",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-010",
       "name": "MQS-007: outputSchema on Instagram get_conversations and get_messages",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-011",
       "name": "MQS-008: outputSchema on Twitter, TikTok, LinkedIn get tools",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-012",
       "name": "MQS-009: Pagination cursors on all get_conversations tools",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-013",
       "name": "MQS-010: crm_get_contact tool on all 4 MCP servers",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     }
   ]
 }
