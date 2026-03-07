@@ -43,3 +43,5 @@
 {"ts":"2026-03-07T18:48:08.775Z","msg":"Realtime subscribed — instant command delivery active (<100ms latency)"}
 {"ts":"2026-03-07T18:48:08.777Z","msg":"Observability command_queue Realtime subscribed — typed commands will be relayed to local-agent-daemon"}
 {"ts":"2026-03-07T18:48:08.781Z","msg":"Cron job Realtime subscription active — cloud triggers will relay to cron-manager"}
+{"ts":"2026-03-07T19:08:10.144Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T19:08:10.216Z","msg":"Rejected unknown command: instagram:prospect_discover","commandId":"b2827167-2899-4bd6-9f1f-e58549ee4915"}
