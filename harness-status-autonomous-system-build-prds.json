@@ -1,14 +1,16 @@
 {
   "projectId": "autonomous-system-build-prds",
   "projectRoot": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
-  "lastUpdated": "2026-03-07T20:37:12.413Z",
+  "lastUpdated": "2026-03-07T20:44:10.546Z",
   "sessionType": "INITIALIZER",
-  "status": "completed",
+  "status": "running",
   "stats": {
     "total": 43,
     "passing": 17,
     "pending": 26,
     "percentComplete": "39.5"
   },
-  "pid": 91431
+  "pid": 91431,
+  "currentSession": 13,
+  "model": "claude-sonnet-4-5-20250929"
 }
