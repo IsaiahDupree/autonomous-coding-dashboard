@@ -4,3 +4,5 @@
 {"ts":"2026-03-07T16:51:44.820Z","msg":"Sweep error: No Safari tab available for threads-comments"}
 {"ts":"2026-03-07T18:39:27.147Z","msg":"Starting sweep: 5 niches, max 20 total, dryRun=false"}
 {"ts":"2026-03-07T18:39:57.157Z","msg":"Sweep error: Gateway Timeout"}
+{"ts":"2026-03-07T20:28:32.306Z","msg":"Starting sweep: 5 niches, max 20 total, dryRun=false"}
+{"ts":"2026-03-07T20:29:02.324Z","msg":"Sweep error: Gateway Timeout"}
