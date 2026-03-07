@@ -248,8 +248,9 @@ describe('Doctor Agent module', () => {
       assert.ok('healed' in winner, 'result should have healed field');
       assert.ok('actions' in winner, 'result should have actions field');
     }
-    // If it timed out (claude is running), that's also acceptable in test env
-    assert.ok(true); // Test passes either way — validates contract shape only
+    // If it timed out (claude is running), assert we at least got a non-null race result
+    assert.ok(winner === 'timeout' || typeof winner === 'object',
+      'race result should be timeout string or a result object');
   });
 });
 

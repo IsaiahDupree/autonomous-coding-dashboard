@@ -160,14 +160,14 @@ async function runAllTests() {
   });
 
   // Test 5: High complexity uses sonnet
-  await runTest('High complexity selects sonnet', async () => {
+  await runTest('High complexity selects opus', async () => {
     const result = getModelForComplexity(queue, 'high');
     assertEqual(result.model, OPUS, 'High should use claude-opus-4-6');
     assertEqual(result.fallback, SONNET, 'High fallback should be claude-sonnet-4-5');
   });
 
   // Test 6: Low complexity uses haiku
-  await runTest('Low complexity selects haiku', async () => {
+  await runTest('Low complexity selects sonnet', async () => {
     const result = getModelForComplexity(queue, 'low');
     assertEqual(result.model, SONNET, 'Low should use claude-sonnet-4-5');
     assertEqual(result.maxRetries, 2, 'Low should have 2 retries');

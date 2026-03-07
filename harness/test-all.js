@@ -48,6 +48,9 @@ const tests = [
   { name: 'Prospect Scoring',          file: 'test-prospect-scoring.js' },
   { name: 'Sleep Manager',             file: 'test-sleep-manager.js' },
   { name: 'DM CRM Sync',              file: 'test-dm-crm-sync.js' },
+  { name: 'Agent Telemetry',          file: 'test-agent-telemetry.js' },
+  { name: 'DM Template A/B Tracker', file: 'test-dm-template-ab-tracker.js' },
+  { name: 'PRD Feature Extractor',   file: 'test-prd-extractor.js' },
 ];
 
 // ── Service availability checks ───────────────────────────────────────────────
