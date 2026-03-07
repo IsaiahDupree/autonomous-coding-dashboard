@@ -1707,3 +1707,9 @@
 {"ts":"2026-03-07T20:52:44.495Z","level":"info","msg":"Processing: \"This 30-Year-Old Pattern Fixes AI Agents\" (e9EBl_PK4bw)"}
 {"ts":"2026-03-07T20:56:07.364Z","level":"info","msg":"Pipeline complete: e9EBl_PK4bw"}
 {"ts":"2026-03-07T20:56:12.496Z","level":"info","msg":"Processing: \"wtf is Harness Engineer & why is it important\" (kJPvfoLtFFY)"}
+{"ts":"2026-03-07T21:00:13.488Z","level":"info","msg":"Pipeline complete: kJPvfoLtFFY"}
+{"ts":"2026-03-07T21:00:18.641Z","level":"info","msg":"Processing: \"SaaS is minting millionaires again (here's how)\" (9T1yWEq5kP0)"}
+{"ts":"2026-03-07T21:04:17.050Z","level":"info","msg":"Pipeline complete: 9T1yWEq5kP0"}
+{"ts":"2026-03-07T21:04:22.196Z","level":"info","msg":"Processing: \"The Rise of the Zero Human Company\" (at_Fng0Lbow)"}
+{"ts":"2026-03-07T21:07:44.168Z","level":"error","msg":"Pipeline failed for at_Fng0Lbow: Invalid JSON from content-package: Expected ',' or '}' after property value in JSON at position 1511 (line 4 column 1273)"}
+{"ts":"2026-03-07T21:07:44.169Z","level":"info","msg":"Cycle complete"}

@@ -1,0 +1,8 @@
+{"ts":"2026-03-07T20:58:06.766Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"session_start","session":1,"model":"claude-sonnet-4-5-20250929","featuresTotal":24,"featuresPassing":0}
+{"ts":"2026-03-07T20:58:19.760Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"session_end","session":1,"duration_ms":12971,"featuresDelta":0,"tokens":18052,"cost":0.1174005,"exitCode":0}
+{"ts":"2026-03-07T20:58:29.769Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"session_start","session":2,"model":"claude-sonnet-4-5-20250929","featuresTotal":24,"featuresPassing":0}
+{"ts":"2026-03-07T21:09:46.912Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"feature_passed","session":2,"featuresDelta":22,"newPassing":22}
+{"ts":"2026-03-07T21:09:46.914Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"session_end","session":2,"duration_ms":677136,"featuresDelta":22,"tokens":141497,"cost":2.33041075,"exitCode":0}
+{"ts":"2026-03-07T21:09:56.928Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"session_start","session":3,"model":"claude-sonnet-4-5-20250929","featuresTotal":24,"featuresPassing":22}
+{"ts":"2026-03-07T21:15:10.144Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"feature_passed","session":3,"featuresDelta":2,"newPassing":24}
+{"ts":"2026-03-07T21:15:10.146Z","slug":"PRD_USER_TRACKING_ALL_TARGETS","event":"session_end","session":3,"duration_ms":313208,"featuresDelta":2,"tokens":78275,"cost":1.1728904999999998,"exitCode":0}

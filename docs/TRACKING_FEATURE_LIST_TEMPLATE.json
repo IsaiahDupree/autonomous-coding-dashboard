@@ -1,0 +1,176 @@
+[
+  {
+    "id": "TRACK-001",
+    "category": "tracking",
+    "name": "Tracking SDK Integration",
+    "description": "Install and initialize the user event tracking SDK from ACD",
+    "passes": false,
+    "implementation": {
+      "files": ["src/lib/tracking/userEventTracker.ts", "app/layout.tsx"],
+      "steps": [
+        "Copy userEventTracker.ts from ACD harness/shared/",
+        "Initialize tracker in app root with projectId",
+        "Configure autoTrack settings",
+        "Set NEXT_PUBLIC_TRACKING_API environment variable"
+      ]
+    }
+  },
+  {
+    "id": "TRACK-002",
+    "category": "tracking",
+    "name": "Acquisition Event Tracking",
+    "description": "Track landing_view, cta_click, pricing_view with UTM params",
+    "passes": false,
+    "implementation": {
+      "events": ["landing_view", "cta_click", "pricing_view"],
+      "autoTracked": ["$pageview"],
+      "manualTracking": [
+        {
+          "event": "cta_click",
+          "trigger": "CTA button click",
+          "properties": ["ctaText", "ctaLocation", "variant"]
+        },
+        {
+          "event": "pricing_view",
+          "trigger": "Pricing page view",
+          "properties": ["plan", "billingCycle"]
+        }
+      ]
+    }
+  },
+  {
+    "id": "TRACK-003",
+    "category": "tracking",
+    "name": "Activation Event Tracking",
+    "description": "Track signup_start, login_success, activation_complete",
+    "passes": false,
+    "implementation": {
+      "events": ["signup_start", "login_success", "activation_complete"],
+      "files": ["app/auth/signup/page.tsx", "app/auth/login/page.tsx", "app/onboarding/page.tsx"],
+      "code": [
+        {
+          "event": "signup_start",
+          "location": "Signup form start",
+          "code": "tracker.track('signup_start', { source: 'organic' })"
+        },
+        {
+          "event": "login_success",
+          "location": "After successful auth",
+          "code": "tracker.identify(user.id, { email: user.email, plan: user.plan }); tracker.track('login_success')"
+        },
+        {
+          "event": "activation_complete",
+          "location": "After onboarding complete",
+          "code": "tracker.track('activation_complete', { onboardingSteps: 3, timeToActivate: seconds })"
+        }
+      ]
+    }
+  },
+  {
+    "id": "TRACK-004",
+    "category": "tracking",
+    "name": "Core Value Event Tracking",
+    "description": "Track product-specific value events (created, completed, downloaded)",
+    "passes": false,
+    "implementation": {
+      "note": "Events vary by product - see target-specific events in docs",
+      "examples": {
+        "MediaPoster": ["post_created", "post_published", "media_uploaded"],
+        "CanvasCast": ["project_created", "video_generated", "video_downloaded"],
+        "VelloPad": ["book_created", "chapter_written", "pdf_generated"],
+        "BlogCanvas": ["blog_created", "blog_generated", "blog_published"],
+        "Portal28": ["course_created", "lesson_added", "enrollment_completed"]
+      },
+      "implementation": "Add tracker.track() calls in core product workflows"
+    }
+  },
+  {
+    "id": "TRACK-005",
+    "category": "tracking",
+    "name": "Monetization Event Tracking",
+    "description": "Track checkout_started, purchase_completed, subscription_started",
+    "passes": false,
+    "implementation": {
+      "events": ["checkout_started", "purchase_completed", "subscription_started", "subscription_cancelled"],
+      "files": ["app/checkout/page.tsx", "app/api/webhooks/stripe/route.ts"],
+      "code": [
+        {
+          "event": "checkout_started",
+          "location": "Checkout page load",
+          "code": "tracker.track('checkout_started', { plan: selectedPlan, amount: price })"
+        },
+        {
+          "event": "purchase_completed",
+          "location": "Stripe webhook success",
+          "code": "tracker.trackConversion('purchase', order.amount, { orderId, plan, currency })"
+        },
+        {
+          "event": "subscription_started",
+          "location": "Subscription created webhook",
+          "code": "tracker.track('subscription_started', { plan, interval, amount })"
+        }
+      ]
+    }
+  },
+  {
+    "id": "TRACK-006",
+    "category": "tracking",
+    "name": "Retention Event Tracking",
+    "description": "Track return_session, returning_user product events",
+    "passes": false,
+    "implementation": {
+      "events": ["return_session"],
+      "autoTracked": ["$session_start"],
+      "note": "Session tracking is automatic. Can add custom return_session event based on user visit count.",
+      "code": [
+        {
+          "event": "return_session",
+          "location": "App root after user identification",
+          "code": "if (userVisitCount > 1) tracker.track('return_session', { visitCount: userVisitCount, daysSinceLastVisit })"
+        }
+      ]
+    }
+  },
+  {
+    "id": "TRACK-007",
+    "category": "tracking",
+    "name": "Error & Performance Tracking",
+    "description": "Track errors, API failures, and Core Web Vitals",
+    "passes": false,
+    "implementation": {
+      "autoTracked": ["$error", "$performance (LCP, FID, CLS, TTFB, FCP)"],
+      "manualTracking": [
+        {
+          "event": "api_error",
+          "location": "API client error handler",
+          "code": "tracker.track('api_error', { endpoint, statusCode, errorMessage })"
+        },
+        {
+          "event": "validation_error",
+          "location": "Form validation failures",
+          "code": "tracker.track('validation_error', { form: formId, field: fieldName })"
+        }
+      ],
+      "config": {
+        "autoTrack": {
+          "errors": true,
+          "performance": true
+        }
+      }
+    }
+  },
+  {
+    "id": "TRACK-008",
+    "category": "tracking",
+    "name": "User Identification",
+    "description": "Identify users on login with traits (email, plan, etc.)",
+    "passes": false,
+    "implementation": {
+      "location": "After successful authentication",
+      "code": "tracker.identify(user.id, { email: user.email, plan: user.plan, createdAt: user.createdAt })",
+      "files": ["app/auth/login/page.tsx", "middleware.ts (for session restoration)"],
+      "traits": ["email", "plan", "createdAt", "name", "company"],
+      "note": "Call tracker.reset() on logout to clear user identity"
+    }
+  }
+]

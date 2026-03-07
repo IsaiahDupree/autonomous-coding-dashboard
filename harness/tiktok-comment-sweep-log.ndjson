@@ -3,3 +3,5 @@
 {"ts":"2026-03-07T16:51:44.733Z","msg":"Safari lock held by another sweep — waiting 10s..."}
 {"ts":"2026-03-07T16:51:54.736Z","msg":"Starting sweep: 5 niches, max 8 total, dryRun=false"}
 {"ts":"2026-03-07T16:51:54.853Z","msg":"Sweep error: No Safari tab available for tiktok-comments"}
+{"ts":"2026-03-07T21:08:00.137Z","msg":"Starting sweep: 5 niches, max 8 total, dryRun=false"}
+{"ts":"2026-03-07T21:10:00.143Z","msg":"Sweep error: TimeoutError: The operation was aborted due to timeout"}
