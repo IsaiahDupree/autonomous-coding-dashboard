@@ -9,6 +9,12 @@ H="/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness"
 LOG="$H/logs/watchdog-queue.log"
 mkdir -p "$H/logs"
 
+# Self-sync: keep ~/.acd-watchdog.sh in sync so LaunchAgent always has latest version
+if ! diff -q "$H/watchdog-queue.sh" "$HOME/.acd-watchdog.sh" > /dev/null 2>&1; then
+  cp "$H/watchdog-queue.sh" "$HOME/.acd-watchdog.sh" && chmod +x "$HOME/.acd-watchdog.sh"
+  echo "[watchdog] Synced ~/.acd-watchdog.sh" | tee -a "$LOG"
+fi
+
 # Load environment variables
 if [[ -f "$H/.env" ]]; then
   set -a; source "$H/.env"; set +a
