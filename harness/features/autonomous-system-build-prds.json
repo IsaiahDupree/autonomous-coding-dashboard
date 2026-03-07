@@ -34,15 +34,15 @@
     {
       "id": "CLB-005",
       "name": "Realtime Subscriptions — Supabase Realtime for local → cloud push",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
       "id": "CLB-006",
       "name": "Cloud → Local Webhook Endpoint — POST /api/cloud/trigger on :8765",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
@@ -97,15 +97,15 @@
     {
       "id": "BAC-006",
       "name": "Cloud Command Receiver — ACTP worker polls actp_browser_tasks",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
     },
     {
       "id": "BAC-007",
       "name": "Result Uploader — browser action results → Supabase + Storage",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
     },
     {

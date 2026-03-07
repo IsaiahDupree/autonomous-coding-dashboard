@@ -6,56 +6,56 @@
     {
       "id": "F-001",
       "name": "Project",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-002",
       "name": "Context",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-003",
       "name": "Instructions",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-004",
       "name": "FEAT-001: Create acd-mcp-server.js with MCP handshake + acd_list_projects tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-005",
       "name": "FEAT-002: Add acd_start tool — spawn a harness run",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-006",
       "name": "FEAT-003: Add acd_status tool — read harness status + feature progress",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-007",
       "name": "FEAT-004: Add acd_logs tool + acd_stop tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-008",
       "name": "FEAT-005: Create Claude Code skill file at ~/.claude/skills/acd.md",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-009",
       "name": "FEAT-006: Register acd-mcp-server in Claude Desktop config",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     }
   ]
 }
