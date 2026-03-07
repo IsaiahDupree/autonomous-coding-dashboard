@@ -1,16 +1,14 @@
 {
   "projectId": "research-to-publish",
   "projectRoot": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
-  "lastUpdated": "2026-03-07T19:55:45.865Z",
+  "lastUpdated": "2026-03-07T20:23:42.035Z",
   "sessionType": "CODING",
-  "status": "running",
+  "status": "completed",
   "stats": {
     "total": 8,
     "passing": 7,
     "pending": 1,
     "percentComplete": "87.5"
   },
-  "pid": 92572,
-  "currentSession": 21,
-  "model": "claude-sonnet-4-6"
+  "pid": 92572
 }

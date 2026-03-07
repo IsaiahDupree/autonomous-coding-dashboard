@@ -1,13 +1,13 @@
 {
   "running": true,
   "paused": false,
-  "cycleCount": 10,
-  "strategyCursor": 9,
-  "totalProspectsFound": 93,
+  "cycleCount": 11,
+  "strategyCursor": 12,
+  "totalProspectsFound": 102,
   "totalSyncedCrm": 6,
   "totalQueuedForDm": 12,
-  "lastCycleAt": "2026-03-07T19:50:51.103Z",
-  "nextCycleAt": "2026-03-07T20:20:51.103Z",
+  "lastCycleAt": "2026-03-07T20:21:42.215Z",
+  "nextCycleAt": "2026-03-07T20:51:42.215Z",
   "startedAt": "2026-03-05T05:10:52.892Z",
   "seenUrls": [
     "https://www.linkedin.com/in/dave-miz/",
@@ -100,6 +100,7 @@
     "https://www.linkedin.com/in/kasireddy-siva-8906159b/",
     "https://www.linkedin.com/in/hey-dannielle/",
     "https://www.linkedin.com/in/erika-sestok/",
-    "https://www.linkedin.com/in/lvnd/"
+    "https://www.linkedin.com/in/lvnd/",
+    "https://www.linkedin.com/in/bernie-griesbach/"
   ]
 }

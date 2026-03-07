@@ -50,3 +50,4 @@
 {"ts":"2026-03-07T19:25:11.897Z","msg":"Fallback poll: found 2 pending commands"}
 {"ts":"2026-03-07T19:25:11.967Z","msg":"Rejected unknown command: instagram:conversations","commandId":"f0c2e10c-cc1d-4d08-bdda-6781f73f0e42"}
 {"ts":"2026-03-07T19:25:12.539Z","msg":"Failed: instagram:enrich","commandId":"bed85acf-8e53-4075-bfe5-b8aa0dbfb117"}
+{"ts":"2026-03-07T20:17:29.906Z","msg":"Poll cycle error: fetch failed"}
