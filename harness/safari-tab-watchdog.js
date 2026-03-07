@@ -94,7 +94,7 @@ async function tgSend(text) {
 
 // ── Get current tab layout from coordinator's state file ──────────────────────
 // Layout format: { platforms: [{ platform, port, tab: "w2t1", claimed, error }] }
-function getLayoutEntry(port) {
+export function getLayoutEntry(port) {
   try {
     const layout = JSON.parse(
       fs.readFileSync(path.join(HARNESS_DIR, 'safari-tab-layout.json'), 'utf-8')
@@ -104,7 +104,7 @@ function getLayoutEntry(port) {
 }
 
 // Parse "w2t1" → { windowIndex: 2, tabIndex: 1 }
-function parseTabRef(ref) {
+export function parseTabRef(ref) {
   const m = String(ref || '').match(/w(\d+)t(\d+)/);
   return m ? { windowIndex: parseInt(m[1]), tabIndex: parseInt(m[2]) } : null;
 }
@@ -296,7 +296,10 @@ async function main() {
   log(`Running — checking every ${CHECK_INTERVAL_MS / 1000}s`);
 }
 
-main().catch(e => {
-  log(`Fatal: ${e.message}`);
-  process.exit(1);
-});
+// Only run when executed directly (not when imported by tests)
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    log(`Fatal: ${e.message}`);
+    process.exit(1);
+  });
+}

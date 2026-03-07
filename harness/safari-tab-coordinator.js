@@ -249,7 +249,7 @@ async function clearClaim(platform) {
 }
 
 // ── Find best tab for a platform ──────────────────────────────────────────────
-function findAllTabs(tabs, platform) {
+export function findAllTabs(tabs, platform) {
   // SDPA-014: enforce automation window if configured
   const candidates = (ALLOW_ANY_WINDOW || MODE_OVERRIDE)
     ? tabs
@@ -263,7 +263,7 @@ function findAllTabs(tabs, platform) {
   });
 }
 
-function findBestTab(tabs, platform) {
+export function findBestTab(tabs, platform) {
   const all = findAllTabs(tabs, platform);
   return all[0] || null;
 }
@@ -457,7 +457,10 @@ async function main() {
   }
 }
 
-main().catch(e => {
-  console.error('Fatal:', e.message);
-  process.exit(1);
-});
+// Only run when executed directly (not when imported by tests)
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('Fatal:', e.message);
+    process.exit(1);
+  });
+}

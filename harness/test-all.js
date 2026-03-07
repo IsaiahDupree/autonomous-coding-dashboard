@@ -19,6 +19,11 @@ const tests = [
   { name: 'Model Configuration', file: 'test-model-config.js' },
   { name: 'Target Sync API', file: 'test-target-sync.js' },
   { name: 'Harness DB Integration', file: 'test-harness-db.js' },
+  { name: 'ACD Watchdog + Doctor', file: 'test-watchdog.js' },
+  { name: 'Chrome Lock Mutex', file: 'test-chrome-lock.js' },
+  { name: 'Safari Tab Watchdog', file: 'test-safari-tab-watchdog.js' },
+  { name: 'Safari Tab Coordinator', file: 'test-safari-tab-coordinator.js', env: { SAFARI_ALLOW_ANY_WINDOW: 'true' } },
+  { name: 'LinkedIn Scrapers', file: 'test-linkedin-scrapers.js' },
 ];
 
 async function runTest(test) {
@@ -30,6 +35,7 @@ async function runTest(test) {
     const proc = spawn('node', [path.join(__dirname, test.file)], {
       cwd: __dirname,
       stdio: 'inherit',
+      env: { ...process.env, ...(test.env || {}) },
     });
 
     proc.on('close', (code) => {
