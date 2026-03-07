@@ -92,15 +92,21 @@ async function tgSend(text) {
   } catch {}
 }
 
-// ── Get current tab claims from coordinator's state file ─────────────────────
-function getClaimedPlatforms() {
+// ── Get current tab layout from coordinator's state file ──────────────────────
+// Layout format: { platforms: [{ platform, port, tab: "w2t1", claimed, error }] }
+function getLayoutEntry(port) {
   try {
     const layout = JSON.parse(
       fs.readFileSync(path.join(HARNESS_DIR, 'safari-tab-layout.json'), 'utf-8')
     );
-    // layout is { ig: { windowIndex, tabIndex, claimed, url }, ... }
-    return layout;
-  } catch { return {}; }
+    return (layout.platforms || []).find(p => p.port === port) || null;
+  } catch { return null; }
+}
+
+// Parse "w2t1" → { windowIndex: 2, tabIndex: 1 }
+function parseTabRef(ref) {
+  const m = String(ref || '').match(/w(\d+)t(\d+)/);
+  return m ? { windowIndex: parseInt(m[1]), tabIndex: parseInt(m[2]) } : null;
 }
 
 // ── Check a single platform's service health ─────────────────────────────────
@@ -117,27 +123,28 @@ async function checkPlatform(platform) {
     return { ok: false, reason: 'service_down', detail: e.message };
   }
 
-  // 2. Check if this platform has a live tab claim in the layout state
-  const layout = getClaimedPlatforms();
-  const claim = layout[platform.id];
-
-  if (!claim || !claim.windowIndex) {
-    return { ok: false, reason: 'no_tab', detail: 'No tab claim in safari-tab-layout.json' };
+  // 2. Check if this platform has a live claimed tab in the layout state
+  const entry = getLayoutEntry(platform.port);
+  if (!entry || !entry.claimed || !entry.tab) {
+    return { ok: false, reason: 'no_tab', detail: 'Not claimed in safari-tab-layout.json' };
   }
 
-  // 3. Verify the claimed tab is actually open in Safari right now
-  // (use osascript — quick check without spawning a full coordinator run)
+  // 3. Verify the claimed tab is actually open in Safari right now via AppleScript
+  const ref = parseTabRef(entry.tab);
+  if (!ref) {
+    return { ok: false, reason: 'no_tab', detail: `Cannot parse tab ref: ${entry.tab}` };
+  }
+
   try {
-    const { windowIndex, tabIndex } = claim;
+    const { windowIndex, tabIndex } = ref;
     const script = `tell application "Safari" to get URL of tab ${tabIndex} of window ${windowIndex}`;
     const url = execSync(`osascript -e '${script}'`, { timeout: 5000, encoding: 'utf-8' }).trim();
     if (!url || !url.includes(platform.urlPattern)) {
-      return { ok: false, reason: 'no_tab', detail: `Tab ${windowIndex}:${tabIndex} URL mismatch — got: ${url.slice(0,60)}` };
+      return { ok: false, reason: 'no_tab', detail: `Tab ${entry.tab} mismatch — got: ${url.slice(0, 60)}` };
     }
     return { ok: true };
   } catch {
-    // osascript failed — Safari closed or tab gone
-    return { ok: false, reason: 'no_tab', detail: 'Safari tab not reachable via AppleScript' };
+    return { ok: false, reason: 'no_tab', detail: `Tab ${entry.tab} not reachable via AppleScript` };
   }
 }
 
