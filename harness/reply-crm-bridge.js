@@ -392,6 +392,12 @@ async function scanPlatform(platform, state, results) {
     const handle = platform.getSenderHandle(conv);
     if (!handle) continue;
 
+    // Skip conversations where WE sent the last message (no reply from them yet)
+    if (conv.lastMessageIsOutbound === true) {
+      log(`${platform.name}: ${handle} — last message was ours, skipping`);
+      continue;
+    }
+
     const convId = conv.id || conv.conversation_id || handle;
 
     // For platforms that require opening the conversation first (e.g. Instagram)

@@ -6,74 +6,74 @@
     {
       "id": "F-001",
       "name": "Project",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-002",
       "name": "Context",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-003",
       "name": "Instructions",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-004",
       "name": "ACD-DISP-001: acd_list_prds tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-005",
       "name": "ACD-DISP-002: acd_write_prd tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-006",
       "name": "ACD-DISP-003: acd_generate_features tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-007",
       "name": "ACD-DISP-004: acd_dispatch tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-008",
       "name": "ACD-DISP-005: acd_list_running tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-009",
       "name": "ACD-DISP-006: /dispatch skill",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-010",
       "name": "ACD-DISP-007: POST /api/dispatch route in backend",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-011",
       "name": "ACD-DISP-008: Launch Job drawer in dashboard UI",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-012",
       "name": "ACD-DISP-009: PRD Library tab in dashboard",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     }
   ]
 }
