@@ -284,7 +284,9 @@ const PLATFORMS = [
     port:    3100,
     token:   process.env.INSTAGRAM_API_TOKEN || 'test-token',
     convUrl: (base) => `${base}/api/conversations`,
-    msgUrl:  (base, id) => `${base}/api/messages?conversationId=${id}`,
+    // Instagram: must open conversation first, then /api/messages reads the open one
+    openUrl: (base) => `${base}/api/conversations/open`,
+    msgUrl:  (base) => `${base}/api/messages`,
     getSenderHandle: (conv) => conv.username || conv.handle || conv.participant_username || null,
     isInbound: (msg) => msg.isOutbound === false || msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
     getMsgText: (msg) => msg.text || msg.message || msg.body || '',
@@ -325,11 +327,39 @@ const PLATFORMS = [
   },
 ];
 
+async function navigateToInbox(platform, base) {
+  // Navigate the Safari tab to the DM inbox before scraping
+  const endpoints = {
+    instagram: `${base}/api/inbox/navigate`,
+    twitter:   null, // Twitter service handles navigation internally
+    tiktok:    null,
+    linkedin:  null,
+  };
+  const navUrl = endpoints[platform.name];
+  if (!navUrl) return;
+  try {
+    const res = await fetch(navUrl, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${platform.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (res.ok) {
+      // Give the page 2s to load after navigation
+      await new Promise(r => setTimeout(r, 2000));
+      log(`${platform.name}: navigated to inbox`);
+    }
+  } catch (e) { /* non-fatal */ }
+}
+
 async function scanPlatform(platform, state, results) {
   const base = `http://localhost:${platform.port}`;
   const cursor = state.lastScan[platform.name] || null;
 
   log(`Scanning ${platform.name} inbox...`);
+
+  // Navigate to inbox first (ensures Safari tab is on the right page)
+  await navigateToInbox(platform, base);
 
   // Fetch conversations
   const convData = await apiGet(platform.convUrl(base), platform.token);
@@ -364,8 +394,22 @@ async function scanPlatform(platform, state, results) {
 
     const convId = conv.id || conv.conversation_id || handle;
 
+    // For platforms that require opening the conversation first (e.g. Instagram)
+    if (platform.openUrl) {
+      const opened = await fetch(platform.openUrl(base), {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${platform.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: handle }),
+        signal: AbortSignal.timeout(10_000),
+      }).catch(() => null);
+      if (!opened || !opened.ok) continue;
+      // Wait for conversation to fully render in Safari
+      await new Promise(r => setTimeout(r, 3000));
+    }
+
     // Fetch messages for this conversation
-    const msgData = await apiGet(platform.msgUrl(base, convId), platform.token);
+    const msgUrl = platform.openUrl ? platform.msgUrl(base) : platform.msgUrl(base, convId);
+    const msgData = await apiGet(msgUrl, platform.token);
 
     let msgText = null;
     if (!msgData.error) {

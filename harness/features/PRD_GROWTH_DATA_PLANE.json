@@ -6,110 +6,110 @@
     {
       "id": "F-001",
       "name": "Environment Variables",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-002",
       "name": "Architecture",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-003",
       "name": "Database Schema (Supabase)",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-004",
       "name": "Core Tables",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-005",
       "name": "Edge Functions",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-006",
       "name": "1. Resend Webhook Ingest",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-007",
       "name": "2. Click Redirect Tracker",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-008",
       "name": "3. Stripe Webhook",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-009",
       "name": "4. Segment Engine (Cron)",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-010",
       "name": "Client Integration",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-011",
       "name": "PostHog Identity Stitching",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-012",
       "name": "Meta Pixel + CAPI Deduplication",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-013",
       "name": "Starter Segments (10)",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-014",
       "name": "Newsletter → Subscription Funnel",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-015",
       "name": "Outbound → Close Funnel",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-016",
       "name": "Key Rules",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-017",
       "name": "Features",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-018",
       "name": "Success Metrics",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     }
   ]
 }

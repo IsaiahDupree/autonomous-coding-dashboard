@@ -858,7 +858,7 @@
     "source": "safari",
     "priority_score": 71,
     "auto_approved_at": "2026-03-06T20:48:53.976Z",
-    "connection_error": "elementHandle.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    57 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+    "connection_error": "elementHandle.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
   },
   {
     "id": "li-1772691429954-gprwt",
@@ -1353,7 +1353,7 @@
     "source": "safari",
     "priority_score": 71,
     "auto_approved_at": "2026-03-06T20:48:59.473Z",
-    "connection_error": "page.evaluate: Execution context was destroyed, most likely because of a navigation"
+    "connection_error": "connect_button_not_found"
   },
   {
     "id": "li-1772696991006-de9u2",
@@ -1912,7 +1912,8 @@
     "strategy": "RevOps SaaS Leaders",
     "source": "safari",
     "priority_score": 68,
-    "auto_approved_at": "2026-03-06T22:49:14.444Z"
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "elementHandle.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
   },
   {
     "id": "li-1772833952814-7wy6c",
@@ -2365,7 +2366,7 @@
     "id": "li-1772833959762-oqhbv",
     "queued_at": "2026-03-06T21:52:39.762Z",
     "cycle": 6,
-    "status": "approved",
+    "status": "already_connected",
     "prospect": {
       "name": "Scott W.",
       "profileUrl": "https://www.linkedin.com/in/scott-wohrman/",
@@ -2800,7 +2801,8 @@
     "strategy": "Scale-Up Operators",
     "source": "safari",
     "priority_score": 68,
-    "auto_approved_at": "2026-03-07T00:32:45.552Z"
+    "auto_approved_at": "2026-03-07T00:32:45.552Z",
+    "connection_error": "connect_button_not_found"
   },
   {
     "id": "li-1772841375691-xl1ya",
@@ -3293,9 +3295,9 @@
   {
     "id": "li-chrome-1772851796632-3pfhl",
     "queued_at": "2026-03-07T02:49:56.632Z",
-    "status": "pending_approval",
+    "status": "approved",
     "source": "chrome-agent:hashtag:aiautomation",
-    "priority_score": 50,
+    "priority_score": 3,
     "crm_id": "1607e225-b68b-46e6-ad71-59dcb9dd5dcd",
     "crm_synced": true,
     "prospect": {
@@ -3303,14 +3305,15 @@
       "profileUrl": "https://www.linkedin.com/in/jasoncooperson/",
       "headline": "OpenClaw is a dumpster fire. There, I said it. 🔥",
       "connectionDegree": "unknown"
-    }
+    },
+    "auto_approved_at": "2026-03-07T19:34:21.537Z"
   },
   {
     "id": "li-chrome-1772851796807-k1yom",
     "queued_at": "2026-03-07T02:49:56.807Z",
-    "status": "pending_approval",
+    "status": "approved",
     "source": "chrome-agent:hashtag:aiautomation",
-    "priority_score": 50,
+    "priority_score": 3,
     "crm_id": "7cd8ed72-43a0-460b-96e3-c1943a476776",
     "crm_synced": true,
     "prospect": {
@@ -3318,14 +3321,15 @@
       "profileUrl": "https://www.linkedin.com/in/toolzyo/",
       "headline": "When the automations finally click and your AI agents are doing the boring parts without breaking anything…",
       "connectionDegree": "unknown"
-    }
+    },
+    "auto_approved_at": "2026-03-07T19:34:21.537Z"
   },
   {
     "id": "li-chrome-1772851797040-0e8pc",
     "queued_at": "2026-03-07T02:49:57.040Z",
-    "status": "pending_approval",
+    "status": "approved",
     "source": "chrome-agent:hashtag:aiautomation",
-    "priority_score": 50,
+    "priority_score": 3,
     "crm_id": "2b8eccb5-b4c0-4cb3-99bf-b183f06e7111",
     "crm_synced": true,
     "prospect": {
@@ -3333,14 +3337,15 @@
       "profileUrl": "https://www.linkedin.com/in/tyler-ai-alset/",
       "headline": "Automating your businesses with AI | Ranger Veteran | Big Hearts under the Big Sky Ambassador | Dog Rescuer",
       "connectionDegree": "unknown"
-    }
+    },
+    "auto_approved_at": "2026-03-07T19:34:21.537Z"
   },
   {
     "id": "li-chrome-1772851797234-4mcnw",
     "queued_at": "2026-03-07T02:49:57.234Z",
-    "status": "pending_approval",
+    "status": "approved",
     "source": "chrome-agent:hashtag:aiautomation",
-    "priority_score": 50,
+    "priority_score": 3,
     "crm_id": "6805227c-9188-4545-9bb4-94c1bce8e63a",
     "crm_synced": true,
     "prospect": {
@@ -3348,14 +3353,15 @@
       "profileUrl": "https://www.linkedin.com/in/bryanengel/",
       "headline": "Timing is everything in content marketing. And most teams are losing the timing game.",
       "connectionDegree": "unknown"
-    }
+    },
+    "auto_approved_at": "2026-03-07T19:34:21.537Z"
   },
   {
     "id": "li-chrome-1772851797427-9qcjz",
     "queued_at": "2026-03-07T02:49:57.427Z",
-    "status": "pending_approval",
+    "status": "approved",
     "source": "chrome-agent:hashtag:aiautomation",
-    "priority_score": 90,
+    "priority_score": 3,
     "crm_id": "94c5f8c0-fd92-4a31-ae61-3c351c44b8f4",
     "crm_synced": true,
     "prospect": {
@@ -3363,6 +3369,7 @@
       "profileUrl": "https://www.linkedin.com/in/rayan-sikkandar-40949a28b/",
       "headline": "Cofounder @ Argus AI — Computer Vision for Retail Loss Prevention | Cofounder @ Rion Solutions | UT Dallas CE",
       "connectionDegree": "unknown"
-    }
+    },
+    "auto_approved_at": "2026-03-07T19:34:21.537Z"
   }
 ]

@@ -1,0 +1,17 @@
+{
+  "name": "growth-data-plane",
+  "version": "1.0.0",
+  "description": "Growth Data Plane: unified event tracking, segmentation, and activation",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "migrate": "node lib/migrate.js",
+    "segment-engine": "node edge-functions/segment-engine/index.js",
+    "health": "node lib/health.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "posthog-node": "^3.6.0",
+    "stripe": "^14.0.0"
+  }
+}

@@ -1,0 +1,93 @@
+== Session 1: Initializer Agent — Growth Data Plane ==
+Date: 2026-03-07
+
+## Completed (18/18 features)
+
+### F-001: Environment Variables
+- Created .env.example with all 13 required env vars (Supabase, Resend, PostHog, Meta, Stripe, App)
+
+### F-002: Architecture
+- Created project structure: edge-functions/, client/, lib/, segments/, tests/, supabase/migrations/
+- Set up package.json with @supabase/supabase-js, posthog-node, stripe deps
+- Created lib/supabase.js with shared client + upsertPerson, linkIdentity, insertEvent, getPersonByIdentity
+
+### F-003: Database Schema (Supabase)
+- Migration 001_growth_data_plane.sql: 10 tables, all gdp_ prefixed, RLS enabled
+- Migration 002_rpc_functions.sql: gdp_evaluate_segment (dynamic SQL), gdp_event_source_counts
+
+### F-004: Core Tables
+- gdp_person, gdp_identity_link, gdp_event, gdp_email_message, gdp_email_event
+- gdp_subscription, gdp_deal, gdp_person_features, gdp_segment, gdp_segment_member
+- All with proper indexes, foreign keys, and cascading deletes
+
+### F-005: Edge Functions
+- 4 edge functions: resend-webhook, click-tracker, stripe-webhook, segment-engine
+
+### F-006: Resend Webhook Ingest
+- Svix signature verification (timing-safe compare, timestamp check)
+- Maps 7 event types, stores email_event + unified event
+- Auto-creates person from email if not found, uses tags for person_id mapping
+
+### F-007: Click Redirect Tracker
+- URL-based redirect with attribution params (pid, cid, fn, lid)
+- Sets first-party cookie (gdp_pid), logs click events
+- URL validation (protocol whitelist), generateTrackingUrl helper
+
+### F-008: Stripe Webhook
+- Stripe signature verification (HMAC SHA256, timestamp)
+- Handles checkout.completed, subscription.*, invoice.* events
+- Upserts subscription snapshot, auto-links stripe_customer_id to person
+
+### F-009: Segment Engine (Cron)
+- computePersonFeatures: aggregates email events (30d), page views (7d), sessions, pricing views
+- evaluateSegments: runs dynamic SQL per segment, manages enter/exit membership
+- triggerAutomations: fires email/meta_capi/outbound/suppress per segment config
+- Standalone runner: node edge-functions/segment-engine/index.js
+
+### F-010: Client Integration
+- GDPClient class: identify, trackConversion, trackPageView, trackLead, trackSignup, trackPurchase, trackBooking
+- Unified API that fires both PostHog + Meta Pixel/CAPI for each conversion
+
+### F-011: PostHog Identity Stitching
+- client/posthog-identity.js: identifyPerson (sets gdp_person_id), trackEvent, resetIdentity
+- serverIdentify for backend use (POST to PostHog /capture/)
+
+### F-012: Meta Pixel + CAPI Deduplication
+- client/meta-pixel.js: trackPixelEvent (returns eventId), sendCAPIEvent (hashed email, external_id)
+- trackWithDedup: fires Pixel + CAPI with same event_id for Meta dedup
+- getMetaCookies: reads _fbp/_fbc from document.cookie
+
+### F-013: Starter Segments (10+10)
+- 10 newsletter funnel segments + 10 outbound funnel segments = 20 total
+
+### F-014: Newsletter -> Subscription Funnel
+- 10 segments: new_signup_no_activation_24h, activated_not_paid_day3, high_intent_pricing_2plus_not_paid,
+  checkout_started_no_purchase_4h, newsletter_clicker_not_signed_up, inactive_7d_after_activation,
+  paid_low_usage_7d, paid_high_usage_7d, bounced_complained (suppress), high_clicks_low_usage
+
+### F-015: Outbound -> Close Funnel
+- 10 segments: visited_offer_2plus_no_reply, clicked_outbound_no_booking, booked_call,
+  no_show, proposal_sent, warm_lead, replied_positive, replied_negative, won, lost
+
+### F-016: Key Rules
+- lib/email-tags.js: buildEmailTags (requires personId + campaign_id + funnel), parseEmailTags
+- Every email includes deterministic tags for webhook mapping
+
+### F-017: Features
+- Person features computation in segment engine (22 computed fields)
+- Feature computation covers email engagement, product usage, billing, deal pipeline
+
+### F-018: Success Metrics
+- lib/metrics.js: getSuccessMetrics — total events, source breakdown, email funnel,
+  persons with features, segment memberships, automations fired, identity links, deal pipeline
+
+## Tests
+- 17/17 tests passing (node --test tests/gdp.test.js)
+- Tests cover: email tags, segment definitions (10+10), click tracker, webhook signature validation,
+  Meta Pixel cookies, GDPClient creation and identity
+
+## Note
+- Supabase migrations not yet applied (permission was blocked). SQL files ready at:
+  - supabase/migrations/001_growth_data_plane.sql (10 tables)
+  - supabase/migrations/002_rpc_functions.sql (2 RPC functions)
+- Run these via Supabase MCP or dashboard when permissions are available.

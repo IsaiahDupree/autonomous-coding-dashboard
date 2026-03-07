@@ -22,6 +22,7 @@ import https from 'https';
 import http from 'http';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import { publishToYouTube, refreshEngagement, getEngagementReport } from './youtube-publisher.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -47,12 +48,37 @@ const ARG_FORMAT   = getArg('--format') || 'all';
 const DRY_RUN      = args.includes('--dry-run');
 const LIST_TRENDS  = args.includes('--list-trends');
 const SEND_TELEGRAM = !args.includes('--no-telegram');
+const PUBLISH_YOUTUBE = !args.includes('--no-youtube');
+const REFRESH_ENGAGEMENT = args.includes('--refresh-engagement');
+const ENGAGEMENT_REPORT  = args.includes('--engagement-report');
 const MAX_TWEETS   = parseInt(getArg('--max-tweets') || '6', 10);
 
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
   ensureDirs();
+
+  // Utility sub-commands
+  if (REFRESH_ENGAGEMENT) {
+    console.log('Refreshing engagement metrics from YouTube...');
+    const { updated, errors } = await refreshEngagement();
+    console.log(`Done: ${updated} updated, ${errors} errors`);
+    return;
+  }
+
+  if (ENGAGEMENT_REPORT) {
+    const rows = await getEngagementReport();
+    console.log(`\n=== Trend Video Engagement Report (${rows.length} videos) ===\n`);
+    rows.forEach(r => {
+      console.log(`[${r.format}] ${r.topic}`);
+      console.log(`  Views: ${r.views} | Likes: ${r.likes} | Comments: ${r.comments}`);
+      console.log(`  Engagement: ${r.engagement_rate?.toFixed(2)}% | CTR: ${r.ctr?.toFixed(2)}%`);
+      console.log(`  URL: ${r.youtube_url || 'not published'}`);
+      if (r.improvement_notes) console.log(`  Notes: ${r.improvement_notes}`);
+      console.log();
+    });
+    return;
+  }
 
   if (LIST_TRENDS) {
     const trends = await fetchTrends();
@@ -104,19 +130,42 @@ async function main() {
   const renderedPaths = await renderVideos(brief, topic);
   console.log(`      Rendered: ${renderedPaths.join(', ')}\n`);
 
-  // Step 7: Send to Telegram
-  if (SEND_TELEGRAM) {
-    console.log('[7/7] Sending to Telegram...');
-    for (const videoPath of renderedPaths) {
+  // Step 7: Publish to YouTube + send to Telegram
+  console.log('[7/7] Publishing...');
+  const publishedUrls = [];
+
+  for (const videoPath of renderedPaths) {
+    const fmt = detectFormat(videoPath);
+
+    // Publish to YouTube (primary)
+    if (PUBLISH_YOUTUBE) {
+      try {
+        const { youtubeUrl, dbId } = await publishToYouTube({
+          localPath: videoPath,
+          brief,
+          format: fmt,
+          compositionId: `TrendVideo-${fmt.charAt(0).toUpperCase() + fmt.slice(1)}`,
+        });
+        publishedUrls.push(youtubeUrl);
+        console.log(`      YouTube (${fmt}): ${youtubeUrl}`);
+      } catch (e) {
+        console.error(`      YouTube publish failed (${fmt}): ${e.message}`);
+      }
+    }
+
+    // Also send to Telegram
+    if (SEND_TELEGRAM) {
       await sendToTelegram(videoPath, topic, brief);
     }
-    console.log('      Sent!\n');
-  } else {
-    console.log('[7/7] Skipped Telegram (--no-telegram)\n');
   }
+
+  if (!PUBLISH_YOUTUBE) console.log('      YouTube skipped (--no-youtube)');
+  if (!SEND_TELEGRAM)   console.log('      Telegram skipped (--no-telegram)');
+  console.log();
 
   console.log('=== Done ===');
   console.log('Videos:', renderedPaths.join('\n        '));
+  if (publishedUrls.length) console.log('YouTube:', publishedUrls.join('\n         '));
 }
 
 // ─── Step 1: Trend Discovery ────────────────────────────────────────────────
@@ -440,6 +489,13 @@ function loadEnv(envPath) {
 function getArg(flag) {
   const i = args.indexOf(flag);
   return i >= 0 && args[i + 1] ? args[i + 1] : null;
+}
+
+function detectFormat(videoPath) {
+  const name = path.basename(videoPath).toLowerCase();
+  if (name.includes('shorts')) return 'shorts';
+  if (name.includes('linkedin')) return 'linkedin';
+  return 'youtube';
 }
 
 function formatCount(n) {

@@ -1,3 +1,6 @@
 {"ts":"2026-03-07T19:23:02.655Z","slug":"demandradar","event":"session_start","session":1,"model":"claude-sonnet-4-5-20250929","featuresTotal":11,"featuresPassing":0}
 {"ts":"2026-03-07T19:23:24.874Z","slug":"demandradar","event":"session_end","session":1,"duration_ms":22195,"featuresDelta":0,"tokens":23804,"cost":0.15905049999999998,"exitCode":0}
 {"ts":"2026-03-07T19:23:34.880Z","slug":"demandradar","event":"session_start","session":2,"model":"claude-sonnet-4-5-20250929","featuresTotal":11,"featuresPassing":0}
+{"ts":"2026-03-07T19:32:30.381Z","slug":"demandradar","event":"feature_passed","session":2,"featuresDelta":53,"newPassing":53}
+{"ts":"2026-03-07T19:32:30.384Z","slug":"demandradar","event":"session_end","session":2,"duration_ms":535493,"featuresDelta":53,"tokens":93621,"cost":1.1475022500000003,"exitCode":0}
+{"ts":"2026-03-07T19:32:40.397Z","slug":"demandradar","event":"session_start","session":3,"model":"claude-sonnet-4-5-20250929","featuresTotal":74,"featuresPassing":53}
