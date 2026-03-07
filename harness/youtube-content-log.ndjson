@@ -1699,3 +1699,7 @@
 {"ts":"2026-03-07T18:50:46.710Z","level":"error","msg":"Pipeline failed for P17i2ElVVEI: Invalid JSON from content-package: Expected ',' or '}' after property value in JSON at position 2268 (line 4 column 2031)"}
 {"ts":"2026-03-07T18:50:46.711Z","level":"info","msg":"Cycle complete"}
 {"ts":"2026-03-07T18:50:46.711Z","level":"info","msg":"Daemon running. Next scan in 120 minutes."}
+{"ts":"2026-03-07T20:50:46.748Z","level":"info","msg":"Cycle 2 starting"}
+{"ts":"2026-03-07T20:50:46.765Z","level":"info","msg":"Scanning playlist PLL7TyPlRkPShX1uKR70PovVPBt-IpbKRs"}
+{"ts":"2026-03-07T20:50:55.417Z","level":"info","msg":"1681 videos in playlist PLL7TyPlRkPShX1uKR70PovVPBt-IpbKRs"}
+{"ts":"2026-03-07T20:52:44.365Z","level":"info","msg":"Scan done. Newly queued: 0"}
