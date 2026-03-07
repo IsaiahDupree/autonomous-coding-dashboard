@@ -84,6 +84,27 @@
   },
   "repos": [
     {
+      "id": "safari-decoupled-push-arch",
+      "name": "Safari Decoupled Push Architecture",
+      "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
+      "prompt": "harness/prompts/safari-decoupled-push-arch.md",
+      "featureList": "harness/safari-decoupled-push-arch-features.json",
+      "priority": 1,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "critical",
+      "focus": "Safari profile separation, push model caching, cloud-local cron management",
+      "tags": [
+        "safari",
+        "architecture",
+        "cron",
+        "supabase",
+        "linkedin",
+        "tiktok",
+        "threads"
+      ]
+    },
+    {
       "id": "content-intelligence-system",
       "name": "Content Intelligence & Media Asset Management",
       "path": "/Users/isaiahdupree/Documents/Software/content-intelligence",
@@ -94,7 +115,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Audit MPLite DB + pull all Blotato social data + index local videos + SHA256 dedup + safe-delete + cross-platform analysis + content association graph",
-      "tags": ["analytics", "media", "dedup", "supabase", "blotato", "mplite"]
+      "tags": [
+        "analytics",
+        "media",
+        "dedup",
+        "supabase",
+        "blotato",
+        "mplite"
+      ]
     },
     {
       "id": "crmlite-mcp",
@@ -106,8 +134,12 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "MCP server wrapping CRMLite REST API — crm_search, crm_get_contact, crm_add_contact, crm_dedup_check, crm_log_interaction, crm_pipeline",
-      "tags": ["mcp", "crmlite", "infrastructure"]
+      "focus": "MCP server wrapping CRMLite REST API \u2014 crm_search, crm_get_contact, crm_add_contact, crm_dedup_check, crm_log_interaction, crm_pipeline",
+      "tags": [
+        "mcp",
+        "crmlite",
+        "infrastructure"
+      ]
     },
     {
       "id": "social-mcp",
@@ -119,8 +151,13 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "MCP server unifying all 9 Safari automation services — social_dm, social_comment, social_inbox, social_research, social_competitor_research",
-      "tags": ["mcp", "safari", "social", "infrastructure"]
+      "focus": "MCP server unifying all 9 Safari automation services \u2014 social_dm, social_comment, social_inbox, social_research, social_competitor_research",
+      "tags": [
+        "mcp",
+        "safari",
+        "social",
+        "infrastructure"
+      ]
     },
     {
       "id": "analytics-mcp",
@@ -132,8 +169,12 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "MCP server for cross-platform analytics — analytics_youtube, analytics_twitter, analytics_daily_summary, analytics_top_performers, analytics_publish_history",
-      "tags": ["mcp", "analytics", "infrastructure"]
+      "focus": "MCP server for cross-platform analytics \u2014 analytics_youtube, analytics_twitter, analytics_daily_summary, analytics_top_performers, analytics_publish_history",
+      "tags": [
+        "mcp",
+        "analytics",
+        "infrastructure"
+      ]
     },
     {
       "id": "memory-mcp",
@@ -145,8 +186,12 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "MCP server for ACTP 3-layer memory system — memory_record, memory_search, memory_daily_note, memory_context_dump, memory_list_recent, memory_delete",
-      "tags": ["mcp", "memory", "infrastructure"]
+      "focus": "MCP server for ACTP 3-layer memory system \u2014 memory_record, memory_search, memory_daily_note, memory_context_dump, memory_list_recent, memory_delete",
+      "tags": [
+        "mcp",
+        "memory",
+        "infrastructure"
+      ]
     },
     {
       "id": "mplite-mcp",
@@ -158,8 +203,13 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "MCP server for MPLite publish queue — queue_add, queue_list, queue_status, queue_trigger, queue_daily_stats, queue_update, queue_cancel, queue_health",
-      "tags": ["mcp", "mplite", "publishing", "infrastructure"]
+      "focus": "MCP server for MPLite publish queue \u2014 queue_add, queue_list, queue_status, queue_trigger, queue_daily_stats, queue_update, queue_cancel, queue_health",
+      "tags": [
+        "mcp",
+        "mplite",
+        "publishing",
+        "infrastructure"
+      ]
     },
     {
       "id": "campaigns-mcp",
@@ -171,8 +221,13 @@
       "enabled": true,
       "untilComplete": true,
       "complexity": "high",
-      "focus": "MCP server for ACTP campaign management — campaigns_list/get/create/summary, creatives_list/get/approve, organic_posts_list",
-      "tags": ["mcp", "campaigns", "creatives", "infrastructure"]
+      "focus": "MCP server for ACTP campaign management \u2014 campaigns_list/get/create/summary, creatives_list/get/approve, organic_posts_list",
+      "tags": [
+        "mcp",
+        "campaigns",
+        "creatives",
+        "infrastructure"
+      ]
     },
     {
       "id": "prd051-clawbot-mcp-mesh",
@@ -716,9 +771,10 @@
       "prd": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/DEVELOPER_HANDOFF.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/EverReachOrganized/app-kit/feature_list.json",
       "priority": 6,
-      "enabled": true,
+      "enabled": false,
       "untilComplete": true,
-      "complexity": "medium"
+      "complexity": "medium",
+      "_disabledReason": "no feature_list.json yet \u2014 enable when PRD is ready"
     },
     {
       "id": "steadyletters",
@@ -2109,7 +2165,7 @@
     },
     {
       "id": "gtm-engineering-agents",
-      "name": "GTM Engineering Agents — 7 CLI automation workflows",
+      "name": "GTM Engineering Agents \u2014 7 CLI automation workflows",
       "path": "/Users/isaiahdupree/Documents/Software/gtm-engineering-agents",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/gtm-engineering-agents.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/gtm-engineering-agents-features.json",
@@ -2118,11 +2174,19 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Build 7 GTM engineering automation workflows as TypeScript CLI scripts: workspace scaffold, LinkedIn giveaway auto-responder, bulk Facebook ad generator, podcast cold email pipeline, Railway Postgres analysis, Facebook ad optimizer daemon, LinkedIn ICP crawler + auto email.",
-      "tags": ["gtm", "outreach", "facebook", "linkedin", "email", "typescript", "cli"]
+      "tags": [
+        "gtm",
+        "outreach",
+        "facebook",
+        "linkedin",
+        "email",
+        "typescript",
+        "cli"
+      ]
     },
     {
       "id": "acd-autonomous",
-      "name": "ACD Autonomous — Polsia-style 24/7 execution cycles + live activity stream",
+      "name": "ACD Autonomous \u2014 Polsia-style 24/7 execution cycles + live activity stream",
       "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
       "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/acd-autonomous.md",
       "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/acd-autonomous-features.json",
@@ -2131,7 +2195,14 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "Add Live and Autonomous tabs to dashboard UI (ACD-AUTO-005/006). Backend MCP tools and HTTP server already implemented (4/6 done). Remaining: live.html SSE activity feed, autonomous.html cycle control panel.",
-      "tags": ["acd", "autonomy", "dashboard", "ui", "sse", "cycles"]
+      "tags": [
+        "acd",
+        "autonomy",
+        "dashboard",
+        "ui",
+        "sse",
+        "cycles"
+      ]
     }
   ]
 }

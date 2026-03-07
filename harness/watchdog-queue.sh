@@ -205,6 +205,17 @@ else
   echo "[watchdog] linkedin-inbox-monitor already running" | tee -a "$LOG"
 fi
 
+# Start YouTube content daemon if not already running
+if ! pgrep -f "youtube-content-daemon.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting youtube-content-daemon..." | tee -a "$LOG"
+  nohup node "$H/youtube-content-daemon.js" >> "$H/logs/youtube-content-daemon.log" 2>&1 &
+  YT_PID=$!
+  echo $YT_PID > "$H/youtube-content-daemon.pid"
+  echo "[watchdog] YouTube Content Daemon PID: $YT_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] youtube-content-daemon already running" | tee -a "$LOG"
+fi
+
 # Start cron-manager if not already running (SDPA-014)
 if ! pgrep -f "cron-manager.js" > /dev/null 2>&1; then
   echo "[watchdog] Starting cron-manager..." | tee -a "$LOG"
@@ -216,10 +227,27 @@ else
   echo "[watchdog] cron-manager already running" | tee -a "$LOG"
 fi
 
+# ── Telegram notifier ────────────────────────────────────────────────────────
+TELEGRAM_TOKEN="${TELEGRAM_BOT_TOKEN:-8794428438:AAHIkgi_S9EYTr_8GcaDmjv4IlsdF3tYJEc}"
+TELEGRAM_CHAT="${TELEGRAM_CHAT_ID:-7070052335}"
+
+send_telegram() {
+  local msg="$1"
+  curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+    -d "chat_id=${TELEGRAM_CHAT}" \
+    -d "text=${msg}" \
+    -d "parse_mode=HTML" \
+    > /dev/null 2>&1 || true
+}
+
 # Don't start if run-queue is already running (avoid double-run)
 if pgrep -f "run-queue.js" > /dev/null 2>&1; then
   echo "[watchdog] run-queue.js already running — monitoring only" | tee -a "$LOG"
 fi
+
+# Track idle state for rate-limiting notifications (notify every 30min max)
+LAST_IDLE_NOTIFY=0
+IDLE_NOTIFY_INTERVAL=1800  # 30 minutes
 
 RUN=0
 while true; do
@@ -235,6 +263,13 @@ while true; do
   node "$H/run-queue.js" >> "$LOG" 2>&1
   EXIT=$?
   echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — run-queue.js exited (code=$EXIT)" | tee -a "$LOG"
+
+  # Notify on crash (non-zero exit, not a clean "all done" exit)
+  if [ "$EXIT" -ne 0 ]; then
+    MSG="&#x26A0;&#xFE0F; ACD run-queue crashed (exit $EXIT) at $(date '+%H:%M:%S')%0ARestarting automatically in 30s.%0AAdd new tasks: send me a PRD or use /dispatch"
+    echo "[watchdog] Sending crash notification to Telegram" | tee -a "$LOG"
+    send_telegram "$MSG"
+  fi
 
   # Check if all repos are complete
   INCOMPLETE=$(node -e "
@@ -255,8 +290,17 @@ while true; do
   echo "[watchdog] Incomplete repos remaining: $INCOMPLETE" | tee -a "$LOG"
 
   if [ "$INCOMPLETE" = "0" ]; then
-    echo "[watchdog] All repos complete — watchdog exiting." | tee -a "$LOG"
-    exit 0
+    NOW=$(date +%s)
+    SINCE_LAST=$((NOW - LAST_IDLE_NOTIFY))
+    if [ "$SINCE_LAST" -ge "$IDLE_NOTIFY_INTERVAL" ]; then
+      MSG="&#x1F4A4; ACD is idle — queue empty at $(date '+%H:%M:%S')%0AAll projects complete. Ready for new coding tasks!%0ASend me a PRD description or use /dispatch to add work."
+      echo "[watchdog] Sending idle notification to Telegram" | tee -a "$LOG"
+      send_telegram "$MSG"
+      LAST_IDLE_NOTIFY=$NOW
+    fi
+    echo "[watchdog] Queue empty — sleeping 5min before recheck..." | tee -a "$LOG"
+    sleep 300
+    continue
   fi
 
   # Health-check cron-manager on port 3302 — restart if down (SDPA-014)
