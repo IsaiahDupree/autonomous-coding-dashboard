@@ -84,6 +84,57 @@
   },
   "repos": [
     {
+      "id": "prd084-improvement-loop",
+      "name": "Self-Improving Automation Loop",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd084-improvement-loop.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd084-improvement-loop.json",
+      "priority": 3,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "KPI collector, Claude Haiku analysis, auto-executor, approval queue, strategy updater, weekly report, test suite",
+      "tags": [
+        "improvement-loop",
+        "automation",
+        "p1"
+      ]
+    },
+    {
+      "id": "prd082-self-healing",
+      "name": "Self-Healing Agent System",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd082-self-healing.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd082-self-healing.json",
+      "priority": 2,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Overstory bridge, code fixer agent, service monitor, auto-restart, CI/CD integration, Telegram alerts, rollback, test suite",
+      "tags": [
+        "self-healing",
+        "automation",
+        "p1"
+      ]
+    },
+    {
+      "id": "prd081-upwork-agent",
+      "name": "Upwork Autonomous Agent",
+      "path": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
+      "prompt": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd081-upwork-agent.md",
+      "featureList": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/features/prd081-upwork-agent.json",
+      "priority": 1,
+      "enabled": true,
+      "untilComplete": true,
+      "complexity": "high",
+      "focus": "Upwork gig scanner, feasibility scorer, build pipeline, GitHub push, proposal generator, rate limiting, CRM sync, Telegram approval, test suite",
+      "tags": [
+        "upwork",
+        "automation",
+        "p1"
+      ]
+    },
+    {
       "id": "safari-decoupled-push-arch",
       "name": "Safari Decoupled Push Architecture",
       "path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
