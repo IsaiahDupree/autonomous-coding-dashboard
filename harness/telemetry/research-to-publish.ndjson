@@ -65,3 +65,5 @@
 {"ts":"2026-03-07T20:41:11.362Z","slug":"research-to-publish","event":"session_end","session":32,"duration_ms":196841,"featuresDelta":0,"tokens":27728,"cost":0.266017,"exitCode":0}
 {"ts":"2026-03-07T20:41:11.370Z","slug":"research-to-publish","event":"session_start","session":33,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
 {"ts":"2026-03-07T20:44:41.322Z","slug":"research-to-publish","event":"session_end","session":33,"duration_ms":209949,"featuresDelta":0,"tokens":27540,"cost":0.26371875,"exitCode":0}
+{"ts":"2026-03-07T20:46:29.132Z","slug":"research-to-publish","event":"session_start","session":34,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T20:47:05.962Z","slug":"research-to-publish","event":"session_end","session":34,"duration_ms":36822,"featuresDelta":0,"tokens":29386,"cost":0.3018935,"exitCode":0}
