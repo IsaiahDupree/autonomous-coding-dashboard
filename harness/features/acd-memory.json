@@ -6,56 +6,56 @@
     {
       "id": "F-001",
       "name": "Project",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-002",
       "name": "Context",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-003",
       "name": "Instructions",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-004",
       "name": "ACD-MEM-001: acd_read_memory tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-005",
       "name": "ACD-MEM-002: acd_write_memory tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-006",
       "name": "ACD-MEM-003: acd_heartbeat_status tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-007",
       "name": "ACD-MEM-004: acd_schedule tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-008",
       "name": "ACD-MEM-005: acd_list_scheduled tool",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     },
     {
       "id": "F-009",
       "name": "ACD-MEM-006: Harness auto-log hook in run-harness-v2.js",
-      "passes": false,
-      "status": "pending"
+      "passes": true,
+      "status": "completed"
     }
   ]
 }

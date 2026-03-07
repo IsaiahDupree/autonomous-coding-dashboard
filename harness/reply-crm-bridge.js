@@ -283,7 +283,8 @@ const PLATFORMS = [
     name:    'instagram',
     port:    3100,
     token:   process.env.INSTAGRAM_API_TOKEN || 'test-token',
-    convUrl: (base) => `${base}/api/conversations`,
+    convUrl:     (base) => `${base}/api/conversations`,
+    navigateUrl: (base) => `${base}/api/inbox/navigate`,
     // Instagram: must open conversation first, then /api/messages reads the open one
     openUrl: (base) => `${base}/api/conversations/open`,
     msgUrl:  (base) => `${base}/api/messages`,
@@ -345,8 +346,8 @@ async function navigateToInbox(platform, base) {
       signal: AbortSignal.timeout(10_000),
     });
     if (res.ok) {
-      // Give the page 2s to load after navigation
-      await new Promise(r => setTimeout(r, 2000));
+      // Give the SPA 4s to render conversations after navigation
+      await new Promise(r => setTimeout(r, 4000));
       log(`${platform.name}: navigated to inbox`);
     }
   } catch (e) { /* non-fatal */ }
@@ -361,17 +362,26 @@ async function scanPlatform(platform, state, results) {
   // Navigate to inbox first (ensures Safari tab is on the right page)
   await navigateToInbox(platform, base);
 
-  // Fetch conversations
-  const convData = await apiGet(platform.convUrl(base), platform.token);
+  // Fetch conversations — retry once if empty (SPA timing)
+  let convData = await apiGet(platform.convUrl(base), platform.token);
   if (convData.error) {
     log(`${platform.name} service down — skipping`, { error: convData.error });
     return;
   }
 
-  // Normalize conversations array
-  const convs = Array.isArray(convData)
+  let convs = Array.isArray(convData)
     ? convData
     : (convData.conversations || convData.data || convData.items || []);
+
+  if (!convs.length && platform.navigateUrl) {
+    // SPA may still be loading — wait 3s more and retry once
+    log(`${platform.name}: inbox appears empty, waiting 3s and retrying...`);
+    await new Promise(r => setTimeout(r, 3000));
+    convData = await apiGet(platform.convUrl(base), platform.token);
+    convs = Array.isArray(convData)
+      ? convData
+      : (convData.conversations || convData.data || convData.items || []);
+  }
 
   if (!convs.length) {
     log(`${platform.name}: no conversations found`);
@@ -400,39 +410,46 @@ async function scanPlatform(platform, state, results) {
 
     const convId = conv.id || conv.conversation_id || handle;
 
-    // For platforms that require opening the conversation first (e.g. Instagram)
-    if (platform.openUrl) {
-      const opened = await fetch(platform.openUrl(base), {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${platform.token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: handle }),
-        signal: AbortSignal.timeout(10_000),
-      }).catch(() => null);
-      if (!opened || !opened.ok) continue;
-      // Wait for conversation to fully render in Safari
-      await new Promise(r => setTimeout(r, 3000));
-    }
-
-    // Fetch messages for this conversation
-    const msgUrl = platform.openUrl ? platform.msgUrl(base) : platform.msgUrl(base, convId);
-    const msgData = await apiGet(msgUrl, platform.token);
-
+    // If the conversation list already tells us their last message (lastMessageIsOutbound===false),
+    // use it directly — no need to open the conversation and wait for DOM to render.
     let msgText = null;
-    if (!msgData.error) {
-      const msgs = Array.isArray(msgData)
-        ? msgData
-        : (msgData.messages || msgData.data || msgData.items || []);
-
-      // Find inbound messages newer than cursor
-      const inbound = msgs.filter(m => {
-        if (!platform.isInbound(m)) return false;
-        if (cursor && m.created_at) return m.created_at > cursor;
-        return true;
-      });
-
-      if (inbound.length) {
-        const latest = inbound[inbound.length - 1];
-        msgText = platform.getMsgText(latest);
+    if (conv.lastMessageIsOutbound === false && conv.lastMessage && conv.lastMessage.length > 3) {
+      msgText = conv.lastMessage;
+    } else if (conv.lastMessageIsOutbound === undefined) {
+      // Platform doesn't provide direction info — fall back to opening conversation
+      if (platform.openUrl) {
+        const opened = await fetch(platform.openUrl(base), {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${platform.token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: handle }),
+          signal: AbortSignal.timeout(10_000),
+        }).catch(() => null);
+        if (opened && opened.ok) {
+          await new Promise(r => setTimeout(r, 3000));
+          const msgUrl = platform.msgUrl(base);
+          const msgData = await apiGet(msgUrl, platform.token);
+          if (!msgData.error) {
+            const msgs = Array.isArray(msgData) ? msgData : (msgData.messages || msgData.data || []);
+            const inbound = msgs.filter(m => {
+              if (!platform.isInbound(m)) return false;
+              if (cursor && m.created_at) return m.created_at > cursor;
+              return true;
+            });
+            if (inbound.length) msgText = platform.getMsgText(inbound[inbound.length - 1]);
+          }
+        }
+      } else {
+        // Use conversationId-based message fetch for Twitter/TikTok/LinkedIn
+        const msgData = await apiGet(platform.msgUrl(base, convId), platform.token);
+        if (!msgData.error) {
+          const msgs = Array.isArray(msgData) ? msgData : (msgData.messages || msgData.data || []);
+          const inbound = msgs.filter(m => {
+            if (!platform.isInbound(m)) return false;
+            if (cursor && m.created_at) return m.created_at > cursor;
+            return true;
+          });
+          if (inbound.length) msgText = platform.getMsgText(inbound[inbound.length - 1]);
+        }
       }
     }
 

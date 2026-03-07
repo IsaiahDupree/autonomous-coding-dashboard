@@ -356,11 +356,14 @@ async function publishToMedium({ title, subtitle, html, tags, imageUrl }) {
 }
 
 // ── Publish to social via Blotato ─────────────────────────────────────────────
-async function publishToBlotato({ platform, accountId, text, imageUrl }) {
+// Schema (verified 2026-03-07):
+//   POST /v2/posts { post: { accountId, target: { targetType, ...platformFields }, content: { platform, text, mediaUrls?, title? } } }
+//   Response: { postSubmissionId }
+async function publishToBlotato({ platform, accountId, text, imageUrl, title }) {
   if (!BLOTATO_KEY) { log(`No BLOTATO_API_KEY — skipping ${platform}`); return null; }
   try {
-    // Upload media if image URL provided
-    let mediaId = null;
+    // Upload media to Blotato CDN if image URL provided
+    let blotatoMediaUrl = null;
     if (imageUrl) {
       const mediaRes = await fetch('https://backend.blotato.com/v2/media', {
         method: 'POST',
@@ -370,15 +373,35 @@ async function publishToBlotato({ platform, accountId, text, imageUrl }) {
       });
       if (mediaRes.ok) {
         const mediaData = await mediaRes.json();
-        mediaId = mediaData.mediaId || mediaData.id;
+        blotatoMediaUrl = mediaData.url; // CDN URL from Blotato
       }
     }
 
-    // Post content
-    const postBody = {
-      post: { text, ...(mediaId ? { mediaIds: [mediaId] } : {}) },
-      platforms: [{ platform, accountId: String(accountId) }],
+    const content = {
+      platform,
+      text,
+      ...(blotatoMediaUrl ? { mediaUrls: [blotatoMediaUrl] } : {}),
     };
+    const target = { targetType: platform };
+
+    if (platform === 'youtube') {
+      const videoTitle = title ?? text.slice(0, 100);
+      target.title = videoTitle;
+      target.privacyStatus = 'public';
+      target.shouldNotifySubscribers = true;
+      content.title = videoTitle;
+    }
+    if (platform === 'instagram') {
+      target.mediaType = 'reel';
+      content.mediaType = 'reel';
+    }
+    if (platform === 'tiktok') {
+      target.privacyLevel = 'PUBLIC_TO_EVERYONE';
+      target.disabledComments = false;
+      target.isAiGenerated = false;
+    }
+
+    const postBody = { post: { accountId: Number(accountId), target, content } };
     const postRes = await fetch('https://backend.blotato.com/v2/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'blotato-api-key': BLOTATO_KEY },

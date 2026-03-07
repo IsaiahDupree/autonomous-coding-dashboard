@@ -192,9 +192,11 @@ async function uploadToSupabase(filePath, bucket, key) {
   return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${key}`;
 }
 
-async function publishBlotato(text, videoUrl, platforms) {
+// Publishes to each platform sequentially using the verified Blotato v2 schema (2026-03-07):
+//   POST /v2/posts { post: { accountId, target: { targetType, ...platformFields }, content: { platform, text, mediaUrls, title? } } }
+async function publishBlotato(text, videoUrl, platforms, title) {
   if (!BLOTATO_KEY) { log('No BLOTATO_API_KEY — skipping publish'); return null; }
-  // Upload media
+  // Upload media to Blotato CDN once
   const mediaRes = await fetch('https://backend.blotato.com/v2/media', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'blotato-api-key': BLOTATO_KEY },
@@ -202,19 +204,35 @@ async function publishBlotato(text, videoUrl, platforms) {
     signal: AbortSignal.timeout(60000),
   });
   if (!mediaRes.ok) { log(`Blotato media upload failed: ${mediaRes.status}`); return null; }
-  const { mediaId } = await mediaRes.json();
-  // Post to platforms
-  const postRes = await fetch('https://backend.blotato.com/v2/posts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'blotato-api-key': BLOTATO_KEY },
-    body: JSON.stringify({
-      post: { text, mediaIds: [mediaId] },
-      platforms: platforms.map(p => ({ platform: p, accountId: BLOTATO_ACCOUNTS[p] })),
-    }),
-    signal: AbortSignal.timeout(60000),
-  });
-  if (!postRes.ok) { log(`Blotato post failed: ${postRes.status}`); return null; }
-  return postRes.json();
+  const { url: blotatoMediaUrl } = await mediaRes.json();
+
+  const results = [];
+  for (const platform of platforms) {
+    const content = { platform, text, mediaUrls: [blotatoMediaUrl] };
+    const target = { targetType: platform };
+    if (platform === 'youtube') {
+      const videoTitle = title ?? text.slice(0, 100);
+      target.title = videoTitle;
+      target.privacyStatus = 'public';
+      target.shouldNotifySubscribers = true;
+      content.title = videoTitle;
+    }
+    if (platform === 'instagram') { target.mediaType = 'reel'; content.mediaType = 'reel'; }
+    if (platform === 'tiktok') {
+      target.privacyLevel = 'PUBLIC_TO_EVERYONE';
+      target.disabledComments = false;
+      target.isAiGenerated = false;
+    }
+    const postRes = await fetch('https://backend.blotato.com/v2/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'blotato-api-key': BLOTATO_KEY },
+      body: JSON.stringify({ post: { accountId: Number(BLOTATO_ACCOUNTS[platform]), target, content } }),
+      signal: AbortSignal.timeout(60000),
+    });
+    if (!postRes.ok) { log(`Blotato ${platform} failed: ${postRes.status}`); }
+    else { results.push(platform); log(`Published to ${platform}`); }
+  }
+  return results.length ? results : null;
 }
 
 async function sendTelegram(text) {
@@ -366,7 +384,7 @@ Return ONLY the JSON. No markdown fences.`;
 
   log('Publishing via Blotato...');
   const caption = `${research.trend_title}\n\n${research.hot_take}\n\n${(research.hashtags || []).join(' ')}`;
-  const publishResult = await publishBlotato(caption, publicUrl, ['youtube', 'tiktok', 'instagram']);
+  const publishResult = await publishBlotato(caption, publicUrl, ['youtube', 'tiktok', 'instagram'], research.trend_title);
   log(`Published: ${publishResult ? 'success' : 'failed'}`);
 
   // ── Step 8: Telegram ──

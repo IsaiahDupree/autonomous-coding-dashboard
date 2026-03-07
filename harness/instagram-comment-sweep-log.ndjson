@@ -4,3 +4,5 @@
 {"ts":"2026-03-07T16:51:54.890Z","msg":"Safari lock held by another sweep — waiting 10s..."}
 {"ts":"2026-03-07T16:52:04.894Z","msg":"Starting sweep: 5 niches, max 10 total, dryRun=false"}
 {"ts":"2026-03-07T16:52:04.995Z","msg":"Sweep error: No Safari tab available for instagram-comments"}
+{"ts":"2026-03-07T19:41:16.068Z","msg":"Starting sweep: 5 niches, max 10 total, dryRun=false"}
+{"ts":"2026-03-07T19:41:46.115Z","msg":"Sweep error: Gateway Timeout"}

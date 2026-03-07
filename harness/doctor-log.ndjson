@@ -25,3 +25,4 @@
 {"ts":"2026-03-07T19:06:44.602Z","slug":"acd-mcp-skill","reason":"PID 75242 is dead but status shows running","success":false,"turns":0,"actionsCount":0}
 {"ts":"2026-03-07T19:06:44.605Z","slug":"prd080-prospect-pipeline","reason":"PID 79426 is dead but status shows running","success":false,"turns":0,"actionsCount":0}
 {"ts":"2026-03-07T19:06:44.605Z","slug":"prd083-cloud-bridge","reason":"PID 79498 is dead but status shows running","success":false,"turns":0,"actionsCount":0}
+{"ts":"2026-03-07T19:41:44.589Z","slug":"acd-memory","reason":"Log silent for 925 minutes","success":false,"turns":0,"actionsCount":0}

@@ -607,8 +607,8 @@
       "id": "F-060",
       "name": "Real-time Run Progress UI",
       "description": "Live progress indicator with polling or Supabase Realtime",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "src/components/RunProgress.tsx",
         "src/hooks/use-run-status.ts"

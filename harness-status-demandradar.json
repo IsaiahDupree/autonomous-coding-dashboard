@@ -1,16 +1,14 @@
 {
   "projectId": "demandradar",
   "projectRoot": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard",
-  "lastUpdated": "2026-03-07T19:32:40.397Z",
+  "lastUpdated": "2026-03-07T19:44:47.661Z",
   "sessionType": "INITIALIZER",
-  "status": "running",
+  "status": "completed",
   "stats": {
     "total": 74,
-    "passing": 53,
-    "pending": 21,
-    "percentComplete": "71.6"
+    "passing": 60,
+    "pending": 14,
+    "percentComplete": "81.1"
   },
-  "pid": 41676,
-  "currentSession": 3,
-  "model": "claude-sonnet-4-5-20250929"
+  "pid": 41676
 }
