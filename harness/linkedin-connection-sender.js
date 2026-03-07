@@ -552,7 +552,9 @@ async function main() {
   }
 }
 
-main().catch(e => {
-  err(`Fatal: ${e.message}`);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    err(`Fatal: ${e.message}`);
+    process.exit(1);
+  });
+}

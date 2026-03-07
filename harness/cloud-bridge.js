@@ -102,7 +102,7 @@ async function sbUpdate(table, matchCol, matchVal, updates) {
 // ── Command Allowlist ───────────────────────────────────────────────────────
 // DM send actions are included — the dm-outreach-daemon also handles local
 // sending, but cloud can trigger DMs via safari_command_queue Realtime.
-const COMMAND_ALLOWLIST = new Set([
+export const COMMAND_ALLOWLIST = new Set([
   'instagram:search',
   'instagram:profile',
   'instagram:followers',
@@ -127,7 +127,7 @@ const COMMAND_ALLOWLIST = new Set([
 ]);
 
 // ── Route Handlers ──────────────────────────────────────────────────────────
-const ROUTES = {
+export const ROUTES = {
   'instagram:search': (params) =>
     localPost('http://localhost:3005/api/instagram/search/hashtag', params),
   'instagram:profile': (params) =>
@@ -744,7 +744,9 @@ async function main() {
   process.on('SIGTERM', shutdown);
 }
 
-main().catch((err) => {
-  console.error(`Cloud Bridge fatal: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(`Cloud Bridge fatal: ${err.message}`);
+    process.exit(1);
+  });
+}

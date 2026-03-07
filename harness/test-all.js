@@ -24,6 +24,10 @@ const tests = [
   { name: 'Safari Tab Watchdog', file: 'test-safari-tab-watchdog.js' },
   { name: 'Safari Tab Coordinator', file: 'test-safari-tab-coordinator.js', env: { SAFARI_ALLOW_ANY_WINDOW: 'true' } },
   { name: 'LinkedIn Scrapers', file: 'test-linkedin-scrapers.js' },
+  { name: 'Rate Limit Coordinator', file: 'test-rate-limit-coordinator.js' },
+  { name: 'Adaptive Delay', file: 'test-adaptive-delay.js' },
+  { name: 'Cloud Bridge Allowlist', file: 'test-cloud-bridge-allowlist.js' },
+  { name: 'LinkedIn Priority Scoring', file: 'test-linkedin-priority.js' },
 ];
 
 async function runTest(test) {
