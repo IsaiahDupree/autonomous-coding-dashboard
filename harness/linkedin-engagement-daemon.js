@@ -286,13 +286,15 @@ function isAlreadyQueued(profileUrl, queue) {
 }
 
 // ── Spawn post scraper ──────────────────────────────────────────────────────
-async function scrapePostCommenters(keyword, maxPosts = 5, maxCommenters = 20) {
+async function scrapePostCommenters(keyword, maxPosts = 5, maxCommenters = 20, includeLikers = true) {
   return new Promise((resolve) => {
-    const child = spawn(process.execPath, [POST_SCRAPER,
+    const scriptArgs = [POST_SCRAPER,
       '--keyword', keyword,
       '--max-posts', String(maxPosts),
       '--max-commenters', String(maxCommenters),
-    ], { stdio: ['ignore', 'pipe', 'pipe'] });
+    ];
+    if (includeLikers) scriptArgs.push('--include-likers', '--max-likers', '40');
+    const child = spawn(process.execPath, scriptArgs, { stdio: ['ignore', 'pipe', 'pipe'] });
 
     let stdout = '';
     child.stdout.on('data', d => { stdout += d; });

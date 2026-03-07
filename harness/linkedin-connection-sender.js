@@ -254,19 +254,32 @@ function refreshCounters(state) {
 }
 
 // ── Connection note generation ───────────────────────────────────────────────
-function buildConnectionNote(item) {
+function buildConnectionNote(item, addNote = true) {
+  if (!addNote) return null;
   const p = item.prospect || {};
   const firstName = (p.name || '').split(' ')[0] || 'there';
-  const role = p.role || '';
-  const company = p.company || '';
+  const headline = (p.headline || '').toLowerCase();
 
+  // Parse role/company from headline (format: "Role at Company" or "Role | Company")
+  const atMatch = (p.headline || '').match(/^([^|@]+?)\s+(?:at|@)\s+(.+?)(?:\s*[|•].*)?$/i);
+  const pipeMatch = (p.headline || '').match(/^([^|]+?)\s*[|•]\s*(.+?)(?:\s*[|•].*)?$/);
+  const role    = (atMatch?.[1] || pipeMatch?.[1] || '').trim().replace(/\s+/g,' ').slice(0,50);
+  const company = (atMatch?.[2] || pipeMatch?.[2] || '').trim().replace(/\s+/g,' ').slice(0,40);
+
+  // Pick the most relevant template based on what we know
   if (role && company) {
-    return `Hi ${firstName}, noticed your work as ${role} at ${company} — would love to connect and share some thoughts on AI automation for teams like yours. — Isaiah`.slice(0, 300);
+    return `Hi ${firstName}, came across your profile — your work as ${role} at ${company} caught my eye. I help founders automate their growth with AI. Would love to connect! — Isaiah`.slice(0, 300);
   }
   if (role) {
-    return `Hi ${firstName}, came across your profile — your background in ${role} caught my attention. Would love to connect. — Isaiah`.slice(0, 300);
+    return `Hi ${firstName}, your background as ${role} caught my attention. I work with founders on AI automation systems — would love to connect. — Isaiah`.slice(0, 300);
   }
-  return `Hi ${firstName}, came across your profile and would love to connect — I work with founders on AI automation. — Isaiah`.slice(0, 300);
+  if (headline.includes('founder') || headline.includes('ceo') || headline.includes('owner')) {
+    return `Hi ${firstName}, fellow founder here — I build AI automation systems that help founders scale without adding headcount. Would love to connect! — Isaiah`.slice(0, 300);
+  }
+  if (headline.includes('saas') || headline.includes('software') || headline.includes('tech')) {
+    return `Hi ${firstName}, came across your profile — love connecting with people in the SaaS/tech space. I work on AI automation for growth teams. — Isaiah`.slice(0, 300);
+  }
+  return `Hi ${firstName}, came across your profile and would love to connect — I help founders and operators scale with AI automation. — Isaiah`.slice(0, 300);
 }
 
 // ── Core: send connection request on a profile page ──────────────────────────

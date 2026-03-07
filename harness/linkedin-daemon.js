@@ -277,6 +277,91 @@ async function searchViaChrome(strategy, maxResults = 15) {
   });
 }
 
+// ── Events attendee scraper (runs every 6 cycles) ────────────────────────────
+const EVENTS_SCRAPER_SCRIPT = path.join(HARNESS_DIR, 'linkedin-events-scraper.js');
+const EVENTS_KEYWORDS = [
+  'AI automation founders',
+  'SaaS growth founder summit',
+  'B2B AI startup',
+  'no-code automation workshop',
+];
+
+async function runEventsScraper(cycleNum) {
+  const keyword = EVENTS_KEYWORDS[cycleNum % EVENTS_KEYWORDS.length];
+  log(`[Events] Scraping attendees for: "${keyword}"`);
+  return new Promise((resolve) => {
+    const child = spawn(process.execPath, [
+      EVENTS_SCRAPER_SCRIPT,
+      '--keyword', keyword,
+      '--max-events', '2',
+      '--max-attendees', '40',
+    ], { stdio: ['ignore', 'pipe', 'pipe'] });
+
+    let stdout = '';
+    child.stdout.on('data', d => { stdout += d; });
+    child.stderr.on('data', d => {
+      const line = d.toString().trim();
+      if (line) log(`  [Events] ${line.replace('[events-scraper] ', '')}`);
+    });
+    const timer = setTimeout(() => {
+      child.kill();
+      resolve({ ok: false, results: [], error: 'events scraper timeout 120s' });
+    }, 120000);
+    child.on('close', () => {
+      clearTimeout(timer);
+      try {
+        const data = JSON.parse(stdout.trim() || '[]');
+        if (Array.isArray(data)) resolve({ ok: true, results: data });
+        else resolve({ ok: false, results: [], error: data.error || 'unexpected output' });
+      } catch {
+        resolve({ ok: false, results: [], error: `parse error: ${stdout.slice(0, 80)}` });
+      }
+    });
+  });
+}
+
+// ── Job posting signal scraper (runs every 4 cycles) ─────────────────────────
+const JOBS_SIGNAL_SCRIPT = path.join(HARNESS_DIR, 'linkedin-jobs-signal.js');
+const JOBS_SIGNAL_ROLES = [
+  'operations coordinator',
+  'virtual assistant',
+  'data entry specialist',
+  'workflow coordinator',
+];
+
+async function runJobsSignalScraper(cycleNum) {
+  const role = JOBS_SIGNAL_ROLES[cycleNum % JOBS_SIGNAL_ROLES.length];
+  log(`[JobSignal] Scraping job postings for: "${role}"`);
+  return new Promise((resolve) => {
+    const child = spawn(process.execPath, [
+      JOBS_SIGNAL_SCRIPT,
+      '--role', role,
+      '--max-jobs', '15',
+    ], { stdio: ['ignore', 'pipe', 'pipe'] });
+
+    let stdout = '';
+    child.stdout.on('data', d => { stdout += d; });
+    child.stderr.on('data', d => {
+      const line = d.toString().trim();
+      if (line) log(`  [JobSignal] ${line.replace('[jobs-signal] ', '')}`);
+    });
+    const timer = setTimeout(() => {
+      child.kill();
+      resolve({ ok: false, results: [], error: 'jobs signal scraper timeout 120s' });
+    }, 120000);
+    child.on('close', () => {
+      clearTimeout(timer);
+      try {
+        const data = JSON.parse(stdout.trim() || '[]');
+        if (Array.isArray(data)) resolve({ ok: true, results: data });
+        else resolve({ ok: false, results: [], error: data.error || 'unexpected output' });
+      } catch {
+        resolve({ ok: false, results: [], error: `parse error: ${stdout.slice(0, 80)}` });
+      }
+    });
+  });
+}
+
 // ── Parse role/company from LinkedIn headline ─────────────────────────────────
 function parseHeadline(headline = '') {
   if (!headline) return { role: '', company: '' };
@@ -547,6 +632,38 @@ async function runCycle(goals, state) {
     // Pause between strategies
     if (strategies.indexOf(strategy) < strategies.length - 1) {
       await new Promise(r => setTimeout(r, 4000));
+    }
+  }
+
+  // ── Supplementary sources: Events (every 6 cycles) + Job signals (every 4 cycles) ──
+  if (cycleNum % 6 === 0) {
+    const eventsRes = await runEventsScraper(cycleNum);
+    if (eventsRes.ok && eventsRes.results.length > 0) {
+      log(`[Events] ${eventsRes.results.length} attendees found`);
+      for (const p of eventsRes.results) {
+        if (p.profileUrl && !allFound.has(p.profileUrl)) {
+          allFound.set(p.profileUrl, { ...p, _strategy: 'LinkedIn Events', _source: 'chrome' });
+        }
+      }
+    } else {
+      log(`[Events] No results: ${eventsRes.error || 'empty'}`);
+      if (eventsRes.error) cycleEntry.errors.push(`Events: ${eventsRes.error}`);
+    }
+  }
+
+  if (cycleNum % 4 === 0) {
+    const jobsRes = await runJobsSignalScraper(cycleNum);
+    if (jobsRes.ok && jobsRes.results.length > 0) {
+      const withProfile = jobsRes.results.filter(p => p.profileUrl);
+      log(`[JobSignal] ${jobsRes.results.length} job signals → ${withProfile.length} with profile URL`);
+      for (const p of withProfile) {
+        if (!allFound.has(p.profileUrl)) {
+          allFound.set(p.profileUrl, { ...p, _strategy: 'Job Posting Signal', _source: 'chrome' });
+        }
+      }
+    } else {
+      log(`[JobSignal] No results: ${jobsRes.error || 'empty'}`);
+      if (jobsRes.error) cycleEntry.errors.push(`JobSignal: ${jobsRes.error}`);
     }
   }
 
