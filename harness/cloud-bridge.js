@@ -108,6 +108,7 @@ const COMMAND_ALLOWLIST = new Set([
   'instagram:followers',
   'instagram:posts',
   'instagram:enrich',
+  'instagram:scrape',    // scrape IG profile/posts (same as enrich, different alias)
   'instagram:navigate',
   'instagram:status',
   'instagram:dm',        // send DM via IG DM service (port 3100)
@@ -136,6 +137,8 @@ const ROUTES = {
   'instagram:posts': (params) =>
     localPost('http://localhost:3005/api/instagram/posts', params),
   'instagram:enrich': (params) =>
+    localPost('http://localhost:3005/api/instagram/profile', params),
+  'instagram:scrape': (params) =>
     localPost('http://localhost:3005/api/instagram/profile', params),
   'instagram:navigate': (params) =>
     localPost('http://localhost:3005/api/instagram/navigate', params),
@@ -326,6 +329,26 @@ function writeState(state) {
   } catch { /* non-fatal */ }
 }
 
+// ── Emit command lifecycle event to command_events table ─────────────────────
+const NODE_ID = process.env.NODE_ID || 'mac-mini-main';
+async function emitCommandEvent(commandId, eventType, data = {}) {
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/command_events`, {
+      method: 'POST',
+      headers: { ...SB_HEADERS },
+      body: JSON.stringify([{
+        command_id: commandId,
+        node_id: NODE_ID,
+        worker_id: data.worker_id || null,
+        event_type: eventType,
+        status: data.status || eventType,
+        message: data.message || null,
+        metadata: data.metadata || {},
+      }]),
+    });
+  } catch { /* non-fatal — don't break command execution */ }
+}
+
 // ── Process a single command row ─────────────────────────────────────────────
 // Called by both Realtime handler and fallback poll cycle.
 async function processCommand(cmd) {
@@ -341,7 +364,7 @@ async function processCommand(cmd) {
       {
         method: 'PATCH',
         headers: { ...SB_HEADERS, 'Prefer': 'return=representation' },
-        body: JSON.stringify({ status: 'processing', updated_at: new Date().toISOString() }),
+        body: JSON.stringify({ status: 'running', updated_at: new Date().toISOString() }),
       }
     );
     const rows = await claimRes.json();
@@ -397,6 +420,9 @@ async function processCommand(cmd) {
 
   try {
     consumeRateLimit(cmd.platform);
+    // Emit 'started' lifecycle event
+    await emitCommandEvent(cmd.id, 'started', { worker_id: cmd.platform, message: `Routing ${key}` });
+
     const result = await handler(cmd.params || {});
     const finalStatus = result.ok ? 'completed' : 'failed';
     await sbUpdate(TABLE, 'id', cmd.id, {
@@ -404,6 +430,13 @@ async function processCommand(cmd) {
       result: JSON.stringify(result.data || result),
       error: result.ok ? null : (result.error || JSON.stringify(result.data)),
       updated_at: new Date().toISOString(),
+    });
+
+    // Emit terminal lifecycle event
+    await emitCommandEvent(cmd.id, finalStatus, {
+      worker_id: cmd.platform,
+      message: result.ok ? `OK` : result.error,
+      metadata: { key, result_summary: result.ok ? 'success' : 'failure' },
     });
 
     if (finalStatus === 'completed') {
@@ -420,6 +453,9 @@ async function processCommand(cmd) {
       status: 'failed',
       error: err.message,
       updated_at: new Date().toISOString(),
+    }).catch(() => {});
+    await emitCommandEvent(cmd.id, 'failed', {
+      worker_id: cmd.platform, message: err.message,
     }).catch(() => {});
   }
 
@@ -577,6 +613,104 @@ async function main() {
         log('Realtime subscribed — instant command delivery active (<100ms latency)');
       } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
         log(`Realtime ${status} — falling back to ${FALLBACK_POLL_MS / 1000}s polling`);
+      }
+    });
+
+  // ── Observability mesh: command_queue subscription ────────────────────────
+  // Subscribe to new typed commands targeting this node (separate from safari_command_queue).
+  // local-agent-daemon polls command_queue every 10s — Realtime here provides faster notification
+  // but no direct dispatch needed (the daemon handles its own polling loop).
+  supabase
+    .channel('cloud-bridge-command-queue')
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'command_queue' },
+      (payload) => {
+        const row = payload.new;
+        if (!row) return;
+        if (row.node_target !== NODE_ID) return;
+        if (row.status !== 'queued') return;
+        log(`Realtime command_queue INSERT: ${row.command_type}`, { commandId: row.command_id });
+        // local-agent-daemon polls every 10s and will pick this up.
+        // No further action needed here — Realtime just ensures fast delivery.
+      }
+    )
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') {
+        log('Observability command_queue Realtime subscribed — typed commands will be relayed to local-agent-daemon');
+      }
+    });
+
+  // ── Node heartbeat relay ──────────────────────────────────────────────────
+  // Emit a lightweight heartbeat to agent_nodes from cloud-bridge so the node
+  // shows as 'online' even if local-agent-daemon hasn't started yet.
+  const SB_HEADERS_OBS = { ...SB_HEADERS };
+  async function cloudBridgeHeartbeat() {
+    if (!SUPABASE_KEY) return;
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/agent_nodes?on_conflict=node_id`, {
+        method: 'POST',
+        headers: { ...SB_HEADERS_OBS, 'Prefer': 'return=minimal,resolution=merge-duplicates' },
+        body: JSON.stringify({
+          node_id: NODE_ID,
+          label: 'Mac Mini Main',
+          status: 'online',
+          last_heartbeat_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }),
+      });
+    } catch { /* non-fatal — table may not exist yet */ }
+  }
+
+  // Initial heartbeat + 30s interval
+  cloudBridgeHeartbeat();
+  setInterval(cloudBridgeHeartbeat, 30_000);
+
+  // ── Cron job trigger relay (SDPA-004) ────────────────────────────────────
+  // Subscribes to automation_cron_jobs changes. When trigger_requested=true,
+  // relays to local cron-manager and resets the flag.
+  const CRON_MANAGER_PORT = 3302;
+
+  async function relayCronTrigger(slug) {
+    try {
+      const res = await fetch(`http://localhost:${CRON_MANAGER_PORT}/api/cron/${slug}/run-now`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(10_000),
+      });
+      const ok = res.ok;
+      log(`Cron trigger relayed: ${slug} → cron-manager (${res.status})`);
+      // Reset trigger_requested flag in Supabase
+      await sbUpdate('automation_cron_jobs', 'slug', slug, {
+        trigger_requested: false,
+        updated_at: new Date().toISOString(),
+      }).catch(err => log(`Failed to reset trigger for ${slug}: ${err.message}`));
+      return ok;
+    } catch (err) {
+      log(`Failed to relay cron trigger for ${slug}: ${err.message}`);
+      return false;
+    }
+  }
+
+  supabase
+    .channel('cloud-bridge-cron-jobs')
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'automation_cron_jobs' },
+      (payload) => {
+        const row = payload.new;
+        if (!row?.slug) return;
+        if (row.trigger_requested === true || row.last_run_status === 'trigger_requested') {
+          log(`Cron trigger detected via Realtime: ${row.slug}`);
+          relayCronTrigger(row.slug).catch(err => log(`Relay error: ${err.message}`));
+        }
+        // If schedule/enabled changed, cron-manager will reload on its next 60s cycle
+        // No extra action needed here
+      }
+    )
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') {
+        log('Cron job Realtime subscription active — cloud triggers will relay to cron-manager');
       }
     });
 

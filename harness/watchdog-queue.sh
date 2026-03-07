@@ -9,9 +9,54 @@ H="/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness"
 LOG="$H/logs/watchdog-queue.log"
 mkdir -p "$H/logs"
 
+# Load environment variables
+if [[ -f "$H/.env" ]]; then
+  set -a; source "$H/.env"; set +a
+fi
+
 # Run Safari tab coordinator once on startup (registers each platform's Safari tab)
 echo "[watchdog] Running Safari tab coordinator..." | tee -a "$LOG"
 node "$H/safari-tab-coordinator.js" --open >> "$H/logs/safari-tab-coordinator.log" 2>&1 &
+
+# Start local-agent-daemon (observability mesh) if not already running
+if ! pgrep -f "local-agent-daemon.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting local-agent-daemon..." | tee -a "$LOG"
+  nohup node "$H/local-agent-daemon.js" >> "$H/logs/local-agent-daemon.log" 2>&1 &
+  echo $! > "$H/local-agent-daemon.pid"
+  echo "[watchdog] Local Agent Daemon PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] local-agent-daemon already running" | tee -a "$LOG"
+fi
+
+# Start obsidian-interlinker if not already running
+if ! pgrep -f "obsidian-interlinker.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting obsidian-interlinker..." | tee -a "$LOG"
+  nohup node "$H/obsidian-interlinker.js" >> "$H/logs/obsidian-interlinker.log" 2>&1 &
+  echo $! > "$H/obsidian-interlinker.pid"
+  echo "[watchdog] Obsidian Interlinker PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] obsidian-interlinker already running" | tee -a "$LOG"
+fi
+
+# Start node-heartbeat if not already running
+if ! pgrep -f "node-heartbeat.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting node-heartbeat..." | tee -a "$LOG"
+  nohup node "$H/node-heartbeat.js" >> "$H/logs/node-heartbeat.log" 2>&1 &
+  echo $! > "$H/node-heartbeat.pid"
+  echo "[watchdog] Node Heartbeat PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] node-heartbeat already running" | tee -a "$LOG"
+fi
+
+# Start safari-tab-watchdog if not already running (auto-recovers missing Safari tabs)
+if ! pgrep -f "safari-tab-watchdog.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting safari-tab-watchdog..." | tee -a "$LOG"
+  nohup node "$H/safari-tab-watchdog.js" >> "$H/logs/safari-tab-watchdog.log" 2>&1 &
+  echo $! > "$H/safari-tab-watchdog.pid"
+  echo "[watchdog] Safari Tab Watchdog PID: $!" | tee -a "$LOG"
+else
+  echo "[watchdog] safari-tab-watchdog already running" | tee -a "$LOG"
+fi
 
 # Start cloud-bridge if not already running
 if ! pgrep -f "cloud-bridge.js" > /dev/null 2>&1; then
@@ -132,6 +177,39 @@ else
   echo "[watchdog] dm-outreach-daemon already running" | tee -a "$LOG"
 fi
 
+# Start LinkedIn Chrome agent if not already running
+if ! pgrep -f "linkedin-chrome-agent.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting linkedin-chrome-agent..." | tee -a "$LOG"
+  nohup node "$H/linkedin-chrome-agent.js" >> "$H/logs/linkedin-chrome-agent.log" 2>&1 &
+  CA_PID=$!
+  echo $CA_PID > "$H/linkedin-chrome-agent.pid"
+  echo "[watchdog] LinkedIn Chrome Agent PID: $CA_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] linkedin-chrome-agent already running" | tee -a "$LOG"
+fi
+
+# Start LinkedIn inbox monitor if not already running
+if ! pgrep -f "linkedin-inbox-monitor.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting linkedin-inbox-monitor..." | tee -a "$LOG"
+  nohup node "$H/linkedin-inbox-monitor.js" >> "$H/logs/linkedin-inbox-monitor.log" 2>&1 &
+  IM_PID=$!
+  echo $IM_PID > "$H/linkedin-inbox-monitor.pid"
+  echo "[watchdog] LinkedIn Inbox Monitor PID: $IM_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] linkedin-inbox-monitor already running" | tee -a "$LOG"
+fi
+
+# Start cron-manager if not already running (SDPA-014)
+if ! pgrep -f "cron-manager.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting cron-manager..." | tee -a "$LOG"
+  nohup node "$H/cron-manager.js" >> "$H/logs/cron-manager.log" 2>&1 &
+  CM_PID=$!
+  echo $CM_PID > "$H/cron-manager.pid"
+  echo "[watchdog] Cron Manager PID: $CM_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] cron-manager already running" | tee -a "$LOG"
+fi
+
 # Don't start if run-queue is already running (avoid double-run)
 if pgrep -f "run-queue.js" > /dev/null 2>&1; then
   echo "[watchdog] run-queue.js already running — monitoring only" | tee -a "$LOG"
@@ -175,6 +253,17 @@ while true; do
     exit 0
   fi
 
-  echo "[watchdog] Sleeping 60s before next pass..." | tee -a "$LOG"
-  sleep 60
+  # Health-check cron-manager on port 3302 — restart if down (SDPA-014)
+  if ! curl -s --max-time 3 http://localhost:3302/health > /dev/null 2>&1; then
+    echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — cron-manager :3302 unreachable — restarting" | tee -a "$LOG"
+    pkill -f "cron-manager.js" 2>/dev/null || true
+    sleep 2
+    nohup node "$H/cron-manager.js" >> "$H/logs/cron-manager.log" 2>&1 &
+    CM_PID=$!
+    echo $CM_PID > "$H/cron-manager.pid"
+    echo "[watchdog] Cron Manager restarted (PID: $CM_PID)" | tee -a "$LOG"
+  fi
+
+  echo "[watchdog] Sleeping 30s before next pass..." | tee -a "$LOG"
+  sleep 30
 done
