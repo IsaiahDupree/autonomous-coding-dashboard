@@ -132,8 +132,8 @@
     {
       "id": "PAP-003",
       "name": "LinkedIn Prospect Strategy — Chrome agent ICP search + post engagers",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
     },
     {
@@ -146,8 +146,8 @@
     {
       "id": "PAP-005",
       "name": "Prospect Scorer — platform-specific scoring models (0-100 scale)",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
     },
     {
@@ -223,8 +223,8 @@
     {
       "id": "UAF-008",
       "name": "Proposal Sender — Claude generates proposal + Safari submits",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
     },
     {
