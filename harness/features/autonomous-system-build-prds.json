@@ -111,8 +111,8 @@
     {
       "id": "BAC-008",
       "name": "Platform Action Matrix — integration tests across all 6 platforms",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
     },
     {
