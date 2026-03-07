@@ -178,6 +178,28 @@ function getTabLayout() {
 }
 
 // ── Cloud-bridge state ────────────────────────────────────────────────────────
+// ── Cron status from cron-manager :3302 (SDPA-013) ───────────────────────────
+async function getCronStatus() {
+  const data = await httpGet('http://localhost:3302/api/cron/status', 4000);
+  if (!data?.jobs) return null;
+  const now = Date.now();
+  const eightHours = 8 * 60 * 60 * 1000;
+  return {
+    total: data.jobs.length,
+    enabled: data.jobs.filter(j => j.enabled).length,
+    disabled: data.jobs.filter(j => !j.enabled).length,
+    stale: data.jobs.filter(j =>
+      j.enabled && j.last_run_at && (now - new Date(j.last_run_at).getTime()) > eightHours
+    ).map(j => j.slug),
+    lastRuns: data.jobs.map(j => ({
+      slug: j.slug,
+      status: j.last_run_status,
+      at: j.last_run_at,
+      count: j.last_run_count,
+    })),
+  };
+}
+
 function getCloudBridgeState() {
   return readJson(path.join(H, 'cloud-bridge-state.json'), {});
 }
@@ -210,7 +232,7 @@ function renderOutput(data) {
     return;
   }
 
-  const { services, daemons, dmCounts, queues, tabLayout, bridgeState, errors, ts } = data;
+  const { services, daemons, dmCounts, queues, tabLayout, bridgeState, errors, cronStatus, ts } = data;
   const lines = [];
   const W = 72;
   const divider = c.gray('─'.repeat(W));
@@ -287,6 +309,28 @@ function renderOutput(data) {
   lines.push(`  Processed: ${cb.totalProcessed || 0}  Failed: ${cb.totalFailed || 0}  Rate-limited: ${cb.totalRateLimited || 0}`);
   if (cb.lastPoll) lines.push(`  Last poll: ${c.gray(new Date(cb.lastPoll).toLocaleTimeString())}`);
 
+  // ── Cron Jobs (SDPA-013) ──
+  lines.push(divider);
+  lines.push(header('Cron Jobs (cron-manager :3302)'));
+  if (!cronStatus) {
+    lines.push(`  ${c.gray('cron-manager not running on :3302')}`);
+  } else {
+    lines.push(`  ${c.green(cronStatus.enabled)} enabled  ${c.gray(cronStatus.disabled)} disabled  ${c.gray('total:')} ${cronStatus.total}`);
+    if (cronStatus.stale.length > 0) {
+      lines.push(`  ${c.yellow('STALE (>8h no run):')} ${cronStatus.stale.join(', ')}`);
+    }
+    // Show last 5 run results
+    const recent = cronStatus.lastRuns
+      .filter(j => j.at)
+      .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
+      .slice(0, 5);
+    for (const j of recent) {
+      const icon = j.status === 'success' ? c.green('✓') : j.status === 'error' ? c.red('✗') : c.gray('—');
+      const ago = j.at ? new Date(j.at).toLocaleTimeString() : '?';
+      lines.push(`  ${icon} ${j.slug.padEnd(25)} ${c.gray(ago)}  ${j.count} items`);
+    }
+  }
+
   // ── Errors ──
   if (errors.length > 0) {
     lines.push(divider);
@@ -306,14 +350,14 @@ function renderOutput(data) {
 }
 
 async function snapshot() {
-  const [services] = await Promise.all([checkSafariServices()]);
+  const [services, cronStatus] = await Promise.all([checkSafariServices(), getCronStatus()]);
   const daemons    = checkDaemons();
   const dmCounts   = getDMCounts();
   const queues     = getQueueStats();
   const tabLayout  = getTabLayout();
   const bridgeState = getCloudBridgeState();
   const errors     = getRecentErrors();
-  const data = { ts: Date.now(), services, daemons, dmCounts, queues, tabLayout, bridgeState, errors };
+  const data = { ts: Date.now(), services, daemons, dmCounts, queues, tabLayout, bridgeState, errors, cronStatus };
   renderOutput(data);
   return data;
 }

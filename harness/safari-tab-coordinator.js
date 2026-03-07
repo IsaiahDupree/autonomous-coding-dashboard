@@ -92,10 +92,17 @@ const COORDINATOR_AGENT_ID = 'safari-tab-coordinator';
 const STATE_FILE = path.join(__dirname, 'safari-tab-layout.json');
 const LOG_FILE   = path.join(__dirname, 'logs', 'safari-tab-coordinator.log');
 
+// ── Profile Window Enforcement (SDPA-011) ────────────────────────────────────
+// SAFARI_AUTOMATION_WINDOW: which Safari window index to use for automation
+// SAFARI_ALLOW_ANY_WINDOW: set to 'true' to disable enforcement
+const AUTOMATION_WINDOW = parseInt(process.env.SAFARI_AUTOMATION_WINDOW || '1', 10);
+const ALLOW_ANY_WINDOW  = process.env.SAFARI_ALLOW_ANY_WINDOW === 'true';
+
 const args = process.argv.slice(2);
-const MODE_OPEN   = args.includes('--open');
-const MODE_STATUS = args.includes('--status');
-const MODE_RESET  = args.includes('--reset');
+const MODE_OPEN     = args.includes('--open');
+const MODE_STATUS   = args.includes('--status');
+const MODE_RESET    = args.includes('--reset');
+const MODE_OVERRIDE = args.includes('--override'); // ignore window enforcement this run
 
 // ── Logging ───────────────────────────────────────────────────────────────────
 function log(msg) {
@@ -243,7 +250,11 @@ async function clearClaim(platform) {
 
 // ── Find best tab for a platform ──────────────────────────────────────────────
 function findAllTabs(tabs, platform) {
-  const matches = tabs.filter(t => t.url.includes(platform.urlPattern));
+  // SDPA-014: enforce automation window if configured
+  const candidates = (ALLOW_ANY_WINDOW || MODE_OVERRIDE)
+    ? tabs
+    : tabs.filter(t => t.windowIndex === AUTOMATION_WINDOW);
+  const matches = candidates.filter(t => t.url.includes(platform.urlPattern));
   // Sort: preferred URL first
   return matches.sort((a, b) => {
     const aPreferred = a.url.includes(platform.preferredUrl) ? 0 : 1;
@@ -271,9 +282,22 @@ async function main() {
     process.exit(1);
   }
 
+  // SDPA-014: Log automation window enforcement
+  log(`Automation window: ${AUTOMATION_WINDOW} (SAFARI_AUTOMATION_WINDOW) | Enforcement: ${(ALLOW_ANY_WINDOW || MODE_OVERRIDE) ? 'OFF' : 'ON'} | Override: ${MODE_OVERRIDE}`);
+
+  // Print profile of the automation window
+  const automationWindowTabs = tabs.filter(t => t.windowIndex === AUTOMATION_WINDOW);
+  if (automationWindowTabs.length > 0) {
+    console.log(`\nAutomation window ${AUTOMATION_WINDOW} profile (${automationWindowTabs.length} tabs):`);
+    automationWindowTabs.forEach(t => console.log(`  t${t.tabIndex}: ${t.url}`));
+  } else {
+    console.log(`\nWARNING: Automation window ${AUTOMATION_WINDOW} has no tabs. Use --override to skip enforcement.`);
+  }
+  console.log('');
+
   // Print current layout
   console.log('\nCurrent Safari tabs:');
-  tabs.forEach(t => console.log(`  w${t.windowIndex}t${t.tabIndex}: ${t.url}`));
+  tabs.forEach(t => console.log(`  w${t.windowIndex}t${t.tabIndex}: ${t.url}${t.windowIndex !== AUTOMATION_WINDOW && !ALLOW_ANY_WINDOW ? ' [SKIPPED: not automation window]' : ''}`));
   console.log('');
 
   if (MODE_STATUS) {
@@ -316,20 +340,20 @@ async function main() {
       layout[p.id] = { found: false };
 
       if (MODE_OPEN) {
-        // Open in window 1 (the "platform window")
-        log(`  Opening ${p.name} in Safari window 1...`);
+        // Open in the automation window (SAFARI_AUTOMATION_WINDOW)
+        log(`  Opening ${p.name} in Safari window ${AUTOMATION_WINDOW}...`);
         const windowCount = Math.max(...tabs.map(t => t.windowIndex));
-        // Try window 1 first, or create a new window
+        // Try the automation window first, or create a new window
         let newTabIndex;
-        if (windowCount >= 1) {
-          newTabIndex = openTabInSafari(p.openUrl, 1);
+        if (windowCount >= AUTOMATION_WINDOW) {
+          newTabIndex = openTabInSafari(p.openUrl, AUTOMATION_WINDOW);
         } else {
           openNewWindow(p.openUrl);
           newTabIndex = 1;
         }
         if (newTabIndex) {
-          log(`  Opened ${p.name} at w1t${newTabIndex}`);
-          layout[p.id] = { windowIndex: 1, tabIndex: newTabIndex, url: p.openUrl, found: true, opened: true };
+          log(`  Opened ${p.name} at w${AUTOMATION_WINDOW}t${newTabIndex}`);
+          layout[p.id] = { windowIndex: AUTOMATION_WINDOW, tabIndex: newTabIndex, url: p.openUrl, found: true, opened: true };
           // Re-scan tabs after opening
           await new Promise(r => setTimeout(r, 1500));
         }
