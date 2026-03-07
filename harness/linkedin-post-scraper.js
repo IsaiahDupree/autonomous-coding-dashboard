@@ -21,6 +21,7 @@ import { chromium } from 'playwright';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { acquireLock, releaseLock } from './chrome-lock.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -43,6 +44,14 @@ const MAX_LIKERS      = parseInt(getArg('--max-likers', '50'), 10);
 function err(msg) { process.stderr.write(`[post-scraper] ${msg}\n`); }
 
 async function scrapePostCommenters() {
+  // Acquire Chrome page lock — wait up to 90s for other scrapers to finish
+  const locked = await acquireLock('post-scraper');
+  if (!locked) {
+    err('Could not acquire Chrome page lock — timed out. Exiting.');
+    process.stdout.write(JSON.stringify({ error: 'chrome_lock_timeout' }));
+    process.exit(1);
+  }
+
   let context = null;
   let browserForCDP = null;
   let usingCDP = false;
@@ -322,6 +331,7 @@ async function scrapePostCommenters() {
     process.stdout.write(JSON.stringify(allCommenters));
 
   } finally {
+    releaseLock();
     // Never close a Chrome we connected to via CDP — it's the user's running browser
     if (!usingCDP && context) {
       await context.close();

@@ -21,6 +21,7 @@ import { chromium } from 'playwright';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { acquireLock, releaseLock } from './chrome-lock.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -42,6 +43,14 @@ const MAX_RESULTS = parseInt(getArg('--max', '15'), 10);
 function err(msg) { process.stderr.write(`[chrome-search] ${msg}\n`); }
 
 async function searchLinkedIn() {
+  // Acquire Chrome page lock — wait up to 90s for other scrapers to finish
+  const locked = await acquireLock('chrome-search');
+  if (!locked) {
+    err('Could not acquire Chrome page lock — another scraper is running. Exiting.');
+    process.stdout.write(JSON.stringify({ error: 'chrome_lock_timeout' }));
+    process.exit(1);
+  }
+
   let context = null;
   let browserForCDP = null;
   let usingCDP = false;
@@ -213,6 +222,7 @@ async function searchLinkedIn() {
     process.stdout.write(JSON.stringify(results));
 
   } finally {
+    releaseLock();
     // Never close a Chrome we connected to via CDP — it's the user's running browser
     if (!usingCDP && context) {
       await context.close();

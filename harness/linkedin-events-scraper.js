@@ -23,6 +23,7 @@ import { chromium } from 'playwright';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { acquireLock, releaseLock } from './chrome-lock.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const HARNESS_DIR = __dirname;
@@ -248,6 +249,14 @@ async function main() {
     return;
   }
 
+  // Acquire Chrome page lock before touching the browser
+  const locked = await acquireLock('events-scraper');
+  if (!locked) {
+    err('Could not acquire Chrome page lock — timed out. Exiting.');
+    process.stdout.write(JSON.stringify({ error: 'chrome_lock_timeout' }));
+    return;
+  }
+
   const { page, context, browserForCDP, usingCDP } = await getPage();
 
   try {
@@ -283,6 +292,7 @@ async function main() {
     process.stdout.write(JSON.stringify(allAttendees));
 
   } finally {
+    releaseLock();
     if (!usingCDP && context) await context.close();
     if (browserForCDP) await browserForCDP.close();
   }
