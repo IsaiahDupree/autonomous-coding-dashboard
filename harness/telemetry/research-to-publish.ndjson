@@ -32,3 +32,11 @@
 {"ts":"2026-03-07T19:41:27.261Z","slug":"research-to-publish","event":"session_start","session":16,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
 {"ts":"2026-03-07T19:43:31.589Z","slug":"research-to-publish","event":"session_end","session":16,"duration_ms":124322,"featuresDelta":0,"tokens":27896,"cost":0.266484,"exitCode":0}
 {"ts":"2026-03-07T19:43:31.594Z","slug":"research-to-publish","event":"session_start","session":17,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:46:07.830Z","slug":"research-to-publish","event":"session_end","session":17,"duration_ms":156233,"featuresDelta":0,"tokens":28535,"cost":0.27320175,"exitCode":0}
+{"ts":"2026-03-07T19:47:28.130Z","slug":"research-to-publish","event":"session_start","session":18,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:47:59.921Z","slug":"research-to-publish","event":"session_end","session":18,"duration_ms":31786,"featuresDelta":0,"tokens":27654,"cost":0.2642635,"exitCode":0}
+{"ts":"2026-03-07T19:50:01.816Z","slug":"research-to-publish","event":"session_start","session":19,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:52:54.811Z","slug":"research-to-publish","event":"session_end","session":19,"duration_ms":172989,"featuresDelta":0,"tokens":27688,"cost":0.26390050000000004,"exitCode":0}
+{"ts":"2026-03-07T19:55:10.886Z","slug":"research-to-publish","event":"session_start","session":20,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:55:45.859Z","slug":"research-to-publish","event":"session_end","session":20,"duration_ms":34963,"featuresDelta":0,"tokens":27105,"cost":0.23189649999999998,"exitCode":0}
+{"ts":"2026-03-07T19:55:45.865Z","slug":"research-to-publish","event":"session_start","session":21,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}

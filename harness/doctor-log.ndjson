@@ -26,3 +26,6 @@
 {"ts":"2026-03-07T19:06:44.605Z","slug":"prd080-prospect-pipeline","reason":"PID 79426 is dead but status shows running","success":false,"turns":0,"actionsCount":0}
 {"ts":"2026-03-07T19:06:44.605Z","slug":"prd083-cloud-bridge","reason":"PID 79498 is dead but status shows running","success":false,"turns":0,"actionsCount":0}
 {"ts":"2026-03-07T19:41:44.589Z","slug":"acd-memory","reason":"Log silent for 925 minutes","success":false,"turns":0,"actionsCount":0}
+{"ts":"2026-03-07T19:46:44.548Z","slug":"linkedin-safari-scale-fixes","reason":"Log silent for 930 minutes","success":false,"turns":0,"actionsCount":0}
+{"ts":"2026-03-07T19:51:44.551Z","slug":"linkedin-safari-scale-fixes","reason":"Log silent for 935 minutes","success":false,"turns":0,"actionsCount":0}
+{"ts":"2026-03-07T19:56:44.544Z","slug":"linkedin-safari-scale-fixes","reason":"Log silent for 940 minutes","success":false,"turns":0,"actionsCount":0}

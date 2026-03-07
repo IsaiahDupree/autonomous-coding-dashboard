@@ -332,12 +332,25 @@ async function navigateToInbox(platform, base) {
   // Navigate the Safari tab to the DM inbox before scraping
   const endpoints = {
     instagram: `${base}/api/inbox/navigate`,
-    twitter:   null, // Twitter service handles navigation internally
+    twitter:   null,
     tiktok:    null,
     linkedin:  null,
   };
   const navUrl = endpoints[platform.name];
   if (!navUrl) return;
+
+  // Force-claim the tab so no other service can navigate it away mid-scan
+  const claimUrl = `${base}/api/tabs/claim`;
+  try {
+    const claimRes = await fetch(claimUrl, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${platform.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agentId: 'reply-bridge-scan', windowIndex: 2, tabIndex: 1, force: true }),
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (claimRes.ok) log(`${platform.name}: tab claimed for inbox scan`);
+  } catch { /* non-fatal */ }
+
   try {
     const res = await fetch(navUrl, {
       method: 'POST',
@@ -353,6 +366,20 @@ async function navigateToInbox(platform, base) {
   } catch (e) { /* non-fatal */ }
 }
 
+async function releaseInboxClaim(platform, base) {
+  // Release the tab claim so other services can resume
+  if (platform.name !== 'instagram') return;
+  try {
+    await fetch(`${base}/api/tabs/release`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${platform.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agentId: 'reply-bridge-scan' }),
+      signal: AbortSignal.timeout(5_000),
+    });
+    log(`${platform.name}: released tab claim`);
+  } catch { /* non-fatal */ }
+}
+
 async function scanPlatform(platform, state, results) {
   const base = `http://localhost:${platform.port}`;
   const cursor = state.lastScan[platform.name] || null;
@@ -362,6 +389,7 @@ async function scanPlatform(platform, state, results) {
   // Navigate to inbox first (ensures Safari tab is on the right page)
   await navigateToInbox(platform, base);
 
+  try {
   // Fetch conversations — retry once if empty (SPA timing)
   let convData = await apiGet(platform.convUrl(base), platform.token);
   if (convData.error) {
@@ -499,6 +527,9 @@ async function scanPlatform(platform, state, results) {
 
   // Update cursor
   state.lastScan[platform.name] = new Date().toISOString();
+  } finally {
+    await releaseInboxClaim(platform, base);
+  }
 }
 
 // ── Main scan cycle ─────────────────────────────────────────────────────────────

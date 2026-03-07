@@ -618,18 +618,19 @@
       "id": "F-061",
       "name": "Mobile Responsive Polish",
       "description": "Ensure all dashboard pages work on mobile (375px+)",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
-        "src/app/dashboard/**/page.tsx"
+        "src/app/dashboard/**/page.tsx",
+        "e2e/mobile-responsive.spec.ts"
       ]
     },
     {
       "id": "F-062",
       "name": "Collector Unit Tests",
       "description": "Unit tests for all data collectors (Meta, Google, Reddit, App Store, UGC)",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "__tests__/lib/collectors/*.test.ts"
       ]
@@ -638,8 +639,8 @@
       "id": "F-063",
       "name": "AI Module Unit Tests",
       "description": "Unit tests for AI processing modules (extractor, gap gen, concept gen, UGC gen)",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "__tests__/lib/ai/*.test.ts"
       ]
@@ -648,8 +649,8 @@
       "id": "F-064",
       "name": "API Integration Tests",
       "description": "Integration tests for API routes",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "__tests__/integration/api/*.test.ts"
       ]
@@ -658,8 +659,8 @@
       "id": "F-065",
       "name": "E2E Tests Setup",
       "description": "Playwright E2E tests for critical flows (auth, new run, report viewing)",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "e2e/*.spec.ts",
         "playwright.config.ts"
@@ -669,8 +670,8 @@
       "id": "F-066",
       "name": "Accessibility E2E Tests (Axe)",
       "description": "Playwright accessibility scans using @axe-core/playwright",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "e2e/accessibility.spec.ts"
       ]
@@ -679,8 +680,8 @@
       "id": "F-067",
       "name": "Production Smoke Diagnostics",
       "description": "E2E tests that can run against production to detect issues",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "e2e/production-diagnostics.spec.ts"
       ]
@@ -689,8 +690,8 @@
       "id": "F-068",
       "name": "Resilience & Error Handling E2E",
       "description": "Tests for offline mode, API failures, 404/error boundaries",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "e2e/error-handling.spec.ts"
       ]
@@ -699,8 +700,8 @@
       "id": "F-069",
       "name": "Cross-Browser + Mobile E2E Matrix",
       "description": "Run critical flows across chromium/firefox/webkit + mobile",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "files": [
         "e2e/smoke-matrix.spec.ts",
         "playwright.config.ts"
@@ -742,9 +743,14 @@
       "id": "F-074",
       "name": "Error Monitoring (Sentry)",
       "description": "Set up Sentry for production error tracking",
-      "passes": false,
-      "status": "pending",
-      "files": []
+      "passes": true,
+      "status": "completed",
+      "files": [
+        "sentry.client.config.ts",
+        "sentry.server.config.ts",
+        "sentry.edge.config.ts",
+        "instrumentation.ts"
+      ]
     }
   ]
 }

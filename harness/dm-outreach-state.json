@@ -1,9 +1,9 @@
 {
   "startedAt": "2026-03-06T02:52:51.830Z",
   "running": true,
-  "cycleCount": 8,
-  "lastCycleAt": "2026-03-07T19:22:39.469Z",
-  "nextCycleAt": "2026-03-07T19:52:39.469Z",
+  "cycleCount": 9,
+  "lastCycleAt": "2026-03-07T19:52:48.518Z",
+  "nextCycleAt": "2026-03-07T20:22:48.518Z",
   "totalSent": 0,
   "totalFailed": 0,
   "dailyCounts": {
