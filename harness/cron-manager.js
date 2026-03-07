@@ -165,7 +165,9 @@ async function fireJob(job) {
   try {
     const endpoint = `/api/${job.platform}/self-poll`;
     const authHeader = PLATFORM_AUTH[job.platform] ? { Authorization: PLATFORM_AUTH[job.platform] } : {};
-    const result = await httpPost('localhost', port, endpoint, { dataType: job.data_type }, 30_000, authHeader);
+    // Threads navigates Safari — allow 90s; others 30s
+    const timeoutMs = job.platform === 'threads' ? 90_000 : 30_000;
+    const result = await httpPost('localhost', port, endpoint, { dataType: job.data_type }, timeoutMs, authHeader);
     if (result.status === 200 && result.body?.success !== false) {
       const count = result.body?.fetched
         ? Object.values(result.body.fetched).reduce((a, v) => a + (Array.isArray(v) ? v.length : (v || 0)), 0)
