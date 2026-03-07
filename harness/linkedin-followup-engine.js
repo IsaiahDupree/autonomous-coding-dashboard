@@ -112,7 +112,7 @@ async function fetchContacts(limit = 100) {
 }
 
 // ── Stage logic ─────────────────────────────────────────────────────────────
-function needsFollowup(contact) {
+export function needsFollowup(contact) {
   const stage = contact.pipeline_stage;
   const tags = contact.tags || [];
   const hasLinkedIn = tags.includes('linkedin');
@@ -130,7 +130,7 @@ function needsFollowup(contact) {
 }
 
 // ── Message generation ──────────────────────────────────────────────────────
-function generateMessage(contact, messageType) {
+export function generateMessage(contact, messageType) {
   const firstName = (contact.display_name || '').split(' ')[0] || 'there';
   const notes = contact.notes || '';
   const companyMatch = notes.match(/Company:\s*(.+)/);
@@ -146,7 +146,7 @@ function generateMessage(contact, messageType) {
 }
 
 // ── Extract LinkedIn username from contact ──────────────────────────────────
-function getLinkedInUsername(contact) {
+export function getLinkedInUsername(contact) {
   const accounts = contact.crm_platform_accounts || contact.platform_accounts || [];
   const liAccount = accounts.find(a => a.platform === 'linkedin');
   return liAccount?.username || null;
@@ -344,12 +344,14 @@ async function main() {
   }
 }
 
-main().catch(e => {
-  console.error('Fatal:', e.message);
-  try {
-    const state = readJson(STATE_FILE, {});
-    state.running = false;
-    writeJson(STATE_FILE, state);
-  } catch { /* non-fatal */ }
-  process.exit(1);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(e => {
+    console.error('Fatal:', e.message);
+    try {
+      const state = readJson(STATE_FILE, {});
+      state.running = false;
+      writeJson(STATE_FILE, state);
+    } catch { /* non-fatal */ }
+    process.exit(1);
+  });
+}

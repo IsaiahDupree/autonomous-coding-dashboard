@@ -48,9 +48,12 @@ const tests = [
   { name: 'Prospect Scoring',          file: 'test-prospect-scoring.js' },
   { name: 'Sleep Manager',             file: 'test-sleep-manager.js' },
   { name: 'DM CRM Sync',              file: 'test-dm-crm-sync.js' },
-  { name: 'Agent Telemetry',          file: 'test-agent-telemetry.js' },
-  { name: 'DM Template A/B Tracker', file: 'test-dm-template-ab-tracker.js' },
-  { name: 'PRD Feature Extractor',   file: 'test-prd-extractor.js' },
+  { name: 'Agent Telemetry',              file: 'test-agent-telemetry.js' },
+  { name: 'DM Template A/B Tracker',     file: 'test-dm-template-ab-tracker.js' },
+  { name: 'PRD Feature Extractor',       file: 'test-prd-extractor.js' },
+  { name: 'LinkedIn Followup Engine',    file: 'test-linkedin-followup-engine.js' },
+  { name: 'Strategy Performance Tracker',file: 'test-strategy-performance-tracker.js' },
+  { name: 'Queue State',                 file: 'test-queue-state.js' },
 ];
 
 // ── Service availability checks ───────────────────────────────────────────────
