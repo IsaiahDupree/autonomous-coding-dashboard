@@ -41,7 +41,7 @@ const DM_QUEUES = [
 ];
 
 // Normalize queue data: LinkedIn stores a top-level array with different field names
-function normalizeQueue(platform, raw) {
+export function normalizeQueue(platform, raw) {
   if (!raw) return null;
   // LinkedIn: top-level array of {id, status:'pending_approval'|'sent', prospect:{...}, crm_synced, crm_id}
   if (Array.isArray(raw)) {
@@ -67,7 +67,7 @@ function normalizeQueue(platform, raw) {
 }
 
 // Write back: update the raw source entry with sync result
-function patchRawEntry(platform, rawEntry, updates) {
+export function patchRawEntry(platform, rawEntry, updates) {
   if (platform === 'linkedin') {
     // Map normalized fields back to LinkedIn format
     if ('crmlite_synced' in updates)      rawEntry.crm_synced     = updates.crmlite_synced;
@@ -283,4 +283,6 @@ async function main() {
   process.on('SIGTERM', () => { log('Shutting down'); process.exit(0); });
 }
 
-main().catch(e => { console.error(`[dm-crm-sync] Fatal: ${e.message}`); process.exit(1); });
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => { console.error(`[dm-crm-sync] Fatal: ${e.message}`); process.exit(1); });
+}
