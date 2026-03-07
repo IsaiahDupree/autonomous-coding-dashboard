@@ -127,7 +127,9 @@ async function scrapePostCommenters() {
 
     // ── 6. Wait for content posts ────────────────────────────────────────────────
     await page.waitForSelector(
-      '[data-activity-urn], .feed-shared-update-v2, .occludable-update',
+      '[data-activity-urn], .feed-shared-update-v2, .occludable-update, ' +
+      '.search-results__list, [data-view-name="search-content-result"], ' +
+      'li[class*="reusable-search"]',
       { timeout: 15000 }
     ).catch(() => err('Post containers not found — extracting what we can'));
 
@@ -143,16 +145,38 @@ async function scrapePostCommenters() {
     // ── 7. Extract post URLs ─────────────────────────────────────────────────────
     const postUrls = await page.evaluate((maxPosts) => {
       const postLinks = [];
-      const cards = document.querySelectorAll('[data-activity-urn], .feed-shared-update-v2');
+
+      // Try all known LinkedIn content search card selectors (DOM changes frequently)
+      const cards = document.querySelectorAll(
+        '[data-activity-urn], .feed-shared-update-v2, ' +
+        '[data-view-name="search-content-result"], ' +
+        'li[class*="reusable-search"], .search-content-result__wrapper'
+      );
+
       cards.forEach(card => {
         if (postLinks.length >= maxPosts) return;
-        // Try to get the post permalink
-        const link = card.querySelector('a[href*="/posts/"], a[href*="activity-"]');
+        const link = card.querySelector(
+          'a[href*="/posts/"], a[href*="activity-"], ' +
+          'a[href*="/feed/update/"]'
+        );
         if (link) {
           const url = link.href.split('?')[0];
           if (url && !postLinks.includes(url)) postLinks.push(url);
         }
       });
+
+      // Fallback: any post/activity link visible on the page
+      if (postLinks.length === 0) {
+        const allLinks = document.querySelectorAll(
+          'a[href*="/posts/"], a[href*="/feed/update/urn:li:activity"]'
+        );
+        for (const a of allLinks) {
+          if (postLinks.length >= maxPosts) break;
+          const url = a.href.split('?')[0];
+          if (url && !postLinks.includes(url)) postLinks.push(url);
+        }
+      }
+
       return postLinks.slice(0, maxPosts);
     }, MAX_POSTS);
 

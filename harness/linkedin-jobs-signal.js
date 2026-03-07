@@ -141,7 +141,7 @@ async function scrapeJobsForRole(page, role, maxJobs) {
     .catch(() => err('Job list not found — extracting what is visible'));
 
   // Extract job cards
-  const jobData = await page.evaluate((max, signalRole) => {
+  const jobData = await page.evaluate(({ max, signalRole }) => {
     const jobs = [];
     const cards = document.querySelectorAll('.jobs-search__results-list li, .job-card-container, [data-job-id]');
 
@@ -161,7 +161,7 @@ async function scrapeJobsForRole(page, role, maxJobs) {
       jobs.push({ jobTitle, companyName, jobUrl, signalRole });
     }
     return jobs;
-  }, maxJobs, role);
+  }, { max: maxJobs, signalRole: role });
 
   err(`  Found ${jobData.length} job listings for "${role}"`);
   return jobData;
@@ -176,7 +176,7 @@ async function extractHiringManager(page, job) {
     await page.goto(job.jobUrl, { waitUntil: 'domcontentloaded', timeout: 20000 });
     await page.waitForTimeout(2000);
 
-    const prospect = await page.evaluate((jobInfo, icpTitles, icpCompanyKw) => {
+    const prospect = await page.evaluate(({ jobInfo, icpCompanyKw }) => {
       // 1. Try to find the "Meet the hiring team" section (LinkedIn shows this on some postings)
       const hiringSection = document.querySelector(
         '.hirer-card, .job-details-jobs-unified-top-card__hiring-manager, [data-view-name="hiring-manager"]'
@@ -213,7 +213,7 @@ async function extractHiringManager(page, job) {
 
       // 3. Return company-level prospect (we'll people-search for founder separately)
       return {
-        name: null,  // will be resolved via people search
+        name: null,
         profileUrl: null,
         headline: null,
         jobTitle: jobInfo.jobTitle,
@@ -224,7 +224,7 @@ async function extractHiringManager(page, job) {
         _isSmallCo: isSmallCo,
         _isIcpIndustry: isIcpIndustry,
       };
-    }, job, ICP_TITLES_TO_FIND, ICP_COMPANY_KEYWORDS);
+    }, { jobInfo: job, icpCompanyKw: ICP_COMPANY_KEYWORDS });
 
     return prospect;
   } catch (e) {
@@ -244,7 +244,7 @@ async function resolveFounderForCompany(page, companyName, jobUrl, jobTitle) {
     await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 20000 });
     await page.waitForTimeout(2000);
 
-    const results = await page.evaluate((max, jTitle, jUrl, coName) => {
+    const results = await page.evaluate(({ jTitle, jUrl, coName }) => {
       const out = [];
       const cards = document.querySelectorAll('[data-view-name="search-entity-result-universal-template"], .entity-result');
       for (const card of cards) {
@@ -279,7 +279,7 @@ async function resolveFounderForCompany(page, companyName, jobUrl, jobTitle) {
         }
       }
       return out;
-    }, 3, jobTitle, jobUrl, companyName);
+    }, { jTitle: jobTitle, jUrl: jobUrl, coName: companyName });
 
     // Prefer company match, else take first result
     const best = results.find(r => r._companyMatch) || results[0] || null;
