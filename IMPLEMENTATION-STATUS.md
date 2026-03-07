@@ -1,31 +1,36 @@
 # Autonomous System Build — Implementation Status
 
 **Generated:** 2026-03-07
-**Progress:** 11/43 features complete (25.6%)
+**Progress:** 13/43 features complete (30.2%)
 
 ---
 
 ## Executive Summary
 
-The 5-PRD autonomous business system is 25.6% complete. The foundational Cloud-Local Bridge (5/8 features) is largely operational, enabling cloud services to dispatch tasks to the local machine. The Browser Agent Registry and Failure Detection Bus are also functional.
+The 5-PRD autonomous business system is 30.2% complete. The Cloud-Local Bridge (6/8 features, 75%) now includes the DataBridge API for simplified data access. The Unified Browser Control API (BAC-002) provides a central dispatch router for all browser agents.
 
 **Current State:**
 - ✅ Cloud can dispatch tasks to local machine via `actp_cloud_tasks`
 - ✅ Local services report comprehensive health status
-- ✅ Browser agents register in central registry
+- ✅ Browser agents register in central registry + unified dispatch router
+- ✅ DataBridge API provides simplified cloud data access
 - ✅ Prospect pipeline can discover creators across platforms
 - ✅ Failure events are captured in centralized bus
 
+**Latest Completions (This Session):**
+- ✅ CLB-007: DataBridge API (`actp-worker/data_bridge.py`)
+- ✅ BAC-002: UnifiedBrowserCommand API (`Safari Automation/packages/unified-control/`)
+
 **Next Priority:**
-- CLB-007: DataBridge API for cloud data access
-- BAC-002: Unified browser command router
+- BAC-003: Safari Agent Template standardization
 - PAP-002: Follower extraction per platform
+- PAP-005: Prospect scoring models
 
 ---
 
 ## Feature Status by PRD
 
-### PRD 1: Cloud-Local Request Bridge (CLB) — 5/8 Complete (62.5%)
+### PRD 1: Cloud-Local Request Bridge (CLB) — 6/8 Complete (75%)
 
 | ID | Feature | Status | Notes |
 |----|---------|--------|-------|
@@ -35,19 +40,19 @@ The 5-PRD autonomous business system is 25.6% complete. The foundational Cloud-L
 | CLB-004 | Local Health Reporter | ✅ DONE | `heartbeat_agent.py` checks 15 services including all Safari ports |
 | CLB-005 | Realtime Subscriptions | ⬜ TODO | Supabase Realtime for local → cloud push |
 | CLB-006 | Cloud → Local Webhook | ⬜ TODO | POST /api/cloud/trigger on :8765 |
-| CLB-007 | Data Export API | ⬜ TODO | DataBridge class wrapper on DataPlane |
+| CLB-007 | Data Export API | ✅ DONE | `/actp-worker/data_bridge.py` — simplified API wrapping DataPlane |
 | CLB-008 | Task Priority Queue RPC | ✅ DONE | `claim_cloud_task()` RPC exists, called in cloud_task_poller.py:44 |
 
-**Assessment:** The core nervous system is operational. Cloud can dispatch tasks, local claims and executes them, results flow back. Real-time push (CLB-005) and webhook endpoint (CLB-006) are nice-to-haves. DataBridge (CLB-007) is needed for prospect/CRM data access.
+**Assessment:** The core nervous system is operational. Cloud can dispatch tasks, local claims and executes them, results flow back. DataBridge provides clean API for prospect/CRM/goal data access. Real-time push (CLB-005) and webhook endpoint (CLB-006) are nice-to-haves for reduced latency.
 
 ---
 
-### PRD 2: Browser Agent Unified Control (BAC) — 2/8 Complete (25%)
+### PRD 2: Browser Agent Unified Control (BAC) — 3/8 Complete (37.5%)
 
 | ID | Feature | Status | Notes |
 |----|---------|--------|-------|
 | BAC-001 | BrowserAgentRegistry | ✅ DONE | `/actp-worker/browser_registry.py` — full CRUD for `actp_browser_agents` |
-| BAC-002 | UnifiedBrowserCommand API | ⬜ TODO | POST /api/browser/command dispatch router |
+| BAC-002 | UnifiedBrowserCommand API | ✅ DONE | `/Safari Automation/packages/unified-control/` — dispatch router on port 3110 |
 | BAC-003 | Safari Agent Template | ⬜ TODO | Apply Instagram patterns to all Safari services |
 | BAC-004 | Chrome Agent for LinkedIn | ✅ DONE | `/Safari Automation/packages/linkedin-chrome/` exists |
 | BAC-005 | Upwork Safari Agent | ⬜ TODO | Extend port 3108 with job search actions |
@@ -55,9 +60,9 @@ The 5-PRD autonomous business system is 25.6% complete. The foundational Cloud-L
 | BAC-007 | Result Uploader | ⬜ TODO | Browser action results → Supabase Storage |
 | BAC-008 | Platform Action Matrix | ⬜ TODO | Integration tests across all 6 platforms |
 
-**Assessment:** Registry exists, LinkedIn Chrome agent exists, but the unified control layer (BAC-002) that routes commands to services is missing. This is a blocker for cloud-driven browser automation.
+**Assessment:** Registry + unified router + LinkedIn Chrome agent operational. The unified control layer (BAC-002) now routes commands from cloud/local to any registered browser agent. Python client (`browser_agent_client.py`) enables actp-worker integration.
 
-**Priority:** Implement BAC-002 next to enable cloud orchestration of browser agents.
+**Priority:** Implement BAC-003 (Safari template standardization) next to ensure consistent patterns across all Safari agents.
 
 ---
 
@@ -125,8 +130,8 @@ The 5-PRD autonomous business system is 25.6% complete. The foundational Cloud-L
 
 Based on dependency analysis and PRD priority order:
 
-1. **CLB-007:** DataBridge API — needed for prospect/CRM data access from cloud
-2. **BAC-002:** UnifiedBrowserCommand API — central router for browser actions
+1. ~~**CLB-007:** DataBridge API~~ ✅ DONE
+2. ~~**BAC-002:** UnifiedBrowserCommand API~~ ✅ DONE
 3. **BAC-003:** Safari Agent Template — apply Instagram patterns to all services
 4. **PAP-002:** Creator Follower Extractor — scale prospect discovery to audiences
 5. **PAP-005:** Prospect Scorer — intelligent filtering (score 0-100)
@@ -147,22 +152,42 @@ Based on dependency analysis and PRD priority order:
 - `/actp-worker/prospect_pipeline.py` — PAP-001
 - `/actp-worker/prospect_crm_sync.py` — PAP-006
 - `/actp-worker/failure_bus.py` — SHD-001
+- `/actp-worker/data_bridge.py` — CLB-007 ✅ NEW
+- `/actp-worker/browser_agent_client.py` — BAC-002 Python client ✅ NEW
 - `/Safari Automation/packages/linkedin-chrome/` — BAC-004
+- `/Safari Automation/packages/unified-control/` — BAC-002 ✅ NEW
 - Supabase tables: `actp_cloud_tasks`, `actp_prospects`, `actp_browser_agents`, `actp_failure_events`
 
 ### Missing (Need to Create)
-- `/actp-worker/data_bridge.py` — CLB-007
-- `/Safari Automation/packages/unified-control/` — BAC-002
 - `/actp-worker/upwork_pipeline.py` — UAF orchestrator
 - `/actp-worker/self_healer.py` — SHD orchestrator
+- `/actp-worker/prospect_scorer.py` — PAP-005
 
 ---
 
+## Session Summary (2026-03-07)
+
+**Completed:**
+1. ✅ CLB-007 (DataBridge) — 45 min
+   - Created `/actp-worker/data_bridge.py`
+   - Methods: get_pending_prospects, push_prospects, get_business_goals, get_crm_contacts, push_job_applications, log_activity
+   - Direct Supabase query/insert methods for flexibility
+
+2. ✅ BAC-002 (UnifiedBrowserCommand router) — 1.5 hours
+   - Created `/Safari Automation/packages/unified-control/` package
+   - Express server on port 3110
+   - Routes commands to Safari (5 platforms) + Chrome (LinkedIn)
+   - Created Python client `/actp-worker/browser_agent_client.py`
+
+3. ✅ Committed all changes to GitHub (3 repos)
+
+**Progress:** 11/43 → 13/43 features (25.6% → 30.2%)
+
 ## Next Session Goals
 
-1. Implement CLB-007 (DataBridge) — 30 min
-2. Implement BAC-002 (UnifiedBrowserCommand router) — 1-2 hours
-3. Test end-to-end: cloud inserts browser task → local executes → result uploaded — 30 min
-4. Implement PAP-002 (follower extractor) for Instagram — 1 hour
+1. Implement BAC-003 (Safari Agent Template) — standardize patterns across all Safari services
+2. Implement PAP-002 (Follower extractor) — extract followers from top creators
+3. Implement PAP-005 (Prospect scorer) — scoring models for prospect quality
+4. Test end-to-end: cloud inserts browser task → unified-control routes → service executes → result uploaded
 
-**Target:** 15/43 features complete (35%) by end of next session.
+**Target:** 17/43 features complete (39.5%) by end of next session.
