@@ -80,7 +80,7 @@ function log(level, msg, data = {}) {
 }
 
 // ── Rate limits per platform (sessions per day max) ───────────────────────────
-const PLATFORM_DAILY_LIMITS = {
+export const PLATFORM_DAILY_LIMITS = {
   instagram: 6,
   twitter:   8,
   tiktok:    6,
@@ -90,7 +90,7 @@ const PLATFORM_DAILY_LIMITS = {
 };
 
 // ── Default session templates per goal ───────────────────────────────────────
-const GOAL_SESSION_TEMPLATES = {
+export const GOAL_SESSION_TEMPLATES = {
   // Revenue: Upwork gig scanning + DM campaigns
   revenue: [
     { platform: 'upwork',    action: 'job_scan',                  priority: 1, goal_tag: 'revenue', params: { max_hours: 4, skills: ['react', 'nextjs', 'api', 'automation'] } },
@@ -157,7 +157,7 @@ async function getStrategyConfigs() {
 }
 
 // ── Calculate goal gaps ───────────────────────────────────────────────────────
-function calculateGaps(goals, metrics) {
+export function calculateGaps(goals, metrics) {
   const gaps = [];
 
   // Revenue gap

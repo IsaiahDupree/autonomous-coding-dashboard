@@ -28,6 +28,9 @@ const tests = [
   { name: 'Adaptive Delay', file: 'test-adaptive-delay.js' },
   { name: 'Cloud Bridge Allowlist', file: 'test-cloud-bridge-allowlist.js' },
   { name: 'LinkedIn Priority Scoring', file: 'test-linkedin-priority.js' },
+  { name: 'Cloud Orchestrator', file: 'test-cloud-orchestrator.js' },
+  { name: 'Browser Session Daemon', file: 'test-browser-session-daemon.js' },
+  { name: 'Cron Manager', file: 'test-cron-manager.js' },
 ];
 
 async function runTest(test) {

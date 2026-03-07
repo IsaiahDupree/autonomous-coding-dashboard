@@ -73,7 +73,7 @@ function log(level, msg, data = {}) {
 }
 
 // ── Quiet hours check ────────────────────────────────────────────────────────
-function isQuietHours(job) {
+export function isQuietHours(job) {
   const now = new Date();
   const hour = now.getHours();
   const start = job.quiet_hour_start ?? 1;
@@ -85,7 +85,7 @@ function isQuietHours(job) {
 
 // ── Simple cron expression check (minute-level) ──────────────────────────────
 // Supports: '0 */6 * * *' style — only checks hour/minute match
-function cronMatches(expression, now) {
+export function cronMatches(expression, now) {
   try {
     const parts = expression.trim().split(/\s+/);
     if (parts.length !== 5) return false;
@@ -310,6 +310,98 @@ const server = http.createServer(async (req, res) => {
   sendJSON(res, 404, { error: 'Not found', url });
 });
 
+// ── Telegram bot — /cron commands ────────────────────────────────────────────
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TG_CHAT  = process.env.TELEGRAM_CHAT_ID   || '';
+let tgOffset   = 0;
+
+async function tgSend(text) {
+  if (!TG_TOKEN || !TG_CHAT) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML' }),
+      signal: AbortSignal.timeout(5000),
+    });
+  } catch { /* non-fatal */ }
+}
+
+export function fmtJobLine(j) {
+  const dot  = j.enabled ? '🟢' : '⚫';
+  const run  = runningJobs[j.slug] ? ' ⟳' : '';
+  const last = j.last_run_at
+    ? `${Math.round((Date.now() - new Date(j.last_run_at).getTime()) / 60000)}m ago`
+    : 'never';
+  const status = j.last_run_status === 'success' ? '✓' : j.last_run_status === 'error' ? '✗' : '—';
+  return `${dot}${run} <b>${j.slug}</b>  ${status} ${last} (${j.last_run_count ?? 0})`;
+}
+
+async function handleTgCommand(text) {
+  const parts = text.trim().split(/\s+/);
+  if (parts[0] !== '/cron') return;
+
+  const action = parts[1];
+  const slug   = parts[2];
+
+  // /cron — list all jobs
+  if (!action) {
+    const lines = jobs.map(fmtJobLine).join('\n');
+    await tgSend(`<b>Safari Cron Jobs</b>\n\n${lines || 'No jobs loaded.'}`);
+    return;
+  }
+
+  // /cron run <slug>
+  if (action === 'run') {
+    if (!slug) { await tgSend('Usage: /cron run &lt;slug&gt;'); return; }
+    const job = jobs.find(j => j.slug === slug);
+    if (!job) { await tgSend(`❌ Job not found: <code>${slug}</code>`); return; }
+    fireJob(job).catch(() => {});
+    await tgSend(`▶️ Firing <b>${slug}</b>...`);
+    return;
+  }
+
+  // /cron enable|disable <slug>
+  if (action === 'enable' || action === 'disable') {
+    if (!slug) { await tgSend(`Usage: /cron ${action} &lt;slug&gt;`); return; }
+    const job = jobs.find(j => j.slug === slug);
+    if (!job) { await tgSend(`❌ Job not found: <code>${slug}</code>`); return; }
+    const targetEnabled = action === 'enable';
+    if (job.enabled === targetEnabled) {
+      await tgSend(`Already ${action}d: <b>${slug}</b>`);
+      return;
+    }
+    const result = await toggleJob(slug);
+    if (result.ok) {
+      await tgSend(`${targetEnabled ? '🟢' : '⚫'} ${action}d <b>${slug}</b>`);
+    } else {
+      await tgSend(`❌ Failed: ${result.error}`);
+    }
+    return;
+  }
+
+  await tgSend('Commands:\n/cron\n/cron run &lt;slug&gt;\n/cron enable &lt;slug&gt;\n/cron disable &lt;slug&gt;');
+}
+
+async function tgPollOnce() {
+  if (!TG_TOKEN) return;
+  try {
+    const res = await fetch(
+      `https://api.telegram.org/bot${TG_TOKEN}/getUpdates?offset=${tgOffset}&timeout=0&limit=10`,
+      { signal: AbortSignal.timeout(8000) }
+    );
+    const data = await res.json();
+    if (!data.ok || !data.result?.length) return;
+    for (const update of data.result) {
+      tgOffset = update.update_id + 1;
+      const text = update.message?.text || '';
+      if (text.startsWith('/cron')) {
+        await handleTgCommand(text);
+      }
+    }
+  } catch { /* network hiccup — ignore */ }
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
   log('info', `cron-manager starting on port ${PORT}`);
@@ -335,9 +427,20 @@ async function main() {
 
   // Initial tick after 10s (give services time to start)
   setTimeout(tick, 10_000);
+
+  // Telegram bot polling — every 5s
+  if (TG_TOKEN) {
+    log('info', 'Telegram /cron command listener active');
+    setInterval(tgPollOnce, 5_000);
+    tgPollOnce(); // immediate first poll
+  } else {
+    log('warn', 'TELEGRAM_BOT_TOKEN not set — /cron commands disabled');
+  }
 }
 
-main().catch(err => {
-  log('error', 'Fatal startup error', { error: err.message });
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    log('error', 'Fatal startup error', { error: err.message });
+    process.exit(1);
+  });
+}

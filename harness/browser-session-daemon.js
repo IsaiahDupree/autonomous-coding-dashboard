@@ -64,7 +64,7 @@ async function sendTelegram(text) {
 }
 
 // ── Platform → local service routing ─────────────────────────────────────────
-const PLATFORM_ROUTES = {
+export const PLATFORM_ROUTES = {
   instagram: { port: 3100, browser: 'safari', healthPath: '/health' },
   twitter:   { port: 3003, browser: 'safari', healthPath: '/health' },
   tiktok:    { port: 3102, browser: 'safari', healthPath: '/health' },
@@ -76,7 +76,7 @@ const PLATFORM_ROUTES = {
 
 // Action → endpoint mapping. Prospect/comment actions use market-research (3106).
 // Inbox/DM actions use each platform's own service. LinkedIn has unique path prefixes.
-const ACTION_ENDPOINTS = {
+export const ACTION_ENDPOINTS = {
   // Research actions → market-research hub on 3106 (GET for inbox_check, POST for others)
   prospect_hunt:    (_p, platform) => `http://localhost:3106/api/research/${platform}/niche`,
   comment_harvest:  (_p, platform) => `http://localhost:3106/api/research/${platform}/search`,
@@ -599,7 +599,7 @@ async function expireOverdueSessions() {
 }
 
 // ── Format session result for Telegram ───────────────────────────────────────
-function formatSessionResult(session, result) {
+export function formatSessionResult(session, result) {
   const tag = `<b>${session.platform}:${session.action}</b>`;
   if (!result || result.skipped) return `⏭️ ${tag} — platform busy (skipped)`;
 
@@ -774,4 +774,6 @@ async function main() {
   poll();
 }
 
-main().catch(err => { log('error', 'Fatal', { error: err.message }); process.exit(1); });
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => { log('error', 'Fatal', { error: err.message }); process.exit(1); });
+}
