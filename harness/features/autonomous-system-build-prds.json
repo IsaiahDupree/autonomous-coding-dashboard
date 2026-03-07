@@ -76,8 +76,8 @@
     {
       "id": "BAC-003",
       "name": "Safari Agent Template — apply Instagram patterns to all Safari services",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
     },
     {
@@ -90,8 +90,8 @@
     {
       "id": "BAC-005",
       "name": "Upwork Safari Agent — extend port 3108 with job search actions",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
     },
     {
@@ -174,8 +174,8 @@
     {
       "id": "UAF-001",
       "name": "Upwork Job Scanner — Safari action search_jobs with filter criteria",
-      "passes": false,
-      "status": "pending",
+      "passes": true,
+      "status": "completed",
       "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
     },
     {
