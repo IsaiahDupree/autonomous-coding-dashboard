@@ -63,15 +63,20 @@ function loadQueueConfig() {
   return JSON.parse(fs.readFileSync(queuePath, 'utf-8'));
 }
 
+// Model ID constants (from repo-queue.json availableModels)
+const OPUS   = 'claude-opus-4-6';
+const SONNET = 'claude-sonnet-4-5-20250929';
+const HAIKU  = 'claude-haiku-4-5-20251001';
+
 // Simulate getModelForComplexity from run-queue.js
 function getModelForComplexity(queue, complexity, taskType = null) {
   const config = queue.modelConfig || {};
   const levels = config.complexityLevels || {
-    critical: { models: ['opus', 'sonnet'], fallback: 'sonnet' },
-    high: { models: ['sonnet', 'opus'], fallback: 'haiku' },
-    medium: { models: ['sonnet', 'haiku'], fallback: 'haiku' },
-    low: { models: ['haiku'], fallback: 'haiku' },
-    trivial: { models: ['haiku'], fallback: 'haiku' }
+    critical: { models: [OPUS, SONNET], fallback: SONNET },
+    high:     { models: [OPUS, SONNET], fallback: SONNET },
+    medium:   { models: [SONNET, HAIKU], fallback: HAIKU },
+    low:      { models: [SONNET], fallback: HAIKU },
+    trivial:  { models: [HAIKU], fallback: HAIKU }
   };
   
   let effectiveComplexity = complexity;
@@ -128,12 +133,12 @@ async function runAllTests() {
   // Test 2: Available models
   await runTest('All Claude models defined', async () => {
     const models = queue.modelConfig.availableModels;
-    assertTruthy(models.opus, 'opus should exist');
-    assertTruthy(models.sonnet, 'sonnet should exist');
-    assertTruthy(models.haiku, 'haiku should exist');
-    assertEqual(models.opus.tier, 1, 'opus should be tier 1');
-    assertEqual(models.sonnet.tier, 2, 'sonnet should be tier 2');
-    assertEqual(models.haiku.tier, 3, 'haiku should be tier 3');
+    assertTruthy(models[OPUS],   'claude-opus-4-6 should exist');
+    assertTruthy(models[SONNET], 'claude-sonnet-4-5 should exist');
+    assertTruthy(models[HAIKU],  'claude-haiku-4-5 should exist');
+    assertEqual(models[OPUS].tier,   1, 'opus should be tier 1');
+    assertEqual(models[SONNET].tier, 2, 'sonnet should be tier 2');
+    assertEqual(models[HAIKU].tier,  3, 'haiku should be tier 3');
   });
 
   // Test 3: All complexity levels exist
@@ -149,22 +154,22 @@ async function runAllTests() {
   // Test 4: Critical complexity uses opus
   await runTest('Critical complexity selects opus', async () => {
     const result = getModelForComplexity(queue, 'critical');
-    assertEqual(result.model, 'opus', 'Critical should use opus');
-    assertEqual(result.fallback, 'sonnet', 'Critical fallback should be sonnet');
+    assertEqual(result.model, OPUS, 'Critical should use claude-opus-4-6');
+    assertEqual(result.fallback, SONNET, 'Critical fallback should be claude-sonnet-4-5');
     assertEqual(result.maxRetries, 5, 'Critical should have 5 retries');
   });
 
   // Test 5: High complexity uses sonnet
   await runTest('High complexity selects sonnet', async () => {
     const result = getModelForComplexity(queue, 'high');
-    assertEqual(result.model, 'sonnet', 'High should use sonnet');
-    assertEqual(result.fallback, 'haiku', 'High fallback should be haiku');
+    assertEqual(result.model, OPUS, 'High should use claude-opus-4-6');
+    assertEqual(result.fallback, SONNET, 'High fallback should be claude-sonnet-4-5');
   });
 
   // Test 6: Low complexity uses haiku
   await runTest('Low complexity selects haiku', async () => {
     const result = getModelForComplexity(queue, 'low');
-    assertEqual(result.model, 'haiku', 'Low should use haiku');
+    assertEqual(result.model, SONNET, 'Low should use claude-sonnet-4-5');
     assertEqual(result.maxRetries, 2, 'Low should have 2 retries');
   });
 
@@ -175,7 +180,7 @@ async function runAllTests() {
     
     const result = getModelForComplexity(queue, null, taskType);
     assertEqual(result.complexity, 'critical', 'Architecture should map to critical');
-    assertEqual(result.model, 'opus', 'Architecture should use opus');
+    assertEqual(result.model, OPUS, 'Architecture should use claude-opus-4-6');
   });
 
   // Test 8: Task type detection - security
@@ -194,7 +199,7 @@ async function runAllTests() {
     
     const result = getModelForComplexity(queue, null, taskType);
     assertEqual(result.complexity, 'low', 'Bug fix should map to low');
-    assertEqual(result.model, 'haiku', 'Bug fix should use haiku');
+    assertEqual(result.model, SONNET, 'Bug fix should use claude-sonnet-4-5');
   });
 
   // Test 10: Task type detection - documentation
@@ -221,7 +226,7 @@ async function runAllTests() {
     
     const result = getModelForComplexity(queue, null, null);
     assertEqual(result.complexity, 'medium', 'No complexity should default to medium');
-    assertEqual(result.model, 'sonnet', 'Medium should use sonnet');
+    assertEqual(result.model, SONNET, 'Medium should use claude-sonnet-4-5');
   });
 
   // Test 13: Task type mapping completeness
