@@ -1,61 +1,308 @@
 {
   "prd": "autonomous-system-build-prds",
-  "name": "Autonomous System Build Prds",
-  "priority": 3,
+  "name": "Autonomous System Build — 5 PRD Implementation",
+  "priority": 1,
   "features": [
     {
-      "id": "F-001",
-      "name": "Your Mission",
-      "passes": false,
-      "status": "pending"
+      "id": "CLB-001",
+      "name": "Cloud Task Table (Supabase) — actp_cloud_tasks with indexes",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-002",
-      "name": "Step 1 — Read These PRDs (in order)",
-      "passes": false,
-      "status": "pending"
+      "id": "CLB-002",
+      "name": "Cloud Task Poller (Local) — cloud_task_poller.py in actp-worker",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-003",
-      "name": "Step 2 — Assess Current State",
-      "passes": false,
-      "status": "pending"
+      "id": "CLB-003",
+      "name": "Result Uploader — post task results back to Supabase + optional callback",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-004",
-      "name": "Step 3 — Pick Highest-Priority Unimplemented Feature and Implement It",
-      "passes": false,
-      "status": "pending"
+      "id": "CLB-004",
+      "name": "Local Health Reporter — extend heartbeat_agent.py with full service health",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-005",
-      "name": "Coding Conventions (from actp-worker codebase)",
+      "id": "CLB-005",
+      "name": "Realtime Subscriptions — Supabase Realtime for local → cloud push",
       "passes": false,
-      "status": "pending"
+      "status": "pending",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-006",
-      "name": "Key Paths",
+      "id": "CLB-006",
+      "name": "Cloud → Local Webhook Endpoint — POST /api/cloud/trigger on :8765",
       "passes": false,
-      "status": "pending"
+      "status": "pending",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-007",
-      "name": "Priority Order",
-      "passes": false,
-      "status": "pending"
+      "id": "CLB-007",
+      "name": "Data Export API — DataBridge class for cloud data access",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-008",
-      "name": "Do NOT",
-      "passes": false,
-      "status": "pending"
+      "id": "CLB-008",
+      "name": "Task Priority Queue RPC — claim_cloud_task() Supabase function",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-CLOUD-LOCAL-REQUEST-BRIDGE"
     },
     {
-      "id": "F-009",
-      "name": "When Stuck",
+      "id": "BAC-001",
+      "name": "BrowserAgentRegistry — actp_browser_agents table + registration API",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-002",
+      "name": "UnifiedBrowserCommand API — POST /api/browser/command dispatch router",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-003",
+      "name": "Safari Agent Template — apply Instagram patterns to all Safari services",
       "passes": false,
-      "status": "pending"
+      "status": "pending",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-004",
+      "name": "Chrome Agent for LinkedIn — packages/linkedin-chrome with Playwright",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-005",
+      "name": "Upwork Safari Agent — extend port 3108 with job search actions",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-006",
+      "name": "Cloud Command Receiver — ACTP worker polls actp_browser_tasks",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-007",
+      "name": "Result Uploader — browser action results → Supabase + Storage",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "BAC-008",
+      "name": "Platform Action Matrix — integration tests across all 6 platforms",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-BROWSER-AGENT-UNIFIED-CONTROL"
+    },
+    {
+      "id": "PAP-001",
+      "name": "Keyword → Creator Pipeline — use Market Research API (3106) for all platforms",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-002",
+      "name": "Creator Follower Extractor — extract_followers browser action per platform",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-003",
+      "name": "LinkedIn Prospect Strategy — Chrome agent ICP search + post engagers",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-004",
+      "name": "Unified Prospect Table — actp_prospects Supabase table with deduplication",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-005",
+      "name": "Prospect Scorer — platform-specific scoring models (0-100 scale)",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-006",
+      "name": "CRM Feed — push prospects with score ≥ 65 to CRMLite",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-007",
+      "name": "Acquisition Schedule (Cron) — daily prospect sweeps per platform",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "PAP-008",
+      "name": "Prospect Intelligence Loop — conversion feedback → scorer weight adjustment",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-PROSPECT-ACQUISITION-PIPELINE"
+    },
+    {
+      "id": "UAF-001",
+      "name": "Upwork Job Scanner — Safari action search_jobs with filter criteria",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-002",
+      "name": "Job Feasibility Scorer — Claude Haiku reviews job feasibility",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-003",
+      "name": "Autonomous Build Agent — agent_swarm.py builds project on Passport drive",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-004",
+      "name": "GitHub Push — create private repo + push project code",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-005",
+      "name": "Vercel Deploy — deploy to Vercel + verify preview URL",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-006",
+      "name": "Passport Drive Backup — save project to /Volumes/My Passport/client-projects/",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-007",
+      "name": "Telegram Approval Gate — inline keyboard for human approval",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-008",
+      "name": "Proposal Sender — Claude generates proposal + Safari submits",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-009",
+      "name": "Pipeline Cron — job scan (4h), build queue (1h), proposal check (daily)",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "UAF-010",
+      "name": "Won Job Workflow — deliver files + archive to Passport drive",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-UPWORK-AUTONOMOUS-FULFILLMENT"
+    },
+    {
+      "id": "SHD-001",
+      "name": "Failure Detection Bus — emit_failure() helper + actp_failure_events table",
+      "passes": true,
+      "status": "completed",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-002",
+      "name": "Failure Classifier — Claude Haiku classifies failure types",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-003",
+      "name": "Claude Code Repair Agent — spawn repair session via claude_launcher.py",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-004",
+      "name": "Docker Sandbox Testing — test fixes in throwaway containers",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-005",
+      "name": "Auto-Deploy Fixed Code — apply fix + restart service + commit to GitHub",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-006",
+      "name": "Escalation Protocol — 4-tier escalation ending in Telegram alert",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-007",
+      "name": "Long-Horizon Coding via GitHub Scaffolding — branch + PR workflow",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-008",
+      "name": "Skill Library (Reusable Fix Patterns) — actp_heal_patterns table",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
+    },
+    {
+      "id": "SHD-009",
+      "name": "Self-Healing Dashboard — add to autonomous.html with live failure feed",
+      "passes": false,
+      "status": "pending",
+      "prd": "PRD-SELF-HEALING-CLAUDE-CODE-DOCKER"
     }
   ]
 }
