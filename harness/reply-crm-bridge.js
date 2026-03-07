@@ -286,7 +286,7 @@ const PLATFORMS = [
     convUrl: (base) => `${base}/api/conversations`,
     msgUrl:  (base, id) => `${base}/api/messages?conversationId=${id}`,
     getSenderHandle: (conv) => conv.username || conv.handle || conv.participant_username || null,
-    isInbound: (msg) => msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
+    isInbound: (msg) => msg.isOutbound === false || msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
     getMsgText: (msg) => msg.text || msg.message || msg.body || '',
     getMsgId:   (msg) => msg.id || msg.message_id || '',
   },
@@ -297,7 +297,7 @@ const PLATFORMS = [
     convUrl: (base) => `${base}/api/twitter/conversations`,
     msgUrl:  (base, id) => `${base}/api/twitter/messages?conversationId=${id}`,
     getSenderHandle: (conv) => conv.username || conv.handle || conv.participant_username || null,
-    isInbound: (msg) => msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
+    isInbound: (msg) => msg.isOutbound === false || msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
     getMsgText: (msg) => msg.text || msg.message || msg.body || '',
     getMsgId:   (msg) => msg.id || msg.message_id || '',
   },
@@ -308,7 +308,7 @@ const PLATFORMS = [
     convUrl: (base) => `${base}/api/tiktok/conversations`,
     msgUrl:  (base, id) => `${base}/api/tiktok/messages?conversationId=${id}`,
     getSenderHandle: (conv) => conv.username || conv.handle || conv.participant_username || null,
-    isInbound: (msg) => msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
+    isInbound: (msg) => msg.isOutbound === false || msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
     getMsgText: (msg) => msg.text || msg.message || msg.body || '',
     getMsgId:   (msg) => msg.id || msg.message_id || '',
   },
@@ -319,7 +319,7 @@ const PLATFORMS = [
     convUrl: (base) => `${base}/api/linkedin/conversations`,
     msgUrl:  (base, id) => `${base}/api/linkedin/messages?conversationId=${id}`,
     getSenderHandle: (conv) => conv.username || conv.handle || conv.participant_username || conv.name || null,
-    isInbound: (msg) => msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
+    isInbound: (msg) => msg.isOutbound === false || msg.direction === 'inbound' || msg.from_them === true || msg.is_inbound === true,
     getMsgText: (msg) => msg.text || msg.message || msg.body || '',
     getMsgId:   (msg) => msg.id || msg.message_id || '',
   },
@@ -366,24 +366,26 @@ async function scanPlatform(platform, state, results) {
 
     // Fetch messages for this conversation
     const msgData = await apiGet(platform.msgUrl(base, convId), platform.token);
-    if (msgData.error) continue;
 
-    const msgs = Array.isArray(msgData)
-      ? msgData
-      : (msgData.messages || msgData.data || msgData.items || []);
+    let msgText = null;
+    if (!msgData.error) {
+      const msgs = Array.isArray(msgData)
+        ? msgData
+        : (msgData.messages || msgData.data || msgData.items || []);
 
-    // Find inbound messages newer than cursor
-    const inbound = msgs.filter(m => {
-      if (!platform.isInbound(m)) return false;
-      if (cursor && m.created_at) return m.created_at > cursor;
-      return true;
-    });
+      // Find inbound messages newer than cursor
+      const inbound = msgs.filter(m => {
+        if (!platform.isInbound(m)) return false;
+        if (cursor && m.created_at) return m.created_at > cursor;
+        return true;
+      });
 
-    if (!inbound.length) continue;
+      if (inbound.length) {
+        const latest = inbound[inbound.length - 1];
+        msgText = platform.getMsgText(latest);
+      }
+    }
 
-    // Take the most recent inbound message
-    const latest = inbound[inbound.length - 1];
-    const msgText = platform.getMsgText(latest);
     if (!msgText) continue;
 
     // Contact matcher

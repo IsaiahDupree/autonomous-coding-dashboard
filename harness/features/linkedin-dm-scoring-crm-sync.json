@@ -1,0 +1,67 @@
+{
+  "prd": "linkedin-dm-scoring-crm-sync",
+  "name": "Linkedin Dm Scoring Crm Sync",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "PASTE THIS INTO CLAUDE CODE",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "STEP 1 - Start LinkedIn server",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "STEP 2 - Read all prospect DM conversations",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "STEP 3 - Score each conversation with Claude Haiku",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "STEP 4 - Generate reply suggestions for HOT and WARM leads",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "STEP 5 - Sync everything to Supabase CRM",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "STEP 6 - Verify in Supabase (run via supabase-mcp or SQL)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "DATA FLOW",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "WHAT THE DB ENABLES AFTER SYNC",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "ENV VARS NEEDED",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

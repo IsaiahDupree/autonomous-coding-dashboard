@@ -1,0 +1,97 @@
+{
+  "prd": "agentlite-cloud-brain",
+  "name": "Agentlite Cloud Brain",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "What to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "1. Project Scaffold",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "2. Supabase Schema (new tables — apply on first run)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "3. Decision Engine (`lib/decision-engine.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "4. Booking Logic (`lib/booking.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "5. Result Processor (`api/cron/process-results/route.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "6. Main Orchestrate Cron (`api/cron/orchestrate/route.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "7. Manual Booking Endpoint (`api/book/route.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "8. Schedule View (`api/schedule/route.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "9. Metrics Snapshot (`api/metrics/route.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "10. Dashboard UI (`app/page.tsx`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "11. `vercel.json`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "12. Environment Variables",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

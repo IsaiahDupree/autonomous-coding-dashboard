@@ -1,0 +1,433 @@
+{
+  "runDate": "2026-03-07",
+  "totalContacted": 845,
+  "scoreDistribution": {
+    "70+": 2,
+    "50-70": 13,
+    "30-50": 9,
+    "15-30": 3,
+    "<15": 818
+  },
+  "top20": [
+    {
+      "display_name": "Brian Ritter, MBA, MS",
+      "headline": "Founder & Product Leader | AI-Driven SaaS & Data Platforms | 0→1 Execution",
+      "platform": "linkedin",
+      "score": 78,
+      "icp_verdict": "strong_fit",
+      "next_action": "Research current company and ARR to confirm $500K-$5M range; if confirmed, send personalized intro referencing AI-driven product experience and automation use cases."
+    },
+    {
+      "display_name": "Scott Burgess",
+      "headline": "Founder of Saasea — building a better way for SaaS founders to get help or advice.",
+      "platform": "linkedin",
+      "score": 72,
+      "icp_verdict": "strong_fit",
+      "next_action": "Research Saasea's current ARR and customer base to confirm revenue tier; personalize outreach around automating founder support workflows or internal operations."
+    },
+    {
+      "display_name": "F3 S.",
+      "headline": "MVP-to-Scale Mobile & SaaS | Founder @ F3 Software",
+      "platform": "linkedin",
+      "score": 72,
+      "icp_verdict": "strong_fit",
+      "next_action": "Research F3 Software's current ARR and product offering; craft personalized outreach highlighting AI agent workflows for scaling mobile SaaS operations."
+    },
+    {
+      "display_name": "Pavel Chuvak",
+      "headline": "Founder & CEO at Igniscor | Cross-Platform Mobile App Development from Idea to App Store | Flutter & .NET MAUI",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Eldar Miensutov",
+      "headline": "Cross-platform mobile app development with Flutter / CEO at dreambit LLC.",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Craig Mandeville",
+      "headline": "CEO | Tech Founder | Board Member | Advisor",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Adam Hokin",
+      "headline": "Product | Strategy | Business Modeling | Former Startup Founder | Software | Hardware | 9+ Years | Grew SaaS 203% and Hardware 119% YoY at global tech",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Kumar Pandian",
+      "headline": "CEO & Founder @ Smarther Tech | Trusted Web & Mobile app partner for Global startups | Since 2011 | 15+ yrs | 300 + projects l 12 Industry Experience",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Mike Daniel",
+      "headline": "Chief Marketing Officer | VP of Marketing | Founder and Operator | GTM, Growth, and Brand Leadership | SaaS, B2B, and Public Sector",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Wilton Blake",
+      "headline": "I help B2B SaaS teams find where deals die before the demo | Founder, DecisionVelocity",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Seth Blackburn",
+      "headline": "M&A/ SaaS Founder,",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Samantha Hipp",
+      "headline": "Brand Marketing, CRM & Customer Success Strategist | Founder, Sazzi Works — Retention, Lifecycle, Email & SMS, DTC & B2B SaaS",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Jeffrey Gabriel",
+      "headline": "Founder @ Saw.com | World Record-Breaking Domain Broker | SaaS Expert | ECommerce Expert",
+      "platform": "linkedin",
+      "score": 55,
+      "icp_verdict": "strong_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Anwesha Roy",
+      "headline": "Co-Founder at Groie | Product-First Growth for B2B SaaS | Positioning to Revenue | $275M ARR Supported",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": "Move to nurture or deprioritize; could revisit if Groie's client roster includes software founders in target ARR range who might benefit from AI agent solutions."
+    },
+    {
+      "display_name": "App Tertainer",
+      "headline": "Founder at AppTertainer",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Jonathan Dampier",
+      "headline": "Predictable Growth Systems for Founder-Led Companies",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Jasper Rietrae",
+      "headline": "Founder @ Appec | Mobile Apps | Creating platforms & products",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "KULDEEP TANWAR",
+      "headline": "Mobile App Specialist | We make A̶p̶p̶s̶ World's Best Apps | Founder @Arleven Studios",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Selimhan Çakır",
+      "headline": "Founder&CEO at MobileOcean",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": null
+    },
+    {
+      "display_name": "Bill Lake",
+      "headline": "Co-founder at HR Avatar, Inc.",
+      "platform": "linkedin",
+      "score": 35,
+      "icp_verdict": "weak_fit",
+      "next_action": null
+    }
+  ],
+  "antiIcp": [
+    {
+      "display_name": "Michelle Gardner",
+      "headline": "Senior Marketing Director at Appian Corporation",
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Mark Rader",
+      "headline": "Director of Content Marketing at Vyond",
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Keith Wayodi",
+      "headline": "Experienced Freelancer Specializing in Copywriting, Virtual Assistance, and Blogging – Ready to Elevate Your Projects!",
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Chris Cooper",
+      "headline": "Director, Content Marketing",
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Sumant Yerramilly",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Dean Cruse",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Tumblr",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Wayfair Outlet",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Reddit",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "FPL Communications",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Sabrina Ramonov 🍄",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Truist Alerts",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Curtis Correll",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Jamie • Business of Freelance",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Sarah E Ashley | Travel & Life",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Artcraft Visuals",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Test",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Violantic",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "CRM Sync Test",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Sarah E Ashley",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "jaz",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Lisa Koenn",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "SIREN St. Pete",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "salespecialistpro",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "𝖆𝖓𝖌𝖎🖤",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Ladders",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "cubic-dev-ai[bot]",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Adobe Firefly",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "AliExpress",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "TurboTax",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "TurboTax Customer Service",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "HighLevel",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Julian Goldie",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "CustomerPing Support",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Carley Lake",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Uriel Kluk",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Casie Abello",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Ryan Husk",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "AI Automation Agency Hub (Skool)",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Facebook",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "LaToya",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Miguel",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Thanks for supporting my page love ❤️ I’d love to inform you that I’m picking random from all my followers for a reading",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "🌐JustJono",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Sarah",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "nyc startup couple",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Insomnia Cookies",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Exafunction, Inc.",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "YouTube",
+      "headline": null,
+      "reason": "anti_icp"
+    },
+    {
+      "display_name": "Rumble",
+      "headline": null,
+      "reason": "anti_icp"
+    }
+  ],
+  "platformBreakdown": {
+    "linkedin": 362,
+    "unknown": 151,
+    "gmail": 110,
+    "instagram": 108,
+    "tiktok": 107,
+    "twitter": 7
+  }
+}

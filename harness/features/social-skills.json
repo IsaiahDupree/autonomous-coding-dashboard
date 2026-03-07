@@ -1,0 +1,61 @@
+{
+  "prd": "social-skills",
+  "name": "Social Skills",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Project",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Instructions",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "SKL-001: /safari-status skill",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "SKL-002: /social-inbox skill",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "SKL-003: /dm-campaign skill",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "SKL-004: /upwork-hunt skill",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "SKL-005: /social-research skill",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "SKL-006: /comment-sweep skill",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

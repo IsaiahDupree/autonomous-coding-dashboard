@@ -1,0 +1,85 @@
+{
+  "prd": "upwork-autonomous-builder",
+  "name": "Upwork Autonomous Builder",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Target Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "What to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Package Setup",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Upwork Job Discovery (`src/api/job-scraper.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Proposal Generator (`src/api/proposal-gen.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Supabase Schema",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Telegram Approval Gate (`src/api/telegram-gate.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "REST API Endpoints (port 3107)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Autonomous Scan Loop",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Test Suite (`tests/upwork-hunter.test.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Environment Variables Required",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

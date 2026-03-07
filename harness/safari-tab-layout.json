@@ -1,35 +1,35 @@
 {
-  "coordinatedAt": "2026-03-07T18:44:27.591Z",
+  "coordinatedAt": "2026-03-07T19:23:04.363Z",
   "platforms": [
     {
       "platform": "Instagram DM",
       "port": 3100,
       "up": true,
-      "tab": "w1t1",
-      "claimed": false,
-      "error": "Error: [SafariDriver] No 'instagram.com' tab found. Claim a tab via TabCoordinator before running automation."
+      "tab": "w2t1",
+      "claimed": true,
+      "error": null
     },
     {
       "platform": "Twitter DM",
       "port": 3003,
       "up": true,
-      "tab": "w1t2",
-      "claimed": false,
-      "error": "Error: [SafariDriver] No 'x.com' tab found. Claim a tab via TabCoordinator before running automation."
+      "tab": "w2t2",
+      "claimed": true,
+      "error": null
     },
     {
       "platform": "TikTok DM",
       "port": 3102,
       "up": true,
-      "tab": "w1t3",
-      "claimed": false,
-      "error": "all tabs claimed by other services"
+      "tab": "w2t3",
+      "claimed": true,
+      "error": null
     },
     {
       "platform": "LinkedIn DM",
       "port": 3105,
       "up": true,
-      "tab": "w2t2",
+      "tab": "w2t13",
       "claimed": true,
       "error": null
     },
@@ -37,40 +37,40 @@
       "platform": "Threads",
       "port": 3004,
       "up": true,
-      "tab": "w1t8",
-      "claimed": false,
-      "error": "Error: [SafariDriver] No 'threads.com' tab found. Claim a tab via TabCoordinator before running automation."
+      "tab": "w2t8",
+      "claimed": true,
+      "error": null
     }
   ],
   "tabMap": {
     "ig": {
       "windowIndex": 1,
-      "tabIndex": 1,
+      "tabIndex": 10,
       "url": "https://www.instagram.com/direct/inbox/",
       "found": true
     },
     "tw": {
       "windowIndex": 1,
-      "tabIndex": 2,
-      "url": "https://x.com/home",
+      "tabIndex": 8,
+      "url": "https://x.com/search?q=GPT-5%20strategy&src=typed_query",
       "found": true
     },
     "tt": {
       "windowIndex": 1,
-      "tabIndex": 3,
-      "url": "https://www.tiktok.com/@isaiah_dupree",
+      "tabIndex": 11,
+      "url": "https://www.tiktok.com/messages",
       "found": true
     },
     "li": {
       "windowIndex": 1,
-      "tabIndex": 13,
-      "url": "https://www.linkedin.com/search/results/people/?keywords=mobile%20app%20founder%20startup%20SaaS%20product-led%20growth",
+      "tabIndex": 2,
+      "url": "https://www.linkedin.com/search/results/people/?keywords=marketing%20automation%20startup%20growth&origin=FACETED_SEARCH&network=%5B%22S%22%5D",
       "found": true
     },
     "th": {
       "windowIndex": 1,
-      "tabIndex": 8,
-      "url": "https://www.threads.com/search?q=claude%20code&serp_type=tags",
+      "tabIndex": 12,
+      "url": "https://www.threads.com/",
       "found": true
     }
   }

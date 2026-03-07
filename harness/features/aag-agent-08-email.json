@@ -1,0 +1,127 @@
+{
+  "prd": "aag-agent-08-email",
+  "name": "Aag Agent 08 Email",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Mission",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Features to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Depends On",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Working Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Output Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "ResendClient",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Email Discovery Sources (priority order)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "1. LinkedIn Email Extract (AAG-124)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "2. Website Email Scraper (AAG-125)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "3. Pattern Guesser (AAG-126)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "4. Perplexity Email Search (AAG-127)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "5. Email Verifier (AAG-128)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "Email Generator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "HTML Template (base.html)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "Claude Prompts (3 touches, per PRD-027)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-016",
+      "name": "EmailAgent.send_pending()",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-017",
+      "name": "Resend Webhook Handler",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-018",
+      "name": "Unsubscribe Token (JWT)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-019",
+      "name": "SPAM Word Blacklist",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-020",
+      "name": "Tests Required",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

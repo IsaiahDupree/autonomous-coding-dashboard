@@ -1,0 +1,55 @@
+{
+  "prd": "acd-orchestration",
+  "name": "Acd Orchestration",
+  "priority": 5,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Project",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "ACD-ORC-001: acd_get_goals MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "ACD-ORC-002: acd_update_goals MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "ACD-ORC-003: acd_orchestrate MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "ACD-ORC-004 + ACD-ORC-005: /api/goals backend routes",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "ACD-ORC-006: Goals tab in dashboard UI",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "ACD-ORC-007: Orchestration tab in dashboard UI",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

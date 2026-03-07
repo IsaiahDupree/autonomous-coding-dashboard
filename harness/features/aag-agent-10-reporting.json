@@ -1,0 +1,121 @@
+{
+  "prd": "aag-agent-10-reporting",
+  "name": "Aag Agent 10 Reporting",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Mission",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Features to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Depends On",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Working Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Output Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "PipelineStatsCollector",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "ConversionCalculator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "VariantTracker",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "InsightGenerator — Claude",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "ReportFormatter",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Funnel This Week",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Pipeline Snapshot",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "Best Performing",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "Insights & Recommended Actions",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "Report Delivery",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-016",
+      "name": "Auto-Apply Insights (AAG-102)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-017",
+      "name": "API Routes",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-018",
+      "name": "CLI",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-019",
+      "name": "Tests Required",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

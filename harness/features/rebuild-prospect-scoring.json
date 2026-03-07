@@ -1,0 +1,25 @@
+{
+  "prd": "rebuild-prospect-scoring",
+  "name": "Rebuild Prospect Scoring",
+  "priority": 1,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Core implementation",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Integration and testing",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Documentation and deployment",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

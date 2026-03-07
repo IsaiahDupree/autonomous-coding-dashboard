@@ -1,0 +1,61 @@
+{
+  "prd": "upwork-mcp-improvements",
+  "name": "Upwork Mcp Improvements",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "UW-001: Add proposal template system",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "UW-002: Add job save/unsave + saved jobs list",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "UW-003: Add connects balance endpoint",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "UW-004: Add watch creation + deletion for job monitoring",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "UW-005: Add unread messages detection",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "UW-006: Add analytics summary endpoint",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "UW-007: Add rate-limit detection + navigation guard",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "UW-008: Add AI proposal improvement endpoint",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "BUILD",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

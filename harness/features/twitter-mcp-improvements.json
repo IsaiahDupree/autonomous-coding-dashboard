@@ -1,0 +1,55 @@
+{
+  "prd": "twitter-mcp-improvements",
+  "name": "Twitter Mcp Improvements",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "TW-001: Add POST /api/ai/generate + twitter_ai_generate_dm MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "TW-002: Add rate-limit / suspension UI detection",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "TW-003: Add conversation search GET /api/twitter/conversations/search",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "TW-004: Add tweet engagement tools (like, retweet, bookmark)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "TW-005: Add Supabase CRM logging for DM sends",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "TW-006: Add GET /api/twitter/profile/:handle endpoint + MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "TW-007: Add force flag to bypass active-hours check on send endpoints",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "BUILD",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

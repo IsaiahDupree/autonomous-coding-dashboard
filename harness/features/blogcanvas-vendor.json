@@ -1,0 +1,73 @@
+{
+  "prd": "blogcanvas-vendor",
+  "name": "Blogcanvas Vendor",
+  "priority": 6,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Project Location",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "PRD Reference",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Current Phase: MVP (Phase 1)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Priority Order",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Your First Tasks (in order):",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Tech Stack",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Key Existing Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Database Design Principles",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Component Style Guidelines",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Commands",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Session Goal",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

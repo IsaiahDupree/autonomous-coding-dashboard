@@ -1,0 +1,67 @@
+{
+  "prd": "linkedin-mcp-server-fixes",
+  "name": "Linkedin Mcp Server Fixes",
+  "priority": 2,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "PASTE THIS INTO CLAUDE CODE",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "FIX 1 -- Expose native click + screenshot endpoints (UNBLOCKS EVERYTHING)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "FIX 2 -- sendMessageToProfile: keep interop=msgOverlay, use native click",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "FIX 3 -- Remove broken section scoping from compose DOM search",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "FIX 4 -- Add new-message compose flow for first-contact DMs",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "FIX 5 -- Replace all wait(N) with waitForCondition()",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "FIX 6 -- Add force: true flag to bypass active-hours check",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "FIX 7 (BONUS) -- navigateViaGoogle() anti-bot helper",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "BUILD + TEST ALL FIXES",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "FILES TO MODIFY (summary)",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

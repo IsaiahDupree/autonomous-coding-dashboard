@@ -1,0 +1,61 @@
+{
+  "prd": "mplite",
+  "name": "Mplite",
+  "priority": 6,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Purpose",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Project Location",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Tech Stack",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Shared Supabase Database",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Existing Implementation",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Environment Variables",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Live URL",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Sibling Services (DO NOT REBUILD)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Critical Rules",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

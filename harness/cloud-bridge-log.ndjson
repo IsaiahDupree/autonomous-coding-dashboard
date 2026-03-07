@@ -45,3 +45,8 @@
 {"ts":"2026-03-07T18:48:08.781Z","msg":"Cron job Realtime subscription active — cloud triggers will relay to cron-manager"}
 {"ts":"2026-03-07T19:08:10.144Z","msg":"Fallback poll: found 1 pending commands"}
 {"ts":"2026-03-07T19:08:10.216Z","msg":"Rejected unknown command: instagram:prospect_discover","commandId":"b2827167-2899-4bd6-9f1f-e58549ee4915"}
+{"ts":"2026-03-07T19:24:11.581Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T19:24:11.666Z","msg":"Rejected unknown command: instagram:prospect_discover","commandId":"ca79ece3-5fe6-4b36-a497-cf6a409f7ce8"}
+{"ts":"2026-03-07T19:25:11.897Z","msg":"Fallback poll: found 2 pending commands"}
+{"ts":"2026-03-07T19:25:11.967Z","msg":"Rejected unknown command: instagram:conversations","commandId":"f0c2e10c-cc1d-4d08-bdda-6781f73f0e42"}
+{"ts":"2026-03-07T19:25:12.539Z","msg":"Failed: instagram:enrich","commandId":"bed85acf-8e53-4075-bfe5-b8aa0dbfb117"}

@@ -1,0 +1,91 @@
+{
+  "prd": "aag-agent-03-scoring",
+  "name": "Aag Agent 03 Scoring",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Mission",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Features to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Depends On",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Working Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Output Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "ScoringAgent Requirements",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Claude Scoring — Use Haiku (cost efficient)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "DEFAULT_SCORING_PROMPT",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Routing Logic",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Score History",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Batch Processing Strategy",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Re-scoring Stale Contacts",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "CLI Interface",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "Tests Required",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

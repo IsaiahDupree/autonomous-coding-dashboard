@@ -1,0 +1,91 @@
+{
+  "prd": "aag-agent-09-entity-resolution",
+  "name": "Aag Agent 09 Entity Resolution",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Mission",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Features to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Depends On",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Working Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Output Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "PerplexityClient",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "UsernameMatchEngine",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "BioLinkExtractor",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "AIDisambiguator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "EntityResolutionAgent.resolve()",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Resolution Score Calculator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "False Positive Protection",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "CLI",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "Tests Required",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "prd": "agent-calendar-email",
+  "name": "Agent Calendar Email",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Project",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Instructions",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "ACAL-001: Scaffold package + Google OAuth2 helper",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "ACAL-002: Google Calendar client module",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "ACAL-003: Gmail client module",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "ACAL-004: Agent planner module",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "ACAL-005: Google Calendar MCP server",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "ACAL-006: Gmail MCP server",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "ACAL-007: Progress reporter on session completion",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "ACAL-008: Windsurf skill file + README + MCP config snippets",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

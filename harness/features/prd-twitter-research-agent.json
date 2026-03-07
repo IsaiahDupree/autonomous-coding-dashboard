@@ -1,0 +1,103 @@
+{
+  "prd": "prd-twitter-research-agent",
+  "name": "Prd Twitter Research Agent",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Working Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Architecture",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Data Flow",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Existing Assets to Reuse",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Output Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Feature Specifications",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Feature 1: Trending Topic Scraper",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Feature 2: Multi-Topic Search Runner",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Feature 3: Research Synthesizer",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Feature 4: Report Formatter",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Feature 5: Supabase Migration",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Feature 6: Orchestrator Daemon",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "Feature 7: Launch Script + Watchdog",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "Feature 8: End-to-End Test",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "Key Constraints",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-016",
+      "name": "Do NOT do",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

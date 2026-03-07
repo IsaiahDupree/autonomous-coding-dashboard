@@ -1,0 +1,61 @@
+{
+  "prd": "ig-e2e-integration",
+  "name": "Ig E2e Integration",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Target Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "What to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "1. End-to-End Pipeline Test (`tests/ig-e2e-pipeline.test.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "2. Pipeline Orchestrator Endpoint (`POST /api/prospect/run-pipeline`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "3. Prospect Status Endpoint (`GET /api/prospect/pipeline-status`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "4. DM Auto-Scheduler (`POST /api/prospect/schedule-batch`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "5. Prospect Review CLI (`src/cli/prospect-review.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

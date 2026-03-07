@@ -1,0 +1,61 @@
+{
+  "prd": "bootstrap-skill-loader",
+  "name": "Bootstrap Skill Loader",
+  "priority": 5,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "PASTE THIS INTO CLAUDE CODE",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "STEP 1 - Read project foundation",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "STEP 2 - Discover all skill prompt files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "STEP 3 - Discover and load all MCPs",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "STEP 4 - Map available automation packages",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "STEP 5 - Load environment config",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "STEP 6 - Confirm readiness",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "QUICK VERSION (minimal paste)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "SKILL FILE INDEX (what each prompt does)",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "prd": "safari-tab-mgmt-dm",
+  "name": "Safari Tab Mgmt Dm",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Target Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Reference Implementation",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Package 1: twitter-dm (port 3003)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Changes needed in `packages/twitter-dm/src/api/server.ts`:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Package 2: tiktok-dm (port 3102)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Step 1: Copy tab-coordinator.ts",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Step 2: Add to `packages/tiktok-dm/src/api/server.ts`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Step 3: Add all tab + session management endpoints",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Step 4: Add global heartbeat interval (after app.listen)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Step 5: Per-operation tab claiming in TikTok DM send",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "twitter-dm (:3003)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "tiktok-dm (:3102)",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

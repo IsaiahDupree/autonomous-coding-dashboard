@@ -1,0 +1,151 @@
+{
+  "prd": "prd-observability-mesh",
+  "name": "Prd Observability Mesh",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Architecture",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "3 Planes",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Supabase Tables (apply via MCP migrations)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "1. `agent_nodes`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "2. `worker_status`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "3. `command_queue`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "4. `command_events`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "5. `browser_sessions`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "6. `agent_artifacts`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Files to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "1. `harness/migrations/20260307_observability_mesh.sql`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "2. `harness/local-agent-daemon.js`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "3. `harness/safari-worker-adapter.js`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "4. `harness/chrome-worker-adapter.js`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "5. `harness/observability-api.js`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-016",
+      "name": "6. `harness/cloud-bridge.js` (ENHANCE existing)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-017",
+      "name": "7. `harness/telegram-bot.js` (ENHANCE existing)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-018",
+      "name": "8. `harness/launch-observability.sh`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-019",
+      "name": "Data Flow (end-to-end)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-020",
+      "name": "Heartbeat Contract",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-021",
+      "name": "Command Types Reference",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-022",
+      "name": "Obsidian Write Rules",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-023",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-024",
+      "name": "Do NOT do",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

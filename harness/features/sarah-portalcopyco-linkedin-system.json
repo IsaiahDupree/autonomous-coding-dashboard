@@ -1,0 +1,49 @@
+{
+  "prd": "sarah-portalcopyco-linkedin-system",
+  "name": "Sarah Portalcopyco Linkedin System",
+  "priority": 4,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "CONTEXT (paste at session start)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "STEP 1 - Health check",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "STEP 2 - Create campaign",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "STEP 3 - Run prospecting pipeline (search + score + send connection requests)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "STEP 4 - Run outreach cycle (DMs + follow-ups for accepted connections)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "STEP 5 - Build tracking dashboard",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "STEP 6 - Sync to Supabase CRM",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

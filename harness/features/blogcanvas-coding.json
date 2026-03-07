@@ -1,0 +1,163 @@
+{
+  "prd": "blogcanvas-coding",
+  "name": "Blogcanvas Coding",
+  "priority": 6,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Project Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Session Startup (ALWAYS DO THIS FIRST)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Step 1: Orient Yourself",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Step 2: Read the PRD",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Step 3: Start Development Environment",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Step 4: Verify Application Works",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Working on Features",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Step 5: Choose Next Feature",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Step 6: Implement the Feature",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Step 7: Test the Feature",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Step 8: Update Status",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Step 9: Commit Your Work",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "Step 10: Update Progress File",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "BlogCanvas-Specific Priorities",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "🔴 Critical (Block Core Workflow)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-016",
+      "name": "🟡 High Priority",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-017",
+      "name": "🟢 Medium Priority",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-018",
+      "name": "Critical Rules",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-019",
+      "name": "DO NOT:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-020",
+      "name": "ALWAYS:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-021",
+      "name": "Environment Variables",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-022",
+      "name": "Recovery Procedures",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-023",
+      "name": "If npm run dev fails:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-024",
+      "name": "If database issues:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-025",
+      "name": "If feature is partially done:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-026",
+      "name": "Clean State Checklist",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

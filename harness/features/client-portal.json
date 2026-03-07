@@ -1,0 +1,31 @@
+{
+  "prd": "client-portal",
+  "name": "Client Portal",
+  "priority": 6,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "AUTONOMOUS MODE",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Project Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "AppKit Integration Reference",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Core Entities",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

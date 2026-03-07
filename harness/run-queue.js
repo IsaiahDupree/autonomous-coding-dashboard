@@ -38,6 +38,8 @@ let DRY_RUN = false;
 let HOURS_PER_REPO = null;
 let TOTAL_HOURS = null;
 let FORCE_REPO = null;
+let WORKER_SLOT = null;   // 0-based index of this worker
+let TOTAL_SLOTS = 1;      // total parallel workers
 let LOOP_MODE = false;
 let AUTO_COMMIT = true;
 let INTER_REPO_DELAY_SEC = 30;
@@ -416,10 +418,20 @@ async function runQueue() {
   }, 2 * 60 * 1000);
 
   // Sort repos by priority
-  const repos = queue.repos
+  const allRepos = queue.repos
     .filter(r => r.enabled !== false)
     .filter(r => !FORCE_REPO || r.id === FORCE_REPO)
     .sort((a, b) => (a.priority || 999) - (b.priority || 999));
+
+  // Parallel slot filtering: each worker takes every Nth incomplete repo
+  let repos = allRepos;
+  if (WORKER_SLOT !== null && TOTAL_SLOTS > 1) {
+    // Assign slots only to incomplete repos so workers stay busy
+    const incomplete = allRepos.filter(r => !isRepoComplete(r));
+    const slotted = new Set(incomplete.filter((_, i) => i % TOTAL_SLOTS === WORKER_SLOT).map(r => r.id));
+    repos = allRepos.filter(r => isRepoComplete(r) || slotted.has(r.id));
+    log(`Worker slot ${WORKER_SLOT}/${TOTAL_SLOTS}: handling ${slotted.size} of ${incomplete.length} incomplete repos`, 'info');
+  }
 
   if (repos.length === 0) {
     log('No enabled repos in queue', 'warning');
@@ -458,20 +470,16 @@ async function runQueue() {
     log(`Processing: ${repo.name} (Priority ${repo.priority || '?'})`, 'next');
     log(`${'='.repeat(60)}`, 'info');
 
-    // Generate features if needed
+    // Generate features if needed (best-effort — harness initializer will create list if this fails)
     if (GENERATE_FEATURES) {
-      const generated = await generateFeaturesForRepo(repo);
-      if (!generated && !fs.existsSync(repo.featureList)) {
-        log(`Skipping ${repo.name} - no feature list available`, 'skip');
-        continue;
-      }
+      await generateFeaturesForRepo(repo);
     }
-
-    // Check if feature list exists
-    if (!fs.existsSync(repo.featureList)) {
-      log(`Skipping ${repo.name} - no feature list found at ${repo.featureList}`, 'skip');
+    // If no feature list and no PRD, nothing to do
+    if (!fs.existsSync(repo.featureList) && !repo.prd) {
+      log(`Skipping ${repo.name} - no feature list and no PRD`, 'skip');
       continue;
     }
+    // Otherwise let the harness initializer create the feature list on first run
 
     status.currentRepo = repo.id;
     status.lastUpdated = new Date().toISOString();
@@ -613,6 +621,11 @@ QUEUE_FILE = getArgValue('--queue') || QUEUE_FILE;
 GENERATE_FEATURES = args.includes('--generate');
 DRY_RUN = args.includes('--dry-run');
 FORCE_REPO = getArgValue('--repo');
+
+const slotArg = getArgValue('--slot');
+const totalSlotsArg = getArgValue('--total-slots');
+if (slotArg !== null) WORKER_SLOT = parseInt(slotArg, 10);
+if (totalSlotsArg !== null) TOTAL_SLOTS = parseInt(totalSlotsArg, 10);
 
 const totalHours = getArgValue('--hours');
 if (totalHours) TOTAL_HOURS = parseFloat(totalHours);

@@ -858,7 +858,7 @@
     "source": "safari",
     "priority_score": 71,
     "auto_approved_at": "2026-03-06T20:48:53.976Z",
-    "connection_error": "page.evaluate: Execution context was destroyed, most likely because of a navigation"
+    "connection_error": "elementHandle.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    57 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
   },
   {
     "id": "li-1772691429954-gprwt",
@@ -1235,7 +1235,7 @@
     "source": "safari",
     "priority_score": 71,
     "auto_approved_at": "2026-03-06T20:48:53.976Z",
-    "connection_error": "send_button_not_found"
+    "connection_error": "connect_button_not_found"
   },
   {
     "id": "li-1772695138158-wzjuu",

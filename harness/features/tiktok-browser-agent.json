@@ -1,0 +1,79 @@
+{
+  "prd": "tiktok-browser-agent",
+  "name": "Tiktok Browser Agent",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Target Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "What to Build",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Package Setup",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "REST API Endpoints (port 3102)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "ICP Scoring (adapting Instagram scoring for TikTok)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Safari DOM Scraping Patterns",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Rate Limiting",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Test Suite (`tests/tiktok-dm.test.ts`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Integration with CRMLite",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "package.json scripts",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

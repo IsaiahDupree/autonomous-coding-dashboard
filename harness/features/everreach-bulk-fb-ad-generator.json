@@ -1,0 +1,37 @@
+{
+  "prd": "everreach-bulk-fb-ad-generator",
+  "name": "Everreach Bulk Fb Ad Generator",
+  "priority": 5,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Ready-to-paste Claude Code prompt (all placeholders filled)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "PASTE THIS INTO CLAUDE CODE",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "ANSWERS TO THE THREE QUESTIONS",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "OUTPUT FILE LOCATIONS",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "EXISTING ASSETS IN THIS PROJECT TO REFERENCE",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

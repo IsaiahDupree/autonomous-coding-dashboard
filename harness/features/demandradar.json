@@ -1,0 +1,599 @@
+{
+  "prd": "demandradar",
+  "name": "DemandRadar",
+  "priority": 1,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Report Detail Page Structure",
+      "description": "Main report page at /dashboard/reports/[id] with lazy-loaded sections",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/page.tsx", "src/app/dashboard/reports/[id]/loading.tsx"]
+    },
+    {
+      "id": "F-002",
+      "name": "Report Header Component",
+      "description": "Report title, date, and export buttons in header",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ReportHeader.tsx"]
+    },
+    {
+      "id": "F-003",
+      "name": "Report Navigation Component",
+      "description": "Tab navigation between 9 report sections",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ReportNav.tsx"]
+    },
+    {
+      "id": "F-004",
+      "name": "Executive Summary - All 6 Scores Display",
+      "description": "Display saturation, longevity, dissatisfaction, misalignment, opportunity, confidence scores with visual indicators",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ExecutiveSummary.tsx"]
+    },
+    {
+      "id": "F-005",
+      "name": "Executive Summary - Top 3 Gaps",
+      "description": "Show top 3 gap opportunities ranked by score",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ExecutiveSummary.tsx"]
+    },
+    {
+      "id": "F-006",
+      "name": "Executive Summary - Primary Recommendation",
+      "description": "AI-generated primary recommendation based on scores",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ExecutiveSummary.tsx"]
+    },
+    {
+      "id": "F-007",
+      "name": "Executive Summary - Data Collection Summary",
+      "description": "Show total ads, mentions, gaps, concepts analyzed",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ExecutiveSummary.tsx"]
+    },
+    {
+      "id": "F-008",
+      "name": "Market Snapshot Component",
+      "description": "Table of top advertisers, common angles chart, ad longevity stats",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/MarketSnapshot.tsx"]
+    },
+    {
+      "id": "F-009",
+      "name": "Pain Map Component",
+      "description": "Heatmap/visualization of objection clusters and feature requests from Reddit",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/PainMap.tsx"]
+    },
+    {
+      "id": "F-010",
+      "name": "Platform Gap Component",
+      "description": "iOS/Android/Web competitor presence analysis",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/PlatformGap.tsx"]
+    },
+    {
+      "id": "F-011",
+      "name": "Gap Opportunities Component",
+      "description": "Ranked list of all market gaps with type badges, evidence, recommendations",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/GapOpportunities.tsx"]
+    },
+    {
+      "id": "F-012",
+      "name": "Economics Component",
+      "description": "CPC/CAC/TAM estimates with ranges for each concept",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/Economics.tsx"]
+    },
+    {
+      "id": "F-013",
+      "name": "Buildability Component",
+      "description": "Implementation difficulty, human touch level, autonomous suitability scores",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/Buildability.tsx"]
+    },
+    {
+      "id": "F-014",
+      "name": "UGC Pack Component",
+      "description": "10 hooks, 5 scripts, 6 shot lists, 5 angle mappings with copy-to-clipboard",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/UGCPack.tsx"]
+    },
+    {
+      "id": "F-015",
+      "name": "Action Plan Component",
+      "description": "7-day quick start and 30-day detailed action plans",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/components/ActionPlan.tsx"]
+    },
+    {
+      "id": "F-016",
+      "name": "Report Data API Endpoint",
+      "description": "GET /api/reports/[runId] aggregates all run data into report format",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/api/reports/[runId]/route.ts"]
+    },
+    {
+      "id": "F-017",
+      "name": "Report Loading States",
+      "description": "Skeleton UI and lazy-loading for heavy components",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/page.tsx", "src/app/dashboard/reports/[id]/loading.tsx"]
+    },
+    {
+      "id": "F-018",
+      "name": "Report Error Handling",
+      "description": "Graceful error states when report fetch fails",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/reports/[id]/page.tsx"]
+    },
+    {
+      "id": "F-019",
+      "name": "PDF Report Export",
+      "description": "Generate and download PDF version of report using @react-pdf/renderer",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/lib/report-generator.ts", "src/app/api/reports/[id]/pdf/route.ts"]
+    },
+    {
+      "id": "F-020",
+      "name": "CSV Export Endpoint",
+      "description": "Export raw data as CSV format",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/api/exports/[runId]/route.ts"]
+    },
+    {
+      "id": "F-021",
+      "name": "JSON Export Endpoint",
+      "description": "Export raw data as JSON format",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/api/exports/[runId]/route.ts"]
+    },
+    {
+      "id": "F-022",
+      "name": "Meta Ads Library Collector",
+      "description": "Collect ads from Meta Ad Library via API and browser scraper",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/collectors/meta.ts", "src/lib/collectors/ad-library-scraper.ts"]
+    },
+    {
+      "id": "F-023",
+      "name": "Google Ads Collector",
+      "description": "Collect ads from Google Ads Transparency via SerpAPI",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/collectors/google.ts"]
+    },
+    {
+      "id": "F-024",
+      "name": "Reddit Mentions Collector",
+      "description": "Collect Reddit posts and comments via public JSON API",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/collectors/reddit.ts"]
+    },
+    {
+      "id": "F-025",
+      "name": "iOS App Store Collector",
+      "description": "Search iOS App Store via iTunes API",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/collectors/appstore.ts"]
+    },
+    {
+      "id": "F-026",
+      "name": "Android Play Store Collector",
+      "description": "Search Android Play Store via SerpAPI",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/lib/collectors/appstore.ts"]
+    },
+    {
+      "id": "F-027",
+      "name": "TikTok UGC Collector",
+      "description": "Collect TikTok videos via RapidAPI",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/collectors/tiktok.ts", "src/lib/collectors/ugc.ts"]
+    },
+    {
+      "id": "F-028",
+      "name": "Instagram UGC Collector",
+      "description": "Collect Instagram posts via RapidAPI",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/collectors/instagram.ts", "src/lib/collectors/ugc.ts"]
+    },
+    {
+      "id": "F-029",
+      "name": "Google Ads Integration into Pipeline",
+      "description": "Integrate Google Ads collector into main execution pipeline",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/app/api/runs/[id]/execute/route.ts"]
+    },
+    {
+      "id": "F-030",
+      "name": "UGC Integration into Pipeline",
+      "description": "Integrate TikTok and Instagram collectors into pipeline",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/app/api/runs/[id]/execute/route.ts"]
+    },
+    {
+      "id": "F-031",
+      "name": "AI Insight Extraction",
+      "description": "Extract offers, claims, angles, objections, features, sentiment using GPT-4o-mini",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/ai/extractor.ts"]
+    },
+    {
+      "id": "F-032",
+      "name": "AI Clustering",
+      "description": "Cluster similar angles, objections, features, offers",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/ai/extractor.ts"]
+    },
+    {
+      "id": "F-033",
+      "name": "AI Gap Generation",
+      "description": "Identify market gaps with evidence linking and scoring",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/ai/gap-generator.ts"]
+    },
+    {
+      "id": "F-034",
+      "name": "AI Concept Generation",
+      "description": "Generate 2-3 product ideas with platform recommendations and MVP specs",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/ai/concept-generator.ts"]
+    },
+    {
+      "id": "F-035",
+      "name": "AI UGC Recommendations",
+      "description": "Generate hooks, scripts, shot lists, angle mappings",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/ai/ugc-generator.ts"]
+    },
+    {
+      "id": "F-036",
+      "name": "AI Action Plan Generator",
+      "description": "Generate 7-day and 30-day action plans based on analysis",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/lib/ai/action-plan.ts"]
+    },
+    {
+      "id": "F-037",
+      "name": "Ad Saturation Score",
+      "description": "Calculate market saturation based on ad count and advertiser diversity",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-038",
+      "name": "Longevity Signal Score",
+      "description": "Calculate ad longevity to measure market health",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-039",
+      "name": "Reddit Dissatisfaction Score",
+      "description": "Calculate user dissatisfaction from Reddit sentiment",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-040",
+      "name": "Misalignment Score",
+      "description": "Calculate gap between user needs and current solutions",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-041",
+      "name": "Opportunity Score",
+      "description": "Calculate overall market opportunity from all factors",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-042",
+      "name": "Confidence Score",
+      "description": "Calculate analysis confidence based on data quality",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-043",
+      "name": "Build-to-Profit Score",
+      "description": "Calculate ROI potential: (TAM × GM × Prob) / (Dev Cost + Marketing Cost)",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-044",
+      "name": "UGC Scores (Ad-Tested, Trend, Connected)",
+      "description": "Calculate UGC pattern effectiveness scores",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/scoring.ts"]
+    },
+    {
+      "id": "F-045",
+      "name": "Database Schema - 16 Tables",
+      "description": "All 16 tables with RLS policies",
+      "passes": true,
+      "status": "completed",
+      "files": ["supabase/migrations/20260116000000_initial_schema.sql"]
+    },
+    {
+      "id": "F-046",
+      "name": "Main Pipeline Execution API",
+      "description": "POST /api/runs/[id]/execute runs full data collection and analysis",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/api/runs/[id]/execute/route.ts"]
+    },
+    {
+      "id": "F-047",
+      "name": "Auth - Email/Password Signup",
+      "description": "User signup with Supabase Auth",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/signup/page.tsx"]
+    },
+    {
+      "id": "F-048",
+      "name": "Auth - Email/Password Login",
+      "description": "User login with Supabase Auth",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/login/page.tsx"]
+    },
+    {
+      "id": "F-049",
+      "name": "Auth - Protected Routes Middleware",
+      "description": "Middleware to protect dashboard routes",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/lib/supabase/middleware.ts"]
+    },
+    {
+      "id": "F-050",
+      "name": "Stripe Checkout Integration",
+      "description": "Stripe checkout session creation",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/api/checkout/route.ts", "src/lib/stripe.ts"]
+    },
+    {
+      "id": "F-051",
+      "name": "Stripe Webhook Handler",
+      "description": "Handle Stripe payment webhooks",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/api/webhooks/stripe/route.ts"]
+    },
+    {
+      "id": "F-052",
+      "name": "Dashboard - Landing Page",
+      "description": "Public landing page with pricing",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/page.tsx"]
+    },
+    {
+      "id": "F-053",
+      "name": "Dashboard - Home",
+      "description": "Dashboard home with stats overview",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/page.tsx"]
+    },
+    {
+      "id": "F-054",
+      "name": "Dashboard - New Run Form",
+      "description": "Form to create new analysis run",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/new-run/page.tsx"]
+    },
+    {
+      "id": "F-055",
+      "name": "Dashboard - Runs List",
+      "description": "List all runs with status",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/runs/page.tsx"]
+    },
+    {
+      "id": "F-056",
+      "name": "Dashboard - Gaps Viewer",
+      "description": "Browse all identified gaps",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/gaps/page.tsx"]
+    },
+    {
+      "id": "F-057",
+      "name": "Dashboard - Ideas Viewer",
+      "description": "Browse all concept ideas",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/ideas/page.tsx"]
+    },
+    {
+      "id": "F-058",
+      "name": "Dashboard - UGC Viewer",
+      "description": "Browse UGC recommendations",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/ugc/page.tsx"]
+    },
+    {
+      "id": "F-059",
+      "name": "Dashboard - Settings",
+      "description": "User settings and preferences",
+      "passes": true,
+      "status": "completed",
+      "files": ["src/app/dashboard/settings/page.tsx"]
+    },
+    {
+      "id": "F-060",
+      "name": "Real-time Run Progress UI",
+      "description": "Live progress indicator with polling or Supabase Realtime",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/components/RunProgress.tsx", "src/hooks/use-run-status.ts"]
+    },
+    {
+      "id": "F-061",
+      "name": "Mobile Responsive Polish",
+      "description": "Ensure all dashboard pages work on mobile (375px+)",
+      "passes": false,
+      "status": "pending",
+      "files": ["src/app/dashboard/**/page.tsx"]
+    },
+    {
+      "id": "F-062",
+      "name": "Collector Unit Tests",
+      "description": "Unit tests for all data collectors (Meta, Google, Reddit, App Store, UGC)",
+      "passes": false,
+      "status": "pending",
+      "files": ["__tests__/lib/collectors/*.test.ts"]
+    },
+    {
+      "id": "F-063",
+      "name": "AI Module Unit Tests",
+      "description": "Unit tests for AI processing modules (extractor, gap gen, concept gen, UGC gen)",
+      "passes": false,
+      "status": "pending",
+      "files": ["__tests__/lib/ai/*.test.ts"]
+    },
+    {
+      "id": "F-064",
+      "name": "API Integration Tests",
+      "description": "Integration tests for API routes",
+      "passes": false,
+      "status": "pending",
+      "files": ["__tests__/integration/api/*.test.ts"]
+    },
+    {
+      "id": "F-065",
+      "name": "E2E Tests Setup",
+      "description": "Playwright E2E tests for critical flows (auth, new run, report viewing)",
+      "passes": false,
+      "status": "pending",
+      "files": ["e2e/*.spec.ts", "playwright.config.ts"]
+    },
+    {
+      "id": "F-066",
+      "name": "Accessibility E2E Tests (Axe)",
+      "description": "Playwright accessibility scans using @axe-core/playwright",
+      "passes": false,
+      "status": "pending",
+      "files": ["e2e/accessibility.spec.ts"]
+    },
+    {
+      "id": "F-067",
+      "name": "Production Smoke Diagnostics",
+      "description": "E2E tests that can run against production to detect issues",
+      "passes": false,
+      "status": "pending",
+      "files": ["e2e/production-diagnostics.spec.ts"]
+    },
+    {
+      "id": "F-068",
+      "name": "Resilience & Error Handling E2E",
+      "description": "Tests for offline mode, API failures, 404/error boundaries",
+      "passes": false,
+      "status": "pending",
+      "files": ["e2e/error-handling.spec.ts"]
+    },
+    {
+      "id": "F-069",
+      "name": "Cross-Browser + Mobile E2E Matrix",
+      "description": "Run critical flows across chromium/firefox/webkit + mobile",
+      "passes": false,
+      "status": "pending",
+      "files": ["e2e/smoke-matrix.spec.ts", "playwright.config.ts"]
+    },
+    {
+      "id": "F-070",
+      "name": "Production Supabase Setup",
+      "description": "Create production Supabase project, run migrations, configure RLS",
+      "passes": false,
+      "status": "pending",
+      "files": []
+    },
+    {
+      "id": "F-071",
+      "name": "Vercel Deployment",
+      "description": "Deploy to Vercel with environment variables",
+      "passes": false,
+      "status": "pending",
+      "files": []
+    },
+    {
+      "id": "F-072",
+      "name": "Domain Configuration (demandradar.app)",
+      "description": "Configure custom domain and SSL",
+      "passes": false,
+      "status": "pending",
+      "files": []
+    },
+    {
+      "id": "F-073",
+      "name": "Stripe Production Configuration",
+      "description": "Switch to live Stripe keys and test payment flow",
+      "passes": false,
+      "status": "pending",
+      "files": []
+    },
+    {
+      "id": "F-074",
+      "name": "Error Monitoring (Sentry)",
+      "description": "Set up Sentry for production error tracking",
+      "passes": false,
+      "status": "pending",
+      "files": []
+    }
+  ]
+}

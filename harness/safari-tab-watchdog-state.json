@@ -1,32 +1,32 @@
 {
-  "checkCount": 47,
+  "checkCount": 53,
   "recoveryCount": 0,
   "lastRecoveryAt": null,
   "platformStatus": {
     "ig": {
-      "ok": true,
-      "reason": "ok",
-      "checkedAt": "2026-03-07T19:09:45.064Z"
+      "ok": false,
+      "reason": "service_error",
+      "checkedAt": "2026-03-07T19:27:44.945Z"
     },
     "tw": {
       "ok": true,
       "reason": "ok",
-      "checkedAt": "2026-03-07T19:09:45.064Z"
+      "checkedAt": "2026-03-07T19:27:44.945Z"
     },
     "tt": {
       "ok": true,
       "reason": "ok",
-      "checkedAt": "2026-03-07T19:09:45.064Z"
+      "checkedAt": "2026-03-07T19:27:44.945Z"
     },
     "li": {
       "ok": true,
       "reason": "ok",
-      "checkedAt": "2026-03-07T19:09:45.064Z"
+      "checkedAt": "2026-03-07T19:27:44.945Z"
     },
     "th": {
       "ok": true,
       "reason": "ok",
-      "checkedAt": "2026-03-07T19:09:45.064Z"
+      "checkedAt": "2026-03-07T19:27:44.945Z"
     }
   }
 }

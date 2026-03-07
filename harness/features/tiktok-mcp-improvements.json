@@ -1,0 +1,55 @@
+{
+  "prd": "tiktok-mcp-improvements",
+  "name": "Tiktok Mcp Improvements",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "TK-001: Add GET /api/tiktok/conversations/unread + tiktok_get_unread MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "TK-002: Add POST /api/tiktok/ai/generate + tiktok_ai_generate_dm MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "TK-003: Rate-limit UI detection before sends",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "TK-004: Add GET /api/tiktok/profile/:username + tiktok_get_profile MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "TK-005: Add trending videos endpoint via comments service (port 3006)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "TK-006: Supabase CRM logging for DM sends",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "TK-007: Add force flag to bypass active-hours on send",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "BUILD",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

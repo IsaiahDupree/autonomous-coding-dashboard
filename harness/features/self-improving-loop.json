@@ -1,0 +1,145 @@
+{
+  "prd": "self-improving-loop",
+  "name": "Self Improving Loop",
+  "priority": 2,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Files to Create",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "1. `performance_tracker.py`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Class: `PerformanceTracker`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "`compute_metrics()` — query Supabase:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "`detect_decline()` — threshold rules:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "`record_snapshot()`:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "`send_alert()`:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Called from `heartbeat_agent.py`:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "2. `template_ab_tester.py`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Thompson Sampling for DM template selection",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Supabase table: `actp_dm_templates`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "`select_template()` — Thompson Sampling:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-014",
+      "name": "`record_send()` / `record_reply()`:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-015",
+      "name": "3. `self_heal_dispatcher.py`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-016",
+      "name": "Auto-trigger ACD rebuild when metrics are bad for N consecutive days",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-017",
+      "name": "Logic:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-018",
+      "name": "Launching ACD harness:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-019",
+      "name": "Auto-generated PRD for `rebuild_templates`:",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-020",
+      "name": "4. Test Suite",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-021",
+      "name": "`tests/test_performance_tracker.py`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-022",
+      "name": "`tests/test_template_ab_tester.py`",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-023",
+      "name": "Acceptance Criteria",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "prd": "multi-agent-dispatch",
+  "name": "Multi Agent Dispatch",
+  "priority": 5,
+  "features": [
+    {
+      "id": "PROS-004",
+      "name": "Research trigger: score >= 65 → Claude brief → actp_prospect_scores.research_data",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "OUTR-004",
+      "name": "Claude-generated personalized DM for decision-stage contacts",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "OUTR-005",
+      "name": "--send dispatches via Safari DM services (Instagram:3100, Twitter:3003)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "DISP-004",
+      "name": "--all runs all 9 domains + sends Telegram summary",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "ABTS-005",
+      "name": "Telegram alert when A/B test winner declared",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "TRND-005",
+      "name": "Telegram alert when 3+ cross-platform trends detected",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "CRTR-003",
+      "name": "Qualified creators seeded to crm_contacts",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "REMO-004",
+      "name": "distribute_to_platforms with blotato_multi_publish workflow task",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "CMIX-003",
+      "name": "Content gap → auto-trigger Remotion pipeline",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "SCHD-002",
+      "name": "Thompson Sampling slots initialization in actp_posting_schedule",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "SCHD-003",
+      "name": "Saturation detection + Telegram alert",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "ABTS-006",
+      "name": "Feed winning hooks back to actp_niche_resonance",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "E2E-006",
+      "name": "Register 9 agents in service_registry.py",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

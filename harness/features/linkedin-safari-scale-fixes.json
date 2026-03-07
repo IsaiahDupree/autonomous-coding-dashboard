@@ -1,0 +1,61 @@
+{
+  "prd": "linkedin-safari-scale-fixes",
+  "name": "Linkedin Safari Scale Fixes",
+  "priority": 2,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Project",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Instructions",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "LS-001: Multi-tab SafariDriver + Playwright integration for parallel scraping",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "LS-002: MutationObserver DOM change detection replacing fixed sleep polls",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "LS-003: Semantic selector system with health-check endpoint on startup",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "LS-004: Background reply watcher with Supabase webhook",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "LS-005: Hybrid clipboard + character-by-character keystroke fallback for typing",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "LS-006: Session health heartbeat monitor with Supabase flag + console alert",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

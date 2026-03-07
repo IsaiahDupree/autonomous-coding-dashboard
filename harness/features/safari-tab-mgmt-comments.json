@@ -1,0 +1,67 @@
+{
+  "prd": "safari-tab-mgmt-comments",
+  "name": "Safari Tab Mgmt Comments",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Context",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Target Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Reference Implementation",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Per-Package Details",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "1. instagram-comments (:3005)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "2. twitter-comments (:3007)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "3. threads-comments (:3004)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "4. linkedin-automation (:3105)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "5. market-research (:3106)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Acceptance Criteria (all 5 packages)",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

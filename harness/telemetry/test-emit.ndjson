@@ -1,0 +1,6 @@
+{"ts":"2026-03-07T19:28:12.239Z","slug":"test-emit","event":"session_start"}
+{"ts":"2026-03-07T19:28:12.242Z","slug":"test-emit","event":"session_start"}
+{"ts":"2026-03-07T19:28:12.243Z","slug":"test-emit","event":"session_start"}
+{"ts":"2026-03-07T19:28:12.243Z","slug":"test-emit","event":"feature_passed"}
+{"ts":"2026-03-07T19:28:12.244Z","slug":"test-emit","event":"tool_call","tool":"Read","duration_ms":42}
+{"ts":"2026-03-07T19:28:12.244Z","slug":"test-emit","event":"session_end"}

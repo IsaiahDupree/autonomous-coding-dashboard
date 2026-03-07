@@ -1,0 +1,67 @@
+{
+  "prd": "meta-ads-rule-engine",
+  "name": "Meta Ads Rule Engine",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Mission",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Working Directory",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Output Files",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Config Requirements (add to `config.py`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Supabase Tables (already migrated — project: ivhfuhxorppptyuofbgq)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Full Implementation",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "MetaAdsExecutor (add to `workflow_executors.py`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Cron Entry (add to `cron_definitions.py`)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Tests Required",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "First Run Checklist",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

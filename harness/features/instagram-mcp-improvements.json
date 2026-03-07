@@ -1,0 +1,61 @@
+{
+  "prd": "instagram-mcp-improvements",
+  "name": "Instagram Mcp Improvements",
+  "priority": 3,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "IG-001: Expose AI DM endpoint POST /api/ai/generate",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "IG-002: Add GET /api/conversations/unread + instagram_get_unread MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "IG-003: Add message timestamps to readMessages()",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "IG-004: Rate-limit UI detection before sends",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "IG-005: Accept/decline message requests",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "IG-006: Conversation scroll/pagination",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "IG-007: Supabase CRM logging for DM sends",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "IG-008: GET /api/profile/:username + instagram_get_profile MCP tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "BUILD",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

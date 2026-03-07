@@ -101,7 +101,8 @@
         "supabase",
         "blotato",
         "mplite"
-      ]
+      ],
+      "prd": "prompts/content-intelligence-system.md"
     },
     {
       "id": "crmlite-mcp",
@@ -118,7 +119,8 @@
         "mcp",
         "crmlite",
         "infrastructure"
-      ]
+      ],
+      "prd": "prompts/crmlite-mcp.md"
     },
     {
       "id": "social-mcp",
@@ -136,7 +138,8 @@
         "safari",
         "social",
         "infrastructure"
-      ]
+      ],
+      "prd": "prompts/social-mcp.md"
     },
     {
       "id": "analytics-mcp",
@@ -153,7 +156,8 @@
         "mcp",
         "analytics",
         "infrastructure"
-      ]
+      ],
+      "prd": "prompts/analytics-mcp.md"
     },
     {
       "id": "memory-mcp",
@@ -170,7 +174,8 @@
         "mcp",
         "memory",
         "infrastructure"
-      ]
+      ],
+      "prd": "prompts/memory-mcp.md"
     },
     {
       "id": "mplite-mcp",
@@ -188,7 +193,8 @@
         "mplite",
         "publishing",
         "infrastructure"
-      ]
+      ],
+      "prd": "prompts/mplite-mcp.md"
     },
     {
       "id": "campaigns-mcp",
@@ -206,7 +212,8 @@
         "campaigns",
         "creatives",
         "infrastructure"
-      ]
+      ],
+      "prd": "prompts/campaigns-mcp.md"
     },
     {
       "id": "prd051-clawbot-mcp-mesh",
@@ -228,7 +235,8 @@
         "telegram",
         "infrastructure",
         "prd051"
-      ]
+      ],
+      "prd": "prompts/prd051-clawbot-mcp-mesh.md"
     },
     {
       "id": "aag-01-foundation",
@@ -246,7 +254,8 @@
         "acquisition",
         "foundation",
         "database"
-      ]
+      ],
+      "prd": "prompts/aag-agent-01-foundation.md"
     },
     {
       "id": "aag-02-discovery",
@@ -263,7 +272,8 @@
         "aag",
         "acquisition",
         "discovery"
-      ]
+      ],
+      "prd": "prompts/aag-agent-02-discovery.md"
     },
     {
       "id": "aag-03-scoring",
@@ -280,7 +290,8 @@
         "aag",
         "acquisition",
         "scoring"
-      ]
+      ],
+      "prd": "prompts/aag-agent-03-scoring.md"
     },
     {
       "id": "aag-04-warmup",
@@ -297,7 +308,8 @@
         "aag",
         "acquisition",
         "warmup"
-      ]
+      ],
+      "prd": "prompts/aag-agent-04-warmup.md"
     },
     {
       "id": "aag-05-outreach",
@@ -314,7 +326,8 @@
         "aag",
         "acquisition",
         "outreach"
-      ]
+      ],
+      "prd": "prompts/aag-agent-05-outreach.md"
     },
     {
       "id": "aag-06-followup",
@@ -331,7 +344,8 @@
         "aag",
         "acquisition",
         "followup"
-      ]
+      ],
+      "prd": "prompts/aag-agent-06-followup.md"
     },
     {
       "id": "prd-105-renderer-volume-engine",
@@ -351,7 +365,8 @@
         "actp-worker",
         "volume",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-105-renderer-volume-engine.md"
     },
     {
       "id": "aag-07-orchestrator",
@@ -368,7 +383,8 @@
         "aag",
         "acquisition",
         "orchestrator"
-      ]
+      ],
+      "prd": "prompts/aag-agent-07-orchestrator.md"
     },
     {
       "id": "prd-106-hookgate-integration",
@@ -388,7 +404,8 @@
         "actp-worker",
         "hooklite",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-106-hookgate-integration.md"
     },
     {
       "id": "aag-08-email",
@@ -406,7 +423,8 @@
         "acquisition",
         "email",
         "resend"
-      ]
+      ],
+      "prd": "prompts/aag-agent-08-email.md"
     },
     {
       "id": "prd-107-crossplatform-adaptation",
@@ -426,7 +444,8 @@
         "actp-worker",
         "adaptation",
         "p1"
-      ]
+      ],
+      "prd": "harness/prompts/prd-107-crossplatform-adaptation.md"
     },
     {
       "id": "aag-09-entity",
@@ -444,7 +463,8 @@
         "acquisition",
         "entity-resolution",
         "perplexity"
-      ]
+      ],
+      "prd": "prompts/aag-agent-09-entity-resolution.md"
     },
     {
       "id": "prd-108-thumbnail-generator",
@@ -465,7 +485,8 @@
         "actp-worker",
         "ctr",
         "p1"
-      ]
+      ],
+      "prd": "harness/prompts/prd-108-thumbnail-generator.md"
     },
     {
       "id": "aag-10-reporting",
@@ -483,7 +504,8 @@
         "acquisition",
         "reporting",
         "analytics"
-      ]
+      ],
+      "prd": "prompts/aag-agent-10-reporting.md"
     },
     {
       "id": "prd-109-comment-engagement-boost",
@@ -503,7 +525,8 @@
         "actp-worker",
         "algorithm-boost",
         "p1"
-      ]
+      ],
+      "prd": "harness/prompts/prd-109-comment-engagement-boost.md"
     },
     {
       "id": "prd-009-openqualls-bot",
@@ -542,7 +565,8 @@
         "actp-worker",
         "follower-tracking",
         "p2"
-      ]
+      ],
+      "prd": "harness/prompts/prd-110-content-consistency-dashboard.md"
     },
     {
       "id": "prd-011-research-to-publish",
@@ -581,7 +605,8 @@
         "goals",
         "autonomy",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-100-cognitive-orchestrator.md"
     },
     {
       "id": "prd-010-actp-pipeline",
@@ -620,7 +645,8 @@
         "actp-worker",
         "reliability",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-101-agent-spawner.md"
     },
     {
       "id": "prd-012-revenue-engine",
@@ -659,7 +685,8 @@
         "actp-worker",
         "audience-growth",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-102-content-generation-agent.md"
     },
     {
       "id": "prd-013-security-self-test",
@@ -699,7 +726,8 @@
         "actp-worker",
         "revenue",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-103-acquisition-agent.md"
     },
     {
       "id": "prd-020-chat-gateway",
@@ -740,7 +768,8 @@
         "stripe",
         "apple",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-104-revenue-analytics-agent.md"
     },
     {
       "id": "gtm-engineering-agents",
@@ -761,7 +790,8 @@
         "email",
         "typescript",
         "cli"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/gtm-engineering-agents.md"
     },
     {
       "id": "prd-014-conversation-memory",
@@ -800,7 +830,8 @@
         "actp-worker",
         "cognitive-architecture",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-111-native-tool-agent-framework.md"
     },
     {
       "id": "prd-015-temporal-scheduler",
@@ -839,7 +870,8 @@
         "audience-growth",
         "actp-worker",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-112-social-media-domain-agent.md"
     },
     {
       "id": "prd-017-research-worker",
@@ -878,7 +910,8 @@
         "actp-worker",
         "viral-loop",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-113-content-creation-domain-agent.md"
     },
     {
       "id": "prd-047-mcp-benchmark",
@@ -920,7 +953,8 @@
         "actp-worker",
         "revenue",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-114-acquisition-domain-agent.md"
     },
     {
       "id": "acd-autonomous",
@@ -940,7 +974,8 @@
         "ui",
         "sse",
         "cycles"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/acd-autonomous.md"
     },
     {
       "id": "prd-048-browser-use-agent",
@@ -984,7 +1019,8 @@
         "cost-tracking",
         "actp-worker",
         "p1"
-      ]
+      ],
+      "prd": "harness/prompts/prd-115-revenue-analytics-domain-agent.md"
     },
     {
       "id": "prd-049-computer-use-integration",
@@ -1025,7 +1061,8 @@
         "self-healing",
         "actp-worker",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-116-agent-worker-daemon.md"
     },
     {
       "id": "prd-050-content-recreation",
@@ -1066,7 +1103,8 @@
         "message-bus",
         "actp-worker",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-117-orchestrator-task-bridge.md"
     },
     {
       "id": "mediaposter-lite",
@@ -1081,7 +1119,8 @@
         "vercel",
         "nextjs",
         "publishing"
-      ]
+      ],
+      "prd": "harness/prompts/mplite.md"
     },
     {
       "id": "test-safari-instagram",
@@ -1102,7 +1141,8 @@
         "mcp",
         "native-tool-calling",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-instagram.md"
     },
     {
       "id": "prd-118-validation-parallel-runner",
@@ -1122,7 +1162,8 @@
         "ci",
         "actp-worker",
         "p1"
-      ]
+      ],
+      "prd": "harness/prompts/prd-118-validation-parallel-runner.md"
     },
     {
       "id": "hooklite",
@@ -1137,7 +1178,8 @@
         "vercel",
         "nextjs",
         "webhooks"
-      ]
+      ],
+      "prd": "harness/prompts/hooklite.md"
     },
     {
       "id": "test-safari-twitter",
@@ -1158,7 +1200,8 @@
         "mcp",
         "native-tool-calling",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-twitter.md"
     },
     {
       "id": "prd-119-product-launch-agent",
@@ -1180,7 +1223,8 @@
         "actp-worker",
         "revenue",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-119-product-launch-agent.md"
     },
     {
       "id": "metricslite",
@@ -1195,7 +1239,8 @@
         "vercel",
         "nextjs",
         "cron"
-      ]
+      ],
+      "prd": "harness/prompts/metricslite.md"
     },
     {
       "id": "test-safari-tiktok",
@@ -1216,7 +1261,8 @@
         "mcp",
         "native-tool-calling",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-tiktok.md"
     },
     {
       "id": "prd-120-cross-agent-goal-optimizer",
@@ -1237,7 +1283,8 @@
         "prompt-tuning",
         "actp-worker",
         "p1"
-      ]
+      ],
+      "prd": "harness/prompts/prd-120-cross-agent-goal-optimizer.md"
     },
     {
       "id": "genlite",
@@ -1252,7 +1299,8 @@
         "vercel",
         "nextjs",
         "ai-video"
-      ]
+      ],
+      "prd": "harness/prompts/genlite.md"
     },
     {
       "id": "test-safari-linkedin",
@@ -1273,7 +1321,8 @@
         "mcp",
         "native-tool-calling",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-linkedin.md"
     },
     {
       "id": "prd-121-mcp-registry-discovery",
@@ -1293,7 +1342,8 @@
         "registry",
         "actp-worker",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-121-mcp-registry-discovery.md"
     },
     {
       "id": "adlite",
@@ -1308,7 +1358,8 @@
         "vercel",
         "nextjs",
         "ads"
-      ]
+      ],
+      "prd": "harness/prompts/adlite.md"
     },
     {
       "id": "test-safari-threads",
@@ -1329,7 +1380,8 @@
         "mcp",
         "native-tool-calling",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-threads.md"
     },
     {
       "id": "prd-122-claude-code-agent-launcher",
@@ -1350,7 +1402,8 @@
         "terminal",
         "actp-worker",
         "p0"
-      ]
+      ],
+      "prd": "harness/prompts/prd-122-claude-code-agent-launcher.md"
     },
     {
       "id": "actpdash",
@@ -1365,7 +1418,8 @@
         "vercel",
         "nextjs",
         "dashboard"
-      ]
+      ],
+      "prd": "harness/prompts/actpdash.md"
     },
     {
       "id": "test-safari-market-research",
@@ -1386,7 +1440,8 @@
         "mcp",
         "native-tool-calling",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-market-research.md"
     },
     {
       "id": "actp-worker",
@@ -1401,7 +1456,8 @@
         "python",
         "local",
         "daemon"
-      ]
+      ],
+      "prd": "harness/prompts/actp-worker.md"
     },
     {
       "id": "test-mcp-native-tool-calling",
@@ -1423,7 +1479,8 @@
         "native-tool-calling",
         "benchmark",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-mcp-native-tool-calling.md"
     },
     {
       "id": "prd081-upwork-agent",
@@ -1440,7 +1497,8 @@
         "upwork",
         "automation",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd081-upwork-agent.md"
     },
     {
       "id": "safari-decoupled-push-arch",
@@ -1461,7 +1519,8 @@
         "linkedin",
         "tiktok",
         "threads"
-      ]
+      ],
+      "prd": "harness/prompts/safari-decoupled-push-arch.md"
     },
     {
       "id": "mediaposter",
@@ -1500,7 +1559,8 @@
         "data-plane",
         "business-objectives",
         "p0"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-terminal-dispatch.md"
     },
     {
       "id": "autonomous-acquisition-agent",
@@ -1513,7 +1573,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/autonomous-acquisition-agent.md"
     },
     {
       "id": "demandradar",
@@ -1526,7 +1587,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/demandradar.md"
     },
     {
       "id": "PRD_GROWTH_DATA_PLANE",
@@ -1539,7 +1601,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/PRD_GROWTH_DATA_PLANE.md"
     },
     {
       "id": "prd080-prospect-pipeline",
@@ -1552,7 +1615,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd080-prospect-pipeline.md"
     },
     {
       "id": "rebuild-prospect-scoring",
@@ -1565,7 +1629,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/rebuild-prospect-scoring.md"
     },
     {
       "id": "prd082-self-healing",
@@ -1582,7 +1647,8 @@
         "self-healing",
         "automation",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd082-self-healing.md"
     },
     {
       "id": "gapradar",
@@ -1617,7 +1683,8 @@
         "offline-fallback",
         "p0",
         "eos-core"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-200-hybrid-orchestrator-core.md"
     },
     {
       "id": "acd-dispatch",
@@ -1630,7 +1697,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/acd-dispatch.md"
     },
     {
       "id": "acd-mcp-skill",
@@ -1643,7 +1711,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/acd-mcp-skill.md"
     },
     {
       "id": "acd-memory",
@@ -1656,7 +1725,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/acd-memory.md"
     },
     {
       "id": "linkedin-mcp-server-fixes",
@@ -1669,7 +1739,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/linkedin-mcp-server-fixes.md"
     },
     {
       "id": "linkedin-safari-scale-fixes",
@@ -1682,7 +1753,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/linkedin-safari-scale-fixes.md"
     },
     {
       "id": "prd070-company-orchestrator",
@@ -1695,7 +1767,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd070-company-orchestrator.md"
     },
     {
       "id": "prd071-engineering-agent",
@@ -1708,7 +1781,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd071-engineering-agent.md"
     },
     {
       "id": "prd072-marketing-agent",
@@ -1721,7 +1795,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd072-marketing-agent.md"
     },
     {
       "id": "prd073-live-ops-dashboard",
@@ -1734,7 +1809,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd073-live-ops-dashboard.md"
     },
     {
       "id": "prd074-self-improving-loop",
@@ -1747,7 +1823,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd074-self-improving-loop.md"
     },
     {
       "id": "prd083-cloud-bridge",
@@ -1760,7 +1837,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd083-cloud-bridge.md"
     },
     {
       "id": "self-improving-loop",
@@ -1773,7 +1851,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/self-improving-loop.md"
     },
     {
       "id": "prd084-improvement-loop",
@@ -1790,7 +1869,8 @@
         "improvement-loop",
         "automation",
         "p1"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd084-improvement-loop.md"
     },
     {
       "id": "blogcanvas",
@@ -1826,7 +1906,8 @@
         "upwork",
         "failover",
         "p0"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-201-cloud-terminal-agent-swarm.md"
     },
     {
       "id": "autonomous-system-build-prds",
@@ -1839,7 +1920,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/autonomous-system-build-prds.md"
     },
     {
       "id": "ig-e2e-integration",
@@ -1852,7 +1934,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/ig-e2e-integration.md"
     },
     {
       "id": "instagram-mcp-improvements",
@@ -1865,7 +1948,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/instagram-mcp-improvements.md"
     },
     {
       "id": "market-research-mcp",
@@ -1878,7 +1962,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/market-research-mcp.md"
     },
     {
       "id": "mcp-server-upgrades",
@@ -1891,7 +1976,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/mcp-server-upgrades.md"
     },
     {
       "id": "meta-ads-rule-engine",
@@ -1904,7 +1990,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/meta-ads-rule-engine.md"
     },
     {
       "id": "PRD_USER_TRACKING_ALL_TARGETS",
@@ -1917,7 +2004,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/PRD_USER_TRACKING_ALL_TARGETS.md"
     },
     {
       "id": "prd-observability-mesh",
@@ -1930,7 +2018,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-observability-mesh.md"
     },
     {
       "id": "prd-twitter-research-agent",
@@ -1943,7 +2032,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-twitter-research-agent.md"
     },
     {
       "id": "safari-tab-mgmt-comments",
@@ -1956,7 +2046,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/safari-tab-mgmt-comments.md"
     },
     {
       "id": "safari-tab-mgmt-dm",
@@ -1969,7 +2060,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/safari-tab-mgmt-dm.md"
     },
     {
       "id": "tiktok-browser-agent",
@@ -1982,7 +2074,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/tiktok-browser-agent.md"
     },
     {
       "id": "tiktok-comments-mcp",
@@ -1995,7 +2088,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/tiktok-comments-mcp.md"
     },
     {
       "id": "tiktok-mcp-improvements",
@@ -2008,7 +2102,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/tiktok-mcp-improvements.md"
     },
     {
       "id": "twitter-comments-mcp",
@@ -2021,7 +2116,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/twitter-comments-mcp.md"
     },
     {
       "id": "twitter-mcp-improvements",
@@ -2034,7 +2130,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/twitter-mcp-improvements.md"
     },
     {
       "id": "upwork-autonomous-builder",
@@ -2047,7 +2144,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/upwork-autonomous-builder.md"
     },
     {
       "id": "upwork-mcp-improvements",
@@ -2060,7 +2158,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/upwork-mcp-improvements.md"
     },
     {
       "id": "portal28",
@@ -2096,7 +2195,8 @@
         "grafana",
         "data-privacy",
         "p0"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-202-vector-db-feedback-monitoring.md"
     },
     {
       "id": "aag-agent-01-foundation",
@@ -2109,7 +2209,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-01-foundation.md"
     },
     {
       "id": "aag-agent-02-discovery",
@@ -2122,7 +2223,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-02-discovery.md"
     },
     {
       "id": "aag-agent-03-scoring",
@@ -2135,7 +2237,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-03-scoring.md"
     },
     {
       "id": "aag-agent-04-warmup",
@@ -2148,7 +2251,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-04-warmup.md"
     },
     {
       "id": "aag-agent-05-outreach",
@@ -2161,7 +2265,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-05-outreach.md"
     },
     {
       "id": "aag-agent-06-followup",
@@ -2174,7 +2279,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-06-followup.md"
     },
     {
       "id": "aag-agent-07-orchestrator",
@@ -2187,7 +2293,8 @@
       "untilComplete": true,
       "complexity": "high",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-07-orchestrator.md"
     },
     {
       "id": "aag-agent-08-email",
@@ -2200,7 +2307,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-08-email.md"
     },
     {
       "id": "aag-agent-09-entity-resolution",
@@ -2213,7 +2321,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-09-entity-resolution.md"
     },
     {
       "id": "aag-agent-10-reporting",
@@ -2226,7 +2335,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/aag-agent-10-reporting.md"
     },
     {
       "id": "agent-calendar-email",
@@ -2239,7 +2349,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/agent-calendar-email.md"
     },
     {
       "id": "agentlite-cloud-brain",
@@ -2252,7 +2363,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/agentlite-cloud-brain.md"
     },
     {
       "id": "company-intelligence-agent",
@@ -2265,7 +2377,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/company-intelligence-agent.md"
     },
     {
       "id": "contact-post-enricher",
@@ -2278,7 +2391,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/contact-post-enricher.md"
     },
     {
       "id": "inbox-reply-harvester",
@@ -2291,7 +2405,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/inbox-reply-harvester.md"
     },
     {
       "id": "linkedin-dm-scoring-crm-sync",
@@ -2304,7 +2419,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/linkedin-dm-scoring-crm-sync.md"
     },
     {
       "id": "sarah-portalcopyco-linkedin-system",
@@ -2317,7 +2433,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/sarah-portalcopyco-linkedin-system.md"
     },
     {
       "id": "social-skills",
@@ -2330,7 +2447,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/social-skills.md"
     },
     {
       "id": "canvascast",
@@ -2365,7 +2483,8 @@
         "final-validation",
         "claude-code",
         "p0"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/test-safari-e2e-claudecode.md"
     },
     {
       "id": "prd-203-claude-coding-agent",
@@ -2390,7 +2509,8 @@
         "rork",
         "sandbox",
         "p0"
-      ]
+      ],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/prd-203-claude-coding-agent.md"
     },
     {
       "id": "acd-orchestration",
@@ -2403,7 +2523,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/acd-orchestration.md"
     },
     {
       "id": "AGENTIC_BASE",
@@ -2416,7 +2537,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/AGENTIC_BASE.md"
     },
     {
       "id": "bootstrap-skill-loader",
@@ -2429,7 +2551,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/bootstrap-skill-loader.md"
     },
     {
       "id": "claude-agent-sdk-impl",
@@ -2442,7 +2565,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/claude-agent-sdk-impl.md"
     },
     {
       "id": "claude-agent-sdk-mcp",
@@ -2455,7 +2579,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/claude-agent-sdk-mcp.md"
     },
     {
       "id": "claude-agent-sdk-tests",
@@ -2468,7 +2593,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/claude-agent-sdk-tests.md"
     },
     {
       "id": "cloud-sync-mcp",
@@ -2481,7 +2607,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/cloud-sync-mcp.md"
     },
     {
       "id": "coding",
@@ -2494,7 +2621,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/coding.md"
     },
     {
       "id": "everreach-bulk-fb-ad-generator",
@@ -2507,7 +2635,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/everreach-bulk-fb-ad-generator.md"
     },
     {
       "id": "initializer",
@@ -2520,7 +2649,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/initializer.md"
     },
     {
       "id": "multi-agent-dispatch",
@@ -2533,7 +2663,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/multi-agent-dispatch.md"
     },
     {
       "id": "everreach-appkit",
@@ -2559,7 +2690,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/blogcanvas-coding.md"
     },
     {
       "id": "blogcanvas-vendor",
@@ -2572,7 +2704,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/blogcanvas-vendor.md"
     },
     {
       "id": "browser-047-benchmark",
@@ -2585,7 +2718,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/browser-047-benchmark.md"
     },
     {
       "id": "browser-048-fallback-agent",
@@ -2598,7 +2732,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/browser-048-fallback-agent.md"
     },
     {
       "id": "browser-049-computer-use-integration",
@@ -2611,7 +2746,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/browser-049-computer-use-integration.md"
     },
     {
       "id": "browser-050-content-recreation",
@@ -2624,7 +2760,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/browser-050-content-recreation.md"
     },
     {
       "id": "client-portal",
@@ -2637,7 +2774,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/client-portal.md"
     },
     {
       "id": "gtm-engineering-cody-schneider",
@@ -2650,7 +2788,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/gtm-engineering-cody-schneider.md"
     },
     {
       "id": "mplite",
@@ -2663,7 +2802,8 @@
       "untilComplete": true,
       "complexity": "medium",
       "focus": "feature",
-      "tags": []
+      "tags": [],
+      "prd": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/prompts/mplite.md"
     },
     {
       "id": "steadyletters",

@@ -1,0 +1,79 @@
+{
+  "prd": "gtm-engineering-cody-schneider",
+  "name": "Gtm Engineering Cody Schneider",
+  "priority": 6,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "PROMPT 0 — Workspace Bootstrap (Run This First)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "PROMPT 1 — LinkedIn Giveaway Auto-Responder",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "PROMPT 2 — Bulk Facebook Ad Creative Generator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "PROMPT 3 — Podcast Host Cold Email Pipeline",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "PROMPT 4 — On-the-Fly Data Analysis with Railway Postgres",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "PROMPT 5 — Facebook Ad Performance Optimizer (Background Daemon)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "PROMPT 6 — LinkedIn ICP Crawler + Personalized Cold Email",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "PROMPT 7 — Notion Giveaway Document Generator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "PROMPT 8 — Agent Swarm Orchestrator",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "PROMPT 9 — Competitive Ad Research Tool",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "PROMPT 10 — Full GTM Stack Health Check",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Key Principles to Give Claude Code as Context",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

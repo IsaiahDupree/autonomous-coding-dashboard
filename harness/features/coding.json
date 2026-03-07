@@ -1,0 +1,85 @@
+{
+  "prd": "coding",
+  "name": "Coding",
+  "priority": 5,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Mandatory Rules (ALWAYS ENFORCE)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "No Mock Code in Production",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "Session Startup (ALWAYS DO THIS FIRST)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Step 1: Orient Yourself",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "Step 2: Start Development Environment",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "Step 3: Verify Basic Functionality",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "Working on Features",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "Step 4: Choose Next Feature",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "Step 5: Implement the Feature",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-010",
+      "name": "Step 6: Test the Feature",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-011",
+      "name": "Step 7: Update Status",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-012",
+      "name": "Step 8: Commit Your Work",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-013",
+      "name": "Step 9: Update Progress File",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}

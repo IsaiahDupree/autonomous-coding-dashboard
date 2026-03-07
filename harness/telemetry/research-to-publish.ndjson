@@ -12,3 +12,12 @@
 {"ts":"2026-03-07T19:09:55.468Z","slug":"research-to-publish","event":"session_start","session":6,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
 {"ts":"2026-03-07T19:10:22.180Z","slug":"research-to-publish","event":"session_end","session":6,"duration_ms":26710,"featuresDelta":0,"tokens":26969,"cost":0.23268849999999994,"exitCode":0}
 {"ts":"2026-03-07T19:12:37.916Z","slug":"research-to-publish","event":"session_start","session":7,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:16:02.258Z","slug":"research-to-publish","event":"session_end","session":7,"duration_ms":204329,"featuresDelta":0,"tokens":32174,"cost":0.35488275,"exitCode":0}
+{"ts":"2026-03-07T19:20:26.506Z","slug":"research-to-publish","event":"session_start","session":8,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:21:06.363Z","slug":"research-to-publish","event":"session_end","session":8,"duration_ms":39848,"featuresDelta":0,"tokens":32078,"cost":0.30689825000000004,"exitCode":0}
+{"ts":"2026-03-07T19:21:06.369Z","slug":"research-to-publish","event":"session_start","session":9,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:21:42.136Z","slug":"research-to-publish","event":"session_end","session":9,"duration_ms":35764,"featuresDelta":0,"tokens":22024,"cost":0.24707325,"exitCode":0}
+{"ts":"2026-03-07T19:22:54.660Z","slug":"research-to-publish","event":"session_start","session":10,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:25:15.062Z","slug":"research-to-publish","event":"session_end","session":10,"duration_ms":140394,"featuresDelta":0,"tokens":33274,"cost":0.31691674999999997,"exitCode":0}
+{"ts":"2026-03-07T19:27:20.285Z","slug":"research-to-publish","event":"session_start","session":11,"model":"claude-sonnet-4-6","featuresTotal":8,"featuresPassing":7}
+{"ts":"2026-03-07T19:28:45.916Z","slug":"research-to-publish","event":"session_end","session":11,"duration_ms":85558,"featuresDelta":0,"tokens":33732,"cost":0.322387,"exitCode":0}

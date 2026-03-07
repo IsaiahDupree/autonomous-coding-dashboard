@@ -1,13 +1,13 @@
 {
   "running": true,
   "paused": false,
-  "cycleCount": 8,
-  "strategyCursor": 3,
-  "totalProspectsFound": 75,
+  "cycleCount": 9,
+  "strategyCursor": 6,
+  "totalProspectsFound": 84,
   "totalSyncedCrm": 6,
   "totalQueuedForDm": 12,
-  "lastCycleAt": "2026-03-07T18:49:07.060Z",
-  "nextCycleAt": "2026-03-07T19:19:07.060Z",
+  "lastCycleAt": "2026-03-07T19:19:59.423Z",
+  "nextCycleAt": "2026-03-07T19:49:59.423Z",
   "startedAt": "2026-03-05T05:10:52.892Z",
   "seenUrls": [
     "https://www.linkedin.com/in/dave-miz/",
@@ -94,6 +94,12 @@
     "https://www.linkedin.com/in/jacquelyn-blomseth/",
     "https://www.linkedin.com/in/prisock/",
     "https://www.linkedin.com/in/nelmerse/",
-    "https://www.linkedin.com/in/lakshb/"
+    "https://www.linkedin.com/in/lakshb/",
+    "https://www.linkedin.com/in/kimberlylsmall/",
+    "https://www.linkedin.com/in/subramanyam-tiruveedhi-66b2562a9/",
+    "https://www.linkedin.com/in/kasireddy-siva-8906159b/",
+    "https://www.linkedin.com/in/hey-dannielle/",
+    "https://www.linkedin.com/in/erika-sestok/",
+    "https://www.linkedin.com/in/lvnd/"
   ]
 }

@@ -1,0 +1,29 @@
+{"ts":"2026-03-07T19:14:09.283Z","msg":"Starting research-to-publish pipeline for 2026-03-07"}
+{"ts":"2026-03-07T19:14:09.298Z","msg":"Stage 1: Loading synthesis..."}
+{"ts":"2026-03-07T19:14:09.299Z","msg":"Synthesis loaded in 1ms"}
+{"ts":"2026-03-07T19:14:09.299Z","msg":"Stage 2: Planning content..."}
+{"ts":"2026-03-07T19:14:09.299Z","msg":"Content plan: 3 topics x 3 platforms + 1 Medium = 10 pieces"}
+{"ts":"2026-03-07T19:14:09.299Z","msg":"Stage 3: Generating content with Claude Haiku..."}
+{"ts":"2026-03-07T19:14:09.299Z","msg":"Generating content for: AI agents"}
+{"ts":"2026-03-07T19:14:41.329Z","msg":"Generated via Claude Haiku in 32030ms: AI agents"}
+{"ts":"2026-03-07T19:14:41.330Z","msg":"Generating content for: LLM tools"}
+{"ts":"2026-03-07T19:14:53.843Z","msg":"Generated via Claude Haiku in 12513ms: LLM tools"}
+{"ts":"2026-03-07T19:14:53.843Z","msg":"Generating content for: SaaS growth"}
+{"ts":"2026-03-07T19:15:07.684Z","msg":"Generated via Claude Haiku in 13840ms: SaaS growth"}
+{"ts":"2026-03-07T19:15:07.685Z","msg":"Content generated in 58386ms"}
+{"ts":"2026-03-07T19:15:07.685Z","msg":"Stage 4: Queuing content to MPLite..."}
+{"ts":"2026-03-07T19:15:09.082Z","msg":"Queued twitter post for AI agents at 2026-03-07T21:15:07.685Z"}
+{"ts":"2026-03-07T19:15:09.222Z","msg":"Queued linkedin post for AI agents at 2026-03-08T01:15:07.685Z"}
+{"ts":"2026-03-07T19:15:09.356Z","msg":"Queued instagram post for AI agents at 2026-03-08T03:15:07.685Z"}
+{"ts":"2026-03-07T19:15:09.921Z","msg":"Queued twitter post for LLM tools at 2026-03-07T23:15:07.685Z"}
+{"ts":"2026-03-07T19:15:10.044Z","msg":"Queued linkedin post for LLM tools at 2026-03-08T07:15:07.685Z"}
+{"ts":"2026-03-07T19:15:10.180Z","msg":"Queued instagram post for LLM tools at 2026-03-08T11:15:07.685Z"}
+{"ts":"2026-03-07T19:15:10.669Z","msg":"Queued twitter post for SaaS growth at 2026-03-08T01:15:07.685Z"}
+{"ts":"2026-03-07T19:15:10.807Z","msg":"Queued linkedin post for SaaS growth at 2026-03-08T13:15:07.685Z"}
+{"ts":"2026-03-07T19:15:10.949Z","msg":"Queued instagram post for SaaS growth at 2026-03-08T19:15:07.685Z"}
+{"ts":"2026-03-07T19:15:10.949Z","msg":"Queued in 3264ms — twitter:3 linkedin:3 instagram:3 failed:0"}
+{"ts":"2026-03-07T19:15:10.949Z","msg":"Stage 5: Medium article..."}
+{"ts":"2026-03-07T19:15:11.017Z","msg":"Medium publish: Why Your AI Agent Demo Works (And Why Your Production Deployment Won't) (Safari MCP required — skipping in script mode)"}
+{"ts":"2026-03-07T19:15:11.084Z","msg":"Stage 6: Sending completion report..."}
+{"ts":"2026-03-07T19:15:11.084Z","msg":"\nContent pipeline complete — 2026-03-07\n\nTopics covered: AI agents, LLM tools, SaaS growth\n\nQueued:\n• Twitter: 3 tweet threads\n• LinkedIn: 3 posts\n• Instagram: 3 captions\n• Medium: skipped\n\nTotal pieces: 9"}
+{"ts":"2026-03-07T19:15:11.612Z","msg":"Pipeline complete. Stages: {\"loader\":1,\"planner\":0,\"generator\":58386,\"queue\":3264,\"medium\":135,\"report\":528}"}

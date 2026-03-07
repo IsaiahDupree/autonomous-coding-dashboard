@@ -1,0 +1,61 @@
+{
+  "prd": "initializer",
+  "name": "Initializer",
+  "priority": 5,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Your Mission",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-002",
+      "name": "Mandatory Rules (ALWAYS ENFORCE)",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-003",
+      "name": "No Mock Code in Production",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-004",
+      "name": "Required Actions",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-005",
+      "name": "1. Analyze Requirements",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-006",
+      "name": "2. Create feature_list.json",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-007",
+      "name": "3. Create claude-progress.txt",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-008",
+      "name": "4. Set Up Project Structure",
+      "passes": false,
+      "status": "pending"
+    },
+    {
+      "id": "F-009",
+      "name": "5. Document the Project",
+      "passes": false,
+      "status": "pending"
+    }
+  ]
+}
