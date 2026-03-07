@@ -269,6 +269,39 @@ else
   echo "[watchdog] research-to-publish skipped (ran ${RTP_SINCE}s ago)" | tee -a "$LOG"
 fi
 
+# Start next-action-executor if not already running
+if ! pgrep -f "next-action-executor.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting next-action-executor..." | tee -a "$LOG"
+  nohup node "$H/next-action-executor.js" >> "$H/logs/next-action-executor.log" 2>&1 &
+  NAE_PID=$!
+  echo $NAE_PID > "$H/next-action-executor.pid"
+  echo "[watchdog] Next-Action Executor PID: $NAE_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] next-action-executor already running" | tee -a "$LOG"
+fi
+
+# Start reply-crm-bridge if not already running
+if ! pgrep -f "reply-crm-bridge.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting reply-crm-bridge..." | tee -a "$LOG"
+  nohup node "$H/reply-crm-bridge.js" >> "$H/logs/reply-crm-bridge.log" 2>&1 &
+  RCB_PID=$!
+  echo $RCB_PID > "$H/reply-crm-bridge.pid"
+  echo "[watchdog] Reply-CRM Bridge PID: $RCB_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] reply-crm-bridge already running" | tee -a "$LOG"
+fi
+
+# Start email follow-up sequence daemon if not already running
+if ! pgrep -f "email-followup-sequence.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting email-followup-sequence..." | tee -a "$LOG"
+  nohup node "$H/email-followup-sequence.js" >> "$H/logs/email-followup-sequence.log" 2>&1 &
+  EFS_PID=$!
+  echo $EFS_PID > "$H/email-followup-sequence.pid"
+  echo "[watchdog] Email Follow-up Sequence PID: $EFS_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] email-followup-sequence already running" | tee -a "$LOG"
+fi
+
 # Start cron-manager if not already running (SDPA-014)
 if ! pgrep -f "cron-manager.js" > /dev/null 2>&1; then
   echo "[watchdog] Starting cron-manager..." | tee -a "$LOG"
@@ -293,10 +326,8 @@ send_telegram() {
     > /dev/null 2>&1 || true
 }
 
-# Don't start if run-queue is already running (avoid double-run)
-if pgrep -f "run-queue.js" > /dev/null 2>&1; then
-  echo "[watchdog] run-queue.js already running — monitoring only" | tee -a "$LOG"
-fi
+# Parallel workers: run 2 run-queue.js instances simultaneously
+PARALLEL_WORKERS=2
 
 # Track idle state for rate-limiting notifications (notify every 30min max)
 LAST_IDLE_NOTIFY=0
@@ -305,24 +336,39 @@ IDLE_NOTIFY_INTERVAL=1800  # 30 minutes
 RUN=0
 while true; do
   RUN=$((RUN + 1))
-  echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — Starting run-queue.js pass #$RUN" | tee -a "$LOG"
+  echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — Starting ${PARALLEL_WORKERS}-worker pass #$RUN" | tee -a "$LOG"
 
-  # Wait for any existing run-queue.js to finish before starting a new one
+  # Wait for any existing run-queue workers to finish before starting new ones
   while pgrep -f "run-queue.js" > /dev/null 2>&1; do
     sleep 30
   done
 
-  echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — Launching run-queue.js (pass #$RUN)" | tee -a "$LOG"
-  node "$H/run-queue.js" >> "$LOG" 2>&1
-  EXIT=$?
-  echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — run-queue.js exited (code=$EXIT)" | tee -a "$LOG"
+  # Launch all workers in parallel, each handling a different slot of the queue
+  PIDS=()
+  for SLOT in $(seq 0 $((PARALLEL_WORKERS - 1))); do
+    WORKER_LOG="$H/logs/run-queue-worker${SLOT}.log"
+    echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — Launching worker $SLOT (pass #$RUN)" | tee -a "$LOG"
+    node "$H/run-queue.js" --slot=$SLOT --total-slots=$PARALLEL_WORKERS --generate >> "$WORKER_LOG" 2>&1 &
+    PIDS+=($!)
+  done
 
-  # Notify on crash (non-zero exit, not a clean "all done" exit)
-  if [ "$EXIT" -ne 0 ]; then
-    MSG="&#x26A0;&#xFE0F; ACD run-queue crashed (exit $EXIT) at $(date '+%H:%M:%S')%0ARestarting automatically in 30s.%0AAdd new tasks: send me a PRD or use /dispatch"
-    echo "[watchdog] Sending crash notification to Telegram" | tee -a "$LOG"
-    send_telegram "$MSG"
-  fi
+  # Wait for all workers to finish
+  EXITS=()
+  for PID in "${PIDS[@]}"; do
+    wait "$PID"
+    EXITS+=($?)
+  done
+
+  # Report per-worker results
+  for i in "${!EXITS[@]}"; do
+    EXIT="${EXITS[$i]}"
+    echo "[watchdog] $(date '+%Y-%m-%d %H:%M:%S') — worker $i exited (code=$EXIT)" | tee -a "$LOG"
+    if [ "$EXIT" -ne 0 ]; then
+      MSG="&#x26A0;&#xFE0F; ACD worker $i crashed (exit $EXIT) at $(date '+%H:%M:%S')%0ARestarting automatically in 30s."
+      echo "[watchdog] Sending crash notification to Telegram" | tee -a "$LOG"
+      send_telegram "$MSG"
+    fi
+  done
 
   # Check if all repos are complete
   INCOMPLETE=$(node -e "
