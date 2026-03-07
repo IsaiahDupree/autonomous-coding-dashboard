@@ -1,0 +1,4 @@
+{"ts":"2026-03-07T16:51:44.827Z","msg":"TikTok DM Sweep daemon started (PID 40557)"}
+{"ts":"2026-03-07T16:51:44.855Z","msg":"Safari lock busy — waiting 10s"}
+{"ts":"2026-03-07T16:51:54.864Z","msg":"Searching TikTok creators: 12 keywords, max 5"}
+{"ts":"2026-03-07T16:51:56.049Z","msg":"Sweep done: 0 queued, daily 0/8"}

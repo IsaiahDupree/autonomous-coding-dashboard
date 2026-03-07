@@ -1,0 +1,77 @@
+{
+  "slug": "twitter-research-agent",
+  "features": [
+    {
+      "id": "tra-001",
+      "name": "Supabase migration — twitter_research_reports table",
+      "description": "Create harness/migrations/20260307_twitter_research.sql with twitter_research_reports table (id, report_date, topics, raw_batch_path, synthesis, telegram_sent, obsidian_path, tweet_count, created_at). Apply via mcp__supabase__apply_migration. Use CREATE TABLE IF NOT EXISTS for idempotency.",
+      "category": "database",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-002",
+      "name": "trending-topic-scraper.js — scrape Twitter Explore for tech trends",
+      "description": "Create packages/market-research/src/research-agent/trending-topic-scraper.js. Navigate to x.com/explore/tabs/trending using existing Safari tab (claim via safari-tab-coordinator port 3003 or 3007). Extract trending items filtered by tech keywords (ai, llm, gpt, claude, openai, tech, saas, startup, coding, github, agent, automation). Fall back to seeded list if < 3 results. Return array of up to 10 topic strings. Retry max 3 with 5s backoff.",
+      "category": "scraper",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-003",
+      "name": "multi-topic-search-runner.js — run TwitterResearcher per topic",
+      "description": "Create packages/market-research/src/research-agent/multi-topic-search-runner.js. Import TwitterResearcher from packages/market-research/dist/twitter-comments/src/automation/twitter-researcher.js. Run sequentially per topic with config {tweetsPerNiche:50, scrollPauseMs:1000, maxScrollsPerSearch:10, searchTab:'top'}. 3s delay between topics. Collect top 20 tweets by engagement + top 5 accounts per topic. Deduplicate across topics by URL. Return ResearchBatch object. Save raw batch to ~/Documents/twitter-research/batches/YYYY-MM-DD.json. Handle individual topic failures gracefully.",
+      "category": "runner",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-004",
+      "name": "research-synthesizer.js — Claude Haiku synthesis of raw tweets",
+      "description": "Create packages/market-research/src/research-agent/research-synthesizer.js. Use Anthropic SDK (claude-haiku-4-5-20251001) to synthesize ResearchBatch into structured JSON: {date, topTopics:[{topic, headline, keySignal, topTweet, emergingTools, sentiment}], founderInsights, emergingOpportunities, toolsToWatch, overallNarrative}. System prompt: 'You are a tech trend analyst for a B2B SaaS founder targeting $500K-$5M ARR software companies.' Compact prompt < 4000 tokens. Fall back to basic template if Claude call fails. Load ANTHROPIC_API_KEY from env or actp-worker/.env. Save synthesis to ~/Documents/twitter-research/synthesis/YYYY-MM-DD.json.",
+      "category": "ai",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-005",
+      "name": "report-formatter.js — format and push to Telegram + Obsidian + Supabase",
+      "description": "Create packages/market-research/src/research-agent/report-formatter.js. Format synthesis as Telegram message (< 4096 chars) with emojis: 📊 header, 🔥 per topic, 💡 founder insights, 🚀 opportunities, 🛠 tools, 📝 narrative. Send via TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID. Write Obsidian note to ~/.memory/vault/RESEARCH/twitter-trends-YYYY-MM-DD.md with frontmatter (date, type: twitter-research, topics, tools). Save record to Supabase twitter_research_reports table. Each output channel independent — one failure doesn't block others. Return {telegramSent, obsidianPath, supabaseId}.",
+      "category": "output",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-006",
+      "name": "twitter-research-agent.js — full pipeline orchestrator",
+      "description": "Create packages/market-research/src/research-agent/twitter-research-agent.js. Orchestrate: trending-topic-scraper → multi-topic-search-runner → research-synthesizer → report-formatter. CLI flags: --topics 'AI agents, LLM tools' (override scraped), --dry-run (skip Telegram + Supabase, still write local + Obsidian), --topics-only (print topics and exit). Log each stage with timing. On failure: log error + send Telegram alert '⚠️ Research agent failed at {stage}: {error}' + exit 1. Load env from actp-worker/.env. Create output dirs if missing.",
+      "category": "orchestrator",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-007",
+      "name": "launch-twitter-research-agent.sh — launch script + watchdog registration",
+      "description": "Create packages/market-research/src/research-agent/launch-twitter-research-agent.sh. Subcommands: start (run-now in background, log to /tmp/twitter-research-agent.log), stop, status (show last run time from synthesis JSON + topics + telegram sent), run-now (foreground + stream output), dry-run, topics-only. Use /bin/zsh -l login shell. Add twitter-research-agent to harness/watchdog-queue.sh as a once-on-startup daemon with 24h minimum interval check.",
+      "category": "ops",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "tra-008",
+      "name": "test-research-agent.js — end-to-end test suite",
+      "description": "Create packages/market-research/src/research-agent/test-research-agent.js. Tests: (1) --topics-only returns >= 3 topics, (2) --dry-run with --topics 'AI agents' writes batch JSON + synthesis JSON + Obsidian note, does NOT send Telegram, (3) synthesis schema validation (topTopics, founderInsights, emergingOpportunities, toolsToWatch, overallNarrative all present), (4) report-formatter produces Telegram message < 4096 chars. Print PASS/FAIL per check. All 4 tests must pass.",
+      "category": "testing",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{"ts":"2026-03-07T16:51:44.915Z","msg":"DM Follow-up Engine started (PID 40581) — cycle every 120min"}
+{"ts":"2026-03-07T16:51:44.916Z","msg":"Monitoring 3 platforms: twitter, instagram, tiktok"}
+{"ts":"2026-03-07T16:51:44.916Z","msg":"Reply window: 14 days | dry-run: false"}
+{"ts":"2026-03-07T16:51:49.966Z","msg":"instagram: no recent sent DMs to check"}
+{"ts":"2026-03-07T16:51:54.987Z","msg":"tiktok: no recent sent DMs to check"}
+{"ts":"2026-03-07T16:51:59.990Z","msg":"Cycle complete: 0 DMs checked, 0 new replies found","dryRun":false,"totalRepliesAllTime":0}
+{"ts":"2026-03-07T18:52:05.040Z","msg":"instagram: no recent sent DMs to check"}
+{"ts":"2026-03-07T18:52:10.153Z","msg":"tiktok: no recent sent DMs to check"}
+{"ts":"2026-03-07T18:52:15.154Z","msg":"Cycle complete: 0 DMs checked, 0 new replies found","dryRun":false,"totalRepliesAllTime":0}

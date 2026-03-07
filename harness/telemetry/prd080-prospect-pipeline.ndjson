@@ -1,0 +1,7 @@
+{"ts":"2026-03-05T23:49:37.057Z","slug":"prd080-prospect-pipeline","event":"session_start","session":1,"model":"claude-opus-4-6","featuresTotal":12,"featuresPassing":0}
+{"ts":"2026-03-05T23:49:37.289Z","slug":"prd080-prospect-pipeline","event":"session_end","session":1,"duration_ms":228,"featuresDelta":0,"tokens":0,"cost":0,"exitCode":1}
+{"ts":"2026-03-05T23:49:43.108Z","slug":"prd080-prospect-pipeline","event":"session_start","session":2,"model":"claude-opus-4-6","featuresTotal":12,"featuresPassing":0}
+{"ts":"2026-03-05T23:49:43.344Z","slug":"prd080-prospect-pipeline","event":"session_end","session":2,"duration_ms":233,"featuresDelta":0,"tokens":0,"cost":0,"exitCode":1}
+{"ts":"2026-03-05T23:49:54.123Z","slug":"prd080-prospect-pipeline","event":"session_start","session":3,"model":"claude-opus-4-6","featuresTotal":12,"featuresPassing":0}
+{"ts":"2026-03-05T23:49:54.353Z","slug":"prd080-prospect-pipeline","event":"session_end","session":3,"duration_ms":229,"featuresDelta":0,"tokens":0,"cost":0,"exitCode":1}
+{"ts":"2026-03-05T23:50:00.791Z","slug":"prd080-prospect-pipeline","event":"session_start","session":1,"model":"claude-opus-4-6","featuresTotal":12,"featuresPassing":0}

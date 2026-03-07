@@ -1,0 +1,5 @@
+{"ts":"2026-03-07T16:51:44.741Z","msg":"Twitter DM Sweep daemon started (PID 40540)"}
+{"ts":"2026-03-07T16:51:44.771Z","msg":"Safari lock busy — waiting 10s"}
+{"ts":"2026-03-07T16:51:54.773Z","msg":"Safari lock busy — waiting 10s"}
+{"ts":"2026-03-07T16:52:04.777Z","msg":"Discovering prospects: 17 keywords, max 10"}
+{"ts":"2026-03-07T16:52:04.880Z","msg":"Discover error: No Safari tab available for twitter-dm"}

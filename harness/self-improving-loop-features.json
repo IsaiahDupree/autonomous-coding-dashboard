@@ -1,0 +1,111 @@
+{
+  "project": "self-improving-loop",
+  "version": "1.0.0",
+  "description": "Self-improvement: PerformanceTracker (metrics + decline detection + Telegram alerts), TemplateABTester (Thompson Sampling), SelfHealDispatcher (auto-ACD-dispatch on decline). Python, actp-worker.",
+  "features": [
+    {
+      "id": "SI-001",
+      "name": "performance_tracker.py PerformanceTracker class with compute_metrics() querying Supabase for: dms_sent_today, dms_sent_7d, reply_rate_7d, reply_rate_30d, prospects_in_funnel, prospect_conversion_rate, avg_prospect_score, upwork_proposals_sent_7d, upwork_win_rate, instagram_dm_service_up, ig_daemon_alive",
+      "category": "backend",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-002",
+      "name": "performance_tracker.py detect_decline(metrics) evaluates 7 threshold rules (reply_rate_7d<0.03, prospects_in_funnel<10, dms_sent_7d<3, upwork_win_rate<0.05, service_up=False, daemon_alive=False, avg_prospect_score<40) and returns list of alert dicts with severity and recommend_action",
+      "category": "backend",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-003",
+      "name": "performance_tracker.py send_alert(alerts) posts formatted Telegram message with emoji severity indicators when TELEGRAM_BOT_TOKEN set. Gracefully skips if token missing.",
+      "category": "backend",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-004",
+      "name": "performance_tracker.py record_snapshot(metrics) inserts row to agent_metrics table with metric_name='performance_snapshot' and full metrics dict as metadata JSON",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-005",
+      "name": "template_ab_tester.py actp_dm_templates Supabase table creation (id, name, platform, template_text, variables, alpha, beta, sends, replies, status) with 3 Instagram starter templates seeded on first run",
+      "category": "database",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-006",
+      "name": "template_ab_tester.py select_template(platform, context) uses Thompson Sampling (random.betavariate(alpha, beta) per template, pick max) to return best template_id for the platform",
+      "category": "backend",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-007",
+      "name": "template_ab_tester.py record_send(template_id) increments beta+1 and sends+1. record_reply(template_id) increments alpha+1 and replies+1. get_leaderboard() returns templates sorted by reply_rate desc.",
+      "category": "backend",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-008",
+      "name": "self_heal_dispatcher.py SelfHealDispatcher.check_and_dispatch(alerts) triggers auto-ACD harness launch for rebuild_templates/rebuild_discovery/rebuild_upwork_scorer actions, and service restart for restart_service. Deduplicates dispatches via agent_metrics (no re-dispatch within 48h).",
+      "category": "backend",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-009",
+      "name": "self_heal_dispatcher.py launch_acd_agent() calls subprocess.Popen with CLAUDECODE unset from env, correct harness args, stdout to /tmp/self-heal-{slug}.log",
+      "category": "backend",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-010",
+      "name": "heartbeat_agent.py imports PerformanceTracker and calls tracker.run() during heartbeat cycle — runs once per 30min heartbeat without crashing",
+      "category": "integration",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-011",
+      "name": "tests/test_performance_tracker.py: 5 unit tests (compute_metrics_returns_all_fields, detect_decline_low_reply_rate, detect_decline_healthy_metrics, send_alert_no_telegram, record_snapshot_inserts_row) using unittest.mock — all pass",
+      "category": "test",
+      "priority": 11,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-012",
+      "name": "tests/test_template_ab_tester.py: 5 unit tests (thompson_sampling_prefers_higher_alpha, select_template_returns_valid_id, record_send_increments_beta, record_reply_increments_alpha, get_leaderboard_returns_sorted) — all pass",
+      "category": "test",
+      "priority": 12,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "SI-013",
+      "name": "python3 -m pytest tests/test_performance_tracker.py tests/test_template_ab_tester.py -v passes with 10/10 tests green",
+      "category": "quality",
+      "priority": 13,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{"ts":"2026-03-05T03:48:46.070Z","slug":"market-research-mcp","event":"session_start","session":1,"model":"claude-opus-4-6","featuresTotal":12,"featuresPassing":0}
+{"ts":"2026-03-05T03:56:38.396Z","slug":"market-research-mcp","event":"feature_passed","session":1,"featuresDelta":12,"newPassing":12}
+{"ts":"2026-03-05T03:56:38.397Z","slug":"market-research-mcp","event":"session_end","session":1,"duration_ms":472317,"featuresDelta":12,"tokens":80019,"cost":1.5505632500000002,"exitCode":0}

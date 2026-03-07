@@ -1,0 +1,7 @@
+{"ts":"2026-03-05T23:47:40.179Z","slug":"ig-e2e-integration","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":10,"featuresPassing":0}
+{"ts":"2026-03-05T23:47:40.446Z","slug":"ig-e2e-integration","event":"session_end","session":1,"duration_ms":264,"featuresDelta":0,"tokens":0,"cost":0,"exitCode":1}
+{"ts":"2026-03-05T23:47:45.838Z","slug":"ig-e2e-integration","event":"session_start","session":2,"model":"claude-sonnet-4-6","featuresTotal":10,"featuresPassing":0}
+{"ts":"2026-03-05T23:47:46.064Z","slug":"ig-e2e-integration","event":"session_end","session":2,"duration_ms":224,"featuresDelta":0,"tokens":0,"cost":0,"exitCode":1}
+{"ts":"2026-03-05T23:47:57.946Z","slug":"ig-e2e-integration","event":"session_start","session":3,"model":"claude-sonnet-4-6","featuresTotal":10,"featuresPassing":0}
+{"ts":"2026-03-05T23:47:58.186Z","slug":"ig-e2e-integration","event":"session_end","session":3,"duration_ms":236,"featuresDelta":0,"tokens":0,"cost":0,"exitCode":1}
+{"ts":"2026-03-05T23:48:09.772Z","slug":"ig-e2e-integration","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":10,"featuresPassing":0}

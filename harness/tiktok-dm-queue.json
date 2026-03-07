@@ -1,0 +1,44 @@
+{
+  "queue": [
+    {
+      "id": "tt-test-1772773666813",
+      "platform": "tiktok",
+      "username": "saraheashley",
+      "score": 75,
+      "signals": [
+        "content",
+        "creator_economy"
+      ],
+      "message": "Hey Sarah! Loved your recent content — really resonates with what I'm building around AI-powered content systems. Would love to connect!",
+      "status": "approved",
+      "discoveredAt": "2026-03-06T05:07:46.813Z",
+      "isTestEntry": true,
+      "failReason": "No visible conversation rows after searching \"saraheashley\"",
+      "failCount": 2
+    },
+    {
+      "id": "tk-1772774452657-w2zoc",
+      "platform": "tiktok",
+      "username": "startupcode.net",
+      "score": 25,
+      "signals": [
+        "saas"
+      ],
+      "message": "Hey! Your content is 🔥 Wanted to connect about AI automation and content creation!",
+      "status": "pending",
+      "discoveredAt": "2026-03-06T05:20:52.657Z"
+    },
+    {
+      "id": "tk-1772774452660-qpzs7",
+      "platform": "tiktok",
+      "username": "patriciatonioloai",
+      "score": 25,
+      "signals": [
+        "ai_automation"
+      ],
+      "message": "Hey! Your content is 🔥 Wanted to connect about AI automation and content creation!",
+      "status": "pending",
+      "discoveredAt": "2026-03-06T05:20:52.660Z"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "project": "agentlite-cloud-brain",
+  "version": "1.0.0",
+  "description": "Cloud brain: Vercel Next.js app with 15-min cron that books safari_command_queue slots based on business metrics, processes results, and shows a live booking dashboard",
+  "features": [
+    {
+      "id": "AL-001",
+      "name": "Next.js 16 project scaffold at /Users/isaiahdupree/Documents/Software/agentlite with vercel.json crons (*/15 orchestrate, */5 process-results), dark terminal theme (#0d0d0d bg, #22c55e green, Geist Mono)",
+      "category": "setup",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-002",
+      "name": "lib/supabase.ts: supabaseAdmin using SUPABASE_SERVICE_ROLE_KEY. Creates agent_bookings and agent_metrics tables idempotently on import (SQL migration inline).",
+      "category": "backend",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-003",
+      "name": "lib/decision-engine.ts: decideNextAction(metrics) evaluates 5 rules in order (funnel low, DM queue empty, Upwork not scanned today, morning discovery, profile enrich stale) and returns Decision with action/platform/params/reason/priority",
+      "category": "backend",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-004",
+      "name": "lib/booking.ts: bookAction(decision) finds next available slot (no bookings within 15min), enforces 9am-9pm America/Chicago active hours, inserts into safari_command_queue AND agent_bookings, returns { bookingId, scheduledFor }",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-005",
+      "name": "GET /api/health returns { status: 'ok', service: 'agentlite' }",
+      "category": "backend",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-006",
+      "name": "GET /api/metrics returns { prospects_in_funnel, dms_pending, dms_sent_today, upwork_proposals_pending, reply_rate_7d, contacts_total, last_discovery_at } — all from real Supabase queries",
+      "category": "backend",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-007",
+      "name": "GET /api/schedule?hours=24 returns { upcoming: [...agent_bookings rows...], counts: { scheduled, executing, completed_today, failed_today } }",
+      "category": "backend",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-008",
+      "name": "POST /api/book accepts { action, platform, params, scheduled_for } and inserts into both safari_command_queue and agent_bookings, returns { bookingId, scheduledFor, queueId }",
+      "category": "backend",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-009",
+      "name": "POST /api/cron/orchestrate (with Authorization: Bearer CRON_SECRET) snapshots metrics, checks queue, calls decideNextAction, calls bookAction, returns { status: 'booked'|'idle'|'skip', decision, booking }",
+      "category": "cron",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-010",
+      "name": "POST /api/cron/process-results reads completed safari_command_queue rows not yet processed, records to agent_metrics, updates agent_bookings status to completed, marks rows as processed",
+      "category": "cron",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-011",
+      "name": "app/page.tsx dashboard: 4 stat cards (prospects_in_funnel, dms_pending, reply_rate_7d, upwork_proposals_pending), upcoming bookings list, recent results list, 30s auto-refresh — dark terminal theme",
+      "category": "frontend",
+      "priority": 11,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-012",
+      "name": "npm run build passes with zero TypeScript errors",
+      "category": "quality",
+      "priority": 12,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "AL-013",
+      "name": "npx vercel --yes --prod deploys successfully and https://<agentlite-url>/api/health returns { status: 'ok' }",
+      "category": "deploy",
+      "priority": 13,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

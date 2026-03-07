@@ -315,9 +315,12 @@ async function runRepoSession(repo, options = {}) {
       return;
     }
 
+    const spawnEnv = { ...process.env };
+    delete spawnEnv.CLAUDECODE; // allow nested claude sessions spawned by harness
     const proc = spawn('node', args, {
       cwd: __dirname,
       stdio: 'inherit',
+      env: spawnEnv,
     });
 
     proc.on('close', (code) => {

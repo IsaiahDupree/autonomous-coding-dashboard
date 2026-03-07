@@ -1,0 +1,134 @@
+{
+  "features": [
+    {
+      "id": "sdpa-001",
+      "name": "Supabase migrations: safari_platform_cache + automation_cron_jobs tables + 14 seed jobs",
+      "description": "CREATE TABLE safari_platform_cache (id, platform, data_type, payload, fetched_at, expires_at, source_service_port) with index on (platform, data_type, expires_at). CREATE TABLE automation_cron_jobs (id, slug UNIQUE, platform, data_type, schedule, quiet_hour_start/end, enabled, last_run_at/status/count, next_run_at, error_message, created_at, updated_at). Seed 14 default jobs (instagram-dms/notifs/stats, twitter-dms/notifs/stats, tiktok-stats/comments, threads-stats/comments, linkedin-dms/invitations/stats, youtube-stats).",
+      "passes": true,
+      "category": "database",
+      "priority": 1
+    },
+    {
+      "id": "sdpa-002",
+      "name": "cache-writer.ts: writePlatformCache helper + CACHE_TTLS constants",
+      "description": "packages/cloud-sync/src/cache-writer.ts exports writePlatformCache(platform, dataType, payload, ttlMs) and CACHE_TTLS record (dms=30min, notifications=30min, post_stats=6h, invitations=2h, comments=6h, followers=6h). Calls CloudSupabase.writePlatformCache(). sync-engine.ts imports from cache-writer.",
+      "passes": true,
+      "category": "backend",
+      "priority": 1
+    },
+    {
+      "id": "sdpa-003",
+      "name": "CloudSupabase: getPlatformCache + writePlatformCache methods",
+      "description": "supabase.ts gains getPlatformCache(platform, dataType) returning cached payload or null if expired/missing, and writePlatformCache(platform, dataType, payload, ttlMs) that deletes old rows then inserts fresh row with computed expires_at. Also getAutomationCronJobs(), updateCronJob(slug, updates), triggerCronJob(slug) methods for cron management.",
+      "passes": true,
+      "category": "backend",
+      "priority": 1
+    },
+    {
+      "id": "sdpa-004",
+      "name": "harness/cron-manager.js: local daemon on port 3302",
+      "description": "Node.js daemon that reads automation_cron_jobs from Supabase every 60s, fires self-poll endpoints on each Safari service during quiet hours, writes results back (last_run_at, last_run_status, last_run_count). Endpoints: GET /health, GET /api/cron/status, POST /api/cron/:slug/run-now, POST /api/cron/:slug/toggle. Handles quiet-hours check per job definition. Platform ports: linkedin=3105, threads=3004, tiktok=3006, instagram=3100, twitter=3003.",
+      "passes": true,
+      "category": "backend",
+      "priority": 1
+    },
+    {
+      "id": "sdpa-005",
+      "name": "cloud-sync server.ts: /api/cron/* REST endpoints",
+      "description": "Add to packages/cloud-sync/src/api/server.ts: GET /api/cron/jobs (list all jobs from Supabase), PUT /api/cron/jobs/:slug (update schedule/enabled via CloudSupabase.updateCronJob), POST /api/cron/jobs/:slug/trigger (set trigger_requested=true via CloudSupabase.triggerCronJob). All endpoints return JSON with proper error handling.",
+      "passes": true,
+      "category": "backend",
+      "priority": 1
+    },
+    {
+      "id": "sdpa-006",
+      "name": "cloud-bridge.js: Realtime subscription for automation_cron_jobs",
+      "description": "Add Supabase Realtime subscription in harness/cloud-bridge.js listening to automation_cron_jobs INSERT/UPDATE events. When trigger_requested=true on a job, forward a POST to cron-manager :3302/api/cron/:slug/run-now. When enabled/schedule changes, POST /api/cron/reload to cron-manager. Reconnects on disconnect.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 2
+    },
+    {
+      "id": "sdpa-007",
+      "name": "Telegram bot: /cron command (list, enable, disable, run)",
+      "description": "In harness/telegram-bot.js add /cron command handling: /cron → list all jobs table (slug, status, last_run, enabled). /cron enable <slug> → PUT /api/cron/jobs/:slug {enabled:true} on cloud-sync :3200. /cron disable <slug> → PUT {enabled:false}. /cron run <slug> → POST /api/cron/jobs/:slug/trigger. Replies with formatted status.",
+      "passes": true,
+      "status": "completed",
+      "category": "bot",
+      "priority": 2
+    },
+    {
+      "id": "sdpa-008",
+      "name": "SelfPollCron for linkedin-automation (:3105)",
+      "description": "Create packages/linkedin-automation/src/self-poll-cron.ts with SelfPollCron class: isQuietHours() checks 1am–7am local time, tick() fetches local DM/invitation data via existing service endpoints and calls writePlatformCache('linkedin', 'dms', ...) and writePlatformCache('linkedin', 'invitations', ...). start(intervalMs=300_000) uses setInterval. Add GET /api/self-poll/trigger endpoint to server.ts. SelfPollCron started on server startup.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 2
+    },
+    {
+      "id": "sdpa-009",
+      "name": "SelfPollCron for threads-comments (:3004)",
+      "description": "Create packages/threads-comments/src/self-poll-cron.ts with SelfPollCron class writing to safari_platform_cache for platform='threads', data_type='comments' and 'post_stats'. Add GET /api/self-poll/trigger endpoint. Start on server startup.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 2
+    },
+    {
+      "id": "sdpa-010",
+      "name": "SelfPollCron for tiktok-comments (:3006)",
+      "description": "Create packages/tiktok-comments/src/self-poll-cron.ts with SelfPollCron class writing to safari_platform_cache for platform='tiktok', data_type='comments' and 'post_stats'. Add GET /api/self-poll/trigger endpoint. Start on server startup.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 2
+    },
+    {
+      "id": "sdpa-011",
+      "name": "SelfPollCron for instagram-dm (:3100)",
+      "description": "Create packages/instagram-dm/src/self-poll-cron.ts with SelfPollCron class writing to safari_platform_cache for platform='instagram', data_type='dms' and 'notifications'. Add GET /api/self-poll/trigger endpoint. Start on server startup.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 2
+    },
+    {
+      "id": "sdpa-012",
+      "name": "SelfPollCron for twitter-dm (:3003)",
+      "description": "Create packages/twitter-dm/src/self-poll-cron.ts with SelfPollCron class writing to safari_platform_cache for platform='twitter', data_type='dms' and 'notifications'. Add GET /api/self-poll/trigger endpoint. Start on server startup.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 3
+    },
+    {
+      "id": "sdpa-013",
+      "name": "cloud-sync pollers: read from safari_platform_cache first",
+      "description": "Rewrite each poller in packages/cloud-sync/src/pollers/ (instagram, twitter, tiktok, threads, linkedin) to: 1) call db.getPlatformCache(platform, dataType), 2) return cached data if non-null, 3) only call Safari service directly if cache miss AND isQuietHours(), 4) on direct fetch success, call writePlatformCache to populate cache. Return [] on cache miss outside quiet hours — no Safari navigation.",
+      "passes": true,
+      "status": "completed",
+      "category": "backend",
+      "priority": 3
+    },
+    {
+      "id": "sdpa-014",
+      "name": "Phase A: Safari profile window enforcement in tab coordinator",
+      "description": "Update harness/safari-tab-coordinator.js: add SAFARI_AUTOMATION_WINDOW env var (default: 1). openTab() must target that window index only. claimTab() rejects claims from other window indices unless --override flag set. Add GET /api/tabs/profile endpoint returning {windowIndex, url}. Add harness/safari-profile-setup.sh that runs AppleScript to verify the automation window is open and accessible.",
+      "passes": true,
+      "status": "completed",
+      "category": "infrastructure",
+      "priority": 3
+    },
+    {
+      "id": "sdpa-015",
+      "name": "Dashboard: Cron tab in acd-live-dashboard",
+      "description": "Add /cron route to acd-live-dashboard (localhost:3000). New page shows all automation_cron_jobs in a table: slug, platform, schedule, enabled toggle, last_run_at, last_run_status badge (success=green, error=red, skipped=amber), last_run_count, Run Now button. Calls GET http://localhost:3200/api/cron/jobs. Polling every 10s. Run Now calls POST /api/cron/jobs/:slug/trigger. Enable toggle calls PUT /api/cron/jobs/:slug. Match existing dark terminal theme.",
+      "passes": true,
+      "status": "completed",
+      "category": "frontend",
+      "priority": 3
+    }
+  ]
+}

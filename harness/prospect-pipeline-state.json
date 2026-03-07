@@ -1,0 +1,35 @@
+{
+  "running": false,
+  "paused": false,
+  "cycleCount": 8,
+  "platformCursor": 2,
+  "stats": {
+    "ig": {
+      "found": 0,
+      "qualified": 0,
+      "synced": 0,
+      "queued": 0
+    },
+    "tt": {
+      "found": 0,
+      "qualified": 0,
+      "synced": 0,
+      "queued": 0
+    },
+    "tw": {
+      "found": 30,
+      "qualified": 2,
+      "synced": 2,
+      "queued": 2
+    },
+    "threads": {
+      "found": 89,
+      "qualified": 11,
+      "synced": 11,
+      "queued": 11
+    }
+  },
+  "lastCycleAt": "2026-03-06T00:16:13.171Z",
+  "nextCycleAt": "2026-03-06T00:46:13.171Z",
+  "startedAt": "2026-03-06T00:05:11.378Z"
+}

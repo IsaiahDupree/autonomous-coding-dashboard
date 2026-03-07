@@ -4,18 +4,18 @@
   "priority": 9,
   "targetPath": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness",
   "features": [
-    { "id": "UW-001", "name": "Upwork gig scanner: Safari automation search for gigs matching skill keywords (website, landing page, automation, SaaS), returns array of { gig_id, title, budget, description, url }", "passes": false },
-    { "id": "UW-002", "name": "Gig feasibility scorer (10-point): landing page/website (+3), already has designs (+2), fixed price <$500 (+2), tech stack match (+2), verified payment (+1)", "passes": false },
-    { "id": "UW-003", "name": "Build pipeline: for feasible gig (score≥7), spawn Claude Code agent via harness/run-harness-v2.js to build deliverable in /tmp/upwork-{gig-id}/", "passes": false },
-    { "id": "UW-004", "name": "GitHub push: after build, git init + git remote add + git push to isaiahdupree/upwork-{gig-id} repo via gh CLI", "passes": false },
-    { "id": "UW-005", "name": "Vercel deploy: npx vercel --yes --prod in /tmp/upwork-{gig-id}/ → capture live URL", "passes": false },
-    { "id": "UW-006", "name": "Passport drive backup: cp -r /tmp/upwork-{gig-id}/ /Volumes/Passport/clients/upwork-{gig-id}/ if drive mounted", "passes": false },
-    { "id": "UW-007", "name": "Proposal drafter: template with demo URL + GitHub link: 'I already built this. Demo: {url}. Approve to ship.' Max 500 chars.", "passes": false },
-    { "id": "UW-008", "name": "Telegram approval queue: POST to Telegram bot with gig details + demo URL + /approve_{id} | /skip_{id} commands", "passes": false },
-    { "id": "UW-009", "name": "Telegram webhook handler: receives /approve or /skip, updates upwork-queue.json, triggers Safari automation to send proposal", "passes": false },
-    { "id": "UW-010", "name": "upwork-queue.json: { id, gig_id, title, budget, demo_url, github_url, proposal_text, status, created_at, approved_at }", "passes": false },
-    { "id": "UW-011", "name": "launch-upwork-agent.sh: start|stop|status, 2hr cycle, nohup", "passes": false },
-    { "id": "UW-012", "name": "Backend routes: GET /api/upwork/status, GET /api/upwork/queue, POST /api/upwork/queue/approve, POST /api/upwork/queue/skip", "passes": false },
-    { "id": "UW-013", "name": "harness/prompts/upwork-builder.md: Claude Code agent prompt for building landing pages/websites from gig descriptions", "passes": false }
+    { "id": "UW-001", "name": "Upwork gig scanner: Safari automation search for gigs matching skill keywords (website, landing page, automation, SaaS), returns array of { gig_id, title, budget, description, url }", "passes": true, "status": "completed" },
+    { "id": "UW-002", "name": "Gig feasibility scorer (10-point): landing page/website (+3), already has designs (+2), fixed price <$500 (+2), tech stack match (+2), verified payment (+1)", "passes": true, "status": "completed" },
+    { "id": "UW-003", "name": "Build pipeline: for feasible gig (score≥7), spawn Claude Code agent via harness/run-harness-v2.js to build deliverable in /tmp/upwork-{gig-id}/", "passes": true, "status": "completed" },
+    { "id": "UW-004", "name": "GitHub push: after build, git init + git remote add + git push to isaiahdupree/upwork-{gig-id} repo via gh CLI", "passes": true, "status": "completed" },
+    { "id": "UW-005", "name": "Vercel deploy: npx vercel --yes --prod in /tmp/upwork-{gig-id}/ → capture live URL", "passes": true, "status": "completed" },
+    { "id": "UW-006", "name": "Passport drive backup: cp -r /tmp/upwork-{gig-id}/ /Volumes/Passport/clients/upwork-{gig-id}/ if drive mounted", "passes": true, "status": "completed" },
+    { "id": "UW-007", "name": "Proposal drafter: template with demo URL + GitHub link: 'I already built this. Demo: {url}. Approve to ship.' Max 500 chars.", "passes": true, "status": "completed" },
+    { "id": "UW-008", "name": "Telegram approval queue: POST to Telegram bot with gig details + demo URL + /approve_{id} | /skip_{id} commands", "passes": true, "status": "completed" },
+    { "id": "UW-009", "name": "Telegram webhook handler: receives /approve or /skip, updates upwork-queue.json, triggers Safari automation to send proposal", "passes": true, "status": "completed" },
+    { "id": "UW-010", "name": "upwork-queue.json: { id, gig_id, title, budget, demo_url, github_url, proposal_text, status, created_at, approved_at }", "passes": true, "status": "completed" },
+    { "id": "UW-011", "name": "launch-upwork-agent.sh: start|stop|status, 2hr cycle, nohup", "passes": true, "status": "completed" },
+    { "id": "UW-012", "name": "Backend routes: GET /api/upwork/status, GET /api/upwork/queue, POST /api/upwork/queue/approve, POST /api/upwork/queue/skip", "passes": true, "status": "completed" },
+    { "id": "UW-013", "name": "harness/prompts/upwork-builder.md: Claude Code agent prompt for building landing pages/websites from gig descriptions", "passes": true, "status": "completed" }
   ]
 }

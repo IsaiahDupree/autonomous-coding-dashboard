@@ -1,0 +1,6 @@
+{"ts":"2026-03-07T16:51:44.599Z","msg":"Threads Comment Sweep daemon started (PID 40520)"}
+{"ts":"2026-03-07T16:51:44.601Z","msg":"Config: 5/niche, 3/feed, 20/run, 40/day, ~120min interval (±15min jitter)"}
+{"ts":"2026-03-07T16:51:44.638Z","msg":"Starting sweep: 5 niches, max 20 total, dryRun=false"}
+{"ts":"2026-03-07T16:51:44.820Z","msg":"Sweep error: No Safari tab available for threads-comments"}
+{"ts":"2026-03-07T18:39:27.147Z","msg":"Starting sweep: 5 niches, max 20 total, dryRun=false"}
+{"ts":"2026-03-07T18:39:57.157Z","msg":"Sweep error: Gateway Timeout"}

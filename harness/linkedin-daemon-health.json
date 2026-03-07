@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "service": "linkedin-daemon-chrome",
+  "timestamp": "2026-03-07T18:49:07.061Z",
+  "rateLimits": {
+    "messagesSentToday": 0,
+    "messagesSentThisHour": 0,
+    "limits": {
+      "messagesPerHour": 10,
+      "messagesPerDay": 20,
+      "activeHoursStart": 9,
+      "activeHoursEnd": 21
+    }
+  },
+  "cycleCount": 8,
+  "lastCycleAt": "2026-03-07T18:49:07.060Z",
+  "queueLength": 131
+}

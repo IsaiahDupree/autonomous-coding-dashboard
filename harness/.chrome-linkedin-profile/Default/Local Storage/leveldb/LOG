@@ -1,0 +1,22 @@
+2026/03/07-11:41:13.110 3f519b Reusing MANIFEST /Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/.chrome-linkedin-profile/Default/Local Storage/leveldb/MANIFEST-000001
+2026/03/07-11:41:13.113 3f519b Recovering log #9748
+2026/03/07-11:41:13.114 3f519b Reusing old log /Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/.chrome-linkedin-profile/Default/Local Storage/leveldb/009748.log 
+2026/03/07-11:44:26.756 3f519e Level-0 table #9752: started
+2026/03/07-11:44:26.761 3f519e Level-0 table #9752: 30230 bytes OK
+2026/03/07-11:44:26.768 3f519e Delete type=0 #9748
+2026/03/07-11:44:26.772 3f519b Compacting 4@0 + 3@1 files
+2026/03/07-11:44:26.793 3f519b Generated table #9753@0: 4163 keys, 2484767 bytes
+2026/03/07-11:44:26.809 3f519b Generated table #9754@0: 216 keys, 2292532 bytes
+2026/03/07-11:44:26.816 3f519b Generated table #9755@0: 3083 keys, 849964 bytes
+2026/03/07-11:44:26.816 3f519b Compacted 4@0 + 3@1 files => 5627263 bytes
+2026/03/07-11:44:26.818 3f519b compacted to: files[ 0 3 1 0 0 0 0 ]
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9743
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9740
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9741
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9752
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9746
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9749
+2026/03/07-11:44:26.818 3f519b Delete type=2 #9739
+2026/03/07-13:21:10.363 3f519e Level-0 table #9757: started
+2026/03/07-13:21:10.372 3f519e Level-0 table #9757: 37000 bytes OK
+2026/03/07-13:21:10.379 3f519e Delete type=0 #9751

@@ -1,0 +1,49 @@
+[
+  {
+    "id": "tw-1772756078038-4uitw",
+    "queued_at": "2026-03-06T00:14:38.038Z",
+    "status": "failed",
+    "prospect": {
+      "username": "InnovizLiDAR",
+      "display_name": "Innoviz Technologies",
+      "bio": "",
+      "followers_count": 0,
+      "profile_url": "https://x.com/InnovizLiDAR",
+      "platform": "tw",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software signal",
+        "AI/automation signal",
+        "revenue/growth signal"
+      ]
+    },
+    "crm_id": "73f924d0-1503-4048-a89f-7656b7d6549b",
+    "crm_synced": true,
+    "drafted_message": "Hi Innoviz, I noticed your work in AI/tech. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "fail_reason": "Could not open DM — profile button missing and inbox compose failed"
+  },
+  {
+    "id": "tw-1772756078686-ei7x9",
+    "queued_at": "2026-03-06T00:14:38.686Z",
+    "status": "failed",
+    "prospect": {
+      "username": "SportsyEric",
+      "display_name": "Eric Harrison",
+      "bio": "",
+      "followers_count": 0,
+      "profile_url": "https://x.com/SportsyEric",
+      "platform": "tw",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software signal",
+        "founder/exec role",
+        "AI/automation signal",
+        "revenue/growth signal"
+      ]
+    },
+    "crm_id": "03671909-b57d-4634-986b-c0f15a5d4307",
+    "crm_synced": true,
+    "drafted_message": "Hi Eric, I noticed your work in AI/tech. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "fail_reason": "Could not open DM — profile button missing and inbox compose failed"
+  }
+]

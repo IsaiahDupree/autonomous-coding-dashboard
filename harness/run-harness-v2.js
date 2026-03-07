@@ -680,6 +680,7 @@ async function runSession(sessionNumber, modelOverride = null) {
     // Build env: always use Claude OAuth auth, never API key
     const claudeEnv = { ...process.env };
     delete claudeEnv.ANTHROPIC_API_KEY; // strip API key — force OAuth/Claude auth
+    delete claudeEnv.CLAUDECODE; // allow nested claude sessions from watchdog/harness
     if (process.env.CLAUDE_CODE_OAUTH_TOKEN) {
       claudeEnv.CLAUDE_CODE_OAUTH_TOKEN = process.env.CLAUDE_CODE_OAUTH_TOKEN;
     }

@@ -1,0 +1,6 @@
+{"ts":"2026-03-07T16:51:44.859Z","msg":"Instagram Comment Sweep daemon started (PID 40564)"}
+{"ts":"2026-03-07T16:51:44.861Z","msg":"Config: 3/niche, 2/feed, 10/run, 20/day, ~180min interval (±15min jitter)"}
+{"ts":"2026-03-07T16:51:44.889Z","msg":"Safari lock held by another sweep — waiting 10s..."}
+{"ts":"2026-03-07T16:51:54.890Z","msg":"Safari lock held by another sweep — waiting 10s..."}
+{"ts":"2026-03-07T16:52:04.894Z","msg":"Starting sweep: 5 niches, max 10 total, dryRun=false"}
+{"ts":"2026-03-07T16:52:04.995Z","msg":"Sweep error: No Safari tab available for instagram-comments"}

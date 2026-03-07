@@ -15,6 +15,9 @@ if ! diff -q "$H/watchdog-queue.sh" "$HOME/.acd-watchdog.sh" > /dev/null 2>&1; t
   echo "[watchdog] Synced ~/.acd-watchdog.sh" | tee -a "$LOG"
 fi
 
+# Unset CLAUDECODE so harness can spawn nested claude sessions
+unset CLAUDECODE
+
 # Load environment variables
 if [[ -f "$H/.env" ]]; then
   set -a; source "$H/.env"; set +a
@@ -52,6 +55,27 @@ if ! pgrep -f "node-heartbeat.js" > /dev/null 2>&1; then
   echo "[watchdog] Node Heartbeat PID: $!" | tee -a "$LOG"
 else
   echo "[watchdog] node-heartbeat already running" | tee -a "$LOG"
+fi
+
+# Start twitter-research-agent once per day (24h minimum interval)
+TWITTER_RESEARCH_LAUNCH="/Users/isaiahdupree/Documents/Software/Safari Automation/packages/market-research/src/research-agent/launch-twitter-research-agent.sh"
+TWITTER_RESEARCH_LAST_RUN_FILE="/tmp/twitter-research-agent-last-run"
+TWITTER_RESEARCH_INTERVAL=$((24 * 60 * 60)) # 24 hours in seconds
+if [[ -f "$TWITTER_RESEARCH_LAUNCH" ]]; then
+  LAST_RUN=0
+  if [[ -f "$TWITTER_RESEARCH_LAST_RUN_FILE" ]]; then
+    LAST_RUN=$(cat "$TWITTER_RESEARCH_LAST_RUN_FILE" 2>/dev/null || echo 0)
+  fi
+  NOW_TS=$(date +%s)
+  SINCE_LAST=$((NOW_TS - LAST_RUN))
+  if [[ "$SINCE_LAST" -ge "$TWITTER_RESEARCH_INTERVAL" ]]; then
+    echo "[watchdog] Starting twitter-research-agent (last run: ${SINCE_LAST}s ago)..." | tee -a "$LOG"
+    echo "$NOW_TS" > "$TWITTER_RESEARCH_LAST_RUN_FILE"
+    nohup /bin/zsh -l "$TWITTER_RESEARCH_LAUNCH" run-now >> "$H/logs/twitter-research-agent.log" 2>&1 &
+    echo "[watchdog] Twitter Research Agent started (PID: $!)" | tee -a "$LOG"
+  else
+    echo "[watchdog] twitter-research-agent skipped (ran ${SINCE_LAST}s ago, interval=${TWITTER_RESEARCH_INTERVAL}s)" | tee -a "$LOG"
+  fi
 fi
 
 # Start safari-tab-watchdog if not already running (auto-recovers missing Safari tabs)
@@ -183,6 +207,17 @@ else
   echo "[watchdog] dm-outreach-daemon already running" | tee -a "$LOG"
 fi
 
+# Start LinkedIn DM auto-sender if not already running
+if ! pgrep -f "linkedin-dm-autosender.js" > /dev/null 2>&1; then
+  echo "[watchdog] Starting linkedin-dm-autosender..." | tee -a "$LOG"
+  nohup node "$H/linkedin-dm-autosender.js" >> "$H/logs/linkedin-dm-autosender.log" 2>&1 &
+  LI_DM_PID=$!
+  echo $LI_DM_PID > "$H/linkedin-dm-autosender.pid"
+  echo "[watchdog] LinkedIn DM Auto-Sender PID: $LI_DM_PID" | tee -a "$LOG"
+else
+  echo "[watchdog] linkedin-dm-autosender already running" | tee -a "$LOG"
+fi
+
 # Start LinkedIn Chrome agent if not already running
 if ! pgrep -f "linkedin-chrome-agent.js" > /dev/null 2>&1; then
   echo "[watchdog] Starting linkedin-chrome-agent..." | tee -a "$LOG"
@@ -214,6 +249,24 @@ if ! pgrep -f "youtube-content-daemon.js" > /dev/null 2>&1; then
   echo "[watchdog] YouTube Content Daemon PID: $YT_PID" | tee -a "$LOG"
 else
   echo "[watchdog] youtube-content-daemon already running" | tee -a "$LOG"
+fi
+
+# Start research-to-publish once per day (runs after twitter-research-agent)
+RTP_LAST_RUN_FILE="/tmp/research-to-publish-last-run"
+RTP_INTERVAL=$((24 * 60 * 60))
+RTP_LAST_RUN=0
+if [[ -f "$RTP_LAST_RUN_FILE" ]]; then
+  RTP_LAST_RUN=$(cat "$RTP_LAST_RUN_FILE" 2>/dev/null || echo 0)
+fi
+NOW_TS=$(date +%s)
+RTP_SINCE=$((NOW_TS - RTP_LAST_RUN))
+if [[ "$RTP_SINCE" -ge "$RTP_INTERVAL" ]]; then
+  echo "[watchdog] Starting research-to-publish (last run: ${RTP_SINCE}s ago)..." | tee -a "$LOG"
+  echo "$NOW_TS" > "$RTP_LAST_RUN_FILE"
+  nohup /bin/zsh -l "$H/launch-research-to-publish.sh" run-now >> "$H/logs/research-to-publish.log" 2>&1 &
+  echo "[watchdog] Research-to-publish started (PID: $!)" | tee -a "$LOG"
+else
+  echo "[watchdog] research-to-publish skipped (ran ${RTP_SINCE}s ago)" | tee -a "$LOG"
 fi
 
 # Start cron-manager if not already running (SDPA-014)

@@ -1,0 +1,45 @@
+{"ts":"2026-03-07T04:17:43.260Z","msg":"Shutting down..."}
+{"ts":"2026-03-07T04:17:44.479Z","msg":"Cloud Bridge daemon started (PID 23539) — Realtime primary, 60s fallback poll"}
+{"ts":"2026-03-07T04:17:44.479Z","msg":"NOTE: Realtime requires safari_command_queue in supabase_realtime publication."}
+{"ts":"2026-03-07T04:17:44.480Z","msg":"  If not enabled: Dashboard → Database → Replication → enable safari_command_queue"}
+{"ts":"2026-03-07T04:17:44.679Z","msg":"Realtime subscribed — instant command delivery active (<100ms latency)"}
+{"ts":"2026-03-07T04:17:44.679Z","msg":"Cron job Realtime subscription active — cloud triggers will relay to cron-manager"}
+{"ts":"2026-03-07T04:28:46.544Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T04:28:46.878Z","msg":"Failed: instagram:enrich","commandId":"8fbfe747-ee16-4973-b919-d728d417a416"}
+{"ts":"2026-03-07T04:35:58.153Z","msg":"Poll cycle error: fetch failed"}
+{"ts":"2026-03-07T05:31:13.498Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T05:31:13.563Z","msg":"Rejected unknown command: instagram:conversations","commandId":"e5d0bf9b-7850-4191-b305-13cacc333ec6"}
+{"ts":"2026-03-07T07:32:29.934Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T07:32:30.204Z","msg":"Failed: instagram:enrich","commandId":"d17772d0-5422-422a-adfd-f217ef3eb320"}
+{"ts":"2026-03-07T08:33:38.095Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T08:33:38.340Z","msg":"Failed: instagram:enrich","commandId":"b66b86b5-f9d4-4d3c-8281-2138d83caca3"}
+{"ts":"2026-03-07T10:04:50.206Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T10:04:50.443Z","msg":"Failed: instagram:enrich","commandId":"7048312c-0119-4453-a7aa-c67ae8851a35"}
+{"ts":"2026-03-07T11:03:49.773Z","msg":"Realtime CHANNEL_ERROR — falling back to 60s polling"}
+{"ts":"2026-03-07T11:03:49.775Z","msg":"Realtime CHANNEL_ERROR — falling back to 60s polling"}
+{"ts":"2026-03-07T11:03:52.817Z","msg":"Realtime subscribed — instant command delivery active (<100ms latency)"}
+{"ts":"2026-03-07T11:03:52.819Z","msg":"Cron job Realtime subscription active — cloud triggers will relay to cron-manager"}
+{"ts":"2026-03-07T11:05:58.553Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T11:05:59.002Z","msg":"Failed: instagram:enrich","commandId":"83af9d02-92a5-4d8d-8400-ce0a213a2dea"}
+{"ts":"2026-03-07T12:37:12.496Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T12:37:12.771Z","msg":"Failed: instagram:enrich","commandId":"8efb6d1e-6661-4096-9601-6c1bb76ab45f"}
+{"ts":"2026-03-07T14:08:25.980Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T14:08:26.256Z","msg":"Failed: instagram:enrich","commandId":"b968c556-fb60-4f9d-88c7-60908a6d1ba9"}
+{"ts":"2026-03-07T14:39:30.660Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T14:39:30.724Z","msg":"Rejected unknown command: instagram:scrape","commandId":"21786db8-f8e8-4856-bf77-0246f7cd59d6"}
+{"ts":"2026-03-07T16:51:39.113Z","msg":"Shutting down..."}
+{"ts":"2026-03-07T16:51:40.444Z","msg":"Cloud Bridge daemon started (PID 40369) — Realtime primary, 60s fallback poll"}
+{"ts":"2026-03-07T16:51:40.444Z","msg":"NOTE: Realtime requires safari_command_queue in supabase_realtime publication."}
+{"ts":"2026-03-07T16:51:40.444Z","msg":"  If not enabled: Dashboard → Database → Replication → enable safari_command_queue"}
+{"ts":"2026-03-07T16:51:40.679Z","msg":"Realtime subscribed — instant command delivery active (<100ms latency)"}
+{"ts":"2026-03-07T16:51:40.679Z","msg":"Observability command_queue Realtime subscribed — typed commands will be relayed to local-agent-daemon"}
+{"ts":"2026-03-07T16:51:40.683Z","msg":"Cron job Realtime subscription active — cloud triggers will relay to cron-manager"}
+{"ts":"2026-03-07T17:58:47.032Z","msg":"Fallback poll: found 1 pending commands"}
+{"ts":"2026-03-07T17:58:47.098Z","msg":"Rejected unknown command: instagram:conversations","commandId":"1c07f04d-d2c1-4dc3-8ce8-3bc416dc8e6c"}
+{"ts":"2026-03-07T18:48:07.134Z","msg":"Shutting down..."}
+{"ts":"2026-03-07T18:48:08.531Z","msg":"Cloud Bridge daemon started (PID 79574) — Realtime primary, 60s fallback poll"}
+{"ts":"2026-03-07T18:48:08.532Z","msg":"NOTE: Realtime requires safari_command_queue in supabase_realtime publication."}
+{"ts":"2026-03-07T18:48:08.532Z","msg":"  If not enabled: Dashboard → Database → Replication → enable safari_command_queue"}
+{"ts":"2026-03-07T18:48:08.775Z","msg":"Realtime subscribed — instant command delivery active (<100ms latency)"}
+{"ts":"2026-03-07T18:48:08.777Z","msg":"Observability command_queue Realtime subscribed — typed commands will be relayed to local-agent-daemon"}
+{"ts":"2026-03-07T18:48:08.781Z","msg":"Cron job Realtime subscription active — cloud triggers will relay to cron-manager"}

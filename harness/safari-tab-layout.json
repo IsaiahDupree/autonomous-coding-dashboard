@@ -1,29 +1,29 @@
 {
-  "coordinatedAt": "2026-03-06T04:13:40.512Z",
+  "coordinatedAt": "2026-03-07T18:44:27.591Z",
   "platforms": [
     {
       "platform": "Instagram DM",
       "port": 3100,
       "up": true,
-      "tab": "w8t2",
-      "claimed": true,
-      "error": null
+      "tab": "w1t1",
+      "claimed": false,
+      "error": "Error: [SafariDriver] No 'instagram.com' tab found. Claim a tab via TabCoordinator before running automation."
     },
     {
       "platform": "Twitter DM",
       "port": 3003,
       "up": true,
-      "tab": "w8t3",
-      "claimed": true,
-      "error": null
+      "tab": "w1t2",
+      "claimed": false,
+      "error": "Error: [SafariDriver] No 'x.com' tab found. Claim a tab via TabCoordinator before running automation."
     },
     {
       "platform": "TikTok DM",
       "port": 3102,
       "up": true,
-      "tab": "w8t5",
-      "claimed": true,
-      "error": null
+      "tab": "w1t3",
+      "claimed": false,
+      "error": "all tabs claimed by other services"
     },
     {
       "platform": "LinkedIn DM",
@@ -37,40 +37,40 @@
       "platform": "Threads",
       "port": 3004,
       "up": true,
-      "tab": "w4t1",
-      "claimed": true,
-      "error": null
+      "tab": "w1t8",
+      "claimed": false,
+      "error": "Error: [SafariDriver] No 'threads.com' tab found. Claim a tab via TabCoordinator before running automation."
     }
   ],
   "tabMap": {
     "ig": {
-      "windowIndex": 8,
-      "tabIndex": 2,
+      "windowIndex": 1,
+      "tabIndex": 1,
       "url": "https://www.instagram.com/direct/inbox/",
       "found": true
     },
     "tw": {
-      "windowIndex": 3,
-      "tabIndex": 1,
-      "url": "https://x.com/i/chat",
+      "windowIndex": 1,
+      "tabIndex": 2,
+      "url": "https://x.com/home",
       "found": true
     },
     "tt": {
-      "windowIndex": 8,
-      "tabIndex": 5,
-      "url": "https://www.tiktok.com/messages",
+      "windowIndex": 1,
+      "tabIndex": 3,
+      "url": "https://www.tiktok.com/@isaiah_dupree",
       "found": true
     },
     "li": {
-      "windowIndex": 2,
-      "tabIndex": 2,
-      "url": "https://www.linkedin.com/messaging/",
+      "windowIndex": 1,
+      "tabIndex": 13,
+      "url": "https://www.linkedin.com/search/results/people/?keywords=mobile%20app%20founder%20startup%20SaaS%20product-led%20growth",
       "found": true
     },
     "th": {
-      "windowIndex": 4,
-      "tabIndex": 1,
-      "url": "https://www.threads.com/@zvonko.biskup",
+      "windowIndex": 1,
+      "tabIndex": 8,
+      "url": "https://www.threads.com/search?q=claude%20code&serp_type=tags",
       "found": true
     }
   }

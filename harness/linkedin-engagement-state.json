@@ -1,0 +1,34 @@
+{
+  "running": true,
+  "paused": false,
+  "cycleCount": 2,
+  "seenProfiles": [],
+  "totalCommentersFound": 0,
+  "totalSyncedCrm": 0,
+  "totalQueuedForDm": 0,
+  "lastCycleAt": "2026-03-07T18:51:22.678Z",
+  "nextCycleAt": "2026-03-07T20:51:22.678Z",
+  "startedAt": "2026-03-06T02:13:54.951Z",
+  "keywordStats": {
+    "ai_automation": {
+      "found": 0,
+      "queued": 0
+    },
+    "saas_growth": {
+      "found": 0,
+      "queued": 0
+    },
+    "content_creation": {
+      "found": 0,
+      "queued": 0
+    },
+    "digital_marketing": {
+      "found": 0,
+      "queued": 0
+    },
+    "creator_economy": {
+      "found": 0,
+      "queued": 0
+    }
+  }
+}

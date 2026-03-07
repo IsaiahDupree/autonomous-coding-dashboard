@@ -1,0 +1,143 @@
+{
+  "project": "upwork-autonomous-builder",
+  "version": "1.0.0",
+  "description": "Autonomous Upwork proposal factory: RSS job scraping, ICP scoring, Claude AI proposal generation, Telegram approval gate, Supabase tracking on port 3107",
+  "features": [
+    {
+      "id": "UW-001",
+      "name": "packages/upwork-hunter/ package setup: package.json (port 3107), tsconfig.json, full directory structure with src/api, src/lib, src/types, tests/",
+      "category": "setup",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-002",
+      "name": "GET /health returns { status: 'ok', service: 'upwork-hunter', port: 3107 } with server running on :3107",
+      "category": "backend",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-003",
+      "name": "src/api/job-scraper.ts fetches Upwork RSS for 5 query strings, parses XML, deduplicates by job URL, returns UpworkJob[] with title, url, description, budget, pubDate",
+      "category": "backend",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-004",
+      "name": "Job scoring function: scores 0-100 based on keyword matches (ai, automation, saas, claude, workflow), budget signals, recency, hourly vs fixed — excludes wordpress/shopify/data-entry",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-005",
+      "name": "Supabase upwork_proposals table migration: id, job_id (unique), job_title, job_url, job_description, budget, score, proposal_text, status, offer_type, telegram_message_id, submitted_at, created_at — applied idempotently on server start",
+      "category": "database",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-006",
+      "name": "src/api/proposal-gen.ts: generateProposal(job, offer) calls claude-haiku-4-5-20251001 with Isaiah's persona prompt, returns proposal_text under 300 words",
+      "category": "ai",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-007",
+      "name": "src/api/telegram-gate.ts: sends proposal preview to TELEGRAM_CHAT_ID, long-polls for /approve_{id} or /reject_{id} replies, updates Supabase status — gracefully skips if TELEGRAM_BOT_TOKEN not set",
+      "category": "integration",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-008",
+      "name": "GET /api/jobs/search triggers RSS fetch + scoring, returns top 10 scored jobs from Supabase",
+      "category": "backend",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-009",
+      "name": "GET /api/jobs/pending returns all jobs with status=pending from Supabase upwork_proposals",
+      "category": "backend",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-010",
+      "name": "POST /api/proposals/generate generates Claude proposal for a job by jobId, stores in Supabase, returns { jobId, proposal_text, status }",
+      "category": "backend",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-011",
+      "name": "POST /api/proposals/approve/:jobId and POST /api/proposals/reject/:jobId update status in Supabase — manual approval for testing without Telegram",
+      "category": "backend",
+      "priority": 11,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-012",
+      "name": "GET /api/proposals/stats returns { pending, approved, rejected, submitted, won } counts from Supabase",
+      "category": "backend",
+      "priority": 12,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-013",
+      "name": "POST /api/scan full pipeline: fetch RSS -> score -> generate proposals -> send to Telegram — returns scan summary { jobs_found, above_threshold, proposals_generated }",
+      "category": "backend",
+      "priority": 13,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-014",
+      "name": "Autonomous scan loop: setInterval every 4 hours calls runFullScan(), logs [scan] prefix, deduplicates against existing Supabase rows by job_id",
+      "category": "backend",
+      "priority": 14,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-015",
+      "name": "tests/upwork-hunter.test.ts Layer 1: GET /health and GET /api/proposals/stats pass without external deps",
+      "category": "test",
+      "priority": 15,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-016",
+      "name": "tests/upwork-hunter.test.ts Layer 2: GET /api/jobs/search returns >=1 job with score > 0 (real RSS fetch)",
+      "category": "test",
+      "priority": 16,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "UW-017",
+      "name": "npm run build passes with zero TypeScript errors",
+      "category": "quality",
+      "priority": 17,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

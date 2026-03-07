@@ -1,0 +1,4 @@
+{"ts":"2026-03-05T05:16:28.132Z","slug":"claude-agent-sdk-mcp","event":"session_start","session":1,"model":"claude-sonnet-4-5-20250929","featuresTotal":20,"featuresPassing":0}
+{"ts":"2026-03-05T05:18:13.732Z","slug":"claude-agent-sdk-mcp","event":"session_start","session":1,"model":"claude-sonnet-4-5-20250929","featuresTotal":20,"featuresPassing":0}
+{"ts":"2026-03-05T05:31:42.653Z","slug":"claude-agent-sdk-mcp","event":"feature_passed","session":1,"featuresDelta":20,"newPassing":20}
+{"ts":"2026-03-05T05:31:42.654Z","slug":"claude-agent-sdk-mcp","event":"session_end","session":1,"duration_ms":808910,"featuresDelta":20,"tokens":115304,"cost":2.373636,"exitCode":0}

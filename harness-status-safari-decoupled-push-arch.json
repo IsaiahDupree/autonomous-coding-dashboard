@@ -1,0 +1,13 @@
+{
+  "slug": "safari-decoupled-push-arch",
+  "phase": "coding",
+  "state": "idle",
+  "projectPath": "/Users/isaiahdupree/Documents/Software/Safari Automation",
+  "featuresFile": "/Users/isaiahdupree/Documents/Software/autonomous-coding-dashboard/harness/safari-decoupled-push-arch-features.json",
+  "progress": {
+    "passing": 14,
+    "total": 14,
+    "pct": "100%"
+  },
+  "updatedAt": "2026-03-07T04:01:47.707Z"
+}

@@ -1,0 +1,77 @@
+{
+  "slug": "linkedin-dm-autosender",
+  "features": [
+    {
+      "id": "lia-001",
+      "name": "Queue reader + daily limit guard",
+      "description": "Read harness/linkedin-dm-queue.json (top-level array). Filter to status==='approved'. Load harness/linkedin-dm-state.json for today's counts (connectionsSent, messagesSent). Reset counts if date changed. Enforce daily limits: LI_DAILY_CONNECTIONS=20, LI_DAILY_MESSAGES=30. Check active hours 08:00-19:00 (LI_ACTIVE_HOURS_START/END). Log approved count and remaining slots.",
+      "category": "core",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-002",
+      "name": "Connection request sender",
+      "description": "For each approved entry with no connection_requested_at: POST to http://localhost:3105/api/linkedin/connections/send with {profileUrl, note: entry.message} and Authorization: Bearer LINKEDIN_AUTH_TOKEN. On success: set status='connection_requested', connection_requested_at=ISO. On failure: set status='failed', error field. Increment connectionsSent. Add 10-20s random delay between sends. Write queue after each send. Stop when connectionsSent >= LI_DAILY_CONNECTIONS.",
+      "category": "sender",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-003",
+      "name": "Follow-up message sender",
+      "description": "For entries with status==='connection_requested' and connection_requested_at older than 24h: POST to http://localhost:3105/api/linkedin/messages/send with {profileUrl, message: entry.followUpMessage || entry.message}. On success: set status='sent', sent_at=ISO. On failure: log warning, leave as connection_requested for retry. Increment messagesSent. Add 15-30s random delay. Stop when messagesSent >= LI_DAILY_MESSAGES.",
+      "category": "sender",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-004",
+      "name": "CRMLite sync after each send",
+      "description": "After connection request: POST to https://crmlite-isaiahduprees-projects.vercel.app/api/actions with {action:'first_touch', platform:'linkedin', contact:{name, profileUrl, handle}, message}. After message send: POST with {action:'dm_sent'}. Load CRMLITE_API_KEY from actp-worker/.env. CRMLite failure is non-fatal. Set entry.crm_synced=true and entry.crm_id from response.",
+      "category": "integration",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-005",
+      "name": "Telegram notifications",
+      "description": "On start: send '🔗 LinkedIn DM sender started — N approved in queue, X connections remaining today'. After each connection: '✅ LinkedIn connection sent → {name} ({handle})'. After each message: '💬 LinkedIn DM sent → {name}'. On daily limit: '📊 LinkedIn daily limit reached'. On hard failure: '⚠️ LinkedIn DM sender error: {error}'. Load TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID from env or actp-worker/.env. Non-fatal.",
+      "category": "notifications",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-006",
+      "name": "Daemon loop + state persistence",
+      "description": "Continuous daemon with LI_SEND_INTERVAL_MINUTES=30 default. Check GET http://localhost:3105/health before each cycle — skip if not healthy. Check Safari tab claim status before sending. Write harness/linkedin-dm-state.json after every state change. Handle SIGTERM gracefully. CLI: --once (single cycle), --dry-run (log only, no sends), --send-approved (alias --once). Log to harness/logs/linkedin-dm-autosender.log.",
+      "category": "daemon",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-007",
+      "name": "launch-linkedin-dm-autosender.sh + watchdog",
+      "description": "Create harness/launch-linkedin-dm-autosender.sh with subcommands: start, stop, status (running/stopped, today counts, queue depth, next run), dry-run, send-approved (one cycle foreground), logs. Use /bin/zsh -l. Register in harness/watchdog-queue.sh as managed daemon.",
+      "category": "ops",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "lia-008",
+      "name": "Integration test suite",
+      "description": "Create harness/test-linkedin-dm-autosender.js. Tests: (1) --dry-run shows approved entries without calling port 3105, (2) queue parse loads linkedin-dm-queue.json and counts approved correctly, (3) state file resets on new day, (4) daemon stops at LI_DAILY_CONNECTIONS limit. Print PASS/FAIL per test.",
+      "category": "testing",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "twitter": {
+    "mode": "manual",
+    "dailyCap": 15,
+    "intervalMinutes": 10,
+    "activeHours": [
+      9,
+      22
+    ],
+    "capGrowthRate": 3,
+    "maxCapEver": 50,
+    "consecutiveDaysToGrow": 5,
+    "todaySent": 0,
+    "todayDate": "2026-03-06",
+    "lastSentAt": null,
+    "weeklyHistory": [
+      {
+        "date": "2026-03-06",
+        "sent": 0,
+        "cap": 15
+      }
+    ],
+    "totalAllTime": 0
+  },
+  "instagram": {
+    "mode": "manual",
+    "dailyCap": 10,
+    "intervalMinutes": 10,
+    "activeHours": [
+      9,
+      22
+    ],
+    "capGrowthRate": 3,
+    "maxCapEver": 30,
+    "consecutiveDaysToGrow": 5,
+    "todaySent": 0,
+    "todayDate": "2026-03-06",
+    "lastSentAt": null,
+    "weeklyHistory": [
+      {
+        "date": "2026-03-06",
+        "sent": 0,
+        "cap": 10
+      }
+    ],
+    "totalAllTime": 0
+  },
+  "tiktok": {
+    "mode": "manual",
+    "dailyCap": 8,
+    "intervalMinutes": 10,
+    "activeHours": [
+      9,
+      22
+    ],
+    "capGrowthRate": 3,
+    "maxCapEver": 25,
+    "consecutiveDaysToGrow": 5,
+    "todaySent": 0,
+    "todayDate": "2026-03-06",
+    "lastSentAt": null,
+    "weeklyHistory": [
+      {
+        "date": "2026-03-06",
+        "sent": 0,
+        "cap": 8
+      }
+    ],
+    "totalAllTime": 0
+  }
+}

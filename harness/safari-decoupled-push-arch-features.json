@@ -1,0 +1,92 @@
+{
+  "slug": "safari-decoupled-push-arch",
+  "project": "Safari Decoupled Push Architecture",
+  "description": "Safari Profile separation + push model + cloud-local cron management. Prevents Safari automation from hijacking personal browser sessions.",
+  "target_path": "/Users/isaiahdupree/Documents/Software/Safari Automation",
+  "features": [
+    {
+      "id": "SDPA-001",
+      "title": "Run Supabase migration — create safari_platform_cache and automation_cron_jobs tables",
+      "description": "Apply SQL migration via mcp0_apply_migration. Create safari_platform_cache (platform, data_type, payload jsonb, expires_at) and automation_cron_jobs (slug, schedule, enabled, last_run_at, last_run_status) tables. Seed 14 default cron job rows. Verify both tables exist in Supabase.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-002",
+      "title": "cron-manager.js — local cron daemon reading jobs from Supabase",
+      "description": "Create harness/cron-manager.js. Reads automation_cron_jobs from Supabase on startup and every 60s. Maintains setInterval schedulers per job. Checks quiet hours before firing. Fires jobs by POSTing to the relevant Safari service's /api/{platform}/self-poll endpoint (or falling back to cloud-sync /api/sync/poll-now with platform+dataType). Writes last_run_at, last_run_status, last_run_count back to Supabase after each run. Exposes GET /api/cron/status and POST /api/cron/:slug/run-now and POST /api/cron/:slug/toggle on port 3302. Starts with /health endpoint.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-003",
+      "title": "cloud-sync: GET /api/cron/jobs + PUT /api/cron/jobs/:slug endpoints",
+      "description": "Add cron management API to packages/cloud-sync/src/api/server.ts. GET /api/cron/jobs returns all rows from automation_cron_jobs. PUT /api/cron/jobs/:slug updates enabled/schedule/quiet_hour_start/quiet_hour_end. POST /api/cron/jobs/:slug/trigger sets a trigger flag in Supabase that cloud-bridge.js picks up and relays to local cron-manager. Add getAutomationCronJobs(), updateCronJob(), triggerCronJob() methods to CloudSupabase class in supabase.ts.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-004",
+      "title": "cloud-bridge.js: Supabase Realtime relay for cron job triggers",
+      "description": "Update harness/cloud-bridge.js to subscribe to automation_cron_jobs table changes via Supabase Realtime. When a row's trigger field is set to true (or last_run_status='trigger_requested'), POST to local cron-manager /api/cron/:slug/run-now. Reset the trigger field after dispatching. Also reload job schedule when schedule/enabled fields change.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-005",
+      "title": "Telegram bot: /cron command — list, enable, disable, run jobs",
+      "description": "Add /cron command to harness/telegram-bot.js. /cron lists all automation_cron_jobs with status emoji (✅ enabled, ⏸ disabled, last run time, last count). /cron enable {slug} and /cron disable {slug} toggle via Supabase. /cron run {slug} triggers immediate run via cron-manager /api/cron/:slug/run-now. Format output cleanly for mobile.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-006",
+      "title": "safari_platform_cache read layer in cloud-sync pollers",
+      "description": "Add getPlatformCache(platform, dataType) method to CloudSupabase (packages/cloud-sync/src/supabase.ts). Returns non-expired rows from safari_platform_cache ordered by fetched_at desc. Update all platform pollers (instagram, twitter, tiktok, threads, linkedin) to check cache first: if fresh cache exists return it directly; if cache miss AND quiet hours, call Safari service and write result to cache; if cache miss AND active hours, return empty array. Never call Safari services outside quiet hours.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-007",
+      "title": "writePlatformCache helper + cache-writer.ts",
+      "description": "Create packages/cloud-sync/src/cache-writer.ts with writePlatformCache(platform, dataType, payload, ttlMs) function. Upserts to safari_platform_cache: deletes old rows for same platform+dataType, inserts new row with expires_at = now() + ttlMs. TTLs: dms=1800000 (30min), notifications=1800000, post_stats=21600000 (6h), invitations=7200000 (2h), comments=21600000. Wire into all pollers after successful Safari service calls.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-008",
+      "title": "LinkedIn self-poll endpoint — POST /api/linkedin/self-poll",
+      "description": "Add POST /api/linkedin/self-poll to packages/linkedin-automation/src/api/server.ts. Only runs during quiet hours (1am-7am). Fetches conversations, pending invitations, and recent posts. Writes results to safari_platform_cache via Supabase. Returns {success, fetched: {dms, invitations, posts}}. This endpoint is called by cron-manager on the linkedin-dms, linkedin-invitations, linkedin-stats schedules.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-009",
+      "title": "Threads self-poll endpoint — POST /api/threads/self-poll",
+      "description": "Add POST /api/threads/self-poll to packages/threads-comments/src/api/server.ts. Only runs during quiet hours. Navigates to Threads profile, discovers posts, fetches stats and comments. Writes to safari_platform_cache. Returns {success, fetched: {posts, comments}}. Called by cron-manager on threads-stats and threads-comments schedules.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-010",
+      "title": "TikTok self-poll endpoint — POST /api/tiktok/self-poll",
+      "description": "Add POST /api/tiktok/self-poll to packages/tiktok-comments/src/api/server.ts. Only runs during quiet hours. Fetches profile videos and comments. Writes to safari_platform_cache. Returns {success, fetched: {videos, comments}}. Called by cron-manager on tiktok-stats and tiktok-comments schedules.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-011",
+      "title": "Safari profile window enforcement in tab-coordinator",
+      "description": "Update harness/safari-tab-coordinator.js. Add SAFARI_AUTOMATION_WINDOW env var (default 1, meaning window index 1 = the Automation profile window). claimTab() rejects claims where windowIndex != SAFARI_AUTOMATION_WINDOW unless SAFARI_ALLOW_ANY_WINDOW=true. openTab() always opens in SAFARI_AUTOMATION_WINDOW. Add GET /api/tabs/profile returning {automationWindow: N, enforced: bool}. Add harness/safari-profile-setup.sh with AppleScript to verify the automation window is open and on linkedin.com or linkedin.com/messaging.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-012",
+      "title": "Dashboard Cron tab — view and control all cron jobs",
+      "description": "Add a Cron tab to the ACD dashboard at http://localhost:3434. Fetch /api/cron/jobs from cloud-sync :3200. Render a table: slug, platform, data_type, schedule, enabled toggle switch, last_run badge (✅/❌/⏭), last_run_at relative time, last_run_count, Run Now button. Toggle calls PUT /api/cron/jobs/:slug {enabled}. Run Now calls POST /api/cron/jobs/:slug/trigger. Auto-refresh every 30s.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-013",
+      "title": "system-status.js: show cron job status in unified terminal view",
+      "description": "Update harness/system-status.js to fetch GET /api/cron/status from cron-manager :3302. Add a Cron Jobs section showing: enabled/disabled counts, last run times, any jobs that haven't run in >8h (STALE warning). Include in both --watch and --json output modes.",
+      "passes": true
+    },
+    {
+      "id": "SDPA-014",
+      "title": "Add cron-manager to watchdog-queue.sh auto-restart loop",
+      "description": "Update harness/watchdog-queue.sh (or the active watchdog script) to include cron-manager.js in the daemon list. Check port 3302 /health every 30s. Restart if down. Add to launch-overstory.sh or launch-prospect-swarm.sh startup sequence. Log to harness/logs/cron-manager.log.",
+      "passes": true
+    }
+  ]
+}

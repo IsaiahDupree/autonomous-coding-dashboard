@@ -1,0 +1,13 @@
+{"ts":"2026-03-06T00:36:55.308Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}
+{"ts":"2026-03-06T01:08:54.746Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}
+{"ts":"2026-03-06T01:17:07.746Z","slug":"rebuild-prospect-scoring","event":"feature_passed","session":1,"featuresDelta":1,"newPassing":1}
+{"ts":"2026-03-06T01:17:07.748Z","slug":"rebuild-prospect-scoring","event":"session_end","session":1,"duration_ms":492974,"featuresDelta":1,"tokens":43632,"cost":0.6359615,"exitCode":0}
+{"ts":"2026-03-06T01:38:11.313Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}
+{"ts":"2026-03-06T01:39:59.195Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}
+{"ts":"2026-03-06T01:45:48.363Z","slug":"rebuild-prospect-scoring","event":"feature_passed","session":1,"featuresDelta":1,"newPassing":1}
+{"ts":"2026-03-06T01:45:48.364Z","slug":"rebuild-prospect-scoring","event":"session_end","session":1,"duration_ms":457026,"featuresDelta":1,"tokens":40368,"cost":0.5912062499999999,"exitCode":0}
+{"ts":"2026-03-06T02:01:12.890Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}
+{"ts":"2026-03-06T02:09:42.469Z","slug":"rebuild-prospect-scoring","event":"feature_passed","session":1,"featuresDelta":1,"newPassing":1}
+{"ts":"2026-03-06T02:09:42.474Z","slug":"rebuild-prospect-scoring","event":"session_end","session":1,"duration_ms":509552,"featuresDelta":1,"tokens":26553,"cost":0.5019935,"exitCode":0}
+{"ts":"2026-03-06T02:12:23.143Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}
+{"ts":"2026-03-06T02:43:45.911Z","slug":"rebuild-prospect-scoring","event":"session_start","session":1,"model":"claude-sonnet-4-6","featuresTotal":1,"featuresPassing":0}

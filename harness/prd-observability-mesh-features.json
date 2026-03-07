@@ -1,0 +1,113 @@
+{
+  "slug": "prd-observability-mesh",
+  "features": [
+    {
+      "id": "obs-001",
+      "name": "Supabase migration — observability mesh tables",
+      "description": "Create harness/migrations/20260307_observability_mesh.sql with all 6 tables: agent_nodes, worker_status, command_queue, command_events, browser_sessions, agent_artifacts. Apply via Supabase MCP mcp__supabase__apply_migration.",
+      "category": "database",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-002",
+      "name": "local-agent-daemon.js — node registration and heartbeat",
+      "description": "Create harness/local-agent-daemon.js. On startup: upsert agent_nodes record with node_id=mac-mini-main, capabilities, browser status. Every 30s: update last_heartbeat_at and status. Every 60s: scan known daemon PIDs and report worker health to worker_status table. Poll command_queue every 10s for commands targeting this node.",
+      "category": "daemon",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-003",
+      "name": "local-agent-daemon.js — browser health reporting",
+      "description": "Inside local-agent-daemon.js, check Safari service ports (3100,3003,3102,3105,3005,3006,3007,3004,3106) via /health. Check Chrome CDP port 9333. Report results to browser_sessions table every 60s with status: healthy, session-expired, captcha, disconnected.",
+      "category": "daemon",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-004",
+      "name": "local-agent-daemon.js — command dispatch routing",
+      "description": "When a command is received from command_queue, route to the correct adapter: safari_* commands to safari-worker-adapter.js, chrome_* commands to chrome-worker-adapter.js, node_* and obsidian_* commands handled locally. Emit command_events at each lifecycle stage (received, validated, started, completed/failed). Update command_queue.status.",
+      "category": "daemon",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-005",
+      "name": "safari-worker-adapter.js — typed command executor",
+      "description": "Create harness/safari-worker-adapter.js. Implement: safari_collect_profile (POST to Safari service /api/collect), safari_send_dm (approval gate check first), safari_open_tab (tab coordinator claim), safari_check_auth (/health endpoint), safari_screenshot (capture), safari_search_extract (search + return results), safari_refresh_session. Each command emits progress events and uploads artifacts on completion.",
+      "category": "adapter",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-006",
+      "name": "chrome-worker-adapter.js — Chrome CDP command executor",
+      "description": "Create harness/chrome-worker-adapter.js. Connect to Chrome debug port 9333. Implement: chrome_linkedin_search, chrome_linkedin_collect_profile, chrome_linkedin_send_connection (approval gate), chrome_screenshot, chrome_evaluate (run JS and return result), chrome_navigate, chrome_check_auth. Emit command_events at each step.",
+      "category": "adapter",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-007",
+      "name": "observability-api.js — REST routes on port 3434",
+      "description": "Create harness/observability-api.js with Express routes: GET /api/obs/nodes, GET /api/obs/nodes/:nodeId, GET /api/obs/workers, GET /api/obs/commands, GET /api/obs/commands/:commandId (with events), GET /api/obs/browsers, POST /api/obs/command (issue command), GET /api/obs/fleet (full snapshot <500ms). Wire into existing backend on port 3434.",
+      "category": "api",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-008",
+      "name": "cloud-bridge.js enhancement — Realtime command subscription",
+      "description": "Enhance harness/cloud-bridge.js to: subscribe to Supabase Realtime on command_queue WHERE node_target=NODE_ID AND status=queued. On new command: call local-agent-daemon dispatch. Emit node heartbeat to agent_nodes every 30s. Add route handlers for command:dispatch, command:cancel, node:query.",
+      "category": "infrastructure",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-009",
+      "name": "telegram-bot.js enhancement — /ops, /command, /node, /workers",
+      "description": "Enhance harness/telegram-bot.js with new commands: /ops (full fleet snapshot — nodes, workers, browsers, queue depth), /command <type> <inputs_json> (issue ad-hoc command), /node (this node status), /workers (all workers with status). Format clearly with status emojis and last-seen timestamps.",
+      "category": "ui",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-010",
+      "name": "launch-observability.sh + watchdog registration",
+      "description": "Create harness/launch-observability.sh with start|stop|status commands for local-agent-daemon.js. Register local-agent-daemon in harness/watchdog-queue.sh so it auto-starts alongside other daemons. Add PID tracking to harness/watchdog-state.json entry.",
+      "category": "ops",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-011",
+      "name": "End-to-end integration test",
+      "description": "Create harness/test-observability.js that: (1) verifies agent_nodes record exists and heartbeat is recent, (2) verifies all 10+ daemon workers appear in worker_status, (3) issues a safari_check_auth command via POST /api/obs/command and waits for completion, (4) verifies command_events were written, (5) verifies GET /api/obs/fleet returns in <500ms. All tests must pass.",
+      "category": "testing",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "obs-012",
+      "name": "Obsidian write-back on research results",
+      "description": "In safari-worker-adapter.js and chrome-worker-adapter.js, when a command result has result_type=research or insight, append a dated entry to ~/.memory/vault/PROJECT-MEMORY/observability-log.md. Only write distilled summaries, not raw telemetry.",
+      "category": "integration",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

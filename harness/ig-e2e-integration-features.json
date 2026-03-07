@@ -1,0 +1,87 @@
+{
+  "project": "ig-e2e-integration",
+  "version": "1.0.0",
+  "description": "Instagram prospect pipeline end-to-end integration: run-pipeline endpoint, pipeline-status, schedule-batch, prospect-review CLI, and 4-stage vitest suite",
+  "features": [
+    {
+      "id": "IG-E2E-001",
+      "name": "POST /api/prospect/run-pipeline endpoint: accepts { keywords, sources, maxProspects, minScore, dryRun } and runs full discovery pipeline, returning { discovered, stored, skipped_low_score, skipped_duplicate, top_prospects }",
+      "category": "backend",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-002",
+      "name": "GET /api/prospect/pipeline-status endpoint: queries Supabase suggested_actions for total_suggested, total_dm_ready, total_contacted, last_discovery_at, next_batch_at",
+      "category": "backend",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-003",
+      "name": "POST /api/prospect/schedule-batch endpoint: accepts { limit, template, dryRun }, selects top suggested_actions prospects, generates personalized messages, inserts to crm_message_queue, updates suggested_actions to status=queued",
+      "category": "backend",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-004",
+      "name": "src/cli/prospect-review.ts CLI: displays suggested prospects one at a time with score/signals, accepts d=dm/s=skip/q=quit keyboard input, updates Supabase on each action",
+      "category": "cli",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-005",
+      "name": "tests/ig-e2e-pipeline.test.ts Stage 1: POST /api/prospect/discover with hashtag sources returns >=3 candidates with score>30 and valid usernames (no IG_BLOCKED_PATHS members)",
+      "category": "test",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-006",
+      "name": "tests/ig-e2e-pipeline.test.ts Stage 2: POST /api/prospect/store-batch stores candidates in Supabase, second call returns { skipped: N, stored: 0 } for same batch (dedup working)",
+      "category": "test",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-007",
+      "name": "tests/ig-e2e-pipeline.test.ts Stage 3: GET /api/prospect/score/:username returns { username, score, signals, icp } shape for each discovered prospect",
+      "category": "test",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-008",
+      "name": "tests/ig-e2e-pipeline.test.ts Stage 4: GET /api/prospect/pipeline-status returns { total_suggested, total_dm_ready, next_batch_at } with total_suggested >= 3",
+      "category": "test",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-009",
+      "name": "POST /api/prospect/schedule-batch with dryRun=true returns >=1 prospect in scheduled array with message_preview non-empty, no DB writes",
+      "category": "test",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "IG-E2E-010",
+      "name": "npm run build (tsc --noEmit --skipLibCheck) passes with zero TypeScript errors after all changes",
+      "category": "quality",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

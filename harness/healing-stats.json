@@ -1,0 +1,8 @@
+{
+  "total_attempts": 0,
+  "successes": 0,
+  "failures": 0,
+  "mttr_seconds": 0,
+  "recent_heals": [],
+  "by_service": {}
+}

@@ -2040,3 +2040,57 @@ Feature status: 120/120 (100%)
 - All audit scripts (pct-audit.js through pct-audit5.js) passing
 
 **Status:** PCT system fully implemented. All features marked [x] in FEATURES-Programmatic-Creative-Testing.md are operational.
+
+## Session: 2026-03-07
+
+### PRD-081: Upwork Agent - Initialization
+
+**Initializer Agent Session**
+
+Created project foundation for Upwork Autonomous Agent (demo-first proposal system):
+
+**Files Created:**
+- `harness/upwork-keywords.json` - Search config (skills, excludes, budget range, 5 query templates)
+- `harness/upwork-queue.json` - Empty proposal queue initialized
+- `harness/upwork-agent.js` - Main orchestrator with complete function stubs (13 functions)
+- `harness/prompts/upwork-builder.md` - Claude Code prompt for building landing pages (comprehensive guide)
+- `harness/launch-upwork-agent.sh` - Daemon launcher (start/stop/status) - auto-updated to point to upwork-hunter :3107
+- `harness/UPWORK-AGENT-README.md` - Full documentation (architecture, config, usage, metrics)
+- `harness/UPWORK-AGENT-INIT.md` - Initialization summary and next steps
+
+**Implemented Features (ready to test):**
+- UW-002: Gig feasibility scorer (0-10 point system) - scoring logic complete
+- UW-007: Proposal generator template - "I already built this. Demo: {url}" format complete
+- UW-010: Queue management (load/save) - JSON file operations complete
+
+**Stubbed Features (ready for implementation):**
+- UW-001: Scanner (needs Safari :3104 integration)
+- UW-003: Build pipeline (needs Claude Code spawning via run-harness-project.js)
+- UW-004: GitHub push (needs gh CLI + git commands)
+- UW-005: Vercel deploy (needs vercel CLI integration)
+- UW-006: Passport backup (needs filesystem copy)
+- UW-008: Telegram send (needs Telegram API POST)
+- UW-009: Telegram handlers (needs /approve_ID, /skip_ID in telegram-bot.js)
+- UW-011: Launch script (created, needs testing)
+- UW-012: Backend routes (needs /api/upwork/* endpoints)
+- UW-013: Builder prompt (created, needs testing)
+
+**Feature Status:** 0/13 complete (3 implemented, awaiting tests; 10 stubbed)
+**Next:** Coding agent implements UW-001 (Safari scanner) and UW-003 (Claude Code builder)
+
+**Note:** launch-upwork-agent.sh was auto-updated to point to existing upwork-hunter service (:3107) in Safari Automation directory. This is the more mature implementation. PRD-081 upwork-agent.js represents an alternative "demo-first" approach.
+
+
+=== PRD-082: Self-Healing Agent System — 2026-03-07 ===
+All 10 features implemented and verified:
+
+SH-001: harness/overstory-bridge.js — tails doctor-log.ndjson, spawns code-fixer-agent on confirmed_bug diagnoses, 10min debounce per file
+SH-002: harness/code-fixer-agent.js — Claude Code SDK (Sonnet 4.6) tool-use loop: read_file, write_file, run_command, record_result
+SH-003: harness/service-monitor.js — polls 9 Safari ports every 30s, writes service-health.json
+SH-004: Auto-restart on 2+ consecutive failures, max 3 restarts/hr, escalates to code-fixer-agent
+SH-005: .overstory/specs/code-fixer.yaml + service-monitor.yaml — agent role definitions
+SH-006: harness/prompts/code-fixer.md — Claude Code SDK prompt for autonomous code fixes
+SH-007: harness/launch-self-healing.sh — start/stop/status for the full self-healing stack
+SH-008: GET /api/healing/status on live-ops-server — returns services, heals, success rate, MTTR
+SH-009: harness/healing-stats.json — tracks total_attempts, successes, failures, mttr_seconds, by_service
+SH-010: Dashboard "Healing" tab — service health grid, stat boxes, component status, recent heals table

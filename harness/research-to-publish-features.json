@@ -1,0 +1,77 @@
+{
+  "slug": "research-to-publish",
+  "features": [
+    {
+      "id": "rtp-001",
+      "name": "Supabase migration — content_publish_log table",
+      "description": "Create harness/migrations/20260307_content_publish_log.sql with content_publish_log table (id, research_date, content_type, platform, content_text, topic, blotato_post_id, mplite_queue_id, medium_url, status, published_at, created_at) + index on research_date. Apply via mcp__supabase__apply_migration. Use CREATE TABLE IF NOT EXISTS.",
+      "category": "database",
+      "priority": 1,
+      "passes": false,
+      "status": "pending_permission"
+    },
+    {
+      "id": "rtp-002",
+      "name": "Synthesis loader + content planner",
+      "description": "Read ~/Documents/twitter-research/synthesis/YYYY-MM-DD.json. Fall back to most recent file if today missing. Select top 3 topics by signal. Plan per topic: 1 tweet thread (3 tweets), 1 LinkedIn post, 1 Instagram caption. Top topic also gets Medium article. Return ContentPlan[]. Log: '📋 Content plan: 3 topics × 3 platforms + 1 Medium = N pieces'.",
+      "category": "planner",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "rtp-003",
+      "name": "AI content generator — Claude Haiku per platform",
+      "description": "Use claude-haiku-4-5-20251001 via Anthropic SDK. System prompt: 'B2B SaaS content strategist for software founders ($500K-$5M ARR). Hook-first, punchy, contrarian angle.' Generate per topic: tweet thread (3 tweets < 280 chars each), LinkedIn post (< 1300 chars, 3 hashtags max), Instagram caption (< 2200 chars, 10-15 hashtags), Medium article (600-900 words Markdown, top topic only). 1s delay between API calls. Template fallback on failure. Load ANTHROPIC_API_KEY from actp-worker/.env.",
+      "category": "generator",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "rtp-004",
+      "name": "Platform queue — MPLite scheduled publishing",
+      "description": "For each generated piece: POST to https://mediaposter-lite-isaiahduprees-projects.vercel.app/api/queue with {platform, content, scheduled_for}. Stagger: Twitter every 2h, LinkedIn every 6h, Instagram every 8h. For tweet thread first tweet: also publish via Blotato POST /v2/posts (account_id=571, header blotato-api-key). Record each in content_publish_log (status=queued, mplite_queue_id). Log each queue action. On failure: mark failed in Supabase, continue.",
+      "category": "publisher",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "rtp-005",
+      "name": "Medium article publisher via Safari MCP",
+      "description": "For #1 topic Medium article: call mcp__safari-medium__medium_publish with {title, content, tags: [topic, 'AI', 'SaaS', 'Startup', 'Technology']}. On success: record medium_url in content_publish_log. On failure: log warning, skip (non-fatal). Send Telegram: '📝 Medium article published: {title}\\n{url}'. Check content_publish_log to skip if already published today.",
+      "category": "publisher",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "rtp-006",
+      "name": "Completion Telegram report",
+      "description": "After all content queued, send Telegram summary with topics covered, counts per platform (Twitter N, LinkedIn N, Instagram N, Medium URL or skipped), total pieces. Save harness/research-to-publish-state.json: {lastRunDate, topicsProcessed, piecesQueued, mediumUrl}. Idempotent: skip already-queued topics by checking content_publish_log for research_date + topic combo.",
+      "category": "reporting",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "rtp-007",
+      "name": "Orchestrator script + launch-research-to-publish.sh",
+      "description": "Create harness/research-to-publish.js with CLI flags: --dry-run (no MPLite/Blotato calls, no Supabase writes), --date YYYY-MM-DD (use specific synthesis), --topics-only (print topics and exit), --medium-only. Load env from actp-worker/.env. Pipeline: loader → planner → generator → queue → medium → report. Log each stage with timing. On failure: Telegram alert. Create harness/launch-research-to-publish.sh with subcommands: run-now, dry-run, status (last run, pieces queued, medium URL), logs. Register in watchdog-queue.sh (runs once after twitter-research-agent). Use /bin/zsh -l.",
+      "category": "ops",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "rtp-008",
+      "name": "End-to-end test suite",
+      "description": "Create harness/test-research-to-publish.js. Create mock synthesis in /tmp/test-synthesis-rtp.json with 2 topics. Tests: (1) --dry-run generates content without MPLite/Blotato calls, (2) tweet < 280 chars, LinkedIn < 1300 chars, Instagram has hashtags, (3) Medium article body > 500 chars, (4) idempotency check: running twice same day skips duplicates. Print PASS/FAIL per check.",
+      "category": "testing",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

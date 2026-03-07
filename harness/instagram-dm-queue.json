@@ -1,0 +1,20 @@
+{
+  "queue": [
+    {
+      "id": "ig-test-1772773666813",
+      "platform": "instagram",
+      "username": "saraheashley",
+      "score": 75,
+      "signals": [
+        "ai_automation",
+        "content"
+      ],
+      "message": "Hey Sarah! I came across your content and loved your approach to building in public. I'm working on AI automation tools for creators — would love to swap notes sometime!",
+      "status": "approved",
+      "discoveredAt": "2026-03-06T05:07:46.813Z",
+      "isTestEntry": true,
+      "failReason": "Outside active hours",
+      "failCount": 1
+    }
+  ]
+}

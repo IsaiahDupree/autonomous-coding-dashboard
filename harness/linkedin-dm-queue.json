@@ -1,0 +1,3368 @@
+[
+  {
+    "id": "li-1772687724167-iu753",
+    "queued_at": "2026-03-05T05:15:24.167Z",
+    "cycle": 2,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Lauren Peikert",
+      "profileUrl": "https://www.linkedin.com/in/lauren-peikert/",
+      "headline": "Growth Marketing & AI Automation Leader 🚀 Helping Teams Do More With Less",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Growth Marketing & AI Automation Leader 🚀 Helping Teams Do More With Less",
+      "company": "",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "1d3540c2-fc5b-4d22-8da5-3143e6051c0c",
+    "crm_synced": true,
+    "drafted_message": "Hi Lauren, I noticed your role as Growth Marketing & AI Automation Leader 🚀 Helping Teams Do More With Less. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "priority_score": 57,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:54:23.929Z"
+  },
+  {
+    "id": "li-1772687724312-cjhl4",
+    "queued_at": "2026-03-05T05:15:24.312Z",
+    "cycle": 2,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Furkat Kasimov",
+      "profileUrl": "https://www.linkedin.com/in/furkat-frank-kasimov/",
+      "headline": "Tech Entrepreneur | Empowering Ecommerce Brands with AI First Re-Marketing Automation | Business Book Author",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Tech Entrepreneur",
+      "company": "Empowering Ecommerce Brands with AI First Re-Marketing Automation",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "72b6570c-0730-4792-94cc-9a5cfca8850e",
+    "crm_synced": true,
+    "drafted_message": "Hi Furkat, I noticed your work as Tech Entrepreneur at Empowering Ecommerce Brands with AI First Re-Marketing Automation. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:50:32.141Z",
+    "connection_requested_at": "2026-03-07T18:54:42.165Z"
+  },
+  {
+    "id": "li-1772687724470-dthf4",
+    "queued_at": "2026-03-05T05:15:24.470Z",
+    "cycle": 2,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Omaima Mazhar 🇦🇪",
+      "profileUrl": "https://www.linkedin.com/in/omaima-mazhar-%F0%9F%87%A6%F0%9F%87%AA-62654123a/",
+      "headline": "Startup Growth Partner 🚀| AI-Driven Product Building & Marketing Strategies",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Startup Growth Partner 🚀",
+      "company": "AI-Driven Product Building & Marketing Strategies",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "4961c4d0-54ec-4fde-8967-ba76a0f2edc2",
+    "crm_synced": true,
+    "drafted_message": "Hi Omaima, I noticed your work as Startup Growth Partner 🚀 at AI-Driven Product Building & Marketing Strategies. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "priority_score": 66,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:54:59.232Z"
+  },
+  {
+    "id": "li-1772687724615-x5d7c",
+    "queued_at": "2026-03-05T05:15:24.615Z",
+    "cycle": 2,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Muhammad Mudassar",
+      "profileUrl": "https://www.linkedin.com/in/muhammad-mudassar1220/",
+      "headline": "Learn Marketing Automation & AI Together - Workflows, Agents & AGI for SaaS/Startup Growth",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Learn Marketing Automation & AI Together - Workflows, Agents & AGI for SaaS/Startup Growth",
+      "company": "",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "3194f632-0ba0-4a1c-829b-83b0d3e8650c",
+    "crm_synced": true,
+    "drafted_message": "Hi Muhammad, I noticed your role as Learn Marketing Automation & AI Together - Workflows, Agents & AGI for SaaS/Startup Growth. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "priority_score": 57,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:55:10.595Z"
+  },
+  {
+    "id": "li-1772687724769-i5s49",
+    "queued_at": "2026-03-05T05:15:24.769Z",
+    "cycle": 2,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Vivek Singh",
+      "profileUrl": "https://www.linkedin.com/in/viv5in/",
+      "headline": "GTM | BizOps | Growth | Product",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "GTM",
+      "company": "BizOps",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "eb97faa9-38ef-40e4-bc14-866e7bc84a2a",
+    "crm_synced": true,
+    "drafted_message": "Hi Vivek, I noticed your work as GTM at BizOps. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "priority_score": 51,
+    "auto_approved_at": "2026-03-06T20:50:32.141Z",
+    "connection_requested_at": "2026-03-07T18:55:30.476Z"
+  },
+  {
+    "id": "li-1772687724907-v7l7x",
+    "queued_at": "2026-03-05T05:15:24.907Z",
+    "cycle": 2,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Muhammad Farooq Tabassum",
+      "profileUrl": "https://www.linkedin.com/in/muhammad-farooq-tabassum-036342185/",
+      "headline": "Founder & CEO at CloudNeurix | Expert in AI, Generative AI, GCP Expert, and Web Development | Innovating Future Technologies",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO",
+      "company": "CloudNeurix",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "48e1fca5-5e76-47a5-91db-9157d52578c7",
+    "crm_synced": true,
+    "drafted_message": "Hi Muhammad, I noticed your work as Founder & CEO at CloudNeurix. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "API Integration Builders",
+    "priority_score": 63,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:55:49.509Z"
+  },
+  {
+    "id": "li-1772688000178-muawj",
+    "queued_at": "2026-03-05T05:20:00.178Z",
+    "cycle": 3,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Risa Goodman",
+      "profileUrl": "https://www.linkedin.com/in/risagoodman/",
+      "headline": "B2B SaaS Product Leader | AI Transformation | 0-1 Product Market Fit | $100M+ total revenue | Early Stage–​>Series B",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "B2B SaaS Product Leader",
+      "company": "AI Transformation",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal"
+      ]
+    },
+    "crm_id": "67319e49-1336-4d7f-a923-570612962d70",
+    "crm_synced": true,
+    "drafted_message": "Hi Risa, I noticed your work as B2B SaaS Product Leader at AI Transformation. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "priority_score": 57,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:56:03.555Z"
+  },
+  {
+    "id": "li-1772688000668-5bx61",
+    "queued_at": "2026-03-05T05:20:00.668Z",
+    "cycle": 3,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Dennis Yao Yu",
+      "profileUrl": "https://www.linkedin.com/in/dennisyaoyu/",
+      "headline": "Founder and CEO, The Other Group | GTM for AI & Retail Technologies | Advisor to VC Backed Startups | Ex. Shopify, Art.com (Walmart exit) | LinkedIn T",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder and CEO, The Other Group",
+      "company": "GTM for AI & Retail Technologies",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "5c3d761f-791b-45d1-8884-d3341fc97cee",
+    "crm_synced": true,
+    "drafted_message": "Hi Dennis, I noticed your work as Founder and CEO, The Other Group at GTM for AI & Retail Technologies. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "priority_score": 63,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:56:19.419Z"
+  },
+  {
+    "id": "li-1772688001046-4su1r",
+    "queued_at": "2026-03-05T05:20:01.046Z",
+    "cycle": 3,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Amulya V.",
+      "profileUrl": "https://www.linkedin.com/in/amulyavishwanath/",
+      "headline": "Founder & GP, Techable VC | ex-NVIDIA, Intel | MSEE, MBA",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & GP, Techable VC",
+      "company": "ex-NVIDIA, Intel",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "69e91cf8-8b39-4000-8f21-99a95b91826b",
+    "crm_synced": true,
+    "drafted_message": "Hi Amulya, I noticed your work as Founder & GP, Techable VC at ex-NVIDIA, Intel. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:50:32.141Z",
+    "connection_requested_at": "2026-03-07T18:56:39.000Z"
+  },
+  {
+    "id": "li-1772688001435-x4tu6",
+    "queued_at": "2026-03-05T05:20:01.435Z",
+    "cycle": 3,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Aaron Aronov",
+      "profileUrl": "https://www.linkedin.com/in/aaron-aronov/",
+      "headline": "Founder & CEO at 7 Laws for Humanity | Strategic Project Manager | Expert in Universal Ethics & Interfaith Outreach | Program Development Specialist",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO",
+      "company": "7 Laws for Humanity",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "6ff85362-b69c-4ba2-88f0-419eda0c66ba",
+    "crm_synced": true,
+    "drafted_message": "Hi Aaron, I noticed your work as Founder & CEO at 7 Laws for Humanity. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "priority_score": 63,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:56:53.450Z"
+  },
+  {
+    "id": "li-1772688001799-pg173",
+    "queued_at": "2026-03-05T05:20:01.799Z",
+    "cycle": 3,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Dr. Darius McDougle",
+      "profileUrl": "https://www.linkedin.com/in/dariusmcdougle/",
+      "headline": "Chief Marketing Officer (CMO) ★ Marketing Leader ★ B2B & B2C Revenue, Demand Generation & Brand Strategy ★ GTM & Product Marketing ★ AI-Driven, Data-L",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Chief Marketing Officer (CMO) ★ Marketing Leader ★ B2B & B2C Revenue, Demand Generation & Brand Strategy ★ GTM & Product Marketing ★ AI-Driven, Data-L",
+      "company": "",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "revenue/growth signal"
+      ]
+    },
+    "crm_id": "826fb555-41e5-4ad1-946e-bf583cdf2bda",
+    "crm_synced": true,
+    "drafted_message": "Hi Dr., I noticed your role as Chief Marketing Officer (CMO) ★ Marketing Leader ★ B2B & B2C Revenue, Demand Generation & Brand Strategy ★ GTM & Product Marketing ★ AI-Driven, Data-L. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:50:32.141Z",
+    "connection_requested_at": "2026-03-07T18:57:06.659Z"
+  },
+  {
+    "id": "li-1772688002234-gfxkv",
+    "queued_at": "2026-03-05T05:20:02.234Z",
+    "cycle": 3,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Jon Kraayenbrink",
+      "profileUrl": "https://www.linkedin.com/in/jonathan-kraayenbrink/",
+      "headline": "Founder @aiselfi.es, converting selfies into professional photos | +80k Profile Pics created | Entrepreneur & Maker (x3) | MSc Data & AI @ IE Universi",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder",
+      "company": "aiselfi.es, converting selfies into professional photos",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "4a9c9f9e-b9b0-430c-b075-c1fb6fd4057c",
+    "crm_synced": true,
+    "drafted_message": "Hi Jon, I noticed your work as Founder at aiselfi.es, converting selfies into professional photos. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "priority_score": 63,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:57:17.998Z"
+  },
+  {
+    "id": "li-1772689571561-592fr",
+    "queued_at": "2026-03-05T05:46:11.561Z",
+    "cycle": 4,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Forrest Jones",
+      "profileUrl": "https://www.linkedin.com/in/forrest-jones-b86a24235/",
+      "headline": "CTO Seasoned Private Equity Capital Raiser/Software Engineer (Full Stack Developer)/AI & Automation Digital Marketing Agency Owner Director of Investo",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CTO Seasoned Private Equity Capital Raiser/Software Engineer (Full Stack Developer)/AI & Automation Digital Marketing Agency Owner Director of Investo",
+      "company": "",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal"
+      ]
+    },
+    "crm_id": "62656ac2-7313-40f6-9692-ec489fed6970",
+    "crm_synced": true,
+    "drafted_message": "Hi Forrest, I noticed your role as CTO Seasoned Private Equity Capital Raiser/Software Engineer (Full Stack Developer)/AI & Automation Digital Marketing Agency Owner Director of Investo. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 58,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:57:33.421Z"
+  },
+  {
+    "id": "li-1772689572037-x996v",
+    "queued_at": "2026-03-05T05:46:12.038Z",
+    "cycle": 4,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Dave Miz",
+      "profileUrl": "https://www.linkedin.com/in/dave-miz/",
+      "headline": "Former Agency Owner | Helping Businesses Crush it with Email & SMS Marketing | Building Next-Gen AI Email SaaS",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Former Agency Owner",
+      "company": "Helping Businesses Crush it with Email & SMS Marketing",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "bbc3ea7d-1be3-4c88-9863-2e863dbe4fdd",
+    "crm_synced": true,
+    "drafted_message": "Hi Dave, I noticed your work as Former Agency Owner at Helping Businesses Crush it with Email & SMS Marketing. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 67,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:57:46.743Z"
+  },
+  {
+    "id": "li-1772689572398-mnu9t",
+    "queued_at": "2026-03-05T05:46:12.399Z",
+    "cycle": 4,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Kaisaan Abdul",
+      "profileUrl": "https://www.linkedin.com/in/kaisaan-abdul-a81913259/",
+      "headline": "Helping Small Businesses Automate with AI | Founder, Hybrid Automation Agency | Making AI Practical, Profitable & Human-Centered",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Helping Small Businesses Automate with AI",
+      "company": "Founder, Hybrid Automation Agency",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "066edc11-5f7e-4315-9cc1-42482a521289",
+    "crm_synced": true,
+    "drafted_message": "Hi Kaisaan, I noticed your work as Helping Small Businesses Automate with AI at Founder, Hybrid Automation Agency. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 61,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:58:06.860Z"
+  },
+  {
+    "id": "li-1772689572802-wryvb",
+    "queued_at": "2026-03-05T05:46:12.802Z",
+    "cycle": 4,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Kaitlyn Study",
+      "profileUrl": "https://www.linkedin.com/in/kaitlyn-m-cook/",
+      "headline": "Marketing Agency Owner for Service-Based Companies | Speaker",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Marketing Agency Owner for Service-Based Companies",
+      "company": "Speaker",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "4123eb6b-815a-40fe-ba69-2f250222186b",
+    "crm_synced": true,
+    "drafted_message": "Hi Kaitlyn, I noticed your work as Marketing Agency Owner for Service-Based Companies at Speaker. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 67,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_requested_at": "2026-03-07T18:58:20.174Z"
+  },
+  {
+    "id": "li-1772689573348-4ootg",
+    "queued_at": "2026-03-05T05:46:13.348Z",
+    "cycle": 4,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "James R. Vasquez 🚀",
+      "profileUrl": "https://www.linkedin.com/in/jvasquez-marketing/",
+      "headline": "🚀AI & Digital Strategy Expert Helping Businesses Streamline Operations, Boost Marketing ROI, & Achieve Exponential Growth | Corporate AI Trainer | Di",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "🚀AI & Digital Strategy Expert Helping Businesses Streamline Operations, Boost Marketing ROI, & Achieve Exponential Growth",
+      "company": "Corporate AI Trainer",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "53c0950b-a4e4-4ded-bc84-4985286db3ed",
+    "crm_synced": true,
+    "drafted_message": "Hi James, I noticed your work as 🚀AI & Digital Strategy Expert Helping Businesses Streamline Operations, Boost Marketing ROI, & Achieve Exponential Growth at Corporate AI Trainer. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 70,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_error": "connect_button_not_found",
+    "connection_requested_at": "2026-03-07T18:58:36.328Z"
+  },
+  {
+    "id": "li-1772689573731-bxhox",
+    "queued_at": "2026-03-05T05:46:13.731Z",
+    "cycle": 4,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Michele Feilmeier",
+      "profileUrl": "https://www.linkedin.com/in/michelefeilmeier/",
+      "headline": "Marketing Director | Marketing Operations Leader | AI Workflow & Automation Builder | Digital Growth Strategist",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Marketing Director",
+      "company": "Marketing Operations Leader",
+      "icp_score": 10,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "939852a6-9ae9-41d5-8bd5-c269649a9d54",
+    "crm_synced": true,
+    "drafted_message": "Hi Michele, I noticed your work as Marketing Director at Marketing Operations Leader. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 87,
+    "auto_approved_at": "2026-03-06T05:16:21.490Z",
+    "connection_error": "Safari busy — another operation is in progress"
+  },
+  {
+    "id": "li-1772689574112-71bw5",
+    "queued_at": "2026-03-05T05:46:14.113Z",
+    "cycle": 4,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Irene Voskamp",
+      "profileUrl": "https://www.linkedin.com/in/irenevoskamp/",
+      "headline": "IT Director & Firefighter @ San Juan County Fire Districts | PMO, Large-Scale Transformation & Responsible AI in Regulated Markets | Doubled AWS GovCl",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "IT Director & Firefighter",
+      "company": "San Juan County Fire Districts",
+      "icp_score": 10,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "a2513ab8-ab8c-477d-8766-e81fe7e93670",
+    "crm_synced": true,
+    "drafted_message": "Hi Irene, I noticed your work as IT Director & Firefighter at San Juan County Fire Districts. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Agency AI Owners",
+    "source": "safari",
+    "priority_score": 85,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772691426680-6bk3o",
+    "queued_at": "2026-03-05T06:17:06.681Z",
+    "cycle": 5,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Allison Dai",
+      "profileUrl": "https://www.linkedin.com/in/allisonlitingdai/",
+      "headline": "AI Product Designer @ Karis | Sustainable Environmental Design @ UC Berkeley",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "AI Product Designer",
+      "company": "Karis",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "5e05a86b-696f-4eec-9c8a-054999ffc08b",
+    "crm_synced": true,
+    "drafted_message": "Hi Allison, I noticed your work as AI Product Designer at Karis. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Bootstrapped SaaS",
+    "source": "safari",
+    "priority_score": 56,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:58:52.898Z"
+  },
+  {
+    "id": "li-1772691427125-mychf",
+    "queued_at": "2026-03-05T06:17:07.125Z",
+    "cycle": 5,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Adegoke Adeniran",
+      "profileUrl": "https://www.linkedin.com/in/adegoke-adenirann/",
+      "headline": "Co-founder Telestar AI | Designs systems that prevent invisible revenue loss.",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Co-founder Telestar AI",
+      "company": "Designs systems that prevent invisible revenue loss.",
+      "icp_score": 9,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal"
+      ]
+    },
+    "crm_id": "479d06b1-41be-460e-8a16-cc698e6b66b6",
+    "crm_synced": true,
+    "drafted_message": "Hi Adegoke, I noticed your work as Co-founder Telestar AI at Designs systems that prevent invisible revenue loss.. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Bootstrapped SaaS",
+    "source": "safari",
+    "priority_score": 80,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772691427439-8wjl3",
+    "queued_at": "2026-03-05T06:17:07.439Z",
+    "cycle": 5,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Sherry Horowitz",
+      "profileUrl": "https://www.linkedin.com/in/sherry-horowitz-1b9178204/",
+      "headline": "“Man the machines!” ✨️Founder Giga Brain Academy 💥 I teach people how to control robots | Top 100 A.I. in 2022 & 2024 | MFA in Poetry | Think Tank | ",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "“Man the machines!” ✨️Founder Giga Brain Academy 💥 I teach people how to control robots",
+      "company": "Top 100 A.I. in 2022 & 2024",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "e5963bbf-a28e-40fb-be1a-ece97f9309ed",
+    "crm_synced": true,
+    "drafted_message": "Hi Sherry, I noticed your work as “Man the machines!” ✨️Founder Giga Brain Academy 💥 I teach people how to control robots at Top 100 A.I. in 2022 & 2024. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Bootstrapped SaaS",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z"
+  },
+  {
+    "id": "li-1772691427743-vum9c",
+    "queued_at": "2026-03-05T06:17:07.743Z",
+    "cycle": 5,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Daniel Rountree",
+      "profileUrl": "https://www.linkedin.com/in/daniel-rountree-06616b101/",
+      "headline": "Founder & CEO | CyberGuardian AI | Enterprise Cybersecurity | AI Automation | Compliance (NIST, ISO, SOC 2) | B2B SaaS",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO",
+      "company": "CyberGuardian AI",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "ab00f62b-3edb-483e-9889-660f54f99e76",
+    "crm_synced": true,
+    "drafted_message": "Hi Daniel, I noticed your work as Founder & CEO at CyberGuardian AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found",
+    "connection_requested_at": "2026-03-07T18:59:05.768Z"
+  },
+  {
+    "id": "li-1772691428055-i00hw",
+    "queued_at": "2026-03-05T06:17:08.055Z",
+    "cycle": 5,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Alexander K.",
+      "profileUrl": "https://www.linkedin.com/in/alexander-k23/",
+      "headline": "AI Agents | AI Automation | Fractional CMO",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "AI Agents",
+      "company": "AI Automation",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "68ecb622-0658-47fc-a9ea-0d5ede329078",
+    "crm_synced": true,
+    "drafted_message": "Hi Alexander, I noticed your work as AI Agents at AI Automation. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 56,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z",
+    "connection_requested_at": "2026-03-07T18:59:23.870Z"
+  },
+  {
+    "id": "li-1772691428375-eqpj5",
+    "queued_at": "2026-03-05T06:17:08.375Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Naman Malhotra",
+      "profileUrl": "https://www.linkedin.com/in/nmxtorke/",
+      "headline": "Director & CEO at TorkeHub AI CRM | Founder of TorkeAuto, TechTorke & AITorke | SaaS Builder | AI Innovator | Full-Stack Developer | Transforming Auto",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Director & CEO",
+      "company": "TorkeHub AI CRM",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "d64aedc3-3081-4171-9f75-602fd083db41",
+    "crm_synced": true,
+    "drafted_message": "Hi Naman, I noticed your work as Director & CEO at TorkeHub AI CRM. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772691428680-msjh2",
+    "queued_at": "2026-03-05T06:17:08.680Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Mia Camille Williams",
+      "profileUrl": "https://www.linkedin.com/in/mia-williams/",
+      "headline": "Program Manager | AI Enablement • Workflow Automation • Internal Platforms | Building Productivity Systems",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Program Manager",
+      "company": "AI Enablement • Workflow Automation • Internal Platforms",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "86d0f4e1-8fd2-4afd-85d7-bfd18cdeb2ec",
+    "crm_synced": true,
+    "drafted_message": "Hi Mia, I noticed your work as Program Manager at AI Enablement • Workflow Automation • Internal Platforms. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 56,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772691429018-7jv7l",
+    "queued_at": "2026-03-05T06:17:09.018Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Ishaan - Nayab K",
+      "profileUrl": "https://www.linkedin.com/in/nayab-ishaan/",
+      "headline": "Founder and CEO @ Syntrux.AI | AI Workflow Automation",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder and CEO",
+      "company": "Syntrux.AI",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "37357091-3f5a-49d9-a503-7af769adc097",
+    "crm_synced": true,
+    "drafted_message": "Hi Ishaan, I noticed your work as Founder and CEO at Syntrux.AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772691429330-ib05w",
+    "queued_at": "2026-03-05T06:17:09.330Z",
+    "cycle": 5,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Mike Futia",
+      "profileUrl": "https://www.linkedin.com/in/mike-futia-108709126/",
+      "headline": "Founder of SCALE AI - AI & Automation for DTC Brands & Agencies",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder of SCALE AI - AI & Automation for DTC Brands & Agencies",
+      "company": "",
+      "icp_score": 9,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "e0339577-cb17-49c7-88e9-a5a507e14b75",
+    "crm_synced": true,
+    "drafted_message": "Hi Mike, I noticed your role as Founder of SCALE AI - AI & Automation for DTC Brands & Agencies. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 80,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "Safari busy — another operation is in progress",
+    "connection_requested_at": "2026-03-07T01:02:02.551Z",
+    "connection_note": "Hi Mike, came across your profile — your background in Found"
+  },
+  {
+    "id": "li-1772691429647-1jeax",
+    "queued_at": "2026-03-05T06:17:09.647Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Antwain Sherrod",
+      "profileUrl": "https://www.linkedin.com/in/sherrod/",
+      "headline": "Founder & CEO, Uply | Real Estate Investor | AI Automation |",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO, Uply",
+      "company": "Real Estate Investor",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "d937bfe2-cbdb-4f88-8fa9-9ec45fe261db",
+    "crm_synced": true,
+    "drafted_message": "Hi Antwain, I noticed your work as Founder & CEO, Uply at Real Estate Investor. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "page.evaluate: Execution context was destroyed, most likely because of a navigation"
+  },
+  {
+    "id": "li-1772691429954-gprwt",
+    "queued_at": "2026-03-05T06:17:09.954Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Rob Rebholz",
+      "profileUrl": "https://www.linkedin.com/in/robrebholz/",
+      "headline": "Founder - Automation & AI",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder - Automation & AI",
+      "company": "",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal"
+      ]
+    },
+    "crm_id": "a35004e8-e4e6-44c7-bdff-91f2d1d01964",
+    "crm_synced": true,
+    "drafted_message": "Hi Rob, I noticed your role as Founder - Automation & AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 62,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772691430266-c40mk",
+    "queued_at": "2026-03-05T06:17:10.266Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Ketly Jean-Pierre",
+      "profileUrl": "https://www.linkedin.com/in/ketly-jean-pierre/",
+      "headline": "Empowering Businesses with Smart Technology | AI Automation | Custom Software | SaaS",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Empowering Businesses with Smart Technology",
+      "company": "AI Automation",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "f6543469-a967-477d-b4d0-2e5a3a5ffc4c",
+    "crm_synced": true,
+    "drafted_message": "Hi Ketly, I noticed your work as Empowering Businesses with Smart Technology at AI Automation. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 56,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772691430662-bw0yy",
+    "queued_at": "2026-03-05T06:17:10.662Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Kavin Patel",
+      "profileUrl": "https://www.linkedin.com/in/kavinpatel/",
+      "headline": "Senior Product & Operations Leader | Enterprise AI/Cloud Platforms | AI Workflow Automation & Team Scaling | Ex-Co-Founder (Acquired Startup)",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Senior Product & Operations Leader",
+      "company": "Enterprise AI/Cloud Platforms",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "663a7a9b-baed-410e-8bcf-c32751d3cc18",
+    "crm_synced": true,
+    "drafted_message": "Hi Kavin, I noticed your work as Senior Product & Operations Leader at Enterprise AI/Cloud Platforms. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Software Startup CTOs",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:50:32.141Z"
+  },
+  {
+    "id": "li-1772691431037-6uii6",
+    "queued_at": "2026-03-05T06:17:11.037Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Alaba Miracle",
+      "profileUrl": "https://www.linkedin.com/in/heismiracle/",
+      "headline": "AI & Business Consultant | 200+ Clients | Automation, Lead Gen, Web Design & Grant Writing",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "AI & Business Consultant",
+      "company": "200+ Clients",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "c8f3b4a6-5313-4d19-ba23-ae1f2c25320d",
+    "crm_synced": true,
+    "drafted_message": "Hi Alaba, I noticed your work as AI & Business Consultant at 200+ Clients. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Software Startup CTOs",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:53:09.858Z"
+  },
+  {
+    "id": "li-1772691431325-kyecw",
+    "queued_at": "2026-03-05T06:17:11.325Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Mohammed Ozair",
+      "profileUrl": "https://www.linkedin.com/in/mohammed-ozair-24a9381b5/",
+      "headline": "Incoming MEng Computer Engineering @ University of Toronto | BASc Computer Engineering, AI Minor @ University of Toronto | Software Quality Analyst at",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Incoming MEng Computer Engineering",
+      "company": "University of Toronto",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "ffb98172-8548-4b89-bb7a-c6d079e0d196",
+    "crm_synced": true,
+    "drafted_message": "Hi Mohammed, I noticed your work as Incoming MEng Computer Engineering at University of Toronto. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Software Startup CTOs",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:53:09.858Z"
+  },
+  {
+    "id": "li-1772691431617-k09o9",
+    "queued_at": "2026-03-05T06:17:11.617Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Wayne Zhang",
+      "profileUrl": "https://www.linkedin.com/in/waynezhang323/",
+      "headline": "Chief of Staff @ Dify.AI | Startup Growth & GTM | Entrepreneur",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Chief of Staff",
+      "company": "Dify.AI",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "6200f75d-6b41-411b-b50c-66b1e6685e56",
+    "crm_synced": true,
+    "drafted_message": "Hi Wayne, I noticed your work as Chief of Staff at Dify.AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Software Startup CTOs",
+    "source": "safari",
+    "priority_score": 66,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z"
+  },
+  {
+    "id": "li-1772691431934-fjxr6",
+    "queued_at": "2026-03-05T06:17:11.934Z",
+    "cycle": 5,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Dennis C.",
+      "profileUrl": "https://www.linkedin.com/in/dennis-c-91258b318/",
+      "headline": "Founder of Tradebots & Adwordtising.com | AI Growth Strategist | Helping Businesses Scale with Voice AI, CRM Automation, & Data-Driven Advertising.",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder of Tradebots & Adwordtising.com",
+      "company": "AI Growth Strategist",
+      "icp_score": 10,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "8ce434dd-5284-4d81-a250-29fbd570692b",
+    "crm_synced": true,
+    "drafted_message": "Hi Dennis, I noticed your work as Founder of Tradebots & Adwordtising.com at AI Growth Strategist. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Software Startup CTOs",
+    "source": "safari",
+    "priority_score": 81,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "Safari busy — another operation is in progress",
+    "connection_requested_at": "2026-03-07T01:01:33.597Z",
+    "connection_note": "Hi Dennis, noticed your work as Founder of Tradebots & Adwor"
+  },
+  {
+    "id": "li-1772691432265-mlkpv",
+    "queued_at": "2026-03-05T06:17:12.265Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Sreenivasan AC",
+      "profileUrl": "https://www.linkedin.com/in/sreenivasan-ac/",
+      "headline": "Founding Engineer in AI startup | LLM | Agents | RAG | ex-Google",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founding Engineer in AI startup",
+      "company": "LLM",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "dd0816dd-885a-4cab-ade0-256a992ecb78",
+    "crm_synced": true,
+    "drafted_message": "Hi Sreenivasan, I noticed your work as Founding Engineer in AI startup at LLM. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Software Startup CTOs",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:53:09.858Z"
+  },
+  {
+    "id": "li-1772693284466-a4m5h",
+    "queued_at": "2026-03-05T06:48:04.466Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Amrit Raj",
+      "profileUrl": "https://www.linkedin.com/in/amrit-raj-4569121aa/",
+      "headline": "Integration Engineer | Fintech & Global Payment Gateway | Python (Django) | Multi-Currency Payin Payout Architecture | API Automation & Postman",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Integration Engineer",
+      "company": "Fintech & Global Payment Gateway",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "a15f4542-c81b-4d38-875a-92a821423920",
+    "crm_synced": true,
+    "drafted_message": "Hi Amrit, I noticed your work as Integration Engineer at Fintech & Global Payment Gateway. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "API Integration Builders",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:58:18.642Z"
+  },
+  {
+    "id": "li-1772695136581-l2ujb",
+    "queued_at": "2026-03-05T07:18:56.581Z",
+    "cycle": 7,
+    "status": "already_connected",
+    "prospect": {
+      "name": "IHOR SHAMIN",
+      "profileUrl": "https://www.linkedin.com/in/ihor-shamin/",
+      "headline": "3x Founder | CEO @ ApiX-Drive | 200K+ Users | AI No-Code Platform",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "3x Founder",
+      "company": "CEO @ ApiX-Drive",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "ed8877f3-5a47-4606-bc6f-912bbd5bbd35",
+    "crm_synced": true,
+    "drafted_message": "Hi IHOR, I noticed your work as 3x Founder at CEO @ ApiX-Drive. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z"
+  },
+  {
+    "id": "li-1772695137147-b5jan",
+    "queued_at": "2026-03-05T07:18:57.147Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Jon Darbyshire",
+      "profileUrl": "https://www.linkedin.com/in/jondarbyshire/",
+      "headline": "Founder & CEO at SmartSuite | Creator of ArcherIRM (Acquired) | Redefining GRC & Work Management | SaaS, No-Code, Venture-Backed Leader",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO",
+      "company": "SmartSuite",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "a0b327b1-dbf4-4826-8b8d-99f6a36d6a23",
+    "crm_synced": true,
+    "drafted_message": "Hi Jon, I noticed your work as Founder & CEO at SmartSuite. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 56,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772695137466-ih17k",
+    "queued_at": "2026-03-05T07:18:57.466Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Rejith Krishnan",
+      "profileUrl": "https://www.linkedin.com/in/rejithkrishnan/",
+      "headline": "Founder & CEO at lowtouch.ai | Empowering Enterprises with No-Code AI Agents | Driving AI-Enabled Automation & Digital Transformation",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO",
+      "company": "lowtouch.ai",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "3a69e1a0-239e-4da3-9406-41d04ef7b6a5",
+    "crm_synced": true,
+    "drafted_message": "Hi Rejith, I noticed your work as Founder & CEO at lowtouch.ai. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772695137860-qkrx8",
+    "queued_at": "2026-03-05T07:18:57.860Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Matt Ivey 🧠",
+      "profileUrl": "https://www.linkedin.com/in/mattivey/",
+      "headline": "Founder & CEO at LM Lab AI and Dyslexic AI | Fractional Chief AI Officer & AI Advisor | No-Code SAAS Creator | Neurodivergent Entrepreneur & Dyslexic ",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO",
+      "company": "LM Lab AI and Dyslexic AI",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "b27e0646-7d68-4c1d-a491-9d89598ee22b",
+    "crm_synced": true,
+    "drafted_message": "Hi Matt, I noticed your work as Founder & CEO at LM Lab AI and Dyslexic AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "send_button_not_found"
+  },
+  {
+    "id": "li-1772695138158-wzjuu",
+    "queued_at": "2026-03-05T07:18:58.158Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Hardik Vishwakarma",
+      "profileUrl": "https://www.linkedin.com/in/hardik-vishwakarma-a8991390/",
+      "headline": "Co-founder & CEO at Recooty AI | Making hiring magical for recruiters with simple, smart AI",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Co-founder & CEO",
+      "company": "Recooty AI",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "53e8af4b-7890-49b2-b754-b16bec3adbe3",
+    "crm_synced": true,
+    "drafted_message": "Hi Hardik, I noticed your work as Co-founder & CEO at Recooty AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772695138510-zzzhw",
+    "queued_at": "2026-03-05T07:18:58.510Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Johri Dhanotra",
+      "profileUrl": "https://www.linkedin.com/in/johri-dhanotra/",
+      "headline": "CEO & Founder @ intuist.ai",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CEO & Founder",
+      "company": "intuist.ai",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "4f8a95b7-2383-42c7-9aaa-e1a16bc7f054",
+    "crm_synced": true,
+    "drafted_message": "Hi Johri, I noticed your work as CEO & Founder at intuist.ai. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772695138784-1wki8",
+    "queued_at": "2026-03-05T07:18:58.784Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Pierre Evrard",
+      "profileUrl": "https://www.linkedin.com/in/pierre-evrard-dashboard/",
+      "headline": "Micro-SaaS Founder - Your AI & No-code Fellow 🤓",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Micro-SaaS Founder - Your AI & No-code Fellow 🤓",
+      "company": "",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal"
+      ]
+    },
+    "crm_id": "b96d2811-d6c9-4420-a584-257720f3f7e1",
+    "crm_synced": true,
+    "drafted_message": "Hi Pierre, I noticed your role as Micro-SaaS Founder - Your AI & No-code Fellow 🤓. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 62,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772695139085-rdpqo",
+    "queued_at": "2026-03-05T07:18:59.085Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Sinisa (Siggi) Rakovich",
+      "profileUrl": "https://www.linkedin.com/in/sinisarakovic/",
+      "headline": "CEO at Hunch - We are hiring! - Creative | Data | Automation",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CEO",
+      "company": "Hunch - We are hiring! - Creative",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "a1113637-31ac-4030-a2c7-c1ed96ada543",
+    "crm_synced": true,
+    "drafted_message": "Hi Sinisa, I noticed your work as CEO at Hunch - We are hiring! - Creative. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_error": "page.evaluate: Execution context was destroyed, most likely because of a navigation"
+  },
+  {
+    "id": "li-1772696991006-de9u2",
+    "queued_at": "2026-03-05T07:49:51.006Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Laura Hoffman",
+      "profileUrl": "https://www.linkedin.com/in/laurahoffman/",
+      "headline": "Marketing Aligned to Business Goals |  Strategic Marketing | Practical AI,  Brand, Messaging, Content, Demand Gen, Digital Marketing",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Marketing Aligned to Business Goals",
+      "company": "Strategic Marketing",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "854459f6-7a5a-4030-be65-0348eaeab84d",
+    "crm_synced": true,
+    "drafted_message": "Hi Laura, I noticed your work as Marketing Aligned to Business Goals at Strategic Marketing. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:58:18.642Z"
+  },
+  {
+    "id": "li-1772696991527-877hg",
+    "queued_at": "2026-03-05T07:49:51.527Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Carley Lake",
+      "profileUrl": "https://www.linkedin.com/in/carley-lake/",
+      "headline": "Seller Content Marketing @ Etsy | Former VC-backed Founder | Early Uber | Passionate about the sweet spot between automation and authenticity in AI + ",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Seller Content Marketing",
+      "company": "Etsy",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "05993c3f-2526-43d4-86fe-86803f0baf15",
+    "crm_synced": true,
+    "drafted_message": "Hi Carley, I noticed your work as Seller Content Marketing at Etsy. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T20:58:18.642Z"
+  },
+  {
+    "id": "li-1772696991853-n33ms",
+    "queued_at": "2026-03-05T07:49:51.853Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Uriel Kluk",
+      "profileUrl": "https://www.linkedin.com/in/uriel-kluk-35ba8a9b/",
+      "headline": "Fractional CTO | AI Agentic Automation | IoT | Full Stack System Engineering",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Fractional CTO",
+      "company": "AI Agentic Automation",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "bbbd91aa-026b-4bbc-a668-af1386658b2b",
+    "crm_synced": true,
+    "drafted_message": "Hi Uriel, I noticed your work as Fractional CTO at AI Agentic Automation. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 63,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772696992171-zhux5",
+    "queued_at": "2026-03-05T07:49:52.171Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Curtis Correll",
+      "profileUrl": "https://www.linkedin.com/in/curtiscorrell/",
+      "headline": "Growth @ Lua AI (YC F25) | Enabling teams to launch reliable & scalable enterprise-grade agentic tools",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Growth",
+      "company": "Lua AI (YC F25)",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "04e1f894-6f30-476b-a942-70341d5987db",
+    "crm_synced": true,
+    "drafted_message": "Hi Curtis, I noticed your work as Growth at Lua AI (YC F25). I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 66,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z"
+  },
+  {
+    "id": "li-1772696992469-p4lj2",
+    "queued_at": "2026-03-05T07:49:52.469Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Casie Abello",
+      "profileUrl": "https://www.linkedin.com/in/casieabello/",
+      "headline": "Marketing & Growth Executive | GTM Advisor | Strategic Marketing Management | AI Marketing Enthusiast",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Marketing & Growth Executive",
+      "company": "GTM Advisor",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "77c26296-dc09-43f0-a1d9-9da37925b2a9",
+    "crm_synced": true,
+    "drafted_message": "Hi Casie, I noticed your work as Marketing & Growth Executive at GTM Advisor. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 66,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z"
+  },
+  {
+    "id": "li-1772696992769-ops2z",
+    "queued_at": "2026-03-05T07:49:52.769Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Sumant Yerramilly",
+      "profileUrl": "https://www.linkedin.com/in/syerramilly/",
+      "headline": "Founder & CEO, Assembly Industries | AI Automation Workflows for Enterprises | 3X Founder with 2 Successful Exits",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & CEO, Assembly Industries",
+      "company": "AI Automation Workflows for Enterprises",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "92c0a39a-e099-49db-98b3-74f2eeab9430",
+    "crm_synced": true,
+    "drafted_message": "Hi Sumant, I noticed your work as Founder & CEO, Assembly Industries at AI Automation Workflows for Enterprises. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 63,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772696993062-ghmdz",
+    "queued_at": "2026-03-05T07:49:53.062Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Ryan Husk",
+      "profileUrl": "https://www.linkedin.com/in/rahusk/",
+      "headline": "Partnerships, Business Development, AI Strategy & Automation, Venture Advisor | x-Apple, x-Twitter",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Partnerships, Business Development, AI Strategy & Automation, Venture Advisor",
+      "company": "x-Apple, x-Twitter",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "2097c2d1-cbbc-4e5d-b3ef-5c0c2dc2913f",
+    "crm_synced": true,
+    "drafted_message": "Hi Ryan, I noticed your work as Partnerships, Business Development, AI Strategy & Automation, Venture Advisor at x-Apple, x-Twitter. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-06T21:00:15.912Z"
+  },
+  {
+    "id": "li-1772696993368-knesi",
+    "queued_at": "2026-03-05T07:49:53.368Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Dean Cruse",
+      "profileUrl": "https://www.linkedin.com/in/deancruse/",
+      "headline": "GTM Advisor & Board member | Helping founders build what scales | Growth, positioning & revenue strategy | AI GTM strategy | 5x exits | Fractional CMO",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "GTM Advisor & Board member",
+      "company": "Helping founders build what scales",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "2714f203-cca1-4279-bc53-990517667cfd",
+    "crm_synced": true,
+    "drafted_message": "Hi Dean, I noticed your work as GTM Advisor & Board member at Helping founders build what scales. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 66,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z"
+  },
+  {
+    "id": "li-1772706251076-zi4sp",
+    "queued_at": "2026-03-05T10:24:11.076Z",
+    "cycle": 13,
+    "status": "approved",
+    "prospect": {
+      "name": "Naoufel B.",
+      "profileUrl": "https://www.linkedin.com/in/naoufel-b-6996241b/",
+      "headline": "Founder @ Hubflow | Building the Future of Automation | n8n, AI & No-Code Systems Architect | Helping Companies Automate Everything Effortlessly",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder",
+      "company": "Hubflow",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "4ff1f5ff-2ff1-414e-8bbe-371518ced787",
+    "crm_synced": true,
+    "drafted_message": "Hi Naoufel, I noticed your work as Founder at Hubflow. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 71,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772706251495-e5mjx",
+    "queued_at": "2026-03-05T10:24:11.495Z",
+    "cycle": 13,
+    "status": "approved",
+    "prospect": {
+      "name": "Richard Ejikeme",
+      "profileUrl": "https://www.linkedin.com/in/richard-bubble-developer/",
+      "headline": "Bubble io developer | Building Fast, Scalable Web Apps Without Code | MVPs, SaaS Apps & Automation |Bubble.io| No-Code Developer .",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Bubble io developer",
+      "company": "Building Fast, Scalable Web Apps Without Code",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "ff0a1260-749d-4e11-a8a5-8722f7545d1d",
+    "crm_synced": true,
+    "drafted_message": "Hi Richard, I noticed your work as Bubble io developer at Building Fast, Scalable Web Apps Without Code. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 56,
+    "auto_approved_at": "2026-03-06T20:49:05.446Z"
+  },
+  {
+    "id": "li-1772741464674-1ar4g",
+    "queued_at": "2026-03-05T20:11:04.674Z",
+    "cycle": 32,
+    "status": "approved",
+    "prospect": {
+      "name": "Rasheed Oluwatosin OLUOTANMI",
+      "profileUrl": "https://www.linkedin.com/in/rasheedoluotanmi/",
+      "headline": "Sales System Setup Expert | Founder @ FlutterPlex | Vyudu Inc. | Funnels, CRM, Automation, B2B Growth | Helping Brands & Startups Scale with Smart Sal",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Sales System Setup Expert",
+      "company": "Founder @ FlutterPlex",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "9d95f046-3368-424a-b2c8-7c04bd06a714",
+    "crm_synced": true,
+    "drafted_message": "Hi Rasheed, I noticed your work as Sales System Setup Expert at Founder @ FlutterPlex. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "source": "safari",
+    "priority_score": 66,
+    "auto_approved_at": "2026-03-06T20:48:59.473Z"
+  },
+  {
+    "id": "li-1772750722447-juwjk",
+    "queued_at": "2026-03-05T22:45:22.448Z",
+    "cycle": 37,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Jordan B.",
+      "profileUrl": "https://www.linkedin.com/in/jordanmblack/",
+      "headline": "AI & SaaS Revenue Leader | Enterprise GTM | Startups → Scale | Enterprise Sales",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "AI & SaaS Revenue Leader",
+      "company": "Enterprise GTM",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "d3ab6af9-2ea1-478f-a820-9d37e3c00894",
+    "crm_synced": true,
+    "drafted_message": "Hi Jordan, I noticed your work as AI & SaaS Revenue Leader at Enterprise GTM. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS Founders",
+    "source": "safari",
+    "priority_score": 76,
+    "auto_approved_at": "2026-03-06T20:48:53.976Z",
+    "connection_error": "Safari busy — another operation is in progress",
+    "connection_requested_at": "2026-03-07T01:02:30.669Z",
+    "connection_note": "Hi Jordan, noticed your work as AI & SaaS Revenue Leader at "
+  },
+  {
+    "id": "li-1772832096668-5fg0w",
+    "queued_at": "2026-03-06T21:21:36.668Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Saptarshi Nath",
+      "profileUrl": "https://www.linkedin.com/in/saptarshinath/",
+      "headline": "Data and AI entrepreneur | Formerly: DTC brand founder | Big-data consultant | VC",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Data and AI entrepreneur",
+      "company": "Formerly: DTC brand founder",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "2d2135c5-c1e4-4b4c-b199-a11e9cb762a4",
+    "crm_synced": true,
+    "drafted_message": "Hi Saptarshi, I noticed your work as Data and AI entrepreneur at Formerly: DTC brand founder. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Ecom DTC Founders",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772832097284-96su4",
+    "queued_at": "2026-03-06T21:21:37.284Z",
+    "cycle": 5,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Sachin D.",
+      "profileUrl": "https://www.linkedin.com/in/sachindhanotiya/",
+      "headline": "CEO & Co-Founder @AiTrillion | Helping Shopify & DTC brands grow with Retention Marketing | 15+ yrs in ecommerce & SaaS marketing | Expert in Email, S",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CEO & Co-Founder",
+      "company": "AiTrillion",
+      "icp_score": 9,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "373e9883-1bf7-4af2-8393-dc403b35f670",
+    "crm_synced": true,
+    "drafted_message": "Hi Sachin, I noticed your work as CEO & Co-Founder at AiTrillion. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Ecom DTC Founders",
+    "source": "safari",
+    "priority_score": 74,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "Safari busy — another operation is in progress"
+  },
+  {
+    "id": "li-1772832097896-sju5y",
+    "queued_at": "2026-03-06T21:21:37.896Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "G David Cunningham",
+      "profileUrl": "https://www.linkedin.com/in/gdavidcunningham/",
+      "headline": "Growth Marketing Leader | B2B SaaS | Demand Gen, RevOps & Events | Turning Engagement into Revenue",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Growth Marketing Leader",
+      "company": "B2B SaaS",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "ef2b30c6-e957-4073-865e-869cf96ef8e0",
+    "crm_synced": true,
+    "drafted_message": "Hi G, I noticed your work as Growth Marketing Leader at B2B SaaS. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "RevOps SaaS Leaders",
+    "source": "safari",
+    "priority_score": 53,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772832098368-rpmgx",
+    "queued_at": "2026-03-06T21:21:38.368Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Bernhard Griesbach",
+      "profileUrl": "https://www.linkedin.com/in/bernie-griesbach/",
+      "headline": "Strategic Marketing Leader | Driving Global GTM & Revenue Growth in SaaS, Healthcare & Finance | B2B/B2C | Multilingual | Cross-Cultural Expertise",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Strategic Marketing Leader",
+      "company": "Driving Global GTM & Revenue Growth in SaaS, Healthcare & Finance",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "51d8fe2f-35a7-4092-9219-f32558da2664",
+    "crm_synced": true,
+    "drafted_message": "Hi Bernhard, I noticed your work as Strategic Marketing Leader at Driving Global GTM & Revenue Growth in SaaS, Healthcare & Finance. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "RevOps SaaS Leaders",
+    "source": "safari",
+    "priority_score": 53,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772832098932-5srsz",
+    "queued_at": "2026-03-06T21:21:38.932Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Drew Rosenfeld",
+      "profileUrl": "https://www.linkedin.com/in/drewrosenfeld/",
+      "headline": "Global Digital Marketing Leader | SaaS | Growth Marketing | RevOps | Revenue Architecture | SEO/SEM | Marketing Automation | Pipeline Management | Hub",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Global Digital Marketing Leader",
+      "company": "SaaS",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "cbd56338-5efe-4310-9380-f4d8d4ed556c",
+    "crm_synced": true,
+    "drafted_message": "Hi Drew, I noticed your work as Global Digital Marketing Leader at SaaS. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "RevOps SaaS Leaders",
+    "source": "safari",
+    "priority_score": 68,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772832099466-s43yv",
+    "queued_at": "2026-03-06T21:21:39.466Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "Prasanna TS",
+      "profileUrl": "https://www.linkedin.com/in/prasannamarketeer/",
+      "headline": "Email Marketing & Automation Specialist | HubSpot + SFMC Certified | 40% MQL→Opp Lift | 95% Inbox Placement | Open to MarketingOps Roles",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Email Marketing & Automation Specialist",
+      "company": "HubSpot + SFMC Certified",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "3c887672-ae09-4598-8f92-e6b500fa56e6",
+    "crm_synced": true,
+    "drafted_message": "Hi Prasanna, I noticed your work as Email Marketing & Automation Specialist at HubSpot + SFMC Certified. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "RevOps SaaS Leaders",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772832100047-x3olb",
+    "queued_at": "2026-03-06T21:21:40.047Z",
+    "cycle": 5,
+    "status": "approved",
+    "prospect": {
+      "name": "David Sim",
+      "profileUrl": "https://www.linkedin.com/in/ddsim428/",
+      "headline": "VP Demand Generation & Revenue Operations | Building Scalable GTM Engines for B2B SaaS | Pipeline Growth • Marketing Ops • RevOps • AI-Driven Marketin",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "VP Demand Generation & Revenue Operations",
+      "company": "Building Scalable GTM Engines for B2B SaaS",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "01732e7d-2555-402d-b657-09d4f1b3f6c1",
+    "crm_synced": true,
+    "drafted_message": "Hi David, I noticed your work as VP Demand Generation & Revenue Operations at Building Scalable GTM Engines for B2B SaaS. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "RevOps SaaS Leaders",
+    "source": "safari",
+    "priority_score": 68,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z"
+  },
+  {
+    "id": "li-1772833952814-7wy6c",
+    "queued_at": "2026-03-06T21:52:32.814Z",
+    "cycle": 6,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Mel S.",
+      "profileUrl": "https://www.linkedin.com/in/mel-s-213b8737/",
+      "headline": "Founder @ Stashlete, Inc. | Co-Founder @ Hireless.ai | Startup Leader & Operations Strategist",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder",
+      "company": "Stashlete, Inc.",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "84db4035-696d-4a9f-bb28-6ca709ef9f47",
+    "crm_synced": true,
+    "drafted_message": "Hi Mel, I noticed your work as Founder at Stashlete, Inc.. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 73,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "fetch failed",
+    "connection_requested_at": "2026-03-07T01:03:42.282Z",
+    "connection_note": "Hi Mel, noticed your work as Founder at Stashlete, Inc. — wo"
+  },
+  {
+    "id": "li-1772833953349-b5yxh",
+    "queued_at": "2026-03-06T21:52:33.349Z",
+    "cycle": 6,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Brian Ritter, MBA, MS",
+      "profileUrl": "https://www.linkedin.com/in/britter-mba/",
+      "headline": "Founder & Product Leader | AI-Driven SaaS & Data Platforms | 0→1 Execution",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & Product Leader",
+      "company": "AI-Driven SaaS & Data Platforms",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "55a8572f-4507-4e2c-8ad1-551ea35ba1f0",
+    "crm_synced": true,
+    "drafted_message": "Hi Brian, I noticed your work as Founder & Product Leader at AI-Driven SaaS & Data Platforms. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 73,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_requested_at": "2026-03-07T00:58:12.914Z",
+    "connection_note": "Hi Brian, noticed your work as Founder & Product Leader at A"
+  },
+  {
+    "id": "li-1772833953777-epoya",
+    "queued_at": "2026-03-06T21:52:33.777Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Doug Simon",
+      "profileUrl": "https://www.linkedin.com/in/dougbsimon/",
+      "headline": "Head of Marketing | Tech & SaaS | Positioning, GTM, Growth",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Head of Marketing",
+      "company": "Tech & SaaS",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "939c88c7-0122-4cb7-a74d-d3fd28b8519b",
+    "crm_synced": true,
+    "drafted_message": "Hi Doug, I noticed your work as Head of Marketing at Tech & SaaS. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 61,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z"
+  },
+  {
+    "id": "li-1772833954248-067bh",
+    "queued_at": "2026-03-06T21:52:34.248Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Aleksa Radovic",
+      "profileUrl": "https://www.linkedin.com/in/aleksa-radovic/",
+      "headline": "Growth @ DynamicMockups | Product-led Growth For B2B SaaS |",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Growth",
+      "company": "DynamicMockups",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "265fdd06-21b4-4f05-9091-712fb8f5ecf7",
+    "crm_synced": true,
+    "drafted_message": "Hi Aleksa, I noticed your work as Growth at DynamicMockups. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 61,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772833954633-w6m4o",
+    "queued_at": "2026-03-06T21:52:34.633Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Terence Fong",
+      "profileUrl": "https://www.linkedin.com/in/terence-fong-1104901a/",
+      "headline": "Product Leader @ TikTok| ex-Meta | ex-Founder| AI, Messaging, Marketplace, SaaS",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Product Leader",
+      "company": "TikTok",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "433769eb-2e38-42cc-aabe-e6f778e2b615",
+    "crm_synced": true,
+    "drafted_message": "Hi Terence, I noticed your work as Product Leader at TikTok. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 58,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772833955163-b3msw",
+    "queued_at": "2026-03-06T21:52:35.163Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Marwa Nur Muhammad",
+      "profileUrl": "https://www.linkedin.com/in/marwamuhammad/",
+      "headline": "Fractional AI-First Product Leader | Founder of Nokshi | Startup Mentor at 500 Global",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Fractional AI-First Product Leader",
+      "company": "Founder of Nokshi",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "d135dfea-cfa8-4df0-adb8-2278a8bcdb1a",
+    "crm_synced": true,
+    "drafted_message": "Hi Marwa, I noticed your work as Fractional AI-First Product Leader at Founder of Nokshi. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 58,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772833955580-epqno",
+    "queued_at": "2026-03-06T21:52:35.580Z",
+    "cycle": 6,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Ashland Stansbury",
+      "profileUrl": "https://www.linkedin.com/in/ashland-stansbury-7b0a64b0/",
+      "headline": "Exited SaaS Founder | Leading new verticals @ AI search startup AirOps",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Exited SaaS Founder",
+      "company": "Leading new verticals @ AI search startup AirOps",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "ff412dd2-ae67-4684-9a50-5eeb76c30c08",
+    "crm_synced": true,
+    "drafted_message": "Hi Ashland, I noticed your work as Exited SaaS Founder at Leading new verticals @ AI search startup AirOps. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 73,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "Safari busy — another operation is in progress",
+    "connection_requested_at": "2026-03-07T01:04:10.110Z",
+    "connection_note": "Hi Ashland, noticed your work as Exited SaaS Founder at Lead"
+  },
+  {
+    "id": "li-1772833955975-3wf0h",
+    "queued_at": "2026-03-06T21:52:35.975Z",
+    "cycle": 6,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Ahsan Azmi",
+      "profileUrl": "https://www.linkedin.com/in/ahsan-azmi/",
+      "headline": "Fintech Product Leader | AI & Payments | Platform & API Strategy | GTM, Growth & Monetization | Ex-Founder Driving the Future of Intelligent Transacti",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Fintech Product Leader",
+      "company": "AI & Payments",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "f58cdec4-c320-4e29-8367-54f3fdff1bcc",
+    "crm_synced": true,
+    "drafted_message": "Hi Ahsan, I noticed your work as Fintech Product Leader at AI & Payments. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Creation Founders",
+    "source": "safari",
+    "priority_score": 76,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "Connection click did not produce Pending state",
+    "connection_requested_at": "2026-03-07T01:02:59.837Z",
+    "connection_note": "Hi Ahsan, noticed your work as Fintech Product Leader at AI "
+  },
+  {
+    "id": "li-1772833956393-l8b0s",
+    "queued_at": "2026-03-06T21:52:36.393Z",
+    "cycle": 6,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Igor Royzis",
+      "profileUrl": "https://www.linkedin.com/in/igorroyzis/",
+      "headline": "CTO | Scaling SaaS for Growth and M&A",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CTO",
+      "company": "Scaling SaaS for Growth and M&A",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "9643639d-27e7-4caf-95c0-8fbd0a19c1aa",
+    "crm_synced": true,
+    "drafted_message": "Hi Igor, I noticed your work as CTO at Scaling SaaS for Growth and M&A. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Web App Builders",
+    "source": "safari",
+    "priority_score": 72,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z"
+  },
+  {
+    "id": "li-1772833956911-bucjr",
+    "queued_at": "2026-03-06T21:52:36.911Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Chris Arden",
+      "profileUrl": "https://www.linkedin.com/in/chris-arden/",
+      "headline": "Fractional CMO | AI Demand Gen | GTM Engineer | Early Stage Advisor | Startup Accelerator | SaaS",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Fractional CMO",
+      "company": "AI Demand Gen",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "e4c71f10-bd44-4e6d-9dd6-fb40c3730c6c",
+    "crm_synced": true,
+    "drafted_message": "Hi Chris, I noticed your work as Fractional CMO at AI Demand Gen. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Web App Builders",
+    "source": "safari",
+    "priority_score": 54,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772833957320-fo83h",
+    "queued_at": "2026-03-06T21:52:37.320Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Mark Stephan",
+      "profileUrl": "https://www.linkedin.com/in/mstephan/",
+      "headline": "CEO | CPO | Visionary Product Leader | Entrepreneur Driving SaaS, AI/ML, and Marketplace Innovation (Ex-Trilogy, Ex-Toptal)",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CEO",
+      "company": "CPO",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "5691e0c4-f48a-4c80-963a-eb1c74ebf4f1",
+    "crm_synced": true,
+    "drafted_message": "Hi Mark, I noticed your work as CEO at CPO. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Web App Builders",
+    "source": "safari",
+    "priority_score": 69,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772833957936-a4bgf",
+    "queued_at": "2026-03-06T21:52:37.936Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Kurt Smith",
+      "profileUrl": "https://www.linkedin.com/in/kurtispsmith/",
+      "headline": "Chief Technology & Innovation Officer (CTO / CAIO) | Scaling AI-Driven SaaS, FinTech & Automotive Platforms | 3× Exits | Building Leaders Who Build Le",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Chief Technology & Innovation Officer (CTO / CAIO)",
+      "company": "Scaling AI-Driven SaaS, FinTech & Automotive Platforms",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "e5e541e6-a355-48b6-ba12-afffc6c10f42",
+    "crm_synced": true,
+    "drafted_message": "Hi Kurt, I noticed your work as Chief Technology & Innovation Officer (CTO / CAIO) at Scaling AI-Driven SaaS, FinTech & Automotive Platforms. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Web App Builders",
+    "source": "safari",
+    "priority_score": 69,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772833958267-worbu",
+    "queued_at": "2026-03-06T21:52:38.267Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Reynaldo Gil",
+      "profileUrl": "https://www.linkedin.com/in/reynaldogil/",
+      "headline": "Scaling Up AI Workforce & Infrastructure | Founder, CEO of CoolOps - World Class AI Workforce Automation | Top 0.01% Polymath Inventor | Chief AI Wran",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Scaling Up AI Workforce & Infrastructure",
+      "company": "Founder, CEO of CoolOps - World Class AI Workforce Automation",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "f36a3052-2f0d-48e2-b721-47491335706b",
+    "crm_synced": true,
+    "drafted_message": "Hi Reynaldo, I noticed your work as Scaling Up AI Workforce & Infrastructure at Founder, CEO of CoolOps - World Class AI Workforce Automation. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Web App Builders",
+    "source": "safari",
+    "priority_score": 54,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772833958657-rhvwt",
+    "queued_at": "2026-03-06T21:52:38.657Z",
+    "cycle": 6,
+    "status": "pending_approval",
+    "prospect": {
+      "name": "Courtney Caldwell, MBA",
+      "profileUrl": "https://www.linkedin.com/in/cdcaldwell/",
+      "headline": "CEO of ShearShare (acquired)| #NFL Mom| Patent Holder| EY Women in Innovation, Fast Co World-Changing App| TMI Hall of Fame|SMU Cox Outstanding Young ",
+      "location": "",
+      "connectionDegree": "1st",
+      "role": "CEO of ShearShare (acquired)",
+      "company": "#NFL Mom",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "c61e2e06-570f-46de-82f9-0eed2a440c47",
+    "crm_synced": true,
+    "drafted_message": "Hi Courtney, I noticed your work as CEO of ShearShare (acquired) at #NFL Mom. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Web App Builders",
+    "source": "safari"
+  },
+  {
+    "id": "li-1772833959266-dhd5r",
+    "queued_at": "2026-03-06T21:52:39.266Z",
+    "cycle": 6,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Michael friend",
+      "profileUrl": "https://www.linkedin.com/in/michael-friend-5a5143175/",
+      "headline": "👉 Founder | AI Marketing Strategist | SaaS Innovator | Helping Small Businesses Grow with Automation & Advocacy",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "👉 Founder",
+      "company": "AI Marketing Strategist",
+      "icp_score": 9,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "0b1f29c7-6f80-4bbf-885e-dc8625febb70",
+    "crm_synced": true,
+    "drafted_message": "Hi Michael, I noticed your work as 👉 Founder at AI Marketing Strategist. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders 3rd",
+    "source": "safari",
+    "priority_score": 82,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "Safari busy — another operation is in progress",
+    "connection_requested_at": "2026-03-07T01:01:05.793Z",
+    "connection_note": "Hi Michael, noticed your work as 👉 Founder at AI Marketing "
+  },
+  {
+    "id": "li-1772833959762-oqhbv",
+    "queued_at": "2026-03-06T21:52:39.762Z",
+    "cycle": 6,
+    "status": "approved",
+    "prospect": {
+      "name": "Scott W.",
+      "profileUrl": "https://www.linkedin.com/in/scott-wohrman/",
+      "headline": "Founder & Chief Vision Architect @ LeadProspector.com. Building AI That Lets Small Businesses Scale Without the Chaos. SaaS | Automation | Local Home ",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder & Chief Vision Architect",
+      "company": "LeadProspector.com. Building AI That Lets Small Businesses Scale Without the Chaos. SaaS",
+      "icp_score": 10,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "9b6654a6-76bf-4e20-8b35-48ef1631b0c8",
+    "crm_synced": true,
+    "drafted_message": "Hi Scott, I noticed your work as Founder & Chief Vision Architect at LeadProspector.com. Building AI That Lets Small Businesses Scale Without the Chaos. SaaS. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders 3rd",
+    "source": "safari",
+    "priority_score": 91,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "connect_button_not_found"
+  },
+  {
+    "id": "li-1772835812258-zss8v",
+    "queued_at": "2026-03-06T22:23:32.258Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Neha Sampat",
+      "profileUrl": "https://www.linkedin.com/in/nehasampat/",
+      "headline": "CEO at Contentstack, Investor at Surfboard Ventures, Owner at Austin Woman Magazine, Founder at Raw Engineering, Founder at Built.io",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CEO",
+      "company": "Contentstack, Investor at Surfboard Ventures, Owner at Austin Woman Magazine, Founder at Raw Engineering, Founder at Built.io",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "50977ac6-3a86-4d0b-a857-96949a6affc2",
+    "crm_synced": true,
+    "drafted_message": "Hi Neha, I noticed your work as CEO at Contentstack, Investor at Surfboard Ventures, Owner at Austin Woman Magazine, Founder at Raw Engineering, Founder at Built.io. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS 3rd",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772835812801-pobk3",
+    "queued_at": "2026-03-06T22:23:32.801Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Sumit Khanna",
+      "profileUrl": "https://www.linkedin.com/in/sumit-khanna-80925b394/",
+      "headline": "Founder @ Voizematic AI | AI Voice Agents That Call & Qualify Leads Automatically | Automate Sales & Customer Calls",
+      "location": "",
+      "connectionDegree": "3rd",
+      "role": "Founder",
+      "company": "Voizematic AI",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "6e7fbbf9-ba25-4d86-b3fb-6fc294c5d805",
+    "crm_synced": true,
+    "drafted_message": "Hi Sumit, I noticed your work as Founder at Voizematic AI. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS 3rd",
+    "source": "safari",
+    "priority_score": 57,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772835813288-h4vix",
+    "queued_at": "2026-03-06T22:23:33.288Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Jaypalsinh Jadeja",
+      "profileUrl": "https://www.linkedin.com/in/jaypalsinh/",
+      "headline": "Transform legacy systems into AI-native, intelligent platforms | AI Agents, Automation & Agentic Systems | No-Code Apps | Co-Founder at Tableflow.",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Transform legacy systems into AI-native, intelligent platforms",
+      "company": "AI Agents, Automation & Agentic Systems",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "6b82f22a-1034-444c-9d2a-bed7ef581ec3",
+    "crm_synced": true,
+    "drafted_message": "Hi Jaypalsinh, I noticed your work as Transform legacy systems into AI-native, intelligent platforms at AI Agents, Automation & Agentic Systems. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS 3rd",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772835813686-zpoyr",
+    "queued_at": "2026-03-06T22:23:33.686Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Tom Wahlin",
+      "profileUrl": "https://www.linkedin.com/in/tomwahlin/",
+      "headline": "Founder, Pack Hacker (acquired) | ex Apple",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder, Pack Hacker (acquired)",
+      "company": "ex Apple",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "52891899-b261-496e-a065-fe8fcd061fdd",
+    "crm_synced": true,
+    "drafted_message": "Hi Tom, I noticed your work as Founder, Pack Hacker (acquired) at ex Apple. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Bootstrapped SaaS 3rd",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-06T22:49:25.809Z"
+  },
+  {
+    "id": "li-1772835814219-qgydl",
+    "queued_at": "2026-03-06T22:23:34.219Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Tiffany Ricks",
+      "profileUrl": "https://www.linkedin.com/in/tiffanylricks/",
+      "headline": "CEO and Board Member at HacWare | Google For Startups Company | TechCrunch Battlefield Company | TechStars Company | Keynote Speaker | Security Awaren",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CEO and Board Member",
+      "company": "HacWare",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "31a3bd9c-e21b-49de-a2d4-7dcfafd24b1d",
+    "crm_synced": true,
+    "drafted_message": "Hi Tiffany, I noticed your work as CEO and Board Member at HacWare. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Bootstrapped SaaS 3rd",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-06T22:49:25.809Z"
+  },
+  {
+    "id": "li-1772835814609-7es9n",
+    "queued_at": "2026-03-06T22:23:34.609Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Hoyt Prisock",
+      "profileUrl": "https://www.linkedin.com/in/prisock/",
+      "headline": "Startup Founder | Product Strategist | Tech Innovator |",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Startup Founder",
+      "company": "Product Strategist",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "5fef5fd4-a04f-450e-aff0-8d74f35dfb1e",
+    "crm_synced": true,
+    "drafted_message": "Hi Hoyt, I noticed your work as Startup Founder at Product Strategist. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Founders 3rd",
+    "source": "safari",
+    "priority_score": 54,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772835814986-iaydm",
+    "queued_at": "2026-03-06T22:23:34.986Z",
+    "cycle": 7,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Christopher Griffin",
+      "profileUrl": "https://www.linkedin.com/in/christopherjgriffin/",
+      "headline": "Partnerships & Platform Growth Leader | API, AI & Enterprise Ecosystems | Built $0→$3M ARR | Founder, Wild Heart Nativescapes",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Partnerships & Platform Growth Leader",
+      "company": "API, AI & Enterprise Ecosystems",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "d9f9996f-e4a6-4e4a-a2fd-f2ff806d5855",
+    "crm_synced": true,
+    "drafted_message": "Hi Christopher, I noticed your work as Partnerships & Platform Growth Leader at API, AI & Enterprise Ecosystems. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Founders 3rd",
+    "source": "safari",
+    "priority_score": 72,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_requested_at": "2026-03-07T01:05:01.970Z",
+    "connection_note": "Hi Christopher, noticed your work as Partnerships & Platform"
+  },
+  {
+    "id": "li-1772835815429-u5tqn",
+    "queued_at": "2026-03-06T22:23:35.429Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Zohal A.",
+      "profileUrl": "https://www.linkedin.com/in/zohalamini/",
+      "headline": "Partner Marketing Leader | SaaS Growth, Storytelling & GTM Strategy | ex-Bird, Honest Co | Building Purpose-Driven Brands",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Partner Marketing Leader",
+      "company": "SaaS Growth, Storytelling & GTM Strategy",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "5e32ed12-6d08-465e-8477-9f28e431aa03",
+    "crm_synced": true,
+    "drafted_message": "Hi Zohal, I noticed your work as Partner Marketing Leader at SaaS Growth, Storytelling & GTM Strategy. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Founders 3rd",
+    "source": "safari",
+    "priority_score": 57,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772835815843-u9mru",
+    "queued_at": "2026-03-06T22:23:35.843Z",
+    "cycle": 7,
+    "status": "connection_requested",
+    "prospect": {
+      "name": "Bill Potter",
+      "profileUrl": "https://www.linkedin.com/in/thrivebillpotter/",
+      "headline": "SaaS and AI Marketplace Founder | Growth Strategist 📈 | M&A Value Creator ✅ | Speaker🎤 | Podcaster🎙️",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "SaaS and AI Marketplace Founder",
+      "company": "Growth Strategist 📈",
+      "icp_score": 10,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "2b846484-6c03-4423-8232-cfbb3ce43846",
+    "crm_synced": true,
+    "drafted_message": "Hi Bill, I noticed your work as SaaS and AI Marketplace Founder at Growth Strategist 📈. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Founders 3rd",
+    "source": "safari",
+    "priority_score": 87,
+    "auto_approved_at": "2026-03-06T22:49:14.444Z",
+    "connection_error": "Safari busy — another operation is in progress",
+    "connection_requested_at": "2026-03-07T01:00:37.471Z",
+    "connection_note": "Hi Bill, noticed your work as SaaS and AI Marketplace Founde"
+  },
+  {
+    "id": "li-1772835816355-7fvbe",
+    "queued_at": "2026-03-06T22:23:36.355Z",
+    "cycle": 7,
+    "status": "approved",
+    "prospect": {
+      "name": "Kallan Hinkle-McConkey",
+      "profileUrl": "https://www.linkedin.com/in/kallanhinkle/",
+      "headline": "2x Founder | Advisor | Marketing SVP at Seed-Stage Startup | ⭐ Full Stack Marketer  | 🎟️ Event Management | 📱Digital Strategy",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "2x Founder",
+      "company": "Advisor",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "3fa011e9-416f-4228-9d79-2f799f1a1c42",
+    "crm_synced": true,
+    "drafted_message": "Hi Kallan, I noticed your work as 2x Founder at Advisor. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "App Founders 3rd",
+    "source": "safari",
+    "priority_score": 54,
+    "auto_approved_at": "2026-03-06T22:49:19.846Z"
+  },
+  {
+    "id": "li-1772837668812-ghnx3",
+    "queued_at": "2026-03-06T22:54:28.812Z",
+    "cycle": 8,
+    "status": "already_connected",
+    "prospect": {
+      "name": "Jawaid Gadiwala",
+      "profileUrl": "https://www.linkedin.com/in/jawaidgadiwala/",
+      "headline": "CTO at TechnBrains | Co-Founder at KoderLabs | AI, ERP and Automation Expert | Fractional CTO",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "CTO",
+      "company": "TechnBrains",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "23852a47-77fb-4388-a011-953d2490f7cd",
+    "crm_synced": true,
+    "drafted_message": "Hi Jawaid, I noticed your work as CTO at TechnBrains. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI SaaS Founders",
+    "source": "safari",
+    "priority_score": 73,
+    "auto_approved_at": "2026-03-07T00:32:45.552Z"
+  },
+  {
+    "id": "li-1772837669423-mmrt5",
+    "queued_at": "2026-03-06T22:54:29.423Z",
+    "cycle": 8,
+    "status": "approved",
+    "prospect": {
+      "name": "Juli Cooper, EMBA",
+      "profileUrl": "https://www.linkedin.com/in/cooperjuli/",
+      "headline": "Growth Marketing & Demand Gen Leader | Startup Vet - 2x Exits | Fortune 500 Enterprise Winner",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Growth Marketing & Demand Gen Leader",
+      "company": "Startup Vet - 2x Exits",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "a3e68bbd-26c9-41a3-801d-776a78b7d1b1",
+    "crm_synced": true,
+    "drafted_message": "Hi Juli, I noticed your work as Growth Marketing & Demand Gen Leader at Startup Vet - 2x Exits. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Marketing Tech Ops",
+    "source": "safari",
+    "priority_score": 53,
+    "auto_approved_at": "2026-03-07T00:32:45.552Z"
+  },
+  {
+    "id": "li-1772839521974-tj11g",
+    "queued_at": "2026-03-06T23:25:21.974Z",
+    "cycle": 9,
+    "status": "approved",
+    "prospect": {
+      "name": "Natalie M.",
+      "profileUrl": "https://www.linkedin.com/in/nataliemichel/",
+      "headline": "Founder @ Marketing Buddy AI & Nouvel Age Media",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Founder",
+      "company": "Marketing Buddy AI & Nouvel Age Media",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "bf0c8f70-593d-4b14-a515-719d227be6dc",
+    "crm_synced": true,
+    "drafted_message": "Hi Natalie, I noticed your work as Founder at Marketing Buddy AI & Nouvel Age Media. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "source": "safari",
+    "priority_score": 65,
+    "auto_approved_at": "2026-03-07T00:32:45.552Z"
+  },
+  {
+    "id": "li-1772839522526-t2ioh",
+    "queued_at": "2026-03-06T23:25:22.526Z",
+    "cycle": 9,
+    "status": "approved",
+    "prospect": {
+      "name": "Anna Anisin",
+      "profileUrl": "https://www.linkedin.com/in/annaanisin/",
+      "headline": "Exited Entrepreneur | Founder at FormulatedBy + AI Loves Data | Host at I Want Her Shoes Top 1% Podcast 👠 | Growth Architect for B2B Deep Tech | Ecos",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Exited Entrepreneur",
+      "company": "Founder at FormulatedBy + AI Loves Data",
+      "icp_score": 8,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company",
+        "revenue/growth signal",
+        "scaling signal"
+      ]
+    },
+    "crm_id": "889a18a0-7eba-475d-aa18-62e4fc7c68cc",
+    "crm_synced": true,
+    "drafted_message": "Hi Anna, I noticed your work as Exited Entrepreneur at Founder at FormulatedBy + AI Loves Data. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "Scale-Up Operators",
+    "source": "safari",
+    "priority_score": 68,
+    "auto_approved_at": "2026-03-07T00:32:45.552Z"
+  },
+  {
+    "id": "li-1772841375691-xl1ya",
+    "queued_at": "2026-03-06T23:56:15.691Z",
+    "cycle": 10,
+    "status": "approved",
+    "prospect": {
+      "name": "Maja Ninkovic Shapera",
+      "profileUrl": "https://www.linkedin.com/in/maja-ninkovic-shapera/",
+      "headline": "Chief People & Work Officer | People Analytics + Workforce Intelligence | AI in HR Architect | SaaS ☁️ | HR Tech Advisor | Board Member | PhD Social/O",
+      "location": "",
+      "connectionDegree": "2nd",
+      "role": "Chief People & Work Officer",
+      "company": "People Analytics + Workforce Intelligence",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "AI/automation signal",
+        "has company"
+      ]
+    },
+    "crm_id": "6810bb0f-a99a-44a4-940d-4bbae4138d19",
+    "crm_synced": true,
+    "drafted_message": "Hi Maja, I noticed your work as Chief People & Work Officer at People Analytics + Workforce Intelligence. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "AI Consulting Space",
+    "source": "safari",
+    "priority_score": 50,
+    "auto_approved_at": "2026-03-07T00:32:45.552Z"
+  },
+  {
+    "id": "li-1772846957420-yxrc2",
+    "queued_at": "2026-03-07T01:29:17.420Z",
+    "cycle": 13,
+    "status": "approved",
+    "prospect": {
+      "name": "Simon Morales",
+      "profileUrl": "https://www.linkedin.com/in/simon-morales-1ba768196/",
+      "headline": "Founder of SMOB Flow, a done-for-you, no-code platform with AI, CRM, automation, and analytics for any industry or public sector.",
+      "location": "",
+      "connectionDegree": "3rd",
+      "role": "Founder of SMOB Flow, a done-for-you, no-code platform with AI, CRM, automation, and analytics for any industry or public sector.",
+      "company": "",
+      "icp_score": 7,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "AI/automation signal"
+      ]
+    },
+    "crm_id": "bbae49e4-9017-4c06-922c-4a7963e6ae05",
+    "crm_synced": true,
+    "drafted_message": "Hi Simon, I noticed your role as Founder of SMOB Flow, a done-for-you, no-code platform with AI, CRM, automation, and analytics for any industry or public sector.. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS 3rd",
+    "source": "safari",
+    "priority_score": 48,
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-1772846958009-u8fp5",
+    "queued_at": "2026-03-07T01:29:18.010Z",
+    "cycle": 13,
+    "status": "approved",
+    "prospect": {
+      "name": "Louis Wanshura",
+      "profileUrl": "https://www.linkedin.com/in/louis-wanshura/",
+      "headline": "Founder of LoanWolf.io | Remote Team Leader | Scaling Expert | Remote Ops Executive | Fintech & SaaS Platform Builder | No-Code Systems Architect | $6",
+      "location": "",
+      "connectionDegree": "3rd",
+      "role": "Founder of LoanWolf.io",
+      "company": "Remote Team Leader",
+      "icp_score": 6,
+      "icp_reasons": [
+        "tech/software company",
+        "founder/exec role",
+        "has company"
+      ]
+    },
+    "crm_id": "f81d13e7-6e1c-405d-a83b-b71b8849d0fc",
+    "crm_synced": true,
+    "drafted_message": "Hi Louis, I noticed your work as Founder of LoanWolf.io at Remote Team Leader. I help founders cut the too much manual execution work by building custom AI automations — typically saves 8-15 hours/week. Would a quick 15-min chat make sense? — Isaiah",
+    "strategy": "No-Code SaaS 3rd",
+    "source": "safari",
+    "priority_score": 42,
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-342fr",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Raheem Sarcar",
+      "profileUrl": "https://www.linkedin.com/in/raheemsarcar/",
+      "headline": "AI & Marketing Consultant ◆ Helping Businesses Accelerate Growth with AI & Marketing",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-xmsk3",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Allen M.",
+      "profileUrl": "https://www.linkedin.com/in/allen-m-148255110/",
+      "headline": "Cross Section of AI, Robotics & Automation",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-l7nvy",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Adnan Niaz",
+      "profileUrl": "https://www.linkedin.com/in/adnanniaz/",
+      "headline": "Scaling Businesses with AI Voice Automation | Founder & CEO @VOXAGEN",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-hbxgm",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Tatiana Karsova",
+      "profileUrl": "https://www.linkedin.com/in/tanyakarsova/",
+      "headline": "SDET | QA Architect | Manual & Automation Testing | Cypress · JS | CI/CD | AI SaaS Founder @ TechForge",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-ed3n6",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Satish Murthy",
+      "profileUrl": "https://www.linkedin.com/in/satishmurthy/",
+      "headline": "Driving AI Strategy for 3PL/Logistics @ Valuezen | Founder/CEO @ Fonor | B2B SaaS • Logistics • Growth Systems • AI Automation",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-7x2rc",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Masood Tariq",
+      "profileUrl": "https://www.linkedin.com/in/masoodtariqai/",
+      "headline": "Founder & CEO @ OneMinuteDigiTech | SaaS & Custom Software Development | AI, Automation & Cloud Solutions | Web & Mobile Apps | Dedicated Dev Teams fo",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847263088-f0lun",
+    "queued_at": "2026-03-07T01:34:23.088Z",
+    "status": "approved",
+    "source": "discovery:search:AI automation founder SaaS",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Matthew Stanigar",
+      "profileUrl": "https://www.linkedin.com/in/mattstanigar/",
+      "headline": "Engineering Leadership • SaaS Architecture • AI Workflow Automation | Founder & President, Step 7 Consulting",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-k7a9n",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Andrea Kelly",
+      "profileUrl": "https://www.linkedin.com/in/andrea-kelly-a64275238/",
+      "headline": "Social Media Marketer | Lifestyle Content Creator | Business Coach | Holistic Wellness Coach | UGC Creator",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-mnqkf",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Saloni Miglani",
+      "profileUrl": "https://www.linkedin.com/in/saloni-miglani-writer/",
+      "headline": "Writer | Communications Coach | Content Creator",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-wp1fg",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Jack Lamarre",
+      "profileUrl": "https://www.linkedin.com/in/jack-lamarre/",
+      "headline": "Co-Founder @ Altitude | Social Media Business Owner, Real Estate Marketing Leader, Content Creator, Photographer, & Graphic Designer",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-lueio",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Whitney Catalano",
+      "profileUrl": "https://www.linkedin.com/in/whitneycatalano/",
+      "headline": "Head of Marketing @ Financial Gym | Creative Strategist, Funnel Expert, Marketing Ops",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-zbpt7",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Amanda Makabali",
+      "profileUrl": "https://www.linkedin.com/in/amanda-makabali-82121b69/",
+      "headline": "Founding Member and Chief Growth Officer",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-vlk2w",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Julie Carpenter",
+      "profileUrl": "https://www.linkedin.com/in/julie-carpenter-a6933a16b/",
+      "headline": "Business Writer and Researcher. Book Coach. Fiction writer. Blogger. Content Creator. Author of Things Get Weird in Whistlestop.",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T15:30:47.789Z"
+  },
+  {
+    "id": "li-disc-1772847352616-oie8d",
+    "queued_at": "2026-03-07T01:35:52.616Z",
+    "status": "approved",
+    "source": "discovery:search:content creator business coach",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Bethany Heinesh, M.A.",
+      "profileUrl": "https://www.linkedin.com/in/bethany-heinesh/",
+      "headline": "Professional Writer & Editor | Mental Health Advocate | Content Creator with a Cause | Marine Corps Veteran",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610728-xoflx",
+    "queued_at": "2026-03-07T01:40:10.728Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Canice-Eke Bruno",
+      "profileUrl": "https://www.linkedin.com/in/canice-eke-bruno-279047205/",
+      "headline": "AI SEO Specialist | CEO and Founder of VoteNaija | Content Strategy | Knowledge Base Manager | Customer Support Optimization | Helping brands build sm",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-po31n",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Giorgi Kadagidze",
+      "profileUrl": "https://www.linkedin.com/in/georgesermon/",
+      "headline": "Co-Founder and CEO at Skrib  | Entrepreneur, Film Director, Screenwriter",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-yfq3h",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Chris Durfee",
+      "profileUrl": "https://www.linkedin.com/in/chris-durfee/",
+      "headline": "Founder, Chief Technology & Product Officer (CTO/CPO) | Product & Technology Leader | 20+ Years in Mobile, Web & SaaS Innovation.",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-bdys2",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Oren Nissim",
+      "profileUrl": "https://www.linkedin.com/in/orennissim/",
+      "headline": "Co Founder & CEO at Brook Inc",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-933tp",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Jake Nicholas",
+      "profileUrl": "https://www.linkedin.com/in/jake-nicholas/",
+      "headline": "Founder & CEO of Markets of Tomorrow",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-4x8e3",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Craig Mandeville",
+      "profileUrl": "https://www.linkedin.com/in/craigmandeville/",
+      "headline": "CEO | Tech Founder | Board Member | Advisor",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-56hsu",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Vivek Bansal",
+      "profileUrl": "https://www.linkedin.com/in/vivekbansal1/",
+      "headline": "CEO | Founder @ Dori Incorporated",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-disc-1772847610729-fivrm",
+    "queued_at": "2026-03-07T01:40:10.729Z",
+    "status": "approved",
+    "source": "discovery:search:SaaS CEO founder",
+    "priority_score": 11,
+    "prospect": {
+      "name": "Satish Menon",
+      "profileUrl": "https://www.linkedin.com/in/satishmenon/",
+      "headline": "Co-founder & CEO at AGILIRON",
+      "connectionDegree": "2nd"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851232210-8uxvc",
+    "queued_at": "2026-03-07T02:40:32.210Z",
+    "status": "approved",
+    "source": "chrome-agent:hashtag:saas",
+    "priority_score": 3,
+    "crm_id": "48ce7aa1-5852-4b10-a90e-268415b9faea",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Aditya Kothadiya",
+      "profileUrl": "https://www.linkedin.com/in/adityakothadiya/",
+      "headline": "CEO @ Avoma – An all-in-won AI Meeting Assistant with Conversation and Revenue Intelligence",
+      "connectionDegree": "unknown"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851232543-tnqh1",
+    "queued_at": "2026-03-07T02:40:32.543Z",
+    "status": "approved",
+    "source": "chrome-agent:hashtag:saas",
+    "priority_score": 3,
+    "crm_id": "92b88185-e8d7-4e16-8231-15419bcf68ee",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Sheeba Shaikh, Hiring",
+      "profileUrl": "https://www.linkedin.com/in/sheebashaikh/",
+      "headline": "Sheeba Shaikh • 3rd+",
+      "connectionDegree": "unknown"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851795623-oihpb",
+    "queued_at": "2026-03-07T02:49:55.623Z",
+    "status": "approved",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 3,
+    "crm_id": "d298c2d1-d71d-436c-88b3-319ce1ddc41c",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Brennan Lodge",
+      "profileUrl": "https://www.linkedin.com/in/brennanlodge/",
+      "headline": "Founder  | Cybersecurity Data Scientist | Speaker | Advisor | Award winning Researcher",
+      "connectionDegree": "unknown"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851795929-w8pzv",
+    "queued_at": "2026-03-07T02:49:55.929Z",
+    "status": "approved",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 3,
+    "crm_id": "b2ef7353-8d4a-4f2e-aeca-b9a95f1a5395",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Katlyn O'Leary Anders",
+      "profileUrl": "https://www.linkedin.com/in/katlyno/",
+      "headline": "#GRC #Cybersecurity #AIAutomation #ComplianceAutomation #LinkedInLearning",
+      "connectionDegree": "unknown"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851796168-t8f4u",
+    "queued_at": "2026-03-07T02:49:56.168Z",
+    "status": "approved",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 3,
+    "crm_id": "5bb90dae-284f-407a-b4fc-c12f15864445",
+    "crm_synced": true,
+    "prospect": {
+      "name": "John Cloud",
+      "profileUrl": "https://www.linkedin.com/in/johncloud/",
+      "headline": "Founder & CEO, belix.ai | AI Transformation, Automation Strategy and AI Solutions for SMB",
+      "connectionDegree": "unknown"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851796374-06fof",
+    "queued_at": "2026-03-07T02:49:56.374Z",
+    "status": "approved",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 3,
+    "crm_id": "8ecd3033-092f-4d6d-a073-b1eea3c82c62",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Irfan Butt",
+      "profileUrl": "https://www.linkedin.com/in/irfan-butt-ib/",
+      "headline": "IT Services and Software Solutions for SMBs",
+      "connectionDegree": "unknown"
+    },
+    "auto_approved_at": "2026-03-07T17:30:48.310Z"
+  },
+  {
+    "id": "li-chrome-1772851796632-3pfhl",
+    "queued_at": "2026-03-07T02:49:56.632Z",
+    "status": "pending_approval",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 50,
+    "crm_id": "1607e225-b68b-46e6-ad71-59dcb9dd5dcd",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Jason Cooperson",
+      "profileUrl": "https://www.linkedin.com/in/jasoncooperson/",
+      "headline": "OpenClaw is a dumpster fire. There, I said it. 🔥",
+      "connectionDegree": "unknown"
+    }
+  },
+  {
+    "id": "li-chrome-1772851796807-k1yom",
+    "queued_at": "2026-03-07T02:49:56.807Z",
+    "status": "pending_approval",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 50,
+    "crm_id": "7cd8ed72-43a0-460b-96e3-c1943a476776",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Toolzyo O",
+      "profileUrl": "https://www.linkedin.com/in/toolzyo/",
+      "headline": "When the automations finally click and your AI agents are doing the boring parts without breaking anything…",
+      "connectionDegree": "unknown"
+    }
+  },
+  {
+    "id": "li-chrome-1772851797040-0e8pc",
+    "queued_at": "2026-03-07T02:49:57.040Z",
+    "status": "pending_approval",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 50,
+    "crm_id": "2b8eccb5-b4c0-4cb3-99bf-b183f06e7111",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Tyler Nelson",
+      "profileUrl": "https://www.linkedin.com/in/tyler-ai-alset/",
+      "headline": "Automating your businesses with AI | Ranger Veteran | Big Hearts under the Big Sky Ambassador | Dog Rescuer",
+      "connectionDegree": "unknown"
+    }
+  },
+  {
+    "id": "li-chrome-1772851797234-4mcnw",
+    "queued_at": "2026-03-07T02:49:57.234Z",
+    "status": "pending_approval",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 50,
+    "crm_id": "6805227c-9188-4545-9bb4-94c1bce8e63a",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Bryan Engel",
+      "profileUrl": "https://www.linkedin.com/in/bryanengel/",
+      "headline": "Timing is everything in content marketing. And most teams are losing the timing game.",
+      "connectionDegree": "unknown"
+    }
+  },
+  {
+    "id": "li-chrome-1772851797427-9qcjz",
+    "queued_at": "2026-03-07T02:49:57.427Z",
+    "status": "pending_approval",
+    "source": "chrome-agent:hashtag:aiautomation",
+    "priority_score": 90,
+    "crm_id": "94c5f8c0-fd92-4a31-ae61-3c351c44b8f4",
+    "crm_synced": true,
+    "prospect": {
+      "name": "Rayan Sikkandar",
+      "profileUrl": "https://www.linkedin.com/in/rayan-sikkandar-40949a28b/",
+      "headline": "Cofounder @ Argus AI — Computer Vision for Retail Loss Prevention | Cofounder @ Rion Solutions | UT Dallas CE",
+      "connectionDegree": "unknown"
+    }
+  }
+]

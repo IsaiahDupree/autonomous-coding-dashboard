@@ -1,0 +1,11 @@
+-- PRD-083: Cloud <-> Local Request Bridge
+-- The bridge reuses the existing safari_command_queue table.
+-- No migration needed — table already exists with correct schema:
+--   id, platform, action, params(jsonb), status, result, error, priority, created_at, updated_at
+--
+-- Cloud services INSERT commands with status='pending'.
+-- The bridge daemon polls, claims (status='processing'), executes locally,
+-- and writes back (status='completed' or 'failed' with result/error).
+--
+-- Existing RPC: claim_cloud_task(p_task_types, p_worker_id) — atomic claim.
+-- No new tables required.

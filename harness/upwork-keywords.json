@@ -1,0 +1,29 @@
+{
+  "skills": [
+    "website development",
+    "landing page",
+    "saas development",
+    "automation",
+    "ai integration",
+    "react",
+    "nextjs",
+    "tailwind"
+  ],
+  "excludes": [
+    "wordpress",
+    "shopify theme",
+    "data entry",
+    "logo design",
+    "mobile app",
+    "blockchain"
+  ],
+  "budgetMin": 100,
+  "budgetMax": 500,
+  "searchQueries": [
+    "landing page design",
+    "simple website",
+    "portfolio site",
+    "saas landing page",
+    "startup website"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "project": "safari-tab-mgmt-comments",
+  "version": "1.0.0",
+  "description": "Apply TabCoordinator tab management to instagram-comments, twitter-comments, threads-comments (partial), linkedin-automation, market-research",
+  "features": [
+    {
+      "id": "TM-C-001",
+      "name": "instagram-comments (:3005): tab-coordinator.ts copied to packages/instagram-comments/src/automation/tab-coordinator.ts",
+      "category": "setup",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-002",
+      "name": "instagram-comments (:3005): TabCoordinator imported, SERVICE_NAME='instagram-comments', SERVICE_PORT=3005, SESSION_URL_PATTERN='instagram.com', activeCoordinators Map declared",
+      "category": "backend",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-003",
+      "name": "instagram-comments (:3005): GET /api/tabs/claims, POST /api/tabs/claim, POST /api/tabs/release, POST /api/tabs/heartbeat all implemented and respond correctly",
+      "category": "backend",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-004",
+      "name": "instagram-comments (:3005): GET /api/session/status, POST /api/session/ensure, POST /api/session/clear all implemented",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-005",
+      "name": "instagram-comments (:3005): POST /api/debug/eval executes JS in tracked tab, returns { result }. POST /api/instagram/comments/post wrapped with claim/release.",
+      "category": "backend",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-006",
+      "name": "twitter-comments (:3007): tab-coordinator.ts copied, TabCoordinator imported, SERVICE_NAME='twitter-comments', SERVICE_PORT=3007, SESSION_URL_PATTERN='x.com', activeCoordinators declared",
+      "category": "setup",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-007",
+      "name": "twitter-comments (:3007): all 8 tab+session endpoints implemented (tabs/claims, tabs/claim, tabs/release, tabs/heartbeat, session/status, session/ensure, session/clear, debug/eval) + 30s heartbeat interval",
+      "category": "backend",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-008",
+      "name": "threads-comments (:3004): GET /api/session/status, POST /api/session/ensure, POST /api/session/clear, POST /api/debug/eval added (TabCoordinator + heartbeat already exist)",
+      "category": "backend",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-009",
+      "name": "linkedin-automation (:3105): tab-coordinator.ts copied, TabCoordinator imported, SERVICE_NAME='linkedin-automation', SERVICE_PORT=3105, SESSION_URL_PATTERN='linkedin.com'. All 8 tab+session endpoints added with driver-appropriate implementation.",
+      "category": "backend",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-010",
+      "name": "market-research (:3106): tab-coordinator.ts copied, TabCoordinator imported, SERVICE_NAME='market-research', SERVICE_PORT=3106, SESSION_URL_PATTERN='google.com'. All 8 tab+session endpoints added + 30s heartbeat.",
+      "category": "backend",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-011",
+      "name": "npx tsc --noEmit --skipLibCheck passes for all 5 modified packages: instagram-comments, twitter-comments, threads-comments, linkedin-automation, market-research",
+      "category": "quality",
+      "priority": 11,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-C-012",
+      "name": "All 5 servers restart cleanly (GET /health returns ok) and POST /api/debug/eval returns { result } for each after changes",
+      "category": "quality",
+      "priority": 12,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

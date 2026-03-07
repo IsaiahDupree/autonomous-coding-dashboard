@@ -1,0 +1,103 @@
+{
+  "project": "safari-tab-mgmt-dm",
+  "version": "1.0.0",
+  "description": "Apply full TabCoordinator tab management to twitter-dm and tiktok-dm: claim/release/heartbeat/session endpoints, /debug/eval, 30s global heartbeat interval, per-op claiming on Safari operations",
+  "features": [
+    {
+      "id": "TM-DM-001",
+      "name": "twitter-dm (:3003): POST /api/debug/eval executes js string in tracked Safari tab and returns { result }",
+      "category": "backend",
+      "priority": 1,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-002",
+      "name": "twitter-dm (:3003): 30s setInterval heartbeat refreshes all activeCoordinators entries and deletes stale ones",
+      "category": "backend",
+      "priority": 2,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-003",
+      "name": "tiktok-dm (:3102): packages/tiktok-dm/src/automation/tab-coordinator.ts copied verbatim from instagram-dm",
+      "category": "setup",
+      "priority": 3,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-004",
+      "name": "tiktok-dm (:3102): TabCoordinator imported, SERVICE_NAME='tiktok-dm', SERVICE_PORT=3102, activeCoordinators Map declared",
+      "category": "backend",
+      "priority": 4,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-005",
+      "name": "tiktok-dm (:3102): GET /api/tabs/claims returns { claims: [], count: 0 } when no active claims",
+      "category": "backend",
+      "priority": 5,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-006",
+      "name": "tiktok-dm (:3102): POST /api/tabs/claim with { agentId } claims tiktok.com tab and returns { ok: true, claim: { windowIndex, tabIndex } }",
+      "category": "backend",
+      "priority": 6,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-007",
+      "name": "tiktok-dm (:3102): POST /api/tabs/release with { agentId } releases claim and returns { ok: true }",
+      "category": "backend",
+      "priority": 7,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-008",
+      "name": "tiktok-dm (:3102): POST /api/tabs/heartbeat with { agentId } refreshes claim TTL and returns { ok: true, heartbeat: <timestamp> }",
+      "category": "backend",
+      "priority": 8,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-009",
+      "name": "tiktok-dm (:3102): POST /api/debug/eval with { js } executes JS in tracked Safari tab and returns { result }",
+      "category": "backend",
+      "priority": 9,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-010",
+      "name": "tiktok-dm (:3102): POST /api/messages/send-to and POST /api/prospect/discover wrapped with TabCoordinator claim/release",
+      "category": "backend",
+      "priority": 10,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-011",
+      "name": "tiktok-dm (:3102): 30s setInterval heartbeat refreshes all activeCoordinators, deletes expired entries",
+      "category": "backend",
+      "priority": 11,
+      "passes": true,
+      "status": "completed"
+    },
+    {
+      "id": "TM-DM-012",
+      "name": "npx tsc --noEmit --skipLibCheck passes for both packages/twitter-dm and packages/tiktok-dm after all changes",
+      "category": "quality",
+      "priority": 12,
+      "passes": true,
+      "status": "completed"
+    }
+  ]
+}

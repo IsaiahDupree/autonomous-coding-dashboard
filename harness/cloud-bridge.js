@@ -188,13 +188,15 @@ async function localGet(url) {
   }
 }
 
+const SAFARI_API_TOKEN = process.env.INSTAGRAM_API_TOKEN || process.env.SAFARI_API_TOKEN || 'test-token';
+
 async function localPost(url, params) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 60_000);
   try {
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SAFARI_API_TOKEN}` },
       body: JSON.stringify(params),
       signal: controller.signal,
     });

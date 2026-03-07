@@ -1,0 +1,27 @@
+{
+  "servers": [
+    {
+      "name": "sdk-agent",
+      "description": "Claude Agent SDK MCP Server — exposes SDK agent launcher and pipeline functionality",
+      "command": "python3",
+      "args": ["sdk_mcp_server.py"],
+      "cwd": "/Users/isaiahdupree/Documents/Software/actp-worker",
+      "port": 3210,
+      "transport": "stdio",
+      "enabled": true,
+      "tools": [
+        "sdk_launch_agent",
+        "sdk_run_pipeline",
+        "sdk_resume_pipeline",
+        "sdk_pipeline_status",
+        "sdk_list_agents",
+        "sdk_queue_task",
+        "sdk_get_tasks",
+        "sdk_swarm_status",
+        "sdk_executor_health",
+        "sdk_self_heal",
+        "sdk_read_checkpoint"
+      ]
+    }
+  ]
+}

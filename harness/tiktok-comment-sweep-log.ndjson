@@ -1,0 +1,5 @@
+{"ts":"2026-03-07T16:51:44.692Z","msg":"TikTok Comment Sweep daemon started (PID 40530)"}
+{"ts":"2026-03-07T16:51:44.694Z","msg":"Config: 2/niche, 2/feed, 8/run, 15/day, ~240min interval (±20min jitter)"}
+{"ts":"2026-03-07T16:51:44.733Z","msg":"Safari lock held by another sweep — waiting 10s..."}
+{"ts":"2026-03-07T16:51:54.736Z","msg":"Starting sweep: 5 niches, max 8 total, dryRun=false"}
+{"ts":"2026-03-07T16:51:54.853Z","msg":"Sweep error: No Safari tab available for tiktok-comments"}

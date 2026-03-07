@@ -458,6 +458,13 @@ async function cmdHelp() {
     `/metrics     — Today's session stats`,
     `/improve     — Trigger Haiku analysis now`,
     `/dm          — DM auto-sender panel (mode, caps, send now)`,
+    `/cron        — List all cron jobs + status`,
+    `/cron run &lt;slug&gt; — Trigger job immediately`,
+    `/cron enable/disable &lt;slug&gt; — Toggle job`,
+    `/ops         — Live fleet status (nodes, workers, browsers, queue)`,
+    `/node        — This node's current status`,
+    `/workers     — All workers with status`,
+    `/command &lt;type&gt; [json] — Issue ad-hoc command to local node`,
     `/help        — Show this menu`,
     ``,
     `Platforms: instagram twitter tiktok threads linkedin`,
@@ -622,6 +629,247 @@ async function cmdDmSendNow(platform, n) {
   }
 }
 
+// ── Observability mesh commands ───────────────────────────────────────────────
+const OBS_API = 'http://localhost:3456'; // live-ops-server (has /api/obs/* routes)
+const NODE_ID_BOT = process.env.NODE_ID || 'mac-mini-main';
+const STALE_THRESHOLD_MS = 60_000;
+
+async function obsGet(path) {
+  try {
+    const res = await fetch(`${OBS_API}${path}`, { signal: AbortSignal.timeout(5_000) });
+    if (!res.ok) return null;
+    return res.json();
+  } catch { return null; }
+}
+
+async function obsPost(path, body) {
+  try {
+    const res = await fetch(`${OBS_API}${path}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(10_000),
+    });
+    return res.json();
+  } catch (err) { return { error: err.message }; }
+}
+
+function ageStr(isoStr) {
+  if (!isoStr) return 'never';
+  const ms = Date.now() - new Date(isoStr).getTime();
+  if (ms < 60_000) return `${Math.round(ms / 1000)}s ago`;
+  if (ms < 3600_000) return `${Math.round(ms / 60_000)}m ago`;
+  return `${Math.round(ms / 3600_000)}h ago`;
+}
+
+function workerIcon(status) {
+  return status === 'running' ? '🟢'
+    : status === 'idle' ? '⚪'
+    : status === 'crashed' ? '🔴'
+    : status === 'degraded' ? '🟡'
+    : '❓';
+}
+
+async function cmdOps() {
+  const fleet = await obsGet('/api/obs/fleet');
+  if (!fleet) return send('❌ <b>Fleet status unavailable</b>\n\nIs live-ops-server running? Start: <code>bash harness/launch-live-ops.sh start</code>');
+
+  const lines = [`🛰 <b>Fleet Status</b> — ${new Date().toLocaleTimeString()}\n`];
+
+  // Nodes
+  for (const node of (fleet.nodes || [])) {
+    const stale = node.is_stale;
+    const icon = stale ? '🔴' : '🟢';
+    const heartbeat = ageStr(node.last_heartbeat_at);
+    lines.push(`${icon} <b>${node.node_id}</b> | last seen: ${heartbeat}`);
+    if (stale) lines.push(`  ⚠️ STALE — heartbeat missed >60s`);
+  }
+
+  lines.push('');
+
+  // Workers summary
+  const workers = fleet.workers || [];
+  const running = workers.filter(w => w.status === 'running');
+  const idle = workers.filter(w => w.status === 'idle' || !w.status);
+  const bad = workers.filter(w => w.status === 'crashed' || w.status === 'degraded');
+  lines.push(`<b>Workers:</b> 🟢 ${running.length} running | ⚪ ${idle.length} idle${bad.length ? ` | 🔴 ${bad.length} issues` : ''}`);
+
+  // Browser sessions
+  const browsers = fleet.browser_sessions || [];
+  for (const b of browsers) {
+    const icon = b.status === 'healthy' || b.status === 'authenticated' ? '✅' : '⚠️';
+    lines.push(`${icon} ${b.browser}: ${b.status}${b.browser === 'safari' ? ` (${b.active_tabs || 0} services up)` : ''}`);
+  }
+
+  lines.push('');
+  lines.push(`<b>Command queue:</b> ${fleet.queue_depth || 0} queued`);
+  lines.push(`<i>Response: ${fleet.elapsed_ms || '?'}ms</i>`);
+
+  return send(lines.join('\n'), kb([
+    [{ text: '🔧 Workers', callback_data: 'obs_workers' }, { text: '📡 Commands', callback_data: 'obs_commands' }],
+    [{ text: '🔄 Refresh', callback_data: 'obs_fleet' }],
+  ]));
+}
+
+async function cmdObsWorkers() {
+  const data = await obsGet('/api/obs/workers');
+  if (!data) return send('❌ observability API not reachable');
+
+  const workers = (data.workers || []).sort((a, b) => {
+    if (a.status === 'running' && b.status !== 'running') return -1;
+    if (b.status === 'running' && a.status !== 'running') return 1;
+    return (a.worker_name || '').localeCompare(b.worker_name || '');
+  });
+
+  const lines = [`🔧 <b>Workers (${workers.length})</b>\n`];
+  for (const w of workers.slice(0, 20)) {
+    const icon = workerIcon(w.status);
+    const age = ageStr(w.reported_at);
+    lines.push(`${icon} <b>${w.worker_name}</b> — ${w.status || 'unknown'} <i>(${age})</i>`);
+  }
+  if (workers.length > 20) lines.push(`<i>… and ${workers.length - 20} more</i>`);
+
+  return send(lines.join('\n'), kb([[{ text: '← Fleet', callback_data: 'obs_fleet' }]]));
+}
+
+async function cmdNode() {
+  const data = await obsGet(`/api/obs/nodes/${NODE_ID_BOT}`);
+  if (!data) return send(`❌ Node <b>${NODE_ID_BOT}</b> not found in observability mesh`);
+
+  const node = data.node;
+  const stale = !node.last_heartbeat_at
+    || (Date.now() - new Date(node.last_heartbeat_at).getTime()) > STALE_THRESHOLD_MS;
+
+  const workers = node.worker_status || {};
+  const runningWorkers = Object.entries(workers).filter(([,s]) => s === 'running').map(([n]) => n);
+  const safari = node.browser_status?.safari || {};
+  const chrome = node.browser_status?.chrome || {};
+
+  const lines = [
+    `🖥 <b>Node: ${node.node_id}</b>`,
+    `Status: ${stale ? '🔴 STALE' : '🟢 online'} | Last heartbeat: ${ageStr(node.last_heartbeat_at)}`,
+    `Queue depth: ${node.queue_depth || 0}`,
+    ``,
+    `<b>Safari:</b> ${safari.status || 'unknown'} | ${safari.services_up || 0}/${(safari.services_up || 0) + (safari.services_down || 0)} services up`,
+    `<b>Chrome:</b> ${chrome.status || 'unknown'} | CDP :${chrome.cdp_port || 9333}`,
+    ``,
+    `<b>Running (${runningWorkers.length}):</b>`,
+    runningWorkers.slice(0, 10).join(', ') || 'none',
+  ];
+
+  return send(lines.join('\n'), kb([[{ text: '← Fleet', callback_data: 'obs_fleet' }]]));
+}
+
+async function cmdIssueCommand(args) {
+  // /command <type> [json_inputs]
+  const [commandType, ...rest] = args;
+  if (!commandType) return send('Usage: /command &lt;type&gt; [{"key":"value"}]\nExample: /command safari_check_auth\nExample: /command chrome_check_auth {}');
+
+  let inputs = {};
+  if (rest.length) {
+    try { inputs = JSON.parse(rest.join(' ')); } catch { return send(`❌ Invalid JSON inputs: ${rest.join(' ')}`); }
+  }
+
+  const result = await obsPost('/api/obs/command', {
+    command_type: commandType,
+    inputs,
+    node_target: NODE_ID_BOT,
+    priority: 'high',
+  });
+
+  if (result?.error) return send(`❌ Command failed: ${result.error}`);
+
+  return send(
+    `✅ <b>Command queued</b>\n\nType: <code>${commandType}</code>\nID: <code>${result.command_id}</code>\nStatus: ${result.status}\n\n<i>local-agent-daemon will pick it up within 10s.</i>`,
+    kb([[{ text: '📡 View Commands', callback_data: 'obs_commands' }]])
+  );
+}
+
+async function cmdObsCommands() {
+  const data = await obsGet('/api/obs/commands?limit=10');
+  if (!data) return send('❌ observability API not reachable');
+
+  const cmds = data.commands || [];
+  if (!cmds.length) return send('📭 <b>Commands</b>\n\nNo commands in queue.');
+
+  const statusIcon = s => s === 'completed' ? '✅' : s === 'failed' ? '❌' : s === 'queued' ? '⏳' : s === 'in_progress' ? '🔄' : '⚪';
+
+  const lines = [`📡 <b>Recent Commands (${cmds.length})</b>\n`];
+  for (const cmd of cmds) {
+    const icon = statusIcon(cmd.status);
+    const age = ageStr(cmd.issued_at);
+    lines.push(`${icon} <code>${cmd.command_type}</code> — ${cmd.status} <i>(${age})</i>`);
+  }
+
+  return send(lines.join('\n'), kb([[{ text: '← Fleet', callback_data: 'obs_fleet' }]]));
+}
+
+// ── Cron command (SDPA-005) ──────────────────────────────────────────────────
+const CRON_MANAGER_URL = 'http://localhost:3302';
+
+async function cmdCron(args) {
+  // /cron enable {slug} | /cron disable {slug} | /cron run {slug} | /cron (list)
+  const subCmd = args[0]?.toLowerCase();
+  const slug = args[1];
+
+  if ((subCmd === 'enable' || subCmd === 'disable') && slug) {
+    // Toggle via cron-manager
+    try {
+      const res = await fetch(`${CRON_MANAGER_URL}/api/cron/${slug}/toggle`, {
+        method: 'POST',
+        signal: AbortSignal.timeout(8_000),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body.ok) return send(`❌ Failed to ${subCmd} <b>${slug}</b>\n${body.error || ''}`);
+      const icon = body.enabled ? '✅' : '⏸';
+      return send(`${icon} <b>${slug}</b> is now <b>${body.enabled ? 'enabled' : 'disabled'}</b>`);
+    } catch (err) {
+      return send(`❌ cron-manager not reachable: ${err.message.slice(0, 80)}`);
+    }
+  }
+
+  if (subCmd === 'run' && slug) {
+    try {
+      const res = await fetch(`${CRON_MANAGER_URL}/api/cron/${slug}/run-now`, {
+        method: 'POST',
+        signal: AbortSignal.timeout(8_000),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) return send(`❌ Failed to trigger <b>${slug}</b>\n${body.error || ''}`);
+      return send(`🚀 <b>${slug}</b> triggered — running now`);
+    } catch (err) {
+      return send(`❌ cron-manager not reachable: ${err.message.slice(0, 80)}`);
+    }
+  }
+
+  // Default: list all jobs
+  try {
+    const res = await fetch(`${CRON_MANAGER_URL}/api/cron/status`, {
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (!res.ok) return send(`❌ cron-manager returned ${res.status}`);
+    const { jobs } = await res.json();
+
+    const lines = ['⏰ <b>Cron Jobs</b>', ''];
+    for (const j of (jobs || [])) {
+      const icon = j.enabled ? '✅' : '⏸';
+      const runIcon = j.last_run_status === 'success' ? '✅'
+        : j.last_run_status === 'error' ? '❌'
+        : j.last_run_status === 'skipped' ? '⏭'
+        : '—';
+      const lastRun = j.last_run_at
+        ? new Date(j.last_run_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+        : 'never';
+      const count = j.last_run_count != null ? ` (${j.last_run_count})` : '';
+      lines.push(`${icon} <b>${j.slug}</b> ${runIcon} ${lastRun}${count}`);
+    }
+    lines.push('', `/cron run &lt;slug&gt; | /cron enable &lt;slug&gt; | /cron disable &lt;slug&gt;`);
+    return send(lines.join('\n'));
+  } catch (err) {
+    return send(`❌ cron-manager not reachable (port 3302). Is it running?\n${err.message.slice(0, 80)}`);
+  }
+}
+
 // ── Message + callback router ─────────────────────────────────────────────────
 async function handleMessage(msg) {
   const text = (msg.text || '').trim();
@@ -662,6 +910,16 @@ async function handleMessage(msg) {
       return cmdConnections();
     case 'boost':
       return cmdBoost(args[0] || 'instagram');
+    case 'ops':
+      return cmdOps();
+    case 'node':
+      return cmdNode();
+    case 'workers':
+      return cmdObsWorkers();
+    case 'command':
+      return cmdIssueCommand(args);
+    case 'cron':
+      return cmdCron(args);
     case 'goal':
       if (args[0] === 'revenue' && args[1]) return cmdUpdateRevenue(args[1]);
       return send('Usage: /goal revenue &lt;amount&gt;\nExample: /goal revenue 1500');
@@ -832,6 +1090,9 @@ async function handleCallback(cb) {
     case 'update_revenue': return send('Send: /goal revenue &lt;amount&gt;\nExample: /goal revenue 1500');
     case 'connections':       return cmdConnections();
     case 'send_connections':  return cmdSendConnections();
+    case 'obs_fleet':         return cmdOps();
+    case 'obs_workers':       return cmdObsWorkers();
+    case 'obs_commands':      return cmdObsCommands();
     case 'tw_approve_all': return cmdSendApproved('twitter');
     case 'ig_approve_all': return cmdSendApproved('instagram');
     case 'tt_approve_all': return cmdSendApproved('tiktok');

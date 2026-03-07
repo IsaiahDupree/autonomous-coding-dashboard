@@ -1,0 +1,3 @@
+{"ts":"2026-03-05T02:47:05.892Z","slug":"prd073-live-ops-dashboard","event":"session_start","session":1,"model":"claude-opus-4-6","featuresTotal":20,"featuresPassing":0}
+{"ts":"2026-03-05T02:53:34.957Z","slug":"prd073-live-ops-dashboard","event":"feature_passed","session":1,"featuresDelta":20,"newPassing":20}
+{"ts":"2026-03-05T02:53:34.958Z","slug":"prd073-live-ops-dashboard","event":"session_end","session":1,"duration_ms":389060,"featuresDelta":20,"tokens":93903,"cost":1.8120097499999999,"exitCode":0}

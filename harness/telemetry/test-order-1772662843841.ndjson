@@ -1,0 +1,4 @@
+{"ts":"2026-03-04T22:20:43.841Z","slug":"test-order-1772662843841","event":"session_start","session":1}
+{"ts":"2026-03-04T22:20:43.841Z","slug":"test-order-1772662843841","event":"feature_passed","featureId":"f001"}
+{"ts":"2026-03-04T22:20:43.842Z","slug":"test-order-1772662843841","event":"feature_passed","featureId":"f002"}
+{"ts":"2026-03-04T22:20:43.842Z","slug":"test-order-1772662843841","event":"session_end","duration_ms":5000}
